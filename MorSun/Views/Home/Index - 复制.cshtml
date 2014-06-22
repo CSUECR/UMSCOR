@@ -1,0 +1,720 @@
+﻿@model MorSun.Model.LoginModel
+@{
+	ViewBag.Title = "海西建材平台";
+	Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>	
+</head>
+<body>
+	<div class="page">
+		<div id="divInfo" style="margin-top: 10px;">
+		</div>
+		<div class="topNavBg">
+			<div id="topNav" class="topNav">
+				<a href="/">首页</a> <a href="/CGXX/">采购信息</a><a href="/XMXX/">项目动态</a> <a href="/KFS/">
+					开发商名录</a> <a href="/GYS/">供应商名录</a> <a href="/XPJS/">产品介绍</a> <a href="/XXYD/">学习园地</a>
+				<a href="/home/about">关于我们</a>
+			</div>
+		</div>
+		<div id="main" class="wrapper main">
+			<div class="content">
+				<!--采购信息 开始-->
+				<div style="overflow:hidden;">
+					<div class="contentLeft">
+						<div class="listContain shadow" style="margin-top: 0;">
+							<div class="leftListTitle">
+								采购信息 <a href="/CGXX/" class="more" style="color: White">更多 ></a>
+							</div>
+							<div class="listBody">
+								@*@{var biddingList = ViewBag.BiddingMaterialInfoList as IEnumerable<WinTheBiddingMaterialInfo>;}*@
+								@*@if (biddingList.Count() > 0)
+								{ 
+									<div style="width: 100%; overflow: hidden;">
+										<div id="zbSlides">
+											<div class="zbSlides_Contain">
+												@foreach (var item in biddingList)
+												{
+													<div>
+														<span class="iconVoice"><a href="#">@item.ProjectName- <span style="color: #F66A03;">@item.MaterialName </span>，由 <span style="color: #F66A03;">@item.Company</span> 中标</a></span>
+													</div>
+												}
+											</div>
+										</div>
+									</div>
+								}*@
+                                <div style="width: 100%; overflow: hidden;">
+                                    <div id="zbSlides">
+                                        <div class="zbSlides_Contain">
+                                            
+                                            <div>
+                                                <span class="iconVoice"><a href="#">名字- <span style="color: #F66A03;">材料名字 </span>，由 <span style="color: #F66A03;">公司</span> 中标</a></span>
+                                            </div>
+
+                                            <div>
+                                                <span class="iconVoice"><a href="#">名字- <span style="color: #F66A03;">材料名字 </span>，由 <span style="color: #F66A03;">公司</span> 中标</a></span>
+                                            </div>
+
+                                            <div>
+                                                <span class="iconVoice"><a href="#">名字- <span style="color: #F66A03;">材料名字 </span>，由 <span style="color: #F66A03;">公司</span> 中标</a></span>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+								<table class="tableUnder">
+									<tr>
+										<th style="text-align: left;">
+											材料名称
+										</th>
+										<th>
+											单位
+										</th>
+										<th>
+											状态
+										</th>
+										<th>
+											时间
+										</th>
+									</tr>
+									@*@foreach (var item in ViewBag.PurchaseInfoList as IEnumerable<hxPurchaseInfo>)
+									{
+										<tr>
+											<td style="width: 40%; white-space: nowrap; text-overflow: ellipsis; -o-text-overflow: ellipsis;
+												text-align: left; overflow: hidden;">@Html.ActionLink(item.ProjectName, "Details", controllerName: "CGXX", routeValues: new { id = item.ID }, htmlAttributes: null)
+											</td>
+											<td style="width: 30%;">@item.CompanyName
+											</td>
+											<td style="width: 10%">@(WinTheBiddingTypeCompare.WinTheBiddingTypeName((DateTime)item.EnrollBginTime, (DateTime)item.EnrollEndTime, (DateTime)item.InviteTendersEndTime))
+											</td>
+											<td>
+												【@item.RegTime.Value.ToString("yyyy-MM-dd")】
+											</td>
+										</tr>
+									}*@
+                                    <tr>
+                                        <td style="width: 40%; white-space: nowrap; text-overflow: ellipsis; -o-text-overflow: ellipsis;
+												text-align: left; overflow: hidden;">
+                                            <a href="#">材料名称</a>
+                                            </td>
+                                            <td style="width: 30%;">
+                                                公司名称
+                                        </td>
+                                        <td style="width: 10%">
+                                            状态
+                                    </td>
+                                    <td>
+                                        【时间】
+                                    </td>
+                                </tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="contentRight">
+						@Html.Partial("_TableLogon")
+						@*@Html.Action("GGContain", "GG")*@
+                        <div class="listContain">
+                            <div class="rightListTitle">
+                                公告 <span style="display: inline-block; float: right; margin-right: 10px;">
+                                    <a href="/GG/"
+                                       style="color: #115589">更多 ></a>
+                                </span>
+                            </div>
+                            <div class="listBody">
+                                <ul class="listUL">
+                                    
+                                        <li>
+                                            <a href="#">名称</a>
+                                        <span class="timeSpan">【时间】</span>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+
+					</div>
+				</div>
+				<!--采购信息 结束-->
+				<!--项目动态 开始-->
+				@*@{var projectInfoList = ViewBag.ProjectInfoList as IEnumerable<hxProjectInfo>;
+				  IQueryable<sysUpload> uploadList = ViewBag.UploadList as IQueryable<sysUpload>;
+				}*@
+				<div class="listContain">
+					<div class="titleProject">
+						项目动态 <a href="/XMXX/" class="more">更多 ></a></div>
+					<div class="contentLeft">
+						<div class="listBody">
+							<div class="divImgShow" id="divImgShow">
+								<span>
+									<img src="/Content/Css/Image/imgGoLeft.png" alt="上一张" /></span>
+								<div id="slides" style="display: inline-block; width: 670px;">
+									<div class="slides_container">
+										@*@foreach (var projectInfoItem in projectInfoList)
+										{
+											var uploadModel = uploadList.SingleOrDefault(u => u.UploadID == projectInfoItem.ImageUploadID);
+											var filePath = Server.MapPath(uploadModel.FilePath);
+											<div class="slide_image" id="@projectInfoItem.ID">
+												@if (System.IO.File.Exists(filePath))
+												{
+													<img src="@uploadModel.FilePath"  width="670px" height="320px" />
+												}
+												else
+												{
+													<img src="http://placehold.it/670x320" />
+												}
+											</div>
+										}*@
+                                        <div class="slide_image" id="1122">
+                                           
+                                                <img src="http://placehold.it/670x320" />
+                                            
+                                        </div>
+									</div>
+								</div>
+								<span>
+									<img src="/Content/Css/Image/imgGoRight.png" alt="下一张" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="contentRight" style="margin-left: 8px;">
+						<dl class="listDL">
+							@*@{var i = 0;}
+							@foreach (var projectInfoItem in projectInfoList)
+							{
+								<dd data-index="@(i++)" class="@(i == 1 ? "ddHover" : "")" style=" height:75px;">
+									<span class="titleOrange">
+										@Html.ActionLink(projectInfoItem.Title, "detail", "xmxx", new { id = projectInfoItem.ID }, null)</span><br />
+									<span class="spanDetail">
+										@projectInfoItem.AbstractContent
+									</span>
+								</dd>
+							}*@
+                            <dd data-index="1" class="ddHover" style=" height:75px;">
+                                <span class="titleOrange">
+                                    <a href="#">链接</a>
+                                </span><br />
+                                <span class="spanDetail">
+                                   SPAN
+                                </span>
+                            </dd>
+
+                            <dd data-index="2" class="" style=" height:75px;">
+                                <span class="titleOrange">
+                                    <a href="#">链接</a>
+                                </span><br />
+                                <span class="spanDetail">
+                                    SPAN
+                                </span>
+                            </dd>
+
+                            <dd data-index="3" class="" style=" height:75px;">
+                                <span class="titleOrange">
+                                    <a href="#">链接</a>
+                                </span><br />
+                                <span class="spanDetail">
+                                    SPAN
+                                </span>
+                            </dd>
+							<dd class="hover">
+								<span class="titleOrange">￭ 关于2013年国庆</span><br />
+								<span class="spanDetail">关于2013年国庆关于2013年国庆关于国庆关于国庆关于国庆关于国庆关于2013年国庆...</span>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!--项目动态  结束-->
+				<div style="overflow: hidden;">
+					<div class="contentLeft">
+						<!--产品介绍  开始-->
+						@*@{var xxjsList = ViewBag.IntroduceInfoList as IEnumerable<hxIntroduceInfo>;
+						}*@
+						<div class="listContain">
+							<div class="rightListTitle">
+								产品介绍 <a href="/XPJS/" class="more" style="color: White">更多 ></a>
+							</div>
+							<div class="listBody">
+								<div class="newImgList">
+									@*@foreach (var item in xxjsList.Take(4))
+									{
+										var uploadModel = uploadList.SingleOrDefault(u => u.UploadID == item.ImageUploadID);
+										<a href="@Url.Action("Details", "XPJS", new { id = item.ID })">
+											@if (uploadModel != null)
+											{
+												var filePath = Server.MapPath(uploadModel.FilePath);
+												if (System.IO.File.Exists(filePath))
+												{
+												<span>
+													<img src="@uploadModel.FilePath" alt="@item.Title" height="126px" width="100px" /><br />
+													@item.Title
+												</span>
+												}
+												else
+												{ 
+												<span>
+													<img src="http://placehold.it/100x126" alt="@item.Title" />
+													<br />
+													@item.Title
+												</span>
+												}
+											}
+											else
+											{ 
+												<span>
+													<img src="http://placehold.it/100x126" alt="@item.Title" />
+													<br />
+													@item.Title
+												</span>
+											}
+										</a>
+									}*@
+
+                                    <a href="#">
+                                        <span>
+                                            <img src="http://placehold.it/100x126" alt="标题" />
+                                            <br />
+                                           标题
+                                        </span>
+                                    </a>
+                                    <a href="#">
+                                        <span>
+                                            <img src="http://placehold.it/100x126" alt="标题" />
+                                            <br />
+                                            标题
+                                        </span>
+                                    </a>
+                                    <a href="#">
+                                        <span>
+                                            <img src="http://placehold.it/100x126" alt="标题" />
+                                            <br />
+                                            标题
+                                        </span>
+                                    </a>
+                                    <a href="#">
+                                        <span>
+                                            <img src="http://placehold.it/100x126" alt="标题" />
+                                            <br />
+                                            标题
+                                        </span>
+                                    </a>
+</div>
+								<div class="newTxtList">
+									@*@foreach (var item in xxjsList.Skip(4).Take(4))
+									{
+										<span>@Html.ActionLink(item.Title, "Details", controllerName: "XPJS", routeValues: new { id = item.ID }, htmlAttributes: null)</span>
+									}*@
+                                    <span><a href="#">链接</a></span>
+                                    <span><a href="#">链接</a></span>
+                                    <span><a href="#">链接</a></span>
+                                    <span><a href="#">链接</a></span>
+								</div>
+							</div>
+						</div>
+						<!--产品介绍结束-->
+						<!--学习园地 开始-->
+						@*@{var xxydList = ViewBag.StudyInoList as IQueryable<hxStudyInfo>;
+						}*@
+						<div class="divStudy">
+							<div style="border: 1px dashed #cdcdcd; border-width: 1px 0; padding-left: 65px">
+								<div style="overflow: hidden; line-height: 50px;">
+									<a href="/xxyd/" class="more">更多</a> <span class="titleOrange">
+										@*@{
+											var firstXXYD = xxydList.FirstOrDefault();
+											if (firstXXYD != null)
+											{
+											@Html.ActionLink(firstXXYD.Name, "Details", controllerName: "XXYD", routeValues: new { id = firstXXYD.ID }, htmlAttributes: null)
+											}
+										}*@
+                                    <a href="#">链接</a>
+									</span>
+								</div>
+								<div class="newTxtList">
+									@*@foreach (var item in xxydList.Skip(1).Take(4))
+									{
+										<span>@Html.ActionLink(item.Name, "Details", controllerName: "XXYD", routeValues: new { id = item.ID }, htmlAttributes: null)</span>
+									}*@
+                                    <span><a href="#">链接</a></span>
+								</div>
+							</div>
+						</div>
+						<!--学习园地 结束-->
+					</div>
+					<div class="contentRight">
+						@*@Html.Action("KFSContain", "KFS")
+						@Html.Action("GYSContain", "GYS")*@
+                        <div class="listContain">
+                            <div class="rightListTitle">
+                                开发商<a href="/KFS/" class="more">更多 ></a>
+                            </div>
+                            <div class="listBody">
+                                <div id="kfsSlides">
+                                    <div class="kfsSlide_Contain">
+                                        
+                                        <div>
+                                            <ul class="listUL">
+                                                    
+                                                <li><a href="#">开发商</a></li>
+                                                    
+                                            </ul>
+                                        </div>
+
+                                        <div>
+                                            <ul class="listUL">
+
+                                                <li><a href="#">开发商</a></li>
+
+                                            </ul>
+                                        </div>
+
+                                        <div>
+                                            <ul class="listUL">
+
+                                                <li><a href="#">开发商</a></li>
+
+                                            </ul>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $('#kfsSlides').slides({
+                                    preload: true,
+                                    preloadImage: 'img/loading.gif',
+                                    container: 'kfsSlide_Contain',
+                                    generatePagination: false,
+                                    play: 6000,
+                                    pause: 2500,
+                                    hoverPause: true,
+                                    crossfade: true,
+                                    effect: 'fade',
+                                    fadeSpeed: 450
+                                });
+                            });
+                        </script>
+
+                        <div class="listContain">
+                            <div class="rightListTitle">
+                                供应商 <a href="/GYS/" class="more">更多 ></a>
+                            </div>
+                            <div class="listBody">
+                                <div id="gysSlides">
+                                    <div class="gysSlides_Contain">
+                                        
+                                            <div>
+                                                <ul class="listUL">
+                                                   
+                                                        <li><a href="#">供应商</a></li>
+                                                    <li><a href="#">供应商</a></li>
+                                                    <li><a href="#">供应商</a></li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $('#gysSlides').slides({
+                                    preload: true,
+                                    preloadImage: 'img/loading.gif',
+                                    container: 'gysSlides_Contain',
+                                    generatePagination: false,
+                                    play: 5000,
+                                    pause: 2500,
+                                    hoverPause: true,
+                                    crossfade: true,
+                                    effect: 'fade',
+                                    fadeSpeed: 450
+                                });
+                            });
+                        </script>
+					</div>
+				</div>
+				<!--友情链接 开始-->
+				<div class="listContain fLink">
+					<div class="leftListTitle">
+						友情链接</div>
+					<div class="listBody">
+						@*<span>
+							<img src="/Content/css/Image/f1.png" style="width: 152px; height: 47px;" /></span>*@
+						<span>
+							<img src="/Content/css/Image/f2.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f3.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f4.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f5.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f6.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f7.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f8.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f9.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f10.png" style="width: 152px; height: 47px;" /></span>
+						<span>
+							<img src="/Content/css/Image/f11.png" style="width: 152px; height: 47px;" /></span>
+					</div>
+				</div>
+				<!--友情链接 结束-->
+			</div>
+		</div>
+		<div id="footer" class="divFooter ">
+			<div class="wrapper">
+				<div class="footerSupport" style="margin-right: 125px; float: left;">
+					<span style="margin: 12px; color: white">主办单位：福州市建设工程造价管理协会</span>
+				</div>
+				<div class="footerSupport" style="float: left;">
+					<span style="margin: 12px; color: white">技术支持：福建省晨曦信息科技有限公司</span>
+				</div>
+				<div class="footerSupport" style="float: right;">
+					<span style="margin: 12px; color: white">闽ICP备05007566号</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/JQueryQtipCustom/css")
+    @Scripts.Render("~/Content/JQueryQtipCustom/js")
+    @Styles.Render("~/Content/themes/morsun/css")
+    @Scripts.Render("~/Scripts/slides")
+    @Scripts.Render("~/Scripts/Common/HOHO18.Common")
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		$('#zbSlides').slides({
+			preload: true,
+			preloadImage: 'img/loading.gif',
+			container: 'zbSlides_Contain',
+			generatePagination: false,
+			play: 4000,
+			pause: 1,
+			hoverPause: true
+		});
+	});
+
+	$(function () {
+		var slidesSettings = {
+			preload: true,
+			//next: 'next',
+			// prev: 'prev',
+			generatePagination: true,
+			play: 5000,
+			autoHeight: true,
+			crossfade: true,
+			animationComplete: function (current) {
+				var $imageDetails = $(".listDL").children("dd");
+				$imageDetails.each(function () {
+					var $this = $(this);
+					$this.removeClass("ddHover");
+				});
+				var $currentDetail = $imageDetails.eq(current - 1);
+				$currentDetail.addClass("ddHover");
+
+			}
+		};
+
+		$("#slides").slides(slidesSettings);
+		$(".listDL").children("dd").on("click", function () {
+			var option = $.extend({}, $.fn.slides.option, slidesSettings);
+			var elem = $("#slides"),
+					control = $('.slides_control', elem),
+					total = control.children().size(),
+					width = control.children().outerWidth(),
+					height = control.children().outerHeight(),
+					start = option.start - 1,
+					effect = option.effect.indexOf(',') < 0 ? option.effect : option.effect.replace(' ', '').split(',')[0],
+					paginationEffect = option.effect.indexOf(',') < 0 ? effect : option.effect.replace(' ', '').split(',')[1],
+					next = 0, prev = 0, number = 0, current = 0, loaded, active, clicked, position, direction, imageParent, pauseTimeout, playInterval;
+
+			//calc next value
+			next = parseInt($(this).attr("data-index"));
+			$(this).css("backgroup", "red");
+
+			// get next from pagination item clicked, convert to number
+
+			// get previous from pagination item with class of current
+
+			//                    var $slideImages = $(".slide_image");
+			//                    for (var i = 0; i < $slideImages.length; i++) {
+			//                        if ($slideImages.eq(i).is(":hidden")) {
+			//                            prev++;
+			//                            continue;
+			//                        }
+			//                        else {
+			//                            break;
+			//                        }
+			//                    }
+
+			prev = $('.' + option.paginationClass + ' li.' + option.currentClass + ' a', elem).attr('href').match('[^#/]+$');
+			//                    console.log(next + ',' + prev+","+tp);
+			// if next is greater then previous set position of next slide to right of previous
+
+			if (next > prev) {
+				position = width * 2;
+				direction = -width * 2;
+			} else {
+				// if next is less then previous set position of next slide to left of previous
+				position = 0;
+				direction = 0;
+			}
+			// store new current slide
+			current = next;
+
+			// fade animation
+			if (effect === 'fade') {
+				// fade animation with crossfade
+				if (option.crossfade) {
+					// put hidden next above current
+					control.children(':eq(' + next + ')', elem).css({
+						zIndex: 10
+						// fade in next
+					}).fadeIn(option.fadeSpeed, option.fadeEasing, function () {
+						if (option.autoHeight) {
+							// animate container to height of next
+							control.animate({
+								height: control.children(':eq(' + next + ')', elem).outerHeight()
+							}, option.autoHeightSpeed, function () {
+								// hide previous
+								control.children(':eq(' + prev + ')', elem).css({
+									display: 'none',
+									zIndex: 0
+								});
+								// reset z index
+								control.children(':eq(' + next + ')', elem).css({
+									zIndex: 0
+								});
+								// end of animation
+								option.animationComplete(next + 1);
+								active = false;
+							});
+						} else {
+							// hide previous
+							control.children(':eq(' + prev + ')', elem).css({
+								display: 'none',
+								zIndex: 0
+							});
+							// reset zindex
+							control.children(':eq(' + next + ')', elem).css({
+								zIndex: 0
+							});
+							// end of animation
+							option.animationComplete(next + 1);
+							active = false;
+						}
+					});
+				} else {
+					// fade animation with no crossfade
+					control.children(':eq(' + prev + ')', elem).fadeOut(option.fadeSpeed, option.fadeEasing, function () {
+						// animate to new height
+						if (option.autoHeight) {
+							control.animate({
+								// animate container to height of next
+								height: control.children(':eq(' + next + ')', elem).outerHeight()
+							}, option.autoHeightSpeed,
+							// fade in next slide
+						  function () {
+							  control.children(':eq(' + next + ')', elem).fadeIn(option.fadeSpeed, option.fadeEasing);
+						  });
+						} else {
+							// if fixed height
+							control.children(':eq(' + next + ')', elem).fadeIn(option.fadeSpeed, option.fadeEasing, function () {
+							});
+						}
+						// end of animation
+						option.animationComplete(next + 1);
+						active = false;
+					});
+				}
+				// slide animation
+			} else {
+				// move next slide to right of previous
+				control.children(':eq(' + next + ')').css({
+					left: position,
+					display: 'block'
+				});
+				// animate to new height
+				if (option.autoHeight) {
+					control.animate({
+						left: direction,
+						height: control.children(':eq(' + next + ')').outerHeight()
+					}, option.slideSpeed, option.slideEasing, function () {
+						control.css({
+							left: -width
+						});
+						control.children(':eq(' + next + ')').css({
+							left: width,
+							zIndex: 5
+						});
+						// reset previous slide
+						control.children(':eq(' + prev + ')').css({
+							left: width,
+							display: 'none',
+							zIndex: 0
+						});
+						// end of animation
+						option.animationComplete(next + 1);
+						active = false;
+					});
+					// if fixed height
+				} else {
+					// animate control
+					control.animate({
+						left: direction
+					}, option.slideSpeed, option.slideEasing, function () {
+						// after animation reset control position
+						control.css({
+							left: -width
+						});
+						// reset and show next
+						control.children(':eq(' + next + ')').css({
+							left: width,
+							zIndex: 5
+						});
+						// reset previous slide
+						control.children(':eq(' + prev + ')').css({
+							left: width,
+							display: 'none',
+							zIndex: 0
+						});
+						// end of animation
+						option.animationComplete(next + 1);
+						active = false;
+					});
+				}
+			}
+			// set current state for pagination
+			if (option.pagination) {
+				// remove current class from all
+				$('.' + option.paginationClass + ' li.' + option.currentClass, elem).removeClass(option.currentClass);
+				// add current class to next
+				$('.' + option.paginationClass + ' li:eq(' + next + ')', elem).addClass(option.currentClass);
+			}
+
+		});
+	});
+
+	$("#topNav a").each(function () {
+		if (location.href.lastIndexOf($(this).attr("href")) > -1) {
+			$("#topNav a").removeAttr("class");
+			$(this).attr("class", "hover");
+		}
+	})
+</script>
+}
