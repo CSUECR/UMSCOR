@@ -52,6 +52,8 @@ namespace MorSun
             bundles.Add(new ScriptBundle("~/Scripts/slides").Include("~/Scripts/slides.min.jquery.js"));
             //HOHO18.Common
             bundles.Add(new ScriptBundle("~/Scripts/Common/HOHO18.Common").Include("~/Scripts/Common/HOHO18.Common.js"));
+            //MorSun.Common
+            bundles.Add(new ScriptBundle("~/Scripts/Common/MorSun.Common").Include("~/Scripts/Common/MorSun.Common.js"));
         }
     }
 }

@@ -42,8 +42,8 @@
                 </div>
             </div>
         </footer>
-
-        @Scripts.Render("~/bundles/jquery")
+        @section Scripts {
+        @Scripts.Render("~/bundles/jquery")       
         @RenderSection("scripts", required: false)
     </body>
 </html>

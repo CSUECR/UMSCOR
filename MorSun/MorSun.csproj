@@ -293,7 +293,7 @@
     <Content Include="Content\JQueryQtipCustom\jquery.qtip.min.map" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />
-    <Content Include="Scripts\Common\MorSun.js" />
+    <Content Include="Scripts\Common\MorSun.Common.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -337,7 +337,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index1.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -351,8 +351,9 @@
     <Content Include="XmlConfig\zh_TW\Web.config" />
     <Content Include="Views\Shared\_TableLogon.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Home\Index - 复制.cshtml" />
+    <Content Include="Views\Account\AjaxLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -29,6 +29,7 @@ namespace System
         {
             propertyName = propertyName.Trim();
             errMessage = errMessage.Trim();
+            //升级版：从配置读取数据都从OperationResultType里取，包括ModelState，ModelState可以自动生成客户端验证
             //想开启读取配置文件功能，去掉以下注释并修改相应代码
             //var _errMessage = XmlHelper.GetKeyNameValidation<T>(errMessage);
             //if (_errMessage.IsWhite())

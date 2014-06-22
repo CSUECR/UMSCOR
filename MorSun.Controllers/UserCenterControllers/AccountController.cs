@@ -52,66 +52,78 @@ namespace MorSun.Controllers
         {
             System.Web.HttpContext.Current.Session.Abandon();
             if (Request.IsAuthenticated)
-                FormsService.SignOut();
-
-            var user = Membership.GetUser(model.UserName);
-
-            if (user != null)
-            {
-                if (HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("UnlockingFlag") == "true")
-                {
-                    var lockedDate = user.LastLockoutDate;
-                    var days = HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("UnlockingDay");
-                    if (NumHelp.IsNum(days))
-                    {
-                        lockedDate = lockedDate.AddDays(double.Parse(days));
-                    }
-                    if (DateTime.Now > lockedDate && user.IsLockedOut)
-                    {
-                        user.UnlockUser();
-                    }
-                    else if (DateTime.Now <= lockedDate && user.IsLockedOut)
-                    {
-                        ModelState.AddModelError("UserName", "用户已被锁定，" + days + "天后自动解锁或者联系管理员!");
-                        return View(model);
-                    }
-                }
-
-                if (user.IsLockedOut)
-                {
-                    ModelState.AddModelError("UserName", "用户已被锁定，请联系管理员解锁！");
-                    return View(model);
-                }
-            }
-            else if (user == null)
-            {
-                ModelState.AddModelError("UserName", "用户名不存在！");
-                return View(model);
-            }
-            if (!MembershipService.ValidateUser(model.UserName, model.Password))
-            {
-                ModelState.AddModelError("UserName", "提供的用户名或密码不正确！");
-            }
+                FormsService.SignOut();            
 
             if (ModelState.IsValid)
             {
-                FormsService.SignIn(model.UserName, model.RememberMe);
-                if (!String.IsNullOrEmpty(returnUrl))
+                var user = Membership.GetUser(model.UserName);
+
+                if (user != null)
                 {
-                    return Redirect(returnUrl);
+                    if (HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("UnlockingFlag") == "true")
+                    {
+                        var lockedDate = user.LastLockoutDate;
+                        var days = HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("UnlockingDay");
+                        if (NumHelp.IsNum(days))
+                        {
+                            lockedDate = lockedDate.AddDays(double.Parse(days));
+                        }
+                        if (DateTime.Now > lockedDate && user.IsLockedOut)
+                        {
+                            user.UnlockUser();
+                        }
+                        else if (DateTime.Now <= lockedDate && user.IsLockedOut)
+                        {
+                            ModelState.AddModelError("UserName", "用户已被锁定，" + days + "天后自动解锁或者联系管理员!");
+                            return View(model);
+                        }
+                    }
+
+                    if (user.IsLockedOut)
+                    {
+                        ModelState.AddModelError("UserName", "用户已被锁定，请联系管理员解锁！");
+                        return View(model);
+                    }
+                }
+                else if (user == null)
+                {
+                    ModelState.AddModelError("UserName", "用户名不存在！");
+                    return View(model);
+                }
+                if (MembershipService.ValidateUser(model.UserName, model.Password))
+                {
+                    FormsService.SignIn(model.UserName, model.RememberMe);
+                    if (!String.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
-                }                
+                    ModelState.AddModelError("UserName", "提供的用户名或密码不正确！");                    
+                }
                 //return RedirectToLocal(returnUrl);
             }
             // 如果我们进行到这一步时某个地方出错，则重新显示表单           
             return View(model);
         }
 
+        [AllowAnonymous]
+        public ActionResult AjaxLogin(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.OpenVerificationCode = "VerificationCode".GetXmlConfig().ToAs<bool>();
+            return View();
+        }
+
         [HttpPost]
-        public ActionResult AjaxLogon(LoginModel model, string returnUrl)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxLogin(LoginModel model, string returnUrl)
         {
             var oper = new OperationResult(OperationResultType.Error, "登录失败");
             if (ModelState.IsValid)

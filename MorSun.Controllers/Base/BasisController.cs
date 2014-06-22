@@ -50,7 +50,7 @@ namespace MorSun.Controllers
             var list = new List<ModelStateErrorMessage>();
 
             list = ModelState.Where(u => u.Value.Errors.Any()).Select(u => new ModelStateErrorMessage() { Key = u.Key, ErrorMessages = u.Value.Errors.Select(e => e.ErrorMessage) }).ToList();
-
+            //想要读取配置XML信息，从这开始取
             return list;
         }
         #endregion

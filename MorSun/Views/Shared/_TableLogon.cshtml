@@ -1,13 +1,14 @@
-﻿<div class="divLogon" style="height:86px;">
+﻿@model MorSun.Model.LoginModel
+<div class="divLogon" style="height:86px;">
     @if (!Request.IsAuthenticated)
     {
-        using (Html.BeginForm("AjaxLogon", "Account", new { returnUrl = "/home/index" }, FormMethod.Post, new { id = "logonForm" }))
+        using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = "/home/index" }, FormMethod.Post, new { id = "logonForm" }))
         {
+            @Html.AntiForgeryToken()
         <table class="tableLogon">
             <tr>
                 <th>
-                    <input type="text" tabindex="1" value="" name="UserName" id="UserName" data-val-required="用户名必填"
-                        data-val="true" class="usernameText iconUser" />
+                    @Html.TextBoxFor(m => m.UserName)
                 </th>
                 <td style="width: 100px;">
                     <label>
@@ -17,8 +18,7 @@
             </tr>
             <tr>
                 <th>
-                    <input type="password" tabindex="2" name="Password" id="Password" data-val-required="密码必填"
-                        data-val="true" class="usernameText iconPwd" />
+                    @Html.PasswordFor(m => m.Password)
                 </th>
                 <td>
                     <input type="button" tabindex="3" id="logonBtn" value="登录" class="logonBtn" />
@@ -34,84 +34,4 @@
         
     }
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#logonBtn").click(function () {
-            var $logonForm = $("#logonForm");
-            if ($logonForm.valid()) {
-                $.ajax({
-                    url: $logonForm.attr("action"),
-                    data: $logonForm.serialize(),
-                    type: 'POST',
-                    success: function (data) {
-                        //操作成功的提示信息并且跳转页面
-                        if (data.ResultType == 0) {
-                            $("#divInfo").qtip({
-                                content: {
-                                    text: data.Message,
-                                    title: {
-                                        button: true
-                                    }
-                                }
-                                , position: {
-                                    target: [$('body').width() / 2, 20],
-                                    my: 'center center',
-                                    at: 'center center'
-                                }
-                                , show: {
-                                    ready: true
-                                }
-                                 , hide: false
-                            });
-                            setTimeout(function () { $("#divInfo").qtip('destroy'); window.location.href = data.AppendData; }, 2000);
-                        }
-                        else {
-                            $("#divInfo").qtip({
-                                content: {
-                                    text: data.Message,
-                                    title: {
-                                        button: true
-                                    }
-                                }
-                                , position: {
-                                    target: [$('body').width() / 2, 20],
-                                    my: 'center center',
-                                    at: 'center center'
-                                }
-                                , style: {
-                                    classes: 'qtip-red'
-                                }
-                                , show: {
-                                    ready: true
-                                }
-                                 , hide: false
-                            });
-                            console.log(data.AppendData);
-                            $.each(data.AppendData, function (index, valOfElement) {
-                                var inputElem = "#" + valOfElement.Key;
-                                var errorText = valOfElement.ErrorMessages.join(',');
-                                console.log(inputElem + ',' + errorText);
-                                $(inputElem).qtip({
-                                    content: { text: errorText },
-                                    position: {
-                                        my: 'left center',
-                                        at: 'right center',
-                                        viewport: $(window)
-                                    },
-                                    show: { ready: true },
-                                    hide: false,
-                                    style: {
-                                        classes: 'qtip-red'
-                                    }
-                                });
-                            });
-                        }
-                    },
-                    error: function (data) {
-                        alert("登录失败，请联系管理员！");
-                    }
-                });
-            }
-        });
-    });
-</script>
+

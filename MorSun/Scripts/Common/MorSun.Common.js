@@ -190,3 +190,90 @@ function PromptTextAreaMessage2(msg, inputId) {
 
 //    dialogue(message.add(ok).add(cancel), 'Do you agree?');
 //}
+//通用form提交事件处理
+//btn:点击按钮
+//formId:当前FormId
+//errMessage:提交出错处理
+//topErrDiv：顶部DIVId
+function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
+    if (!topErrDiv)
+        topErrDiv = '#divInfo';
+    $(btn).click(function () {
+        var $logonForm = $(formId);
+        if ($logonForm.valid()) {
+            $.ajax({
+                url: $logonForm.attr("action"),
+                data: $logonForm.serialize(),
+                type: 'POST',
+                success: function (data) {
+                    //操作成功的提示信息并且跳转页面
+                    if (data.ResultType == 0) {
+                        $(topErrDiv).qtip({
+                            content: {
+                                text: data.Message,
+                                title: {
+                                    button: true
+                                }
+                            }
+                            , position: {
+                                target: [$('body').width() / 2, 20],
+                                my: 'center center',
+                                at: 'center center'
+                            }
+                            , show: {
+                                ready: true
+                            }
+                             , hide: false
+                        });
+                        setTimeout(function () { $("#divInfo").qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                    }
+                    else {
+                        $(topErrDiv).qtip({
+                            content: {
+                                text: data.Message,
+                                title: {
+                                    button: true
+                                }
+                            }
+                            , position: {
+                                target: [$('body').width() / 2, 20],
+                                my: 'center center',
+                                at: 'center center'
+                            }
+                            , style: {
+                                classes: 'qtip-red'
+                            }
+                            , show: {
+                                ready: true
+                            }
+                             , hide: false
+                        });
+                        console.log(data);
+                        console.log(data.AppendData);
+                        $.each(data.AppendData, function (index, valOfElement) {
+                            var inputElem = "#" + valOfElement.Key;
+                            var errorText = valOfElement.ErrorMessages.join(',');
+                            console.log(inputElem + ',' + errorText);
+                            $(inputElem).qtip({
+                                content: { text: errorText },
+                                position: {
+                                    my: 'left center',
+                                    at: 'right center',
+                                    viewport: $(window)
+                                },
+                                show: { ready: true },
+                                hide: false,
+                                style: {
+                                    classes: 'qtip-red'
+                                }
+                            });
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert(errMessage);
+                }
+            });
+        }
+    });
+}
