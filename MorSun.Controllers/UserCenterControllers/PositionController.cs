@@ -50,18 +50,7 @@ namespace MorSun.Controllers.CommonController
             return "true";
         }
 
-        //删除到回收站
-        protected override string OnDelToRecycle(wmfPosition t)
-        {
-            //var userDeptPositionBll = new BaseBll<wmfUserDeptPosition>();
-            //var userDeptPosition = userDeptPositionBll.All.Where(r => r.PostionId == t.ID).FirstOrDefault();
-            //if (userDeptPosition != null)
-            //{
-            //    //该岗位有员工使用，不能删除！
-            //    return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPosition>("该岗位有员工使用"), "") });
-            //}
-            return "true";
-        }
+        
 
         //创建前验证
         protected override string OnPreCreateCK(wmfPosition t)

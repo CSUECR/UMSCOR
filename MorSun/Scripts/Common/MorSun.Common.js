@@ -194,7 +194,7 @@ function PromptTextAreaMessage2(msg, inputId) {
 //btn:点击按钮
 //formId:当前FormId
 //errMessage:提交出错处理
-//topErrDiv：顶部DIVId
+//topErrDiv：顶部DIVId,可不传
 function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
     if (!topErrDiv)
         topErrDiv = '#divInfo';

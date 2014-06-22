@@ -9,7 +9,7 @@ using System.Web;
 namespace MorSun.Model
 {
     //[Bind(Include = "UserId,formUserType,UserNo,NickName,TrueName,Sex,BirthDay,IdCard,Country,Province,City,Town,Address,PostCode,Account,Signature,EnableSign,Blog,Interest,EnablePhoto,QQ,TelPhone,MobilePhone,Fax")]
-    public partial class wmfUserInfo : IPPCModel
+    public partial class wmfUserInfo : IModel
     {
         #region Extensibility Method Definitions
         partial void OnLoaded();

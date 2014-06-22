@@ -48,134 +48,7 @@ namespace MorSun.Controllers
             }
             set { _bll = value; }
         }
-        #endregion        
-
-        #region 审核
-        /// <summary>
-        /// 审核
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual string Audit(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.审核))
-            {
-                return NBatchAudit(t);
-            }
-            else
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-        }
-
-
-        /// <summary>
-        /// 审核
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string NBatchAudit(T t, Func<T, string> chAll = null, Func<T, string> ck = null)
-        {
-            chAll = chAll.Load(() => OnBatchAuditCk);
-            ck = ck.Load(() => OnAuditToRecycle);
-            string msg = "审核失败";
-            string result = string.Empty;
-            string[] ids = GetCheckId(t).Split(',');
-            if (ids[0] == "")
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要审核的项"), "") });
-            }
-            var ckRs2 = chAll(t);
-            if (ckRs2.IsWhite() || ckRs2.Eql("true"))
-            {
-                for (int i = ids.Length - 1; i >= 0; i--)
-                {
-                    if (!string.IsNullOrEmpty(ids[i]))
-                    {
-                        T model = Bll.GetModel(ids[i]);
-                        var ckRs = ck(model);
-                        if (ckRs.IsWhite() || ckRs.Eql("true"))
-                        {
-                            SetFlagAudit(model);
-                            if (GetTreeFlag(t) == "true")
-                            {
-                                Bll.UpdateChanges();
-                            }
-                            //插入操作日志
-                            InsertLog(GetLinkID(model), GetOperateTable(model), "审核", "", "");
-                        }
-                        else
-                        {
-                            result += ckRs;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return ckRs2;
-            }
-            if (GetTreeFlag(t) != "true")
-            {
-                Bll.UpdateChanges();
-            }
-            if (result != "")
-            {
-                return result;
-            }
-            msg = "true";
-            return msg;
-        }
-
-
-
-        /// <summary>
-        /// 审核前触发的验证
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string OnBatchAuditCk(T t)
-        {
-            return null;
-        }
-
-
-
-        /// <summary>
-        /// 标识为审核状态
-        /// </summary>
-        /// <param name="t">实体类</param>
-        [Authorize]
-        [ExceptionFilter()]
-        private void SetFlagAudit(T t)
-        {
-            PropertyInfo[] properites = t.GetType().GetProperties();
-            foreach (PropertyInfo item in properites)
-            {
-                if (item.Name == "AuditUser")
-                {
-                    if (item.GetValue(t, null) == null)
-                    {
-                        item.SetValue(t, UserID, null);
-                    }
-                }
-                if (item.Name == "AuditTime")
-                {
-                    if (item.GetValue(t, null) == null)
-                    {
-                        item.SetValue(t, DateTime.Now, null);
-                    }
-                }
-                if (item.Name == "IsCheck")
-                {
-                    item.SetValue(t, true, null);
-                }
-            }
-        }
-        #endregion
+        #endregion     
 
         #region 添加
 
@@ -337,320 +210,10 @@ namespace MorSun.Controllers
             return result;
         }
         #endregion
-
-        #region 删除到回收站
-        /// <summary>
-        /// 删除到回收站
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string NDelToRecycle(T t, Func<T, string> ck = null)
-        {
-            ck = ck.Load(() => OnDelToRecycle);
-            T model = Bll.GetModel(t);
-            var ckRs = ck(model);
-            if (!ckRs.IsWhite() && !ckRs.Eql("true"))
-            {
-                return ckRs;
-            }
-            SetFlagTrashed(model);
-            Bll.Update(model);
-            //插入操作日志
-            InsertLog(GetLinkID(model), GetOperateTable(model), HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("删除到回收站"), "", "");
-            return "true";
-        }
-
-        //删除到回收站
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual string DelToRecycle(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.删除))
-            {
-                return NDelToRecycle(t);
-            }
-            else
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-        }
-        #endregion
-
-        #region 回收站还原
-        /// <summary>
-        /// 回收站还原
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string NRecovery(T t, Func<T, string> ck = null)
-        {
-            ck = ck.Load(() => OnRecoveryCk);
-            T model = Bll.GetModel(t);
-            var ckRs = ck(model);
-            if (!ckRs.IsWhite() && !ckRs.Eql("true"))
-            {
-                return ckRs;
-            }
-            SetFlagTrashedFalse(model);
-            //插入操作日志
-            InsertLog(GetLinkID(model), GetOperateTable(model), HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("回收站还原"), "", "");
-            Bll.Update(model);
-            return "true";
-        }
-
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual string Recovery(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.回收站))
-            {
-                return NRecovery(t);
-            }
-            else
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-        }
-        #endregion
-
-        #region 批量还原回收站
-        /// <summary>
-        /// 批量还原回收站
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string NBatchRecovery(T t, Func<T, string> chAll = null, Func<T, string> ck = null)
-        {
-            chAll = chAll.Load(() => OnBatchRecoveryCk);
-            ck = ck.Load(() => OnRecoveryCk);
-            string msg = "请选择要还原的项";
-            string result = string.Empty;
-            string[] ids = GetCheckId(t).Split(',');
-            if (ids[0] == "")
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要还原的项"), "") });
-            }
-            var ckRs2 = chAll(t);
-            if (ckRs2.IsWhite() || ckRs2.Eql("true"))
-            {
-                for (int i = ids.Length - 1; i >= 0; i--)
-                {
-                    if (!string.IsNullOrEmpty(ids[i]))
-                    {
-                        T model = Bll.GetModel(ids[i]);
-                        var ckRs = ck(model);
-                        if (ckRs.IsWhite() || ckRs.Eql("true"))
-                        {
-                            SetFlagTrashedFalse(model);
-                            if (GetTreeFlag(t) == "true")
-                            {
-                                Bll.UpdateChanges();
-                            }
-                            //插入操作日志
-                            InsertLog(GetLinkID(model), GetOperateTable(model), HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("回收站批量还原"), "", "");
-                        }
-                        else
-                        {
-                            result += ckRs;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return ckRs2;
-            }
-            if (GetTreeFlag(t) != "true")
-            {
-                Bll.UpdateChanges();
-            }
-            if (result != "")
-            {
-                return result;
-            }
-            msg = "true";
-            return msg;
-        }
-
-        //批量还原回收站
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual string BatchRecovery(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.回收站))
-            {
-                return NBatchRecovery(t);
-            }
-            else
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-        }
-        #endregion
-
-        #region 批量直接删除
-        /// <summary>
-        /// 批量直接删除
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string NBatchDelete(T t, Func<T, string> chAll = null, Func<T, string> ck = null)
-        {
-            chAll = chAll.Load(() => OnBatchDelCk);
-            ck = ck.Load(() => OnDelCk);
-            string msg = "删除失败";
-            string result = string.Empty;
-            string[] ids = GetCheckId(t).Split(',');
-            if (ids[0] == "")
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要删除的项"), "") });
-            }
-            var ckRs2 = chAll(t);
-            if (ckRs2.IsWhite() || ckRs2.Eql("true"))
-            {
-                for (int i = ids.Length - 1; i >= 0; i--)
-                {
-                    if (!string.IsNullOrEmpty(ids[i]))
-                    {
-                        T model = Bll.GetModel(ids[i]);
-                        var ckRs = ck(model);
-                        if (ckRs.IsWhite() || ckRs.Eql("true"))
-                        {
-                            Bll.Delete(model, false);
-                            if (GetTreeFlag(t) == "true")
-                            {
-                                Bll.UpdateChanges();
-                            }
-                        }
-                        else
-                        {
-                            result += ckRs;
-                            break;
-                        }
-
-                    }
-                }
-            }
-            else
-            {
-                return ckRs2;
-            }
-            if (GetTreeFlag(t) != "true")
-            {
-                Bll.UpdateChanges();
-            }
-            if (result != "")
-            {
-                return result;
-            }
-            //插入操作日志
-            InsertLog(null, GetOperateTable(t), HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("批量删除"), "", "");
-            msg = "true";
-            return msg;
-        }
-
-        //批量删除
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual string BatchDelete(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.删除))
-            {
-                return NBatchDelete(t);
-            }
-            else
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-
-        }
-        #endregion
-
-        #region 批量删除到回收站
-        /// <summary>
-        /// 批量删除到回收站
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string NBatchRecycle(T t, Func<T, string> chAll = null, Func<T, string> ck = null)
-        {
-            chAll = chAll.Load(() => OnBatchRecycleCk);
-            ck = ck.Load(() => OnDelToRecycle);
-            string msg = "删除失败";
-            string result = string.Empty;
-            string[] ids = GetCheckId(t).Split(',');
-            if (ids[0] == "")
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要删除的项"), "") });
-            }
-            var ckRs2 = chAll(t);
-            if (ckRs2.IsWhite() || ckRs2.Eql("true"))
-            {
-                for (int i = ids.Length - 1; i >= 0; i--)
-                {
-                    if (!string.IsNullOrEmpty(ids[i]))
-                    {
-                        T model = Bll.GetModel(ids[i]);
-                        var ckRs = ck(model);
-                        if (ckRs.IsWhite() || ckRs.Eql("true"))
-                        {
-                            SetFlagTrashed(model);
-                            if (GetTreeFlag(t) == "true")
-                            {
-                                Bll.UpdateChanges();
-                            }
-                            //插入操作日志
-                            InsertLog(GetLinkID(model), GetOperateTable(model), HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("批量删除到回收站"), "", "");
-                        }
-                        else
-                        {
-                            result += ckRs;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return ckRs2;
-            }
-            if (GetTreeFlag(t) != "true")
-            {
-                Bll.UpdateChanges();
-            }
-            if (result != "")
-            {
-                return result;
-            }
-            msg = "true";
-            return msg;
-        }
-
-        /// <summary>
-        ///  批量删除到回收站
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual string BatchRecycle(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.删除))
-            {
-                return NBatchRecycle(t);
-            }
-            else
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-        }
-
-        #endregion
+     
 
 
-
-        #endregion
+        
 
         #region 查看页面
         /// <summary>
@@ -796,45 +359,10 @@ namespace MorSun.Controllers
 
 
         #endregion
-
+        #endregion
         #region 查询
 
-        #region 重新排序
-        /// <summary>
-        /// 重新排序
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual string GetSortableList(T t)
-        {
-            return "";
-        }
-
-        #endregion
-
         #region 详细页面
-
-        /// <summary>
-        /// 异步获取详细信息
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public ActionResult GetView(T t)
-        {
-            var model = Bll.GetModel(t);
-            if (model == null)
-            {
-                return Json(null);
-            }
-            var js = JsHelper.Json(model);
-
-            return Json("[" + js + "]");
-        }
-
         /// <summary>
         /// 详细页面
         /// </summary>
@@ -869,82 +397,7 @@ namespace MorSun.Controllers
             TryUpdateModel(item);
             return item;
         }
-        #endregion
-
-        #region 获取已选中的ID
-        /// <summary>
-        /// 获取已选中的ID
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public string GetCheckId(T t)
-        {
-            string checkedId = string.Empty;
-            PropertyInfo[] properites = t.GetType().GetProperties();
-            foreach (PropertyInfo item in properites)
-            {
-                if (item.Name == "CheckedId")
-                {
-                    if (item.GetValue(t, null) != null)
-                    {
-                        checkedId = item.GetValue(t, null).ToString();
-                    }
-                }
-            }
-            return checkedId;
-        }
-        #endregion
-
-        #region 标识为树
-        /// <summary>
-        /// 标识为树
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        private string GetTreeFlag(T t)
-        {
-            string checkedId = "false";
-            PropertyInfo[] properites = t.GetType().GetProperties();
-            foreach (PropertyInfo item in properites)
-            {
-                if (item.Name == "isTree")
-                {
-                    if (item.GetValue(t, null) != null)
-                    {
-                        checkedId = item.GetValue(t, null).ToString();
-                    }
-                }
-            }
-            return checkedId;
-        }
-        #endregion
-
-        #region 标识为删除到回收站状态
-        /// <summary>
-        /// 标识为删除到回收站状态
-        /// </summary>
-        /// <param name="t">实体类</param>
-        [Authorize]
-        [ExceptionFilter()]
-        private void SetFlagTrashed(T t)
-        {
-            PropertyInfo[] properites = t.GetType().GetProperties();
-            foreach (PropertyInfo item in properites)
-            {
-                if (item.Name == "FlagTrashed")
-                {
-                    if (item.GetValue(t, null) != null)
-                    {
-                        item.SetValue(t, true, null);
-                    }
-                }
-            }
-        }
-        #endregion
+        #endregion           
 
         #region 获取对象的ID
         /// <summary>
@@ -984,31 +437,7 @@ namespace MorSun.Controllers
         {
             return t.GetType().Name;
         }
-        #endregion
-
-        #region 标识为正常状态
-        /// <summary>
-        /// 标识为正常状态
-        /// </summary>
-        /// <param name="t">实体类</param>
-        [Authorize]
-        [ExceptionFilter()]
-        private void SetFlagTrashedFalse(T t)
-        {
-
-            PropertyInfo[] properites = t.GetType().GetProperties();
-            foreach (PropertyInfo item in properites)
-            {
-                if (item.Name == "FlagTrashed")
-                {
-                    if (item.GetValue(t, null) != null)
-                    {
-                        item.SetValue(t, false, null);
-                    }
-                }
-            }
-        }
-        #endregion
+        #endregion        
 
         #region 获取对应ViewModel的类
 
@@ -1054,58 +483,8 @@ namespace MorSun.Controllers
             var method = methodBase.MakeGenericMethod(model.GetType());
             method.FastInvoke(this, model);
         }
-        #endregion
-
-        #region 显示列表页面
-        /// <summary>
-        /// 显示列表页面
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual ActionResult List()
-        {
-            var vModel = VModelType.New();
-            FillModel(vModel);
-
-            if (vModel is BaseVModel<T>)
-            {
-                var vm = vModel as BaseVModel<T>;
-                vm.DoSth();
-            }
-            ViewBag.canDoSth = this.CanDoSth;
-            return View(vModel);
-        }
-        #endregion
-
-        #region 排序页面
-        /// <summary>
-        /// 排序页面
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual ActionResult SortList()
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.排序))
-            {
-                var vModel = VModelType.New();
-                FillModel(vModel);
-
-                if (vModel is BaseVModel<T>)
-                {
-                    var vm = vModel as BaseVModel<T>;
-                    vm.DoSth();
-                }
-                return View(vModel);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
-        #endregion
-
+        #endregion        
+         
         #region 回收站页面
         /// <summary>
         /// 回收站页面
@@ -1135,36 +514,6 @@ namespace MorSun.Controllers
         }
         #endregion
 
-        #region 批量删除到回收站页面
-        /// <summary>
-        /// 批量删除到回收站页面
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public ActionResult BatchRecycleList()
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.删除))
-            {
-                var vModel = VModelType.New();
-                FillModel(vModel);
-
-                if (vModel is BaseVModel<T>)
-                {
-                    var vm = vModel as BaseVModel<T>;
-                    vm.DoSth();
-                }
-
-                return View(vModel);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
-        #endregion
-
-
         #region 首页面
         /// <summary>
         /// 首页面
@@ -1184,32 +533,6 @@ namespace MorSun.Controllers
                     vm.DoSth();
                 }
                 ViewBag.canDoSth = this.CanDoSth;
-                return View(vModel);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
-
-        /// <summary>
-        /// 留言首页面
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual ActionResult Index2()
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.查看))
-            {
-                var vModel = VModelType.New();
-                FillModel(vModel);
-                if (vModel is BaseVModel<T>)
-                {
-                    var vm = vModel as BaseVModel<T>;
-                    vm.DoSth();
-                }
-
                 return View(vModel);
             }
             else
@@ -1257,79 +580,7 @@ namespace MorSun.Controllers
         {
             return null;
         }
-        #endregion
-
-        #region 批量直接删除时触发的验证
-        /// <summary>
-        /// 批量直接删除时触发的验证
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string OnBatchDelCk(T t)
-        {
-            return null;
-        }
-        #endregion
-
-        #region 批量删除到回收站时触发的验证
-        /// <summary>
-        /// 批量删除到回收站时触发的验证
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string OnBatchRecycleCk(T t)
-        {
-            return null;
-        }
-        #endregion
-
-        #region 批量回收站还原时触发的验证
-        /// <summary>
-        /// 批量回收站还原时触发的验证
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string OnBatchRecoveryCk(T t)
-        {
-            return null;
-        }
-        #endregion
-
-        #region 回收站还原时触发的验证
-        /// <summary>
-        /// 回收站还原时触发的验证
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string OnRecoveryCk(T t)
-        {
-            return null;
-        }
-        #endregion
-
-        #region 回收站还原时触发的验证
-        /// <summary>
-        /// 回收站还原时触发的验证
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string OnDelToRecycle(T t)
-        {
-            return null;
-        }
-        #endregion
-
-        #region 审核时验证
-        /// <summary>
-        /// 审核时验证
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        protected virtual string OnAuditToRecycle(T t)
-        {
-            return null;
-        }
-        #endregion
+        #endregion                
 
         #endregion
 
@@ -1348,6 +599,7 @@ namespace MorSun.Controllers
         }
         #endregion
 
+        #region 初始化
         /// <summary>
         /// 添加默认初始化RegTime，RegUser，FlagDeleted，FlagTrashed字段
         /// </summary>
@@ -1404,10 +656,10 @@ namespace MorSun.Controllers
             catch
             { }
         }
+        #endregion
 
 
-
-        #region 权限，从BaseMvcController复制过来
+        #region 权限统一标识
         /// <summary>
         /// 当前用户能进行的操作（如删除，编辑，查看等等）
         /// </summary>

@@ -32,30 +32,7 @@ namespace MorSun.Controllers.CommonController
             set { _navigationLinkBll = value; }
         }
 
-        /// <summary>
-        /// 对数据进行重新排列
-        /// </summary>
-        /// <param name="CheckedId"></param>
-        /// <returns></returns>
-        public override string GetSortableList(wmfNavigationLink t)
-        {
-            if (!string.IsNullOrEmpty(t.CheckedId))
-            {
-                string[] ids = t.CheckedId.Split(',');
-                for (int i = 0; i < ids.Length - 1; i++)
-                {
-                    if (!string.IsNullOrEmpty(ids[i]))
-                    {
-                        var privilege = new wmfNavigationLink();
-                        privilege = NavigationLinkBll.GetModel(ids[i]);
-                        privilege.Sort = i + 1;
-                        NavigationLinkBll.Update(privilege);
-                    }
-                }
-            }
-            return "true";
-        }
-
+        
         protected override string OnPreCreateCK(wmfNavigationLink t)
         {
             string ret = "true";

@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "海西建材平台后台登录";
+    //Layout = null;
+}
+
+<div id="divInfo" style="margin-top: 10px;">
+</div>
+@Html.Partial("_TableLogon")
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")    
+    @Styles.Render("~/Content/JQueryQtipCustom/css")
+    @Scripts.Render("~/Content/JQueryQtipCustom/js")
+    @Scripts.Render("~/Scripts/Common/MorSun.Common")
+    <script type="text/javascript">
+        $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
+</script>
+    }
+

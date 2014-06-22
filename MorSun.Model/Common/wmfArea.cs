@@ -7,7 +7,7 @@ using HOHO18.Common;
 namespace MorSun.Model
 {
     //[Bind(Include = "AreaId,formTownId,Sort,AreaName,WYDTCode,formWYDTLon,formWYDTLat,formWYDTZoom,WYDTTitle,WYDTContent,WYDTImage,formWYDTImgWide,formWYDTImgHigh,formWYDTImgTopLeftHorizontal,formWYDTImgTopLeftVertical,ImgIds")]
-    public partial class wmfArea : IPModel
+    public partial class wmfArea : IModel
     {  
         #region Extensibility Method Definitions
         partial void OnLoaded();

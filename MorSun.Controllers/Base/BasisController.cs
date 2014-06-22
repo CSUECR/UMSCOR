@@ -21,7 +21,7 @@ using System.Data.Objects.DataClasses;
 
 
 namespace MorSun.Controllers
-{
+{    
     public class BasisController : Controller
     {
 
@@ -40,7 +40,21 @@ namespace MorSun.Controllers
 
         #region 出错信息
 
-        #region 获取当前错误的列表信息
+        #region 返回对象处理
+        /// <summary>
+        /// 返回的错误对象封装
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <param name="oper"></param>
+        /// <param name="defAction"></param>
+        /// <param name="defController"></param>
+        protected void fillOperationResult(string returnUrl, OperationResult oper, string message = "操作成功", string defAction = "index", string defController = "home")
+        {
+            oper.ResultType = OperationResultType.Success;
+            oper.Message = message;
+            oper.AppendData = string.IsNullOrEmpty(returnUrl) ? Url.Action(defAction, defController) : returnUrl;
+        }
+
         /// <summary>
         /// 获取当前错误的列表信息
         /// </summary>

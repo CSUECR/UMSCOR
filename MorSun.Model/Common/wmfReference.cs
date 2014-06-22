@@ -8,7 +8,7 @@ using HOHO18.Common;
 namespace MorSun.Model
 {
     //[Bind(Include = "ItemOrder,ItemValue,ItemInfo,RefGroupId")]
-    public partial class wmfReference : IPModel
+    public partial class wmfReference : IModel
     {
         #region Extensibility Method Definitions
         partial void OnLoaded();

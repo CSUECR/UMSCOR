@@ -84,9 +84,6 @@
     <Compile Include="Common\wmfUserInfo.cs" />
     <Compile Include="Common\wmfVillage.cs" />
     <Compile Include="Extension\EntityObjectExtension.cs" />
-    <Compile Include="Interface\IPCModel.cs" />
-    <Compile Include="Interface\IPModel.cs" />
-    <Compile Include="Interface\IPPCModel.cs" />
     <Compile Include="MenuModels\ChildNode.cs" />
     <Compile Include="MorSun.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -94,13 +91,6 @@
       <DependentUpon>MorSun.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validate\Biao.cs" />
-    <Compile Include="Validate\Field.cs" />
-    <Compile Include="Validate\FieldExtension.cs" />
-    <Compile Include="Validate\ModelStateHelp.cs" />
-    <Compile Include="Validate\Pages.cs" />
-    <Compile Include="Validate\Validation.cs" />
-    <Compile Include="Validate\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HOHO18.Common\HOHO18.Common.csproj">

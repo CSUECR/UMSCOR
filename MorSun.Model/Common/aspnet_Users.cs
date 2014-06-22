@@ -34,26 +34,11 @@ namespace MorSun.Model
         //返回员工管理的页码
         public int? PIndex { get; set; }
 
-        public string formPassword { get; set; }
 
         /// <summary>
         /// 临时存放用户真实姓名
         /// </summary>
-        public string UserTrueName { set; get; }
-
-        /// <summary>
-        /// 创建用户的时候可选择网点和职位
-        /// </summary>
-        public string formCreateUser_DeptId { get; set; }
-        /// <summary>
-        /// 创建用户的时候可选择网点和职位
-        /// </summary>
-        public string formCreateUser_PositionId { get; set; }
-
-        /// <summary>
-        /// 所在网点的ID,可多个,多个用逗号分隔
-        /// </summary>
-        public Guid? DeptId { get; set; }
+        public string UserTrueName { set; get; }   
 
         //传过来的部门ID
         public string Dep { get; set; }

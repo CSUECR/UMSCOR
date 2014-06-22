@@ -13,7 +13,7 @@ namespace MorSun.Model
 {
     //[Bind(Include = "ParentId,Category,Virtual,DeptName,Domain,Description,Sort,Province,City,Town,Area,Address,Tel,WYDTLon,WYDTLat,WYDTZoom,WYDTTitle,WYDTContent,WYDTImage,WYDTImgWide,WYDTImgHigh,WYDTImgTopLeftHorizontal,WYDTImgTopLeftVertical")]
     //[Bind]
-    public partial class wmfDept : IPPCModel
+    public partial class wmfDept : IModel
     {
 
         #region Extensibility Method Definitions

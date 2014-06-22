@@ -8,7 +8,7 @@ using HOHO18.Common;
 namespace MorSun.Model
 {
     //[Bind(Include = "RefGroupName")]
-    public partial class wmfRefGroup : IPModel
+    public partial class wmfRefGroup : IModel
     {
         #region Extensibility Method Definitions
         partial void OnLoaded();

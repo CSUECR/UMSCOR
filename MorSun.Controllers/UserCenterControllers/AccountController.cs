@@ -74,21 +74,18 @@ namespace MorSun.Controllers
                         }
                         else if (DateTime.Now <= lockedDate && user.IsLockedOut)
                         {
-                            ModelState.AddModelError("UserName", "用户已被锁定，" + days + "天后自动解锁或者联系管理员!");
-                            return View(model);
+                            ModelState.AddModelError("UserName", "用户已被锁定，" + days + "天后自动解锁或者联系管理员");                            
                         }
                     }
 
                     if (user.IsLockedOut)
                     {
-                        ModelState.AddModelError("UserName", "用户已被锁定，请联系管理员解锁！");
-                        return View(model);
+                        ModelState.AddModelError("UserName", "用户已被锁定，请联系管理员解锁");                        
                     }
                 }
                 else if (user == null)
                 {
-                    ModelState.AddModelError("UserName", "用户名不存在！");
-                    return View(model);
+                    ModelState.AddModelError("UserName", "用户名不存在");                    
                 }
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
@@ -104,7 +101,7 @@ namespace MorSun.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("UserName", "提供的用户名或密码不正确！");                    
+                    ModelState.AddModelError("UserName", "提供的用户名或密码不正确");                    
                 }
                 //return RedirectToLocal(returnUrl);
             }
@@ -131,19 +128,20 @@ namespace MorSun.Controllers
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
                     FormsService.SignIn(model.UserName, model.RememberMe);
-                    oper.ResultType = OperationResultType.Success;
-                    oper.Message = "登录成功";
-                    oper.AppendData = string.IsNullOrEmpty(returnUrl) ? Url.Action("index", "home") : returnUrl;
+                    //封装返回的数据
+                    fillOperationResult(returnUrl, oper, "登录成功");
                     return Json(oper);
                 }
                 else
                 {
-                    ModelState.AddModelError("UserName", "提供的用户名或密码不正确。");
+                    ModelState.AddModelError("UserName", "提供的用户名或密码不正确");
                 }
             }
             oper.AppendData = base.GetErrorMessagesByModelState();
             return Json(oper);
         }
+
+        
 
         //
         // POST: /Account/LogOff

@@ -14,7 +14,7 @@ namespace System
     /// <summary>
     /// 文本处理
     /// </summary>
-    public static class ModelStateHelp
+    public static class ControllerHelpers
     {  
         /// <summary>
         /// 返回配置好的错误信息
@@ -24,8 +24,7 @@ namespace System
         /// <param name="errKey"></param>
         /// <param name="defaultErrMessage"></param>
         /// <returns></returns>
-        public static RuleViolation AddModelStateError<T>(this string propertyName, string errMessage)
-            where T : class
+        public static RuleViolation AddRuleViolation(this string propertyName, string errMessage)            
         {
             propertyName = propertyName.Trim();
             errMessage = errMessage.Trim();
@@ -37,7 +36,19 @@ namespace System
             var _errMessage = errMessage;
             return new RuleViolation(_errMessage, propertyName);
         }
-
+        /// <summary>
+        /// 将RuleViolation的配置信息放到ModelState里去
+        /// </summary>
+        /// <param name="modelState"></param>
+        /// <param name="errors"></param>
+        public static void FromRuleViolations(this ModelStateDictionary modelState,
+        IEnumerable<RuleViolation> errors)
+        {
+            foreach (RuleViolation issue in errors)
+            {
+                modelState.AddModelError(issue.PropertyName, issue.ErrorMessage);
+            }
+        }
         
 
     }

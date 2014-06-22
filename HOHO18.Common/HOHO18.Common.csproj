@@ -63,7 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\BaseBLL.cs" />
+    <Compile Include="Base\BaseSQL.cs" />
     <Compile Include="Base\BaseDalMSSQL.cs" />
     <Compile Include="Base\ExcleHelper.cs" />
     <Compile Include="Base\SQLHelper.cs" />
@@ -111,6 +111,13 @@
     <Compile Include="ExHelp\String\TxtHelp.cs" />
     <Compile Include="ExHelp\TypeHelp.cs" />
     <Compile Include="ExHelp\String\UrlHelper.cs" />
+    <Compile Include="ExHelp\Validate\Biao.cs" />
+    <Compile Include="ExHelp\Validate\Field.cs" />
+    <Compile Include="ExHelp\Validate\FieldExtension.cs" />
+    <Compile Include="ExHelp\Validate\ControllerHelpers.cs" />
+    <Compile Include="ExHelp\Validate\Pages.cs" />
+    <Compile Include="ExHelp\Validate\Validation.cs" />
+    <Compile Include="ExHelp\Validate\XmlHelper.cs" />
     <Compile Include="ExHelp\VBox.cs" />
     <Compile Include="ExHelp\VBoxHelp.cs" />
     <Compile Include="ExHelp\Linq\WhereIfExtension.cs" />

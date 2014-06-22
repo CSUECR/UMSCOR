@@ -33,48 +33,7 @@ namespace MorSun.Controllers.CommonController
             }
         }
 
-        /// <summary>
-        /// 对数据进行重新排列
-        /// </summary>
-        /// <param name="CheckedId"></param>
-        /// <returns></returns>
-        public override string GetSortableList(wmfReference t)
-        {
-            string msg = XmlHelper.GetPagesString("项目提示", "排序失败");
-            string[] ids = GetCheckId(t).Split(',');
-            var referList = new List<wmfReference>();
-            var baseRef = new BaseBll<wmfReference>();
-            var refergroupids = new ArrayList();
-            for (int i = 0; i < ids.Length - 1; i++)
-            {
-                if (!string.IsNullOrEmpty(ids[i]))
-                {
-                    var refer = new wmfReference();
-                    refer = baseRef.GetModel(Guid.Parse(ids[i]));
-                    referList.Add(refer);
-                    if (!refergroupids.Contains(refer.RefGroupId))
-                    {
-                        refergroupids.Add(refer.RefGroupId);
-                    }
-                }
-
-            }
-            for (int j = 0; j < refergroupids.Count; j++)
-            {
-                int k = 0;
-                for (int m = 0; m < referList.Count; m++)
-                {
-                    if (referList[m].RefGroupId.ToString() == refergroupids[j].ToString())
-                    {
-                        referList[m].Sort = k + 1;
-                        Edit(referList[m]);
-                        k++;
-                    }
-                }
-                msg = "true";
-            }
-            return msg;
-        }
+        
 
         protected override string OnPreCreateCK(wmfReference t)
         {
