@@ -1,0 +1,597 @@
+﻿
+
+.page
+{
+    background:url(Image/bgBanner.png) no-repeat center 0;padding-top:144px;
+    }
+
+.divOperate
+{
+    margin: 10px 0px;
+}
+
+.divOperate *
+{
+    margin-right: 10px;
+}
+.divSearch
+{
+    border: 1px solid #7aaec3;
+    background: #e6f5fb;
+    padding: 5px 10px;
+    line-height: 28px;
+}
+.divSearch *
+{
+    margin-right: 5px;
+}
+
+
+
+.divList
+{
+    width: 1200px;
+}
+.divEdit
+{
+    width: 800px;
+    margin-top: 10px;
+}
+.divEdit input[type='button']
+{
+    vertical-align: middle;
+    background: #0f8ad6;
+    padding: 0 10px;
+    height: 24px;
+    border: 0;
+    display: inline-block;
+    zoom: 1;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: normal;
+    color: white;
+}
+
+.divShow
+{
+    border: 1px solid #7aaec3;
+    background: #e6f5fb;
+    padding: 5px 10px;
+    line-height: 28px;
+}
+.divShow *
+{
+    margin-right: 5px;
+}
+
+.page_updown
+{
+    margin: 20px 0 10px;
+}
+
+.page_updown a
+{
+    padding: 1px 7px;
+    display: inline-block;
+    zoom: 1;
+    border: 1px solid #0a5786;
+    color: #0a5786;
+}
+
+.page_updown a:hover, .page_updown span.current
+{
+    background: #0f8ad6;
+    border: 1px solid #0f8ad6;
+    color: white;
+    padding: 1px 7px;
+}
+
+.page_updown a:disabled, .pageList a.disabled
+{
+    color: #6a6a6a;
+    border: 1px solid #6a6a6a;
+}
+.page_updown input
+{
+    border: 1px solid #0a5786;
+    height: 20px;
+    line-height: 20px;
+    width: 30px;
+    text-align: center;
+}
+/*----------------------------------------表格样式集合----------------------------------------*/
+.tableList
+{
+    margin: 10px 0;
+    background-color: #fff;
+}
+.tableList td
+{
+    border: 1px solid #CCCCCC;
+    line-height: 24px;
+    padding: 2px 1em;
+}
+
+.tableList th
+{
+    background:#cfe6f8;
+    border: 1px solid #CCCCCC;
+    line-height: 26px;
+    padding: 2px 1em;
+    word-break: keep-all;
+}
+
+.tableEdit
+{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tableEdit th
+{
+    line-height: 24px;
+    padding: 6px 10px 6px 0px;
+    text-align: right;
+    vertical-align: top;
+    width: 120px;
+    border: 1px solid #a0a0a0;
+}
+.tableEdit td
+{
+    line-height: 24px;
+    padding: 6px 0px 6px 10px;
+    border: 1px solid #a0a0a0;
+}
+
+.tableEdit input[type="text"]
+{
+    height: 25px;
+    padding-left: 5px;
+    width: 300px;
+}
+.tableEdit input[type="password"]
+{
+    height: 25px;
+    padding-left: 5px;
+    width: 300px;
+}
+.tableEdit a
+{
+    margin-right: 5px;
+}
+
+/*无边框表格样式*/
+.tableUnder{}
+.tableUnder th,.tableUnder td{line-height:24px;padding:3px 6px;text-align:center;}
+.tableUnder th{border-bottom:1px solid #cbcbcb}
+
+/*----------------------------------------按钮样式集合----------------------------------------*/
+.btnGreen
+{
+    vertical-align: middle;
+    background: url(Image/bgBtnGreen.png) no-repeat;
+    width: 94px;
+    height: 35px;
+    border: 0;
+    display: inline-block;
+    zoom: 1;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+.btnGray
+{
+    vertical-align: middle;
+    background: url(Image/bgBtnGray.png) no-repeat;
+    width: 94px;
+    height: 35px;
+    border: 0;
+    display: inline-block;
+    zoom: 1;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    color: #4d4d4d;
+}
+.btnBlue
+{
+    vertical-align: middle;
+    background: #0f8ad6;
+    padding: 0 10px;
+    height: 24px;
+    border: 0;
+    display: inline-block;
+    zoom: 1;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: normal;
+    color: white;
+    margin-right: 5px;
+}
+.btnBlue:hover
+{
+    background: #4ba7e0;
+    color: #fff;
+}
+.btnDisabled, .btnDisabled:hover
+{
+    background: #ddd;
+    color: #777;
+}
+
+/*----------------------------------------登录 开始----------------------------------------*/
+
+.tableLogin
+{
+    background: none repeat scroll 0 0 #F7F7F7;
+    border: 1px solid #8B8B8B;
+    box-shadow: 0 0 5px 3px #999999;
+    height: 285px;
+    margin: 50px auto 0;
+    width: 460px;
+}
+.tableLogin th
+{
+    font-weight: normal;
+    text-align: right;
+}
+.inputCss
+{
+    border: 1px solid #B1B1B1;
+    height: 30px;
+    line-height: 30px;
+    width: 300px;
+}
+/*----------------------------------------登录 结束----------------------------------------*/
+.warnning
+{
+    color: Red;
+}
+
+
+.inputLabel
+{
+    display: inline-block;
+    width: 150px;
+    line-height: 25px;
+}
+
+
+/*--------------------------------------前台页面 开始------------------------------------------*/
+
+
+/*顶部样式*/
+.header{line-height:99px;}
+
+
+/*大布局*/
+.main{overflow:hidden; min-height: 750px;padding:10px;}
+.content{overflow:hidden;}
+.contentLeft{float:left;width:690px;}
+.contentRight{float:left;width:300px;margin-left:10px;display:inline-block;}
+
+
+.topNavBg
+{
+    background: url(Image/bgNav.png) repeat-x;
+    font-size: 15px;
+    height:40px;
+    vertical-align:bottom;
+    line-height: 40px;
+    
+}
+.topNav
+{
+    margin: 0 auto;
+    position: relative;
+    width: 980px;
+}
+.topNav a
+{
+    color: #EEEEEE;
+    margin-left: 16px;
+    text-decoration: none;
+    display:inline-block;
+    width:102px;
+    text-align:center;
+    font-weight:bold;
+}
+.topNav a.hover,.topNav a:hover{background:url(Image/bgNavHover.png) no-repeat;}
+
+
+.wrapper
+{
+    clear: both;
+    height: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 1000px;
+}
+.globalQueryText
+{
+    border: 1px solid #11ABDB;
+    height: 34px;
+    width: 450px;
+     border-radius:8px;
+     padding:0 12px;
+}
+.globalQueryBtn
+{
+    font-weight:bold;
+    background:url(Image/bgBtnBlue.png) no-repeat;
+    border: 0;
+    color: #FFFFFF;
+    font-size: 14px;
+    height: 36px;
+    line-height:36px;
+    width:79px;
+    text-align:center;
+    display:inline-block;
+}
+
+
+.listContain
+{
+    border-radius:10px;
+    border: 1px solid #cdcdcd;
+    margin:10px 0;
+    min-height: 180px;
+    overflow:hidden;
+}
+.leftListTitle
+{
+    background-color: #5db8ff;
+    font-weight: bold;
+    height: 32px;
+    line-height: 32px;
+    color: White;
+    padding-left: 15px;font-size:14px;
+}
+
+.rightListTitle
+{
+    background:url(Image/bgTitleSky.png) repeat-x;
+    font-weight: bold;font-size:14px;
+    height: 30px;
+    line-height: 30px;
+    color: white;
+    padding-left: 15px;
+}
+.rightListTitle a{color:White;}
+
+
+/*新品介绍的图片列表*/
+.newImgList{margin:10px;}
+.newImgList span{text-align:center;line-height:24px;width:24%;}
+.newTxtList{margin:10px;}
+.newTxtList span{line-height:24px;width:49%;}
+
+
+/*项目动态标题*/
+.titleProject
+{
+    background:url(Image/bgTitleProject.png) no-repeat left center;
+    height:32px;line-height:32px;color:White;font-size:14px;padding-left: 15px;font-weight:bold;
+    }
+/*图片轮换样式*/
+.divImgShow span{margin-top:-40%; cursor:pointer}
+
+.listBody{padding:12px;}
+
+/*学习园地*/
+.divStudy
+{
+    background:url(Image/bgStudy.png) no-repeat 8px center;padding:20px 0 20px 130px;height:140px;
+    }
+
+
+.listUL li,.listULFloat li
+{
+    background:url(Image/iconPoint.png) no-repeat 8px center ;
+    border-bottom: 1px dashed #CCCCCC;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 20px;
+    position: relative;
+    width:250px;
+}
+.listUL li samp
+{
+    padding-right: 20px;
+}
+.listULFloat{overflow:hidden;}
+.listULFloat li
+{
+    float:left;margin-right:10px;width:190px;display:inline;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+
+/*项目动态右侧列表样式*/
+.listDL{padding:0 12px;}
+.listDL dd{line-height:24px;padding:3px 6px;overflow:hidden;color:#f66a03;font-weight:bold;}
+.listDL dd .spanDetail{font-size:12px;color:Black;font-weight:normal;padding-left:13px;}
+.ddHover  {border:1px solid #ccc;  }
+
+.timeSpan
+{
+    position: absolute;
+    right: 10px;
+}
+.divLogon
+{
+    background: #d0e7f9;
+    border:1px solid #9FC9E9;
+}
+.tableLogon
+{
+    border:1px solid #bdd2e2;
+}
+.tableLogon th{text-align:right;}
+.tableLogon td
+{
+    text-align:center;
+    padding: 2px;
+    margin-left: 2px;
+}
+
+.usernameText
+{
+    border-radius:5px;
+    border: 1px solid #dedede;
+    height: 30px;
+    width: 160px;
+    margin: 5px 0px 5px 0px;
+    background: #f3f3f3;
+}
+.logonBtn
+{
+    font-weight:bold;
+    color: white;
+    background:url(Image/btnLogin.png) no-repeat ;
+    border: 0;
+    padding: 5px;
+    font-size: 14px;
+    width: 79px;
+    height:36px;
+}
+
+
+.listTiao
+{
+    border-bottom: 1px dashed #cccccc;
+    margin-top: 5px;
+}
+.listTiao th,.listTiao td{line-height:24px;padding:3px 0;}
+.listTiao th{font-weight:normal;text-align:right;}
+
+.listTiao:hover
+{
+    background: #D2EAFC;
+}
+/*新品介绍的图片列表*/
+.imgContent{width:600px;overflow:hidden;margin:10px 0}
+.imgContent span{text-align:center;margin-right:10px;}
+
+
+
+.divFooter
+{
+    background: #383838;
+    height: 70px;
+}
+.footerSupport
+{
+    height: 40px;
+    width: 250px;
+    border: 1px solid #4c4c4c;
+    margin-top:15px;
+    background: #282828;
+}
+
+/*友情链接*/
+.fLink{min-height:0;}
+.fLink span{display:inline-block;margin:10px 2px;border:1px solid #ccc;}
+
+
+
+/*子页面面包屑导航*/
+.siteMap{margin:10px 0;}
+.siteMap a{margin:0 5px;}
+
+
+/*内容页面的容器*/
+.articleContent{font-size:12px; background:url(Image/bgArticle.gif) repeat-x 0px 1px white;border:1px solid #d5edff;margin:10px;padding:0 36px;min-height:750px;_height:750px;}
+
+.articleTitle{font-size:24px;font-family:'黑体';padding:15px 0;text-align:center;color:#40b3f4;}
+
+.articleInfo{border-bottom:1px dashed #ccc;font-size:12px;line-height:24px;}
+.articleInfo span{min-width:130px;_width:130px;}
+
+.articleIcon{padding-left:66px;line-height:30px;}
+
+.info{padding:12px 66px;}
+
+/*详情页面的《招标材料信息目录》*/
+.infoList{width:100%}
+.infoList td,.infoList th{line-height:24px;padding:0 3px;text-align:left;font-weight:normal;}
+
+/*详情页面的下划线TITLE*/
+.titleUnder{border-bottom: 1px outset #bfbfbf; text-align: left; font-size: 14px;font-weight:bold;margin:10px 0 5px;padding-top:3px;padding-bottom:3px;}
+
+
+/*--------------------------------------前台页面 结束------------------------------------------*/
+
+
+.more{float:right;font-size:12px;font-weight:normal;margin-right:12px;}
+
+
+/*共用的标题样式*/
+.titleOrange{font-size:14px;font-weight:bold;}
+.titleOrange,.titleOrange a{color:#f66a03;}
+
+
+
+/*ICON样式集合*/
+.iconUser,.iconPwd{ background-position:5px center;background-repeat:no-repeat}
+.iconUser{background-image:url(Image/iconUser.png);padding-left:25px;}
+.iconPwd{background-image:url(Image/iconPWD.png);padding-left:25px;}
+.iconPoint{background:url(Image/iconPoint.png) no-repeat 8px center;padding-left:20px;}
+.iconHand {background:url(Image/iconHand.jpg) no-repeat 8px center;padding-left:32px; }
+.iconPrint {background:url(Image/iconPrint.jpg) no-repeat 8px center;padding-left:32px; }
+.iconOrangeDot {background:url(Image/iconOrangeDot.jpg) no-repeat 8px center;padding-left:25px; }
+.iconVoice {background:url(Image/iconVoice.png) no-repeat 8px center;padding-left:32px; }
+
+/*阴影样式*/
+.shadow{box-shadow: 0 1px 0 #FFFFFF, 0 2px 0 #CDCDCD, 0 3px 0 #FFFFFF, 0 4px 0 #CDCDCD;}
+
+
+/*文字过长截断，需要指定宽度*/
+.hideTxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/***********************************滚屏幕 开始*******************************/
+.slides_container
+    {
+        width: 660px;
+        height: 300px;
+    }
+    .slides_container div
+    {
+        width: 660px;
+        height: 300px;
+        display: block;
+    }
+    
+        .pagination
+    {
+        margin: 10px auto 0;
+        width: 100px;
+    }
+    .pagination li
+    {
+        float: left;
+        list-style: none outside none;
+        margin: 0 1px;
+    }
+    .pagination li a
+    {
+        background-image: url("../../Content/Css/Image/pagination.png");
+        background-position: 0 0;
+        display: block;
+        float: left;
+        height: 0;
+        overflow: hidden;
+        padding-top: 12px;
+        width: 12px;
+    }
+    .pagination li.current a
+    {
+        background-position: 0 -12px;
+    }
+    
+    /***********************************滚屏幕 结束*******************************/

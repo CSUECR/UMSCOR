@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{51F35E7F-8098-46E3-BD12-BEFF0E14F573}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MorSun.Controllers</RootNamespace>
+    <AssemblyName>MorSun.Controllers</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="NPOI, Version=1.2.3.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\HOHO18.Common\Lib\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\BaseController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Base\BasisController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Base\ExportExcel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Filter\ExceptionFilter.cs" />
+    <Compile Include="Filter\PrivilegeAttribute.cs" />
+    <Compile Include="ModelBinder\SmartModelBinder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemController\MenuReferenceController.cs" />
+    <Compile Include="SystemController\NavigationLinkController.cs" />
+    <Compile Include="SystemController\OperationController.cs" />
+    <Compile Include="SystemController\PrivilegeController.cs" />
+    <Compile Include="SystemController\ReferenceController.cs" />
+    <Compile Include="SystemController\RefGroupController.cs" />
+    <Compile Include="SystemController\ResourcesController.cs" />
+    <Compile Include="SystemController\RoleController.cs" />
+    <Compile Include="SystemController\UserController.cs" />
+    <Compile Include="UserCenterControllers\AccountController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserCenterControllers\DeptController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserCenterControllers\HomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserCenterControllers\PositionController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserCenterControllers\UserInfoController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\BaseVM\BaseVModel.cs" />
+    <Compile Include="ViewModel\PCTD\CityVModel.cs" />
+    <Compile Include="ViewModel\PCTD\CountyVModel.cs" />
+    <Compile Include="ViewModel\Dept\DeptVModel.cs" />
+    <Compile Include="ViewModel\Common\EmailVModel.cs" />
+    <Compile Include="ViewModel\KQVM\KRVModel.cs" />
+    <Compile Include="ViewModel\Common\NavigationLinkVModel.cs" />
+    <Compile Include="ViewModel\Common\OperationalLogbookVModel.cs" />
+    <Compile Include="ViewModel\Privilege\OperationVModel.cs" />
+    <Compile Include="ViewModel\Dept\PositionVModel.cs" />
+    <Compile Include="ViewModel\Privilege\PrivilegeVModel.cs" />
+    <Compile Include="ViewModel\PCTD\ProvinceVModel.cs" />
+    <Compile Include="ViewModel\REF\ReferenceVModel.cs" />
+    <Compile Include="ViewModel\REF\ReferListVModel.cs" />
+    <Compile Include="ViewModel\REF\RefGroupVModel.cs" />
+    <Compile Include="ViewModel\Privilege\ResourcesVModel.cs" />
+    <Compile Include="ViewModel\Privilege\RoleVModel.cs" />
+    <Compile Include="ViewModel\Dept\UserVModel.cs" />
+    <Compile Include="ViewModel\Dept\wmfPersonnelToVModel.cs" />
+    <Compile Include="ViewModel\Dept\wmfUserDeptPositionVModel.cs" />
+    <Compile Include="ViewModel\Dept\wmfUserInfoVModel.cs" />
+    <Compile Include="WebServices\DynamicWebServices.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\C5.dll" />
+    <Content Include="Lib\Common.Logging.dll" />
+    <Content Include="Lib\DotNetOpenAuth.AspNet.dll" />
+    <Content Include="Lib\Interop.zkemkeeper.dll" />
+    <Content Include="Lib\Ionic.Zip.dll" />
+    <Content Include="Lib\log4net.dll" />
+    <Content Include="Lib\NPOI.dll" />
+    <Content Include="Lib\OpenSmtp.dll" />
+    <Content Include="Lib\Quartz.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HOHO18.Common\HOHO18.Common.csproj">
+      <Project>{308eb538-190a-4e93-97ea-044e061190ba}</Project>
+      <Name>HOHO18.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MorSun.Bll\MorSun.Bll.csproj">
+      <Project>{d5787304-295a-46b2-a850-faa8dbd86ceb}</Project>
+      <Name>MorSun.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MorSun.Common\MorSun.Common.csproj">
+      <Project>{6ddcd303-7fe5-4b58-89dc-597bbd940c84}</Project>
+      <Name>MorSun.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MorSun.Model\MorSun.Model.csproj">
+      <Project>{d335634f-20b7-464a-87a0-6d4718cf264e}</Project>
+      <Name>MorSun.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AttendanceController\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

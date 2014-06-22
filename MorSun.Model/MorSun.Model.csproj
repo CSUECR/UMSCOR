@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D335634F-20B7-464A-87A0-6D4718CF264E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MorSun.Model</RootNamespace>
+    <AssemblyName>MorSun.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel.DomainServices.EntityFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountModels.cs" />
+    <Compile Include="AttributeExtensions\LocalizedDisplayNameAttribute.cs" />
+    <Compile Include="AttributeExtensions\LocalizedRequiredAttribute.cs" />
+    <Compile Include="AttributeExtensions\RequiredIfAttribute.cs" />
+    <Compile Include="Common\aspnet_Roles.cs" />
+    <Compile Include="Common\aspnet_Users.cs" />
+    <Compile Include="Common\HF_WorkTaskInstanceView.cs" />
+    <Compile Include="Common\HF_WorkTaskInstanceViewDTO.cs" />
+    <Compile Include="Common\ModelStateErrorMessage.cs" />
+    <Compile Include="Common\ReturnMessage.cs" />
+    <Compile Include="Common\systemXML.cs" />
+    <Compile Include="Common\wmfArea.cs" />
+    <Compile Include="Common\wmfCity.cs" />
+    <Compile Include="Common\wmfCounty.cs" />
+    <Compile Include="Common\wmfDept.cs" />
+    <Compile Include="Common\wmfMail.cs" />
+    <Compile Include="Common\wmfNavigationLink.cs" />
+    <Compile Include="Common\wmfOperation.cs" />
+    <Compile Include="Common\wmfPosition.cs" />
+    <Compile Include="Common\wmfPrivilege.cs" />
+    <Compile Include="Common\wmfProvince.cs" />
+    <Compile Include="Common\wmfReference.cs" />
+    <Compile Include="Common\wmfRefGroup.cs" />
+    <Compile Include="Common\wmfResource.cs" />
+    <Compile Include="Common\wmfTown.cs" />
+    <Compile Include="Common\wmfUploadFile.cs" />
+    <Compile Include="Common\wmfUserDeptPosition.cs" />
+    <Compile Include="Common\wmfUserInfo.cs" />
+    <Compile Include="Common\wmfVillage.cs" />
+    <Compile Include="Extension\EntityObjectExtension.cs" />
+    <Compile Include="Interface\IPCModel.cs" />
+    <Compile Include="Interface\IPModel.cs" />
+    <Compile Include="Interface\IPPCModel.cs" />
+    <Compile Include="MenuModels\ChildNode.cs" />
+    <Compile Include="MorSun.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MorSun.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validate\Biao.cs" />
+    <Compile Include="Validate\Field.cs" />
+    <Compile Include="Validate\FieldExtension.cs" />
+    <Compile Include="Validate\ModelStateHelp.cs" />
+    <Compile Include="Validate\Pages.cs" />
+    <Compile Include="Validate\Validation.cs" />
+    <Compile Include="Validate\XmlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HOHO18.Common\HOHO18.Common.csproj">
+      <Project>{308eb538-190a-4e93-97ea-044e061190ba}</Project>
+      <Name>HOHO18.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="MorSun.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MorSun.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MorSun.edmx.diagram">
+      <DependentUpon>MorSun.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KQ\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

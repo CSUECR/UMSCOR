@@ -1,0 +1,91 @@
+﻿@charset "utf-8";
+/*----------------------------------------Css reset----------------------------------------*/
+body{line-height:1.4; background:white;background:url(Image/bgBody.png)}
+body,input,textarea,select{font-size:12px;font-family:tahoma,arial,\5b8b\4f53;}
+p,table,input,body,h1,h3,h4,ul,ol,a,table,tr,td,th,div,span,ul,li,dt,dl,dd,form{margin:0px; padding:0px;}
+ul,ol,li{list-style-type:none;}
+/*image with no-border*/
+a img{border:0;}
+a{ text-decoration:none; color:#0d61a8; outline:none; cursor:pointer;}
+a:hover{ color:#0099cc;}
+a:active {outline: none;} 
+table{ border-collapse:collapse;width:100%;}
+span{display:inline-block; *display:inline;zoom:1;}
+input{_line-height:20px;}
+input[type=checkbox]{vertical-align:middle;}
+p{margin:6px 0px;line-height:200%;font-size:12px;}
+img{ vertical-align:middle;
+}
+table td{padding:2px 10px;
+}
+ble th{padding:8px 15px;
+}
+h1{line-height:80px;
+}
+/*----------------------------------------通用css样式库----------------------------------------*/
+.tc{text-align:center;}
+.tr{text-align:right;}.tl{text-align:left;}
+.m0{margin:0;}.ml1{margin-left:1px;}.ml2{margin-left:2px;}.ml5{margin-left:5px;}.ml10{margin-left:10px;}.ml20{margin-left:20px;}
+.mr1{margin-right:1px;}.mr2{margin-right:2px;}.mr5{margin-right:5px;}.mr10{margin-right:10px;}.mr20{margin-right:20px;}
+.mt1{margin-top:1px;}.mt2{margin-top:2px;}.mt5{margin-top:5px;}.mt10{margin-top:10px;}.mt20{margin-top:20px;}
+.mb1{margin-bottom:1px;}.mb2{margin-bottom:2px;}.mb5{margin-bottom:5px;}.mb10{margin-bottom:10px;}.mb20{margin-bottom:20px;}
+.ml-1{margin-left:-1px;}.mt-1{margin-top:-1px;}
+.f0{font-size:0;}.f10{font-size:10px;}.f12{font-size:12px;}.f13{font-size:13px;}.f14{font-size:14px;}.f16{font-size:16px;}.f20{font-size:20px;}.f24{font-size:24px;}.f28{font-size:28px;}.f32{font-size:32px;}
+.font14
+{ font-size:14px; font-weight:bold; line-height:28px;
+}
+.font_impt
+{ color:#fa5d31;
+}
+.font_bold
+{ font-weight:bold;
+}
+.blank{width:0.5em} .blank1{width:1em;}.blank2{width:2em;}.blank3{width:3em;}.blank4{width:4em;}
+.floatRight{float:right;margin-right:10px;
+}
+.clear{ clear:both;
+}
+.hide
+{display:none;
+}
+.cursorP
+{ cursor:pointer;
+}
+.wordDot
+{table-layout:fixed;word-break:keep-all;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;
+}
+.inline{ display:inline-block; margin-right:10px;
+}
+.spanLabelWidth
+{ display:inline-block; width:150px;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
