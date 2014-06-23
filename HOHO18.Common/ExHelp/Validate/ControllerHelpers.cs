@@ -17,39 +17,59 @@ namespace System
     public static class ControllerHelpers
     {  
         /// <summary>
-        /// 返回配置好的错误信息
+        /// 生成RuleViolation信息 全称：AddRuleViolation 本来是ADR 想起了干脆面，ADE不错的样子
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="propertyName"></param>
         /// <param name="errKey"></param>
         /// <param name="defaultErrMessage"></param>
         /// <returns></returns>
-        public static RuleViolation AddRuleViolation(this string propertyName, string errMessage)            
+        public static RuleViolation ADE(this string propertyName, string errMessage)            
         {
             propertyName = propertyName.Trim();
             errMessage = errMessage.Trim();
-            //升级版：从配置读取数据都从OperationResultType里取，包括ModelState，ModelState可以自动生成客户端验证
-            //想开启读取配置文件功能，去掉以下注释并修改相应代码
-            //var _errMessage = XmlHelper.GetKeyNameValidation<T>(errMessage);
-            //if (_errMessage.IsWhite())
-            //    _errMessage =errMessage;
-            var _errMessage = errMessage;
-            return new RuleViolation(_errMessage, propertyName);
+            //升级版：从配置读取数据都从GetErrorMessagesByModelState里取，包括ModelState，ModelState可以自动生成客户端验证            
+            return new RuleViolation(errMessage, propertyName);
         }
         /// <summary>
-        /// 将RuleViolation的配置信息放到ModelState里去
+        /// 将RuleViolation的所有配置信息放到ModelState里去 全称：PullFromRuleViolation
         /// </summary>
         /// <param name="modelState"></param>
         /// <param name="errors"></param>
-        public static void FromRuleViolations(this ModelStateDictionary modelState,
-        IEnumerable<RuleViolation> errors)
+        public static void PFR(this ModelStateDictionary modelState, IEnumerable<RuleViolation> errors)
         {
             foreach (RuleViolation issue in errors)
             {
                 modelState.AddModelError(issue.PropertyName, issue.ErrorMessage);
             }
         }
-        
 
+        /// <summary>
+        /// 添加ModelErroe扩展，全称 AddModelError 变态扩展，你确认这方法能减少写代码的数量 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="propertyName"></param>
+        /// <param name="errKey"></param>
+        /// <param name="defaultErrMessage"></param>
+        /// <returns></returns>
+        public static void ADE(this string propertyName, this ModelStateDictionary modelState, string errMessage)
+        {
+            propertyName = propertyName.Trim();
+            errMessage = errMessage.Trim();
+            //升级版：从配置读取数据都从GetErrorMessagesByModelState里取，包括ModelState，ModelState可以自动生成客户端验证            
+            modelState.AddModelError(errMessage, propertyName);
+        }
+
+        /// <summary>
+        /// 获取当前错误的列表信息 全称：GetModelError
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<ModelStateErrorMessage> GTE(this ModelStateDictionary modelState)
+        {
+            var list = new List<ModelStateErrorMessage>();
+            list = modelState.Where(u => u.Value.Errors.Any()).Select(u => new ModelStateErrorMessage() { Key = u.Key, ErrorMessages = u.Value.Errors.Select(e => e.ErrorMessage) }).ToList();
+            //想要读取配置XML信息，从这开始取
+            return list;
+        }
     }
 }

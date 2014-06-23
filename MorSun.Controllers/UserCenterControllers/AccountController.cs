@@ -73,19 +73,19 @@ namespace MorSun.Controllers
                             user.UnlockUser();
                         }
                         else if (DateTime.Now <= lockedDate && user.IsLockedOut)
-                        {
-                            ModelState.AddModelError("UserName", "用户已被锁定，" + days + "天后自动解锁或者联系管理员");                            
+                        {                            
+                            "UserName".ADE(ModelState, "用户已被锁定，" + days + "天后自动解锁或者联系管理员");
                         }
                     }
 
                     if (user.IsLockedOut)
-                    {
-                        ModelState.AddModelError("UserName", "用户已被锁定，请联系管理员解锁");                        
+                    {                        
+                        "UserName".ADE(ModelState, "用户已被锁定，请联系管理员解锁");
                     }
                 }
                 else if (user == null)
-                {
-                    ModelState.AddModelError("UserName", "用户名不存在");                    
+                {                    
+                    "UserName".ADE(ModelState, "用户名不存在");
                 }
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
@@ -100,8 +100,8 @@ namespace MorSun.Controllers
                     }
                 }
                 else
-                {
-                    ModelState.AddModelError("UserName", "提供的用户名或密码不正确");                    
+                {                    
+                    "UserName".ADE(ModelState, "提供的用户名或密码不正确");
                 }
                 //return RedirectToLocal(returnUrl);
             }
@@ -133,11 +133,11 @@ namespace MorSun.Controllers
                     return Json(oper);
                 }
                 else
-                {
-                    ModelState.AddModelError("UserName", "提供的用户名或密码不正确");
+                {                    
+                    "UserName".ADE(ModelState, "提供的用户名或密码不正确");
                 }
             }
-            oper.AppendData = base.GetErrorMessagesByModelState();
+            oper.AppendData = ModelState.GTE();
             return Json(oper);
         }
 

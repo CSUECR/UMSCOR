@@ -38,7 +38,7 @@ namespace MorSun.Controllers
             }
         }
 
-        #region 出错信息
+        
 
         #region 返回对象处理
         /// <summary>
@@ -54,61 +54,7 @@ namespace MorSun.Controllers
             oper.Message = message;
             oper.AppendData = string.IsNullOrEmpty(returnUrl) ? Url.Action(defAction, defController) : returnUrl;
         }
-
-        /// <summary>
-        /// 获取当前错误的列表信息
-        /// </summary>
-        /// <returns></returns>
-        protected IEnumerable<ModelStateErrorMessage> GetErrorMessagesByModelState()
-        {
-            var list = new List<ModelStateErrorMessage>();
-
-            list = ModelState.Where(u => u.Value.Errors.Any()).Select(u => new ModelStateErrorMessage() { Key = u.Key, ErrorMessages = u.Value.Errors.Select(e => e.ErrorMessage) }).ToList();
-            //想要读取配置XML信息，从这开始取
-            return list;
-        }
-        #endregion
-
-        /// <summary>
-        /// 返回json格式对象
-        /// </summary>
-        /// <param name="errs"></param>
-        /// <returns></returns>
-        protected static string getErrListJson(IEnumerable<RuleViolation> errs)
-        {
-            var jsonb = new StringBuilder("[");
-            var s = "";
-            foreach (var err in errs)
-            {
-                var errJson = getErrJson(err);
-                jsonb.Append(s).Append(errJson);
-                s = ",";
-            }
-            jsonb.Append("]");
-            return jsonb.ToString();
-        }
-
-        /// <summary>
-        /// 获取
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        protected static string getErrListJson(IModel mode)
-        {
-            return getErrListJson(mode.GetRuleViolations());
-        }
-
-        protected static string getErrJson(RuleViolation err)
-        {
-            var jsonb = new StringBuilder();
-            jsonb.Append("{");
-            jsonb.Append("ErrorMessage:").AppendFormat("'{0}',", err.ErrorMessage);
-            jsonb.Append("PropertyName:").AppendFormat("'{0}'", err.PropertyName);
-            jsonb.Append("}");
-            return jsonb.ToString();
-        }
-
-        #endregion
+        #endregion        
 
         #region 基本信息
         /// <summary>
