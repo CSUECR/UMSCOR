@@ -73,19 +73,19 @@ namespace MorSun.Controllers
                             user.UnlockUser();
                         }
                         else if (DateTime.Now <= lockedDate && user.IsLockedOut)
-                        {                            
-                            "UserName".AE(ModelState, "用户已被锁定，" + days + "天后自动解锁或者联系管理员");
+                        {
+                            "UserName".AE("用户已被锁定，" + days + "天后自动解锁或者联系管理员", ModelState);
                         }
                     }
 
                     if (user.IsLockedOut)
-                    {                        
-                        "UserName".AE(ModelState, "用户已被锁定，请联系管理员解锁");
+                    {
+                        "UserName".AE("用户已被锁定，请联系管理员解锁", ModelState);
                     }
                 }
                 else if (user == null)
-                {                    
-                    "UserName".AE(ModelState, "用户名不存在");
+                {
+                    "UserName".AE("用户名不存在", ModelState);
                 }
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
@@ -100,8 +100,8 @@ namespace MorSun.Controllers
                     }
                 }
                 else
-                {                    
-                    "UserName".AE(ModelState, "提供的用户名或密码不正确");
+                {
+                    "UserName".AE("提供的用户名或密码不正确", ModelState);
                 }
                 //return RedirectToLocal(returnUrl);
             }
@@ -134,7 +134,7 @@ namespace MorSun.Controllers
                 }
                 else
                 {                    
-                    "UserName".AE(ModelState, "提供的用户名或密码不正确");
+                    "UserName".AE("提供的用户名或密码不正确",ModelState);
                 }
             }
             oper.AppendData = ModelState.GE();
@@ -184,7 +184,7 @@ namespace MorSun.Controllers
                 }
                 catch (MembershipCreateUserException e)
                 {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+                    "".AE(ErrorCodeToString(e.StatusCode),ModelState);
                 }
             }
 

@@ -71,7 +71,6 @@
     <Compile Include="CommonObject\CacheAccess.cs" />
     <Compile Include="CommonObject\ChangeDateTime.cs" />
     <Compile Include="CommonObject\WebConfigHelper.cs" />
-    <Compile Include="CommonObject\ConfigTool.cs" />
     <Compile Include="CommonObject\CookiesHelper.cs" />
     <Compile Include="CommonObject\DataBase.cs" />
     <Compile Include="CommonObject\FileContentType.cs" />
@@ -114,7 +113,7 @@
     <Compile Include="ExHelp\Validate\Biao.cs" />
     <Compile Include="ExHelp\Validate\Field.cs" />
     <Compile Include="ExHelp\Validate\FieldExtension.cs" />
-    <Compile Include="ExHelp\Validate\ControllerHelpers.cs" />
+    <Compile Include="ExHelp\Validate\ModelErrorHelpers.cs" />
     <Compile Include="ExHelp\Validate\ModelStateErrorMessage.cs" />
     <Compile Include="ExHelp\Validate\Pages.cs" />
     <Compile Include="ExHelp\Validate\Validation.cs" />

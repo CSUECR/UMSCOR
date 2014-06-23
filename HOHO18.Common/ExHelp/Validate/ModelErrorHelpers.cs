@@ -13,7 +13,7 @@ namespace System
     /// <summary>
     /// 文本处理
     /// </summary>
-    public static class ControllerHelpers
+    public static class ModelErrorHelpers
     {  
         /// <summary>
         /// 生成RuleViolation信息 全称：AddRuleViolation 本来是ADR 想起了干脆面，ADE不错的样子
@@ -50,7 +50,7 @@ namespace System
         /// <param name="errKey"></param>
         /// <param name="defaultErrMessage"></param>
         /// <returns></returns>
-        public static void AE(this string propertyName, ModelStateDictionary modelState, string errMessage)
+        public static void AE(this string propertyName,string errMessage, ModelStateDictionary modelState)
         {
             propertyName = propertyName.Trim();
             errMessage = errMessage.Trim();                  
