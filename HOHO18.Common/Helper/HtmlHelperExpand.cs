@@ -689,7 +689,7 @@ namespace System.Web.Mvc
             }
             else
             {
-                v["buttonImg"] = HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("buttonImg");
+                v["buttonImg"] = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("buttonImg");
             }
 
             v["sizeLimit"] = sizeLimit;
@@ -743,7 +743,7 @@ namespace System.Web.Mvc
             }
             else
             {
-                v["buttonImg"] = HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("buttonImg");
+                v["buttonImg"] = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("buttonImg");
             }
             v["sizeLimit"] = sizeLimit;
             v["operationID"] = operationID;

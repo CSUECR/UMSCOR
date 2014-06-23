@@ -60,10 +60,10 @@ namespace MorSun.Controllers
 
                 if (user != null)
                 {
-                    if (HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("UnlockingFlag") == "true")
+                    if (HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("UnlockingFlag") == "true")
                     {
                         var lockedDate = user.LastLockoutDate;
-                        var days = HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("UnlockingDay");
+                        var days = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("UnlockingDay");
                         if (NumHelp.IsNum(days))
                         {
                             lockedDate = lockedDate.AddDays(double.Parse(days));

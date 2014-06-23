@@ -70,7 +70,7 @@
     <Compile Include="CommonObject\Assistant.cs" />
     <Compile Include="CommonObject\CacheAccess.cs" />
     <Compile Include="CommonObject\ChangeDateTime.cs" />
-    <Compile Include="CommonObject\ConfigHelper.cs" />
+    <Compile Include="CommonObject\WebConfigHelper.cs" />
     <Compile Include="CommonObject\ConfigTool.cs" />
     <Compile Include="CommonObject\CookiesHelper.cs" />
     <Compile Include="CommonObject\DataBase.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="ExHelp\Num\NumHelp.cs" />
     <Compile Include="ExHelp\ReflHelp.cs" />
     <Compile Include="ExHelp\Date\TimeTest.cs" />
-    <Compile Include="ExHelp\String\XMLConfigHelp.cs" />
+    <Compile Include="ExHelp\String\GetConfigHelp.cs" />
     <Compile Include="ExHelp\ToHelp.cs" />
     <Compile Include="ExHelp\Tree\TreeHelp.cs" />
     <Compile Include="ExHelp\String\TxtHelp.cs" />
@@ -176,7 +176,7 @@
     <Compile Include="WEB\UBB\UBBTool.cs" />
     <Compile Include="WEB\UrlOper.cs" />
     <Compile Include="WEB\VerifyCode.cs" />
-    <Compile Include="WEB\webConfigHelp.cs" />
+    <Compile Include="WEB\XmlConfigHelp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\dotnetCHARTING.dll" />

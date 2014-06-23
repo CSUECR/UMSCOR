@@ -40,10 +40,10 @@ namespace HOHO18.Common.Base
         /// </summary>
         public BaseDalMSSQL()
         {
-            if (String.IsNullOrEmpty(ConfigHelper.GetConfigString("ConnectionString"))) throw new Exception("未在AppSettings中配置ConnectionString节点");
-            if (String.IsNullOrEmpty(ConfigHelper.GetConfigString("ProjectApplication"))) throw new Exception("未在AppSettings中配置ProjectApplication节点");
+            if (String.IsNullOrEmpty(WebConfigHelper.GetConfigString("ConnectionString"))) throw new Exception("未在AppSettings中配置ConnectionString节点");
+            if (String.IsNullOrEmpty(WebConfigHelper.GetConfigString("ProjectApplication"))) throw new Exception("未在AppSettings中配置ProjectApplication节点");
             connectionString = PubConstant.ConnectionString;//System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
-            ProjectApplication = new Guid(ConfigHelper.GetConfigString("ProjectApplication"));//(System.Configuration.ConfigurationManager.AppSettings["ProjectApplication"]);
+            ProjectApplication = new Guid(WebConfigHelper.GetConfigString("ProjectApplication"));//(System.Configuration.ConfigurationManager.AppSettings["ProjectApplication"]);
         }
 
         #region 需要根据不同的表实现

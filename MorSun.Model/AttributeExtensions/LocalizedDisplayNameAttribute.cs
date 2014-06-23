@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using HOHO18.Common;
 namespace MorSun.Model
 {
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute

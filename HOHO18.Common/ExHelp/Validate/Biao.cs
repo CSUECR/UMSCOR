@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using HOHO18.Common.Helper;
 
-namespace MorSun.Model
+namespace HOHO18.Common
 {
     //[Bind(Include = "ParentId,Category,Virtual,DeptName,Domain,Description,Sort,Province,City,Town,Area,Address,Tel,WYDTLon,WYDTLat,WYDTZoom,WYDTTitle,WYDTContent,WYDTImage,WYDTImgWide,WYDTImgHigh,WYDTImgTopLeftHorizontal,WYDTImgTopLeftVertical")]
 

@@ -8,14 +8,14 @@ using System.Web.Caching;
 namespace HOHO18.Common.Web
 {
 
-    public sealed class webConfigHelp
+    public sealed class XmlConfigHelp
     {
-        public webConfigHelp()
+        public XmlConfigHelp()
         {
         }
 
         //多语言支持
-        private static string xmlMenuSystem = ConfigHelper.GetConfigString("XmlMenuSystem");
+        private static string xmlMenuSystem = WebConfigHelper.GetConfigString("XmlMenuSystem");
         private static Configuration cfgMenu { get; set; }
         /// <summary>
         /// 获取web.config中的值
@@ -103,7 +103,7 @@ namespace HOHO18.Common.Web
 
 
 
-        private static string xmlSystemName = ConfigHelper.GetConfigString("XmlSystemName");
+        private static string xmlSystemName = WebConfigHelper.GetConfigString("XmlSystemName");
         private static Configuration cfg { get; set; }
 
         /// <summary>

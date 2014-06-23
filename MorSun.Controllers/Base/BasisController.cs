@@ -34,7 +34,7 @@ namespace MorSun.Controllers
         {
             get
             {
-                return new Guid(ConfigHelper.GetConfigString("ProjectApplication"));
+                return new Guid(WebConfigHelper.GetConfigString("ProjectApplication"));
             }
         }
 
@@ -755,14 +755,14 @@ namespace MorSun.Controllers
         public static String ewfUrl(string url)
         {
             //取出数据库中的考勤申请表的菜单链接，然后显示在页面上
-            var domail = HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("Domail");
+            var domail = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("Domail");
             var username = MorSun.Controllers.BasisController.CurrentAspNetUser.UserName;
             var userinfo = MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
             var sid = userinfo.SID;
             //cc工作流
-            var cvd = HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("Ccflow");
+            var cvd = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("Ccflow");
             //E表工作流
-            var vd = HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("工作流虚拟目录");
+            var vd = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("工作流虚拟目录");
 
             //用户自增长ID
             var useraid = userinfo.AutoGeneticId;

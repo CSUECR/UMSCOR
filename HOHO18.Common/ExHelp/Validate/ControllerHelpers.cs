@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Web;
-using MorSun.Model;
 using System.Web.Mvc;
 using HOHO18.Common;
 
@@ -18,8 +17,7 @@ namespace System
     {  
         /// <summary>
         /// 生成RuleViolation信息 全称：AddRuleViolation 本来是ADR 想起了干脆面，ADE不错的样子
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// </summary>       
         /// <param name="propertyName"></param>
         /// <param name="errKey"></param>
         /// <param name="defaultErrMessage"></param>

@@ -7,9 +7,8 @@ using System.ComponentModel;
 using System.Web.Mvc;
 using System.Linq;
 using HOHO18.Common.Helper;
-using HOHO18.Common;
 
-namespace MorSun.Model
+namespace HOHO18.Common
 {
 
     public class Field : ProjectBase

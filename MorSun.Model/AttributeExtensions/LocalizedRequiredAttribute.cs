@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using MorSun.Model;
+using HOHO18.Common;
 namespace System.ComponentModel.DataAnnotations
 {
     public class LocalizedRequiredAttribute : ValidationAttribute,IClientValidatable

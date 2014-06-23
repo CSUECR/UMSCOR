@@ -122,7 +122,7 @@ namespace MorSun.Controllers
                     }
                     else
                     {
-                        InsertLog(GetLinkID(t), GetOperateTable(t), HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("Ìí¼Ó"), "", "");
+                        InsertLog(GetLinkID(t), GetOperateTable(t), HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("Ìí¼Ó"), "", "");
                         return "true";
                     }
 
@@ -204,7 +204,7 @@ namespace MorSun.Controllers
                     return ckRs;
                 }
                 Bll.Delete(item);
-                InsertLog(null, GetOperateTable(t), HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("É¾³ý"), "", "");
+                InsertLog(null, GetOperateTable(t), HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("É¾³ý"), "", "");
                 result = "true";
             }
             return result;
@@ -316,7 +316,7 @@ namespace MorSun.Controllers
             //msg = t.Equal(model, out originalContent, out afterOperateContent);
             //if (msg == "true")
             //{
-            //    InsertLog(GetLinkID(model), GetOperateTable(model), HOHO18.Common.Web.webConfigHelp.GetWebConfigValue("±à¼­"), originalContent, afterOperateContent);
+            //    InsertLog(GetLinkID(model), GetOperateTable(model), HOHO18.Common.Web.XMLConfigHelp.GetWebConfigValue("±à¼­"), originalContent, afterOperateContent);
             //}
 
             TryUpdateModel(model);

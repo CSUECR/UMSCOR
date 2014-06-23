@@ -7,7 +7,7 @@ using System.ComponentModel;
 using HOHO18.Common.Helper;
 
 
-namespace MorSun.Model
+namespace HOHO18.Common
 {
     /// <summary>
     /// XML规则配置类--该类是工程树的根节点,所有的规则对象都隶属于它.
