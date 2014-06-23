@@ -338,7 +338,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\Login\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="XmlConfig\web.config" />
@@ -348,7 +348,7 @@
     <Content Include="XmlConfig\zh_TW\Menu.config" />
     <Content Include="XmlConfig\zh_TW\Validation.config" />
     <Content Include="XmlConfig\zh_TW\Web.config" />
-    <Content Include="Views\Shared\_TableLogon.cshtml" />
+    <Content Include="Views\Shared\Login\_TableLogon.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Home\Index - 复制.cshtml" />
