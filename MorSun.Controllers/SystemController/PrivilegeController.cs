@@ -77,30 +77,7 @@ namespace MorSun.Controllers.CommonController
             return "true";
         }
 
-        /// <summary>
-        /// 对数据进行重新排列
-        /// </summary>
-        /// <param name="CheckedId"></param>
-        /// <returns></returns>
-        public override string GetSortableList(wmfPrivilege t)
-        {
-            if (!string.IsNullOrEmpty(t.CheckedId))
-            {
-                string[] ids = t.CheckedId.Split(',');
-                for (int i = 0; i < ids.Length - 1; i++)
-                {
-                    if (!string.IsNullOrEmpty(ids[i]))
-                    {
-                        var privilege = new wmfPrivilege();
-                        privilege = PrivilegeBll.GetModel(ids[i]);
-                        privilege.Sort = i + 1;
-                        PrivilegeBll.Update(privilege);
-                    }
-                }
-            }
-            return "true";
-        }
-
+        
         //删除前验证
         protected override string OnDelCk(wmfPrivilege t)
         {
@@ -114,43 +91,6 @@ namespace MorSun.Controllers.CommonController
             return "true";
         }
 
-        //批量删除前验证
-        protected override string OnBatchDelCk(wmfPrivilege t)
-        {
-            if (string.IsNullOrEmpty(t.CheckedId))
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要删除的项"), "") });
-            }
-            string[] ids = t.CheckedId.Split(',');
-            if (ids[0] == "")
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要删除的项"), "") });
-            }
-
-            var privilegeInRoleBll = new BaseBll<wmfPrivilegeInRole>();
-
-            string msg = string.Empty;
-            for (int i = 0; i < ids.Length - 1; i++)
-            {
-                if (!string.IsNullOrEmpty(ids[i]))
-                {
-
-                    Guid privilegeId = Guid.Parse(ids[i]);
-                    var privilegeInRole = privilegeInRoleBll.All.Where(r => r.PrivilegeId == privilegeId).FirstOrDefault();
-                    var privilege = PrivilegeBll.GetModel(privilegeId);
-                    if (privilegeInRole != null)
-                    {
-                        //权限在角色中使用!
-                        msg += privilege.PrivilegeCNName + " 权限在角色中使用，不能删除！<br/>";
-                    }
-                }
-            }
-            if (msg != string.Empty)
-            {
-                //权限在角色中使用!
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>(msg), "") });
-            }
-            return "true";
-        }
+       
     }
 }

@@ -106,18 +106,5 @@ namespace MorSun.Controllers.CommonController
                 return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
-
-        public override ActionResult SortList()
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.排序))
-            {
-                var vModel = new ReferenceVModel();
-                return View(vModel);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
     }
 }

@@ -130,32 +130,7 @@ namespace MorSun.Controllers.CommonController
             {
                 return false;
             }
-        }
-
-
-        /// <summary>
-        /// 对数据进行重新排列
-        /// </summary>
-        /// <param name="CheckedId"></param>
-        /// <returns></returns>
-        public override string GetSortableList(wmfResource t)
-        {
-            if (!string.IsNullOrEmpty(t.CheckedId))
-            {
-                string[] ids = t.CheckedId.Split(',');
-                for (int i = 0; i < ids.Length - 1; i++)
-                {
-                    if (!string.IsNullOrEmpty(ids[i]))
-                    {
-                        var resource = new wmfResource();
-                        resource = ResourceBll.GetModel(ids[i]);
-                        resource.Sort = i + 1;
-                        ResourceBll.Update(resource);
-                    }
-                }
-            }
-            return "true";
-        }
+        }       
 
 
         //创建前验证
@@ -202,75 +177,8 @@ namespace MorSun.Controllers.CommonController
             return ret;
         }
 
-        //批量删除前验证
-        protected override string OnBatchDelCk(wmfResource t)
-        {
-            if (string.IsNullOrEmpty(t.CheckedId))
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要删除的项"), "") });
-            }
-            string[] ids = t.CheckedId.Split(',');
-            if (ids[0] == "")
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要删除的项"), "") });
-            }
-
-            //wmfResource resource = null;
-            string msg = string.Empty;
-            for (int i = 0; i < ids.Length - 1; i++)
-            {
-                if (!string.IsNullOrEmpty(ids[i]))
-                {
-
-                    Guid resourceId = Guid.Parse(ids[i]);
-
-                    //userDeptPosition = userDeptPositionBll.All.Where(r => r.PostionId == positionId).FirstOrDefault();
-                    //if (userDeptPosition != null)
-                    //{
-                    //    var position = new wmfPositionBll().GetModel(ids[i]);
-                    //    if (position != null)
-                    //    {
-                    //        //该岗位有员工使用，不能删除！
-                    //        msg += position.PositionName + " 岗位有员工使用,请先将员工岗位修改！<br/>";
-                    //    }
-                    //}
-                    var resource = ResourceBll.All.FirstOrDefault(r => r.ParentId == resourceId);
-
-                    if (resource != null)
-                    {
-                        //资源存在下级目录，请先删除下级目录!
-                        msg += resource.ResourcesCNName + XmlHelper.GetPagesString<wmfResource>("资源存在下级目录，不能删除") + " <br/>";
-                    }
-                }
-            }
-            if (msg != string.Empty)
-            {
-                //资源存在下级目录，请先删除下级目录!
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>(msg), "") });
-            }
-            #region 删除角色权限及权限和资源
-            //13.12.17新增代码，删除权限时很麻烦，要先把各个角色里面的权限删除掉，再删除权限然后再删除资源。
-            //如果不存在下级目录，先删除掉角色权限，再删除权限，然后继续。
-            //取出该资源的所有权限ID
-            var rids = t.CheckedId.ToGuidList(",");
-            var privilegeBll = new BaseBll<wmfPrivilege>();
-            var privileges = privilegeBll.All.Where(p => p.ResourcesId != null && rids.Contains(p.ResourcesId.Value));
-            var pid = privileges.Select(p => p.ID);
-            //先删除角色权限表里面的权限
-            var pirBll = new BaseBll<wmfPrivilegeInRole>();
-            var pirs = pirBll.All.Where(p => pid.Contains(p.PrivilegeId));
-            foreach (var pir in pirs)
-            {
-                pirBll.Delete(pir, false);
-            }
-            //再删除权限
-            foreach (var p in privileges)
-            {
-                privilegeBll.Delete(p, false);
-            }
-            #endregion
-            return "true";
-        }
+        
+            
 
 
 

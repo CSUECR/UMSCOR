@@ -75,47 +75,7 @@ namespace MorSun.Controllers.CommonController
             }
             return "true";
         }
-
-        //批量删除到回收站
-        protected override string OnBatchRecycleCk(wmfPosition t)
-        {
-            if (string.IsNullOrEmpty(t.CheckedId))
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要删除的项"), "") });
-            }
-            string[] ids = t.CheckedId.Split(',');
-            if (ids[0] == "")
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "请选择要删除的项"), "") });
-            }
-            //批量删除到回收站，下面的判断去掉
-            //var userDeptPositionBll = new BaseBll<wmfUserDeptPosition>();
-            //wmfUserDeptPosition userDeptPosition = null;
-            //string msg = string.Empty;
-            //for (int i = 0; i < ids.Length - 1; i++)
-            //{
-            //    if (!string.IsNullOrEmpty(ids[i]))
-            //    {
-            //        Guid positionId = Guid.Parse(ids[i]);
-            //        userDeptPosition = userDeptPositionBll.All.Where(r => r.PostionId == positionId).FirstOrDefault();
-            //        if (userDeptPosition != null)
-            //        {
-            //            var position = new BaseBll<wmfPosition>().GetModel(ids[i]);
-            //            if (position != null)
-            //            {
-            //                //该岗位有员工使用，不能删除！
-            //                msg += position.PositionName + " 岗位有员工使用,请先将员工岗位修改！<br/>";
-            //            }
-            //        }
-            //    }
-            //}
-            //if (msg != string.Empty)
-            //{
-            //    //该岗位有员工使用，不能删除！
-            //    return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPosition>(msg), "") });
-            //}
-            return "true";
-        }
+        
         /// <summary>
         /// 设置某个岗位为该部门的leader，目前用在工作流上面
         /// </summary>

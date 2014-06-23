@@ -205,26 +205,6 @@ namespace MorSun.Controllers.CommonController
             return ret;
         }
 
-        protected override string OnBatchRecycleCk(wmfDept t)
-        {
-            string ret = "true";
-            //删除到回收站就不要验证了
-            //var dept = Bll.All.FirstOrDefault(r => r.ParentId == t.ID && r.FlagTrashed == false);
-            //var userDeptPositionBll = new BaseBll<wmfUserDeptPosition>();
-            //var userDeptPosition = userDeptPositionBll.All.Where(r => r.DeptId == t.ID).FirstOrDefault();
-            //var positionBll = new BaseBll<wmfPosition>();
-            //var pisition = positionBll.All.Where(r => r.DeptId == t.ID).FirstOrDefault();
-            //if (userDeptPosition != null || dept != null || pisition != null)
-            //{
-            //    //该部门存在下级部门或岗位有所属，请先进行删除或调整岗位或下级部门!
-            //    return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfDept>("该部门存在下级部门或岗位有所属"), "") });
-            //}
-            return ret;
-        }
 
-        protected override string OnDelToRecycle(wmfDept t)
-        {
-            return OnBatchRecycleCk(t);
-        }
     }
 }
