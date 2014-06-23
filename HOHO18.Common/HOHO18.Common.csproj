@@ -115,6 +115,7 @@
     <Compile Include="ExHelp\Validate\Field.cs" />
     <Compile Include="ExHelp\Validate\FieldExtension.cs" />
     <Compile Include="ExHelp\Validate\ControllerHelpers.cs" />
+    <Compile Include="ExHelp\Validate\ModelStateErrorMessage.cs" />
     <Compile Include="ExHelp\Validate\Pages.cs" />
     <Compile Include="ExHelp\Validate\Validation.cs" />
     <Compile Include="ExHelp\Validate\XmlHelper.cs" />

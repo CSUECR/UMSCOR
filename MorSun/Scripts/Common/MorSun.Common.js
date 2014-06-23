@@ -198,6 +198,8 @@ function PromptTextAreaMessage2(msg, inputId) {
 function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
     if (!topErrDiv)
         topErrDiv = '#divInfo';
+    if (!errMessage)
+        errMessage = '操作失败';
     $(btn).click(function () {
         var $logonForm = $(formId);
         if ($logonForm.valid()) {

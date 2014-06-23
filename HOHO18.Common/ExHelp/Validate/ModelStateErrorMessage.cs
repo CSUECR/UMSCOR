@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MorSun.Model
+namespace HOHO18.Common
 {
     public class ModelStateErrorMessage
     {

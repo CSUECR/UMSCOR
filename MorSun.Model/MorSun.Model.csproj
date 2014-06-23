@@ -62,8 +62,6 @@
     <Compile Include="Common\aspnet_Users.cs" />
     <Compile Include="Common\HF_WorkTaskInstanceView.cs" />
     <Compile Include="Common\HF_WorkTaskInstanceViewDTO.cs" />
-    <Compile Include="Common\ModelStateErrorMessage.cs" />
-    <Compile Include="Common\ReturnMessage.cs" />
     <Compile Include="Common\systemXML.cs" />
     <Compile Include="Common\wmfArea.cs" />
     <Compile Include="Common\wmfCity.cs" />
