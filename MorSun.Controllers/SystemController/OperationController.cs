@@ -46,7 +46,7 @@ namespace MorSun.Controllers.CommonController
             if (resource != null && resource.ID != t.ID)
             {
                 //该操作名称已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作名称已经存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作名称已经存在"), "") });
             }
             return "true";
         }
@@ -58,7 +58,7 @@ namespace MorSun.Controllers.CommonController
             if (resource != null)
             {
                 //该资源名称已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作名称已经存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作名称已经存在"), "") });
             }
             return "true";
         }
@@ -74,7 +74,7 @@ namespace MorSun.Controllers.CommonController
             if (privilege != null)
             {
                 //操作在权限中使用!
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作在权限中使用"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作在权限中使用"), "") });
             }
             //删除后用这个查询看有没有删除干净，不然系统出错select * from wmfPrivilege where OperationId IS NULL
             #endregion

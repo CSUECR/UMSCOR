@@ -45,14 +45,14 @@ namespace MorSun.Controllers.CommonController
             if (privilege != null && privilege.ID != t.ID)
             {
                 //该权限名称已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限名称已经存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限名称已经存在"), "") });
             }
 
             privilege = PrivilegeBll.All.FirstOrDefault(r => r.ResourcesId == t.ResourcesId && r.OperationId == t.OperationId);
             if (privilege != null && privilege.ID != t.ID)
             {
                 //资源和操作相同的权限已经存在！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("资源和操作相同的权限已经存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("资源和操作相同的权限已经存在"), "") });
             }
             return "true";
         }
@@ -64,14 +64,14 @@ namespace MorSun.Controllers.CommonController
             if (privilege != null)
             {
                 //该权限名称已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限名称已经存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限名称已经存在"), "") });
             }
 
             privilege = PrivilegeBll.All.FirstOrDefault(r => r.ResourcesId == t.ResourcesId && r.OperationId == t.OperationId);
             if (privilege != null)
             {
                 //资源和操作相同的权限已经存在！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("资源和操作相同的权限已经存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("资源和操作相同的权限已经存在"), "") });
             }
 
             return "true";
@@ -86,7 +86,7 @@ namespace MorSun.Controllers.CommonController
             if (privilegeInRole != null)
             {
                 //权限在角色中使用!
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限在角色中使用"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限在角色中使用"), "") });
             }
             return "true";
         }

@@ -82,14 +82,14 @@ namespace MorSun.Controllers.CommonController
             if (p1 == p2)
             {
                 //移动失败，部门A不能移动到部门A下！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("自己的类别组不能移到自己的类别组"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("自己的类别组不能移到自己的类别组"), "") });
             }
 
             ///判断ID与父级ID相同
             if (SearchDep(p1, p2))
             {
                 //上级部门不能往自己的下级部门移动！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("上级类别组不能移到下级类别组"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("上级类别组不能移到下级类别组"), "") });
             }
             else
             {
@@ -129,7 +129,7 @@ namespace MorSun.Controllers.CommonController
             if (ReferGrop != null)
             {
                 //该类别组已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("类别组已存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("类别组已存在"), "") });
             }
 
             return ret;
@@ -142,7 +142,7 @@ namespace MorSun.Controllers.CommonController
             if (ReferGrop != null && ReferGrop.ID != t.ID)
             {
                 //该类别组已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("类别组已存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("类别组已存在"), "") });
             }
             var p1 = t.ID;
             //父ID
@@ -152,14 +152,14 @@ namespace MorSun.Controllers.CommonController
             if (p1 == p2)
             {
                 //移动失败，类别组A不能移动到类别组A下！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("自己的类别组不能移到自己的类别组"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("自己的类别组不能移到自己的类别组"), "") });
             }
 
             ///判断ID与父级ID相同
             if (SearchDep(p1, p2))
             {
                 //上级类别组不能往自己的下级类别组移动！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("上级类别组不能移到下级类别组"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("上级类别组不能移到下级类别组"), "") });
             }
             return ret;
         }
@@ -172,7 +172,7 @@ namespace MorSun.Controllers.CommonController
             if (model != null)
             {
                 //该类别组类别存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("请先删除类别组下的类别"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("请先删除类别组下的类别"), "") });
             }
             return ret;
         }

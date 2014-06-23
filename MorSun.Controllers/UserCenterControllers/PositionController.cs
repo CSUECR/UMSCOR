@@ -45,7 +45,7 @@ namespace MorSun.Controllers.CommonController
             if (userDeptPosition != null)
             {
                 //该岗位有员工使用，不能删除！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPosition>("该岗位有员工使用"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPosition>("该岗位有员工使用"), "") });
             }
             return "true";
         }
@@ -59,7 +59,7 @@ namespace MorSun.Controllers.CommonController
             if (Position != null)
             {
                 //该部门已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPosition>("岗位已存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPosition>("岗位已存在"), "") });
             }
             return "true";
         }
@@ -71,7 +71,7 @@ namespace MorSun.Controllers.CommonController
             if (Position != null && Position.ID != t.ID)
             {
                 //该操作名称已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPosition>("岗位已存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPosition>("岗位已存在"), "") });
             }
             return "true";
         }
@@ -83,12 +83,12 @@ namespace MorSun.Controllers.CommonController
         /// <returns></returns>
         public string SetDeptLeader(Guid? id)
         {
-            if (null == id || Guid.Empty == id)
-                return getErrJson(new RuleViolation("positionId为空"));
+            if (null == id || Guid.Empty == id) { }
+                //return getErrJson(new RuleViolation("positionId为空"));
 
             var originalPosition = Bll.All.FirstOrDefault(u => u.ID == id);
-            if(originalPosition==null)
-                return getErrJson(new RuleViolation("未找到对应的岗位实例"));
+            if (originalPosition == null) { }
+                //return getErrJson(new RuleViolation("未找到对应的岗位实例"));
 
             //将岗位中的leader属性设置为1则为该部门的领导，主要用在工作流本部门领导设置那边；若leader为null，则为普通岗位
             if (originalPosition.Leader == null)

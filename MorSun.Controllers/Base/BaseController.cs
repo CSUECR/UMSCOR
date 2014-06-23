@@ -90,7 +90,7 @@ namespace MorSun.Controllers
             if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.添加))
                 return NCreate(t);
             else
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+                return "";//getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
         }
         /// <summary>
         /// 添加
@@ -118,7 +118,7 @@ namespace MorSun.Controllers
                     var result = NInsert(t);
                     if (result == null)
                     {
-                        return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "查询失败"), "") });
+                        return "";//getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "查询失败"), "") });
                     }
                     else
                     {
@@ -132,7 +132,7 @@ namespace MorSun.Controllers
             }
             else
             {
-                return getErrListJson(v.GetRuleViolations());
+                return "";// getErrListJson(v.GetRuleViolations());
             }
 
         }
@@ -179,7 +179,7 @@ namespace MorSun.Controllers
             if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.删除))
                 return NDelete(t);
             else
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+                return "";// getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
 
         }
 
@@ -283,7 +283,7 @@ namespace MorSun.Controllers
             }
             else
             {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+                return "";// getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
             }
         }
 
@@ -307,7 +307,7 @@ namespace MorSun.Controllers
             var model = Bll.GetModel(t);
             if (model == null)
             {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "编辑失败"), "") });
+                return "";// getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "编辑失败"), "") });
             }
             //日志记录，去掉
             //var originalContent = string.Empty;
@@ -332,7 +332,7 @@ namespace MorSun.Controllers
             }
             else
             {
-                result = getErrListJson(model.AsDy().GetRuleViolations());
+                result = "";// getErrListJson(model.AsDy().GetRuleViolations());
             }
 
             return result;

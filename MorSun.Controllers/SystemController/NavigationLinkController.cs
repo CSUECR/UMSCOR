@@ -40,7 +40,7 @@ namespace MorSun.Controllers.CommonController
             if (Refer != null)
             {
                 //该类别已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfNavigationLink>("同一类别菜单名称已经存在"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfNavigationLink>("同一类别菜单名称已经存在"), "") });
             }
             if (t.RIds != null && t.RIds.Count() > 0)
             {//之前少了个判断，会出错。
@@ -272,13 +272,13 @@ namespace MorSun.Controllers.CommonController
                 catch
                 {
                     //是否有导航菜单!
-                    return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>("文件没有修改的权限"), "") });
+                    //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>("文件没有修改的权限"), "") });
                 }
                 return "true";
             }
             else
             {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
             }
         }
     }

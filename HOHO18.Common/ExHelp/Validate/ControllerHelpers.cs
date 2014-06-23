@@ -24,7 +24,7 @@ namespace System
         /// <param name="errKey"></param>
         /// <param name="defaultErrMessage"></param>
         /// <returns></returns>
-        public static RuleViolation ADE(this string propertyName, string errMessage)            
+        public static RuleViolation AE(this string propertyName, string errMessage)            
         {
             propertyName = propertyName.Trim();
             errMessage = errMessage.Trim();
@@ -36,7 +36,7 @@ namespace System
         /// </summary>
         /// <param name="modelState"></param>
         /// <param name="errors"></param>
-        public static void PFR(this ModelStateDictionary modelState, IEnumerable<RuleViolation> errors)
+        public static void PR(this ModelStateDictionary modelState, IEnumerable<RuleViolation> errors)
         {
             foreach (RuleViolation issue in errors)
             {
@@ -45,26 +45,25 @@ namespace System
         }
 
         /// <summary>
-        /// 添加ModelErroe扩展，全称 AddModelError 变态扩展，你确认这方法能减少写代码的数量 
+        /// 添加ModelErroe扩展，全称 AddModelError 变态扩展，你确认这方法能减少写代码的量 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="propertyName"></param>
         /// <param name="errKey"></param>
         /// <param name="defaultErrMessage"></param>
         /// <returns></returns>
-        public static void ADE(this string propertyName, this ModelStateDictionary modelState, string errMessage)
+        public static void AE(this string propertyName, ModelStateDictionary modelState, string errMessage)
         {
             propertyName = propertyName.Trim();
-            errMessage = errMessage.Trim();
-            //升级版：从配置读取数据都从GetErrorMessagesByModelState里取，包括ModelState，ModelState可以自动生成客户端验证            
+            errMessage = errMessage.Trim();                  
             modelState.AddModelError(errMessage, propertyName);
         }
 
         /// <summary>
-        /// 获取当前错误的列表信息 全称：GetModelError
+        /// 获取当前错误的列表信息 全称：GetErrorMessagesByModelState
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<ModelStateErrorMessage> GTE(this ModelStateDictionary modelState)
+        public static IEnumerable<ModelStateErrorMessage> GE(this ModelStateDictionary modelState)
         {
             var list = new List<ModelStateErrorMessage>();
             list = modelState.Where(u => u.Value.Errors.Any()).Select(u => new ModelStateErrorMessage() { Key = u.Key, ErrorMessages = u.Value.Errors.Select(e => e.ErrorMessage) }).ToList();

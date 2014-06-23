@@ -562,12 +562,12 @@ namespace MorSun.Controllers
             {
                 if (string.IsNullOrEmpty(model.CheckedId))
                 {
-                    return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Users>("请选择要批量彻底删除的员工"), "") });
+                    //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Users>("请选择要批量彻底删除的员工"), "") });
                 }
                 string[] ids = model.CheckedId.Split(',');
                 if (ids[0] == "")
                 {
-                    return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Users>("请选择要批量彻底删除的员工"), "") });
+                    //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Users>("请选择要批量彻底删除的员工"), "") });
                 }
 
                 var userinfobll = new BaseBll<wmfUserInfo>();
@@ -607,7 +607,7 @@ namespace MorSun.Controllers
             }
             else
             {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
             }
         }
 
@@ -648,7 +648,7 @@ namespace MorSun.Controllers
 
                 if (msg != string.Empty)
                 {
-                    return getErrListJson(new[] { new RuleViolation(msg, "") });
+                    //return getErrListJson(new[] { new RuleViolation(msg, "") });
                 }
 
                 //查询出新注册的用户信息

@@ -46,7 +46,7 @@ namespace MorSun.Controllers.CommonController
             if (resource != null)
             {
                 //资源存在下级目录，请先删除下级目录!
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>("资源存在下级目录"), "") });
+                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>("资源存在下级目录"), "") });
             }
 
             #region 删除角色权限及权限和资源

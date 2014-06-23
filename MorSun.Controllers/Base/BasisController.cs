@@ -522,7 +522,7 @@ namespace MorSun.Controllers
             if (!System.IO.File.Exists(Server.MapPath(path)))
             {
 
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Users>("文件不存在或已删除"), "") });
+                return "";// getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Users>("文件不存在或已删除"), "") });
             }
 
             ret = "true";
