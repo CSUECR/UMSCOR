@@ -34,7 +34,7 @@ namespace MorSun.Controllers
         {
             get
             {
-                return new Guid(WebConfigHelper.GetConfigString("ProjectApplication"));
+                return "ProjectApplication".GetXmlConfig().ToAs<Guid>();
             }
         }
 
@@ -244,14 +244,14 @@ namespace MorSun.Controllers
             }
         }
 
-        /// <summary>
-        /// 清空Session
-        /// </summary>
-        public static void clearSession()
-        {
-            System.Web.HttpContext.Current.Session["SessionPrivilege"] = null;
-            System.Web.HttpContext.Current.Session["HaveSessionPrivilege"] = null;
-        }
+        ///// <summary>
+        ///// 清空Session
+        ///// </summary>
+        //public static void clearSession()
+        //{
+        //    System.Web.HttpContext.Current.Session["SessionPrivilege"] = null;
+        //    System.Web.HttpContext.Current.Session["HaveSessionPrivilege"] = null;
+        //}
 
 
 
@@ -746,35 +746,7 @@ namespace MorSun.Controllers
         }
         #endregion
 
-        #region 工作流URL转换
-        /// <summary>
-        /// 把URL替换成工作流虚拟目录的URL
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static String ewfUrl(string url)
-        {
-            //取出数据库中的考勤申请表的菜单链接，然后显示在页面上
-            var domail = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("Domail");
-            var username = MorSun.Controllers.BasisController.CurrentAspNetUser.UserName;
-            var userinfo = MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
-            var sid = userinfo.SID;
-            //cc工作流
-            var cvd = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("Ccflow");
-            //E表工作流
-            var vd = HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("工作流虚拟目录");
-
-            //用户自增长ID
-            var useraid = userinfo.AutoGeneticId;
-
-            //用户真实姓名
-            var truename = userinfo.TrueName;
-
-            //用户ID
-            var m_userid = MorSun.Controllers.BasisController.CurrentAspNetUser.UserId;
-            return url.Replace("{domain}", domail).Replace("{vd}", vd).Replace("{cvd}", cvd).Replace("{username}", HttpUtility.UrlEncode(username)).Replace("{sid}", HttpUtility.UrlEncode(sid)).Replace("{UserID}", HttpUtility.UrlEncode(m_userid.ToString())).Replace("{useraid}", useraid.ToString()).Replace("{truename}", HttpUtility.UrlEncode(truename));
-        }
-        #endregion               
+                  
 
         public static bool IsAdmin
         {

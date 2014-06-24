@@ -21,7 +21,7 @@ namespace MorSun.Controllers.ViewModel
 
         public virtual string PIndex { get; set; }
 
-        public int _Psize = int.Parse(HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("PageSize"));
+        public int _Psize = "PageSize".GetXmlConfig().ToAs<int>();
 
         /// <summary>
         /// 是操作管理员

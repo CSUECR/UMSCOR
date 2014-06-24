@@ -12,7 +12,7 @@ namespace System
     /// <summary>
     /// 文本处理
     /// </summary>
-    public static class GetConfigHelp
+    public static class ConfigHelp
     {
         
         #region 获取配置值
@@ -23,12 +23,12 @@ namespace System
         /// <returns></returns>
         public static string GetXmlConfig(this string str)
         {
-            return XmlConfigHelp.GetWebConfigValue(str);
+            return XmlConfigHelp.GetXmlConfig(str);
         }
 
         public static string GetWebConfig(this string str)
         {
-            return WebConfigHelper.GetConfigString(str);
+            return WebConfigHelper.GetWebConfig(str);
         }
         #endregion
 

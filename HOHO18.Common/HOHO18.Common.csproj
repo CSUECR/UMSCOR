@@ -63,22 +63,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\BaseSQL.cs" />
-    <Compile Include="Base\BaseDalMSSQL.cs" />
     <Compile Include="Base\ExcleHelper.cs" />
-    <Compile Include="Base\SQLHelper.cs" />
     <Compile Include="CommonObject\Assistant.cs" />
     <Compile Include="CommonObject\CacheAccess.cs" />
     <Compile Include="CommonObject\ChangeDateTime.cs" />
     <Compile Include="CommonObject\WebConfigHelper.cs" />
     <Compile Include="CommonObject\CookiesHelper.cs" />
-    <Compile Include="CommonObject\DataBase.cs" />
     <Compile Include="CommonObject\FileContentType.cs" />
     <Compile Include="CommonObject\FileObj.cs" />
     <Compile Include="CommonObject\INIClass.cs" />
     <Compile Include="CommonObject\INIFile.cs" />
-    <Compile Include="CommonObject\ParameterHelper.cs" />
-    <Compile Include="CommonObject\PubConstant.cs" />
     <Compile Include="CommonObject\RMB.cs" />
     <Compile Include="CommonObject\SessionHelper.cs" />
     <Compile Include="CommonObject\StringArrayExpand.cs" />

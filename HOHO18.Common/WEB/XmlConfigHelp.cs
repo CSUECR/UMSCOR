@@ -14,15 +14,16 @@ namespace HOHO18.Common.Web
         {
         }
 
+        #region XMLMenu
         //多语言支持
-        private static string xmlMenuSystem = WebConfigHelper.GetConfigString("XmlMenuSystem");
+        private static string xmlMenuSystem = "XmlMenuSystem".GetXmlConfig();
         private static Configuration cfgMenu { get; set; }
         /// <summary>
         /// 获取web.config中的值
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string GetWebConfigMenu(string key)
+        public static string GetXmlConfigMenu(string key)
         {
             //当前语言
             var language = SessionHelper.GetSessionLanguages();
@@ -39,7 +40,7 @@ namespace HOHO18.Common.Web
                 {
                     CacheDependency fileDependency = new CacheDependency(path);
                     //打开配置文件
-                    OpenWebMenuConfig();
+                    OpenXmlMenuConfig();
                     //Configuration cfg = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(xmlSystemName);
                     AppSettingsSection appSetting = cfgMenu.AppSettings;
 
@@ -55,34 +56,9 @@ namespace HOHO18.Common.Web
             {
                 return "";
             }
-        }
+        }      
 
-
-        /// <summary>
-        /// 保存webxml
-        /// </summary>
-        /// <param name="key">key</param>
-        /// <param name="keyValue">value</param>
-        /// <param name="isSave">是否保存，true可以保存了，false还不进行保存</param>
-        public static void SetWebMenuConfig(string key, string keyValue, bool isSave)
-        {
-            try
-            {
-                //打开配置文件
-                OpenWebMenuConfig();
-                AppSettingsSection appSetting = cfgMenu.AppSettings;
-                appSetting.Settings[key].Value = keyValue;
-
-                if (isSave)
-                    //生成保存
-                    cfgMenu.Save();
-            }
-            catch
-            {
-            }
-        }
-
-        private static void OpenWebMenuConfig()
+        private static void OpenXmlMenuConfig()
         {
             var oldLanguage = "";
             //当前语言
@@ -100,18 +76,19 @@ namespace HOHO18.Common.Web
                 cfgMenu = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(xmlMenuSystem.Replace("[==Language==]", language));
             }
         }
+        #endregion
 
 
-
-        private static string xmlSystemName = WebConfigHelper.GetConfigString("XmlSystemName");
+        private static string xmlSystemName = "XmlSystemName".GetXmlConfig();
         private static Configuration cfg { get; set; }
+              
 
         /// <summary>
-        /// 获取web.config中的值
+        /// 获取XmlConfig中的值
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public string GetWebConfigValueObj(string key)
+        public static string GetXmlConfig(string key)
         {
             //当前语言
             var language = SessionHelper.GetSessionLanguages();
@@ -128,7 +105,7 @@ namespace HOHO18.Common.Web
                 {
                     CacheDependency fileDependency = new CacheDependency(path);
                     //打开配置文件
-                    OpenWebConfig();
+                    OpenXmlConfig();
                     //Configuration cfg = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(xmlSystemName);
                     AppSettingsSection appSetting = cfg.AppSettings;
 
@@ -144,75 +121,9 @@ namespace HOHO18.Common.Web
             {
                 return "";
             }
-        }
+        }       
 
-        /// <summary>
-        /// 获取web.config中的值
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static string GetWebConfigValue(string key)
-        {
-            //当前语言
-            var language = SessionHelper.GetSessionLanguages();
-            var keySaveCache = key + language;
-            try
-            {
-                //获取路径
-                string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
-
-                //从缓存中读取
-                object keyValueObject = CacheAccess.GetFromCache(keySaveCache);
-
-                if (keyValueObject == null)
-                {
-                    CacheDependency fileDependency = new CacheDependency(path);
-                    //打开配置文件
-                    OpenWebConfig();
-                    //Configuration cfg = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(xmlSystemName);
-                    AppSettingsSection appSetting = cfg.AppSettings;
-
-                    string keyValue = appSetting.Settings[key].Value;
-
-                    //保存到缓存中
-                    CacheAccess.SaveToCacheByDependency(keySaveCache, keyValue, fileDependency);
-                    keyValueObject = keyValue;
-                }
-                return keyValueObject.ToString();
-            }
-            catch
-            {
-                return "";
-            }
-        }
-
-
-        /// <summary>
-        /// 保存webxml
-        /// </summary>
-        /// <param name="key">key</param>
-        /// <param name="keyValue">value</param>
-        /// <param name="isSave">是否保存，true可以保存了，false还不进行保存</param>
-        public static void SetWebConfigValue(string key, string keyValue, bool isSave)
-        {
-            try
-            {
-                //打开配置文件
-                OpenWebConfig();
-                AppSettingsSection appSetting = cfg.AppSettings;
-                appSetting.Settings[key].Value = keyValue;
-
-                if (isSave)
-                    //生成保存
-                    cfg.Save();
-            }
-            catch
-            {
-            }
-        }
-
-
-        private static void OpenWebConfig()
+        private static void OpenXmlConfig()
         {
             var oldLanguage = "";
             //当前语言
@@ -231,7 +142,7 @@ namespace HOHO18.Common.Web
             }
         }
 
-        public static string GetWebConfigValueNoCache(string key)
+        public static string GetXmlConfigValueNoCache(string key)
         {
             var ret = string.Empty;
 
@@ -243,5 +154,99 @@ namespace HOHO18.Common.Web
 
             return ret;
         }
+
+
+
+
+        #region 不用
+        ///// <summary>
+        ///// 保存webxml
+        ///// </summary>
+        ///// <param name="key">key</param>
+        ///// <param name="keyValue">value</param>
+        ///// <param name="isSave">是否保存，true可以保存了，false还不进行保存</param>
+        //public static void SetXmlMenuConfig(string key, string keyValue, bool isSave)
+        //{
+        //    try
+        //    {
+        //        //打开配置文件
+        //        OpenXmlMenuConfig();
+        //        AppSettingsSection appSetting = cfgMenu.AppSettings;
+        //        appSetting.Settings[key].Value = keyValue;
+
+        //        if (isSave)
+        //            //生成保存
+        //            cfgMenu.Save();
+        //    }
+        //    catch
+        //    {
+        //    }
+        //}
+
+        ///// <summary>
+        ///// 获取web.config中的值
+        ///// </summary>
+        ///// <param name="key"></param>
+        ///// <returns></returns>
+        //public string GetXmlConfigValueObj(string key)
+        //{
+        //    //当前语言
+        //    var language = SessionHelper.GetSessionLanguages();
+        //    var keySaveCache = key + language;
+        //    try
+        //    {
+        //        //获取路径
+        //        string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
+
+        //        //从缓存中读取
+        //        object keyValueObject = CacheAccess.GetFromCache(keySaveCache);
+
+        //        if (keyValueObject == null)
+        //        {
+        //            CacheDependency fileDependency = new CacheDependency(path);
+        //            //打开配置文件
+        //            OpenXmlConfig();
+        //            //Configuration cfg = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(xmlSystemName);
+        //            AppSettingsSection appSetting = cfg.AppSettings;
+
+        //            string keyValue = appSetting.Settings[key].Value;
+
+        //            //保存到缓存中
+        //            CacheAccess.SaveToCacheByDependency(keySaveCache, keyValue, fileDependency);
+        //            keyValueObject = keyValue;
+        //        }
+        //        return keyValueObject.ToString();
+        //    }
+        //    catch
+        //    {
+        //        return "";
+        //    }
+        //}
+
+        ///// <summary>
+        ///// 保存webxml
+        ///// </summary>
+        ///// <param name="key">key</param>
+        ///// <param name="keyValue">value</param>
+        ///// <param name="isSave">是否保存，true可以保存了，false还不进行保存</param>
+        //public static void SetXmlConfigValue(string key, string keyValue, bool isSave)
+        //{
+        //    try
+        //    {
+        //        //打开配置文件
+        //        OpenXmlConfig();
+        //        AppSettingsSection appSetting = cfg.AppSettings;
+        //        appSetting.Settings[key].Value = keyValue;
+
+        //        if (isSave)
+        //            //生成保存
+        //            cfg.Save();
+        //    }
+        //    catch
+        //    {
+        //    }
+        //}
+
+        #endregion
     }
 }

@@ -23,7 +23,7 @@ namespace HOHO18.Common
         public static Validation Deserialize()
         {
             //获取路径
-            var path = System.Web.HttpContext.Current.Server.MapPath(WebConfigHelper.GetConfigString("XmlValidationConfigName"));
+            var path = System.Web.HttpContext.Current.Server.MapPath("XmlValidationConfigName".GetXmlConfig());
             //当前语言
             var language = SessionHelper.GetSessionLanguages();
             //多语言支持

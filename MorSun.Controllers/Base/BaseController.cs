@@ -75,7 +75,6 @@ namespace MorSun.Controllers
 
         #endregion
 
-
         #region 添加
         /// <summary>
         /// 添加
@@ -122,7 +121,7 @@ namespace MorSun.Controllers
                     }
                     else
                     {
-                        InsertLog(GetLinkID(t), GetOperateTable(t), HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("添加"), "", "");
+                        InsertLog(GetLinkID(t), GetOperateTable(t), "添加".GetXmlConfig(), "", "");
                         return "true";
                     }
 
@@ -204,7 +203,7 @@ namespace MorSun.Controllers
                     return ckRs;
                 }
                 Bll.Delete(item);
-                InsertLog(null, GetOperateTable(t), HOHO18.Common.Web.XmlConfigHelp.GetWebConfigValue("删除"), "", "");
+                InsertLog(null, GetOperateTable(t), "删除".GetXmlConfig(), "", "");
                 result = "true";
             }
             return result;
@@ -360,6 +359,7 @@ namespace MorSun.Controllers
 
         #endregion
         #endregion
+
         #region 查询
 
         #region 详细页面
@@ -657,7 +657,6 @@ namespace MorSun.Controllers
             { }
         }
         #endregion
-
 
         #region 权限统一标识
         /// <summary>

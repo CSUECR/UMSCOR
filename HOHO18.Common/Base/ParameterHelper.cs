@@ -6,7 +6,7 @@ using System.Data;
 using System.Xml;
 using System.Collections;
 
-namespace HOHO18.Common
+namespace HOHO18.Common.Base
 {
     public sealed class ParameterHelper
     {

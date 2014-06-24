@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Collections;
 
-namespace HOHO18.Common
+namespace HOHO18.Common.Base
 {
     /// <summary>
     /// 连接数据库的操作类

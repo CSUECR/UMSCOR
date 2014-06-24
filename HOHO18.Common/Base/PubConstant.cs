@@ -13,8 +13,8 @@ namespace HOHO18.Common
         {           
             get 
             {
-                string _connectionString = WebConfigHelper.GetConfigString("ApplicationServices");//ConfigurationManager.AppSettings["ConnectionString"];       
-                string ConStringEncrypt = WebConfigHelper.GetConfigString("ConStringEncrypt");//ConfigurationManager.AppSettings["ConStringEncrypt"];
+                string _connectionString = "ApplicationServices".GetXmlConfig();//ConfigurationManager.AppSettings["ConnectionString"];       
+                string ConStringEncrypt = "ConStringEncrypt".GetXmlConfig();//ConfigurationManager.AppSettings["ConStringEncrypt"];
                 if (ConStringEncrypt == "true")
                 {
                     _connectionString = DESEncrypt.Decrypt(_connectionString);
@@ -30,8 +30,8 @@ namespace HOHO18.Common
         /// <returns></returns>
         public static string GetConnectionString(string configName)
         {
-            string connectionString = WebConfigHelper.GetConfigString(configName);//ConfigurationManager.AppSettings[configName];
-            string ConStringEncrypt = WebConfigHelper.GetConfigString("ConStringEncrypt");//ConfigurationManager.AppSettings["ConStringEncrypt"];
+            string connectionString = configName.GetXmlConfig();//ConfigurationManager.AppSettings[configName];
+            string ConStringEncrypt = "ConStringEncrypt".GetXmlConfig();//ConfigurationManager.AppSettings["ConStringEncrypt"];
             if (ConStringEncrypt == "true")
             {
                 connectionString = DESEncrypt.Decrypt(connectionString);

@@ -6,9 +6,7 @@ using System.Web;
 namespace HOHO18.Common
 {
     /// <summary>
-    /// web.config操作类
-    /// 李天平
-    /// 2004.8
+    /// web.config操作类    
     /// </summary>
     public sealed class WebConfigHelper
     {
@@ -17,7 +15,7 @@ namespace HOHO18.Common
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string GetConfigString(string key)
+        public static string GetWebConfig(string key)
         {
             var CacheKey = "AppSettings-" + key;
             var objModel = CacheAccess.GetFromCache(CacheKey);
