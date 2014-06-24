@@ -98,7 +98,7 @@
     <Compile Include="ExHelp\Num\NumHelp.cs" />
     <Compile Include="ExHelp\ReflHelp.cs" />
     <Compile Include="ExHelp\Date\TimeTest.cs" />
-    <Compile Include="ExHelp\String\GetConfigHelp.cs" />
+    <Compile Include="ExHelp\String\ConfigHelp.cs" />
     <Compile Include="ExHelp\ToHelp.cs" />
     <Compile Include="ExHelp\Tree\TreeHelp.cs" />
     <Compile Include="ExHelp\String\TxtHelp.cs" />
