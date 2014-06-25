@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\ExcleHelper.cs" />
-    <Compile Include="CommonObject\Assistant.cs" />
     <Compile Include="CommonObject\CacheAccess.cs" />
     <Compile Include="CommonObject\ChangeDateTime.cs" />
     <Compile Include="CommonObject\WebConfigHelper.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="ExHelp\Date\ChineseDate.cs" />
     <Compile Include="ExHelp\ConvertUtil.cs" />
     <Compile Include="ExHelp\Date\DateHelp.cs" />
-    <Compile Include="ExHelp\Date\DateTimeExtension.cs" />
     <Compile Include="ExHelp\Guid\GuidExtension.cs" />
     <Compile Include="ExHelp\JS\JsonHelp.cs" />
     <Compile Include="ExHelp\List\ListHashK.cs" />

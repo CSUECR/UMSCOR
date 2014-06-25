@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HOHO18.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -141,5 +142,30 @@ namespace System
             return ret;
         }
 
+        /// <summary>
+        /// 对可空的DateTime进行格式化输出
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static string ToShortDateString(this DateTime? dt, string format = "yyyy/MM/dd")
+        {
+            var rtn = string.Empty;
+            if (dt != null)
+            {
+                rtn = dt.Value.ToString(format);
+            }
+            return rtn;
+        }
+
+        /// <summary>
+        /// 返回几小时前、几分钟前
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static string ByNow(this DateTime dt)
+        {
+            return ChangeDateTime.DateStringFromNow(dt);
+        }
     }
 }
