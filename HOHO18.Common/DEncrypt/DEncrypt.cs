@@ -4,8 +4,7 @@ using System.Text;
 namespace HOHO18.Common.DEncrypt
 {
 	/// <summary>
-	/// Encrypt 的摘要说明。
-    /// LiTianPing
+	/// Encrypt 的摘要说明。    
 	/// </summary>
 	public class DEncrypt
 	{

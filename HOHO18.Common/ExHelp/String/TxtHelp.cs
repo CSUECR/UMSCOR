@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Web;
 using HOHO18.Common;
+using HOHO18.Common.DEncrypt;
 
 namespace System
 {
@@ -436,6 +437,29 @@ namespace System
         public static string ToRMB(this string str)
         {
             return Rmb.CmycurD(str);
+        }
+        #endregion
+
+        #region 通用加密解密
+        /// <summary>
+        /// 加密字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="sKey"></param>
+        /// <returns></returns>
+        public static string Encrypt(this string str, string sKey = "HOHO18Tools")
+        {
+            return DESEncrypt.Encrypt(str, sKey);
+        }
+        /// <summary>
+        /// 解密已加密的字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="sKey"></param>
+        /// <returns></returns>
+        public static string Decrypt(this string str, string sKey = "HOHO18Tools")
+        {
+            return DESEncrypt.Decrypt(str, sKey);
         }
         #endregion
     }

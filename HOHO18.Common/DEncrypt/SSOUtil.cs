@@ -52,7 +52,7 @@ namespace HOHO18.Common.DEncrypt
             byte[] inputBuffer = Encoding.GetEncoding("UTF-8").GetBytes(text);
             byte[] outputBuffer = des.CreateEncryptor().TransformFinalBlock(inputBuffer, 0, inputBuffer.Length);
 
-            return Encrypt(Convert.ToBase64String(outputBuffer));
+            return Convert.ToBase64String(outputBuffer).Encrypt();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace HOHO18.Common.DEncrypt
         public static string DESDecrypt(string text, string key)
         {
             //解密数据
-            text = Decrypt(text);
+            text = text.Decrypt();
 
             DESCryptoServiceProvider des = new DESCryptoServiceProvider();
             des.Mode = System.Security.Cryptography.CipherMode.ECB;
@@ -116,8 +116,8 @@ namespace HOHO18.Common.DEncrypt
                 {
                     userInfo.Append("<username>").Append(username).Append("</username>");
                     userInfo.Append("<loginvalidatecode>").Append(Guid.NewGuid()).Append("</loginvalidatecode>");
-                    userInfo.Append("<title>").Append(Encrypt(title)).Append("</title>");
-                    userInfo.Append("<defaulturl>").Append(Encrypt(defaulturl)).Append("</defaulturl>");
+                    userInfo.Append("<title>").Append(title.Encrypt()).Append("</title>");
+                    userInfo.Append("<defaulturl>").Append(defaulturl.Encrypt()).Append("</defaulturl>");
                     userInfo.Append("<islongin>true</islongin>");
                 }
                 else
@@ -138,89 +138,5 @@ namespace HOHO18.Common.DEncrypt
                 return null;
             }
         }
-
-
-        #region ========加密========
-
-        /// <summary>
-        /// 加密
-        /// </summary>
-        /// <param name="Text"></param>
-        /// <returns></returns>
-        public static string Encrypt(string Text)
-        {
-            return Encrypt(Text, "HOHO18Tools");
-        }
-        /// <summary> 
-        /// 加密数据 
-        /// </summary> 
-        /// <param name="Text"></param> 
-        /// <param name="sKey"></param> 
-        /// <returns></returns> 
-        public static string Encrypt(string Text, string sKey)
-        {
-            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-            byte[] inputByteArray;
-            inputByteArray = Encoding.Default.GetBytes(Text);
-            des.Key = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 8));
-            des.IV = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 8));
-            System.IO.MemoryStream ms = new System.IO.MemoryStream();
-            CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
-            cs.Write(inputByteArray, 0, inputByteArray.Length);
-            cs.FlushFinalBlock();
-            StringBuilder ret = new StringBuilder();
-            foreach (byte b in ms.ToArray())
-            {
-                ret.AppendFormat("{0:X2}", b);
-            }
-            return ret.ToString();
-        }
-
-        #endregion
-
-        #region ========解密========
-
-
-        /// <summary>
-        /// 解密
-        /// </summary>
-        /// <param name="Text"></param>
-        /// <returns></returns>
-        public static string Decrypt(string Text)
-        {
-            return Decrypt(Text, "HOHO18Tools");
-        }
-        /// <summary> 
-        /// 解密数据 
-        /// </summary> 
-        /// <param name="Text"></param> 
-        /// <param name="sKey"></param> 
-        /// <returns></returns> 
-        public static string Decrypt(string Text, string sKey)
-        {
-            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-            int len;
-            if (Text == null)
-            {
-                return "";
-            }
-            len = Text.Length / 2;
-            byte[] inputByteArray = new byte[len];
-            int x, i;
-            for (x = 0; x < len; x++)
-            {
-                i = Convert.ToInt32(Text.Substring(x * 2, 2), 16);
-                inputByteArray[x] = (byte)i;
-            }
-            des.Key = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 8));
-            des.IV = ASCIIEncoding.ASCII.GetBytes(System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(sKey, "md5").Substring(0, 8));
-            System.IO.MemoryStream ms = new System.IO.MemoryStream();
-            CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
-            cs.Write(inputByteArray, 0, inputByteArray.Length);
-            cs.FlushFinalBlock();
-            return Encoding.Default.GetString(ms.ToArray());
-        }
-
-        #endregion
     }
 }

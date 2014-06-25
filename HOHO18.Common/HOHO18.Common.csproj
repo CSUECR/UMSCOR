@@ -78,11 +78,7 @@
     <Compile Include="CommonObject\StringPlus.cs" />
     <Compile Include="DEncrypt\Base64Decoder.cs" />
     <Compile Include="DEncrypt\Base64Encoder.cs" />
-    <Compile Include="DEncrypt\DEncrypt.cs" />
     <Compile Include="DEncrypt\DESEncrypt.cs" />
-    <Compile Include="DEncrypt\Encryptor.cs" />
-    <Compile Include="DEncrypt\HashEncode.cs" />
-    <Compile Include="DEncrypt\RSACryption.cs" />
     <Compile Include="DEncrypt\SSOUtil.cs" />
     <Compile Include="ExHelp\ActionD.cs" />
     <Compile Include="ExHelp\Date\ChineseDate.cs" />
@@ -155,15 +151,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WEB\HttpProc.cs" />
     <Compile Include="WEB\MailSender.cs" />
-    <Compile Include="WEB\MessageBox.cs" />
     <Compile Include="WEB\NoHtml.cs" />
-    <Compile Include="WEB\PageValidate.cs" />
     <Compile Include="WEB\PaginatedList.cs" />
-    <Compile Include="WEB\PhoneValidator.cs" />
     <Compile Include="WEB\SendMail.cs" />
     <Compile Include="WEB\SiteUtil.cs" />
-    <Compile Include="WEB\UBB\BUBB.cs" />
-    <Compile Include="WEB\UBB\UBBTool.cs" />
     <Compile Include="WEB\UrlOper.cs" />
     <Compile Include="WEB\VerifyCode.cs" />
     <Compile Include="WEB\XmlConfigHelp.cs" />
