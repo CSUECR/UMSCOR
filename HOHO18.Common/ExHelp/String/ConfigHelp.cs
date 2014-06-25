@@ -12,7 +12,7 @@ namespace System
     /// <summary>
     /// 文本处理
     /// </summary>
-    public static class ConfigHelp
+    public static class ConfigHelper
     {
         
         #region 获取配置值
@@ -23,8 +23,19 @@ namespace System
         /// <returns></returns>
         public static string GetXmlConfig(this string str)
         {
-            return XmlConfigHelp.GetXmlConfig(str);
+            return XmlConfigHelper.GetXmlConfig(str);
         }
+
+        /// <summary>
+        /// 根据语言类型获取XMLConfigMenu的按钮名称
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string GetXmlConfigMenu(this string str)
+        {
+            return XmlConfigHelper.GetXmlConfigMenu(str);
+        }
+
 
         public static string GetWebConfig(this string str)
         {

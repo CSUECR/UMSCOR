@@ -342,17 +342,17 @@ namespace MorSun.Controllers
         /// </summary>
         /// <param name="id">¼ÇÂ¼ID</param>
         /// <returns></returns>
-        public virtual ActionResult GetEdit(string id, T t)
-        {
-            var model = Bll.GetModel(t);
-            if (model == null)
-            {
-                return Json(null);
-            }
-            var js = JsHelper.Json(model);
+        //public virtual ActionResult GetEdit(string id, T t)
+        //{
+        //    var model = Bll.GetModel(t);
+        //    if (model == null)
+        //    {
+        //        return Json(null);
+        //    }
+        //    var js = JsHelper.Json(model);
 
-            return Json("[" + js + "]");
-        }
+        //    return Json("[" + js + "]");
+        //}
         #endregion
 
 

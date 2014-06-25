@@ -8,9 +8,9 @@ using System.Web.Caching;
 namespace HOHO18.Common.Web
 {
 
-    public sealed class XmlConfigHelp
+    public sealed class XmlConfigHelper
     {
-        public XmlConfigHelp()
+        public XmlConfigHelper()
         {
         }
 
@@ -142,18 +142,7 @@ namespace HOHO18.Common.Web
             }
         }
 
-        public static string GetXmlConfigValueNoCache(string key)
-        {
-            var ret = string.Empty;
-
-            cfg = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(xmlSystemName);
-
-            AppSettingsSection appSetting = cfg.AppSettings;
-
-            ret = appSetting.Settings[key].Value;
-
-            return ret;
-        }
+       
 
 
 
@@ -247,6 +236,18 @@ namespace HOHO18.Common.Web
         //    }
         //}
 
+        //public static string GetXmlConfigValueNoCache(string key)
+        //{
+        //    var ret = string.Empty;
+
+        //    cfg = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(xmlSystemName);
+
+        //    AppSettingsSection appSetting = cfg.AppSettings;
+
+        //    ret = appSetting.Settings[key].Value;
+
+        //    return ret;
+        //}
         #endregion
     }
 }
