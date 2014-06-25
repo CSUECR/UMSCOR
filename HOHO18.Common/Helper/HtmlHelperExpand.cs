@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Linq.Expressions;
 using System.Web.Mvc.Html;
+using System.Web.Routing;
+using System.Web.WebPages;
+
 namespace System.Web.Mvc
 {
     public static class HtmlHelperExpand
@@ -653,7 +656,6 @@ namespace System.Web.Mvc
         }
         #endregion
 
-
         #region 上传控件
         /// <summary>
         /// 上传文件不需要保存到数据库中
@@ -824,7 +826,7 @@ namespace System.Web.Mvc
         /// <param name="isSetWidth">是否开启对应限制个数的自适应控件宽度</param>
         /// <param name="isFirst">是否是初次加载</param>
         /// <returns></returns>
-        public static MvcHtmlString MultiSelectTextboxWithDept(this HtmlHelper helper,
+        public static MvcHtmlString MultiSelectTextboxWithDropDwon(this HtmlHelper helper,
              string multiSelectDivID, string outputInputID, string groupID, string confirmButtonID, string allJsonData, string dropDownListString
             , string outInputIDValue = "", int limitSelectNum = 20, bool isSetWidth = false, bool isFirst = true)
         {
@@ -897,5 +899,28 @@ namespace System.Web.Mvc
             return MvcHtmlString.Empty;
         }
         #endregion
+
+        #region 标签labelFor
+        public static MvcHtmlString LabelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, object htmlAttributes)
+        {
+            return LabelFor(html, expression, new RouteValueDictionary(htmlAttributes));
+        }
+        public static MvcHtmlString LabelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, IDictionary<string, object> htmlAttributes)
+        {
+            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            string htmlFieldName = ExpressionHelper.GetExpressionText(expression);
+            string labelText = metadata.DisplayName ?? metadata.PropertyName ?? htmlFieldName.Split('.').Last();
+            if (String.IsNullOrEmpty(labelText))
+            {
+                return MvcHtmlString.Empty;
+            }
+
+            TagBuilder tag = new TagBuilder("label");
+            tag.MergeAttributes(htmlAttributes);
+            tag.Attributes.Add("for", html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId(htmlFieldName));
+            tag.SetInnerText(labelText);
+            return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
+        }
+        #endregion 
     }
 }

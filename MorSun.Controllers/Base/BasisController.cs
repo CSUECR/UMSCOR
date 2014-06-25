@@ -17,8 +17,19 @@ using FastReflectionLib;
 using System.Web.Script.Serialization;
 using MorSun.Common.Privelege;
 using System.Data.Objects.DataClasses;
+
 //using MorSun.Controllers.HttpModules;
 
+namespace System
+{
+    public static class PrivilegeHelp
+    {
+        public static bool havePrivilege(this string resourceId, string operationId)
+        {
+            return MorSun.Controllers.BasisController.havePrivilege(resourceId, operationId);
+        }
+    }
+}
 
 namespace MorSun.Controllers
 {    
