@@ -24,10 +24,16 @@ namespace System
 {
     public static class PrivilegeHelp
     {
+        /// <summary>
+        /// 判断是否有权限
+        /// </summary>
+        /// <param name="resourceId"></param>
+        /// <param name="operationId"></param>
+        /// <returns></returns>
         public static bool havePrivilege(this string resourceId, string operationId)
         {
             return MorSun.Controllers.BasisController.havePrivilege(resourceId, operationId);
-        }
+        }        
     }
 }
 
@@ -36,20 +42,7 @@ namespace MorSun.Controllers
     public class BasisController : Controller
     {
 
-        public const String SearchPaAppValueColumn = "key";
-
-        /// <summary>
-        /// 项目Application
-        /// </summary>
-        public Guid AppId
-        {
-            get
-            {
-                return "ProjectApplication".GetXmlConfig().ToAs<Guid>();
-            }
-        }
-
-        
+        public const String SearchPaAppValueColumn = "key";        
 
         #region 返回对象处理
         /// <summary>
@@ -65,7 +58,7 @@ namespace MorSun.Controllers
             oper.Message = message;
             oper.AppendData = string.IsNullOrEmpty(returnUrl) ? Url.Action(defAction, defController) : returnUrl;
         }
-        #endregion        
+        #endregion  
 
         #region 基本信息
         /// <summary>

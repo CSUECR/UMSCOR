@@ -50,9 +50,7 @@ namespace MorSun.Controllers
         }
         #endregion     
 
-        #region 添加
-
-        #region 显示添加页面
+        #region 添加        
         /// <summary>
         /// 显示添加页面
         /// </summary>
@@ -61,9 +59,9 @@ namespace MorSun.Controllers
         [Authorize]
         public virtual ActionResult Add(T t)
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.添加))
+            if (ResourceId.havePrivilege(操作.添加))
             {
-                ViewBag.canDoSth = this.CanDoSth;
+                //ViewBag.canDoSth = this.CanDoSth;
                 var item = SetEntity(t);
                 return View(item);
             }
@@ -72,24 +70,28 @@ namespace MorSun.Controllers
                 return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
-
-        #endregion
-
-        #region 添加
+        
         /// <summary>
         /// 添加
         /// </summary>
         /// <param name="t">实体类</param>
         /// <returns></returns>
         [Authorize]
+        [HttpPost]
         [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
         [ExceptionFilter()]
-        public virtual String Create(T t)
+        public virtual ActionResult Add(T t, string returnUrl)
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.添加))
-                return NCreate(t);
+            if (ResourceId.havePrivilege(操作.添加))
+                return NCreate(t, returnUrl);
             else
-                return "";//getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
         }
         /// <summary>
         /// 添加
@@ -97,43 +99,38 @@ namespace MorSun.Controllers
         /// <param name="t"></param>
         /// <param name="onPre"></param>
         /// <returns></returns>
-        protected virtual String NCreate(T t, Func<T, string> onPre = null)
+        private virtual ActionResult NCreate(T t, string returnUrl, Func<T, string> onPre = null)
         {
-
+            var oper = new OperationResult(OperationResultType.Error, "添加失败");
             if (onPre == null)
             {
                 onPre = OnPreCreateCK;
             }
-
             //添加初始化字段
             CreateInitObject(t);
-
             dynamic v = t;
-            if (v.IsValid)
+            var prers = onPre(t);//注意：用ModelState收集错误，v.GetRuleViolations()放到Pre里去做，这边动态获取不了
+            if (ModelState.IsValid)
             {
-                var prers = onPre(t);
-                if (prers.IsWhite() || prers.Eql("true"))
+                var result = NInsert(t);
+                if (result == null)
                 {
-                    var result = NInsert(t);
-                    if (result == null)
-                    {
-                        return "";//getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "查询失败"), "") });
-                    }
-                    else
-                    {
-                        InsertLog(GetLinkID(t), GetOperateTable(t), "添加".GetXmlConfig(), "", "");
-                        return "true";
-                    }
-
+                    "".AE("添加失败", ModelState);
                 }
                 else
-                    return prers;
+                {
+                    fillOperationResult(returnUrl, oper, "添加成功");                   
+                }
+            }
+            if (ModelState.IsValid)
+            {                
+                return Json(oper);
             }
             else
             {
-                return "";// getErrListJson(v.GetRuleViolations());
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
             }
-
         }
 
         /// <summary>
@@ -141,27 +138,12 @@ namespace MorSun.Controllers
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        protected virtual T NInsert(T t)
+        private virtual T NInsert(T t)
         {
             var result = Bll.Insert(t);
             return result;
-        }
-
-        /// <summary>
-        /// 访问页面记录
-        /// </summary>
-        /// <param name="pageBrowse"></param>
-        /// <returns></returns>
-        public virtual string Visit(wmfPageBrowse pageBrowse)
-        {
-            InsertVisitInfo(pageBrowse);
-            return "";
-        }
-        #endregion
-
-
-
-        #endregion
+        }        
+        #endregion       
 
         #region 删除
 
