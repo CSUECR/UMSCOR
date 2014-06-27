@@ -50,7 +50,7 @@ namespace MorSun.Controllers
         }
         #endregion     
 
-        #region 添加
+        #region 添加        
         /// <summary>
         /// 显示添加页面
         /// </summary>
@@ -99,37 +99,32 @@ namespace MorSun.Controllers
         /// <param name="t"></param>
         /// <param name="onPre"></param>
         /// <returns></returns>
-        protected virtual ActionResult NCreate(T t, string returnUrl, Func<T, string> ck = null)
+        private virtual ActionResult NCreate(T t, string returnUrl, Func<T, string> onPre = null)
         {
             var oper = new OperationResult(OperationResultType.Error, "添加失败");
-            if (ck == null)
+            if (onPre == null)
             {
-                ck = OnPreCreateCK;
+                onPre = OnPreCreateCK;
             }
             //添加初始化字段
             CreateInitObject(t);
             dynamic v = t;
-            var prers = ck(t);
-            //注意：用ModelState收集错误，v.GetRuleViolations()放到Pre里去做，这边动态获取不了
-            //var rv = v.GetRuleViolations();
-            //if (!v.IsValid)
-            //{
-            //    ModelState.PR(rv);
-            //}
+            var prers = onPre(t);//注意：用ModelState收集错误，v.GetRuleViolations()放到Pre里去做，这边动态获取不了
             if (ModelState.IsValid)
             {
                 var result = NInsert(t);
                 if (result == null)
                 {
                     "".AE("添加失败", ModelState);
-                    oper.AppendData = ModelState.GE();                    
+                    oper.AppendData = ModelState.GE();
                 }
                 else
                 {
-                    fillOperationResult(returnUrl, oper, "添加成功");                    
+                    fillOperationResult(returnUrl, oper, "添加成功");                   
                 }
             }
-            return Json(oper);
+                          
+            return Json(oper);           
         }
 
         /// <summary>
@@ -137,40 +132,17 @@ namespace MorSun.Controllers
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        protected virtual T NInsert(T t)
+        private virtual T NInsert(T t)
         {
             var result = Bll.Insert(t);
             return result;
         }        
         #endregion       
 
-        #region 编辑       
-        ///// <summary>
-        ///// 显示编辑页面
-        ///// </summary>
-        ///// <param name="t">实体类</param>
-        ///// <returns></returns>
-        //[Authorize]
-        //[ValidateInput(false)]
-        //[ExceptionFilter()]
-        //public virtual ActionResult Update(T t)
-        //{
-        //    if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.修改))
-        //    {
-        //        ViewBag.canDoSth = this.CanDoSth;
-        //        var item = SetEntity(t);
-        //        ViewBag.IsAdmin = IsAdmin;
-        //        return View(item);
-        //    }
-        //    else
-        //    {
-        //        return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-        //    }
 
-        //}
-       
+        #region 编辑
 
-           
+        #region 显示编辑页面
         /// <summary>
         /// 显示编辑页面
         /// </summary>
@@ -193,9 +165,10 @@ namespace MorSun.Controllers
                 return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
 
-        }        
+        }
+        #endregion
 
-        
+        #region 编辑
         /// <summary>
         /// 编辑
         /// </summary>
@@ -266,7 +239,31 @@ namespace MorSun.Controllers
 
             return result;
         }
+
+        /// <summary>
+        /// 读取记录信息
+        /// </summary>
+        /// <param name="id">记录ID</param>
+        /// <returns></returns>
+        //public virtual ActionResult GetEdit(string id, T t)
+        //{
+        //    var model = Bll.GetModel(t);
+        //    if (model == null)
+        //    {
+        //        return Json(null);
+        //    }
+        //    var js = JsHelper.Json(model);
+
+        //    return Json("[" + js + "]");
+        //}
         #endregion
+
+
+
+        #endregion
+
+
+        #region 删除
 
         #region 直接删除
         /// <summary>
@@ -311,7 +308,11 @@ namespace MorSun.Controllers
             }
             return result;
         }
-        #endregion        
+        #endregion
+     
+
+
+        
 
         #region 查看页面
         /// <summary>
@@ -334,6 +335,9 @@ namespace MorSun.Controllers
                 return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
+        #endregion
+
+       
         #endregion
 
         #region 查询
