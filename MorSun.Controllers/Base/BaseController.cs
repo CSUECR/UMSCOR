@@ -60,13 +60,13 @@ namespace MorSun.Controllers
         public virtual ActionResult Add(T t)
         {
             if (ResourceId.havePrivilege(操作.添加))
-            {
-                //ViewBag.canDoSth = this.CanDoSth;
+            {                
                 var item = SetEntity(t);
                 return View(item);
             }
             else
             {
+                //返回方式看看怎么改，包括以下其他无权限返回
                 return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
@@ -99,7 +99,7 @@ namespace MorSun.Controllers
         /// <param name="t"></param>
         /// <param name="onPre"></param>
         /// <returns></returns>
-        protected virtual ActionResult NCreate(T t, string returnUrl, Func<T, string> ck = null)
+        protected virtual ActionResult NCreate(T t, string returnUrl, Func<T,string> ck = null)
         {
             var oper = new OperationResult(OperationResultType.Error, "添加失败");
             if (ck == null)
@@ -144,48 +144,20 @@ namespace MorSun.Controllers
         }
         #endregion
 
-        #region 编辑
-        ///// <summary>
-        ///// 显示编辑页面
-        ///// </summary>
-        ///// <param name="t">实体类</param>
-        ///// <returns></returns>
-        //[Authorize]
-        //[ValidateInput(false)]
-        //[ExceptionFilter()]
-        //public virtual ActionResult Update(T t)
-        //{
-        //    if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.修改))
-        //    {
-        //        ViewBag.canDoSth = this.CanDoSth;
-        //        var item = SetEntity(t);
-        //        ViewBag.IsAdmin = IsAdmin;
-        //        return View(item);
-        //    }
-        //    else
-        //    {
-        //        return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-        //    }
-
-        //}
-
-
-
+        #region 编辑  
         /// <summary>
         /// 显示编辑页面
         /// </summary>
         /// <param name="t">实体类</param>
         /// <returns></returns>
-        [Authorize]
-        [ValidateInput(false)]
+        [Authorize]        
+        [ValidateInput(false)]        
         [ExceptionFilter()]
-        public virtual ActionResult Update(T t)
+        public virtual ActionResult Edit(T t)
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.修改))
-            {
-                ViewBag.canDoSth = this.CanDoSth;
-                var item = SetEntity(t);
-                ViewBag.IsAdmin = IsAdmin;
+            if (ResourceId.havePrivilege(操作.修改))
+            {                
+                var item = SetEntity(t);                
                 return View(item);
             }
             else
@@ -204,9 +176,11 @@ namespace MorSun.Controllers
         [Authorize]
         [ValidateInput(false)]
         [ExceptionFilter()]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public virtual String Edit(T t)
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.修改))
+            if (ResourceId.havePrivilege(操作.修改))
             {
                 return NEdit(t);
             }
@@ -530,7 +504,7 @@ namespace MorSun.Controllers
         /// <returns></returns>
         protected virtual string OnEditCK(T t)
         {
-            return null;
+            return "";
         }
         #endregion
 
@@ -554,7 +528,7 @@ namespace MorSun.Controllers
         /// <returns></returns>
         protected virtual string OnDelCk(T t)
         {
-            return null;
+            return "";
         }
         #endregion
 
