@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using HOHO18.Common;
-using HOHO18.Common;
 using MorSun.Bll;
 using MorSun.Controllers.Filter;
 using MorSun.Model;
@@ -17,12 +16,11 @@ using FastReflectionLib;
 using System.Web.Script.Serialization;
 using MorSun.Common.Privelege;
 using System.Data.Objects.DataClasses;
-
-//using MorSun.Controllers.HttpModules;
+using MorSun.Controllers;
 
 namespace System
 {
-    public static class PrivilegeHelp
+    public static class ControllerHelper
     {
         /// <summary>
         /// 判断是否有权限
@@ -33,17 +31,24 @@ namespace System
         public static bool havePrivilege(this string resourceId, string operationId)
         {
             return MorSun.Controllers.BasisController.havePrivilege(resourceId, operationId);
-        }        
+        }
+
+        /// <summary>
+        /// 根据GUID字符串返回类别名称
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string getRef(this string str)
+        {
+            return BasisController.GetTypeName(str);
+        }
     }
 }
 
 namespace MorSun.Controllers
 {    
     public class BasisController : Controller
-    {
-
-        public const String SearchPaAppValueColumn = "key";        
-
+    {   
         #region 返回对象处理
         /// <summary>
         /// 返回的错误对象封装
@@ -76,35 +81,7 @@ namespace MorSun.Controllers
                     System.Web.HttpContext.Current.Response.Redirect(FormsAuthentication.LoginUrl);
                 return new Guid(user.ProviderUserKey.ToString());
             }
-        }
-        /// <summary>
-        /// 用户ID
-        /// </summary>        
-        protected static Guid? UserIdOrNull
-        {
-            get
-            {
-                string name = System.Web.HttpContext.Current.User.Identity.Name;
-                if (string.IsNullOrEmpty(name))
-                    return null;
-                MembershipUser user = Membership.GetUser();
-                if (user == null)
-                    return null;
-                return new Guid(user.ProviderUserKey.ToString());
-            }
-        }
-        /// <summary>
-        /// 是否登录
-        /// </summary>        
-        protected static bool IsLogin
-        {
-            get
-            {
-                if (System.Web.HttpContext.Current.User == null || System.Web.HttpContext.Current.User.Identity == null || String.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name))
-                    return false;
-                return true;
-            }
-        }
+        }     
 
         /// <summary>
         /// 当前用户基本信息
@@ -117,21 +94,9 @@ namespace MorSun.Controllers
                 return user;
             }
         }
-
-        /// <summary>
-        /// 当前用户信息
-        /// </summary>
-        protected static MembershipUser CurrentUser
-        {
-            get
-            {
-                return Membership.GetUser();
-            }
-        }
         #endregion
 
         #region 权限
-
         public static List<wmfRolePrivilegesView> getSessionPrivileges()
         {
             if (System.Web.HttpContext.Current.Session["HaveSessionPrivilege"] == null)
@@ -178,7 +143,6 @@ namespace MorSun.Controllers
             return res;
         }
 
-
         /// <summary>
         /// 判断当前用户是否含有对某资源的访问权限,含有操作参数
         /// </summary>
@@ -193,28 +157,9 @@ namespace MorSun.Controllers
             else
             {
                 return BasisController.getSessionPrivileges().Any(p => string.Compare(p.OperationId, operationId, true) == 0
-                    && string.Compare(p.ResourcesId, resourceId, true) == 0);
-                /*&& p.privilegeValuesArray.Contains(privilegeValue.ToLower())).FirstOrDefault() != null*/
-                ;
+                    && string.Compare(p.ResourcesId, resourceId, true) == 0);                
             }
-        }
-
-        /// <summary>
-        /// 从角色列表找出角色名列表
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        protected String[] getOperatRoleNames(List<aspnet_Roles> list)
-        {
-            var hs = new HashSet<string>();
-            foreach (aspnet_Roles l in list)
-            {
-                hs.Add(l.RoleName.ToString());
-            }
-            var t = new String[hs.Count];
-            hs.CopyTo(t);
-            return t;
-        }
+        }        
 
         /// <summary>
         /// 从数据库中读取全下列表
@@ -247,22 +192,7 @@ namespace MorSun.Controllers
                 System.Web.HttpContext.Current.Session["HaveSessionPrivilege"] = "无权限";//是没有权限ID集
             }
         }
-
-        ///// <summary>
-        ///// 清空Session
-        ///// </summary>
-        //public static void clearSession()
-        //{
-        //    System.Web.HttpContext.Current.Session["SessionPrivilege"] = null;
-        //    System.Web.HttpContext.Current.Session["HaveSessionPrivilege"] = null;
-        //}
-
-
-
-
         #endregion
-
-
 
         #region 插入日志
         /// <summary>
@@ -345,9 +275,10 @@ namespace MorSun.Controllers
             opeateBill.Insert(model);
         }
 
-
-
-        #region 插入访问记录
+        /// <summary>
+        /// 插入访问记录
+        /// </summary>
+        /// <param name="pageBrowse"></param>
         public void InsertVisitInfo(wmfPageBrowse pageBrowse)
         {
             var pageBll = new BaseBll<wmfPageBrowse>();
@@ -358,8 +289,7 @@ namespace MorSun.Controllers
             //model.ApplicationId = AppId;
             model.FirstTime = DateTime.Now;
             pageBll.Insert(model);
-        }
-        #endregion
+        }        
         #endregion
 
         #region 获取用户登录IP
@@ -385,173 +315,7 @@ namespace MorSun.Controllers
             }
         }
 
-        #endregion
-
-        //#region 生成省市县json
-        ///// <summary>
-        ///// 生成省市县json
-        ///// </summary>
-        ///// <returns></returns>
-        //public virtual string GetAreaToJson()
-        //{
-        //    string saveJsPath = System.Configuration.ConfigurationManager.AppSettings["AreaJsPath"], localJsPath;
-        //    if (String.IsNullOrEmpty(saveJsPath)) throw new Exception("需要在配置节点中增加AreaJsPath");
-        //    try
-        //    {
-        //        localJsPath = Server.MapPath(saveJsPath);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    var json = new StringBuilder();
-
-        //    var provinceBill = new BaseBll<wmfProvince>();
-        //    var provinces = provinceBill.All.Where(p => p.FlagTrashed == false).OrderBy(p => p.Sort);
-
-        //    var cityBill = new BaseBll<wmfCity>();
-        //    var citys = cityBill.All.Where(p => p.FlagTrashed == false).OrderBy(p => p.Sort);
-
-        //    var countyBill = new BaseBll<wmfCounty>();
-        //    var countys = countyBill.All.Where(p => p.FlagTrashed == false).OrderBy(p => p.Sort);
-
-        //    var townBill = new BaseBll<wmfTown>();
-        //    var towns = townBill.All.Where(p => p.FlagTrashed == false).OrderBy(p => p.Sort);
-
-        //    var villageBill = new BaseBll<wmfVillage>();
-        //    var villages = villageBill.All.Where(p => p.FlagTrashed == false).OrderBy(p => p.Sort);
-
-        //    json.Append("var provinceList={");
-        //    foreach (var province in provinces)
-        //    {
-        //        json.Append("'" + province.ID.ToString().ToLower() + "':[");
-        //        var tempCitys = citys.Where(c => c.ProvinceId == province.ID).OrderBy(c => c.Sort);
-        //        foreach (var tempCity in tempCitys)
-        //        {
-        //            json.Append("'" + tempCity.ID.ToString().ToLower() + "','");
-        //            json.Append("" + tempCity.CityName + "',");
-        //        }
-        //        if (tempCitys.Count() > 0) json.Remove(json.Length - 1, 1);
-
-        //        json.Append("],");
-        //    }
-        //    if (provinces.Count() > 0) json.Remove(json.Length - 1, 1);
-        //    json.Append("};");
-
-        //    json.Append("var cityList={");
-        //    foreach (var city in citys)
-        //    {
-        //        json.Append("'" + city.ID.ToString().ToLower() + "':[");
-        //        var tempCountys = countys.Where(c => c.CityId == city.ID).OrderBy(c => c.Sort); ;
-        //        foreach (var tempCounty in tempCountys)
-        //        {
-        //            json.Append("'" + tempCounty.ID.ToString().ToLower() + "','");
-        //            json.Append("" + tempCounty.CountyName + "',");
-        //        }
-        //        if (tempCountys.Count() > 0) json.Remove(json.Length - 1, 1);
-
-        //        json.Append("],");
-        //    }
-        //    if (citys.Count() > 0) json.Remove(json.Length - 1, 1);
-        //    json.Append("};");
-
-        //    json.Append("var countyList={");
-        //    foreach (var county in countys)
-        //    {
-        //        json.Append("'" + county.ID.ToString().ToLower() + "':[");
-        //        var tempTowns = towns.Where(t => t.CountyId == county.ID).OrderBy(c => c.Sort); ;
-        //        foreach (var tempTown in tempTowns)
-        //        {
-        //            json.Append("'" + tempTown.ID.ToString().ToLower() + "','");
-        //            json.Append("" + tempTown.TownName + "',");
-        //        }
-        //        if (tempTowns.Count() > 0) json.Remove(json.Length - 1, 1);
-
-        //        json.Append("],");
-        //    }
-        //    if (countys.Count() > 0) json.Remove(json.Length - 1, 1);
-        //    json.Append("};");
-
-        //    json.Append("var townList={");
-        //    foreach (var town in towns)
-        //    {
-        //        json.Append("'" + town.ID.ToString().ToLower() + "':[");
-        //        var tempVillages = villages.Where(t => t.TownId == town.ID).OrderBy(c => c.Sort); ;
-        //        foreach (var tempVillage in tempVillages)
-        //        {
-        //            json.Append("'" + tempVillage.ID.ToString().ToLower() + "','");
-        //            json.Append("" + tempVillage.VillageName + "',");
-        //        }
-        //        if (tempVillages.Count() > 0) json.Remove(json.Length - 1, 1);
-
-        //        json.Append("],");
-        //    }
-        //    if (towns.Count() > 0) json.Remove(json.Length - 1, 1);
-        //    json.Append("};");
-
-        //    System.IO.StreamWriter sw = null;
-        //    try
-        //    {
-        //        if (System.IO.File.Exists(localJsPath))
-        //        {
-        //            if (System.IO.File.GetAttributes(localJsPath).ToString().IndexOf("ReadOnly") != -1)
-        //            {
-        //                System.IO.File.SetAttributes(localJsPath, System.IO.FileAttributes.Normal);
-        //            }
-
-        //            System.IO.File.Delete(localJsPath);
-        //        }
-        //        System.IO.FileStream fs = new System.IO.FileStream(localJsPath, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.Read);
-        //        sw = new System.IO.StreamWriter(fs);
-        //        sw.Write(json.ToString());
-        //        sw.Close();
-        //        sw.Dispose();
-        //    }
-        //    catch
-        //    {
-        //        if (sw != null)
-        //        {
-        //            sw.Close();
-        //            sw.Dispose();
-        //        }
-        //    }
-        //    return "true";
-        //}
-        //#endregion
-
-        #region 文件下载
-        public virtual string OnPreDownload(string path, string file)
-        {
-            var ret = string.Empty;
-            if (!System.IO.File.Exists(Server.MapPath(path)))
-            {
-
-                return "";// getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Users>("文件不存在或已删除"), "") });
-            }
-
-            ret = "true";
-
-            return ret;
-        }
-
-        //文件下载
-        public virtual FilePathResult DownloadFile(string path, string file)
-        {
-            if (!System.IO.File.Exists(Server.MapPath(path)))
-            {
-                return null;
-            }
-            var explore = Request.Browser.Browser.ToUpper();
-            if (explore == "IE")
-            {
-                return File(Server.MapPath(path), "text/plain", Url.Encode(file));
-            }
-            else
-            {
-                return File(Server.MapPath(path), "text/plain", file);
-            }
-        }
-        #endregion
+        #endregion       
 
         #region 通过Guid字符串获取名称
         /// <summary>
@@ -571,195 +335,23 @@ namespace MorSun.Controllers
                     if (newStr[i] != "")
                     {
                         var ID = Guid.Parse(newStr[i]);
-                        ret += refList.Where(p => p.ID == ID).FirstOrDefault().ItemInfo + ",";
+                        ret += refList.Where(p => p.ID == ID).FirstOrDefault().ItemValue + ",";
                     }
                 }
                 ret = ret.TrimEnd(',');
             }
             return ret;
         }
-        #endregion
 
-        #region 通过用户GUID获取部门GUID
         /// <summary>
-        /// 通过用户GUID获取部门GUID
+        /// 获取Ref对象
         /// </summary>
-        /// <param name="userId">用户GUID</param>
-        /// <returns>部门GUID</returns>
-        public Guid GetDeptIdByUserId(Guid userId)
-        {
-            var ret = Guid.Empty;
-            var l = new wmfUserDeptPositionVModel().All.Where(p => p.aspnet_Users.wmfUserInfo.IsNoCheck == false);
-            if (userId != null && userId != Guid.Empty)
-            {
-                var model = l.Where(p => p.UserId == userId).FirstOrDefault();
-                if (model != null && model.DeptId.HasValue)
-                {
-                    ret = model.DeptId.Value;
-                }
-            }
-            return ret;
-        }
-
-
-        #endregion
-
-        #region 通过名称模糊查询
-        public ContentResult GetUserNameString(String q)
-        {
-            var sb = new StringBuilder();
-            var l = new UserVModel().All.Where(p => p.wmfUserInfo.FlagTrashed == false && p.wmfUserInfo.FlagDeleted == false);
-            var deptList = new DeptVModel().List;
-            if (!string.IsNullOrEmpty(q))
-            {
-                l = l.Where(p => p.UserName.Contains(q) || p.wmfUserDeptPositions.Count(r => r.wmfDept.DeptName.Contains(q)) > 0);
-            }
-            foreach (var item in l)
-            {
-                sb.Append("{name:'" + item.UserName + "',id:'" + item.UserId + "',deptName:'" + (item.wmfUserDeptPositions.Where(p => p.UserId == item.UserId).FirstOrDefault() != null ? item.wmfUserDeptPositions.Where(p => p.UserId == item.UserId).FirstOrDefault().wmfDept.DeptName : "") + "'}\n");
-            }
-            return Content(sb.ToString());
-        }       
-
-        //public ContentResult GetProjectCustomerNameString(String q, string projectId)
-        //{
-        //    var sb = new StringBuilder();
-
-        //    var l = new gcCustomerVModel().All;
-        //    var projectCustomerList = new ywProjectCustomerVModel().All;
-        //    if (!string.IsNullOrEmpty(q))
-        //    {
-        //        l = l.Where(p => p.Company.Contains(q) || p.LinkMan.Contains(q));
-        //    }
-        //    foreach (var item in l)
-        //    {
-        //        if (!string.IsNullOrEmpty(projectId))
-        //        {
-        //            var ID = Guid.Parse(projectId);
-        //            var Model = projectCustomerList.Where(p=>p.CustomerId==item.ID&&p.ProjectId==ID&&p.IsEntrust==false).FirstOrDefault();
-        //            if (Model == null)
-        //            {
-        //                sb.Append("{name:'" + (item.UnitPersonal == Guid.Parse(MorSun.Common.类别.Reference.工程管理_单位OR个人用户_单位) ? item.Company : item.LinkMan) + "',id:'" + item.ID + "'}\n");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            sb.Append("{name:'" + (item.UnitPersonal == Guid.Parse(MorSun.Common.类别.Reference.工程管理_单位OR个人用户_单位) ? item.Company : item.LinkMan) + "',id:'" + item.ID + "'}\n");
-        //        }
-        //    }
-        //    return Content(sb.ToString());
-        //}
-
-        #endregion
-
-        //#region 获取部门所有人员
-        ////获取部门所有人员
-        //public List<wmfUserInfo> GetUserByDeptId(Guid? deptId)
-        //{
-        //    var ret = new List<wmfUserInfo>();
-        //    var l = new wmfUserDeptPositionVModel().All.Where(p => p.aspnet_Users.wmfUserInfo.IsNoCheck == false);
-        //    if (deptId != null && deptId != Guid.Empty)
-        //    {
-        //        l = l.Where(p => p.DeptId == deptId);
-        //    }
-        //    foreach (var item in l)
-        //    {
-        //        var userInfo = new wmfUserInfoVModel().All.Where(p => p.ID == item.UserId).FirstOrDefault();
-        //        userInfo.deptId = item.DeptId.Value;
-        //        ret.Add(userInfo);
-        //    }
-        //    return ret;
-        //}
-        //#endregion
-
-        #region 通过部门ID获取父ID
-        //通过部门ID获取父ID
-        public Guid? GetParentDeptId(Guid deptId)
-        {
-            var ret = default(Guid?);
-            var deptList = new DeptVModel().List;
-            var deptModel = deptList.Where(p => p.ID == deptId).FirstOrDefault();
-            if (deptModel != null)
-            {
-                ret = deptModel.ParentId;
-            }
-            return ret;
-        }
-        #endregion
-
-        #region 通过类型名称得到类型ID
-        //通过类型名称得到类型ID
-        public string GetReferGuidByName(string referName)
-        {
-            var ret = string.Empty;
-            var refList = new ReferenceVModel().All.OrderBy(t => t.Sort);
-            var model = refList.Where(p => p.ItemInfo.Contains(referName)).FirstOrDefault();
-            if (model != null)
-            {
-                ret = model.ID.ToString();
-            }
-            return ret;
-        }
-        #endregion
-
-        #region 通过类型ID得到类型名称
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static wmfReference GetRefModel(Guid? id)
         {
             return new BaseBll<wmfReference>().GetModel(id);
         }
         #endregion
-
-        #region 获取多个类别ID的类别名称字符串
-        public virtual string GetReferName(string guids, IQueryable<wmfReference> list)
-        {
-            var ret = string.Empty;
-
-            if (string.IsNullOrEmpty(guids))
-            {
-                return "";
-            }
-            var guidStr = guids.Split(',');
-            for (int i = 0; i < guidStr.Length; i++)
-            {
-                if (!string.IsNullOrEmpty(guidStr[i]))
-                {
-                    try
-                    {
-                        Guid sid = Guid.Parse(guidStr[i]);
-                        if (sid != null && sid != Guid.Empty)
-                        {
-                            var sch = list.Where(r => r.ID == sid).FirstOrDefault();
-                            if (sch != null)
-                            {
-                                ret += sch.ItemInfo + ",";
-                            }
-                        }
-                    }
-                    catch { }
-                }
-            }
-
-            return ret;
-        }
-        #endregion        
-
-        #region 获取文件路径
-        public string getServerPath(string url)
-        {
-            return Server.MapPath(url);
-        }
-        #endregion
-
-                  
-
-        public static bool IsAdmin
-        {
-            get
-            {
-                var privilegeList = BasisController.getSessionPrivileges();
-                return privilegeList.Any(u => string.Compare(u.OperationId, 操作.系统管理员, true) == 0
-                    && string.Compare(u.ResourcesId, 资源.操作范围, true) == 0);
-            }
-        }
     }
 }

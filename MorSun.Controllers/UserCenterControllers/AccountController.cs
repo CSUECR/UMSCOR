@@ -150,8 +150,7 @@ namespace MorSun.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            FormsService.SignOut();
-            //clearSession();
+            FormsService.SignOut();            
             System.Web.HttpContext.Current.Session.Abandon();
             return RedirectToAction("Index", "Home");
         }

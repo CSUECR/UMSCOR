@@ -22,6 +22,7 @@ namespace MorSun.Controllers
     public class BaseController<T> : BasisController
         where T : class ,new()
     {
+        #region 基础调用
         protected virtual string ResourceId
         {
             get;
@@ -33,8 +34,7 @@ namespace MorSun.Controllers
             //ViewBag.CanDoSth = CanDoSth;
             //ViewBag.IsAdmin = IsAdmin;
         }
-
-        #region 获取默认业务逻辑对象
+        
         BaseBll<T> _bll;
         /// <summary>
         /// 获取默认业务逻辑对象
@@ -47,294 +47,8 @@ namespace MorSun.Controllers
                 return _bll;
             }
             set { _bll = value; }
-        }
-        #endregion
-
-        #region 添加
-        /// <summary>
-        /// 显示添加页面
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        public virtual ActionResult Add(T t)
-        {
-            if (ResourceId.havePrivilege(操作.添加))
-            {                
-                var item = SetEntity(t);
-                return View(item);
-            }
-            else
-            {
-                //返回方式看看怎么改，包括以下其他无权限返回
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
-
-        /// <summary>
-        /// 添加
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        [HttpPost]
-        [ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        [ExceptionFilter()]
-        public virtual ActionResult Add(T t, string returnUrl)
-        {
-            if (ResourceId.havePrivilege(操作.添加))
-                return NCreate(t, returnUrl);
-            else
-            {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper);
-            }
-        }
-        /// <summary>
-        /// 添加
-        /// </summary>
-        /// <param name="t"></param>
-        /// <param name="onPre"></param>
-        /// <returns></returns>
-        protected virtual ActionResult NCreate(T t, string returnUrl, Func<T,string> ck = null)
-        {
-            var oper = new OperationResult(OperationResultType.Error, "添加失败");
-            if (ck == null)
-            {
-                ck = OnPreCreateCK;
-            }
-            //添加初始化字段
-            CreateInitObject(t);
-            dynamic v = t;
-            var prers = ck(t);
-            //注意：用ModelState收集错误，v.GetRuleViolations()放到Pre里去做，这边动态获取不了
-            //var rv = v.GetRuleViolations();
-            //if (!v.IsValid)
-            //{
-            //    ModelState.PR(rv);
-            //}
-            if (ModelState.IsValid)
-            {
-                var result = NInsert(t);
-                if (result == null)
-                {
-                    "".AE("添加失败", ModelState);
-                    oper.AppendData = ModelState.GE();
-                }
-                else
-                {
-                    fillOperationResult(returnUrl, oper, "添加成功");
-                }
-            }
-            return Json(oper);
-        }
-
-        /// <summary>
-        /// 添加记录的具体实现。
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
-        protected virtual T NInsert(T t)
-        {
-            var result = Bll.Insert(t);
-            return result;
-        }
-        #endregion
-
-        #region 编辑  
-        /// <summary>
-        /// 显示编辑页面
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]        
-        [ValidateInput(false)]        
-        [ExceptionFilter()]
-        public virtual ActionResult Edit(T t)
-        {
-            if (ResourceId.havePrivilege(操作.修改))
-            {                
-                var item = SetEntity(t);                
-                return View(item);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-
-        }
-
-
-        /// <summary>
-        /// 编辑
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        [ValidateInput(false)]
-        [ExceptionFilter()]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public virtual String Edit(T t)
-        {
-            if (ResourceId.havePrivilege(操作.修改))
-            {
-                return NEdit(t);
-            }
-            else
-            {
-                return "";// getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-        }
-
-        /// <summary>
-        /// 编辑通用
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <param name="ck">编辑前的验证</param>
-        /// <returns></returns>
-        protected string NEdit(T t, Func<T, string> ck = null)
-        {
-            if (ck == null)
-            {
-                ck = OnEditCK;
-            }
-
-            //编辑前附值
-            EditInitObject(t);
-
-            var result = "false";
-            var model = Bll.GetModel(t);
-            if (model == null)
-            {
-                return "";// getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "编辑失败"), "") });
-            }
-            //日志记录，去掉
-            //var originalContent = string.Empty;
-            //var afterOperateContent = string.Empty;
-            //var msg = string.Empty;
-            //msg = t.Equal(model, out originalContent, out afterOperateContent);
-            //if (msg == "true")
-            //{
-            //    InsertLog(GetLinkID(model), GetOperateTable(model), HOHO18.Common.Web.XMLConfigHelp.GetWebConfigValue("编辑"), originalContent, afterOperateContent);
-            //}
-
-            TryUpdateModel(model);
-            if (model.AsDy().IsValid)
-            {
-                var ckRs = ck(model);
-                if (!ckRs.IsWhite() && !ckRs.Eql("true"))
-                {
-                    return ckRs;
-                }
-                Bll.Update(model);
-                result = "true";
-            }
-            else
-            {
-                result = "";// getErrListJson(model.AsDy().GetRuleViolations());
-            }
-
-            return result;
-        }
-        #endregion
-
-        #region 直接删除
-        /// <summary>
-        /// 直接删除
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual string Delete(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.删除))
-                return NDelete(t);
-            else
-                return "";// getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-
-        }
-
-        /// <summary>
-        /// 直接删除
-        /// </summary>
-        /// <param name="t"></param>
-        /// <param name="ck"></param>
-        /// <returns></returns>
-        protected virtual string NDelete(T t, Func<T, string> ck = null)
-        {
-
-            ck = ck.Load(() => OnDelCk);
-
-            var result = "false";
-            var item = Bll.GetModel(t);
-            if (item != null)
-            {
-                var ckRs = ck(t);
-                if (!ckRs.IsWhite() && !ckRs.Eql("true"))
-                {
-                    return ckRs;
-                }
-                Bll.Delete(item);
-                InsertLog(null, GetOperateTable(t), "删除".GetXmlConfig(), "", "");
-                result = "true";
-            }
-            return result;
-        }
-        #endregion
-
-        #region 查看页面
-        /// <summary>
-        /// 显示编辑页面
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        [Authorize]
-        public virtual ActionResult SeeView(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.查看))
-            {
-                ViewBag.canDoSth = this.CanDoSth;
-                ViewBag.IsAdmin = IsAdmin;
-                var item = SetEntity(t);
-                return View(item);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
-        #endregion
-
-        #region 查询
-
-        #region 详细页面
-        /// <summary>
-        /// 详细页面
-        /// </summary>
-        /// <param name="t">实体类</param>
-        /// <returns></returns>
-        //[Authorize]
-        [ExceptionFilter()]
-        public virtual ActionResult Detail(T t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.查看))
-            {
-                var item = SetEntity(t);
-                return View(item);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
-        #endregion
-
-        #region 更新实体
+        }    
+        
         /// <summary>
         /// 更新实体
         /// </summary>
@@ -346,10 +60,8 @@ namespace MorSun.Controllers
             item = item ?? t;
             TryUpdateModel(item);
             return item;
-        }
-        #endregion
-
-        #region 获取对象的ID
+        }  
+        
         /// <summary>
         /// 获取对象的
         /// </summary>
@@ -373,9 +85,7 @@ namespace MorSun.Controllers
             }
             return ID;
         }
-        #endregion
-
-        #region 获取对象的表名
+        
         /// <summary>
         /// 获取对象的表名
         /// </summary>
@@ -386,10 +96,7 @@ namespace MorSun.Controllers
         public string GetOperateTable(T t)
         {
             return t.GetType().Name;
-        }
-        #endregion
-
-        #region 获取对应ViewModel的类
+        }       
 
         Type _vModelType;
 
@@ -419,9 +126,7 @@ namespace MorSun.Controllers
             }
             set { _vModelType = value; }
         }
-        #endregion
-
-        #region 填充实体
+       
         /// <summary>
         /// 填充实体
         /// </summary>
@@ -432,10 +137,240 @@ namespace MorSun.Controllers
             var methodBase = methodObj.GetGenericMethodDefinition();
             var method = methodBase.MakeGenericMethod(model.GetType());
             method.FastInvoke(this, model);
+        }    
+        #endregion
+
+        #region 基础操作
+        #region 添加
+        /// <summary>
+        /// 显示添加页面
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        [Authorize]
+        public virtual ActionResult Add(T t)
+        {
+            if (ResourceId.havePrivilege(操作.添加))
+            {                
+                var item = SetEntity(t);
+                return View(item);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }
+
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        [ExceptionFilter()]
+        public virtual ActionResult Add(T t, string returnUrl, Func<T, string> ck = null)
+        {
+            if (ResourceId.havePrivilege(操作.添加))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "添加失败");
+                ck = ck.Load(() => OnAddCK);
+                dynamic v = t;
+                var prers = ck(t);
+                //注意：用ModelState收集错误，v.GetRuleViolations()放到Pre里去做，这边动态获取不了            
+                //if (!v.IsValid)
+                //{
+                //    ModelState.PR(v.GetRuleViolations());
+                //}
+                if (ModelState.IsValid)
+                {
+                    //添加初始化字段
+                    CreateInitObject(t);
+                    var result = Bll.Insert(t);
+                    if (result == null)
+                    {
+                        "".AE("添加失败", ModelState);
+                        oper.AppendData = ModelState.GE();
+                    }
+                    else
+                    {
+                        fillOperationResult(returnUrl, oper, "添加成功");
+                    }
+                }
+                return Json(oper);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }     
+        #endregion
+
+        #region 编辑
+        /// <summary>
+        /// 显示编辑页面
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        [Authorize]        
+        [ValidateInput(false)]        
+        [ExceptionFilter()]
+        public virtual ActionResult Edit(T t)
+        {
+            if (ResourceId.havePrivilege(操作.修改))
+            {                
+                var item = SetEntity(t);                
+                return View(item);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+
+        }
+
+
+        /// <summary>
+        /// 编辑
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        [Authorize]
+        [ValidateInput(false)]
+        [ExceptionFilter()]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual ActionResult Edit(T t, string returnUrl, Func<T, string> ck = null)
+        {
+            if (ResourceId.havePrivilege(操作.修改))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "修改失败");
+                //编辑前附值
+                EditInitObject(t);
+                var model = Bll.GetModel(t);
+                if (model == null)
+                {
+                    "".AE("修改失败", ModelState);
+                }
+                //日志记录，去掉
+                //var originalContent = string.Empty;
+                //var afterOperateContent = string.Empty;
+                //var msg = string.Empty;
+                //msg = t.Equal(model, out originalContent, out afterOperateContent);
+                //if (msg == "true")
+                //{
+                //    InsertLog(GetLinkID(model), GetOperateTable(model), HOHO18.Common.Web.XMLConfigHelp.GetWebConfigValue("编辑"), originalContent, afterOperateContent);
+                //}
+
+                TryUpdateModel(model);
+                ck = ck.Load(() => OnEditCK);
+                var ckRs = ck(model);
+                if (ModelState.IsValid)
+                {
+                    Bll.Update(model);
+                    fillOperationResult(returnUrl, oper, "修改成功");
+                }
+                else
+                {
+                    "".AE("修改失败", ModelState);
+                    oper.AppendData = ModelState.GE();
+                }
+
+                return Json(oper);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
         }
         #endregion
 
-        #region 回收站页面
+        #region 删除
+        /// <summary>
+        /// 直接删除
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        [Authorize]
+        [ExceptionFilter()]
+        public virtual ActionResult Delete(T t, string returnUrl, Func<T, string> ck = null)
+        {
+            if (ResourceId.havePrivilege(操作.删除))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "删除失败");
+                ck = ck.Load(() => OnDelCk);
+                var ckRs = ck(t);
+                if (ModelState.IsValid)
+                {
+                    var item = Bll.GetModel(t);
+                    if (item != null)
+                    {
+                        Bll.Delete(item);
+                        fillOperationResult(returnUrl, oper, "删除成功");
+                    }
+                    else
+                    {
+                        "".AE("删除失败", ModelState);
+                        oper.AppendData = ModelState.GE();
+                    }
+                }
+                else
+                {
+                    "".AE("添加失败", ModelState);
+                    oper.AppendData = ModelState.GE();
+                }
+                return Json(oper);
+            }                
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+
+        }
+        
+        #endregion      
+
+        #region 查询
+        /// <summary>
+        /// 详细页面
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        //[Authorize]
+        [ExceptionFilter()]
+        public virtual ActionResult Detail(T t)
+        {
+            if (ResourceId.havePrivilege(操作.查看))
+            {
+                var item = SetEntity(t);
+                return View(item);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }    
+       
         /// <summary>
         /// 回收站页面
         /// </summary>
@@ -444,7 +379,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Recycle()
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.回收站))
+            if (ResourceId.havePrivilege(操作.回收站))
             {
                 var vModel = VModelType.New();
                 FillModel(vModel);
@@ -462,9 +397,7 @@ namespace MorSun.Controllers
                 return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
-        #endregion
-
-        #region 首页面
+        
         /// <summary>
         /// 首页面
         /// </summary>
@@ -473,7 +406,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Index()
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.查看))
+            if (ResourceId.havePrivilege(操作.查看))
             {
                 var vModel = VModelType.New();
                 FillModel(vModel);
@@ -481,8 +414,7 @@ namespace MorSun.Controllers
                 {
                     var vm = vModel as BaseVModel<T>;
                     vm.DoSth();
-                }
-                ViewBag.canDoSth = this.CanDoSth;
+                }                
                 return View(vModel);
             }
             else
@@ -490,13 +422,11 @@ namespace MorSun.Controllers
                 return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
+        
         #endregion
-
         #endregion
 
         #region 验证
-
-        #region 在编辑前出发的验证
         /// <summary>
         /// 在编辑前出发的验证
         /// </summary>
@@ -506,21 +436,17 @@ namespace MorSun.Controllers
         {
             return "";
         }
-        #endregion
-
-        #region 添加之前验证
+        
         /// <summary>
         /// 添加之前验证
         /// </summary>
         /// <param name="t">实体类</param>
         /// <returns></returns>
-        protected virtual string OnPreCreateCK(T t)
+        protected virtual string OnAddCK(T t)
         {
             return "";
         }
-        #endregion
-
-        #region 在删除时触发的验证
+        
         /// <summary>
         /// 在删除时触发的验证
         /// </summary>
@@ -529,25 +455,8 @@ namespace MorSun.Controllers
         protected virtual string OnDelCk(T t)
         {
             return "";
-        }
-        #endregion
-
-        #endregion
-
-        #region 删除文件
-        /// <summary>
-        /// 删除文件
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual string DelImg(Guid id)
-        {
-            var uploadfile = new BaseBll<wmfUploadFile>();
-            var model = uploadfile.GetModel(id);
-            uploadfile.Delete(model, true);
-            return "true";
-        }
-        #endregion
+        }  
+        #endregion       
 
         #region 初始化
         /// <summary>
@@ -585,7 +494,7 @@ namespace MorSun.Controllers
         }
 
         /// <summary>
-        /// 修改默认初始化RegTime，RegUser，FlagDeleted，FlagTrashed字段
+        /// 修改默认初始化ModTime、ModUser字段
         /// </summary>
         /// <param name="t"></param>
         protected virtual void EditInitObject(T t)
@@ -607,107 +516,5 @@ namespace MorSun.Controllers
             { }
         }
         #endregion
-
-        #region 权限统一标识
-        /// <summary>
-        /// 当前用户能进行的操作（如删除，编辑，查看等等）
-        /// </summary>
-        public virtual OperatePrivilege CanDoSth
-        {
-            get
-            {
-                var _canDoSth = new OperatePrivilege();
-                if (this.ResourceId == null)
-                {
-                    #region 权限默认开关，开发时,到发布版本的时候，需要统一添加资源和权限
-                    _canDoSth.CanRead = true;
-                    _canDoSth.CanCreate = true;
-                    _canDoSth.CanEdit = true;
-                    _canDoSth.CanFlagDelete = true;
-                    _canDoSth.CanDelete = true;
-                    _canDoSth.CanArrange = true;
-                    _canDoSth.CanRevoke = true;
-                    _canDoSth.CanConfirm = true;
-                    _canDoSth.CanRecycle = true;
-                    _canDoSth.CanOrder = true;
-                    _canDoSth.CanGenerate = true;
-                    _canDoSth.CanImport = true;
-                    //_canDoSth.CanUnLock = true;
-                    _canDoSth.CanConfigure = true;
-                    _canDoSth.CanAudit = true;
-                    #endregion
-                }
-                else
-                {
-                    IList<wmfRolePrivilegesView> sessionPrivilegeList = BasisController.getSessionPrivileges();
-                    foreach (var privilgeItem in sessionPrivilegeList.Where(u => string.Compare(u.ResourcesId, this.ResourceId, true) == 0))
-                    {
-                        if (string.Compare(privilgeItem.OperationId, 操作.查看, true) == 0)
-                            _canDoSth.CanRead = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.添加, true) == 0)
-                            _canDoSth.CanCreate = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.修改, true) == 0)
-                            _canDoSth.CanEdit = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.删除, true) == 0)
-                            _canDoSth.CanFlagDelete = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.彻底删除, true) == 0)
-                            _canDoSth.CanDelete = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.安排, true) == 0)
-                            _canDoSth.CanArrange = true;
-
-                        //if (string.Compare(privilgeItem.operationId, 操作.撤回, true) == 0)
-                        //    _canDoSth.CanRevoke = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.确认, true) == 0)
-                            _canDoSth.CanConfirm = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.回收站, true) == 0)
-                            _canDoSth.CanRecycle = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.排序, true) == 0)
-                            _canDoSth.CanOrder = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.生成, true) == 0)
-                            _canDoSth.CanGenerate = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.导入, true) == 0)
-                            _canDoSth.CanImport = true;
-
-                        //if (string.Compare(privilgeItem.operationId, 操作.解锁, true) == 0)
-                        //    _canDoSth.CanUnLock = true;
-
-                        if (string.Compare(privilgeItem.OperationId, 操作.配置, true) == 0)
-                            _canDoSth.CanConfigure = true;
-                        if (string.Compare(privilgeItem.OperationId, 操作.审核, true) == 0)
-                            _canDoSth.CanAudit = true;
-                        if (string.Compare(privilgeItem.OperationId, 操作.打印, true) == 0)
-                            _canDoSth.CanPrint = true;
-
-                    }
-                }
-                return _canDoSth;
-            }
-        }
-        /// <summary>
-        /// 是操作管理员
-        /// </summary>
-        public virtual bool IsAdmin
-        {
-            get
-            {
-                var privilegeList = BasisController.getSessionPrivileges();
-                return privilegeList.Any(u => string.Compare(u.OperationId, 操作.系统管理员, true) == 0
-                    && string.Compare(u.ResourcesId, 资源.操作范围, true) == 0);
-            }
-        }
-        #endregion
-
-
-
     }
 }
