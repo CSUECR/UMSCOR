@@ -55,7 +55,7 @@ namespace MorSun.Common
         public struct RefGroup
         {
             #region 公共类别组：审批状态
-            public const string 审批状态 = "33CCD953-05E8-416F-A388-4020751F5500";
+            public const string 审批状态 = "33ccd953-05e8-416f-a388-4020751f5500";
             #endregion
 
             /// <summary>
@@ -90,15 +90,5 @@ namespace MorSun.Common
             //资源类别
             public const string 资源类别 = "03cd2760-026a-4bfb-906f-1af92bec5681";   
         }
-    }
-
-    namespace 部门
-    {
-        public struct Dept
-        {
-            #region 部门
-            //public const string 部门_董事长室 = "39c04f41-e89c-4e2c-90c1-ed502d53bdf5";                     
-            #endregion
-        }
-    }
+    }    
 }

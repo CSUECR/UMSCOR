@@ -7,75 +7,17 @@ using System.Text;
 
 namespace MorSun.Common.Privelege
 {
-    /// <summary>
-    /// 操作权限（用于当前用户能够操作范围）
-    /// </summary>
-    public class OperatePrivilege
-    {
-        public bool CanRead { get; set; }
-        public bool CanCreate { get; set; }
-        public bool CanEdit { get; set; }
-        public bool CanFlagDelete { get; set; }
-        public bool CanDelete { get; set; }
-        //安排
-        public bool CanArrange { get; set; }
-        //撤销
-        public bool CanRevoke { get; set; }
-        public bool CanConfirm { get; set; }
-
-        public bool CanRecycle { get; set; }
-        public bool CanOrder { get; set; }
-        //生成
-        public bool CanGenerate { get; set; }
-        public bool CanImport { get; set; }
-        //解锁
-        //public bool CanUnLock { get; set; }
-        //配置
-        public bool CanConfigure { get; set; }
-        /// <summary>
-        /// 审核 add by timfeng 2013-8-12
-        /// </summary>
-        public bool CanAudit { get; set; }
-        /// <summary>
-        ///反馈
-        /// </summary>
-        public bool CanFeedback { get; set; }
-        public bool CanMaintain { get; set; }
-
-        /// <summary>
-        /// 打印的权限判定
-        /// </summary>
-        [DefaultValue(false)]
-        public bool CanPrint { get; set; }
-        
-    }
+   
     /// <summary>
     /// 生成于2011年05月05日
     /// </summary>
     public struct 操作
     {
-
-        public const string 添加 = "332B5605-335A-4308-A755-23C348CBCC5B";
-        public const string 修改 = "E9303F56-C2E7-4636-A42A-4973FEE38B1E";
-        public const string 删除 = "4A5BEF1A-D2C0-459D-8966-B20446FD5A5A";
-        public const string 查看 = "1A5292A5-A119-49B8-A209-A9C14C5D0B3A";
-        public const string 回收站 = "78BCE0EE-1DC0-4CD1-8400-4CF6C75220DC";
-        public const string 排序 = "3369D2F7-59A8-425E-A988-8D83BC1122FE";
-        public const string 彻底删除 = "B9409DE8-4804-492F-9476-E0D1092091FC";
-        public const string 生成 = "62e02dd9-9055-4247-b8ed-035d1de4235b";
-        //public const string 解锁 = "9A4494DF-FB6D-4D7F-8EAA-56881C39D4C6";
-        public const string 审核 = "cd46db87-f15c-4533-a137-6c4109d1978d";
-        public const string 配置 = "87ABA619-6AE7-4C66-B32E-B3513310DBA2";
-        public const string 清除 = "f25fcee7-3af7-4aa3-b10f-612ebcba48f8";
-        public const string 导入 = "5704a73f-c4dc-45c8-ba5f-c619b5089825";
-        public const string 安排 = "74dd693f-4959-4ce5-be43-439a6bdf4a17";
-        public const string 确认 = "be4c2279-0698-4bb4-93d5-51e646ed2388";
-        public const string 测试 = "74dd693f-4959-4ce5-be43-439a6bdf4a17";
-        public const string 导出 = "be4c2279-0698-4bb4-93d5-51e646ed2388";
-        public const string 反馈 = "6e58cc96-7dd5-4399-8797-bb4b62b74ab6";
-        public const string 维修 = "4cac97fa-f122-4ee5-afbc-a40048f2f356";
-
-        public const string 打印 = "a220f670-d426-493e-89b0-89b3e6d309da";
+        public const string 添加 = "332b5605-335a-4308-a755-23c348cbcc5b";
+        public const string 修改 = "e9303f56-c2e7-4636-a42a-4973fee38b1e";
+        public const string 删除 = "4a5bef1a-d2c0-459d-8966-b20446fd5a5a";
+        public const string 查看 = "1a5292a5-a119-49b8-a209-a9c14c5d0b3a";
+        public const string 回收站 = "78bce0ee-1dc0-4cd1-8400-4cf6c75220dc";  
 
         #region 操作范围
         public const string 系统管理员 = "259ff2fa-66bf-454a-8cc5-babfd9b6cda9";        
@@ -90,52 +32,52 @@ namespace MorSun.Common.Privelege
         /// <summary>
         /// 部门管理
         /// </summary>
-        public const string 部门 = "401D4647-9AE4-4AAA-B126-D855D12618EC";
+        public const string 部门 = "401d4647-9ae4-4aaa-b126-d855d12618ec";
         /// <summary>
         /// 类别组
         /// </summary>
-        public const string 类别组 = "D968629F-6E34-4CE0-8C2C-6083E6805665";
+        public const string 类别组 = "d968629f-6e34-4ce0-8c2c-6083e6805665";
         /// <summary>
         /// 类别
         /// </summary>
-        public const string 类别 = "FD1F62EA-1BD2-46D0-8A83-AE1947B60893";
+        public const string 类别 = "fd1f62ea-1bd2-46d0-8a83-ae1947b60893";
         /// <summary>
         /// 操作
         /// </summary>
-        public const string 操作 = "F49A80D1-6989-4182-AECC-9D5D3CCDFF55";
+        public const string 操作 = "f49a80d1-6989-4182-aecc-9d5d3ccdff55";
         /// <summary>
         /// 岗位
         /// </summary>
-        public const string 岗位 = "B7B59163-71C2-429E-8E86-D0ABC9576262";
+        public const string 岗位 = "b7b59163-71c2-429e-8e86-d0abc9576262";
         /// <summary>
         /// 权限
         /// </summary>
-        public const string 权限 = "BD3BC770-2437-4105-9E93-11EABBB3BE75";
+        public const string 权限 = "bd3bc770-2437-4105-9e93-11eabbb3be75";
         /// <summary>
         /// 日志
         /// </summary>
-        public const string 日志 = "F1439F13-9FF4-4CE6-8759-9FAAF3A891F6";
+        public const string 日志 = "f1439f13-9ff4-4ce6-8759-9faaf3a891f6";
         /// <summary>
         /// 资源管理
         /// </summary>
-        public const string 资源管理 = "048F512F-C5D6-47D3-9586-1E1F5131B757";        
+        public const string 资源管理 = "048f512f-c5d6-47d3-9586-1e1f5131b757";
         /// <summary>
         /// 系统参数配置
         /// </summary>
-        public const string 系统参数配置 = "BA61DF81-F4F0-48D6-9F8B-F8C6B57EBDB7";
+        public const string 系统参数配置 = "ba61df81-f4f0-48d6-9f8b-f8c6b57ebdb7";
         /// <summary>
         /// 员工
         /// </summary>
-        public const string 员工 = "76309187-C594-467E-910B-78D5A6D79403";
+        public const string 员工 = "76309187-c594-467e-910b-78d5a6d79403";
         /// <summary>
         /// 角色配置
         /// </summary>
-        public const string 角色配置 = "AF927396-8D91-4563-A733-B1AFBD84E4A1";
+        public const string 角色配置 = "af927396-8d91-4563-a733-b1afbd84e4a1";
         /// <summary>
         /// 个人资料
         /// </summary>
-        public const string 个人资料 = "5BA61F34-0E42-4188-8D48-4E9D7D665F18";
-        
+        public const string 个人资料 = "5ba61f34-0e42-4188-8d48-4e9d7d665f18";
+
         /// <summary>
         /// 省
         /// </summary>
@@ -165,16 +107,16 @@ namespace MorSun.Common.Privelege
         /// 左侧菜单
         /// </summary>
         public const string 左侧菜单 = "340aaeed-7d57-4a63-ae4d-6a4bcee8ebea";
-        
-        
+
+
         /// <summary>
         /// 数据库备份
         /// </summary>
-        public const string 数据库备份 = "D838F110-E6FA-4D2B-9FCB-018312A24AC8";
+        public const string 数据库备份 = "d838f110-e6fa-4d2b-9fcb-018312a24ac8";
         ///// <summary>
         ///// 岗位级别
         ///// </summary>
-        //public const string 岗位级别 = "37019C92-2411-4CDA-A055-0C77C863D898";
+        //public const string 岗位级别 = "37019c92-2411-4cda-a055-0c77c863d898";
 
 
         /// <summary>
@@ -189,7 +131,7 @@ namespace MorSun.Common.Privelege
         /// <summary>
         /// 考勤机
         /// </summary>
-        public const string 考勤机 = "43431ae8-7a06-49ca-9685-026ad36e5013";   
+        public const string 考勤机 = "43431ae8-7a06-49ca-9685-026ad36e5013";
         /// <summary>
         /// 我的考勤
         /// </summary>
@@ -235,7 +177,7 @@ namespace MorSun.Common.Privelege
         /// 考勤申请表
         /// </summary>
         public const string 考勤申请表 = "aad00ee5-faa1-40fe-af71-1d7840938a2b";
-        
+
 
         //操作范围
         public const string 操作范围 = "57688bea-7ea6-4473-9c9d-608f1b41bae2";        
