@@ -9,7 +9,7 @@ body {
     border-top: solid 10px #000;
     color: #333;
     font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -115,7 +115,8 @@ h5, h6 {
     }
 
 header .content-wrapper {
-    padding-top: 20px; 
+    padding-top: 10px; 
+    padding-bottom:10px;
 }
 
 footer {
@@ -130,7 +131,7 @@ footer {
 ----------------------------------------------------------*/
 .site-title {
     color: #c8c8c8;
-    font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
+    font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
     font-size: 2.3em;
     margin: 0;
 }

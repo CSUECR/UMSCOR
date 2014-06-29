@@ -288,10 +288,11 @@
     <Content Include="Content\themes\morsun\Image\imgProjectShow1.png" />
     <Content Include="Content\themes\morsun\Image\imgTemp1.png" />
     <Content Include="Content\themes\morsun\Image\pagination.png" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\JQueryQtipCustom\jquery.qtip.min.map" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Images\logo.png" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />
     <Content Include="Scripts\Common\MorSun.Common.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
