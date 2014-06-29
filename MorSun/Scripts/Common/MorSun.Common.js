@@ -227,7 +227,7 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
                             }
                              , hide: false
                         });
-                        setTimeout(function () { $("#divInfo").qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                        //setTimeout(function () { $("#divInfo").qtip('destroy'); window.location.href = data.AppendData; }, 2000);
                     }
                     else {
                         $(topErrDiv).qtip({
@@ -250,13 +250,14 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
                             }
                              , hide: false
                         });
-                        console.log(data);
-                        console.log(data.AppendData);
+                        console.log("data" + data);
+                        console.log("data.AppendData" + data.AppendData);
                         $.each(data.AppendData, function (index, valOfElement) {
                             var inputElem = "#" + valOfElement.Key;
                             var errorText = valOfElement.ErrorMessages.join(',');
-                            console.log(inputElem + ',' + errorText);
-                            $(inputElem).qtip({
+                            console.log("inputElem" + inputElem + ',' + errorText);
+                            console.log("qtip" + inputElem);
+                            $(inputElem).qtip({                                
                                 content: { text: errorText },
                                 position: {
                                     my: 'left center',

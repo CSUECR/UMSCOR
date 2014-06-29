@@ -53,8 +53,8 @@ namespace System
         public static void AE(this string propertyName,string errMessage, ModelStateDictionary modelState)
         {
             propertyName = propertyName.Trim();
-            errMessage = errMessage.Trim();                  
-            modelState.AddModelError(errMessage, propertyName);
+            errMessage = errMessage.Trim();
+            modelState.AddModelError(propertyName, errMessage);
         }
 
         /// <summary>

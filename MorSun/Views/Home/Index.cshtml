@@ -2,6 +2,10 @@
     ViewBag.Title = "Home Page";
 }
 @section featured {
+<div id="divInfo" style="margin-top: 10px;">
+</div>
+@Html.Partial("_TableLogon")
+
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
@@ -43,3 +47,14 @@
         <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
     </li>
 </ol>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/JQueryQtipCustom/css")
+    @Scripts.Render("~/Content/JQueryQtipCustom/js")
+    @Scripts.Render("~/Scripts/Common/MorSun.Common")
+    <script type="text/javascript">
+        $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
+    </script>
+}
