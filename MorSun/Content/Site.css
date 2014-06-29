@@ -604,8 +604,21 @@ tr.pager td {
     header .site-title {
         margin: 10px;
         text-align: center;
+        height:65px;
     }
 
+    header .site-title .logohspan {
+         margin-top:0px;
+         margin-left:10px; 
+         float:left;
+    }
+
+    header .site-title .logoyspan {
+         margin-top:40px; 
+         margin-left:-40px; 
+         float:left; 
+         font-size:12px;
+    }
     /* login */
     #login {
         font-size: .85em;
