@@ -5,8 +5,7 @@
 }
 
 body {
-    background-color: #fff;
-    border-top: solid 10px #000;
+    background-color: #fff;    
     color: #333;
     font-size: .85em;
     font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
@@ -104,20 +103,34 @@ h5, h6 {
     padding-bottom: 35px;
 }
 
-    .main-content {
-        background: url("../Images/accent.png") no-repeat;
-        padding-left: 10px;
-        padding-top: 30px;
-    }
+.main-content {
+    background: url("../Images/accent.png") no-repeat;
+    padding-left: 10px;
+    padding-top: 30px;
+}
 
-    .featured + .main-content {
-        background: url("../Images/heroAccent.png") no-repeat;
-    }
+.featured + .main-content {
+    background: url("../Images/heroAccent.png") no-repeat;
+}
 
 header .content-wrapper {
-    padding-top: 10px; 
-    padding-bottom:10px;
+    padding-top: 10px;   
+    height:58px;  
 }
+
+
+header .logohspan {
+         margin-top:0px;
+         margin-left:10px; 
+         float:left;
+    }
+
+header .logoyspan {
+         margin-top:40px; 
+         margin-left:-35px; 
+         float:left; 
+         font-size:12px;
+    }
 
 footer {
     clear: both;
@@ -607,18 +620,6 @@ tr.pager td {
         height:65px;
     }
 
-    header .site-title .logohspan {
-         margin-top:0px;
-         margin-left:10px; 
-         float:left;
-    }
-
-    header .site-title .logoyspan {
-         margin-top:40px; 
-         margin-left:-40px; 
-         float:left; 
-         font-size:12px;
-    }
     /* login */
     #login {
         font-size: .85em;
