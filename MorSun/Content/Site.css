@@ -5,29 +5,32 @@
 }
 
 body {
-    background-color: #fff;    
-    color: #333;
-    font-size: .85em;
+    background-color: #fff;   
+    border-top: solid 10px #000; 
+    color: #222;
+    font-size: 1em;
     font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
     margin: 0;
     padding: 0;
 }
 
 a {
-    color: #333;
+    /*color: #333;*/
+    color: #1582bf;
     outline: none;
     padding-left: 3px;
-    padding-right: 3px;
-    text-decoration: underline;
+    padding-right: 3px;   
+    text-decoration: none; 
 }
 
     a:link, a:visited,
-    a:active, a:hover {
-        color: #333;
+    a:active, a:hover {        
+        color: #1582bf;
     }
 
     a:hover {
         background-color: #c7d1d6;
+        text-decoration: none;
     }
 
 header, footer, hgroup,
@@ -47,6 +50,10 @@ mark {
 
 .float-right {
     float: right;
+}
+
+.float-none {
+    flex:none;
 }
 
 .clear-fix:after {
@@ -139,6 +146,14 @@ footer {
     height: 100px;
 }
 
+footer .flink {
+        font-size:0.85em;
+        margin: 10px auto;
+        text-align :center;        
+    }
+footer .flink a, .flink {
+    color:#777;
+}
 
 /* site title
 ----------------------------------------------------------*/
@@ -765,7 +780,7 @@ tr.pager td {
         padding: 10px 0;
     }
 
-        footer p {
-            margin: 0;
-        }
+    footer p {
+        margin: 0;
+    }    
 }
