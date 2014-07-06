@@ -89,3 +89,9 @@ function InputInteger(event) {
     else return false;
 }
 /*******************************分页所需的脚本 end********************************************/
+
+/*******************************小工具********************************************************/
+function AddFavorite(sURL, sTitle) {
+    try { window.external.addFavorite(sURL, sTitle) } catch (e) { try { window.sidebar.addPanel(sTitle, sURL, "") } catch (e) { alert("收藏失败，Chromes浏览器请使用快捷键Ctrl+D进行添加！") } }
+}
+/*******************************小工具  end***************************************************/

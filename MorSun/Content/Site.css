@@ -52,10 +52,6 @@ mark {
     float: right;
 }
 
-.float-none {
-    flex:none;
-}
-
 .clear-fix:after {
     content: ".";
     clear: both;
@@ -125,25 +121,19 @@ header .content-wrapper {
     height:58px;  
 }
 
-
-header .logohspan {
-         margin-top:0px;
-         margin-left:10px; 
-         float:left;
-    }
-
-header .logoyspan {
-         margin-top:40px; 
-         margin-left:-35px; 
-         float:left; 
-         font-size:12px;
-    }
-
 footer {
     clear: both;
     background-color: #e2e2e2;
     font-size: .8em;
     height: 100px;
+    padding-top:10px;
+}
+
+footer .float-none {
+    float:none;
+    margin:0 auto;
+    margin-bottom: 10px;
+    text-align:center;
 }
 
 footer .flink {
@@ -152,8 +142,13 @@ footer .flink {
         text-align :center;        
     }
 footer .flink a, .flink {
-    color:#777;
+    color:#555;
 }
+
+    footer .fExplan {
+        color:#333;
+        font-family: 宋体,Tahoma,Geneva,sans-serif;
+    }
 
 /* site title
 ----------------------------------------------------------*/
@@ -169,6 +164,34 @@ footer .flink a, .flink {
     color: #c8c8c8;
     outline: none;
     text-decoration: none;
+}
+
+header .logohspan {
+         margin-top:5px;
+         margin-left:10px; 
+         float:left;
+    }
+
+header .logoyspan {
+         margin-top:0px; 
+         margin-left:-35px; 
+         float:left; 
+         font-size:12px;
+    }
+
+header .telStringSpan {
+    color: #E72F2F;
+    font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
+    font-size: 1.0em;
+    margin: 0;
+    margin-left: 50px;
+}
+
+header .telSpan {
+    color: #99312E;
+    font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
+    font-size: 2.0em;
+    margin: 0;
 }
 
 
@@ -209,7 +232,7 @@ footer .flink a, .flink {
 /* menu
 ----------------------------------------------------------*/
 ul#menu {
-    font-size: 1.3em;
+    /*font-size: 1.3em;*/
     font-weight: 600;
     margin: 0 0 5px;
     padding: 0;

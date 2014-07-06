@@ -1,11 +1,9 @@
 ﻿@model MorSun.Model.LoginModel
 @{
-    ViewBag.Title = "海西建材平台后台登录";
+    ViewBag.Title = "登录悟空打码";
     //Layout = null;
 }
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
+
 <section id="loginForm">
     <h2>使用本地帐户登录。</h2>
     @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
@@ -26,10 +24,10 @@
                     @Html.PasswordFor(m => m.Password)
                     @Html.ValidationMessageFor(m => m.Password)
                 </li>
-                <li>
+                @*<li>
                     @Html.CheckBoxFor(m => m.RememberMe)
                     @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-                </li>
+                </li>*@
             </ol>
             <input type="submit" value="登录" />
         </fieldset>

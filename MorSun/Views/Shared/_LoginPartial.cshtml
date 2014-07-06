@@ -5,10 +5,10 @@
             @Html.AntiForgeryToken()
             <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>
         }
+        <a href="javascript:AddFavorite('http://www.5kdm.com','悟空打码')" onclick="AddFavorite('http://www.5kdm.com', '悟空打码')"> 收藏</a>
     </text>
-} else {
-    <ul>
-        <li>@Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+} else {    
+        @Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+        @Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+    <a href="javascript:AddFavorite('http://www.5kdm.com','悟空打码')" onclick="AddFavorite('http://www.5kdm.com', '悟空打码')"> 收藏</a>
 }
