@@ -14,8 +14,7 @@ body {
     padding: 0;
 }
 
-a {
-    /*color: #333;*/
+a {    
     color: #1582bf;
     outline: none;
     padding-left: 3px;
@@ -101,7 +100,7 @@ h5, h6 {
 }
 
 #body {
-    background-color: #efeeef;
+    background-color: #fff;
     clear: both;
     padding-bottom: 35px;
 }
@@ -113,7 +112,7 @@ h5, h6 {
 }
 
 .featured + .main-content {
-    background: url("../Images/heroAccent.png") no-repeat;
+    background: url("../Images/yelloAccent.png") no-repeat 900px 0px;
 }
 
 header .content-wrapper {
@@ -137,12 +136,12 @@ footer .float-none {
 }
 
 footer .flink {
-        font-size:0.85em;
+        font-size:1em;
         margin: 10px auto;
         text-align :center;        
     }
 footer .flink a, .flink {
-    color:#555;
+    color:#777;
 }
 
     footer .fExplan {
@@ -247,7 +246,7 @@ ul#menu {
 
         ul#menu li a {
             background: none;
-            color: #999;
+            color: #777;
             text-decoration: none;
         }
 
@@ -261,18 +260,14 @@ ul#menu {
 ----------------------------------------------------------*/
 /* featured */
 .featured {
-    background-color: #fff;
+    background-color: #d3b15e;
 }
 
     .featured .content-wrapper {
-        background-color: #7ac0da;
-        background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
-        background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        color: #3e5667;
+        background-color: #d3b15e;        
+        color: #1a1011;
         padding: 20px 40px 30px 40px;
+        height:400px;
     }
 
         .featured hgroup.title h1, .featured hgroup.title h2 {
