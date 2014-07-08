@@ -108,7 +108,7 @@ h5, h6 {
 .main-content {
     background: url("../Images/accent.png") no-repeat;
     padding-left: 10px;
-    padding-top: 30px;
+    padding-top: 5px;
 }
 
 .featured + .main-content {
@@ -297,6 +297,14 @@ section.feature {
     width: 300px;
     float: left;
     padding: 10px;
+}
+
+.voiceDiv {
+    height:32px;
+}
+
+.iconVoice {
+    background:url(../Images/iconVoice.png) no-repeat 8px center;padding-left:32px; 
 }
 
 /* ordered list */
@@ -729,23 +737,23 @@ tr.pager td {
         padding-left: 0;
     }
 
-        ol.round li {
-            padding-left: 10px;
-            margin: 25px 0;
-        }
+    ol.round li {
+        padding-left: 10px;
+        margin: 25px 0;
+    }
 
-            ol.round li.zero,
-            ol.round li.one,
-            ol.round li.two,
-            ol.round li.three,
-            ol.round li.four,
-            ol.round li.five,
-            ol.round li.six,
-            ol.round li.seven,
-            ol.round li.eight,
-            ol.round li.nine {
-                background: none;
-            }
+    ol.round li.zero,
+    ol.round li.one,
+    ol.round li.two,
+    ol.round li.three,
+    ol.round li.four,
+    ol.round li.five,
+    ol.round li.six,
+    ol.round li.seven,
+    ol.round li.eight,
+    ol.round li.nine {
+        background: none;
+    }
 
      /* features */
      section.feature {
@@ -792,13 +800,13 @@ tr.pager td {
         float: none;
     }
 
-    footer {
-        text-align: center;
-        height: auto;
-        padding: 10px 0;
-    }
+        footer {
+            text-align: center;
+            height: auto;
+            padding: 10px 0;
+        }
 
-    footer p {
-        margin: 0;
-    }    
+        footer p {
+            margin: 0;
+        }    
 }

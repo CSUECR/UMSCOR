@@ -2,10 +2,7 @@
     ViewBag.Title = "悟空打码";
 }
 @section featured {
-<div id="divInfo" style="margin-top: 10px;">
-</div>
 @*@Html.Partial("_TableLogon")*@
-
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
@@ -22,6 +19,22 @@
         </div>
     </section>
 }
+<div id="DIVVoice" class="voiceDiv">
+    <div class="zbSlides_Contain">
+        <div>
+            <span class="iconVoice"><a href="#">中标1</a></span>
+        </div>
+        <div>
+            <span class="iconVoice"><a href="#">中标2</a></span>
+        </div>
+        <div>
+            <span class="iconVoice"><a href="#">中标3</a></span>
+        </div>
+        <div>
+            <span class="iconVoice"><a href="#">中标4</a></span>
+        </div>
+        </div>
+    </div>
 <h3>We suggest the following:</h3>
 <ol class="round">
     <li class="one">
@@ -54,7 +67,19 @@
     @Styles.Render("~/Content/JQueryQtipCustom/css")
     @Scripts.Render("~/Content/JQueryQtipCustom/js")
     @Scripts.Render("~/Scripts/Common/MorSun.Common")
+    @Scripts.Render("~/Scripts/slides")
     <script type="text/javascript">
         $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
+        $(document).ready(function () {
+            $('#DIVVoice').slides({
+                preload: true,
+                preloadImage: 'img/loading.gif',
+                container: 'zbSlides_Contain',
+                generatePagination: false,
+                play: 4000,
+                pause: 1,
+                hoverPause: true
+            });
+        });
     </script>
 }

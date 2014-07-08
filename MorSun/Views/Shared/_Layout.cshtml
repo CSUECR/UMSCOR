@@ -37,6 +37,8 @@
             </div>
         </header>
         <div id="body">
+            <div id="divInfo" style="margin-top: 10px;">
+            </div>
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
                 @RenderBody()
@@ -53,8 +55,8 @@
                 </div>
             </div>
         </footer>
-        @Scripts.Render("~/Scripts/Common/HOHO18.Common")
-        @Scripts.Render("~/bundles/jquery")       
+        @Scripts.Render("~/Scripts/Common/HOHO18.Common")       
+        @Scripts.Render("~/bundles/jquery")               
         @RenderSection("scripts", required: false)
     </body>
 </html>

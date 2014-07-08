@@ -292,7 +292,9 @@
     <Content Include="Content\JQueryQtipCustom\jquery.qtip.min.map" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="favicon.ico" />
+    <Content Include="Images\iconVoice.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\yelloaccent.png" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />
     <Content Include="Scripts\Common\MorSun.Common.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
