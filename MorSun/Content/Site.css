@@ -226,6 +226,29 @@ header .telSpan {
         list-style: none;
     }
 
+/*-----------tablelogon-----------*/
+
+.logonText
+{
+    border-radius:5px;
+    border: 1px solid #dedede;
+    height: 30px;
+    width: 160px;
+    margin: 5px 0px 5px 0px;
+    background: #f3f3f3;
+}
+.logonBtn
+{
+    font-weight:bold;
+    color: white;
+    background:url(Image/btnLogin.png) no-repeat ;
+    border: 0;
+    padding: 5px;
+    font-size: 14px;
+    width: 79px;
+    height:36px;
+}
+
 
 /* menu
 ----------------------------------------------------------*/
@@ -302,9 +325,11 @@ section.feature {
     height:32px;
 }
 
-.iconVoice {
-    background:url(../Images/iconVoice.png) no-repeat 8px center;padding-left:32px; 
-}
+/*ICON样式集合*/
+.iconUser,.iconPwd{ background-position:5px center;background-repeat:no-repeat}
+.iconUser{background-image:url(../Imagese/iconUser.png);padding-left:25px;}
+.iconPwd{background-image:url(../Images/iconPWD.png);padding-left:25px;}
+.iconVoice {background:url(../Images/iconVoice.png) no-repeat 8px center;padding-left:32px; }
 
 /* ordered list */
 ol.round {
