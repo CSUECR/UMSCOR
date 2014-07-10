@@ -27,9 +27,8 @@ a {
         color: #1582bf;
     }
 
-    a:hover {
-        background-color: #c7d1d6;
-        text-decoration: none;
+    a:hover {        
+        text-decoration: underline;
     }
 
 header, footer, hgroup,
@@ -122,9 +121,9 @@ header .content-wrapper {
 
 footer {
     clear: both;
-    background-color: #e2e2e2;
+    background-color: #2a2a2a;
     font-size: .8em;
-    height: 100px;
+    height: 200px;
     padding-top:10px;
 }
 
@@ -141,11 +140,11 @@ footer .flink {
         text-align :center;        
     }
 footer .flink a, .flink {
-    color:#777;
+    color:#7e7e7e;
 }
 
     footer .fExplan {
-        color:#333;
+        color:#5e5e5e;
         font-family: 宋体,Tahoma,Geneva,sans-serif;
     }
 
