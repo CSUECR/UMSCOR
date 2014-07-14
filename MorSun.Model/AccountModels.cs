@@ -42,6 +42,7 @@ namespace MorSun.Model
         [DisplayName("密码")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "{0}必填")]
         [DisplayName("验证码")]
         public string Verifycode { get; set; }
 

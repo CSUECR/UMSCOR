@@ -1,29 +1,54 @@
 ﻿@model MorSun.Model.LoginModel
+@{
+int yzmR = new Random().Next(100000);}
+
 <div class="divLogon" style="height:86px;">
     @if (!Request.IsAuthenticated)
     {
-        using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = "/home/index" }, FormMethod.Post, new { id = "logonForm" }))
+        using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = "/Home/Index" }, FormMethod.Post, new { id = "logonForm" }))
         {
             @Html.AntiForgeryToken()
+        <hgroup class="title">
+                    <h2>登录-悟空打码</h2>
+                </hgroup>
         <table class="tableLogon">
             <tr>
                 <th>
-                    @Html.TextBoxFor(m => m.UserName)     
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "logonText iconUser" })     
                 </th>
-                <td style="width: 100px;">
-                    <label>
-                        <input type="checkbox" />
-                        记住我</label>
-                </td>
+                
             </tr>
             <tr>
                 <th>
-                    @Html.PasswordFor(m => m.Password)
-                   
+                    @Html.PasswordFor(m => m.Password, new { @class = "logonText iconPwd" })                   
                 </th>
+                
+            </tr>
+            <tr>
+                <th>
+                    @if("loginVerificationCode".GetXmlConfig().ToAs<bool>()){
+                    @Html.TextBoxFor(m => m.Verifycode, new { @class = "logonYZMText iconMa" })
+                    <img id="VerifyCodeImg" height="29px" src="/images/VerifyCode.aspx?type=@yzmR"
+                         title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />
+                    }                    
+                </th>                
+            </tr>
+            <tr>
+                <th>
+                    <input type="button" id="logonBtn" value="登录" class="logonBtn green" />
+                </th>
+            </tr>
+            <tr><td></td></tr>
+            <tr>
                 <td>
-                    <input type="button" tabindex="3" id="logonBtn" value="登录" class="logonBtn" />
+                    忘记密码？   <a href="#">点击这里</a>重设密码
                 </td>
+            </tr>
+            
+            <tr><td class="tdHR"></td></tr>
+            <tr><td><input name="VerifycodeRandom" type="hidden" value="@yzmR" /></td></tr>
+            <tr>
+                <td>没有账号？   <a href="#">注册新账号</a></td>
             </tr>
         </table>
         }

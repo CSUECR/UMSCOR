@@ -13,6 +13,7 @@ using WebMatrix.WebData;
 
 using HOHO18.Common;
 using MorSun.Model;
+using HOHO18.Common.Web;
 
 namespace MorSun.Controllers
 {
@@ -123,6 +124,41 @@ namespace MorSun.Controllers
         public ActionResult AjaxLogin(LoginModel model, string returnUrl)
         {
             var oper = new OperationResult(OperationResultType.Error, "登录失败");
+            //判断是否验证码开启
+            if ("loginVerificationCode".GetXmlConfig() == "true")
+            {
+                //判断验证码是否填写
+                if (String.IsNullOrEmpty(model.Verifycode))
+                {
+                    "Verifycode".AE("请填写验证码", ModelState);                    
+                }
+
+                HOHO18.Common.Web.VerifyCodeType type = HOHO18.Common.Web.VerifyCodeType.Login;
+                try
+                {
+                    string typeStr = Request["type"];
+                    if (String.IsNullOrEmpty(typeStr))
+                        type = HOHO18.Common.Web.VerifyCodeType.Login;
+                    else
+                        type = (HOHO18.Common.Web.VerifyCodeType)Enum.Parse(typeof(HOHO18.Common.Web.VerifyCodeType), typeStr, true);
+                }
+                catch { }
+
+                if (VerifyCode.GetValue(model.VerifycodeRandom) != null)
+                {
+                    object vCodeVal = VerifyCode.GetValue(model.VerifycodeRandom);                    
+                    if (String.IsNullOrEmpty(model.Verifycode) || vCodeVal == null || String.Compare(model.Verifycode, vCodeVal.ToString()) != 0)
+                    {                       
+                        "Verifycode".AE("验证码填写错误", ModelState);     
+                        VerifyCode.RemoveValue(type);                        
+                    }
+                }
+                else
+                {                    
+                    "Verifycode".AE("验证码填写错误", ModelState);     
+                    VerifyCode.RemoveValue(type);                   
+                }
+            }
             if (ModelState.IsValid)
             {
                 if (MembershipService.ValidateUser(model.UserName, model.Password))

@@ -228,28 +228,42 @@ header .telSpan {
 
 /*-----------tablelogon-----------*/
 
+.tableLogon {
+    color:#333;
+}
+
 .logonText
-{
-    border-radius:5px;
+{    
     border: 1px solid #dedede;
     height: 30px;
-    width: 160px;
+    width: 290px;
     margin: 5px 0px 5px 0px;
-    background: #f3f3f3;
+    
 }
-.logonBtn
-{
-    font-weight:bold;
-    color: white;
-    background:url(Image/btnLogin.png) no-repeat ;
-    border: 0;
-    padding: 5px;
-    font-size: 14px;
-    width: 79px;
-    height:36px;
+.logonYZMText
+{    
+    border: 1px solid #dedede;
+    height: 30px;
+    width: 135px;
+    margin: 5px 80px 5px 0px;
+    
 }
 
+.logonBtn.green {
+    background-color: #35aa47;
+    color: white;    
+    text-shadow: none;
+    float:right;
+    margin-right:0 auto;
+    width:320px;
+}
+    .logonBtn.green:hover {
+        background-color:#1d943b;
+    }
 
+.tdHR{
+    border-bottom:solid 1px #dedede;
+}
 /* menu
 ----------------------------------------------------------*/
 ul#menu {
@@ -291,6 +305,17 @@ ul#menu {
         padding: 20px 40px 30px 40px;
         height:400px;
     }
+        .featured .content-wrapper .content-login {
+            /*border:3px solid #332926;*/
+            background-color:#fff;
+            float:right;
+            width:330px;
+            height:380px;
+            padding:10px 20px;
+        }
+            .featured .content-wrapper .content-login hgroup.title h2 {
+                color:#333;
+            }
 
         .featured hgroup.title h1, .featured hgroup.title h2 {
             color: #fff;
@@ -326,9 +351,10 @@ section.feature {
 }
 
 /*ICON样式集合*/
-.iconUser,.iconPwd{ background-position:5px center;background-repeat:no-repeat}
-.iconUser{background-image:url(../Imagese/iconUser.png);padding-left:25px;}
+.iconUser,.iconPwd,.iconMa{ background-position:5px center;background-repeat:no-repeat}
+.iconUser{background-image:url(../Images/iconUser.png);padding-left:25px;}
 .iconPwd{background-image:url(../Images/iconPWD.png);padding-left:25px;}
+.iconMa{background-image:url(../Images/iconMa.png);padding-left:25px;}
 .iconVoice {background:url(../Images/iconVoice.png) no-repeat 8px center;padding-left:32px; }
 
 /* ordered list */

@@ -16,7 +16,7 @@ namespace HOHO18.Common.Web
 
         #region XMLMenu
         //多语言支持
-        private static string xmlMenuSystem = "XmlMenuSystem".GetXmlConfig();
+        private static string xmlMenuSystem = "XmlMenuSystem".GetWebConfig();
         private static Configuration cfgMenu { get; set; }
         /// <summary>
         /// 获取web.config中的值
@@ -79,7 +79,7 @@ namespace HOHO18.Common.Web
         #endregion
 
 
-        private static string xmlSystemName = "XmlSystemName".GetXmlConfig();              
+        private static string xmlSystemName = "XmlSystemName".GetWebConfig();              
 
         /// <summary>
         /// 获取XmlConfig中的值  XMLConfig不要增加语言标识
