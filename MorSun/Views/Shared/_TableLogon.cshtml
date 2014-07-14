@@ -9,20 +9,18 @@ int yzmR = new Random().Next(100000);}
         {
             @Html.AntiForgeryToken()
         <hgroup class="title">
-                    <h2>登录-悟空打码</h2>
+                    <h2>登录悟空打码</h2>
                 </hgroup>
         <table class="tableLogon">
             <tr>
                 <th>
                     @Html.TextBoxFor(m => m.UserName, new { @class = "logonText iconUser" })     
-                </th>
-                
+                </th>                
             </tr>
             <tr>
                 <th>
                     @Html.PasswordFor(m => m.Password, new { @class = "logonText iconPwd" })                   
-                </th>
-                
+                </th>                
             </tr>
             <tr>
                 <th>
@@ -41,7 +39,7 @@ int yzmR = new Random().Next(100000);}
             <tr><td></td></tr>
             <tr>
                 <td>
-                    忘记密码？   <a href="#">点击这里</a>重设密码
+                    <a href="#">忘记密码？</a>
                 </td>
             </tr>
             
