@@ -46,68 +46,133 @@ namespace MorSun.Controllers
         //
         // POST: /Account/Login
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Login(LoginModel model, string returnUrl)
+        //{
+        //    System.Web.HttpContext.Current.Session.Abandon();
+        //    if (Request.IsAuthenticated)
+        //        FormsService.SignOut();
+
+        //    validateVerifyCode(model);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        validateLockedUser(model);
+        //        if (MembershipService.ValidateUser(model.UserName, model.Password))
+        //        {
+        //            FormsService.SignIn(model.UserName, model.RememberMe);                    
+        //            if (!String.IsNullOrEmpty(returnUrl))
+        //            {
+        //                return Redirect(returnUrl);
+        //            }
+        //            else
+        //            {
+        //                return RedirectToAction("Index", "Home");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            "UserName".AE("提供的用户名或密码不正确", ModelState);
+        //        }
+        //        //return RedirectToLocal(returnUrl);
+        //    }
+        //    // 如果我们进行到这一步时某个地方出错，则重新显示表单           
+        //    return View(model);
+        //}
+
+        /// <summary>
+        /// 用户锁定验证
+        /// </summary>
+        /// <param name="model"></param>
+        private void validateLockedUser(LoginModel model)
         {
-            System.Web.HttpContext.Current.Session.Abandon();
-            if (Request.IsAuthenticated)
-                FormsService.SignOut();            
+            var user = Membership.GetUser(model.UserName);
 
-            if (ModelState.IsValid)
+            if (user != null)
             {
-                var user = Membership.GetUser(model.UserName);
-
-                if (user != null)
+                if ("UnlockingFlag".GetXmlConfig() == "true")
                 {
-                    if ("UnlockingFlag".GetXmlConfig() == "true")
+                    var lockedDate = user.LastLockoutDate;
+                    var days = "UnlockingDay".GetXmlConfig();
+                    if (NumHelp.IsNum(days))
                     {
-                        var lockedDate = user.LastLockoutDate;
-                        var days = "UnlockingDay".GetXmlConfig();
-                        if (NumHelp.IsNum(days))
-                        {
-                            lockedDate = lockedDate.AddDays(double.Parse(days));
-                        }
-                        if (DateTime.Now > lockedDate && user.IsLockedOut)
-                        {
-                            user.UnlockUser();
-                        }
-                        else if (DateTime.Now <= lockedDate && user.IsLockedOut)
-                        {
-                            "UserName".AE("用户已被锁定，" + days + "天后自动解锁或者联系管理员", ModelState);
-                        }
+                        lockedDate = lockedDate.AddDays(double.Parse(days));
                     }
-
-                    if (user.IsLockedOut)
+                    if (DateTime.Now > lockedDate && user.IsLockedOut)
                     {
-                        "UserName".AE("用户已被锁定，请联系管理员解锁", ModelState);
+                        user.UnlockUser();
+                    }
+                    else if (DateTime.Now <= lockedDate && user.IsLockedOut)
+                    {
+                        "UserName".AE("用户已被锁定，" + days + "天后自动解锁或请联系管理员解锁", ModelState);
                     }
                 }
-                else if (user == null)
+
+                if (user.IsLockedOut)
                 {
-                    "UserName".AE("用户名不存在", ModelState);
+                    "UserName".AE("用户已被锁定，请联系管理员解锁", ModelState);
                 }
-                if (MembershipService.ValidateUser(model.UserName, model.Password))
+            }
+            else if (user == null)
+            {
+                "UserName".AE("提供的用户名或密码不正确", ModelState);
+            }
+        }
+        /// <summary>
+        /// 验证码验证
+        /// </summary>
+        /// <param name="model"></param>
+        private void validateVerifyCode(LoginModel model)
+        {
+            //判断是否验证码开启
+            if ("loginVerificationCode".GetXmlConfig() == "true")
+            {
+                //判断验证码是否填写
+                if (String.IsNullOrEmpty(model.Verifycode))
                 {
-                    FormsService.SignIn(model.UserName, model.RememberMe);
-                    if (!String.IsNullOrEmpty(returnUrl))
+                    "Verifycode".AE("请填写验证码", ModelState);
+                }
+                if (VerifyCode.GetValue(model.VerifycodeRandom) != null)
+                {
+                    object vCodeVal = VerifyCode.GetValue(model.VerifycodeRandom);
+                    if (String.IsNullOrEmpty(model.Verifycode) || vCodeVal == null || String.Compare(model.Verifycode, vCodeVal.ToString()) != 0)
                     {
-                        return Redirect(returnUrl);
+                        "Verifycode".AE("验证码填错", ModelState);                        
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        //ajax的方式登录，要等登录成功之后才清除验证码数据
                     }
                 }
                 else
                 {
-                    "UserName".AE("提供的用户名或密码不正确", ModelState);
+                    "Verifycode".AE("验证码填错", ModelState);                    
                 }
-                //return RedirectToLocal(returnUrl);
+                //清除验证码信息
+                clearVerifyCode(model);
             }
-            // 如果我们进行到这一步时某个地方出错，则重新显示表单           
-            return View(model);
+        }
+
+        /// <summary>
+        /// 获取验证码类型
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private void clearVerifyCode(LoginModel model)
+        {
+            HOHO18.Common.Web.VerifyCodeType type = HOHO18.Common.Web.VerifyCodeType.Login;
+            try
+            {
+                string typeStr = model.VerifycodeRandom;
+                if (String.IsNullOrEmpty(typeStr))
+                    type = HOHO18.Common.Web.VerifyCodeType.Login;
+                else
+                    type = (HOHO18.Common.Web.VerifyCodeType)Enum.Parse(typeof(HOHO18.Common.Web.VerifyCodeType), typeStr, true);
+            }
+            catch { }            
+            VerifyCode.RemoveValue(type);            
         }
 
         [AllowAnonymous]
@@ -123,49 +188,19 @@ namespace MorSun.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AjaxLogin(LoginModel model, string returnUrl)
         {
+            System.Web.HttpContext.Current.Session.Abandon();
+            if (Request.IsAuthenticated)
+                FormsService.SignOut();
             var oper = new OperationResult(OperationResultType.Error, "登录失败");
-            //判断是否验证码开启
-            if ("loginVerificationCode".GetXmlConfig() == "true")
-            {
-                //判断验证码是否填写
-                if (String.IsNullOrEmpty(model.Verifycode))
-                {
-                    "Verifycode".AE("请填写验证码", ModelState);                    
-                }
-
-                HOHO18.Common.Web.VerifyCodeType type = HOHO18.Common.Web.VerifyCodeType.Login;
-                try
-                {
-                    string typeStr = Request["type"];
-                    if (String.IsNullOrEmpty(typeStr))
-                        type = HOHO18.Common.Web.VerifyCodeType.Login;
-                    else
-                        type = (HOHO18.Common.Web.VerifyCodeType)Enum.Parse(typeof(HOHO18.Common.Web.VerifyCodeType), typeStr, true);
-                }
-                catch { }
-
-                if (VerifyCode.GetValue(model.VerifycodeRandom) != null)
-                {
-                    object vCodeVal = VerifyCode.GetValue(model.VerifycodeRandom);                    
-                    if (String.IsNullOrEmpty(model.Verifycode) || vCodeVal == null || String.Compare(model.Verifycode, vCodeVal.ToString()) != 0)
-                    {                       
-                        "Verifycode".AE("验证码填写错误", ModelState);     
-                        VerifyCode.RemoveValue(type);                        
-                    }
-                }
-                else
-                {                    
-                    "Verifycode".AE("验证码填写错误", ModelState);     
-                    VerifyCode.RemoveValue(type);                   
-                }
-            }
+            validateVerifyCode(model);
             if (ModelState.IsValid)
             {
+                validateLockedUser(model);
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
                     FormsService.SignIn(model.UserName, model.RememberMe);
                     //封装返回的数据
-                    fillOperationResult(returnUrl, oper, "登录成功");
+                    fillOperationResult(returnUrl, oper, "登录成功");                    
                     return Json(oper);
                 }
                 else

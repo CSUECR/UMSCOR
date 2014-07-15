@@ -1,6 +1,7 @@
 ﻿@model MorSun.Model.LoginModel
 @{
-int yzmR = new Random().Next(100000);}
+int yzmR = new Random().Next(100000);
+}
 
 <div class="divLogon" style="height:86px;">
     @if (!Request.IsAuthenticated)
@@ -22,15 +23,15 @@ int yzmR = new Random().Next(100000);}
                     @Html.PasswordFor(m => m.Password, new { @class = "logonText iconPwd" })                   
                 </th>                
             </tr>
+            @if("loginVerificationCode".GetXmlConfig().ToAs<bool>()){
             <tr>
-                <th>
-                    @if("loginVerificationCode".GetXmlConfig().ToAs<bool>()){
-                    @Html.TextBoxFor(m => m.Verifycode, new { @class = "logonYZMText iconMa" })
-                    <img id="VerifyCodeImg" height="29px" src="/images/VerifyCode.aspx?type=@yzmR"
-                         title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />
-                    }                    
+                <th>                    
+                    @Html.TextBoxFor(m => m.Verifycode, new { @class = "logonYZMText iconMa", onfocus = "getVerifyCode('#Verifycode', '#VerifyCodeImg')" })
+                    <img id="VerifyCodeImg" height="35px" src="/images/VerifyCode.aspx?type=@yzmR"
+                         title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />                                       
                 </th>                
             </tr>
+            }
             <tr>
                 <th>
                     <input type="button" id="logonBtn" value="登录" class="logonBtn green" />
@@ -54,7 +55,7 @@ int yzmR = new Random().Next(100000);}
     else
     {
         <p style="margin-left:10px;">欢迎你：@User.Identity.Name</p>
-        <p style="margin-left:10px;"><a style="margin-right:50px;" href="/admin/home/index">进入后台</a>  <a href="/account/logoff">【退出】</a></p>
+        <p style="margin-left:10px;"><a style="margin-right:50px;" href="/admin/home/index">进入后台</a>  <a href="/account/logoff">【注销】</a></p>
         
     }
 </div>

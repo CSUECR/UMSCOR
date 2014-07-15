@@ -244,9 +244,8 @@ header .telSpan {
 {    
     border: 1px solid #dedede;
     height: 30px;
-    width: 135px;
-    margin: 5px 80px 5px 0px;
-    
+    width: 95px;
+    margin: 5px 107px 5px 0px;    
 }
 
 .logonBtn.green {
@@ -465,6 +464,12 @@ aside {
     #loginForm input[type="button"],
     #loginForm button {
         width: auto;
+    }
+
+    #loginForm .loginYZMText
+    { 
+    width: 65px;  
+    margin-right: 95px;  
     }
 
 #socialLoginForm {

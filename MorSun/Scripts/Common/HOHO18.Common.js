@@ -95,3 +95,13 @@ function AddFavorite(sURL, sTitle) {
     try { window.external.addFavorite(sURL, sTitle) } catch (e) { try { window.sidebar.addPanel(sTitle, sURL, "") } catch (e) { alert("收藏失败，Chromes浏览器请使用快捷键Ctrl+D进行添加！") } }
 }
 /*******************************小工具  end***************************************************/
+
+/*******************************获取验证码****************************************************/
+function getVerifyCode(text, imgControl) {
+    var imgSrc = $(imgControl).attr("src");    
+    if ($(text).val() != '') {        
+        imgSrc += '&';        
+        console.log(imgSrc);
+        $(imgControl).attr("src", imgSrc);
+    }
+}

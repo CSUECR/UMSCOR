@@ -1,12 +1,13 @@
 ﻿@model MorSun.Model.LoginModel
 @{
     ViewBag.Title = "登录悟空打码";
+    int yzmR = new Random().Next(100000);
     //Layout = null;
 }
 
 <section id="loginForm">
-    <h2>使用本地帐户登录。</h2>
-    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    <h2>登录悟空打码</h2>    
+    @using (Html.BeginForm("AjaxLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "logonForm" }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
@@ -16,32 +17,41 @@
             <ol>
                 <li>
                     @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName)
-                    @Html.ValidationMessageFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName)                    
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Password)
-                    @Html.PasswordFor(m => m.Password)
-                    @Html.ValidationMessageFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password)                    
                 </li>
+                @if("loginVerificationCode".GetXmlConfig().ToAs<bool>()){
+                <li>
+                    @Html.LabelFor(m => m.Verifycode)
+                    @Html.TextBoxFor(m => m.Verifycode, new { @class = "loginYZMText", onfocus = "getVerifyCode('#Verifycode', '#VerifyCodeImg')" })
+                    <img id="VerifyCodeImg" height="35px" src="/images/VerifyCode.aspx?type=@yzmR"
+                         title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />      
+                </li>
+                }
                 @*<li>
                     @Html.CheckBoxFor(m => m.RememberMe)
                     @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
                 </li>*@
             </ol>
-            <input type="submit" value="登录" />
+            <input type="button" id="logonBtn" value="登录" />
         </fieldset>
         <p>
-            @Html.ActionLink("注册", "Register") 如果你没有帐户。
+            没有账号？@Html.ActionLink("注册新账号", "Register")。
         </p>
+        <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
     }
 </section>
 
 @section Scripts {
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
 
     @Styles.Render("~/Content/JQueryQtipCustom/css")
     @Scripts.Render("~/Content/JQueryQtipCustom/js")
+    @Scripts.Render("~/Scripts/Common/MorSun.Common")
     
     <script type="text/javascript">
         $(document).ready(function () {
@@ -64,7 +74,8 @@
                     }
                 });
             });
-        });        
+        });
+        $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
     </script>
     }
 

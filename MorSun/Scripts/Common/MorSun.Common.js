@@ -7,10 +7,12 @@
 /*操作成功调用方法
 *data参数与OperationResult相对应的json数据[ResultType:"xxx",Message:"xxx",AppendData:"xxx",LogMessage:"xxxx"]
 */
-function onSuccess(data) {
+function onSuccess(data, topErrDiv) {
+    if (!topErrDiv)
+        topErrDiv = '#divInfo';
     //操作成功的提示信息并且跳转页面
     if (data.ResultType == 0) {
-        $("#divInfo").qtip({
+        $(topErrDiv).qtip({
             content: {
                 text: data.Message,
                 title: {
@@ -27,10 +29,10 @@ function onSuccess(data) {
             }
              , hide: false
         });
-        setTimeout(function () { $("#divInfo").qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+        setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
     }
     else {
-        $("#divInfo").qtip({
+        $(topErrDiv).qtip({
             content: {
                 text: data.Message,
                 title: {
@@ -201,11 +203,11 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
     if (!errMessage)
         errMessage = '操作失败';
     $(btn).click(function () {
-        var $logonForm = $(formId);
-        if ($logonForm.valid()) {
+        var $ajaxSubmitForm = $(formId);
+        if ($ajaxSubmitForm.valid()) {
             $.ajax({
-                url: $logonForm.attr("action"),
-                data: $logonForm.serialize(),
+                url: $ajaxSubmitForm.attr("action"),
+                data: $ajaxSubmitForm.serialize(),
                 type: 'POST',
                 success: function (data) {
                     //操作成功的提示信息并且跳转页面
@@ -227,9 +229,11 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
                             }
                              , hide: false
                         });
-                        //setTimeout(function () { $("#divInfo").qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                        setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
                     }
                     else {
+                        //强制刷新验证码
+                        $('#Verifycode').focus();
                         $(topErrDiv).qtip({
                             content: {
                                 text: data.Message,
