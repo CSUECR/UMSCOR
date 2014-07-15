@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HOHO18.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -75,6 +76,13 @@ namespace MorSun.Model
         [DataType(DataType.Password)]
         [DisplayName("确认密码")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("验证码")]
+        public string Verifycode { get; set; }
+
+        [DisplayName("验证码保存字段")]
+        public string VerifycodeRandom { get; set; }
     }
     #endregion
 

@@ -6,12 +6,10 @@
 }
 
 <section id="loginForm">
-    <h2>登录悟空打码</h2>    
+    <h2>@ViewBag.Title</h2>    
     @using (Html.BeginForm("AjaxLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "logonForm" }))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-
         <fieldset>
             <legend>“登录”表单</legend>
             <ol>
@@ -30,11 +28,7 @@
                     <img id="VerifyCodeImg" height="35px" src="/images/VerifyCode.aspx?type=@yzmR"
                          title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />      
                 </li>
-                }
-                @*<li>
-                    @Html.CheckBoxFor(m => m.RememberMe)
-                    @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-                </li>*@
+                }                
             </ol>
             <input type="button" id="logonBtn" value="登录" />
         </fieldset>
@@ -54,27 +48,6 @@
     @Scripts.Render("~/Scripts/Common/MorSun.Common")
     
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.field-validation-error').each(function () {
-                var inputElem = '#' + $(this).attr('data-valmsg-for').replace('.', '_').replace('[', '_').replace(']', '_');
-                $(this).css("display", "none");
-                $(inputElem).filter(':not(.valid)').qtip({
-                    content: { text: $(this).text() },
-                    position: {
-                        //my: 'top left',
-                        //at: 'bottom right',
-                        my: 'left center',
-                        at: 'right center',
-                        viewport: $(window)
-                    },
-                    show: { ready: true },
-                    hide: false,
-                    style: {
-                        classes: 'qtip-red'
-                    }
-                });
-            });
-        });
         $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
     </script>
     }

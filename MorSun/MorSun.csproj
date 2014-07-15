@@ -685,7 +685,6 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Home\Index - 复制.cshtml" />
-    <Content Include="Views\Account\AjaxLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

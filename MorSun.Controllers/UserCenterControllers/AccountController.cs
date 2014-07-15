@@ -42,46 +42,7 @@ namespace MorSun.Controllers
             ViewBag.OpenVerificationCode = "VerificationCode".GetXmlConfig().ToAs<bool>();
             return View();
         }
-
-        //
-        // POST: /Account/Login
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Login(LoginModel model, string returnUrl)
-        //{
-        //    System.Web.HttpContext.Current.Session.Abandon();
-        //    if (Request.IsAuthenticated)
-        //        FormsService.SignOut();
-
-        //    validateVerifyCode(model);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        validateLockedUser(model);
-        //        if (MembershipService.ValidateUser(model.UserName, model.Password))
-        //        {
-        //            FormsService.SignIn(model.UserName, model.RememberMe);                    
-        //            if (!String.IsNullOrEmpty(returnUrl))
-        //            {
-        //                return Redirect(returnUrl);
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("Index", "Home");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            "UserName".AE("提供的用户名或密码不正确", ModelState);
-        //        }
-        //        //return RedirectToLocal(returnUrl);
-        //    }
-        //    // 如果我们进行到这一步时某个地方出错，则重新显示表单           
-        //    return View(model);
-        //}
-
+        
         /// <summary>
         /// 用户锁定验证
         /// </summary>
@@ -119,61 +80,7 @@ namespace MorSun.Controllers
             {
                 "UserName".AE("提供的用户名或密码不正确", ModelState);
             }
-        }
-        /// <summary>
-        /// 验证码验证
-        /// </summary>
-        /// <param name="model"></param>
-        private void validateVerifyCode(LoginModel model)
-        {
-            //判断是否验证码开启
-            if ("loginVerificationCode".GetXmlConfig() == "true")
-            {
-                //判断验证码是否填写
-                if (String.IsNullOrEmpty(model.Verifycode))
-                {
-                    "Verifycode".AE("请填写验证码", ModelState);
-                }
-                if (VerifyCode.GetValue(model.VerifycodeRandom) != null)
-                {
-                    object vCodeVal = VerifyCode.GetValue(model.VerifycodeRandom);
-                    if (String.IsNullOrEmpty(model.Verifycode) || vCodeVal == null || String.Compare(model.Verifycode, vCodeVal.ToString()) != 0)
-                    {
-                        "Verifycode".AE("验证码填错", ModelState);                        
-                    }
-                    else
-                    {
-                        //ajax的方式登录，要等登录成功之后才清除验证码数据
-                    }
-                }
-                else
-                {
-                    "Verifycode".AE("验证码填错", ModelState);                    
-                }
-                //清除验证码信息
-                clearVerifyCode(model);
-            }
-        }
-
-        /// <summary>
-        /// 获取验证码类型
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        private void clearVerifyCode(LoginModel model)
-        {
-            HOHO18.Common.Web.VerifyCodeType type = HOHO18.Common.Web.VerifyCodeType.Login;
-            try
-            {
-                string typeStr = model.VerifycodeRandom;
-                if (String.IsNullOrEmpty(typeStr))
-                    type = HOHO18.Common.Web.VerifyCodeType.Login;
-                else
-                    type = (HOHO18.Common.Web.VerifyCodeType)Enum.Parse(typeof(HOHO18.Common.Web.VerifyCodeType), typeStr, true);
-            }
-            catch { }            
-            VerifyCode.RemoveValue(type);            
-        }
+        }        
 
         [AllowAnonymous]
         public ActionResult AjaxLogin(string returnUrl)
@@ -192,7 +99,7 @@ namespace MorSun.Controllers
             if (Request.IsAuthenticated)
                 FormsService.SignOut();
             var oper = new OperationResult(OperationResultType.Error, "登录失败");
-            validateVerifyCode(model);
+            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "loginVerificationCode");
             if (ModelState.IsValid)
             {
                 validateLockedUser(model);
@@ -240,8 +147,10 @@ namespace MorSun.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(RegisterModel model, string returnUrl)
         {
+            var oper = new OperationResult(OperationResultType.Error, "注册失败");
+            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "regVerificationCode");
             if (ModelState.IsValid)
             {
                 // 尝试注册用户
@@ -249,7 +158,12 @@ namespace MorSun.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+
+                    //封装返回的数据
+                    fillOperationResult(returnUrl, oper, "注册失败");
+                    return Json(oper);
+
+                    //return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -257,8 +171,8 @@ namespace MorSun.Controllers
                 }
             }
 
-            // 如果我们进行到这一步时某个地方出错，则重新显示表单
-            return View(model);
+            oper.AppendData = ModelState.GE();
+            return Json(oper);
         }
 
         

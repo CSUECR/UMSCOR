@@ -17,6 +17,7 @@ using System.Web.Script.Serialization;
 using MorSun.Common.Privelege;
 using System.Data.Objects.DataClasses;
 using MorSun.Controllers;
+using HOHO18.Common.Web;
 
 namespace System
 {
@@ -351,6 +352,63 @@ namespace MorSun.Controllers
         public static wmfReference GetRefModel(Guid? id)
         {
             return new BaseBll<wmfReference>().GetModel(id);
+        }
+        #endregion
+
+        #region 验证码判断方法
+        /// <summary>
+        /// 验证码验证
+        /// </summary>
+        /// <param name="model"></param>
+        protected void validateVerifyCode(string verifyCode, string verifycodeRandom, string xmlconfigName)
+        {
+            //判断是否验证码开启
+            if (xmlconfigName.GetXmlConfig() == "true")
+            {
+                //判断验证码是否填写
+                if (String.IsNullOrEmpty(verifyCode))
+                {
+                    "Verifycode".AE("请填写验证码", ModelState);
+                }
+                if (VerifyCode.GetValue(verifycodeRandom) != null)
+                {
+                    object vCodeVal = VerifyCode.GetValue(verifycodeRandom);
+                    if (String.IsNullOrEmpty(verifyCode) || vCodeVal == null || String.Compare(verifyCode, vCodeVal.ToString()) != 0)
+                    {
+                        "Verifycode".AE("验证码填错", ModelState);
+                    }
+                    else
+                    {
+                        //ajax的方式登录，要等登录成功之后才清除验证码数据
+                    }
+                }
+                else
+                {
+                    "Verifycode".AE("验证码填错", ModelState);
+                }
+                //清除验证码信息
+                clearVerifyCode(verifycodeRandom);
+            }
+        }
+
+        /// <summary>
+        /// 获取验证码类型
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        protected void clearVerifyCode(string verifycodeRandom)
+        {
+            HOHO18.Common.Web.VerifyCodeType type = HOHO18.Common.Web.VerifyCodeType.Login;
+            try
+            {
+                string typeStr = verifycodeRandom;
+                if (String.IsNullOrEmpty(typeStr))
+                    type = HOHO18.Common.Web.VerifyCodeType.Login;
+                else
+                    type = (HOHO18.Common.Web.VerifyCodeType)Enum.Parse(typeof(HOHO18.Common.Web.VerifyCodeType), typeStr, true);
+            }
+            catch { }
+            VerifyCode.RemoveValue(type);
         }
         #endregion
     }

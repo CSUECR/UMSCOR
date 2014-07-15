@@ -1,37 +1,54 @@
 ﻿@model MorSun.Model.RegisterModel
 @{
-    ViewBag.Title = "注册";
+    ViewBag.Title = "注册悟空打码";
+    int yzmR = new Random().Next(100000);
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>新建帐户。</h2>
-</hgroup>
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-
-    <fieldset>
-        <legend>注册表单</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
-        <input type="submit" value="注册" />
-    </fieldset>
-}
-
+<section id="loginForm">
+    <h2>@ViewBag.Title</h2>    
+    @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "regForm" }))    
+    {
+        @Html.AntiForgeryToken()      
+        <fieldset>
+            <legend>注册表单</legend>
+            <ol>
+                <li>
+                    @Html.LabelFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword)
+                </li>
+                @if ("regVerificationCode".GetXmlConfig().ToAs<bool>())
+                {
+                    <li>
+                        @Html.LabelFor(m => m.Verifycode)
+                        @Html.TextBoxFor(m => m.Verifycode, new { @class = "loginYZMText", onfocus = "getVerifyCode('#Verifycode', '#VerifyCodeImg')" })
+                        <img id="VerifyCodeImg" height="35px" src="/images/VerifyCode.aspx?type=@yzmR"
+                             title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />
+                    </li>
+                }       
+            </ol>
+            <input type="button" id="registerBtn" value="注册" />
+            <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
+        </fieldset>
+    }
+    </section>
 @section Scripts {
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
+
+    @Styles.Render("~/Content/JQueryQtipCustom/css")
+    @Scripts.Render("~/Content/JQueryQtipCustom/js")
+    @Scripts.Render("~/Scripts/Common/MorSun.Common")
+
+    <script type="text/javascript">
+        $(ajaxSubmitFormHandle('#registerBtn', '#regForm', '注册失败，请联系管理员', '#divInfo'));
+    </script>
 }

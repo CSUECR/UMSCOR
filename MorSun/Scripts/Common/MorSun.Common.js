@@ -3,7 +3,98 @@
 /*
 *处理页面的相关脚本
 */
-
+//通用form提交事件处理
+//btn:点击按钮
+//formId:当前FormId
+//errMessage:提交出错处理
+//topErrDiv：顶部DIVId,可不传
+function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
+    if (!topErrDiv)
+        topErrDiv = '#divInfo';
+    if (!errMessage)
+        errMessage = '操作失败';
+    $(btn).click(function () {
+        var $ajaxSubmitForm = $(formId);
+        if ($ajaxSubmitForm.valid()) {
+            $.ajax({
+                url: $ajaxSubmitForm.attr("action"),
+                data: $ajaxSubmitForm.serialize(),
+                type: 'POST',
+                success: function (data) {
+                    //操作成功的提示信息并且跳转页面
+                    if (data.ResultType == 0) {
+                        $(topErrDiv).qtip({
+                            content: {
+                                text: data.Message,
+                                title: {
+                                    button: true
+                                }
+                            }
+                            , position: {
+                                target: [$('body').width() / 2, 20],
+                                my: 'center center',
+                                at: 'center center'
+                            }
+                            , show: {
+                                ready: true
+                            }
+                             , hide: false
+                        });
+                        setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                    }
+                    else {
+                        //强制刷新验证码
+                        $('#Verifycode').focus();
+                        $(topErrDiv).qtip({
+                            content: {
+                                text: data.Message,
+                                title: {
+                                    button: true
+                                }
+                            }
+                            , position: {
+                                target: [$('body').width() / 2, 20],
+                                my: 'center center',
+                                at: 'center center'
+                            }
+                            , style: {
+                                classes: 'qtip-red'
+                            }
+                            , show: {
+                                ready: true
+                            }
+                             , hide: false
+                        });
+                        console.log("data" + data);
+                        console.log("data.AppendData" + data.AppendData);
+                        $.each(data.AppendData, function (index, valOfElement) {
+                            var inputElem = "#" + valOfElement.Key;
+                            var errorText = valOfElement.ErrorMessages.join(',');
+                            console.log("inputElem" + inputElem + ',' + errorText);
+                            console.log("qtip" + inputElem);
+                            $(inputElem).qtip({
+                                content: { text: errorText },
+                                position: {
+                                    my: 'left center',
+                                    at: 'right center',
+                                    viewport: $(window)
+                                },
+                                show: { ready: true },
+                                hide: false,
+                                style: {
+                                    classes: 'qtip-red'
+                                }
+                            });
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert(errMessage);
+                }
+            });
+        }
+    });
+}
 /*操作成功调用方法
 *data参数与OperationResult相对应的json数据[ResultType:"xxx",Message:"xxx",AppendData:"xxx",LogMessage:"xxxx"]
 */
@@ -192,95 +283,24 @@ function PromptTextAreaMessage2(msg, inputId) {
 
 //    dialogue(message.add(ok).add(cancel), 'Do you agree?');
 //}
-//通用form提交事件处理
-//btn:点击按钮
-//formId:当前FormId
-//errMessage:提交出错处理
-//topErrDiv：顶部DIVId,可不传
-function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
-    if (!topErrDiv)
-        topErrDiv = '#divInfo';
-    if (!errMessage)
-        errMessage = '操作失败';
-    $(btn).click(function () {
-        var $ajaxSubmitForm = $(formId);
-        if ($ajaxSubmitForm.valid()) {
-            $.ajax({
-                url: $ajaxSubmitForm.attr("action"),
-                data: $ajaxSubmitForm.serialize(),
-                type: 'POST',
-                success: function (data) {
-                    //操作成功的提示信息并且跳转页面
-                    if (data.ResultType == 0) {
-                        $(topErrDiv).qtip({
-                            content: {
-                                text: data.Message,
-                                title: {
-                                    button: true
-                                }
-                            }
-                            , position: {
-                                target: [$('body').width() / 2, 20],
-                                my: 'center center',
-                                at: 'center center'
-                            }
-                            , show: {
-                                ready: true
-                            }
-                             , hide: false
-                        });
-                        setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
-                    }
-                    else {
-                        //强制刷新验证码
-                        $('#Verifycode').focus();
-                        $(topErrDiv).qtip({
-                            content: {
-                                text: data.Message,
-                                title: {
-                                    button: true
-                                }
-                            }
-                            , position: {
-                                target: [$('body').width() / 2, 20],
-                                my: 'center center',
-                                at: 'center center'
-                            }
-                            , style: {
-                                classes: 'qtip-red'
-                            }
-                            , show: {
-                                ready: true
-                            }
-                             , hide: false
-                        });
-                        console.log("data" + data);
-                        console.log("data.AppendData" + data.AppendData);
-                        $.each(data.AppendData, function (index, valOfElement) {
-                            var inputElem = "#" + valOfElement.Key;
-                            var errorText = valOfElement.ErrorMessages.join(',');
-                            console.log("inputElem" + inputElem + ',' + errorText);
-                            console.log("qtip" + inputElem);
-                            $(inputElem).qtip({                                
-                                content: { text: errorText },
-                                position: {
-                                    my: 'left center',
-                                    at: 'right center',
-                                    viewport: $(window)
-                                },
-                                show: { ready: true },
-                                hide: false,
-                                style: {
-                                    classes: 'qtip-red'
-                                }
-                            });
-                        });
-                    }
-                },
-                error: function (data) {
-                    alert(errMessage);
-                }
-            });
-        }
-    });
-}
+//$(document).ready(function () {
+//    $('.field-validation-error').each(function () {
+//        var inputElem = '#' + $(this).attr('data-valmsg-for').replace('.', '_').replace('[', '_').replace(']', '_');
+//        $(this).css("display", "none");
+//        $(inputElem).filter(':not(.valid)').qtip({
+//            content: { text: $(this).text() },
+//            position: {
+//                //my: 'top left',
+//                //at: 'bottom right',
+//                my: 'left center',
+//                at: 'right center',
+//                viewport: $(window)
+//            },
+//            show: { ready: true },
+//            hide: false,
+//            style: {
+//                classes: 'qtip-red'
+//            }
+//        });
+//    });
+//});
