@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8d6b08c735f64e2990b4fcf76896ad3e" Name="Diagram1">
+      <Diagram DiagramId="886fa3d7880040b8b992100ea6bc59db" Name="Diagram1">
         <EntityTypeShape EntityType="MorSun.Model.Aduit" Width="1.5" PointX="7.75" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.AskForLeave" Width="1.5" PointX="7.75" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.aspnet_Applications" Width="1.5" PointX="0.75" PointY="42.5" IsExpanded="true" />
@@ -119,6 +119,10 @@
         <EntityTypeShape EntityType="MorSun.Model.HF_CommAffixFiles" Width="1.5" PointX="28.75" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_WorkTaskPower" Width="1.5" PointX="28.75" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.QRTZ_BLOB_TRIGGERS" Width="1.5" PointX="28.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.HF_AccreditInstanceView" Width="1.5" PointX="28.75" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.HF_OperContentView" Width="1.5" PointX="28.75" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.HF_WorkTaskInstanceView" Width="1.5" PointX="28.75" PointY="30.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfRolePrivilegesView" Width="1.5" PointX="21.75" PointY="33.375" IsExpanded="true" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Me__Appli__145C0A3F" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Pa__Appli__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Ro__Appli__32E0915F" ManuallyRouted="false" />
@@ -192,10 +196,6 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfResource_wmfResource" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="MorSun.Model.HF_AccreditInstanceView" Width="1.5" PointX="29.75" PointY="17.75" />
-        <EntityTypeShape EntityType="MorSun.Model.HF_OperContentView" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="MorSun.Model.HF_WorkTaskInstanceView" Width="1.5" PointX="29.75" PointY="27.75" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfRolePrivilegesView" Width="1.5" PointX="2.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

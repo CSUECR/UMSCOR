@@ -40848,7 +40848,7 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> LoginValidateCode
+        public global::System.String LoginValidateCode
         {
             get
             {
@@ -40858,13 +40858,13 @@ namespace MorSun.Model
             {
                 OnLoginValidateCodeChanging(value);
                 ReportPropertyChanging("LoginValidateCode");
-                _LoginValidateCode = StructuralObject.SetValidValue(value, "LoginValidateCode");
+                _LoginValidateCode = StructuralObject.SetValidValue(value, true, "LoginValidateCode");
                 ReportPropertyChanged("LoginValidateCode");
                 OnLoginValidateCodeChanged();
             }
         }
-        private Nullable<global::System.Guid> _LoginValidateCode;
-        partial void OnLoginValidateCodeChanging(Nullable<global::System.Guid> value);
+        private global::System.String _LoginValidateCode;
+        partial void OnLoginValidateCodeChanging(global::System.String value);
         partial void OnLoginValidateCodeChanged();
     
         /// <summary>
@@ -41490,6 +41490,78 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ValidateCode
+        {
+            get
+            {
+                return _ValidateCode;
+            }
+            set
+            {
+                OnValidateCodeChanging(value);
+                ReportPropertyChanging("ValidateCode");
+                _ValidateCode = StructuralObject.SetValidValue(value, true, "ValidateCode");
+                ReportPropertyChanged("ValidateCode");
+                OnValidateCodeChanged();
+            }
+        }
+        private global::System.String _ValidateCode;
+        partial void OnValidateCodeChanging(global::System.String value);
+        partial void OnValidateCodeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> FlagWorker
+        {
+            get
+            {
+                return _FlagWorker;
+            }
+            set
+            {
+                OnFlagWorkerChanging(value);
+                ReportPropertyChanging("FlagWorker");
+                _FlagWorker = StructuralObject.SetValidValue(value, "FlagWorker");
+                ReportPropertyChanged("FlagWorker");
+                OnFlagWorkerChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _FlagWorker;
+        partial void OnFlagWorkerChanging(Nullable<global::System.Boolean> value);
+        partial void OnFlagWorkerChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> FlagActive
+        {
+            get
+            {
+                return _FlagActive;
+            }
+            set
+            {
+                OnFlagActiveChanging(value);
+                ReportPropertyChanging("FlagActive");
+                _FlagActive = StructuralObject.SetValidValue(value, "FlagActive");
+                ReportPropertyChanged("FlagActive");
+                OnFlagActiveChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _FlagActive;
+        partial void OnFlagActiveChanging(Nullable<global::System.Boolean> value);
+        partial void OnFlagActiveChanged();
 
         #endregion
 

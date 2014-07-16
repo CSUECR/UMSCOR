@@ -4,7 +4,7 @@ using System.Linq;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
-
+using dotNetRoles = System.Web.Security.Roles;
 using System.Web.Routing;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
@@ -14,6 +14,7 @@ using WebMatrix.WebData;
 using HOHO18.Common;
 using MorSun.Model;
 using HOHO18.Common.Web;
+using MorSun.Bll;
 
 namespace MorSun.Controllers
 {
@@ -151,19 +152,70 @@ namespace MorSun.Controllers
         {
             var oper = new OperationResult(OperationResultType.Error, "注册失败");
             validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "regVerificationCode");
+
+            if ("Register".GetXmlConfig() != "true")
+            {
+                //注册已经关闭，不允许注册
+                "UserName".AE("用户注册已经关闭", ModelState);                
+            }
+
+            var aspnetUserBll = new BaseBll<aspnet_Users>();
+            var aspnetusers = aspnetUserBll.All.FirstOrDefault(r => r.UserName == model.UserName);
+            if (aspnetusers != null)
+            {
+                //该用户名已经存在，请重新输入！
+                "UserName".AE("该用户已存在", ModelState); 
+            }
+
+            //电子邮件即用户名
+            model.Email = model.UserName;
             if (ModelState.IsValid)
             {
                 // 尝试注册用户
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
+                    //WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    //WebSecurity.Login(model.UserName, model.Password);
 
-                    //封装返回的数据
-                    fillOperationResult(returnUrl, oper, "注册失败");
-                    return Json(oper);
+                    var createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email);
+                    if (createStatus == MembershipCreateStatus.Success)
+                    {
+                        //查询出新注册的用户信息
+                        var user = Membership.GetUser(model.UserName);
+                        var userinfobll = new BaseBll<wmfUserInfo>();
+                        wmfUserInfo userinfoModel = new wmfUserInfo();
 
-                    //return RedirectToAction("Index", "Home");
+                        userinfoModel.ID = user.ProviderUserKey.ToAs<Guid>();
+                        userinfoModel.UserPassword = model.Password.Encrypt(userinfoModel.ID.ToString());
+                        userinfoModel.OperatePassword = model.Password.Encrypt(userinfoModel.ID.ToString());
+                        userinfoModel.ValidateCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
+                        userinfoModel.NickName = "马客";
+
+                        userinfoModel.FlagWorker = false;
+                        userinfoModel.FlagActive = false;
+                        userinfoModel.RegTime = DateTime.Now;
+                        userinfoModel.FlagTrashed = false;
+                        userinfoModel.FlagDeleted = false;
+
+                        //保存用户信息到 wmfuserinfo 表中
+                        userinfobll.Insert(userinfoModel);
+
+                        //设置默认角色
+                        var RoleName = "RoleName".GetXmlConfig();
+                        if (!string.IsNullOrEmpty(RoleName))
+                        {
+                            //添加角色
+                            dotNetRoles.AddUserToRole(model.UserName, RoleName);
+                        }
+
+                        //发送激活邮件
+
+                        FormsService.SignIn(model.UserName, false);
+
+                        //封装返回的数据
+                        fillOperationResult(returnUrl, oper, "注册成功");
+                        return Json(oper);
+                    }
                 }
                 catch (MembershipCreateUserException e)
                 {

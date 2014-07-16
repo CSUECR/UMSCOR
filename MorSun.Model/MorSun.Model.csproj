@@ -101,11 +101,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MorSun.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.Config" />
     <None Include="MorSun.edmx.diagram">
       <DependentUpon>MorSun.edmx</DependentUpon>
     </None>

@@ -58,7 +58,7 @@ namespace MorSun.Model
     public class RegisterModel
     {
         [Required(ErrorMessage = "{0}必填")]
-        [DisplayName("用户名")]
+        [DisplayName("常用电子邮件")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "{0}必填")]
