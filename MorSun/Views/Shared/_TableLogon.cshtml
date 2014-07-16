@@ -47,7 +47,12 @@ int yzmR = new Random().Next(100000);
             <tr><td class="tdHR"></td></tr>
             <tr><td><input name="VerifycodeRandom" type="hidden" value="@yzmR" /></td></tr>
             <tr>
-                <td>没有账号？   <a href="/Account/Register">注册新账号</a></td>
+                <td>
+                    @if ("Register".GetXmlConfig() == "true")
+                    { 
+                        @:没有账号？   <a href="/Account/Register">注册新账号</a>
+                    }
+                </td>
             </tr>
         </table>
         }

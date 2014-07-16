@@ -7,8 +7,11 @@
         }
         <a href="javascript:AddFavorite('http://www.5kdm.com','悟空打码')" onclick="AddFavorite('http://www.5kdm.com', '悟空打码')"> 收藏</a>
     </text>
-} else {    
+} else {
+        if ("Register".GetXmlConfig() == "true")
+        {    
         @Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+        }
         @Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
     <a href="javascript:AddFavorite('http://www.5kdm.com','悟空打码')" onclick="AddFavorite('http://www.5kdm.com', '悟空打码')"> 收藏</a>
 }
