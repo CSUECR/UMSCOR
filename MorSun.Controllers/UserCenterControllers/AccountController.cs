@@ -189,13 +189,14 @@ namespace MorSun.Controllers
                         userinfoModel.UserPassword = model.Password.Encrypt(userinfoModel.ID.ToString());
                         userinfoModel.OperatePassword = model.Password.Encrypt(userinfoModel.ID.ToString());
                         userinfoModel.ValidateCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
-                        userinfoModel.NickName = "马客";
+                        userinfoModel.NickName = "DefaultNickName".GetXmlConfig();
 
-                        userinfoModel.FlagWorker = false;
-                        userinfoModel.FlagActive = false;
+                        userinfoModel.FlagWorker = false;                        
                         userinfoModel.RegTime = DateTime.Now;
                         userinfoModel.FlagTrashed = false;
                         userinfoModel.FlagDeleted = false;
+                        if ("AccountActive".GetXmlConfig() == "true")
+                        { userinfoModel.FlagActive = false; }                            
 
                         //保存用户信息到 wmfuserinfo 表中
                         userinfobll.Insert(userinfoModel);
@@ -209,7 +210,9 @@ namespace MorSun.Controllers
                         }
 
                         //发送激活邮件
-
+                        if ("AccountActive".GetXmlConfig() == "true")
+                        {
+                        }
                         FormsService.SignIn(model.UserName, false);
 
                         //封装返回的数据

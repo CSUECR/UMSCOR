@@ -28,5 +28,10 @@ namespace MorSun.Controllers
 
             return View();
         }
+
+        public ActionResult ActiveAccountEmail()
+        {
+            return View();
+        }
     }
 }
