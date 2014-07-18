@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - 验证码识别 远程答题服务 代答平台 验证码识别软件下载 悟空打码</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />        
+        <meta name="keywords" content="@ViewBag.Title - 验证码,验证码识别,验证码代答,验证码云服务中心,验证码服务,远程答题,远程代答,悟空打码,悟空打码官网,悟空答题" />
+        <meta name="description" content="@ViewBag.Title - 悟空打码是全球最先进的验证码识别平台,充分学习并具备了前辈微锐、微速答题、自游答题、打码兔、冷雨夜答题挂的高速答题、准确识别一切验证码的优点，为广大软件开发商，网民，盲人，和所有乐享生活的高大上人士提供周到、准确、快速的验证码识别远程代答题服务" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title"><a href="/Home/Index"><img src="/images/logo.png" width="68" class="float-left" /><span class="logohspan">悟空打码</span></a><span class="logoyspan">5kdm</span></p>
+                </div>
+                <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_LoginPartial")<span class="telStringSpan">Tel.</span> <span class="telSpan">133 137 88387</span>
+                    </section>
+                    <nav>
+                        <ul id="menu">
+                            <li>@Html.ActionLink("首页", "Index", "Home")</li>
+                            <li>@Html.ActionLink("API接口", "Index", "Home")</li>
+                            <li>@Html.ActionLink("接入向导", "Index", "Home")</li>
+                            <li>@Html.ActionLink("开发者分成", "Index", "Home")</li>
+                            <li>@Html.ActionLink("答题价格表", "Index", "Home")</li>
+                            <li>@Html.ActionLink("自助排错", "Index", "Home")</li>
+                            @*<li>@Html.ActionLink("悟空小铺", "Index", "Home")</li>*@
+                            @*<li>@Html.ActionLink("关于", "About", "Home")</li>*@
+                            <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            <div id="divInfo" style="margin-top: 10px;">
+            </div>
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div>
+                <div class="float-none"><span class="flink">友情链接：<a href="http://www.5kdm.com">验证码识别</a>|<a href="http://www.5kdm.com">远程代答</a>|<a href="http://www.5kdm.com">人工代答</a>|<a href="http://www.5kdm.com">远程答题</a></span></div>
+                <div class="float-none"><span class="fExplan">悟空打码是全球最先进的验证码识别平台，旨在为广大开发商，网民，盲人，和所有乐享生活的高大上人士提供周到、准确、快速的验证码识别远程代答题服务</span></div>   
+                <div class="float-none"><span class="fExplan">免责声明：悟空打码仅为验证码输入困难人士提供验证码识别服务，并不针对任何网站或个人。所有验证码图片，均由用户或软件商上传。如有不妥，请联系客服，悟空打码对此不承担任何保证责任</span></div>     
+                <div class="float-none"><span class="fExplan">地址：福州市台江区世纪百联大厦 电话：13313788387</span></div>   
+                <div class="float-none">
+                    <p><span class="fExplan">&copy; @DateTime.Now.Year - All rights reserved</span></p>
+                </div>
+            </div>
+        </footer>
+        @Scripts.Render("~/Scripts/Common/HOHO18.Common")       
+        @Scripts.Render("~/bundles/jquery")               
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
