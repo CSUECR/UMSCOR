@@ -15,21 +15,23 @@ body {
 }
 
 a {    
-    color: #1582bf;
+    color: #bd0124;
     outline: none;
     padding-left: 3px;
     padding-right: 3px;   
-    text-decoration: none; 
+    text-decoration: none;    
 }
 
     a:link, a:visited,
     a:active, a:hover {        
-        color: #1582bf;
+        color: #bd0124;
     }
 
     a:hover {        
         text-decoration: underline;
     }
+
+img{border:none;}
 
 header, footer, hgroup,
 nav, section {
@@ -101,7 +103,7 @@ h5, h6 {
 #body {
     background-color: #fff;
     clear: both;
-    padding-bottom: 35px;
+    /*padding-bottom: 35px;*/
 }
 
 .main-content {
@@ -111,6 +113,11 @@ h5, h6 {
 }
 
 .featured + .main-content {
+    background: url("../Images/yelloAccent.png") no-repeat 900px 0px;
+    background-color:#303030;
+}
+
+.featured + .main-content + .main-content{
     background: url("../Images/yelloAccent.png") no-repeat 900px 0px;
 }
 
@@ -148,10 +155,67 @@ footer .flink a, .flink {
         font-family: 宋体,Tahoma,Geneva,sans-serif;
     }
 
+/*Right Link*/
+#id {
+    background: url("../images/pf.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+#zt_pf {
+    background-image: url("../images/pf.png");
+    height: 300px;
+    padding: 5px;
+    position: fixed;
+    right: 10px;
+    top: 200px;
+    width: 100px;
+    z-index: 100;
+}
+
+#zt_pf a {
+    display: block;
+    float: left;
+    height: 75px;
+    width: 100px;
+}
+
+#zt_pf a:hover {
+    background-image: url("../images/pf2.png");
+    background-repeat:no-repeat;
+    display: block;
+}
+#zt_pf a.pf1:hover {
+    background-position: 0 0;
+}
+#zt_pf a.pf2:hover {
+    background-position: 0 -75px;
+}
+#zt_pf a.pf3:hover {
+    background-position: 0 -150px;
+}
+
+#back-to-top {
+    height: 60px;
+    position: fixed;
+    right: 35px;
+    top: 550px;
+    width: 60px;
+    z-index: 100;
+}
+#back-to-top a {
+    background-image: url("../images/top.png");
+    background-repeat:no-repeat;
+    display: block;
+    height: 60px;
+    width: 60px;
+}
+#back-to-top a:hover {
+    background-image: url("../images/top2.png");
+    background-repeat:no-repeat;
+}
+
 /* site title
 ----------------------------------------------------------*/
 .site-title {
-    color: #c8c8c8;
+    color: #333;
     font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
     font-size: 2.3em;
     margin: 0;
@@ -159,19 +223,19 @@ footer .flink a, .flink {
 
 .site-title a, .site-title a:hover, .site-title a:active {
     background: none;
-    color: #c8c8c8;
+    color: #333;
     outline: none;
     text-decoration: none;
 }
 
 header .logohspan {
-         margin-top:5px;
+         margin-top:15px;
          margin-left:10px; 
          float:left;
     }
 
 header .logoyspan {
-         margin-top:0px; 
+         margin-top:10px; 
          margin-left:-35px; 
          float:left; 
          font-size:12px;
@@ -295,11 +359,11 @@ ul#menu {
 ----------------------------------------------------------*/
 /* featured */
 .featured {
-    background-color: #d3b15e;
+    background-color: #bd0124;
 }
 
     .featured .content-wrapper {
-        background-color: #d3b15e;        
+        background-color: #bd0124;        
         color: #1a1011;
         padding: 20px 40px 30px 40px;
         height:400px;
@@ -323,6 +387,43 @@ ul#menu {
         .featured p {
             font-size: 1.1em;
         }
+
+/*voiced*/
+.voiced {
+    background-color:#fff;
+}
+
+    .voiced .content-wrapper {
+        background-color: #fff;  
+        background: url("../Images/bodybackgroundRedLineRight.gif") no-repeat 800px -150px;      
+        color: #1a1011;
+        padding: 20px 40px 30px 40px;
+        height:600px;
+    }
+
+.voiced2 {
+    background-color:#bd0124;
+}
+
+    .voiced2 .content-wrapper {
+        background-color: #bd0124;  
+        background: url("../Images/bodybackgroundWhiteLineLeft.png") no-repeat 800px -100px;      
+        color: #1a1011;
+        padding: 20px 40px 30px 40px;
+        height:600px;
+    }
+
+.voiced3 {
+    background-color:#fff;
+}
+
+    .voiced3 .content-wrapper {
+        background-color: #fff;  
+        background: url("../Images/bodybackgroundRedLineRight.gif") no-repeat 800px -100px;      
+        color: #1a1011;
+        padding: 20px 40px 30px 40px;
+        height:600px;
+    }
 
 /* page titles */
 hgroup.title {
@@ -354,7 +455,9 @@ section.feature {
 .iconUser{background-image:url(../Images/iconUser.png);padding-left:25px;}
 .iconPwd{background-image:url(../Images/iconPWD.png);padding-left:25px;}
 .iconMa{background-image:url(../Images/iconMa.png);padding-left:25px;}
-.iconVoice {background:url(../Images/iconVoice.png) no-repeat 8px center;padding-left:32px; }
+.iconVoiceRed {background:url(../Images/iconVoiceRed.png) no-repeat 8px center;padding-left:32px; }
+.iconVoiceOrange {background:url(../Images/iconVoiceOrange.png) no-repeat 8px center;padding-left:32px; }
+
 
 /* ordered list */
 ol.round {

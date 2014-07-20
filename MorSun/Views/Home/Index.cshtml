@@ -18,73 +18,104 @@
                 <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
             </p>*@
             <div class="content-login">                
-                @Html.Partial("_TableLogon")
-                
+                @Html.Partial("_TableLogon")                
             </div>
         </div>
     </section>
 }
-<div id="DIVVoice" class="voiceDiv">
-    <div class="zbSlides_Contain">
-        <div>
-            <span class="iconVoice"><a href="#">中标1</a></span>
+<section class="voiced">
+    <div class="content-wrapper clear-fix">
+        <div id="DIVVoice" class="voiceDiv">
+            <div class="zbSlides_Contain">
+                <div>
+                    <span class="iconVoiceRed"><a href="#">中标1</a></span>
+                </div>
+                <div>
+                    <span class="iconVoiceRed"><a href="#">中标2</a></span>
+                </div>
+                <div>
+                    <span class="iconVoiceRed"><a href="#">中标3</a></span>
+                </div>
+                <div>
+                    <span class="iconVoiceRed"><a href="#">中标4</a></span>
+                </div>
+            </div>
         </div>
-        <div>
-            <span class="iconVoice"><a href="#">中标2</a></span>
-        </div>
-        <div>
-            <span class="iconVoice"><a href="#">中标3</a></span>
-        </div>
-        <div>
-            <span class="iconVoice"><a href="#">中标4</a></span>
-        </div>
-        </div>
+        @*<h3>We suggest the following:</h3>
+        <ol class="round">
+            <li class="one">
+                <h5>Getting Started</h5>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and that gives you full control over markup
+                for enjoyable, agile development. ASP.NET MVC includes many features that enable
+                fast, TDD-friendly development for creating sophisticated applications that use
+                the latest web standards.
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
+            </li>
+            <li class="two">
+                @("s5kdmqwertyuiop".Encrypt())  @("C220C54A34828FBF12BB35E02AE35AE1".Decrypt())
+                <h5>Add NuGet packages and jump-start your coding</h5>
+                NuGet makes it easy to install and update free libraries and tools.
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
+            </li>
+            <li class="three">
+                <h5>Find Web Hosting</h5>
+                You can easily find a web hosting company that offers the right mix of features
+                and price for your applications.
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
+            </li>
+        </ol>*@
     </div>
-<h3>We suggest the following:</h3>
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-        enables a clean separation of concerns and that gives you full control over markup
-        for enjoyable, agile development. ASP.NET MVC includes many features that enable
-        fast, TDD-friendly development for creating sophisticated applications that use
-        the latest web standards.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-    </li>
+</section>
+<section class="voiced2">
+    <div class="content-wrapper clear-fix">
+        <h3>We suggest the following:</h3>
+        <ol class="round">
+            <li class="one">
+                <h5>Getting Started</h5>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and that gives you full control over markup
+                for enjoyable, agile development. ASP.NET MVC includes many features that enable
+                fast, TDD-friendly development for creating sophisticated applications that use
+                the latest web standards.
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
+            </li>
+            <li class="two">
+                @("s5kdmqwertyuiop".Encrypt())  @("C220C54A34828FBF12BB35E02AE35AE1".Decrypt())
+                <h5>Add NuGet packages and jump-start your coding</h5>
+                NuGet makes it easy to install and update free libraries and tools.
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
+            </li>
+            <li class="three">
+                <h5>Find Web Hosting</h5>
+                You can easily find a web hosting company that offers the right mix of features
+                and price for your applications.
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
+            </li>
+        </ol>
+    </div>
+</section>
 
-    <li class="two">@("s5kdmqwertyuiop".Encrypt())  @("C220C54A34828FBF12BB35E02AE35AE1".Decrypt())
-        <h5>Add NuGet packages and jump-start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-    </li>
 
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features
-        and price for your applications.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </li>
-</ol>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Styles.Render("~/Content/JQueryQtipCustom/css")
-    @Scripts.Render("~/Content/JQueryQtipCustom/js")
-    @Scripts.Render("~/Scripts/Common/MorSun.Common")
-    @Scripts.Render("~/Scripts/slides")
-    <script type="text/javascript">
-        $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
-        $(document).ready(function () {
-            $('#DIVVoice').slides({
-                preload: true,
-                preloadImage: 'img/loading.gif',
-                container: 'zbSlides_Contain',
-                generatePagination: false,
-                play: 4000,
-                pause: 1,
-                hoverPause: true
+    @section Scripts {
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Styles.Render("~/Content/JQueryQtipCustom/css")
+        @Scripts.Render("~/Content/JQueryQtipCustom/js")
+        @Scripts.Render("~/Scripts/Common/MorSun.Common")
+        @Scripts.Render("~/Scripts/slides")
+        <script type="text/javascript">
+            $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
+            $(document).ready(function () {
+                $('#DIVVoice').slides({
+                    preload: true,
+                    preloadImage: 'img/loading.gif',
+                    container: 'zbSlides_Contain',
+                    generatePagination: false,
+                    play: 4000,
+                    pause: 1,
+                    hoverPause: true
+                });
             });
-        });
-    </script>
-}
+        </script>
+    }

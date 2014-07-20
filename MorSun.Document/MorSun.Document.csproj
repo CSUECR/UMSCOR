@@ -41,6 +41,31 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="DeleteImage\bodybackgroundRedLineLeft.gif" />
+    <Content Include="DeleteImage\bodybackgroundRedLineRight.gif" />
+    <Content Include="DeleteImage\favicon.ico" />
+    <Content Include="DeleteImage\iconMa.png" />
+    <Content Include="DeleteImage\logo.png" />
+    <Content Include="DeleteImage\pf.png" />
+    <Content Include="DeleteImage\pf2.png" />
+    <Content Include="DeleteImage\top.png" />
+    <Content Include="DeleteImage\top2.png" />
+    <Content Include="LogoDesign\28f09d8b509978af7dab933d0f8bfdbc6605054519596-RmHukB_fw658.jpg" />
+    <Content Include="LogoDesign\8a206633808a0fedb6f48d23cd1503495b796a821af6-9mDOc8_fw658.jpg" />
+    <Content Include="LogoDesign\logoBackground副本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LogoDesign\bodybackground.psd" />
+    <None Include="LogoDesign\bodybackgroundRedLineLeft.psd" />
+    <None Include="LogoDesign\bodybackgroundRedLineRight.psd" />
+    <None Include="LogoDesign\bodybackgroundWhiteLineLeft.psd" />
+    <None Include="LogoDesign\logo.psd" />
+    <None Include="LogoDesign\logo2.psd" />
+    <None Include="LogoDesign\logoBackground.psd" />
+    <None Include="OtherDesign\pf.psd" />
+    <None Include="OtherDesign\pf2.psd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

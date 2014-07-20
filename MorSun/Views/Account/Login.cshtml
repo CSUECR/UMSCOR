@@ -4,41 +4,44 @@
     int yzmR = new Random().Next(100000);
     //Layout = null;
 }
+<div class="content-wrapper clear-fix">
+    <section id="loginForm">
 
-<section id="loginForm">
-    <h2>@ViewBag.Title</h2>    
-    @using (Html.BeginForm("AjaxLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "logonForm" }))
-    {
-        @Html.AntiForgeryToken()
-        <fieldset>
-            <legend>“登录”表单</legend>
-            <ol>
-                <li>
-                    @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName)                    
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.Password)
-                    @Html.PasswordFor(m => m.Password)                    
-                </li>
-                @if("loginVerificationCode".GetXmlConfig().ToAs<bool>()){
-                <li>
-                    @Html.LabelFor(m => m.Verifycode)
-                    @Html.TextBoxFor(m => m.Verifycode, new { @class = "loginYZMText", onfocus = "getVerifyCode('#Verifycode', '#VerifyCodeImg')" })
-                    <img id="VerifyCodeImg" height="35px" src="/images/VerifyCode.aspx?type=@yzmR"
-                         title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />      
-                </li>
-                }                
-            </ol>
-            <input type="button" id="logonBtn" value="登录" />
-        </fieldset>
-        <p>
-            没有账号？@Html.ActionLink("注册新账号", "Register")。
-        </p>
-        <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
-    }
-</section>
+        <h2>@ViewBag.Title</h2>
+        @using (Html.BeginForm("AjaxLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "logonForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <fieldset>
+                <legend>“登录”表单</legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(m => m.UserName)
+                        @Html.TextBoxFor(m => m.UserName)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password)
+                    </li>
+                    @if ("loginVerificationCode".GetXmlConfig().ToAs<bool>())
+                    {
+                        <li>
+                            @Html.LabelFor(m => m.Verifycode)
+                            @Html.TextBoxFor(m => m.Verifycode, new { @class = "loginYZMText", onfocus = "getVerifyCode('#Verifycode', '#VerifyCodeImg')" })
+                            <img id="VerifyCodeImg" height="35px" src="/images/VerifyCode.aspx?type=@yzmR"
+                                 title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />
+                        </li>
+                    }
+                </ol>
+                <input type="button" id="logonBtn" value="登录" />
+            </fieldset>
+            <p>
+                没有账号？@Html.ActionLink("注册新账号", "Register")。
+            </p>
+            <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
+        }
 
+    </section>
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
