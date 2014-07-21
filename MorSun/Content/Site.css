@@ -389,41 +389,79 @@ ul#menu {
         }
 
 /*voiced*/
-.voiced {
-    background-color:#fff;
+.voicedRedPewterR {
+    background-color:#303030;
 }
 
-    .voiced .content-wrapper {
-        background-color: #fff;  
-        background: url("../Images/bodybackgroundRedLineRight.gif") no-repeat 800px -150px;      
+    .voicedRedPewterR .content-wrapper {
+        background-color: #303030;  
+        background: url("../Images/RedLineRightWhiteLogo.png") no-repeat 800px 0px;      
         color: #1a1011;
         padding: 20px 40px 30px 40px;
         height:600px;
     }
 
-.voiced2 {
+.voicedRedPewterL {
+    background-color:#303030;
+}
+
+    .voicedRedPewterL .content-wrapper {
+        background-color: #303030;  
+        background: url("../Images/RedLineLeftWhiteLogo.png") no-repeat 800px 0px;      
+        color: #1a1011;
+        padding: 20px 40px 30px 40px;
+        height:600px;
+    }
+
+.voicedPewterWhiteR {
+    background-color:#fff;
+}
+
+    .voicedPewterWhiteR .content-wrapper {
+        background-color: #fff;  
+        background: url("../Images/PewterLineRightRedLogo.png") no-repeat 800px -200px;      
+        color: #1a1011;
+        padding: 20px 40px 30px 40px;
+        height:600px;
+    }
+
+.voicedPewterWhiteL {
+    background-color:#fff;
+}
+
+    .voicedPewterWhiteL .content-wrapper {
+        background-color: #fff;  
+        background: url("../Images/PewterLineLeftRedLogo.png") no-repeat 800px -200px;      
+        color: #1a1011;
+        padding: 20px 40px 30px 40px;
+        height:600px;
+    }
+
+.voicedWhiteRedR {
     background-color:#bd0124;
 }
 
-    .voiced2 .content-wrapper {
+    .voicedWhiteRedR .content-wrapper {
         background-color: #bd0124;  
-        background: url("../Images/bodybackgroundWhiteLineLeft.png") no-repeat 800px -100px;      
+        background: url("../Images/WhiteLineRightWhiteLogo.png") no-repeat 800px -100px;      
         color: #1a1011;
         padding: 20px 40px 30px 40px;
         height:600px;
     }
 
-.voiced3 {
-    background-color:#fff;
+.voicedWhiteRedL {
+    background-color:#bd0124;
 }
 
-    .voiced3 .content-wrapper {
-        background-color: #fff;  
-        background: url("../Images/bodybackgroundRedLineRight.gif") no-repeat 800px -100px;      
+    .voicedWhiteRedL .content-wrapper {
+        background-color: #bd0124;  
+        background: url("../Images/WhiteLineLeftWhiteLogo.png") no-repeat 800px -100px;      
         color: #1a1011;
         padding: 20px 40px 30px 40px;
         height:600px;
     }
+
+
 
 /* page titles */
 hgroup.title {
@@ -457,7 +495,7 @@ section.feature {
 .iconMa{background-image:url(../Images/iconMa.png);padding-left:25px;}
 .iconVoiceRed {background:url(../Images/iconVoiceRed.png) no-repeat 8px center;padding-left:32px; }
 .iconVoiceOrange {background:url(../Images/iconVoiceOrange.png) no-repeat 8px center;padding-left:32px; }
-
+.iconVoiceWhite {background:url(../Images/iconVoiceWhite.png) no-repeat 8px center;padding-left:32px; }
 
 /* ordered list */
 ol.round {

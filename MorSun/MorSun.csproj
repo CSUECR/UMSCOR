@@ -617,12 +617,13 @@
     <Content Include="Content\themes\bootstrap\image\glyphiconshalflings-regular.woff" />
     <Content Include="Content\themes\bootstrap\image\js" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <Content Include="Images\bodybackgroundRedLineLeft.gif" />
-    <Content Include="Images\bodybackgroundRedLineRight.gif" />
-    <Content Include="Images\bodybackgroundWhiteLineLe2.png" />
-    <Content Include="Images\bodybackgroundWhiteLineLef2.gif" />
-    <Content Include="Images\bodybackgroundWhiteLineLeft.gif" />
-    <Content Include="Images\bodybackgroundWhiteLineLeft.png" />
+    <Content Include="Images\iconVoiceWhite.png" />
+    <Content Include="Images\PewterLineLeftRedLogo.png" />
+    <Content Include="Images\PewterLineRightRedLogo.png" />
+    <Content Include="Images\RedLineLeftWhiteLogo.png" />
+    <Content Include="Images\RedLineRightWhiteLogo.png" />
+    <Content Include="Images\WhiteLineLeftWhiteLogo.png" />
+    <Content Include="Images\favicon.ico" />
     <Content Include="Images\iconMa.png" />
     <Content Include="Images\iconPWD.png" />
     <Content Include="Images\iconUser.png" />
@@ -634,6 +635,7 @@
     <Content Include="Images\top.png" />
     <Content Include="Images\top2.png" />
     <Content Include="Images\VerifyCode.aspx" />
+    <Content Include="Images\WhiteLineRightWhiteLogo.png" />
     <Content Include="Images\yelloaccent.png" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />
     <Content Include="Scripts\Common\MorSun.Common.js" />
