@@ -23,7 +23,7 @@ int yzmR = new Random().Next(100000);
                     @Html.PasswordFor(m => m.Password, new { @class = "logonText iconPwd" })                   
                 </th>                
             </tr>
-            @if("loginVerificationCode".GetXmlConfig().ToAs<bool>()){
+            @if("LoginVerificationCode".GetXmlConfig().ToAs<bool>()){
             <tr>
                 <th>                    
                     @Html.TextBoxFor(m => m.Verifycode, new { @class = "logonYZMText iconMa", onfocus = "getVerifyCode('#Verifycode', '#VerifyCodeImg')" })

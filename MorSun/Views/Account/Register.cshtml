@@ -25,7 +25,7 @@
                         @Html.LabelFor(m => m.ConfirmPassword)
                         @Html.PasswordFor(m => m.ConfirmPassword)
                     </li>
-                    @if ("regVerificationCode".GetXmlConfig().ToAs<bool>())
+                    @if ("RegVerificationCode".GetXmlConfig().ToAs<bool>())
                     {
                         <li>
                             @Html.LabelFor(m => m.Verifycode)

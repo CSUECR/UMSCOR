@@ -100,7 +100,7 @@ namespace MorSun.Controllers
             if (Request.IsAuthenticated)
                 FormsService.SignOut();
             var oper = new OperationResult(OperationResultType.Error, "登录失败");
-            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "loginVerificationCode");
+            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "LoginVerificationCode");
             if (ModelState.IsValid)
             {
                 validateLockedUser(model);
@@ -151,7 +151,7 @@ namespace MorSun.Controllers
         public ActionResult Register(RegisterModel model, string returnUrl)
         {
             var oper = new OperationResult(OperationResultType.Error, "注册失败");
-            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "regVerificationCode");
+            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "RegVerificationCode");
 
             if ("Register".GetXmlConfig() != "true")
             {
