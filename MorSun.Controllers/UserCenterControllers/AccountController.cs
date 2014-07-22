@@ -133,6 +133,13 @@ namespace MorSun.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //ActiveUser
+        [AllowAnonymous]
+        public ActionResult ActiveUser()
+        {
+            return View();
+        }
+
         //
         // GET: /Account/Register
 
