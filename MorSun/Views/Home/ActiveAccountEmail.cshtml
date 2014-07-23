@@ -1,89 +1,195 @@
 ﻿@{
     ViewBag.Title = "悟空打码";
-    
+    Layout = null;
 }
-@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            @*<hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
-            <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>*@
-            <div class="content-login">                
-                @Html.Partial("_TableLogon")
-                
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>激活账号 - 验证码识别 远程答题服务 代答平台 验证码识别软件下载 悟空打码</title>  
+    
+</head>
+<body>
+    <header>
+        <div id="top" class="content-wrapper">
+            <div class="float-left">
+                <p class="site-title"><a href="/Home/Index"><img src="@("MediaDomain".GetXmlConfig())/images/logo.gif" width="68" class="float-left" /><span class="logohspan">悟空打码</span></a><span class="logoyspan">5kdm</span></p>
+            </div>
+            <div class="float-right">
+                <section id="login">
+                    @*<span class="telStringSpan">Tel.</span> <span class="telSpan">133 137 88387</span>*@
+                </section>
             </div>
         </div>
-    </section>
-}
-<div id="DIVVoice" class="voiceDiv">
-    <div class="zbSlides_Contain">
-        <div>
-            <span class="iconVoice"><a href="#">中标1</a></span>
-        </div>
-        <div>
-            <span class="iconVoice"><a href="#">中标2</a></span>
-        </div>
-        <div>
-            <span class="iconVoice"><a href="#">中标3</a></span>
-        </div>
-        <div>
-            <span class="iconVoice"><a href="#">中标4</a></span>
-        </div>
-        </div>
-    </div>
-<h3>We suggest the following:</h3>
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-        enables a clean separation of concerns and that gives you full control over markup
-        for enjoyable, agile development. ASP.NET MVC includes many features that enable
-        fast, TDD-friendly development for creating sophisticated applications that use
-        the latest web standards.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-    </li>
+    </header>
+    <div id="body">
+        <div class="content-wrapper clear-fix">
+            <h3>亲耐的[==UserName==]:</h3>
+            
+            <p>请点击下面的链接激活账号完成注册。(请在48小时内完成)</p>
+            
+            <p>
+                <a href="@("ServiceDomain".GetXmlConfig())/Account/ActiveUser/[==UserCode==]">@("ServiceDomain".GetXmlConfig())/Account/ActiveUser/[==UserCode==]</a>
+            </p>
 
-    <li class="two">@("s5kdmqwertyuiop".Encrypt())  @("C220C54A34828FBF12BB35E02AE35AE1".Decrypt())
-        <h5>Add NuGet packages and jump-start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-    </li>
+            <p>
+                如果该链接无法点击，请直接拷贝以上链接到浏览器地址栏中访问。
+            </p>
+            
+            <hr />
 
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features
-        and price for your applications.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </li>
-</ol>
+            <p>
+                此信是由<a href="@("ServiceDomain".GetXmlConfig())">悟空打码</a>系统发出，系统不接收回信，请勿直接回复。
+            </p>
+            </div>
+        </div>
+</body>
+</html>
+<style>
+    html {
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+    }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Styles.Render("~/Content/JQueryQtipCustom/css")
-    @Scripts.Render("~/Content/JQueryQtipCustom/js")
-    @Scripts.Render("~/Scripts/Common/MorSun.Common")
-    @Scripts.Render("~/Scripts/slides")
-    <script type="text/javascript">
-        $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
-        $(document).ready(function () {
-            $('#DIVVoice').slides({
-                preload: true,
-                preloadImage: 'img/loading.gif',
-                container: 'zbSlides_Contain',
-                generatePagination: false,
-                play: 4000,
-                pause: 1,
-                hoverPause: true
-            });
-        });
-    </script>
-}
+    body {
+        background-color: #fff;
+        border-top: solid 10px #000;
+        color: #222;
+        font-size: 1em;
+        font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    a {
+        color: #bd0124;
+        outline: none;
+        padding-left: 3px;
+        padding-right: 3px;
+        text-decoration: none;
+    }
+
+        a:link, a:visited,
+        a:active, a:hover {
+            color: #bd0124;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    img {
+        border: none;
+    }
+    header, footer, hgroup,
+    nav, section {
+        display: block;
+    }
+
+    mark {
+        background-color: #a6dbed;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .float-left {
+        float: left;
+    }
+
+    .float-right {
+        float: right;
+    }
+
+    .clear-fix:after {
+        content: ".";
+        clear: both;
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.75em;
+    }
+
+    h3 {
+        font-size: 1.2em;
+    }
+    .content-wrapper {
+        margin: 0 auto;
+        max-width: 960px;
+    }
+    #body {
+        background-color: #fff;
+        clear: both;
+        padding-top:35px;
+        /*padding-bottom: 35px;*/
+    }
+    /*header*/
+    header .content-wrapper {
+        padding-top: 10px;
+        height: 58px;
+    }
+    .site-title {
+        color: #333;
+        font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
+        font-size: 2.3em;
+        margin: 0;
+    }
+
+        .site-title a, .site-title a:hover, .site-title a:active {
+            background: none;
+            color: #333;
+            outline: none;
+            text-decoration: none;
+        }
+
+    header .logohspan {
+        margin-top: 15px;
+        margin-left: 10px;
+        float: left;
+    }
+
+    header .logoyspan {
+        margin-top: 10px;
+        margin-left: -35px;
+        float: left;
+        font-size: 12px;
+    }
+
+    header .telStringSpan {
+        color: #E72F2F;
+        font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
+        font-size: 1.0em;
+        margin: 0;
+        margin-left: 50px;
+    }
+
+    header .telSpan {
+        color: #99312E;
+        font-family: 微软雅黑,宋体,Tahoma,Geneva,sans-serif;
+        font-size: 2.0em;
+        margin: 0;
+    }
+
+
+
+    .featured {
+        background-color: #bd0124;
+    }
+
+        .featured .content-wrapper {
+            background-color: #bd0124;
+            color: #1a1011;
+            padding: 20px 40px 30px 40px;
+            height: 400px;
+        }
+</style>
+
+<script type="text/javascript">
+
+</script>

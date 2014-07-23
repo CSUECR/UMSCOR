@@ -117,9 +117,7 @@ h5, h6 {
     background-color:#303030;
 }
 
-.featured + .main-content + .main-content{
-    background: url("../Images/yelloAccent.png") no-repeat 900px 0px;
-}
+
 
 header .content-wrapper {
     padding-top: 10px;   
