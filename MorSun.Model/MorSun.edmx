@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -1757,6 +1757,12 @@
           <Property Name="IsNoCheck" Type="bit" Nullable="false" />
           <Property Name="FlagWorker" Type="bit" />
           <Property Name="FlagActive" Type="bit" />
+          <Property Name="InviteCode" Type="nvarchar" MaxLength="256" />
+          <Property Name="BeInviteCode" Type="nvarchar" MaxLength="256" />
+          <Property Name="InviteUser" Type="uniqueidentifier" />
+          <Property Name="UserNameString" Type="nvarchar" MaxLength="256" />
+          <Property Name="PassWordString" Type="nvarchar" MaxLength="256" />
+          <Property Name="GetPassWordTime" Type="datetime" />
           <Property Name="RegTime" Type="datetime" />
           <Property Name="ModTime" Type="datetime" />
           <Property Name="FlagTrashed" Type="bit" Nullable="false" />
@@ -2803,6 +2809,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_wmfUserInfo_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="wmfUserInfo" Type="Self.wmfUserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="wmfUserInfo">
+              <PropertyRef Name="InviteUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_wmfUserInfo_wmfCity">
           <End Role="wmfCity" Type="Self.wmfCity" Multiplicity="0..1" />
           <End Role="wmfUserInfo" Type="Self.wmfUserInfo" Multiplicity="*" />
@@ -2865,6 +2883,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="HF_GetAllowsStartWorkFlowsPro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="MorSunModelStoreContainer">
           <EntitySet Name="Aduit" EntityType="Self.Aduit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AskForLeave" EntityType="Self.AskForLeave" Schema="dbo" store:Type="Tables" />
@@ -3403,6 +3424,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="wmfUserInfo" EntitySet="wmfUserInfo" />
           </AssociationSet>
+          <AssociationSet Name="FK_wmfUserInfo_aspnet_Users1" Association="Self.FK_wmfUserInfo_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="wmfUserInfo" EntitySet="wmfUserInfo" />
+          </AssociationSet>
           <AssociationSet Name="FK_wmfUserInfo_wmfCity" Association="Self.FK_wmfUserInfo_wmfCity">
             <End Role="wmfCity" EntitySet="wmfCity" />
             <End Role="wmfUserInfo" EntitySet="wmfUserInfo" />
@@ -3424,7 +3449,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -3596,6 +3622,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfUploadFiles" Relationship="Self.FK_wmfUploadFile_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUploadFile" />
           <NavigationProperty Name="wmfUserDeptPositions" Relationship="Self.FK_wmfUserDeptPosition_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserDeptPosition" />
           <NavigationProperty Name="wmfUserInfo" Relationship="Self.FK_wmfUserInfo_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserInfo" />
+          <NavigationProperty Name="wmfUserInfoes" Relationship="Self.FK_wmfUserInfo_aspnet_Users1" FromRole="aspnet_Users" ToRole="wmfUserInfo" />
           <NavigationProperty Name="aspnet_Roles" Relationship="Self.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
         </EntityType>
         <EntityType Name="aspnet_WebEvent_Events">
@@ -5225,7 +5252,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="ID" Type="Guid" Nullable="false" />
           <Property Name="AutoGeneticId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LoginValidateCode" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="ValidateCode" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="UserPassword" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="OperatePassword" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="LastLogTime" Type="DateTime" Precision="3" />
@@ -5246,20 +5273,25 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="Address" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="RollMachine" Type="Guid" />
           <Property Name="CheckNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsTeacher" Type="Boolean" />
           <Property Name="IsNoCheck" Type="Boolean" Nullable="false" />
+          <Property Name="FlagWorker" Type="Boolean" />
+          <Property Name="FlagActive" Type="Boolean" />
+          <Property Name="InviteCode" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="BeInviteCode" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="InviteUser" Type="Guid" />
+          <Property Name="UserNameString" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PassWordString" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="GetPassWordTime" Type="DateTime" Precision="3" />
           <Property Name="RegTime" Type="DateTime" Precision="3" />
           <Property Name="ModTime" Type="DateTime" Precision="3" />
           <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
           <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_wmfUserInfo_aspnet_Users" FromRole="wmfUserInfo" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_wmfUserInfo_aspnet_Users1" FromRole="wmfUserInfo" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfCity" Relationship="Self.FK_wmfUserInfo_wmfCity" FromRole="wmfUserInfo" ToRole="wmfCity" />
           <NavigationProperty Name="wmfCounty" Relationship="Self.FK_wmfUserInfo_wmfCounty" FromRole="wmfUserInfo" ToRole="wmfCounty" />
           <NavigationProperty Name="wmfProvince" Relationship="Self.FK_wmfUserInfo_wmfProvince" FromRole="wmfUserInfo" ToRole="wmfProvince" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfUserInfo" ToRole="wmfReference" />
-          <Property Name="ValidateCode" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="FlagWorker" Type="Boolean" />
-          <Property Name="FlagActive" Type="Boolean" />
         </EntityType>
         <EntityType Name="wmfVillage">
           <Key>
@@ -5747,6 +5779,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Principal>
             <Dependent Role="wmfUserInfo">
               <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wmfUserInfo_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="wmfUserInfo" Type="Self.wmfUserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="wmfUserInfo">
+              <PropertyRef Name="InviteUser" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6597,6 +6641,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="wmfUserInfo" EntitySet="wmfUserInfoes" />
           </AssociationSet>
+          <AssociationSet Name="FK_wmfUserInfo_aspnet_Users1" Association="Self.FK_wmfUserInfo_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="wmfUserInfo" EntitySet="wmfUserInfoes" />
+          </AssociationSet>
           <AssociationSet Name="FK_kqCPTCS_kqCalssPlanTemplate" Association="Self.FK_kqCPTCS_kqCalssPlanTemplate">
             <End Role="kqCalssPlanTemplate" EntitySet="kqCalssPlanTemplates" />
             <End Role="kqCPTCS" EntitySet="kqCPTCS" />
@@ -6797,6 +6845,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <FunctionImport Name="HF_GetAllowsStartWorkFlowsPro">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -8548,12 +8599,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="wmfUserInfoes">
             <EntityTypeMapping TypeName="MorSun.Model.wmfUserInfo">
               <MappingFragment StoreEntitySet="wmfUserInfo">
-                <ScalarProperty Name="FlagActive" ColumnName="FlagActive" />
-                <ScalarProperty Name="FlagWorker" ColumnName="FlagWorker" />
-                <ScalarProperty Name="ValidateCode" ColumnName="ValidateCode" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AutoGeneticId" ColumnName="AutoGeneticId" />
                 <ScalarProperty Name="SID" ColumnName="SID" />
+                <ScalarProperty Name="ValidateCode" ColumnName="ValidateCode" />
                 <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
                 <ScalarProperty Name="OperatePassword" ColumnName="OperatePassword" />
                 <ScalarProperty Name="LastLogTime" ColumnName="LastLogTime" />
@@ -8575,6 +8624,14 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="RollMachine" ColumnName="RollMachine" />
                 <ScalarProperty Name="CheckNumber" ColumnName="CheckNumber" />
                 <ScalarProperty Name="IsNoCheck" ColumnName="IsNoCheck" />
+                <ScalarProperty Name="FlagWorker" ColumnName="FlagWorker" />
+                <ScalarProperty Name="FlagActive" ColumnName="FlagActive" />
+                <ScalarProperty Name="InviteCode" ColumnName="InviteCode" />
+                <ScalarProperty Name="BeInviteCode" ColumnName="BeInviteCode" />
+                <ScalarProperty Name="InviteUser" ColumnName="InviteUser" />
+                <ScalarProperty Name="UserNameString" ColumnName="UserNameString" />
+                <ScalarProperty Name="PassWordString" ColumnName="PassWordString" />
+                <ScalarProperty Name="GetPassWordTime" ColumnName="GetPassWordTime" />
                 <ScalarProperty Name="RegTime" ColumnName="RegTime" />
                 <ScalarProperty Name="ModTime" ColumnName="ModTime" />
                 <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
@@ -8788,6 +8845,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="HF_GetAllowsStartWorkFlowsPro" FunctionName="MorSun.Model.Store.HF_GetAllowsStartWorkFlowsPro" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
