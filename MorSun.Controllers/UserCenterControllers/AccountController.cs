@@ -140,6 +140,13 @@ namespace MorSun.Controllers
             return View();
         }
 
+        //ActiveUser
+        [AllowAnonymous]
+        public ActionResult ECPW()
+        {
+            return View();
+        }
+
         //
         // GET: /Account/Register
 

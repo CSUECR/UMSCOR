@@ -33,5 +33,10 @@ namespace MorSun.Controllers
         {
             return View();
         }
+
+        public ActionResult AccountChangePassword()
+        {
+            return View();
+        }
     }
 }
