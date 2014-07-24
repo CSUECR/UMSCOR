@@ -35,11 +35,12 @@ namespace MorSun.Controllers
         }
 
         /// <summary>
-        /// 检验商家昵称是否已存在
+        /// 检验商家昵称是否已存在  //JS验证的不能增加域判断
         /// </summary>
         /// <param name="sellerNick">昵称</param>
         /// <returns>bool</returns>
         [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         public JsonResult CheckUserName(string UserName)
         {
             bool isValidate = false;

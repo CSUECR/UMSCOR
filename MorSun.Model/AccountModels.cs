@@ -63,7 +63,7 @@ namespace MorSun.Model
         [StringLength(50,MinimumLength=6,ErrorMessage="邮件长度控制在6~50个字符之间")]
         [Remote("CheckUserName","Account",ErrorMessage="该邮件不能注册")]
         //[DataType(DataType.EmailAddress)]
-        [Email(ErrorMessage="请输入正确的邮件格式")]
+        //[Email(ErrorMessage="请输入正确的邮件格式")]
         //[Num(ErrorMessage = "只能录入数字")]
         [DisplayName("常用电子邮件")]
         public string UserName { get; set; }
