@@ -50,6 +50,7 @@
       <HintPath>Lib\OpenSmtp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -144,6 +145,11 @@
     <Compile Include="Helper\TypeConvertHelper.cs" />
     <Compile Include="Model\IModel.cs" />
     <Compile Include="Model\ModelStateValidate.cs" />
+    <Compile Include="Model\MvcValidation.Extension\NumAttribute.cs" />
+    <Compile Include="Model\MvcValidation.Extension\NumLetterSignChineseAttribute.cs" />
+    <Compile Include="Model\MvcValidation.Extension\NumLetterAttribute.cs" />
+    <Compile Include="Model\MvcValidation.Extension\NumLetterSignAttribute.cs" />
+    <Compile Include="Model\MvcValidation.Extension\EmailAttribute.cs" />
     <Compile Include="Model\OperationResult.cs" />
     <Compile Include="Model\OperationResultType.cs" />
     <Compile Include="Model\ParameterProcess.cs" />

@@ -7,6 +7,8 @@ using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using HOHO18.Common;
+using MvcValidation.Extension;
 
 namespace MorSun.Model
 {
@@ -58,6 +60,11 @@ namespace MorSun.Model
     public class RegisterModel
     {
         [Required(ErrorMessage = "{0}必填")]
+        [StringLength(50,MinimumLength=6,ErrorMessage="邮件长度控制在6~50个字符之间")]
+        [Remote("CheckUserName","Account",ErrorMessage="该邮件不能注册")]
+        //[DataType(DataType.EmailAddress)]
+        [Email(ErrorMessage="请输入正确的邮件格式")]
+        //[Num(ErrorMessage = "只能录入数字")]
         [DisplayName("常用电子邮件")]
         public string UserName { get; set; }
 
@@ -69,7 +76,9 @@ namespace MorSun.Model
         [Required(ErrorMessage = "{0}必填")]
         [ValidatePasswordLength]
         [DataType(DataType.Password)]
+
         [DisplayName("密码")]
+        [NumLetter(ErrorMessage="只能录入数字与字母")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "{0}必填")]

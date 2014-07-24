@@ -33,6 +33,37 @@ namespace MorSun.Controllers
 
             base.Initialize(requestContext);
         }
+
+        /// <summary>
+        /// 检验商家昵称是否已存在
+        /// </summary>
+        /// <param name="sellerNick">昵称</param>
+        /// <returns>bool</returns>
+        [AllowAnonymous]
+        public JsonResult CheckUserName(string UserName)
+        {
+            bool isValidate = false;
+            if (Membership.GetUser(UserName) == null)
+            {
+                isValidate = true;
+            }
+            return Json(isValidate, JsonRequestBehavior.AllowGet);
+
+            //返回多个验证错误消息方法
+            //if (IsUniqueName(userName) && IsForbiddenName(userName))
+            //{
+            //    return Json(true, JsonRequestBehavior.AllowGet);
+            //}
+            //else if (!IsUniqueName(userName))
+            //{
+            //    return Json("用户名不唯一！", JsonRequestBehavior.AllowGet);
+            //}
+            //else
+            //{
+            //    return Json("用户名不包含违禁词！", JsonRequestBehavior.AllowGet);
+            //}
+        }
+
         //
         // GET: /Account/Login
 
@@ -171,11 +202,9 @@ namespace MorSun.Controllers
             {
                 //注册已经关闭，不允许注册
                 "UserName".AE("用户注册已经关闭", ModelState);                
-            }
+            }           
 
-            var aspnetUserBll = new BaseBll<aspnet_Users>();
-            var aspnetusers = aspnetUserBll.All.FirstOrDefault(r => r.UserName == model.UserName);
-            if (aspnetusers != null)
+            if (Membership.GetUser(model.UserName) != null)
             {
                 //该用户名已经存在，请重新输入！
                 "UserName".AE("该用户已存在", ModelState); 

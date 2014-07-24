@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using MorSun.Controllers;
 
 namespace MorSun
 {
@@ -17,6 +18,8 @@ namespace MorSun
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            ///todo:替换默认模型绑定器
+            ModelBinders.Binders.DefaultBinder = new SmartModelBinder();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -24,5 +27,19 @@ namespace MorSun
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
         }
+
+        protected void Application_End(object sender, EventArgs e)
+        {
+            //关闭任务调度器
+            //MorSunScheduler.Instance.Stop(true);
+            //解决应用池回收问题 
+            System.Threading.Thread.Sleep(5000);
+            string strUrl = "http://" + "ServiceDomain".GetXmlConfig();
+            System.Net.HttpWebRequest _HttpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(strUrl);
+            System.Net.HttpWebResponse _HttpWebResponse = (System.Net.HttpWebResponse)_HttpWebRequest.GetResponse();
+            System.IO.Stream _Stream = _HttpWebResponse.GetResponseStream();//得到回写的字节流 
+        }
     }
+
+    
 }
