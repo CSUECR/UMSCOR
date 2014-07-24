@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using HOHO18.Common;
 using MvcValidation.Extension;
 
 namespace MorSun.Model
@@ -64,7 +63,9 @@ namespace MorSun.Model
         [Remote("CheckUserName","Account",ErrorMessage="该邮件不能注册")]
         //[DataType(DataType.EmailAddress)]
         //[Email(ErrorMessage="请输入正确的邮件格式")]
-        //[Num(ErrorMessage = "只能录入数字")]
+        [Num(ErrorMessage = "只能录入数字")]
+        //[NumLetter(ErrorMessage = "只能录入数字")]
+        //[NumLetterChinese(ErrorMessage = "只能录入数字字母汉字")]
         [DisplayName("常用电子邮件")]
         public string UserName { get; set; }
 

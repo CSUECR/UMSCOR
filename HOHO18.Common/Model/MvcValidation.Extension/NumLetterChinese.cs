@@ -4,11 +4,11 @@ using System.Web.Mvc;
 
 namespace MvcValidation.Extension
 {
-    public sealed class NumAttribute : ValidationAttribute, IClientValidatable
+    public sealed class NumLetterChineseAttribute : ValidationAttribute, IClientValidatable
     {
-        public const string reg = @"-?[0-9]\\d*$";
+        public const string reg = @"^[0-9A-Za-z\\u4E00-\\u9FA5\\uF900-\\uFA2D]+$";
 
-        public NumAttribute()
+        public NumLetterChineseAttribute()
         {
         }
 
@@ -30,7 +30,7 @@ namespace MvcValidation.Extension
         {
             ModelClientValidationRule rule = new ModelClientValidationRule
             {
-                ValidationType = "num",
+                ValidationType = "numletterchinese",
                 ErrorMessage = FormatErrorMessage(metadata.GetDisplayName())
             };
             yield return rule;
