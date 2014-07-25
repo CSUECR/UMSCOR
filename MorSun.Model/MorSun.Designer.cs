@@ -41704,6 +41704,150 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Question1
+        {
+            get
+            {
+                return _Question1;
+            }
+            set
+            {
+                OnQuestion1Changing(value);
+                ReportPropertyChanging("Question1");
+                _Question1 = StructuralObject.SetValidValue(value, true, "Question1");
+                ReportPropertyChanged("Question1");
+                OnQuestion1Changed();
+            }
+        }
+        private global::System.String _Question1;
+        partial void OnQuestion1Changing(global::System.String value);
+        partial void OnQuestion1Changed();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Answer1
+        {
+            get
+            {
+                return _Answer1;
+            }
+            set
+            {
+                OnAnswer1Changing(value);
+                ReportPropertyChanging("Answer1");
+                _Answer1 = StructuralObject.SetValidValue(value, true, "Answer1");
+                ReportPropertyChanged("Answer1");
+                OnAnswer1Changed();
+            }
+        }
+        private global::System.String _Answer1;
+        partial void OnAnswer1Changing(global::System.String value);
+        partial void OnAnswer1Changed();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Question2
+        {
+            get
+            {
+                return _Question2;
+            }
+            set
+            {
+                OnQuestion2Changing(value);
+                ReportPropertyChanging("Question2");
+                _Question2 = StructuralObject.SetValidValue(value, true, "Question2");
+                ReportPropertyChanged("Question2");
+                OnQuestion2Changed();
+            }
+        }
+        private global::System.String _Question2;
+        partial void OnQuestion2Changing(global::System.String value);
+        partial void OnQuestion2Changed();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Answer2
+        {
+            get
+            {
+                return _Answer2;
+            }
+            set
+            {
+                OnAnswer2Changing(value);
+                ReportPropertyChanging("Answer2");
+                _Answer2 = StructuralObject.SetValidValue(value, true, "Answer2");
+                ReportPropertyChanged("Answer2");
+                OnAnswer2Changed();
+            }
+        }
+        private global::System.String _Answer2;
+        partial void OnAnswer2Changing(global::System.String value);
+        partial void OnAnswer2Changed();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Question3
+        {
+            get
+            {
+                return _Question3;
+            }
+            set
+            {
+                OnQuestion3Changing(value);
+                ReportPropertyChanging("Question3");
+                _Question3 = StructuralObject.SetValidValue(value, true, "Question3");
+                ReportPropertyChanged("Question3");
+                OnQuestion3Changed();
+            }
+        }
+        private global::System.String _Question3;
+        partial void OnQuestion3Changing(global::System.String value);
+        partial void OnQuestion3Changed();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Answer3
+        {
+            get
+            {
+                return _Answer3;
+            }
+            set
+            {
+                OnAnswer3Changing(value);
+                ReportPropertyChanging("Answer3");
+                _Answer3 = StructuralObject.SetValidValue(value, true, "Answer3");
+                ReportPropertyChanged("Answer3");
+                OnAnswer3Changed();
+            }
+        }
+        private global::System.String _Answer3;
+        partial void OnAnswer3Changing(global::System.String value);
+        partial void OnAnswer3Changed();
 
         #endregion
 

@@ -147,6 +147,7 @@
     <Compile Include="Model\ModelStateValidate.cs" />
     <Compile Include="Model\MvcValidation.Extension\NumfAttribute.cs" />
     <Compile Include="Model\MvcValidation.Extension\NumLetterChinese.cs" />
+    <Compile Include="Model\MvcValidation.Extension\NumLetterSignChineseSpaceAttribute.cs" />
     <Compile Include="Model\MvcValidation.Extension\NumLetterSignChineseAttribute.cs" />
     <Compile Include="Model\MvcValidation.Extension\NumLetterAttribute.cs" />
     <Compile Include="Model\MvcValidation.Extension\NumLetterSignAttribute.cs" />
