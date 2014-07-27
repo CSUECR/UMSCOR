@@ -6,7 +6,7 @@ namespace MvcValidation.Extension
 {
     public sealed class NumLetterAttribute : ValidationAttribute, IClientValidatable
     {
-        public const string reg = @"^[A-Za-z0-9]+$";
+        public const string reg = @"^[A-Za-z0-9]*$";
 
         public NumLetterAttribute()
         {

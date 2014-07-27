@@ -62,11 +62,9 @@ namespace MorSun.Model
         [Required(ErrorMessage = "{0}必填")]
         [StringLength(50,MinimumLength=6,ErrorMessage="邮件长度控制在6~50个字符之间")]
         [Remote("CheckUserName","Account",ErrorMessage="该邮件不能注册")]        
-        //[Email(ErrorMessage="请输入正确的邮件格式")]
+        [Email(ErrorMessage="请输入正确的邮件格式")]
         //[Num(ErrorMessage = "只能录入数字")]
-        //[NumLetter(ErrorMessage = "只能录入数字字母")]
-        //[NumLetterChinese(ErrorMessage = "只能录入数字字母汉字")]
-        [NumLetterSign(ErrorMessage = "只能录入数字字母符号")]
+        //[NumLetter(ErrorMessage = "只能录入数字字母")]        
         [DisplayName("常用电子邮件")]
         public string UserName { get; set; }
 
@@ -76,7 +74,7 @@ namespace MorSun.Model
         public string Email { get; set; }
 
         [Required(ErrorMessage = "{0}必填")]
-        [ValidatePasswordLength]
+        [StringLength(25, MinimumLength = 6, ErrorMessage = "密码长度控制在6~25个字符之间")]
         [DataType(DataType.Password)]
         [DisplayName("密码")]        
         public string Password { get; set; }

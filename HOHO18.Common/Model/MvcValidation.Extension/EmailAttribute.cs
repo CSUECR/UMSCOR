@@ -6,7 +6,7 @@ namespace MvcValidation.Extension
 {
     public sealed class EmailAttribute : ValidationAttribute, IClientValidatable
     {
-        public const string reg = @"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]+$";
+        public const string reg = @"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]*$";
 
         public EmailAttribute()
         {

@@ -6,7 +6,7 @@ namespace MvcValidation.Extension
 {
     public sealed class NumLetterChineseAttribute : ValidationAttribute, IClientValidatable
     {
-        public const string reg = @"^[0-9A-Za-z\\u4E00-\\u9FA5\\uF900-\\uFA2D]+$";
+        public const string reg = @"^[0-9A-Za-z\u4E00-\u9FA5\uF900-\uFA2D]*$";
 
         public NumLetterChineseAttribute()
         {
