@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using MorSun.Controllers;
+using HOHO18.Common.WEB;
 
 namespace MorSun
 {
@@ -17,7 +18,8 @@ namespace MorSun
     {
         protected void Application_Start()
         {
-            log4net.Config.XmlConfigurator.Configure();
+            //log4net.Config.XmlConfigurator.Configure();
+            LogHelper.Init();
             AreaRegistration.RegisterAllAreas();
             ///todo:替换默认模型绑定器
             ModelBinders.Binders.DefaultBinder = new SmartModelBinder();
