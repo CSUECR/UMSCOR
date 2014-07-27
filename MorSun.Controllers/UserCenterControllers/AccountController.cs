@@ -282,7 +282,7 @@ namespace MorSun.Controllers
                             string body = new WebClient().GetHtml("ServiceDomain".GetXmlConfig() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", userinfoModel.UserNameString);
                             //创建邮件对象并发送
                             var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GetXmlConfig(), userinfoModel.NickName);
-                            mail.Send("smtp.",587);
+                            mail.Send("smtp.", 5878, model.Email + "激活账号邮件发送失败！");
                         }
                         //激活后才能登录
                         //FormsService.SignIn(model.UserName, false);

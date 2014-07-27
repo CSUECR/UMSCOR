@@ -3,6 +3,8 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
+using log4net;
+using HOHO18.Common.WEB;
 
 namespace HOHO18.Common.Web
 {    
@@ -108,13 +110,13 @@ namespace HOHO18.Common.Web
                 try { smtpClient.Send(mailMessage); }
                 catch (Exception ex)
                 {
-                    //LogHelper.WriteLog(LogFile.Error, ex.ToString());//记录错误日志
+                    LogHelper.Write(ex.Message.ToString(), LogHelper.LogMessageType.Error);//记录错误日志
                 }
                 
             }
         }
 
-        public void Send(string host, int? port)
+        public void Send(string host, int? port,string errMessage)
         {
             if (mailMessage != null)
             {
@@ -133,7 +135,7 @@ namespace HOHO18.Common.Web
                 try { smtpClient.Send(mailMessage); }
                 catch (Exception ex)
                 {
-                    //LogHelper.WriteLog(LogFile.Error, ex.ToString());//记录错误日志
+                    LogHelper.Write(errMessage + ex.Message.ToString(), LogHelper.LogMessageType.Error);//记录错误日志
                 }
 
             }

@@ -17,6 +17,7 @@ namespace MorSun
     {
         protected void Application_Start()
         {
+            log4net.Config.XmlConfigurator.Configure();
             AreaRegistration.RegisterAllAreas();
             ///todo:替换默认模型绑定器
             ModelBinders.Binders.DefaultBinder = new SmartModelBinder();
