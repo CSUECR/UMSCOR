@@ -165,14 +165,14 @@ namespace MorSun.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //ActiveUser
+        //激活账号
         [AllowAnonymous]
         public ActionResult ActiveUser()
         {
             return View();
         }
 
-        //ActiveUser
+        //电子邮件修改密码
         [AllowAnonymous]
         public ActionResult ECPW()
         {
@@ -183,9 +183,11 @@ namespace MorSun.Controllers
         // GET: /Account/Register
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string id)
         {
-            return View();
+            RegisterModel model = new RegisterModel();
+            model.BeInviteCode = id;
+            return View(model);
         }
 
         //
@@ -232,15 +234,31 @@ namespace MorSun.Controllers
                         userinfoModel.ID = user.ProviderUserKey.ToAs<Guid>();
                         userinfoModel.UserPassword = model.Password.Encrypt(userinfoModel.ID.ToString());
                         userinfoModel.OperatePassword = model.Password.Encrypt(userinfoModel.ID.ToString());
-                        userinfoModel.ValidateCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
-                        userinfoModel.NickName = "DefaultNickName".GetXmlConfig();
+                        //密码串 不用
+                        //userinfoModel.ValidateCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
+                        userinfoModel.NickName = String.IsNullOrEmpty(model.NickName) ? "DefaultNickName".GetXmlConfig() : model.NickName;
+                        //邀请码
+                        userinfoModel.InviteCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
+                        //被邀请码
+                        userinfoModel.BeInviteCode = model.BeInviteCode;
+                        //被邀请人
+                        var inviteUser = userinfobll.All.FirstOrDefault(p => p.InviteCode == model.BeInviteCode);
+                        if (inviteUser != null)
+                            userinfoModel.InviteUser = inviteUser.ID;
+                        //用户串和密码串
+                        userinfoModel.UserNameString = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
+                        userinfoModel.PassWordString = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
 
                         userinfoModel.FlagWorker = false;                        
                         userinfoModel.RegTime = DateTime.Now;
                         userinfoModel.FlagTrashed = false;
                         userinfoModel.FlagDeleted = false;
                         if ("AccountActive".GetXmlConfig() == "true")
-                        { userinfoModel.FlagActive = false; }                            
+                        { userinfoModel.FlagActive = false; }
+                        else
+                        {
+                            userinfoModel.FlagActive = true;
+                        }
 
                         //保存用户信息到 wmfuserinfo 表中
                         userinfobll.Insert(userinfoModel);
@@ -249,15 +267,25 @@ namespace MorSun.Controllers
                         var RoleName = "RoleName".GetXmlConfig();
                         if (!string.IsNullOrEmpty(RoleName))
                         {
-                            //添加角色
-                            dotNetRoles.AddUserToRole(model.UserName, RoleName);
+                            //添加角色  被注释的无效
+                            //dotNetRoles.AddUserToRole(model.UserName, RoleName);
+                            var constr = @"Insert Into aspnet_UsersInRoles ([UserId],[RoleId])  VALUES ('" + userinfoModel.ID + "','" + RoleName + "')";                            
+                            userinfobll.Db.ExecuteStoreCommand(constr);
                         }
 
                         //发送激活邮件
                         if ("AccountActive".GetXmlConfig() == "true")
                         {
+                            string fromEmail = "ServiceMail".GetXmlConfig();                            
+                            string fromEmailPassword = "ServiceMailPassword".GetXmlConfig().Decrypt();
+
+                            string body = new WebClient().GetHtml("ServiceDomain".GetXmlConfig() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", userinfoModel.UserNameString);
+                            //创建邮件对象并发送
+                            var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GetXmlConfig(), userinfoModel.NickName);
+                            mail.Send("smtp.",587);
                         }
-                        FormsService.SignIn(model.UserName, false);
+                        //激活后才能登录
+                        //FormsService.SignIn(model.UserName, false);
 
                         //封装返回的数据
                         fillOperationResult(returnUrl, oper, "注册成功");

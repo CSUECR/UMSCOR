@@ -68,7 +68,11 @@ namespace MorSun.Model
         [DisplayName("常用电子邮件")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("昵称")]
+        [StringLength(25, ErrorMessage = "昵称长度请控制在25个字符内")]
+        public string NickName { get; set; }
+
+        //[Required(ErrorMessage = "{0}必填")]
         [DataType(DataType.EmailAddress)]
         [DisplayName("电子邮件地址")]
         public string Email { get; set; }
@@ -90,6 +94,10 @@ namespace MorSun.Model
 
         [DisplayName("验证码保存字段")]
         public string VerifycodeRandom { get; set; }
+
+        [DisplayName("被邀请码")]
+        [StringLength(200, ErrorMessage = "邀请码长度超过200个字符")]
+        public string BeInviteCode { get; set; }
     }
     #endregion
 

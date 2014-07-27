@@ -97,14 +97,45 @@ namespace HOHO18.Common.Web
         {
             if (mailMessage != null)
             {
-                smtpClient = new SmtpClient();
+                smtpClient = new SmtpClient();                
                 smtpClient.Host = "smtp." + mailMessage.From.Host;
                 //smtpClient.Host = "mxdomain.qq.com.";//"aspmx.l.google.com.";//
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new System.Net.NetworkCredential(mailMessage.From.Address, password);//设置发件人身份的票据  
                 smtpClient.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
-                smtpClient.EnableSsl = true; 
-                smtpClient.Send(mailMessage);
+                smtpClient.EnableSsl = true;
+                smtpClient.Port = 587;
+                try { smtpClient.Send(mailMessage); }
+                catch (Exception ex)
+                {
+                    //LogHelper.WriteLog(LogFile.Error, ex.ToString());//记录错误日志
+                }
+                
+            }
+        }
+
+        public void Send(string host, int? port)
+        {
+            if (mailMessage != null)
+            {
+                smtpClient = new SmtpClient();
+                if (string.IsNullOrEmpty(host))
+                    host = "smtp.";
+                smtpClient.Host = host + mailMessage.From.Host;
+                //smtpClient.Host = "mxdomain.qq.com.";//"aspmx.l.google.com.";//
+                smtpClient.UseDefaultCredentials = false;
+                smtpClient.Credentials = new System.Net.NetworkCredential(mailMessage.From.Address, password);//设置发件人身份的票据  
+                smtpClient.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+                smtpClient.EnableSsl = true;
+                if (port == null)
+                    port = 587;
+                smtpClient.Port = port.Value;
+                try { smtpClient.Send(mailMessage); }
+                catch (Exception ex)
+                {
+                    //LogHelper.WriteLog(LogFile.Error, ex.ToString());//记录错误日志
+                }
+
             }
         } 
     }

@@ -16,7 +16,7 @@
                     <li>
                         @Html.LabelFor(m => m.UserName)
                         @Html.TextBoxFor(m => m.UserName)
-                    </li>
+                    </li>                    
                     <li>
                         @Html.LabelFor(m => m.Password)
                         @Html.PasswordFor(m => m.Password)
@@ -24,6 +24,10 @@
                     <li>
                         @Html.LabelFor(m => m.ConfirmPassword)
                         @Html.PasswordFor(m => m.ConfirmPassword)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.NickName)
+                        @Html.TextBoxFor(m => m.NickName)
                     </li>
                     @if ("RegVerificationCode".GetXmlConfig().ToAs<bool>())
                     {
@@ -37,6 +41,7 @@
                 </ol>
                 <input type="button" id="registerBtn" value="注册" />
                 <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
+                <input name="BeInviteCode" type="hidden" value="@Model.BeInviteCode"/>
             </fieldset>
         }
     </section>
