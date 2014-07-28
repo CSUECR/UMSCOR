@@ -56,7 +56,7 @@ namespace HOHO18.Common.Web
             {
                 return "";
             }
-        }      
+        }
 
         private static void OpenXmlMenuConfig()
         {
@@ -79,7 +79,7 @@ namespace HOHO18.Common.Web
         #endregion
 
 
-        private static string xmlSystemName = "XmlSystemName".GetWebConfig();              
+        private static string xmlSystemName = "XmlSystemName".GetWebConfig();
 
         /// <summary>
         /// 获取XmlConfig中的值  XMLConfig不要增加语言标识
@@ -117,6 +117,6 @@ namespace HOHO18.Common.Web
             {
                 return "";
             }
-        }   
+        }
     }
 }

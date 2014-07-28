@@ -18,18 +18,28 @@ namespace MorSun.Common
             #region 邮件配置类别
 
             public const string 插件配置 = "46bf0bbc-64e5-4e57-af43-cc5910fb3955";
+            #region 邮箱栏目
+            public const string 邮箱栏目_发件箱 = "fc3785f1-200e-43b4-94a7-d41b0504c690";
+            public const string 邮箱栏目_收件箱 = "fb7df431-4dc9-4a17-a059-aad276724d3b";
+            public const string 邮箱栏目_草稿箱 = "ca615b28-3219-4483-a5e1-4e191c4d8a32";
+            #endregion
+            #region 邮件重要性
+            public const string 邮件重要性_一般 = "6b60b379-3515-4d3a-9f7b-1843688d3105";
+            public const string 邮件重要性_重要 = "714628ea-a026-4d08-9d36-66068b160e05";
+            public const string 邮件重要性_非常重要 = "84065604-c831-4f3d-a002-9ec475a5da8e";
+            #endregion
 
-            public const string 发件箱 = "fc3785f1-200e-43b4-94a7-d41b0504c690";
-            public const string 收件箱 = "fb7df431-4dc9-4a17-a059-aad276724d3b";
-            public const string 草稿箱 = "ca615b28-3219-4483-a5e1-4e191c4d8a32";
+            #region 附件类别
+            public const string 附件类别_邮件 = "819a5bbd-9a02-42e9-96ae-86f050e52a3a";
+            public const string 附件类别_公告 = "0c805c57-8a6c-4d23-8d88-d082998f6cf1";
+            public const string 附件类别_项目文档 = "6ef70bd8-9f02-45ea-9e6a-86596b41789b";
+            #endregion
 
-            public const string 一般 = "6b60b379-3515-4d3a-9f7b-1843688d3105";
-            public const string 重要 = "714628ea-a026-4d08-9d36-66068b160e05";
-            public const string 非常重要 = "84065604-c831-4f3d-a002-9ec475a5da8e";
-
-            public const string 上传文件_邮件 = "819a5bbd-9a02-42e9-96ae-86f050e52a3a";
-            public const string 上传文件_公告 = "0c805c57-8a6c-4d23-8d88-d082998f6cf1";
-            public const string 上传文件_项目文档 = "6ef70bd8-9f02-45ea-9e6a-86596b41789b";
+            #region 电子邮件类别
+            public const string 电子邮件类别_账号注册 = "b40ce493-8abf-42de-8182-c94061882788";
+            public const string 电子邮件类别_找回密码 = "6d26c158-a9aa-475b-ba0a-c1ff9742f5c1";
+            public const string 电子邮件类别_登录失败 = "147f2fd3-0d69-4b95-b6f2-db9de59eec2c";
+            #endregion
 
             #endregion
 
@@ -59,13 +69,17 @@ namespace MorSun.Common
             #endregion
 
             /// <summary>
-            /// 邮件类别
+            /// 邮箱栏目
             /// </summary>
-            public const string 邮件类型 = "76766233-c331-4620-8fc8-b4844f6cb667";
+            public const string 邮箱栏目 = "76766233-c331-4620-8fc8-b4844f6cb667";
             /// <summary>
-            /// 邮件类别
+            /// 邮件重要性
             /// </summary>
-            public const string 邮件类别 = "b4305874-2187-4fc6-967e-ba07cabd2615";
+            public const string 邮件重要性 = "b4305874-2187-4fc6-967e-ba07cabd2615";
+            /// <summary>
+            /// 邮件重要性
+            /// </summary>
+            public const string 电子邮件类别 = "dc87a85f-f965-4e50-9623-6bf5c82f7c04";
             /// <summary>
             /// 上传文件类型
             /// </summary>

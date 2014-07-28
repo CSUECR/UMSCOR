@@ -1,5 +1,139 @@
 ﻿/// <reference path="../jquery-1.8.2.min.js" />
 
+/*******************************AJAX提交后页面控制   防止重复提交**********************************************/
+//获取页面正文的尺寸
+function getPageSize() {
+    if (document.documentElement) {
+        return { width: parseInt(document.documentElement.scrollWidth), height: parseInt(document.documentElement.scrollHeight) };
+    }
+    else {
+        return { width: parseInt(document.body.scrollWidth), height: parseInt(document.body.scrollHeight) };
+    }
+}
+//获取浏览器窗口的尺寸
+function winDimensions() {
+    var winHeight = 0, winWidth = 0;
+    //获取窗口宽度
+    if (window.innerWidth && window.innerHeight) {
+        winWidth = window.innerWidth;
+        winHeight = window.innerHeight;
+    }
+    else if (document.documentElement && document.documentElement.clientHeight && document.documentElement.clientWidth) {
+        winHeight = document.documentElement.clientHeight;
+        winWidth = document.documentElement.clientWidth;
+    }
+    else if ((document.body) && (document.body.clientWidth)) {
+        winWidth = document.body.clientWidth;
+        winHeight = document.body.clientHeight;
+    }
+    return { winWidth: winWidth, winHeight: winHeight };
+}
+//把选中的项移动位置,toIndex:移动到的索引,超出范围则没任何效果
+function SelectedIndexMoveTo(id, toIndex) {
+    var s = $(id)[0];
+    if (toIndex >= 0 && toIndex < s.options.length && s != undefined && s != null) {
+        var tValue = s.options[s.selectedIndex].value;
+        var tText = s.options[s.selectedIndex].innerHTML;
+        s.options[s.selectedIndex].value = s.options[toIndex].value;
+        s.options[s.selectedIndex].innerHTML = s.options[toIndex].innerHTML;
+        s.options[toIndex].value = tValue;
+        s.options[toIndex].innerHTML = tText;
+        s.selectedIndex = toIndex;
+    }
+}
+
+//获取滚动条的位置
+function getScrollTop() {
+    var scTop, scLeft;
+    if (typeof window.pageYOffset != 'undefined') {
+        scTop = window.pageYOffset;
+        scLeft = window.pageXOffset;
+    }
+    else if (typeof document.compatMode != 'undefined' && document.compatMode != 'BackCompat') {
+        scTop = document.documentElement.scrollTop;
+        scLeft = document.documentElement.scrollLeft;
+    }
+    else if (typeof document.body != 'undefined') {
+        scTop = document.body.scrollTop;
+        scLeft = document.body.scrollLeft;
+    }
+    return { top: scTop, left: scLeft };
+}
+//获取元素绝对位置
+function getAbsoluteLocation(element) {
+    if (arguments.length != 1 || element == null) {
+        return null;
+    }
+    var offsetTop = element.offsetTop;
+    var offsetLeft = element.offsetLeft;
+    var offsetWidth = element.offsetWidth;
+    var offsetHeight = element.offsetHeight;
+    while (element = element.offsetParent) {
+        offsetTop += element.offsetTop - element.scrollTop;
+        offsetLeft += element.offsetLeft - element.scrollLeft;
+    }
+    return { left: offsetLeft, top: offsetTop };
+}
+
+
+//获取鼠标位置
+//调用mouseCoords(event),返回{x,y}
+function mouseCoords(ev) {
+    if (ev.pageX || ev.pageY) {
+        return { x: ev.pageX, y: ev.pageY };
+    }
+    return {
+        x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+        y: ev.clientY + document.body.scrollTop - document.body.clientTop
+    };
+}
+
+//更新Loading的位置
+function updateLoadingPosition() {
+    //winDimensions()获取浏览器窗口的尺寸
+    $(".fixedRightDown").css({ "z-index": "900000", left: ((winDimensions().winWidth - $(".fixedRightDown").attr("offsetWidth")) / 2 + getScrollTop().left) + "px", top: ((winDimensions().winHeight - $(".fixedRightDown").attr("offsetHeight")) / 2 + getScrollTop().top) + "px" });
+    $("#DivWrap").css({ "width": getPageSize().width + "px", "height": getPageSize().height + "px", "position": "absolute", "top": "0", "left": "0", "z-index": "8999" });
+    setTimeout(function () { updateLoadingPosition(); }, 500);
+}
+//Loading
+function Loading(showInfo, loadID) {
+    loadID = (loadID != undefined ? loadID : "#Loading");
+    var l = $(loadID);
+
+    var htmlstr = "<div id=\"loading\" > ";
+    htmlstr += "<div id=\"loader_container\">";
+    htmlstr += "<div id=\"loader\">";
+    htmlstr += "<div align=\"center\" style=\"font-size:12px; \">" + (showInfo ? showInfo : "使劲运行中...") + "</div>";
+    htmlstr += "<div align=\"center\">";
+    htmlstr += "</div></div></div></div>";
+    l.html(htmlstr);
+    //l.html("<div class=\"Loade\"><div class=\"LoadingImg\"><img src=\"/Content/images/loading/loading_detail.gif\" /></div><div class=\"LoadingFont\">" + (showInfo ? showInfo : "载入中。。。</div>")+"</div>");
+    l.show();
+    var load = $("#DivWrap")[0];
+    if (!load) {
+        load = document.createElement("Div");
+        load.id = "DivWrap";
+        document.body.appendChild(load);
+        $(load).html('<iframe src="javascript:{void(0)}" style="width:100%;height:100%;border:none;filter:alpha(opacity=0);-moz-opacity:0;opacity:0;" frameborder="0"></iframe>');
+    }
+    $(load).show();
+    updateLoadingPosition();
+}
+//EndLoading
+function EndLoading(loadID) {
+    loadID = (loadID != undefined ? loadID : "#Loading");
+    var l = $(loadID);
+    l.hide();
+    var load = $("#DivWrap")[0];
+    if (!load) {
+        load = document.createElement("Div");
+        load.id = "DivWrap";
+        $(load).css({ "filter": "alpha(opacity=0)", "-moz-opacity": "0", "opacity": "0", "background": "#000", "width": $(window).width(), "height": $(document.body).height(), "position": "absolute", "top": "0", "left": "0", "z-index": "1" });
+        document.body.appendChild(load);
+    }
+    $(load).hide();
+}
+
 /*******************************分页所需的脚本 start********************************************/
 //分页的重新刷新，需要优化
 function refePage(_this,pIndex) {

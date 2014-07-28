@@ -67,6 +67,7 @@
     <Compile Include="Common\wmfCity.cs" />
     <Compile Include="Common\wmfCounty.cs" />
     <Compile Include="Common\wmfDept.cs" />
+    <Compile Include="Common\wmfMailRecord.cs" />
     <Compile Include="Common\wmfMail.cs" />
     <Compile Include="Common\wmfNavigationLink.cs" />
     <Compile Include="Common\wmfOperation.cs" />

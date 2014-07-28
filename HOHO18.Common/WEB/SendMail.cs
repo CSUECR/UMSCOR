@@ -136,6 +136,9 @@ namespace HOHO18.Common.Web
                 catch (Exception ex)
                 {
                     LogHelper.Write(errMessage + ex.Message.ToString(), LogHelper.LogMessageType.Error);//记录错误日志
+                    //for (int i = 0; i < 20;i++ )
+                    //{LogHelper.Write(errMessage + ex.Message.ToString(), LogHelper.LogMessageType.Error);//记录错误日志 
+                    //}                        
                 }
 
             }

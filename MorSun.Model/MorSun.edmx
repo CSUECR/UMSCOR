@@ -1444,6 +1444,24 @@
           <Property Name="FlagTrashed" Type="bit" Nullable="false" />
           <Property Name="FlagDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="wmfMailRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MailTo" Type="nvarchar" MaxLength="256" />
+          <Property Name="Body" Type="ntext" />
+          <Property Name="Title" Type="nvarchar" MaxLength="512" />
+          <Property Name="MailFromName" Type="nvarchar" MaxLength="256" />
+          <Property Name="MailToName" Type="nvarchar" MaxLength="256" />
+          <Property Name="MailRef" Type="uniqueidentifier" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="wmfNavigationLink">
           <Key>
             <PropertyRef Name="ID" />
@@ -2479,6 +2497,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_wmfMailRecord_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="wmfMailRecord" Type="Self.wmfMailRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="wmfMailRecord">
+              <PropertyRef Name="MailRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_wmfNavigationLink_wmfReference">
           <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
           <End Role="wmfNavigationLink" Type="Self.wmfNavigationLink" Multiplicity="*" />
@@ -2985,6 +3015,7 @@
           <EntitySet Name="wmfDept" EntityType="Self.wmfDept" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfIPData" EntityType="Self.wmfIPData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfMail" EntityType="Self.wmfMail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wmfMailRecord" EntityType="Self.wmfMailRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfNavigationLink" EntityType="Self.wmfNavigationLink" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfOperation" EntityType="Self.wmfOperation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfOperationalLogbook" EntityType="Self.wmfOperationalLogbook" Schema="dbo" store:Type="Tables" />
@@ -3325,6 +3356,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_wmfMail_wmfReference1" Association="Self.FK_wmfMail_wmfReference1">
             <End Role="wmfReference" EntitySet="wmfReference" />
             <End Role="wmfMail" EntitySet="wmfMail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wmfMailRecord_wmfReference" Association="Self.FK_wmfMailRecord_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="wmfMailRecord" EntitySet="wmfMailRecord" />
           </AssociationSet>
           <AssociationSet Name="FK_wmfNavigationLink_wmfReference" Association="Self.FK_wmfNavigationLink_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReference" />
@@ -5123,6 +5158,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfResources" Relationship="Self.FK_wmfResource_wmfReference" FromRole="wmfReference" ToRole="wmfResource" />
           <NavigationProperty Name="wmfUploadFiles" Relationship="Self.FK_wmfUploadFile_wmfReference" FromRole="wmfReference" ToRole="wmfUploadFile" />
           <NavigationProperty Name="wmfUserInfoes" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfReference" ToRole="wmfUserInfo" />
+          <NavigationProperty Name="wmfMailRecords" Relationship="MorSun.Model.FK_wmfMailRecord_wmfReference" FromRole="wmfReference" ToRole="wmfMailRecord" />
         </EntityType>
         <EntityType Name="wmfRefGroup">
           <Key>
@@ -6859,7 +6895,43 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <FunctionImport Name="HF_GetAllowsStartWorkFlowsPro">
           <Parameter Name="UserId" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="wmfMailRecords" EntityType="MorSun.Model.wmfMailRecord" />
+          <AssociationSet Name="FK_wmfMailRecord_wmfReference" Association="MorSun.Model.FK_wmfMailRecord_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="wmfMailRecord" EntitySet="wmfMailRecords" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="wmfMailRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="MailTo" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="MailFromName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="MailToName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="MailRef" Type="Guid" />
+          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_wmfMailRecord_wmfReference" FromRole="wmfMailRecord" ToRole="wmfReference" />
+        </EntityType>
+        <Association Name="FK_wmfMailRecord_wmfReference">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.wmfMailRecord" Role="wmfMailRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="wmfMailRecord">
+              <PropertyRef Name="MailRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8863,6 +8935,25 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="HF_GetAllowsStartWorkFlowsPro" FunctionName="MorSun.Model.Store.HF_GetAllowsStartWorkFlowsPro" />
+          <EntitySetMapping Name="wmfMailRecords">
+            <EntityTypeMapping TypeName="MorSun.Model.wmfMailRecord">
+              <MappingFragment StoreEntitySet="wmfMailRecord">
+                <ScalarProperty Name="MailRef" ColumnName="MailRef" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="MailToName" ColumnName="MailToName" />
+                <ScalarProperty Name="MailFromName" ColumnName="MailFromName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="MailTo" ColumnName="MailTo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

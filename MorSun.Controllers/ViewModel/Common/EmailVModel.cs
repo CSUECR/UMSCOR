@@ -27,7 +27,7 @@ namespace MorSun.Controllers.ViewModel
                 if (MailCategory != null&&MailCategory!=Guid.Empty)
                 {
                     l = l.Where(n => n.MailCategory == MailCategory);
-                    if (MailCategory != Guid.Parse(MorSun.Common.类别.Reference.草稿箱))
+                    if (MailCategory != Guid.Parse(MorSun.Common.类别.Reference.邮箱栏目_草稿箱))
                     {
                         l = l.Where(p => p.RequestUser != null);
                     }
@@ -50,7 +50,7 @@ namespace MorSun.Controllers.ViewModel
                 }
                 if (!string.IsNullOrEmpty(ReceiveUser))
                 {
-                    var ID = Guid.Parse(MorSun.Common.类别.Reference.草稿箱);
+                    var ID = Guid.Parse(MorSun.Common.类别.Reference.邮箱栏目_草稿箱);
                     var receiveID = Guid.Parse(ReceiveUser);
                     l = l.Where(n => n.MailCategory!=ID);
                     l = l.Where(n => n.Receiver == receiveID);
@@ -103,7 +103,7 @@ namespace MorSun.Controllers.ViewModel
                    mailAllNum=l.Count().ToString();
                    mailNoReadNum = l.Count(p=>p.IsRead==false).ToString();
                 }
-                if (MailCategory == Guid.Parse(MorSun.Common.类别.Reference.草稿箱))
+                if (MailCategory == Guid.Parse(MorSun.Common.类别.Reference.邮箱栏目_草稿箱))
                 {
                     mailAllNum = l.Count().ToString();
                     mailNoReadNum = l.Count(p => p.IsRead == false).ToString();
@@ -113,7 +113,7 @@ namespace MorSun.Controllers.ViewModel
                     mailAllNum = l.Count().ToString();
                     mailNoReadNum = l.Count(p => p.IsRead == false).ToString();
                 }
-                if (MailCategory == Guid.Parse(MorSun.Common.类别.Reference.发件箱))
+                if (MailCategory == Guid.Parse(MorSun.Common.类别.Reference.邮箱栏目_发件箱))
                 {
                     mailAllNum = l.Count().ToString();
                     mailNoReadNum = l.Count(p => p.IsRead == false).ToString();

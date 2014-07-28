@@ -13,14 +13,16 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
         topErrDiv = '#divInfo';
     if (!errMessage)
         errMessage = '操作失败';
-    $(btn).click(function () {
+    $(btn).click(function () {        
         var $ajaxSubmitForm = $(formId);
         if ($ajaxSubmitForm.valid()) {
+            Loading();
             $.ajax({
                 url: $ajaxSubmitForm.attr("action"),
                 data: $ajaxSubmitForm.serialize(),
                 type: 'POST',
                 success: function (data) {
+                    EndLoading();
                     //操作成功的提示信息并且跳转页面
                     if (data.ResultType == 0) {
                         $(topErrDiv).qtip({
@@ -89,10 +91,11 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
                     }
                 },
                 error: function (data) {
+                    EndLoading();
                     alert(errMessage);
                 }
-            });
-        }
+            });            
+        }        
     });
 }
 /*操作成功调用方法

@@ -32,6 +32,10 @@ a {
     }
 
 img{border:none;}
+.Loading
+{ background:#fa5d31;color:#fff; word-break: break-all; word-wrap: break-word; overflow: visible; z-index: 1000000; position: fixed; top: 0px; left: 30%; width: 35%;
+ padding:5px 5px 5px 10px;
+}
 
 header, footer, hgroup,
 nav, section {

@@ -191,6 +191,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\System.Data.dll" />
     <Content Include="Content\JQueryQtipCustom\Api说明.txt" />
     <Content Include="Content\JQueryQtipCustom\imagesloaded.pkg.min.js" />
     <Content Include="Content\JQueryQtipCustom\jquery.qtip.css" />
@@ -642,6 +643,7 @@
     <Content Include="Images\WhiteLineRightWhiteLogo.png" />
     <Content Include="Images\yelloaccent.png" />
     <Content Include="Lib\log4net.dll" />
+    <Content Include="Lib\System.Data.dll" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />
     <Content Include="Scripts\Common\MorSun.Common.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

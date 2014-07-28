@@ -197,6 +197,8 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfResource_wmfResource" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfMailRecord" Width="1.5" PointX="20.375" PointY="29.75" />
+        <AssociationConnector Association="MorSun.Model.FK_wmfMailRecord_wmfReference" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

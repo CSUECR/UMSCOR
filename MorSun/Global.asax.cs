@@ -20,6 +20,7 @@ namespace MorSun
         {
             //log4net.Config.XmlConfigurator.Configure();
             LogHelper.Init();
+            LogHelper.Write("应用开启", LogHelper.LogMessageType.Info);
             AreaRegistration.RegisterAllAreas();
             ///todo:替换默认模型绑定器
             ModelBinders.Binders.DefaultBinder = new SmartModelBinder();
@@ -35,12 +36,20 @@ namespace MorSun
         {
             //关闭任务调度器
             //MorSunScheduler.Instance.Stop(true);
+            //记录日志
+            LogHelper.Write("应用关闭", LogHelper.LogMessageType.Info);
             //解决应用池回收问题 
             System.Threading.Thread.Sleep(5000);
             string strUrl = "http://" + "ServiceDomain".GetXmlConfig();
             System.Net.HttpWebRequest _HttpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(strUrl);
             System.Net.HttpWebResponse _HttpWebResponse = (System.Net.HttpWebResponse)_HttpWebRequest.GetResponse();
             System.IO.Stream _Stream = _HttpWebResponse.GetResponseStream();//得到回写的字节流 
+        }
+
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+            Exception objExp = HttpContext.Current.Server.GetLastError();
+            LogHelper.Write("\r\n客户机IP:" + Request.UserHostAddress + "\r\n错误地址:" + Request.Url + "\r\n异常信息:" + Server.GetLastError().Message, LogHelper.LogMessageType.Error);
         }
     }
 

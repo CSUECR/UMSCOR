@@ -93,6 +93,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfResource_wmfResource", "wmfResource", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfResource), "wmfResource1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfResource), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfVillage_wmfTown", "wmfTown", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.wmfTown), "wmfVillage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfVillage), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "aspnet_UsersInRoles", "aspnet_Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Roles), "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Users))]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfMailRecord_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfMailRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfMailRecord), true)]
 
 #endregion
 
@@ -2031,6 +2032,22 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<wmfRolePrivilegesView> _wmfRolePrivilegesViews;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<wmfMailRecord> wmfMailRecords
+        {
+            get
+            {
+                if ((_wmfMailRecords == null))
+                {
+                    _wmfMailRecords = base.CreateObjectSet<wmfMailRecord>("wmfMailRecords");
+                }
+                return _wmfMailRecords;
+            }
+        }
+        private ObjectSet<wmfMailRecord> _wmfMailRecords;
 
         #endregion
 
@@ -2978,6 +2995,14 @@ namespace MorSun.Model
         public void AddTowmfRolePrivilegesViews(wmfRolePrivilegesView wmfRolePrivilegesView)
         {
             base.AddObject("wmfRolePrivilegesViews", wmfRolePrivilegesView);
+        }
+    
+        /// <summary>
+        /// 用于向 wmfMailRecords EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTowmfMailRecords(wmfMailRecord wmfMailRecord)
+        {
+            base.AddObject("wmfMailRecords", wmfMailRecord);
         }
 
         #endregion
@@ -33551,6 +33576,396 @@ namespace MorSun.Model
     /// <summary>
     /// 没有元数据文档可用。
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="wmfMailRecord")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class wmfMailRecord : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 wmfMailRecord 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        /// <param name="flagTrashed">FlagTrashed 属性的初始值。</param>
+        /// <param name="flagDeleted">FlagDeleted 属性的初始值。</param>
+        public static wmfMailRecord CreatewmfMailRecord(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted)
+        {
+            wmfMailRecord wmfMailRecord = new wmfMailRecord();
+            wmfMailRecord.ID = id;
+            wmfMailRecord.FlagTrashed = flagTrashed;
+            wmfMailRecord.FlagDeleted = flagDeleted;
+            return wmfMailRecord;
+        }
+
+        #endregion
+
+        #region 简单属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value, "ID");
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MailTo
+        {
+            get
+            {
+                return _MailTo;
+            }
+            set
+            {
+                OnMailToChanging(value);
+                ReportPropertyChanging("MailTo");
+                _MailTo = StructuralObject.SetValidValue(value, true, "MailTo");
+                ReportPropertyChanged("MailTo");
+                OnMailToChanged();
+            }
+        }
+        private global::System.String _MailTo;
+        partial void OnMailToChanging(global::System.String value);
+        partial void OnMailToChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Body
+        {
+            get
+            {
+                return _Body;
+            }
+            set
+            {
+                OnBodyChanging(value);
+                ReportPropertyChanging("Body");
+                _Body = StructuralObject.SetValidValue(value, true, "Body");
+                ReportPropertyChanged("Body");
+                OnBodyChanged();
+            }
+        }
+        private global::System.String _Body;
+        partial void OnBodyChanging(global::System.String value);
+        partial void OnBodyChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Title
+        {
+            get
+            {
+                return _Title;
+            }
+            set
+            {
+                OnTitleChanging(value);
+                ReportPropertyChanging("Title");
+                _Title = StructuralObject.SetValidValue(value, true, "Title");
+                ReportPropertyChanged("Title");
+                OnTitleChanged();
+            }
+        }
+        private global::System.String _Title;
+        partial void OnTitleChanging(global::System.String value);
+        partial void OnTitleChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MailFromName
+        {
+            get
+            {
+                return _MailFromName;
+            }
+            set
+            {
+                OnMailFromNameChanging(value);
+                ReportPropertyChanging("MailFromName");
+                _MailFromName = StructuralObject.SetValidValue(value, true, "MailFromName");
+                ReportPropertyChanged("MailFromName");
+                OnMailFromNameChanged();
+            }
+        }
+        private global::System.String _MailFromName;
+        partial void OnMailFromNameChanging(global::System.String value);
+        partial void OnMailFromNameChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MailToName
+        {
+            get
+            {
+                return _MailToName;
+            }
+            set
+            {
+                OnMailToNameChanging(value);
+                ReportPropertyChanging("MailToName");
+                _MailToName = StructuralObject.SetValidValue(value, true, "MailToName");
+                ReportPropertyChanged("MailToName");
+                OnMailToNameChanged();
+            }
+        }
+        private global::System.String _MailToName;
+        partial void OnMailToNameChanging(global::System.String value);
+        partial void OnMailToNameChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Sort
+        {
+            get
+            {
+                return _Sort;
+            }
+            set
+            {
+                OnSortChanging(value);
+                ReportPropertyChanging("Sort");
+                _Sort = StructuralObject.SetValidValue(value, "Sort");
+                ReportPropertyChanged("Sort");
+                OnSortChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Sort;
+        partial void OnSortChanging(Nullable<global::System.Int32> value);
+        partial void OnSortChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> RegUser
+        {
+            get
+            {
+                return _RegUser;
+            }
+            set
+            {
+                OnRegUserChanging(value);
+                ReportPropertyChanging("RegUser");
+                _RegUser = StructuralObject.SetValidValue(value, "RegUser");
+                ReportPropertyChanged("RegUser");
+                OnRegUserChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _RegUser;
+        partial void OnRegUserChanging(Nullable<global::System.Guid> value);
+        partial void OnRegUserChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> RegTime
+        {
+            get
+            {
+                return _RegTime;
+            }
+            set
+            {
+                OnRegTimeChanging(value);
+                ReportPropertyChanging("RegTime");
+                _RegTime = StructuralObject.SetValidValue(value, "RegTime");
+                ReportPropertyChanged("RegTime");
+                OnRegTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _RegTime;
+        partial void OnRegTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnRegTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModTime
+        {
+            get
+            {
+                return _ModTime;
+            }
+            set
+            {
+                OnModTimeChanging(value);
+                ReportPropertyChanging("ModTime");
+                _ModTime = StructuralObject.SetValidValue(value, "ModTime");
+                ReportPropertyChanged("ModTime");
+                OnModTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModTime;
+        partial void OnModTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagTrashed
+        {
+            get
+            {
+                return _FlagTrashed;
+            }
+            set
+            {
+                OnFlagTrashedChanging(value);
+                ReportPropertyChanging("FlagTrashed");
+                _FlagTrashed = StructuralObject.SetValidValue(value, "FlagTrashed");
+                ReportPropertyChanged("FlagTrashed");
+                OnFlagTrashedChanged();
+            }
+        }
+        private global::System.Boolean _FlagTrashed;
+        partial void OnFlagTrashedChanging(global::System.Boolean value);
+        partial void OnFlagTrashedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagDeleted
+        {
+            get
+            {
+                return _FlagDeleted;
+            }
+            set
+            {
+                OnFlagDeletedChanging(value);
+                ReportPropertyChanging("FlagDeleted");
+                _FlagDeleted = StructuralObject.SetValidValue(value, "FlagDeleted");
+                ReportPropertyChanged("FlagDeleted");
+                OnFlagDeletedChanged();
+            }
+        }
+        private global::System.Boolean _FlagDeleted;
+        partial void OnFlagDeletedChanging(global::System.Boolean value);
+        partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> MailRef
+        {
+            get
+            {
+                return _MailRef;
+            }
+            set
+            {
+                OnMailRefChanging(value);
+                ReportPropertyChanging("MailRef");
+                _MailRef = StructuralObject.SetValidValue(value, "MailRef");
+                ReportPropertyChanged("MailRef");
+                OnMailRefChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _MailRef;
+        partial void OnMailRefChanging(Nullable<global::System.Guid> value);
+        partial void OnMailRefChanged();
+
+        #endregion
+
+        #region 导航属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfMailRecord_wmfReference", "wmfReference")]
+        public wmfReference wmfReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfReference").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfReference").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfReference> wmfReferenceReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfReference");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfReference", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="wmfNavigationLink")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -37806,6 +38221,28 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfUserInfo>("MorSun.Model.FK_wmfUserInfo_wmfReference", "wmfUserInfo", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfMailRecord_wmfReference", "wmfMailRecord")]
+        public EntityCollection<wmfMailRecord> wmfMailRecords
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<wmfMailRecord>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfMailRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfMailRecord>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfMailRecord", value);
                 }
             }
         }

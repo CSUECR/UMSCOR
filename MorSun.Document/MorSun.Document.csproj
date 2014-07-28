@@ -54,6 +54,7 @@
     <Content Include="LogoDesign\28f09d8b509978af7dab933d0f8bfdbc6605054519596-RmHukB_fw658.jpg" />
     <Content Include="LogoDesign\8a206633808a0fedb6f48d23cd1503495b796a821af6-9mDOc8_fw658.jpg" />
     <Content Include="LogoDesign\logoBackground副本.png" />
+    <Content Include="笔记\SQL.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LogoDesign\bodybackground.psd" />
