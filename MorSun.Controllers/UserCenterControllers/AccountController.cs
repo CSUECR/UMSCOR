@@ -284,7 +284,7 @@ namespace MorSun.Controllers
                             var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GetXmlConfig(), userinfoModel.NickName);
                             var mailRecord = new wmfMailRecord().wmfMailRecord2(model.Email, body, "激活账号", "ServiceMailName".GetXmlConfig(), userinfoModel.NickName,Guid.Parse(Reference.电子邮件类别_账号注册));
                             new BaseBll<wmfMailRecord>().Insert(mailRecord);
-                            mail.Send("smtp.", 5878, model.Email + "激活账号邮件发送失败！");
+                            mail.Send("smtp.", emailPort, model.Email + "激活账号邮件发送失败！");
                         }                        
                         //激活后才能登录
                         //FormsService.SignIn(model.UserName, false);
