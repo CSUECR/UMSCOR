@@ -1401,6 +1401,22 @@
           <Property Name="FlagTrashed" Type="bit" Nullable="false" />
           <Property Name="FlagDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="wmfEncryptRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserNameString" Type="nvarchar" MaxLength="512" />
+          <Property Name="EncryptCode" Type="ntext" />
+          <Property Name="EncryptTime" Type="datetime" />
+          <Property Name="EncryptUrl" Type="nvarchar" MaxLength="256" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="wmfIPData">
           <Key>
             <PropertyRef Name="ID" />
@@ -3013,6 +3029,7 @@
           <EntitySet Name="wmfCityDistrictNumber" EntityType="Self.wmfCityDistrictNumber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfCounty" EntityType="Self.wmfCounty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfDept" EntityType="Self.wmfDept" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wmfEncryptRecord" EntityType="Self.wmfEncryptRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfIPData" EntityType="Self.wmfIPData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfMail" EntityType="Self.wmfMail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="wmfMailRecord" EntityType="Self.wmfMailRecord" Schema="dbo" store:Type="Tables" />
@@ -6900,6 +6917,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="wmfMailRecord" EntitySet="wmfMailRecords" />
           </AssociationSet>
+          <EntitySet Name="wmfEncryptRecords" EntityType="MorSun.Model.wmfEncryptRecord" />
         </EntityContainer>
         <EntityType Name="wmfMailRecord">
           <Key>
@@ -6932,6 +6950,22 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="wmfEncryptRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserNameString" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="EncryptCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EncryptTime" Type="DateTime" Precision="3" />
+          <Property Name="EncryptUrl" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8950,6 +8984,23 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Body" ColumnName="Body" />
                 <ScalarProperty Name="MailTo" ColumnName="MailTo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wmfEncryptRecords">
+            <EntityTypeMapping TypeName="MorSun.Model.wmfEncryptRecord">
+              <MappingFragment StoreEntitySet="wmfEncryptRecord">
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="EncryptUrl" ColumnName="EncryptUrl" />
+                <ScalarProperty Name="EncryptTime" ColumnName="EncryptTime" />
+                <ScalarProperty Name="EncryptCode" ColumnName="EncryptCode" />
+                <ScalarProperty Name="UserNameString" ColumnName="UserNameString" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

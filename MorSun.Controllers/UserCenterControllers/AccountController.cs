@@ -16,6 +16,7 @@ using MorSun.Model;
 using HOHO18.Common.Web;
 using MorSun.Bll;
 using MorSun.Common.类别;
+using HOHO18.Common.WEB;
 
 namespace MorSun.Controllers
 {
@@ -177,6 +178,8 @@ namespace MorSun.Controllers
         [AllowAnonymous]
         public ActionResult ECPW()
         {
+            //LogHelper.Write("错误ECPW", LogHelper.LogMessageType.Error);
+            //LogHelper.Write("信息ECPW", LogHelper.LogMessageType.Info);
             return View();
         }
 
@@ -278,8 +281,8 @@ namespace MorSun.Controllers
                             string fromEmail = "ServiceMail".GetXmlConfig();                            
                             string fromEmailPassword = "ServiceMailPassword".GetXmlConfig().Decrypt();
                             int emailPort = String.IsNullOrEmpty("ServiceMailPort".GetXmlConfig()) ? 587 : "ServiceMailPort".GetXmlConfig().ToAs<int>();
-
-                            string body = new WebClient().GetHtml("ServiceDomain".GetXmlConfig() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", userinfoModel.UserNameString);
+                            var code = GenerateEncryptCode(userinfoModel.UserNameString,"ActiveUserUrl".GetXmlConfig(),false);
+                            string body = new WebClient().GetHtml("ServiceDomain".GetXmlConfig() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", code);
                             //创建邮件对象并发送
                             var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GetXmlConfig(), userinfoModel.NickName);
                             var mailRecord = new wmfMailRecord().wmfMailRecord2(model.Email, body, "激活账号", "ServiceMailName".GetXmlConfig(), userinfoModel.NickName,Guid.Parse(Reference.电子邮件类别_账号注册));

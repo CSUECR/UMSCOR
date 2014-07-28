@@ -411,5 +411,21 @@ namespace MorSun.Controllers
             VerifyCode.RemoveValue(type);
         }
         #endregion
+
+        #region …˙≥…º”√‹¥Æ
+        protected string GenerateEncryptCode(string userNameString,string encryptUrl,bool updateChange = false)
+        {
+            var er = new wmfEncryptRecord();
+            er.ID = Guid.NewGuid();
+            er.UserNameString = userNameString;
+            er.EncryptCode = Guid.NewGuid().ToString().Encrypt(new Random().Next(100000).ToString());
+            er.EncryptTime = DateTime.Now;
+            er.EncryptUrl = encryptUrl;
+            er.FlagTrashed = false;
+            er.FlagDeleted = false;
+            new BaseBll<wmfEncryptRecord>().Insert(er, updateChange);
+            return er.EncryptCode;
+        }
+        #endregion
     }
 }

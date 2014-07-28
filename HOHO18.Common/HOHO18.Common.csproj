@@ -170,8 +170,6 @@
     <Compile Include="WEB\XmlConfigHelp.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\System.Data.dll" />
-    <Content Include="bin\Release\System.Data.dll" />
     <Content Include="Lib\dotnetCHARTING.dll" />
     <Content Include="Lib\Ionic.Zip.dll" />
     <Content Include="Lib\NPOI.dll" />

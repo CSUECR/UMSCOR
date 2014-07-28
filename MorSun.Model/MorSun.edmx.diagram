@@ -199,6 +199,7 @@
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MorSun.Model.wmfMailRecord" Width="1.5" PointX="20.375" PointY="29.75" />
         <AssociationConnector Association="MorSun.Model.FK_wmfMailRecord_wmfReference" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfEncryptRecord" Width="1.5" PointX="22.375" PointY="29.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
