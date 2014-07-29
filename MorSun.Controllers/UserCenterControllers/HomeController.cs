@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MorSun.Bll;
+using MorSun.Model;
+using System.Web.Routing;
 
 namespace MorSun.Controllers
 {
@@ -37,6 +40,43 @@ namespace MorSun.Controllers
         public ActionResult AccountChangePassword()
         {
             return View();
+        }
+
+        public ActionResult EL(string id)
+        {
+            var bll = new BaseBll<wmfEncryptRecord>();
+            var effectiveHour = 0 - "EncryptTime".GetXmlConfig().ToAs<int>();
+            var timeBefore = DateTime.Now.AddHours(effectiveHour);
+            var model = bll.All.Where(p => p.EncryptCode == id && p.EncryptTime >= timeBefore).OrderByDescending(p => p.RegTime).FirstOrDefault();
+            var au = "ActiveUserUrl".GetXmlConfig();
+            if(model != null)
+            { 
+                switch (model.EncryptUrl)
+                {
+                    case "/Account/ActiveUser": return activeUser(model.UserNameString);
+                    default: return RedirectToAction("Index", "Home");
+                }
+            }
+            return RedirectToAction("Index", "Home");
+            
+        }
+        public IFormsAuthenticationService FormsService { get; set; }
+        protected override void Initialize(RequestContext requestContext)
+        {
+            if (FormsService == null) { FormsService = new FormsAuthenticationService(); }   
+            base.Initialize(requestContext);
+        }
+        private ActionResult activeUser(string userNameString)
+        {
+            var bll = new BaseBll<wmfUserInfo>();
+            var user = bll.All.Where(p => p.UserNameString == userNameString).FirstOrDefault();
+            if(user != null && user.FlagActive == false)
+            {
+                user.FlagActive = true;
+                bll.Update(user);                
+                FormsService.SignIn(user.aspnet_Users.UserName,false);
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

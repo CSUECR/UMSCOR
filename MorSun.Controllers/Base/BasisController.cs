@@ -418,7 +418,7 @@ namespace MorSun.Controllers
             var er = new wmfEncryptRecord();
             er.ID = Guid.NewGuid();
             er.UserNameString = userNameString;
-            er.EncryptCode = Guid.NewGuid().ToString().Encrypt(new Random().Next(100000).ToString());
+            er.EncryptCode = Guid.NewGuid().ToString().Encrypt(Guid.NewGuid().ToString());
             er.EncryptTime = DateTime.Now;
             er.EncryptUrl = encryptUrl;
             er.FlagTrashed = false;

@@ -76,6 +76,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfUserDeptPosition_wmfDepts", "wmfDept", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfDept), "wmfUserDeptPosition", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfUserDeptPosition), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfMail_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfMail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfMail), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfMail_wmfReference1", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfMail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfMail), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfMailRecord_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfMailRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfMailRecord), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfNavigationLink_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfNavigationLink", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfNavigationLink), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfResource_wmfNavigationLink", "wmfNavigationLink", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfNavigationLink), "wmfResource", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfResource), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfPrivilege_wmfOperation", "wmfOperation", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfOperation), "wmfPrivilege", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfPrivilege), true)]
@@ -93,7 +94,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfResource_wmfResource", "wmfResource", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfResource), "wmfResource1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfResource), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfVillage_wmfTown", "wmfTown", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.wmfTown), "wmfVillage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfVillage), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "aspnet_UsersInRoles", "aspnet_Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Roles), "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Users))]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfMailRecord_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfMailRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfMailRecord), true)]
 
 #endregion
 
@@ -1572,6 +1572,22 @@ namespace MorSun.Model
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
+        public ObjectSet<wmfEncryptRecord> wmfEncryptRecords
+        {
+            get
+            {
+                if ((_wmfEncryptRecords == null))
+                {
+                    _wmfEncryptRecords = base.CreateObjectSet<wmfEncryptRecord>("wmfEncryptRecords");
+                }
+                return _wmfEncryptRecords;
+            }
+        }
+        private ObjectSet<wmfEncryptRecord> _wmfEncryptRecords;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
         public ObjectSet<wmfIPData> wmfIPDatas
         {
             get
@@ -1600,6 +1616,22 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<wmfMail> _wmfMails;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<wmfMailRecord> wmfMailRecords
+        {
+            get
+            {
+                if ((_wmfMailRecords == null))
+                {
+                    _wmfMailRecords = base.CreateObjectSet<wmfMailRecord>("wmfMailRecords");
+                }
+                return _wmfMailRecords;
+            }
+        }
+        private ObjectSet<wmfMailRecord> _wmfMailRecords;
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -1972,6 +2004,22 @@ namespace MorSun.Model
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
+        public ObjectSet<wmfLog> wmfLogs
+        {
+            get
+            {
+                if ((_wmfLogs == null))
+                {
+                    _wmfLogs = base.CreateObjectSet<wmfLog>("wmfLogs");
+                }
+                return _wmfLogs;
+            }
+        }
+        private ObjectSet<wmfLog> _wmfLogs;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
         public ObjectSet<HF_AccreditInstanceView> HF_AccreditInstanceView
         {
             get
@@ -2032,38 +2080,6 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<wmfRolePrivilegesView> _wmfRolePrivilegesViews;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<wmfMailRecord> wmfMailRecords
-        {
-            get
-            {
-                if ((_wmfMailRecords == null))
-                {
-                    _wmfMailRecords = base.CreateObjectSet<wmfMailRecord>("wmfMailRecords");
-                }
-                return _wmfMailRecords;
-            }
-        }
-        private ObjectSet<wmfMailRecord> _wmfMailRecords;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<wmfEncryptRecord> wmfEncryptRecords
-        {
-            get
-            {
-                if ((_wmfEncryptRecords == null))
-                {
-                    _wmfEncryptRecords = base.CreateObjectSet<wmfEncryptRecord>("wmfEncryptRecords");
-                }
-                return _wmfEncryptRecords;
-            }
-        }
-        private ObjectSet<wmfEncryptRecord> _wmfEncryptRecords;
 
         #endregion
 
@@ -2782,6 +2798,14 @@ namespace MorSun.Model
         }
     
         /// <summary>
+        /// 用于向 wmfEncryptRecords EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTowmfEncryptRecords(wmfEncryptRecord wmfEncryptRecord)
+        {
+            base.AddObject("wmfEncryptRecords", wmfEncryptRecord);
+        }
+    
+        /// <summary>
         /// 用于向 wmfIPDatas EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
         /// </summary>
         public void AddTowmfIPDatas(wmfIPData wmfIPData)
@@ -2795,6 +2819,14 @@ namespace MorSun.Model
         public void AddTowmfMails(wmfMail wmfMail)
         {
             base.AddObject("wmfMails", wmfMail);
+        }
+    
+        /// <summary>
+        /// 用于向 wmfMailRecords EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTowmfMailRecords(wmfMailRecord wmfMailRecord)
+        {
+            base.AddObject("wmfMailRecords", wmfMailRecord);
         }
     
         /// <summary>
@@ -2982,6 +3014,14 @@ namespace MorSun.Model
         }
     
         /// <summary>
+        /// 用于向 wmfLogs EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTowmfLogs(wmfLog wmfLog)
+        {
+            base.AddObject("wmfLogs", wmfLog);
+        }
+    
+        /// <summary>
         /// 用于向 HF_AccreditInstanceView EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
         /// </summary>
         public void AddToHF_AccreditInstanceView(HF_AccreditInstanceView hF_AccreditInstanceView)
@@ -3011,22 +3051,6 @@ namespace MorSun.Model
         public void AddTowmfRolePrivilegesViews(wmfRolePrivilegesView wmfRolePrivilegesView)
         {
             base.AddObject("wmfRolePrivilegesViews", wmfRolePrivilegesView);
-        }
-    
-        /// <summary>
-        /// 用于向 wmfMailRecords EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddTowmfMailRecords(wmfMailRecord wmfMailRecord)
-        {
-            base.AddObject("wmfMailRecords", wmfMailRecord);
-        }
-    
-        /// <summary>
-        /// 用于向 wmfEncryptRecords EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddTowmfEncryptRecords(wmfEncryptRecord wmfEncryptRecord)
-        {
-            base.AddObject("wmfEncryptRecords", wmfEncryptRecord);
         }
 
         #endregion
@@ -33198,6 +33222,207 @@ namespace MorSun.Model
     /// <summary>
     /// 没有元数据文档可用。
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="wmfLog")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class wmfLog : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 wmfLog 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        /// <param name="date">Date 属性的初始值。</param>
+        /// <param name="thread">Thread 属性的初始值。</param>
+        /// <param name="level">Level 属性的初始值。</param>
+        /// <param name="logger">Logger 属性的初始值。</param>
+        /// <param name="message">Message 属性的初始值。</param>
+        public static wmfLog CreatewmfLog(global::System.Int32 id, global::System.DateTime date, global::System.String thread, global::System.String level, global::System.String logger, global::System.String message)
+        {
+            wmfLog wmfLog = new wmfLog();
+            wmfLog.ID = id;
+            wmfLog.Date = date;
+            wmfLog.Thread = thread;
+            wmfLog.Level = level;
+            wmfLog.Logger = logger;
+            wmfLog.Message = message;
+            return wmfLog;
+        }
+
+        #endregion
+
+        #region 简单属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value, "ID");
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime Date
+        {
+            get
+            {
+                return _Date;
+            }
+            set
+            {
+                if (_Date != value)
+                {
+                    OnDateChanging(value);
+                    ReportPropertyChanging("Date");
+                    _Date = StructuralObject.SetValidValue(value, "Date");
+                    ReportPropertyChanged("Date");
+                    OnDateChanged();
+                }
+            }
+        }
+        private global::System.DateTime _Date;
+        partial void OnDateChanging(global::System.DateTime value);
+        partial void OnDateChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Thread
+        {
+            get
+            {
+                return _Thread;
+            }
+            set
+            {
+                if (_Thread != value)
+                {
+                    OnThreadChanging(value);
+                    ReportPropertyChanging("Thread");
+                    _Thread = StructuralObject.SetValidValue(value, false, "Thread");
+                    ReportPropertyChanged("Thread");
+                    OnThreadChanged();
+                }
+            }
+        }
+        private global::System.String _Thread;
+        partial void OnThreadChanging(global::System.String value);
+        partial void OnThreadChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Level
+        {
+            get
+            {
+                return _Level;
+            }
+            set
+            {
+                if (_Level != value)
+                {
+                    OnLevelChanging(value);
+                    ReportPropertyChanging("Level");
+                    _Level = StructuralObject.SetValidValue(value, false, "Level");
+                    ReportPropertyChanged("Level");
+                    OnLevelChanged();
+                }
+            }
+        }
+        private global::System.String _Level;
+        partial void OnLevelChanging(global::System.String value);
+        partial void OnLevelChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Logger
+        {
+            get
+            {
+                return _Logger;
+            }
+            set
+            {
+                if (_Logger != value)
+                {
+                    OnLoggerChanging(value);
+                    ReportPropertyChanging("Logger");
+                    _Logger = StructuralObject.SetValidValue(value, false, "Logger");
+                    ReportPropertyChanged("Logger");
+                    OnLoggerChanged();
+                }
+            }
+        }
+        private global::System.String _Logger;
+        partial void OnLoggerChanging(global::System.String value);
+        partial void OnLoggerChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Message
+        {
+            get
+            {
+                return _Message;
+            }
+            set
+            {
+                if (_Message != value)
+                {
+                    OnMessageChanging(value);
+                    ReportPropertyChanging("Message");
+                    _Message = StructuralObject.SetValidValue(value, false, "Message");
+                    ReportPropertyChanged("Message");
+                    OnMessageChanged();
+                }
+            }
+        }
+        private global::System.String _Message;
+        partial void OnMessageChanging(global::System.String value);
+        partial void OnMessageChanged();
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="wmfMail")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -34078,6 +34303,30 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
+        public Nullable<global::System.Guid> MailRef
+        {
+            get
+            {
+                return _MailRef;
+            }
+            set
+            {
+                OnMailRefChanging(value);
+                ReportPropertyChanging("MailRef");
+                _MailRef = StructuralObject.SetValidValue(value, "MailRef");
+                ReportPropertyChanged("MailRef");
+                OnMailRefChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _MailRef;
+        partial void OnMailRefChanging(Nullable<global::System.Guid> value);
+        partial void OnMailRefChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
         public Nullable<global::System.Int32> Sort
         {
             get
@@ -34216,30 +34465,6 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Guid> MailRef
-        {
-            get
-            {
-                return _MailRef;
-            }
-            set
-            {
-                OnMailRefChanging(value);
-                ReportPropertyChanging("MailRef");
-                _MailRef = StructuralObject.SetValidValue(value, "MailRef");
-                ReportPropertyChanged("MailRef");
-                OnMailRefChanged();
-            }
-        }
-        private Nullable<global::System.Guid> _MailRef;
-        partial void OnMailRefChanging(Nullable<global::System.Guid> value);
-        partial void OnMailRefChanged();
 
         #endregion
 
@@ -38385,6 +38610,28 @@ namespace MorSun.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfMailRecord_wmfReference", "wmfMailRecord")]
+        public EntityCollection<wmfMailRecord> wmfMailRecords
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<wmfMailRecord>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfMailRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfMailRecord>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfMailRecord", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfNavigationLink_wmfReference", "wmfNavigationLink")]
         public EntityCollection<wmfNavigationLink> wmfNavigationLinks
         {
@@ -38545,28 +38792,6 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfUserInfo>("MorSun.Model.FK_wmfUserInfo_wmfReference", "wmfUserInfo", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfMailRecord_wmfReference", "wmfMailRecord")]
-        public EntityCollection<wmfMailRecord> wmfMailRecords
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<wmfMailRecord>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfMailRecord");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfMailRecord>("MorSun.Model.FK_wmfMailRecord_wmfReference", "wmfMailRecord", value);
                 }
             }
         }
@@ -42375,102 +42600,6 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> RegTime
-        {
-            get
-            {
-                return _RegTime;
-            }
-            set
-            {
-                OnRegTimeChanging(value);
-                ReportPropertyChanging("RegTime");
-                _RegTime = StructuralObject.SetValidValue(value, "RegTime");
-                ReportPropertyChanged("RegTime");
-                OnRegTimeChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _RegTime;
-        partial void OnRegTimeChanging(Nullable<global::System.DateTime> value);
-        partial void OnRegTimeChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> ModTime
-        {
-            get
-            {
-                return _ModTime;
-            }
-            set
-            {
-                OnModTimeChanging(value);
-                ReportPropertyChanging("ModTime");
-                _ModTime = StructuralObject.SetValidValue(value, "ModTime");
-                ReportPropertyChanged("ModTime");
-                OnModTimeChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _ModTime;
-        partial void OnModTimeChanging(Nullable<global::System.DateTime> value);
-        partial void OnModTimeChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Boolean FlagTrashed
-        {
-            get
-            {
-                return _FlagTrashed;
-            }
-            set
-            {
-                OnFlagTrashedChanging(value);
-                ReportPropertyChanging("FlagTrashed");
-                _FlagTrashed = StructuralObject.SetValidValue(value, "FlagTrashed");
-                ReportPropertyChanged("FlagTrashed");
-                OnFlagTrashedChanged();
-            }
-        }
-        private global::System.Boolean _FlagTrashed;
-        partial void OnFlagTrashedChanging(global::System.Boolean value);
-        partial void OnFlagTrashedChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Boolean FlagDeleted
-        {
-            get
-            {
-                return _FlagDeleted;
-            }
-            set
-            {
-                OnFlagDeletedChanging(value);
-                ReportPropertyChanging("FlagDeleted");
-                _FlagDeleted = StructuralObject.SetValidValue(value, "FlagDeleted");
-                ReportPropertyChanged("FlagDeleted");
-                OnFlagDeletedChanged();
-            }
-        }
-        private global::System.Boolean _FlagDeleted;
-        partial void OnFlagDeletedChanging(global::System.Boolean value);
-        partial void OnFlagDeletedChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String Question1
         {
             get
@@ -42609,6 +42738,102 @@ namespace MorSun.Model
         private global::System.String _Answer3;
         partial void OnAnswer3Changing(global::System.String value);
         partial void OnAnswer3Changed();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> RegTime
+        {
+            get
+            {
+                return _RegTime;
+            }
+            set
+            {
+                OnRegTimeChanging(value);
+                ReportPropertyChanging("RegTime");
+                _RegTime = StructuralObject.SetValidValue(value, "RegTime");
+                ReportPropertyChanged("RegTime");
+                OnRegTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _RegTime;
+        partial void OnRegTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnRegTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModTime
+        {
+            get
+            {
+                return _ModTime;
+            }
+            set
+            {
+                OnModTimeChanging(value);
+                ReportPropertyChanging("ModTime");
+                _ModTime = StructuralObject.SetValidValue(value, "ModTime");
+                ReportPropertyChanged("ModTime");
+                OnModTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModTime;
+        partial void OnModTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagTrashed
+        {
+            get
+            {
+                return _FlagTrashed;
+            }
+            set
+            {
+                OnFlagTrashedChanging(value);
+                ReportPropertyChanging("FlagTrashed");
+                _FlagTrashed = StructuralObject.SetValidValue(value, "FlagTrashed");
+                ReportPropertyChanged("FlagTrashed");
+                OnFlagTrashedChanged();
+            }
+        }
+        private global::System.Boolean _FlagTrashed;
+        partial void OnFlagTrashedChanging(global::System.Boolean value);
+        partial void OnFlagTrashedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagDeleted
+        {
+            get
+            {
+                return _FlagDeleted;
+            }
+            set
+            {
+                OnFlagDeletedChanging(value);
+                ReportPropertyChanging("FlagDeleted");
+                _FlagDeleted = StructuralObject.SetValidValue(value, "FlagDeleted");
+                ReportPropertyChanged("FlagDeleted");
+                OnFlagDeletedChanged();
+            }
+        }
+        private global::System.Boolean _FlagDeleted;
+        partial void OnFlagDeletedChanging(global::System.Boolean value);
+        partial void OnFlagDeletedChanged();
 
         #endregion
 

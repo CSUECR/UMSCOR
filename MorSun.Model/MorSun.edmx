@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -1407,7 +1407,7 @@
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserNameString" Type="nvarchar" MaxLength="512" />
-          <Property Name="EncryptCode" Type="ntext" />
+          <Property Name="EncryptCode" Type="nvarchar" MaxLength="512" />
           <Property Name="EncryptTime" Type="datetime" />
           <Property Name="EncryptUrl" Type="nvarchar" MaxLength="256" />
           <Property Name="Sort" Type="int" />
@@ -1433,6 +1433,24 @@
           <Property Name="ModTime" Type="datetime" />
           <Property Name="FlagTrashed" Type="bit" Nullable="false" />
           <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“UserCenter.dbo.wmfLog”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="wmfLog">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Thread" />
+            <PropertyRef Name="Level" />
+            <PropertyRef Name="Logger" />
+            <PropertyRef Name="Message" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Thread" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Logger" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="4000" Nullable="false" />
         </EntityType>
         <EntityType Name="wmfMail">
           <Key>
@@ -3097,6 +3115,16 @@ FROM [dbo].[HF_WorkTaskPower] AS [HF_WorkTaskPower]</DefiningQuery>
 [QRTZ_BLOB_TRIGGERS].[BLOB_DATA] AS [BLOB_DATA]
 FROM [dbo].[QRTZ_BLOB_TRIGGERS] AS [QRTZ_BLOB_TRIGGERS]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="wmfLog" EntityType="Self.wmfLog" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[wmfLog].[ID] AS [ID], 
+[wmfLog].[Date] AS [Date], 
+[wmfLog].[Thread] AS [Thread], 
+[wmfLog].[Level] AS [Level], 
+[wmfLog].[Logger] AS [Logger], 
+[wmfLog].[Message] AS [Message]
+FROM [dbo].[wmfLog] AS [wmfLog]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="HF_AccreditInstanceView" EntityType="Self.HF_AccreditInstanceView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [HF_AccreditInstanceView].[AccreditStatus] AS [AccreditStatus], 
@@ -3507,7 +3535,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -4924,6 +4953,22 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfPositions" Relationship="Self.FK_wmfPosition_wmfDept" FromRole="wmfDept" ToRole="wmfPosition" />
           <NavigationProperty Name="wmfUserDeptPositions" Relationship="Self.FK_wmfUserDeptPosition_wmfDepts" FromRole="wmfDept" ToRole="wmfUserDeptPosition" />
         </EntityType>
+        <EntityType Name="wmfEncryptRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserNameString" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="EncryptCode" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="EncryptTime" Type="DateTime" Precision="3" />
+          <Property Name="EncryptUrl" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="wmfIPData">
           <Key>
             <PropertyRef Name="ID" />
@@ -4970,6 +5015,25 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_wmfMail_aspnet_Users1" FromRole="wmfMail" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfMail_wmfReference" FromRole="wmfMail" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_wmfMail_wmfReference1" FromRole="wmfMail" ToRole="wmfReference" />
+        </EntityType>
+        <EntityType Name="wmfMailRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="MailTo" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="MailFromName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="MailToName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="MailRef" Type="Guid" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfMailRecord_wmfReference" FromRole="wmfMailRecord" ToRole="wmfReference" />
         </EntityType>
         <EntityType Name="wmfNavigationLink">
           <Key>
@@ -5168,6 +5232,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfCalendars2" Relationship="Self.FK_wmfCalendar_wmfReference2" FromRole="wmfReference" ToRole="wmfCalendar" />
           <NavigationProperty Name="wmfMails" Relationship="Self.FK_wmfMail_wmfReference" FromRole="wmfReference" ToRole="wmfMail" />
           <NavigationProperty Name="wmfMails1" Relationship="Self.FK_wmfMail_wmfReference1" FromRole="wmfReference" ToRole="wmfMail" />
+          <NavigationProperty Name="wmfMailRecords" Relationship="Self.FK_wmfMailRecord_wmfReference" FromRole="wmfReference" ToRole="wmfMailRecord" />
           <NavigationProperty Name="wmfNavigationLinks" Relationship="Self.FK_wmfNavigationLink_wmfReference" FromRole="wmfReference" ToRole="wmfNavigationLink" />
           <NavigationProperty Name="wmfOperationalLogbooks" Relationship="Self.FK_wmfOperationalLogbook_wmfReference" FromRole="wmfReference" ToRole="wmfOperationalLogbook" />
           <NavigationProperty Name="wmfPageBrowses" Relationship="Self.FK_wmfPageBrowse_wmfReference" FromRole="wmfReference" ToRole="wmfPageBrowse" />
@@ -5175,7 +5240,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfResources" Relationship="Self.FK_wmfResource_wmfReference" FromRole="wmfReference" ToRole="wmfResource" />
           <NavigationProperty Name="wmfUploadFiles" Relationship="Self.FK_wmfUploadFile_wmfReference" FromRole="wmfReference" ToRole="wmfUploadFile" />
           <NavigationProperty Name="wmfUserInfoes" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfReference" ToRole="wmfUserInfo" />
-          <NavigationProperty Name="wmfMailRecords" Relationship="MorSun.Model.FK_wmfMailRecord_wmfReference" FromRole="wmfReference" ToRole="wmfMailRecord" />
         </EntityType>
         <EntityType Name="wmfRefGroup">
           <Key>
@@ -5340,6 +5404,12 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="UserNameString" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="PassWordString" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="GetPassWordTime" Type="DateTime" Precision="3" />
+          <Property Name="Question1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Answer1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Question2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Answer2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Question3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Answer3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="RegTime" Type="DateTime" Precision="3" />
           <Property Name="ModTime" Type="DateTime" Precision="3" />
           <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
@@ -5350,12 +5420,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfCounty" Relationship="Self.FK_wmfUserInfo_wmfCounty" FromRole="wmfUserInfo" ToRole="wmfCounty" />
           <NavigationProperty Name="wmfProvince" Relationship="Self.FK_wmfUserInfo_wmfProvince" FromRole="wmfUserInfo" ToRole="wmfProvince" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfUserInfo" ToRole="wmfReference" />
-          <Property Name="Question1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Answer1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Question2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Answer2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Question3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Answer3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="wmfVillage">
           <Key>
@@ -5438,6 +5502,22 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="TRIGGER_NAME" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TRIGGER_GROUP" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BLOB_DATA" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="wmfLog">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="Thread" />
+            <PropertyRef Name="Level" />
+            <PropertyRef Name="Logger" />
+            <PropertyRef Name="Message" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Thread" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Level" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Logger" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="HF_AccreditInstanceView">
           <Key>
@@ -6288,6 +6368,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_wmfMailRecord_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="wmfMailRecord" Type="Self.wmfMailRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="wmfMailRecord">
+              <PropertyRef Name="MailRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_wmfNavigationLink_wmfReference">
           <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
           <End Role="wmfNavigationLink" Type="Self.wmfNavigationLink" Multiplicity="*" />
@@ -6584,8 +6676,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="wmfCityDistrictNumbers" EntityType="Self.wmfCityDistrictNumber" />
           <EntitySet Name="wmfCounties" EntityType="Self.wmfCounty" />
           <EntitySet Name="wmfDepts" EntityType="Self.wmfDept" />
+          <EntitySet Name="wmfEncryptRecords" EntityType="Self.wmfEncryptRecord" />
           <EntitySet Name="wmfIPDatas" EntityType="Self.wmfIPData" />
           <EntitySet Name="wmfMails" EntityType="Self.wmfMail" />
+          <EntitySet Name="wmfMailRecords" EntityType="Self.wmfMailRecord" />
           <EntitySet Name="wmfNavigationLinks" EntityType="Self.wmfNavigationLink" />
           <EntitySet Name="wmfOperations" EntityType="Self.wmfOperation" />
           <EntitySet Name="wmfOperationalLogbooks" EntityType="Self.wmfOperationalLogbook" />
@@ -6609,6 +6703,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="HF_CommAffixFiles" EntityType="Self.HF_CommAffixFiles" />
           <EntitySet Name="HF_WorkTaskPower" EntityType="Self.HF_WorkTaskPower" />
           <EntitySet Name="QRTZ_BLOB_TRIGGERS" EntityType="Self.QRTZ_BLOB_TRIGGERS" />
+          <EntitySet Name="wmfLogs" EntityType="Self.wmfLog" />
           <EntitySet Name="HF_AccreditInstanceView" EntityType="Self.HF_AccreditInstanceView" />
           <EntitySet Name="HF_OperContentView" EntityType="Self.HF_OperContentView" />
           <EntitySet Name="HF_WorkTaskInstanceView" EntityType="Self.HF_WorkTaskInstanceView" />
@@ -6841,6 +6936,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="wmfMail" EntitySet="wmfMails" />
           </AssociationSet>
+          <AssociationSet Name="FK_wmfMailRecord_wmfReference" Association="Self.FK_wmfMailRecord_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="wmfMailRecord" EntitySet="wmfMailRecords" />
+          </AssociationSet>
           <AssociationSet Name="FK_wmfNavigationLink_wmfReference" Association="Self.FK_wmfNavigationLink_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="wmfNavigationLink" EntitySet="wmfNavigationLinks" />
@@ -6910,62 +7009,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
           <FunctionImport Name="HF_GetAllowsStartWorkFlowsPro">
-          <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="wmfMailRecords" EntityType="MorSun.Model.wmfMailRecord" />
-          <AssociationSet Name="FK_wmfMailRecord_wmfReference" Association="MorSun.Model.FK_wmfMailRecord_wmfReference">
-            <End Role="wmfReference" EntitySet="wmfReferences" />
-            <End Role="wmfMailRecord" EntitySet="wmfMailRecords" />
-          </AssociationSet>
-          <EntitySet Name="wmfEncryptRecords" EntityType="MorSun.Model.wmfEncryptRecord" />
         </EntityContainer>
-        <EntityType Name="wmfMailRecord">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="MailTo" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="MailFromName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="MailToName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Sort" Type="Int32" />
-          <Property Name="RegUser" Type="Guid" />
-          <Property Name="RegTime" Type="DateTime" Precision="3" />
-          <Property Name="ModTime" Type="DateTime" Precision="3" />
-          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
-          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="MailRef" Type="Guid" />
-          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_wmfMailRecord_wmfReference" FromRole="wmfMailRecord" ToRole="wmfReference" />
-        </EntityType>
-        <Association Name="FK_wmfMailRecord_wmfReference">
-          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
-          <End Type="MorSun.Model.wmfMailRecord" Role="wmfMailRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="wmfReference">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="wmfMailRecord">
-              <PropertyRef Name="MailRef" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="wmfEncryptRecord">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="UserNameString" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="EncryptCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EncryptTime" Type="DateTime" Precision="3" />
-          <Property Name="EncryptUrl" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Sort" Type="Int32" />
-          <Property Name="RegUser" Type="Guid" />
-          <Property Name="RegTime" Type="DateTime" Precision="3" />
-          <Property Name="ModTime" Type="DateTime" Precision="3" />
-          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
-          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8370,6 +8416,23 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="wmfEncryptRecords">
+            <EntityTypeMapping TypeName="MorSun.Model.wmfEncryptRecord">
+              <MappingFragment StoreEntitySet="wmfEncryptRecord">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserNameString" ColumnName="UserNameString" />
+                <ScalarProperty Name="EncryptCode" ColumnName="EncryptCode" />
+                <ScalarProperty Name="EncryptTime" ColumnName="EncryptTime" />
+                <ScalarProperty Name="EncryptUrl" ColumnName="EncryptUrl" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="wmfIPDatas">
             <EntityTypeMapping TypeName="MorSun.Model.wmfIPData">
               <MappingFragment StoreEntitySet="wmfIPData">
@@ -8408,6 +8471,25 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="IsReceipt" ColumnName="IsReceipt" />
                 <ScalarProperty Name="IsReceiptMail" ColumnName="IsReceiptMail" />
                 <ScalarProperty Name="FileIds" ColumnName="FileIds" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wmfMailRecords">
+            <EntityTypeMapping TypeName="MorSun.Model.wmfMailRecord">
+              <MappingFragment StoreEntitySet="wmfMailRecord">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MailTo" ColumnName="MailTo" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MailFromName" ColumnName="MailFromName" />
+                <ScalarProperty Name="MailToName" ColumnName="MailToName" />
+                <ScalarProperty Name="MailRef" ColumnName="MailRef" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
                 <ScalarProperty Name="RegTime" ColumnName="RegTime" />
                 <ScalarProperty Name="ModTime" ColumnName="ModTime" />
                 <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
@@ -8716,12 +8798,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="wmfUserInfoes">
             <EntityTypeMapping TypeName="MorSun.Model.wmfUserInfo">
               <MappingFragment StoreEntitySet="wmfUserInfo">
-                <ScalarProperty Name="Answer3" ColumnName="Answer3" />
-                <ScalarProperty Name="Question3" ColumnName="Question3" />
-                <ScalarProperty Name="Answer2" ColumnName="Answer2" />
-                <ScalarProperty Name="Question2" ColumnName="Question2" />
-                <ScalarProperty Name="Answer1" ColumnName="Answer1" />
-                <ScalarProperty Name="Question1" ColumnName="Question1" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AutoGeneticId" ColumnName="AutoGeneticId" />
                 <ScalarProperty Name="SID" ColumnName="SID" />
@@ -8755,6 +8831,12 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="UserNameString" ColumnName="UserNameString" />
                 <ScalarProperty Name="PassWordString" ColumnName="PassWordString" />
                 <ScalarProperty Name="GetPassWordTime" ColumnName="GetPassWordTime" />
+                <ScalarProperty Name="Question1" ColumnName="Question1" />
+                <ScalarProperty Name="Answer1" ColumnName="Answer1" />
+                <ScalarProperty Name="Question2" ColumnName="Question2" />
+                <ScalarProperty Name="Answer2" ColumnName="Answer2" />
+                <ScalarProperty Name="Question3" ColumnName="Question3" />
+                <ScalarProperty Name="Answer3" ColumnName="Answer3" />
                 <ScalarProperty Name="RegTime" ColumnName="RegTime" />
                 <ScalarProperty Name="ModTime" ColumnName="ModTime" />
                 <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
@@ -8844,6 +8926,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="TRIGGER_NAME" ColumnName="TRIGGER_NAME" />
                 <ScalarProperty Name="TRIGGER_GROUP" ColumnName="TRIGGER_GROUP" />
                 <ScalarProperty Name="BLOB_DATA" ColumnName="BLOB_DATA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wmfLogs">
+            <EntityTypeMapping TypeName="MorSun.Model.wmfLog">
+              <MappingFragment StoreEntitySet="wmfLog">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8969,42 +9063,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="HF_GetAllowsStartWorkFlowsPro" FunctionName="MorSun.Model.Store.HF_GetAllowsStartWorkFlowsPro" />
-          <EntitySetMapping Name="wmfMailRecords">
-            <EntityTypeMapping TypeName="MorSun.Model.wmfMailRecord">
-              <MappingFragment StoreEntitySet="wmfMailRecord">
-                <ScalarProperty Name="MailRef" ColumnName="MailRef" />
-                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
-                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
-                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="MailToName" ColumnName="MailToName" />
-                <ScalarProperty Name="MailFromName" ColumnName="MailFromName" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Body" ColumnName="Body" />
-                <ScalarProperty Name="MailTo" ColumnName="MailTo" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="wmfEncryptRecords">
-            <EntityTypeMapping TypeName="MorSun.Model.wmfEncryptRecord">
-              <MappingFragment StoreEntitySet="wmfEncryptRecord">
-                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
-                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
-                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="EncryptUrl" ColumnName="EncryptUrl" />
-                <ScalarProperty Name="EncryptTime" ColumnName="EncryptTime" />
-                <ScalarProperty Name="EncryptCode" ColumnName="EncryptCode" />
-                <ScalarProperty Name="UserNameString" ColumnName="UserNameString" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

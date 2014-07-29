@@ -33,6 +33,21 @@ namespace MorSun.Model
         public string ConfirmPassword { get; set; }
     }
 
+    public class ForgetModel
+    {
+        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("用户名")]
+        [Email(ErrorMessage = "请输入正确的邮件格式")]
+        [Remote("CheckUserNameTrue", "Account", ErrorMessage = "该邮件不存在")]   
+        public string UserName { get; set; }
+        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("验证码")]
+        public string Verifycode { get; set; }
+
+        [DisplayName("验证码保存字段")]
+        public string VerifycodeRandom { get; set; }
+    }
+
     public class LoginModel
     {
         [Required(ErrorMessage = "{0}必填")]

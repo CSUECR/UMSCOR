@@ -8,11 +8,13 @@
 //formId:当前FormId
 //errMessage:提交出错处理
 //topErrDiv：顶部DIVId,可不传
-function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
+function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl) {
     if (!topErrDiv)
         topErrDiv = '#divInfo';
     if (!errMessage)
         errMessage = '操作失败';
+    if (!jumpUrl)
+        jumpUrl = true;
     $(btn).click(function () {        
         var $ajaxSubmitForm = $(formId);
         if ($ajaxSubmitForm.valid()) {
@@ -42,7 +44,15 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv) {
                             }
                              , hide: false
                         });
-                        setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                        if (jumpUrl)
+                        {
+                            setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                        }
+                        else
+                        {
+                            setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
+                        }
+                        
                     }
                     else {
                         //强制刷新验证码

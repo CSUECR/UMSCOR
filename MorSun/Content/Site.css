@@ -28,7 +28,7 @@ a {
     }
 
     a:hover {        
-        text-decoration: underline;
+        text-decoration: none;
     }
 
 img{border:none;}
@@ -280,7 +280,7 @@ header .telSpan {
         background: none;
         margin: 0;
         padding: 0;
-        text-decoration: underline;
+        text-decoration: none;
     }
 
     #login ul {

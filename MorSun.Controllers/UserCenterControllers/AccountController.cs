@@ -37,10 +37,10 @@ namespace MorSun.Controllers
         }
 
         /// <summary>
-        /// 检验商家昵称是否已存在  //JS验证的不能增加域判断
+        /// 检验用户是否已存在，注册时用，存在则出错
         /// </summary>
-        /// <param name="sellerNick">昵称</param>
-        /// <returns>bool</returns>
+        /// <param name="UserName">用户名</param>
+        /// <returns></returns>
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
         public JsonResult CheckUserName(string UserName)
@@ -65,6 +65,23 @@ namespace MorSun.Controllers
             //{
             //    return Json("用户名不包含违禁词！", JsonRequestBehavior.AllowGet);
             //}
+        }
+
+        /// <summary>
+        /// 检查用户是否存在 不存在出错
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public JsonResult CheckUserNameTrue(string UserName)
+        {
+            bool isValidate = false;
+            if (Membership.GetUser(UserName) != null)
+            {
+                isValidate = true;
+            }
+            return Json(isValidate, JsonRequestBehavior.AllowGet);
         }
 
         //
@@ -135,9 +152,18 @@ namespace MorSun.Controllers
                 FormsService.SignOut();
             var oper = new OperationResult(OperationResultType.Error, "登录失败");
             validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "LoginVerificationCode");
-            if (ModelState.IsValid)
+            validateLockedUser(model);
+            //判断账号是否激活
+            if ("AccountActive".GetXmlConfig() == "true")
             {
-                validateLockedUser(model);
+                var user = new BaseBll<aspnet_Users>().All.FirstOrDefault(p => p.LoweredUserName == model.UserName.ToLower());
+                if (user != null && user.wmfUserInfo.FlagActive == false)
+                {
+                    "UserName".AE("账号未激活", ModelState);
+                }
+            }
+            if (ModelState.IsValid)
+            {                
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
                     FormsService.SignIn(model.UserName, model.RememberMe);
@@ -147,6 +173,7 @@ namespace MorSun.Controllers
                 }
                 else
                 {
+                    LogHelper.Write(model.UserName + "被" + Request.UserHostAddress + "恶意登录", LogHelper.LogMessageType.Info);
                     "UserName".AE("提供的用户名或密码不正确", ModelState); 
                 }
             }
@@ -167,9 +194,45 @@ namespace MorSun.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //激活账号
+        #region 忘记密码
         [AllowAnonymous]
-        public ActionResult ActiveUser()
+        public ActionResult ForgetPass()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgetPass(ForgetModel model, string returnUrl)
+        {
+            var oper = new OperationResult(OperationResultType.Error, "注册失败");
+            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "RegVerificationCode");
+            if (ModelState.IsValid)
+            {
+                if (Membership.GetUser(model.UserName) != null)
+                {
+                    //封装返回的数据
+                    fillOperationResult(returnUrl, oper, "注册成功");
+                    return Json(oper);
+                }
+                else
+                    "UserName".AE("提供的用户名不正确", ModelState);
+            }
+            oper.AppendData = ModelState.GE();
+            return Json(oper);            
+        }
+
+        [AllowAnonymous]        
+        public ActionResult ConfirmQuestion(ForgetModel model, string returnUrl)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmQuestion(wmfUserInfo model, string returnUrl)
         {
             return View();
         }
@@ -182,7 +245,7 @@ namespace MorSun.Controllers
             //LogHelper.Write("信息ECPW", LogHelper.LogMessageType.Info);
             return View();
         }
-
+        #endregion
         //
         // GET: /Account/Register
 
@@ -224,9 +287,6 @@ namespace MorSun.Controllers
                 // 尝试注册用户
                 try
                 {
-                    //WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    //WebSecurity.Login(model.UserName, model.Password);
-
                     var createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email);
                     if (createStatus == MembershipCreateStatus.Success)
                     {
@@ -288,9 +348,13 @@ namespace MorSun.Controllers
                             var mailRecord = new wmfMailRecord().wmfMailRecord2(model.Email, body, "激活账号", "ServiceMailName".GetXmlConfig(), userinfoModel.NickName,Guid.Parse(Reference.电子邮件类别_账号注册));
                             new BaseBll<wmfMailRecord>().Insert(mailRecord);
                             mail.Send("smtp.", emailPort, model.Email + "激活账号邮件发送失败！");
-                        }                        
-                        //激活后才能登录
-                        //FormsService.SignIn(model.UserName, false);
+                        } 
+                        else
+                        { 
+                            //激活后才能登录
+                            FormsService.SignIn(model.UserName, false);
+                        }
+                        
 
                         //封装返回的数据
                         fillOperationResult(returnUrl, oper, "注册成功");
