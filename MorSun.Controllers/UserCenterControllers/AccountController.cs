@@ -227,13 +227,8 @@ namespace MorSun.Controllers
         [AllowAnonymous]        
         public ActionResult ConfirmQuestion(ForgetModel model, string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            //var user = new BaseBll<aspnet_Users>().All.FirstOrDefault(p => p.LoweredUserName == model.UserName.ToLower());
-            var userInfo = new wmfUserInfo();
-            //if (user != null)
-            //{ 
-            //    userInfo = user.wmfUserInfo;
-            //}
+            ViewBag.ReturnUrl = returnUrl;            
+            var userInfo = new wmfUserInfo();            
             userInfo.uName = model.UserName;
             return View(userInfo);
         }
@@ -242,8 +237,55 @@ namespace MorSun.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ConfirmQuestion(wmfUserInfo model, string returnUrl)
-        {//确认信息并发送邮件
-            return View();
+        {
+            var oper = new OperationResult(OperationResultType.Error, "提交失败");
+            //确认信息并发送邮件
+            var user = new BaseBll<aspnet_Users>().All.FirstOrDefault(p => p.LoweredUserName == model.uName.ToLower());
+            if (user == null || user.wmfUserInfo == null)
+                "Question1".AE("用户账号异常", ModelState);
+            else
+            {
+                if (string.IsNullOrEmpty(model.Question1)) model.Question1 = "";
+                if (string.IsNullOrEmpty(model.Question2)) model.Question2 = "";
+                if (string.IsNullOrEmpty(model.Question3)) model.Question3 = "";
+                if (string.IsNullOrEmpty(model.Answer1)) model.Answer1 = "";
+                if (string.IsNullOrEmpty(model.Answer2)) model.Answer2 = "";
+                if (string.IsNullOrEmpty(model.Answer3)) model.Answer3 = "";
+                if (string.IsNullOrEmpty(user.wmfUserInfo.Question1)) user.wmfUserInfo.Question1 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(user.wmfUserInfo.Question2)) user.wmfUserInfo.Question2 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(user.wmfUserInfo.Question3)) user.wmfUserInfo.Question3 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(user.wmfUserInfo.Answer1)) user.wmfUserInfo.Answer1 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(user.wmfUserInfo.Answer2)) user.wmfUserInfo.Answer2 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(user.wmfUserInfo.Answer3)) user.wmfUserInfo.Answer3 = "".Encrypt(user.UserId.ToString());
+                if(!model.Question1.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Question1)
+                    || !model.Answer1.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Answer1)
+                    || !model.Question2.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Question2)
+                    || !model.Answer2.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Answer2)
+                    || !model.Question3.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Question3)
+                    || !model.Answer3.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Answer3)
+                    )
+                    "Question1".AE("验证失败", ModelState);
+                else
+                {
+                    //发送邮件并转发
+                    string fromEmail = "ServiceMail".GetXmlConfig();
+                    string fromEmailPassword = "ServiceMailPassword".GetXmlConfig().Decrypt();
+                    int emailPort = String.IsNullOrEmpty("ServiceMailPort".GetXmlConfig()) ? 587 : "ServiceMailPort".GetXmlConfig().ToAs<int>();
+                    var code = GenerateEncryptCode(user.wmfUserInfo.UserNameString, "EmailChangePass".GetXmlConfig(), false);
+                    string body = new WebClient().GetHtml("ServiceDomain".GetXmlConfig() + "/Home/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
+                    //创建邮件对象并发送
+                    var mail = new SendMail(user.UserName, fromEmail, body, "找回密码", fromEmailPassword, "ServiceMailName".GetXmlConfig(), user.wmfUserInfo.NickName);
+                    var mailRecord = new wmfMailRecord().wmfMailRecord2(user.UserName, body, "找回密码", "ServiceMailName".GetXmlConfig(), user.wmfUserInfo.NickName, Guid.Parse(Reference.电子邮件类别_找回密码));
+                    new BaseBll<wmfMailRecord>().Insert(mailRecord);
+                    mail.Send("smtp.", emailPort, user.UserName + "找回密码邮件发送失败！");
+
+                    //转发
+                    fillOperationResult(Url.Action("SendPassEmail", "Account", new { returnUrl = Url.Action("ConfirmQuestion", "Account", new { UserName = user.UserName}) }), oper, "找回密码邮件发送成功");
+                    return Json(oper);
+                }
+            }
+            oper.AppendData = ModelState.GE();
+            return Json(oper);      
         }
 
         [AllowAnonymous]
