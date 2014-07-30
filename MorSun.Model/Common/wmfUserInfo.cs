@@ -9,7 +9,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 namespace MorSun.Model
 {
-    [MetadataType(typeof(wmfUserInfo))]
+    [MetadataType(typeof(wmfUserInfoMetadata))]
     public partial class wmfUserInfo : IModel
     {
         #region Extensibility Method Definitions
@@ -76,7 +76,7 @@ namespace MorSun.Model
         }
     }
 
-    public class wmfUserInfo
+    public class wmfUserInfoMetadata
     {
         [Display(Name = "问题1")]
         [StringLength(25, ErrorMessage = "问题1长度请控制在25个字符内")]

@@ -1,0 +1,94 @@
+﻿@model MorSun.Model.wmfUserInfo
+@{
+    ViewBag.Title = "找回密码";    
+}
+
+<div class="content-wrapper clear-fix">
+    <section id="formWizard">
+        <h2>@ViewBag.Title</h2>
+        <div class="navbar steps">
+            <div class="navbar-inner">
+                <ul class="row-fluid nav nav-pills">
+                    <li class="span3 active">
+                        <a class="step active" data-toggle="tab" href="/Account/ForgetPass">
+                            <span class="number">1</span>
+                            <span class="desc"><i class="icon-ok"></i> 录入账号 </span>
+                        </a>
+                    </li>
+                    <li class="span3 active">
+                        <a class="step" data-toggle="tab" href="#tab2">
+                            <span class="number">2</span>
+                            <span class="desc"><i class="icon-ok"></i> 账号验证 </span>
+                        </a>
+                    </li>
+                    <li class="span3">
+                        <a class="step" data-toggle="tab" href="#tab3">
+                            <span class="number">3</span>
+                            <span class="desc"><i class="icon-ok"></i> 发送邮件 </span>
+                        </a>
+                    </li>
+                    <li class="span3">
+                        <a class="step" data-toggle="tab" href="#tab4">
+                            <span class="number">4</span>
+                            <span class="desc"><i class="icon-ok"></i> 修改密码 </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="progress progress-success progress-striped" id="bar">
+            <div class="bar" style="width: 50%;"></div>
+        </div>
+    </section>
+    <section id="loginForm">        
+        @using (Html.BeginForm("ConfirmQuestion", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "confirmQuestionForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <fieldset>
+                <legend>账号验证</legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(m => m.Question1)
+                        @Html.TextBoxFor(m => m.Question1)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Answer1)
+                        @Html.TextBoxFor(m => m.Answer1)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Question2)
+                        @Html.TextBoxFor(m => m.Question2)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Answer2)
+                        @Html.TextBoxFor(m => m.Answer2)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Question3)
+                        @Html.TextBoxFor(m => m.Question3)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Answer3)
+                        @Html.TextBoxFor(m => m.Answer3)
+                    </li>
+                    
+                </ol>
+                <input type="button" id="confirmQuestionBtn" value="下一步" />   
+                <input type="hidden" name="uName" value="@Model.uName" />
+            </fieldset>
+        }
+    </section>
+</div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/Scripts/jquery.validator")
+       
+        @Styles.Render("~/Content/JQueryQtipCustom/css")
+        @Scripts.Render("~/Content/JQueryQtipCustom/js")
+        @Scripts.Render("~/Scripts/Common/MorSun.Common")
+
+        <script type="text/javascript">
+            $(ajaxSubmitFormHandle('#confirmQuestionBtn', '#confirmQuestionForm', '提交失败', '#divInfo'));
+        </script>
+    }

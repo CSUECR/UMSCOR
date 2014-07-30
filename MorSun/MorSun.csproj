@@ -709,6 +709,8 @@
     <Content Include="Views\Shared\_EmailLayout.cshtml" />
     <Content Include="Views\Home\AccountChangePassword.cshtml" />
     <Content Include="Views\Account\ForgetPass.cshtml" />
+    <Content Include="Views\Account\ConfirmQuestion.cshtml" />
+    <Content Include="Views\Account\SendPassEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

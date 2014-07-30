@@ -196,8 +196,9 @@ namespace MorSun.Controllers
 
         #region 忘记密码
         [AllowAnonymous]
-        public ActionResult ForgetPass()
+        public ActionResult ForgetPass(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -206,14 +207,14 @@ namespace MorSun.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgetPass(ForgetModel model, string returnUrl)
         {
-            var oper = new OperationResult(OperationResultType.Error, "注册失败");
-            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "RegVerificationCode");
+            var oper = new OperationResult(OperationResultType.Error, "提交失败");
+            validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "ForgetPassCode");
             if (ModelState.IsValid)
             {
                 if (Membership.GetUser(model.UserName) != null)
                 {
                     //封装返回的数据
-                    fillOperationResult(returnUrl, oper, "注册成功");
+                    fillOperationResult(Url.Action("ConfirmQuestion", "Account", new { UserName = model.UserName, returnUrl = Url.Action("ForgetPass", "Account") }), oper, "提交成功");
                     return Json(oper);
                 }
                 else
@@ -226,15 +227,29 @@ namespace MorSun.Controllers
         [AllowAnonymous]        
         public ActionResult ConfirmQuestion(ForgetModel model, string returnUrl)
         {
-            return View();
+            ViewBag.ReturnUrl = returnUrl;
+            //var user = new BaseBll<aspnet_Users>().All.FirstOrDefault(p => p.LoweredUserName == model.UserName.ToLower());
+            var userInfo = new wmfUserInfo();
+            //if (user != null)
+            //{ 
+            //    userInfo = user.wmfUserInfo;
+            //}
+            userInfo.uName = model.UserName;
+            return View(userInfo);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ConfirmQuestion(wmfUserInfo model, string returnUrl)
-        {
+        {//确认信息并发送邮件
             return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult SendPassEmail(ForgetModel model, string returnUrl)
+        {            
+            return View(model);
         }
 
         //电子邮件修改密码
