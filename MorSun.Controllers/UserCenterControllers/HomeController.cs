@@ -12,8 +12,7 @@ namespace MorSun.Controllers
     public class HomeController : Controller
     {
         public ActionResult Index()
-        {
-            //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+        {            
             ViewBag.Title = "悟空打码";
             return View();
         }
@@ -21,14 +20,12 @@ namespace MorSun.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
 
@@ -48,17 +45,17 @@ namespace MorSun.Controllers
             var effectiveHour = 0 - "EncryptTime".GetXmlConfig().ToAs<int>();
             var timeBefore = DateTime.Now.AddHours(effectiveHour);
             var model = bll.All.Where(p => p.EncryptCode == id && p.EncryptTime >= timeBefore).OrderByDescending(p => p.RegTime).FirstOrDefault();
-            var au = "ActiveUserUrl".GetXmlConfig();
+            //var au = "ActiveUserUrl".GetXmlConfig();
             if(model != null)
             { 
-                switch (model.EncryptUrl)
+                switch (model.EncryptUrl.ToLower())
                 {
-                    case "/Account/ActiveUser": return activeUser(model.UserNameString);
+                    case "/account/activeuser": return activeUser(model.UserNameString);
+                    case "/account/ecpw": return RedirectToAction("ECPW", "Account", new { id = id});
                     default: return RedirectToAction("Index", "Home");
                 }
             }
-            return RedirectToAction("Index", "Home");
-            
+            return RedirectToAction("Index", "Home");            
         }
         public IFormsAuthenticationService FormsService { get; set; }
         protected override void Initialize(RequestContext requestContext)

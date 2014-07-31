@@ -25,6 +25,7 @@ namespace MorSun.Controllers
     //[InitializeSimpleMembership]
     public class AccountController : BasisController
     {
+        #region 基本方法
         public IFormsAuthenticationService FormsService { get; set; }
         public IMembershipService MembershipService { get; set; }
 
@@ -83,17 +84,6 @@ namespace MorSun.Controllers
             }
             return Json(isValidate, JsonRequestBehavior.AllowGet);
         }
-
-        //
-        // GET: /Account/Login
-
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            ViewBag.OpenVerificationCode = "VerificationCode".GetXmlConfig().ToAs<bool>();
-            return View();
-        }
         
         /// <summary>
         /// 用户锁定验证
@@ -132,7 +122,19 @@ namespace MorSun.Controllers
             {
                 "UserName".AE("提供的用户名或密码不正确", ModelState);
             }
-        }        
+        }
+        #endregion
+
+        #region 登录
+        // GET: /Account/Login
+
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.OpenVerificationCode = "VerificationCode".GetXmlConfig().ToAs<bool>();
+            return View();
+        }
 
         [AllowAnonymous]
         public ActionResult AjaxLogin(string returnUrl)
@@ -179,20 +181,16 @@ namespace MorSun.Controllers
             }
             oper.AppendData = ModelState.GE();
             return Json(oper);
-        }
+        } 
 
-        
-
-        //
-        // POST: /Account/LogOff
-
-        
+        // POST: /Account/LogOff        
         public ActionResult LogOff()
         {
             FormsService.SignOut();            
             System.Web.HttpContext.Current.Session.Abandon();
             return RedirectToAction("Index", "Home");
         }
+        #endregion
 
         #region 忘记密码
         [AllowAnonymous]
@@ -251,18 +249,28 @@ namespace MorSun.Controllers
                 if (string.IsNullOrEmpty(model.Answer1)) model.Answer1 = "";
                 if (string.IsNullOrEmpty(model.Answer2)) model.Answer2 = "";
                 if (string.IsNullOrEmpty(model.Answer3)) model.Answer3 = "";
-                if (string.IsNullOrEmpty(user.wmfUserInfo.Question1)) user.wmfUserInfo.Question1 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(user.wmfUserInfo.Question2)) user.wmfUserInfo.Question2 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(user.wmfUserInfo.Question3)) user.wmfUserInfo.Question3 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(user.wmfUserInfo.Answer1)) user.wmfUserInfo.Answer1 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(user.wmfUserInfo.Answer2)) user.wmfUserInfo.Answer2 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(user.wmfUserInfo.Answer3)) user.wmfUserInfo.Answer3 = "".Encrypt(user.UserId.ToString());
-                if(!model.Question1.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Question1)
-                    || !model.Answer1.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Answer1)
-                    || !model.Question2.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Question2)
-                    || !model.Answer2.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Answer2)
-                    || !model.Question3.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Question3)
-                    || !model.Answer3.Encrypt(user.UserId.ToString()).Eql(user.wmfUserInfo.Answer3)
+
+                //不能直接修改数据库对象，后面的代码有保存动作。
+                var model2 = new wmfUserInfoMetadata();
+                model2.Question1 = user.wmfUserInfo.Question1;
+                model2.Question2 = user.wmfUserInfo.Question2;
+                model2.Question3 = user.wmfUserInfo.Question3;
+                model2.Answer1 = user.wmfUserInfo.Answer1;
+                model2.Answer2 = user.wmfUserInfo.Answer2;
+                model2.Answer3 = user.wmfUserInfo.Answer3;
+
+                if (string.IsNullOrEmpty(model2.Question1)) model2.Question1 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Question2)) model2.Question2 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Question3)) model2.Question3 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Answer1)) model2.Answer1 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Answer2)) model2.Answer2 = "".Encrypt(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Answer3)) model2.Answer3 = "".Encrypt(user.UserId.ToString());
+                if (!model.Question1.Encrypt(user.UserId.ToString()).Eql(model2.Question1)
+                    || !model.Answer1.Encrypt(user.UserId.ToString()).Eql(model2.Answer1)
+                    || !model.Question2.Encrypt(user.UserId.ToString()).Eql(model2.Question2)
+                    || !model.Answer2.Encrypt(user.UserId.ToString()).Eql(model2.Answer2)
+                    || !model.Question3.Encrypt(user.UserId.ToString()).Eql(model2.Question3)
+                    || !model.Answer3.Encrypt(user.UserId.ToString()).Eql(model2.Answer3)
                     )
                     "Question1".AE("验证失败", ModelState);
                 else
@@ -294,18 +302,64 @@ namespace MorSun.Controllers
             return View(model);
         }
 
-        //电子邮件修改密码
+        //电子邮件修改密码        
         [AllowAnonymous]
-        public ActionResult ECPW()
+        public ActionResult ECPW(string id, string returnUrl)
         {
-            //LogHelper.Write("错误ECPW", LogHelper.LogMessageType.Error);
-            //LogHelper.Write("信息ECPW", LogHelper.LogMessageType.Info);
-            return View();
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("Index", "Home");
+            var model = new ECPWModel();
+            model.id = id;
+            return View(model);
         }
-        #endregion
-        //
-        // GET: /Account/Register
 
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ECPW(ECPWModel model, string returnUrl)
+        {
+            var oper = new OperationResult(OperationResultType.Error, "提交失败");
+            if (string.IsNullOrEmpty(model.id))
+                "OldPassword".AE("非法提交", ModelState);
+            else
+            {
+                var bll = new BaseBll<wmfEncryptRecord>();
+                var effectiveHour = 0 - "EncryptTime".GetXmlConfig().ToAs<int>();
+                var timeBefore = DateTime.Now.AddHours(effectiveHour);
+                var er = bll.All.Where(p => p.EncryptCode == model.id && p.EncryptTime >= timeBefore).OrderByDescending(p => p.RegTime).FirstOrDefault();
+                if(er == null)
+                    "OldPassword".AE("非法提交", ModelState);
+                else
+                { 
+                    var ubll = new BaseBll<wmfUserInfo>();
+                    var user = ubll.All.Where(p => p.UserNameString == er.UserNameString).FirstOrDefault();
+                    if(user == null)
+                        "OldPassword".AE("非法提交", ModelState);
+                    else
+                    {
+                        if(!MembershipService.ValidateUser(user.aspnet_Users.UserName, model.OldPassword))
+                        {
+                            "OldPassword".AE("旧密码输入错误", ModelState);
+                        }
+                        if(ModelState.IsValid)
+                        {
+                            user.UserPassword = model.NewPassword.Encrypt(user.ID.ToString());
+                            ubll.Update(user);
+                            //封装返回的数据
+                            fillOperationResult(Url.Action("Index", "Home"), oper, "密码修改成功");
+                            return Json(oper);
+                        }
+                    }
+                }
+            }
+            oper.AppendData = ModelState.GE();
+            return Json(oper);
+        }
+        
+        #endregion
+
+        #region 注册
+        // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register(string id)
         {
@@ -363,9 +417,20 @@ namespace MorSun.Controllers
                         //被邀请码
                         userinfoModel.BeInviteCode = model.BeInviteCode;
                         //被邀请人
-                        var inviteUser = userinfobll.All.FirstOrDefault(p => p.InviteCode == model.BeInviteCode);
-                        if (inviteUser != null)
-                            userinfoModel.InviteUser = inviteUser.ID;
+                        if (!string.IsNullOrEmpty(model.BeInviteCode))
+                        {
+                            var inviteUser = userinfobll.All.FirstOrDefault(p => p.InviteCode == model.BeInviteCode);
+                            if (inviteUser != null)
+                                userinfoModel.InviteUser = inviteUser.ID;
+                            else
+                            {
+                                var bc = model.BeInviteCode.Substring(model.BeInviteCode.LastIndexOf("|"), model.BeInviteCode.Length - model.BeInviteCode.LastIndexOf("|")).Replace("|", ".");
+                                model.BeInviteCode = model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc;
+                                var aspnetUser = Membership.GetUser(model.BeInviteCode);
+                                if (aspnetUser != null)
+                                    userinfoModel.InviteUser = aspnetUser.ProviderUserKey.ToAs<Guid>();
+                            }
+                        }
                         //用户串和密码串
                         userinfoModel.UserNameString = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
                         userinfoModel.PassWordString = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
@@ -391,7 +456,6 @@ namespace MorSun.Controllers
                             var constr = @"Insert Into aspnet_UsersInRoles ([UserId],[RoleId])  VALUES ('" + userinfoModel.ID + "','" + RoleName + "')";                            
                             userinfobll.Db.ExecuteStoreCommand(constr);
                         }
-
                         //发送激活邮件
                         if ("AccountActive".GetXmlConfig() == "true")
                         {
@@ -410,9 +474,7 @@ namespace MorSun.Controllers
                         { 
                             //激活后才能登录
                             FormsService.SignIn(model.UserName, false);
-                        }
-                        
-
+                        }  
                         //封装返回的数据
                         fillOperationResult(returnUrl, oper, "注册成功");
                         return Json(oper);
@@ -428,7 +490,7 @@ namespace MorSun.Controllers
             return Json(oper);
         }
 
-        
+        #endregion
 
         #region 帮助程序
         private ActionResult RedirectToLocal(string returnUrl)
