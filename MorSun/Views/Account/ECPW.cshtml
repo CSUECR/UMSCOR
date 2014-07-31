@@ -1,4 +1,4 @@
-﻿@model MorSun.Model.ForgetModel
+﻿@model MorSun.Model.ECPWModel
 @{
     ViewBag.Title = "找回密码";    
 }
@@ -27,7 +27,7 @@
                             <span class="desc"><i class="icon-ok"></i> 发送邮件 </span>
                         </a>
                     </li>
-                    <li class="span3">
+                    <li class="span3  active">
                         <a class="step" data-toggle="tab" href="#tab4">
                             <span class="number">4</span>
                             <span class="desc"><i class="icon-ok"></i> 修改密码 </span>
@@ -37,20 +37,33 @@
             </div>
         </div>
         <div class="progress progress-success progress-striped" id="bar">
-            <div class="bar" style="width: 75%;"></div>
+            <div class="bar" style="width: 100%;"></div>
         </div>
     </section>
     <section id="loginForm">        
-        
+        @using (Html.BeginForm("ECPW", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "ecpwForm" }))
+        {
+            @Html.AntiForgeryToken()
             <fieldset>
                 <legend>账号验证</legend>
                 <ol>
                     <li>
-                        恭喜！系统已成功发送找回密码邮件。
+                        @Html.LabelFor(m => m.OldPassword)
+                        @Html.PasswordFor(m => m.OldPassword)
+                    </li> 
+                    <li>
+                        @Html.LabelFor(m => m.NewPassword)
+                        @Html.PasswordFor(m => m.NewPassword)
+                    </li> 
+                    <li>
+                        @Html.LabelFor(m => m.ConfirmPassword)
+                        @Html.PasswordFor(m => m.ConfirmPassword)
                     </li> 
                 </ol>
-                <a href="http://www.5kdm.com">返回首页</a>
-            </fieldset>        
+                <input type="button" id="ecpwBtn" value="提交" />
+                <input name="id" type="hidden" value="@Model.id" /> 
+            </fieldset> 
+        }       
     </section>
 </div>
     @section Scripts {
@@ -63,6 +76,6 @@
         @Scripts.Render("~/Scripts/Common/MorSun.Common")
 
         <script type="text/javascript">
-            $(ajaxSubmitFormHandle('#confirmQuestionBtn', '#confirmQuestionForm', '提交失败', '#divInfo'));
+            $(ajaxSubmitFormHandle('#ecpwBtn', '#ecpwForm', '提交失败', '#divInfo'));
         </script>
     }

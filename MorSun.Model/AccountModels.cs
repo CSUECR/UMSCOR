@@ -33,6 +33,28 @@ namespace MorSun.Model
         public string ConfirmPassword { get; set; }
     }
 
+    [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "新密码和确认密码不匹配。")]
+    public class ECPWModel
+    {
+        [Required(ErrorMessage = "{0}必填")]
+        [DataType(DataType.Password)]
+        [DisplayName("当前密码")]
+        public string OldPassword { get; set; }
+
+        [Required(ErrorMessage = "{0}必填")]
+        [ValidatePasswordLength]
+        [DataType(DataType.Password)]
+        [DisplayName("新密码")]
+        public string NewPassword { get; set; }
+
+        [Required(ErrorMessage = "{0}必填")]
+        [DataType(DataType.Password)]
+        [DisplayName("确认新密码")]
+        public string ConfirmPassword { get; set; }
+
+        public string id { get; set; }
+    }
+
     public class ForgetModel
     {
         [Required(ErrorMessage = "{0}必填")]
