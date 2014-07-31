@@ -7,7 +7,7 @@
 <div class="content-wrapper clear-fix">
     <section id="loginForm">
         <h2>@ViewBag.Title</h2>
-        @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "regForm" }))
+        @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
             @Html.AntiForgeryToken()
             <fieldset>
@@ -39,7 +39,7 @@
                         </li>
                     }
                 </ol>
-                <input type="button" id="registerBtn" value="注册" />
+                <input type="button" id="submitBtn" value="注册" />
                 <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
                 <input name="BeInviteCode" type="hidden" value="@Model.BeInviteCode"/>
             </fieldset>
@@ -56,6 +56,6 @@
         @Scripts.Render("~/Scripts/Common/MorSun.Common")
 
         <script type="text/javascript">
-            $(ajaxSubmitFormHandle('#registerBtn', '#regForm', '注册失败，请联系管理员', '#divInfo'));
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '注册失败，请联系管理员', '#divInfo'));
         </script>
     }
