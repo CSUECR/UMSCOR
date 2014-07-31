@@ -41,7 +41,7 @@
         </div>
     </section>
     <section id="loginForm">        
-        @using (Html.BeginForm("ECPW", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "ecpwForm" }))
+        @using (Html.BeginForm("ECPW", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
             @Html.AntiForgeryToken()
             <fieldset>
@@ -60,7 +60,7 @@
                         @Html.PasswordFor(m => m.ConfirmPassword)
                     </li> 
                 </ol>
-                <input type="button" id="ecpwBtn" value="提交" />
+                <input type="button" id="submitBtn" value="提交" />
                 <input name="id" type="hidden" value="@Model.id" /> 
             </fieldset> 
         }       
@@ -76,6 +76,6 @@
         @Scripts.Render("~/Scripts/Common/MorSun.Common")
 
         <script type="text/javascript">
-            $(ajaxSubmitFormHandle('#ecpwBtn', '#ecpwForm', '提交失败', '#divInfo'));
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败', '#divInfo'));
         </script>
     }

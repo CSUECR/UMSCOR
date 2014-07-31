@@ -8,7 +8,7 @@
     <section id="loginForm">
 
         <h2>@ViewBag.Title</h2>
-        @using (Html.BeginForm("AjaxLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "logonForm" }))
+        @using (Html.BeginForm("AjaxLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
             @Html.AntiForgeryToken()
             <fieldset>
@@ -32,7 +32,7 @@
                         </li>
                     }
                 </ol>
-                <input type="button" id="logonBtn" value="登录" />
+                <input type="button" id="submitBtn" value="登录" />
             </fieldset>
             <p>
                 没有账号？@Html.ActionLink("注册新账号", "Register")。
@@ -51,7 +51,7 @@
     @Scripts.Render("~/Scripts/Common/MorSun.Common")
     
     <script type="text/javascript">
-        $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
+        $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '登录失败，请联系管理员', '#divInfo'));
     </script>
     }
 

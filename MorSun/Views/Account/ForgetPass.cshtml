@@ -42,7 +42,7 @@
         </div>
     </section>
     <section id="loginForm">        
-        @using (Html.BeginForm("ForgetPass", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "forgetPassForm" }))
+        @using (Html.BeginForm("ForgetPass", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
             @Html.AntiForgeryToken()
             <fieldset>
@@ -63,7 +63,7 @@
                         </li>
                     }
                 </ol>
-                <input type="button" id="forgetPassBtn" value="下一步" />
+                <input type="button" id="submitBtn" value="下一步" />
                 <input name="VerifycodeRandom" type="hidden" value="@yzmR" />                
             </fieldset>
         }
@@ -79,6 +79,6 @@
         @Scripts.Render("~/Scripts/Common/MorSun.Common")
 
         <script type="text/javascript">
-            $(ajaxSubmitFormHandle('#forgetPassBtn', '#forgetPassForm', '提交失败', '#divInfo'));
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败', '#divInfo'));
         </script>
     }

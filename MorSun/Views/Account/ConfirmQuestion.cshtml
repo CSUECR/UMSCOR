@@ -1,4 +1,4 @@
-﻿@model MorSun.Model.wmfUserInfo
+﻿@model MorSun.Model.ConfirmQuestionModel
 @{
     ViewBag.Title = "找回密码";    
 }
@@ -41,7 +41,7 @@
         </div>
     </section>
     <section id="loginForm">        
-        @using (Html.BeginForm("ConfirmQuestion", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "confirmQuestionForm" }))
+        @using (Html.BeginForm("ConfirmQuestion", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
             @Html.AntiForgeryToken()
             <fieldset>
@@ -73,7 +73,7 @@
                     </li>
                     
                 </ol>
-                <input type="button" id="confirmQuestionBtn" value="下一步" />   
+                <input type="button" id="submitBtn" value="下一步" />   
                 <input type="hidden" name="uName" value="@Model.uName" />
             </fieldset>
         }
@@ -89,6 +89,6 @@
         @Scripts.Render("~/Scripts/Common/MorSun.Common")
 
         <script type="text/javascript">
-            $(ajaxSubmitFormHandle('#confirmQuestionBtn', '#confirmQuestionForm', '提交失败', '#divInfo'));
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败', '#divInfo'));
         </script>
     }

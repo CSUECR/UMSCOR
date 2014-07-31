@@ -703,8 +703,6 @@
     <Content Include="XmlConfig\zh_TW\Web.config" />
     <Content Include="Views\Shared\_TableLogon.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Home\Index2.cshtml" />
-    <Content Include="Views\Home\Index - 复制.cshtml" />
     <Content Include="Views\Home\ActiveAccountEmail.cshtml" />
     <Content Include="Views\Shared\_EmailLayout.cshtml" />
     <Content Include="Views\Home\AccountChangePassword.cshtml" />

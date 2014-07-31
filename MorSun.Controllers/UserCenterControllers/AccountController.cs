@@ -225,8 +225,8 @@ namespace MorSun.Controllers
         [AllowAnonymous]        
         public ActionResult ConfirmQuestion(ForgetModel model, string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;            
-            var userInfo = new wmfUserInfo();            
+            ViewBag.ReturnUrl = returnUrl;
+            var userInfo = new ConfirmQuestionModel();            
             userInfo.uName = model.UserName;
             return View(userInfo);
         }
@@ -234,7 +234,7 @@ namespace MorSun.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ConfirmQuestion(wmfUserInfo model, string returnUrl)
+        public ActionResult ConfirmQuestion(ConfirmQuestionModel model, string returnUrl)
         {
             var oper = new OperationResult(OperationResultType.Error, "提交失败");
             //确认信息并发送邮件
@@ -251,7 +251,7 @@ namespace MorSun.Controllers
                 if (string.IsNullOrEmpty(model.Answer3)) model.Answer3 = "";
 
                 //不能直接修改数据库对象，后面的代码有保存动作。
-                var model2 = new wmfUserInfoMetadata();
+                var model2 = new ConfirmQuestionModel();
                 model2.Question1 = user.wmfUserInfo.Question1;
                 model2.Question2 = user.wmfUserInfo.Question2;
                 model2.Question3 = user.wmfUserInfo.Question3;

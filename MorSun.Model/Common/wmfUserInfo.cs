@@ -76,6 +76,36 @@ namespace MorSun.Model
         }
     }
 
+    public class ConfirmQuestionModel
+    {
+        [Display(Name = "问题1")]
+        [StringLength(25, ErrorMessage = "问题1长度请控制在25个字符内")]
+        public System.String Question1;
+
+        [Display(Name = "答案1")]
+        [StringLength(25, ErrorMessage = "答案1长度请控制在25个字符内")]
+        public System.String Answer1;
+
+        [Display(Name = "问题2")]
+        [StringLength(25, ErrorMessage = "问题2长度请控制在25个字符内")]
+        public System.String Question2;
+
+        [Display(Name = "答案2")]
+        [StringLength(25, ErrorMessage = "答案2长度请控制在25个字符内")]
+        public System.String Answer2;
+
+        [Display(Name = "问题3")]
+        [StringLength(25, ErrorMessage = "问题3长度请控制在25个字符内")]
+        public System.String Question3;
+
+        [Display(Name = "答案3")]
+        [StringLength(25, ErrorMessage = "答案3长度请控制在25个字符内")]
+        public System.String Answer3;
+
+        public System.String uName;
+    }
+
+
     public class wmfUserInfoMetadata
     {
         [Display(Name = "问题1")]
@@ -101,6 +131,5 @@ namespace MorSun.Model
         [Display(Name = "答案3")]
         [StringLength(25, ErrorMessage = "答案3长度请控制在25个字符内")]
         public System.String Answer3;
-        
     }
 }
