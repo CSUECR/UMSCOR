@@ -170,7 +170,7 @@
                 <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
             </li>
             <li class="two">
-                @("s5kdmqwertyuiop".Encrypt())  @("C220C54A34828FBF12BB35E02AE35AE1".Decrypt())
+                
                 <h5>Add NuGet packages and jump-start your coding</h5>
                 NuGet makes it easy to install and update free libraries and tools.
                 <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
@@ -218,11 +218,11 @@
     @section Scripts {
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/Scripts/jquery.validator")
-        @Styles.Render("~/Content/JQueryQtipCustom/css")
-        @Scripts.Render("~/Content/JQueryQtipCustom/js")
-        @Scripts.Render("~/Scripts/Common/MorSun.Common")
-        @Scripts.Render("~/Scripts/slides")
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCustom/jquery.qtip.css")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/MorSunCommon")
+        @Scripts.Render("~/bundles/slides")
         <script type="text/javascript">
             $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo'));
             $(document).ready(function () {

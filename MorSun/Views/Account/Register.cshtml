@@ -49,11 +49,11 @@
     @section Scripts {
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/Scripts/jquery.validator")
+        @Scripts.Render("~/bundles/validator")
        
-        @Styles.Render("~/Content/JQueryQtipCustom/css")
-        @Scripts.Render("~/Content/JQueryQtipCustom/js")
-        @Scripts.Render("~/Scripts/Common/MorSun.Common")
+        @Styles.Render("~/Content/JQueryQtipCustom/jquery.qtip.css")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/MorSunCommon")
 
         <script type="text/javascript">
             $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '注册失败，请联系管理员', '#divInfo'));

@@ -8,6 +8,12 @@ namespace MorSun
         // 有关 Bundling 的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.IgnoreList.Clear();
+            bundles.IgnoreList.Ignore("*-vsdoc.js");
+            bundles.IgnoreList.Ignore("*intellisense.js");
+            bundles.IgnoreList.Ignore("*min.js");
+            BundleTable.EnableOptimizations = true;
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -17,7 +23,7 @@ namespace MorSun
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));//,""
-            bundles.Add(new ScriptBundle("~/Scripts/jquery.validator").Include(
+            bundles.Add(new ScriptBundle("~/bundles/validator").Include(
                         "~/Scripts/jquery.validator.ex.js"));
             // 使用要用于开发和学习的 Modernizr 的开发版本。然后，当你做好
             // 生产准备时，请使用 http://modernizr.com 上的生成工具来仅选择所需的测试。
@@ -46,15 +52,15 @@ namespace MorSun
                         ));
 
             //JQueryQtipCustom
-            bundles.Add(new StyleBundle("~/Content/JQueryQtipCustom/css").Include("~/Content/JQueryQtipCustom/jquery.qtip.css"));
-            bundles.Add(new ScriptBundle("~/Content/JQueryQtipCustom/js").Include("~/Content/JQueryQtipCustom/jquery.qtip.js"));
+            bundles.Add(new StyleBundle("~/Content/JQueryQtipCustom/jquery.qtip.css").Include("~/Content/JQueryQtipCustom/jquery.qtip.css"));
+            bundles.Add(new ScriptBundle("~/bundles/jqueryqtip").Include("~/Content/JQueryQtipCustom/jquery.qtip.js"));
 
             //slides
-            bundles.Add(new ScriptBundle("~/Scripts/slides").Include("~/Scripts/slides.min.jquery.js"));
+            bundles.Add(new ScriptBundle("~/bundles/slides").Include("~/Scripts/slides.min.jquery.js"));
             //HOHO18.Common
-            bundles.Add(new ScriptBundle("~/Scripts/Common/HOHO18.Common").Include("~/Scripts/Common/HOHO18.Common.js"));
+            bundles.Add(new ScriptBundle("~/bundles/HOHO18").Include("~/Scripts/Common/HOHO18.Common.js"));
             //MorSun.Common
-            bundles.Add(new ScriptBundle("~/Scripts/Common/MorSun.Common").Include("~/Scripts/Common/MorSun.Common.js"));
+            bundles.Add(new ScriptBundle("~/bundles/MorSunCommon").Include("~/Scripts/Common/MorSun.Common.js"));
         }
     }
 }

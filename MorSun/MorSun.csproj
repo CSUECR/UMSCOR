@@ -621,6 +621,7 @@
     <Content Include="Content\themes\bootstrap\image\glyphiconshalflings-regular.ttf" />
     <Content Include="Content\themes\bootstrap\image\glyphiconshalflings-regular.woff" />
     <Content Include="Content\themes\bootstrap\image\js" />
+    <None Include="Properties\PublishProfiles\kdm.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\iconVoiceWhite.png" />
     <Content Include="Images\PewterLineLeftRedLogo.png" />

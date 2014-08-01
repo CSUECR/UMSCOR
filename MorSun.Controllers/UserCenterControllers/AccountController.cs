@@ -343,11 +343,15 @@ namespace MorSun.Controllers
                         }
                         if(ModelState.IsValid)
                         {
-                            user.UserPassword = model.NewPassword.Encrypt(user.ID.ToString());
-                            ubll.Update(user);
-                            //封装返回的数据
-                            fillOperationResult(Url.Action("Index", "Home"), oper, "密码修改成功");
-                            return Json(oper);
+                            MembershipUser muser = Membership.GetUser(user.aspnet_Users.UserName);
+                            if (MembershipService.ChangePassword(user.aspnet_Users.UserName, muser.ResetPassword(), model.NewPassword))
+                            {
+                                user.UserPassword = model.NewPassword.Encrypt(user.ID.ToString());
+                                ubll.Update(user);
+                                //封装返回的数据
+                                fillOperationResult(Url.Action("Index", "Home"), oper, "密码修改成功");
+                                return Json(oper);
+                            }
                         }
                     }
                 }
