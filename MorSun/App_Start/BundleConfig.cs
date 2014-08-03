@@ -30,6 +30,13 @@ namespace MorSun
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            //slides
+            bundles.Add(new ScriptBundle("~/bundles/slides").Include("~/Scripts/slides.min.jquery.js"));
+            //HOHO18.Common
+            bundles.Add(new ScriptBundle("~/bundles/HOHO18").Include("~/Scripts/Common/HOHO18.Common.js"));
+            //MorSun.Common
+            bundles.Add(new ScriptBundle("~/bundles/MorSunCommon").Include("~/Scripts/Common/MorSun.Common.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
@@ -55,12 +62,7 @@ namespace MorSun
             bundles.Add(new StyleBundle("~/Content/JQueryQtipCustom/jquery.qtip.css").Include("~/Content/JQueryQtipCustom/jquery.qtip.css"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryqtip").Include("~/Content/JQueryQtipCustom/jquery.qtip.js"));
 
-            //slides
-            bundles.Add(new ScriptBundle("~/bundles/slides").Include("~/Scripts/slides.min.jquery.js"));
-            //HOHO18.Common
-            bundles.Add(new ScriptBundle("~/bundles/HOHO18").Include("~/Scripts/Common/HOHO18.Common.js"));
-            //MorSun.Common
-            bundles.Add(new ScriptBundle("~/bundles/MorSunCommon").Include("~/Scripts/Common/MorSun.Common.js"));
+            
         }
     }
 }
