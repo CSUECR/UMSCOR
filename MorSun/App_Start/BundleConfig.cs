@@ -33,9 +33,9 @@ namespace MorSun
             //slides
             bundles.Add(new ScriptBundle("~/bundles/slides").Include("~/Scripts/slides.min.jquery.js"));
             //HOHO18.Common
-            bundles.Add(new ScriptBundle("~/bundles/HOHO18").Include("~/Scripts/Common/HOHO18.Common.js"));
+            bundles.Add(new ScriptBundle("~/bundles/hoho18").Include("~/Scripts/Common/HOHO18.Common.js"));
             //MorSun.Common
-            bundles.Add(new ScriptBundle("~/bundles/MorSunCommon").Include("~/Scripts/Common/MorSun.Common.js"));
+            bundles.Add(new ScriptBundle("~/bundles/morsuncommon").Include("~/Scripts/Common/MorSun.Common.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
@@ -59,7 +59,7 @@ namespace MorSun
                         ));
 
             //JQueryQtipCustom
-            bundles.Add(new StyleBundle("~/Content/JQueryQtipCustom/jquery.qtip.css").Include("~/Content/JQueryQtipCustom/jquery.qtip.css"));
+            bundles.Add(new StyleBundle("~/Content/JQueryQtipCss").Include("~/Content/JQueryQtipCustom/jquery.qtip.css"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryqtip").Include("~/Content/JQueryQtipCustom/jquery.qtip.js"));
 
             
