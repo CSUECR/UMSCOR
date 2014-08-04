@@ -710,6 +710,13 @@
     <Content Include="Views\Account\ConfirmQuestion.cshtml" />
     <Content Include="Views\Account\SendPassEmail.cshtml" />
     <Content Include="Views\Account\ECPW.cshtml" />
+    <Content Include="Web - 复制.config" />
+    <Content Include="Web - 复制.Debug.config">
+      <DependentUpon>Web - 复制.config</DependentUpon>
+    </Content>
+    <Content Include="Web - 复制.Release.config">
+      <DependentUpon>Web - 复制.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
