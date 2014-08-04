@@ -21,7 +21,7 @@ namespace HOHO18.Common.DEncrypt
         /// <returns></returns>
 		public static string Encrypt(string Text) 
 		{
-            return Encrypt(Text, "HOHO18Tools");
+            return Encrypt(Text, "b59bbf7f-8ec0-40c8-811c-ced8a9769340");
 		}
 		/// <summary> 
 		/// 加密数据 
@@ -60,7 +60,7 @@ namespace HOHO18.Common.DEncrypt
         /// <returns></returns>
 		public static string Decrypt(string Text) 
 		{
-            return Decrypt(Text, "HOHO18Tools");
+            return Decrypt(Text, "b59bbf7f-8ec0-40c8-811c-ced8a9769340");
 		}
 		/// <summary> 
 		/// 解密数据 
