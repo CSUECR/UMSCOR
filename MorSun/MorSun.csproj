@@ -662,12 +662,14 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\slides.min.jquery.js" />
     <Content Include="Scripts\jquery.validator.ex.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
+    <Content Include="Web加密版.config">
+      <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
+    <Content Include="Web加密版.Debug.config">
+      <DependentUpon>Web加密版.config</DependentUpon>
+    </Content>
+    <Content Include="Web加密版.Release.config">
+      <DependentUpon>Web加密版.config</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
@@ -710,12 +712,12 @@
     <Content Include="Views\Account\ConfirmQuestion.cshtml" />
     <Content Include="Views\Account\SendPassEmail.cshtml" />
     <Content Include="Views\Account\ECPW.cshtml" />
-    <Content Include="Web - 复制.config" />
-    <Content Include="Web - 复制.Debug.config">
-      <DependentUpon>Web - 复制.config</DependentUpon>
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Web - 复制.Release.config">
-      <DependentUpon>Web - 复制.config</DependentUpon>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
