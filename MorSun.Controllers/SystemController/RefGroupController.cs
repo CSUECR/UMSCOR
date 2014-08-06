@@ -10,25 +10,13 @@ using MorSun.Controllers.ViewModel;
 using System.Xml;
 using MorSun.Common.Privelege;
 
-namespace MorSun.Controllers.CommonController
+namespace MorSun.Controllers.SystemController
 {
     public class RefGroupController : BaseController<wmfRefGroup>
     {
         protected override string ResourceId
         {
-            get { return MorSun.Common.Privelege.资源.类别组; }
-        }
-
-        private BaseBll<wmfRefGroup> _rgBll;
-
-        public BaseBll<wmfRefGroup> RefGroupBll
-        {
-            get
-            {
-                _rgBll = _rgBll.Load();
-                return _rgBll;
-            }
-            set { _rgBll = value; }
+            get { return 资源.类别组; }
         }
 
         /// <summary>
@@ -125,9 +113,9 @@ namespace MorSun.Controllers.CommonController
                 var oper = new OperationResult(OperationResultType.Error, "移动失败" + errms);
                 if(ModelState.IsValid)
                 {
-                    var ss = RefGroupBll.GetModel(p1);
+                    var ss = Bll.GetModel(p1);
                     ss.ParentId = p2;
-                    RefGroupBll.Update(ss);      
+                    Bll.Update(ss);      
                     fillOperationResult(returnUrl, oper, "移动成功");
                     return Json(oper);
                 }
@@ -154,7 +142,7 @@ namespace MorSun.Controllers.CommonController
         /// <returns></returns>
         private bool SearchDep(Guid p1, Guid p2)
         {
-            var dept = RefGroupBll.All.FirstOrDefault(r => r.ID == p2);
+            var dept = Bll.All.FirstOrDefault(r => r.ID == p2);
             if (dept != null)
             {
                 Guid parentId = dept.ParentId.ToAs<Guid>();

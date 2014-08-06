@@ -13,16 +13,17 @@ using System.Text;
 using dotNetRoles = System.Web.Security.Roles;
 using HOHO18.Common;
 using MorSun.Controllers.ViewModel;
+using MorSun.Common.Privelege;
 
 
-namespace MorSun.Controllers.CommonController
+namespace MorSun.Controllers.SystemController
 {
     [HandleError]
     public class ResourcesController : BaseController<wmfResource>
     {
         protected override string ResourceId
         {
-            get { return MorSun.Common.Privelege.资源.资源管理; }
+            get { return 资源.资源管理; }
         }
         private BaseBll<wmfResource> _resourceBll;
 
@@ -176,12 +177,6 @@ namespace MorSun.Controllers.CommonController
 
             return ret;
         }
-
-        
-            
-
-
-
     }
 }
 

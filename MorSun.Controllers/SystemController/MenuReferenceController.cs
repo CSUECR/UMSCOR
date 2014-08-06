@@ -9,7 +9,7 @@ using System.Collections;
 using System.Web.Mvc;
 using MorSun.Controllers.ViewModel;
 
-namespace MorSun.Controllers.CommonController
+namespace MorSun.Controllers.SystemController
 {
     public class MenuReferenceController : BaseController<wmfReference>
     {

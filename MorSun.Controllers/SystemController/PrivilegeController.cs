@@ -14,7 +14,7 @@ using dotNetRoles = System.Web.Security.Roles;
 using HOHO18.Common;
 using MorSun.Controllers.ViewModel;
 
-namespace MorSun.Controllers.CommonController
+namespace MorSun.Controllers.SystemController
 {
     /// <summary>
     /// 资源

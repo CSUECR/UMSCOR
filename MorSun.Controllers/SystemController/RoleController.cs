@@ -16,7 +16,7 @@ using MorSun.Controllers.ViewModel;
 using System.Web.Security;
 using HOHO18.Common.ExHelp;
 
-namespace MorSun.Controllers
+namespace MorSun.Controllers.SystemController
 {
     //[Authorize(Roles = "系统管理员")]
     [HandleError]

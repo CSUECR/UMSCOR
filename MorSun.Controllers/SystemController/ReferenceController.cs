@@ -10,13 +10,13 @@ using System.Web.Mvc;
 using MorSun.Controllers.ViewModel;
 using MorSun.Common.Privelege;
 
-namespace MorSun.Controllers.CommonController
+namespace MorSun.Controllers.SystemController
 {
     public class ReferenceController : BaseController<wmfReference>
     {
         protected override string ResourceId
         {
-            get { return MorSun.Common.Privelege.资源.类别; }
+            get { return 资源.类别; }
         }
         
         /// <summary>

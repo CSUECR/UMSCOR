@@ -11,7 +11,7 @@ using MorSun.Controllers.ViewModel;
 using System.Xml;
 using HOHO18.Common;
 
-namespace MorSun.Controllers.CommonController
+namespace MorSun.Controllers.SystemController
 {
     public class NavigationLinkController : BaseController<wmfNavigationLink>
     {

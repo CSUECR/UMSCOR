@@ -15,7 +15,7 @@ using HOHO18.Common;
 using MorSun.Controllers.ViewModel;
 using System.Collections;
 
-namespace MorSun.Controllers.CommonController
+namespace MorSun.Controllers.SystemController
 {
     /// <summary>
     /// 操作
