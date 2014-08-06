@@ -13,6 +13,7 @@ using System.Text;
 using dotNetRoles = System.Web.Security.Roles;
 using HOHO18.Common;
 using MorSun.Controllers.ViewModel;
+using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -23,55 +24,43 @@ namespace MorSun.Controllers.SystemController
     {
         protected override string ResourceId
         {
-            get { return MorSun.Common.Privelege.资源.权限; }
-        }
-
-        private BaseBll<wmfPrivilege> _privilegeBll;
-
-        public BaseBll<wmfPrivilege> PrivilegeBll
-        {
-            get
-            {
-                _privilegeBll = _privilegeBll.Load();
-                return _privilegeBll;
-            }
-            set { _privilegeBll = value; }
+            get { return 资源.权限; }
         }
 
         //编辑前验证
         protected override string OnEditCK(wmfPrivilege t)
         {
-            var privilege = PrivilegeBll.All.FirstOrDefault(r => r.PrivilegeCNName == t.PrivilegeCNName && r.ResourcesId==t.ResourcesId);
+            var privilege = Bll.All.FirstOrDefault(r => r.PrivilegeCNName == t.PrivilegeCNName && r.ResourcesId==t.ResourcesId);
             if (privilege != null && privilege.ID != t.ID)
             {
                 //该权限名称已经存在，请重新输入！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限名称已经存在"), "") });
+                "PrivilegeCNName".AE("权限名称已经存在", ModelState);                
             }
 
-            privilege = PrivilegeBll.All.FirstOrDefault(r => r.ResourcesId == t.ResourcesId && r.OperationId == t.OperationId);
+            privilege = Bll.All.FirstOrDefault(r => r.ResourcesId == t.ResourcesId && r.OperationId == t.OperationId);
             if (privilege != null && privilege.ID != t.ID)
             {
                 //资源和操作相同的权限已经存在！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("资源和操作相同的权限已经存在"), "") });
+                "PrivilegeCNName".AE("已存在相同类型权限", ModelState);                  
             }
             return "true";
         }
 
         //创建前验证
-        protected override string OnPreCreateCK(wmfPrivilege t)
+        protected override string OnAddCK(wmfPrivilege t)
         {
-            var privilege = PrivilegeBll.All.FirstOrDefault(r => r.PrivilegeCNName == t.PrivilegeCNName && r.ResourcesId == t.ResourcesId);
+            var privilege = Bll.All.FirstOrDefault(r => r.PrivilegeCNName == t.PrivilegeCNName && r.ResourcesId == t.ResourcesId);
             if (privilege != null)
             {
                 //该权限名称已经存在，请重新输入！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限名称已经存在"), "") });
+                "PrivilegeCNName".AE("权限名称已经存在", ModelState); 
             }
 
-            privilege = PrivilegeBll.All.FirstOrDefault(r => r.ResourcesId == t.ResourcesId && r.OperationId == t.OperationId);
+            privilege = Bll.All.FirstOrDefault(r => r.ResourcesId == t.ResourcesId && r.OperationId == t.OperationId);
             if (privilege != null)
             {
                 //资源和操作相同的权限已经存在！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("资源和操作相同的权限已经存在"), "") });
+                "PrivilegeCNName".AE("已存在相同类型权限", ModelState);                  
             }
 
             return "true";
@@ -86,7 +75,7 @@ namespace MorSun.Controllers.SystemController
             if (privilegeInRole != null)
             {
                 //权限在角色中使用!
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限在角色中使用"), "") });
+                "PrivilegeCNName".AE("权限在角色中使用", ModelState); 
             }
             return "true";
         }

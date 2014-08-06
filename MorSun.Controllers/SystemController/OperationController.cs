@@ -14,6 +14,7 @@ using dotNetRoles = System.Web.Security.Roles;
 using HOHO18.Common;
 using MorSun.Controllers.ViewModel;
 using System.Collections;
+using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -24,41 +25,29 @@ namespace MorSun.Controllers.SystemController
     {
         protected override string ResourceId
         {
-            get { return MorSun.Common.Privelege.资源.操作; }
-        }
-
-        private BaseBll<wmfOperation> _operationBll;
-
-        public BaseBll<wmfOperation> OperationBll
-        {
-            get
-            {
-                _operationBll = _operationBll.Load();
-                return _operationBll;
-            }
-            set { _operationBll = value; }
-        }
+            get { return 资源.操作; }
+        }        
 
         //编辑前验证
         protected override string OnEditCK(wmfOperation t)
         {
-            var resource = OperationBll.All.FirstOrDefault(r => r.OperationCNName == t.OperationCNName);
+            var resource = Bll.All.FirstOrDefault(r => r.OperationCNName == t.OperationCNName);
             if (resource != null && resource.ID != t.ID)
             {
                 //该操作名称已经存在，请重新输入！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作名称已经存在"), "") });
+                "OperationCNName".AE("操作名称已经存在", ModelState);                
             }
-            return "true";
+            return "";
         }
 
         //创建前验证
-        protected override string OnPreCreateCK(wmfOperation t)
+        protected override string OnAddCK(wmfOperation t)
         {
-            var resource = OperationBll.All.FirstOrDefault(r => r.OperationCNName == t.OperationCNName);
+            var resource = Bll.All.FirstOrDefault(r => r.OperationCNName == t.OperationCNName);
             if (resource != null)
             {
                 //该资源名称已经存在，请重新输入！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作名称已经存在"), "") });
+                "OperationCNName".AE("操作名称已经存在", ModelState);  
             }
             return "true";
         }
@@ -74,11 +63,11 @@ namespace MorSun.Controllers.SystemController
             if (privilege != null)
             {
                 //操作在权限中使用!
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作在权限中使用"), "") });
+                "OperationCNName".AE("操作在权限中使用", ModelState);                 
             }
             //删除后用这个查询看有没有删除干净，不然系统出错select * from wmfPrivilege where OperationId IS NULL
             #endregion
-            return "true";
+            return "";
         }        
 
     }

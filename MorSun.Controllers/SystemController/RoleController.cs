@@ -15,6 +15,7 @@ using HOHO18.Common;
 using MorSun.Controllers.ViewModel;
 using System.Web.Security;
 using HOHO18.Common.ExHelp;
+using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -24,13 +25,12 @@ namespace MorSun.Controllers.SystemController
     {
         protected override string ResourceId
         {
-            get { return MorSun.Common.Privelege.资源.角色配置; }
+            get { return 资源.角色配置; }
         }
 
 
         public ActionResult RoleManage(RoleVModel vModel)
-        {
-            ViewBag.CanDoSth = this.CanDoSth;
+        {            
             return View(vModel);
         }
 
