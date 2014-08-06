@@ -8,6 +8,7 @@ using MorSun.Bll;
 using System.Collections;
 using System.Web.Mvc;
 using MorSun.Controllers.ViewModel;
+using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.CommonController
 {
@@ -17,29 +18,17 @@ namespace MorSun.Controllers.CommonController
         {
             get { return MorSun.Common.Privelege.资源.类别; }
         }
-
-        //public override ActionResult Index()
-        //{
-        //    if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.查看))
-        //    {
-        //        var vModel = new ReferenceVModel();
-        //        return View(vModel);
-        //    }
-        //    else
-        //    {
-        //        return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-        //    }
-        //}
+        
         /// <summary>
         ///  批量添加
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public override string Create(wmfReference t)
+        public override ActionResult Add(wmfReference t, string returnUrl, Func<wmfReference, string> ck = null)
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.添加))
+            if (ResourceId.havePrivilege(操作.添加))
             {
-                string msg = "";
+                var oper = new OperationResult(OperationResultType.Error, "添加失败");                
                 string[] itemInfos = ((t.ItemInfo == null) ? (t.ItemInfo = " ").Split(',') : t.ItemInfo.Replace("\r\n", ",").Split(','));
                 for (int i = 0; i < itemInfos.Length; i++)
                 {
@@ -53,104 +42,120 @@ namespace MorSun.Controllers.CommonController
                             t.ItemValue = itemInfos[0].Trim();
                         else
                             t.ItemValue = t.ItemValue.Trim();
-                        msg = OnPreCreateCK(t);
-                        if (msg == "true")
+                        OnAddCK(t);
+                        if (ModelState.IsValid)
                         {
-                            return base.Create(t);
-                        }
+                            //添加初始化字段
+                            CreateInitObject(t);
+                            var result = Bll.Insert(t, false);
+                            if (result == null)
+                            {
+                                "ItemValue".AE(t.ItemValue + "添加失败", ModelState);
+                            }
+                        }                        
                     }
                     else
                     {
                         if (!string.IsNullOrEmpty(itemInfos[i]))
-                        {
-                            t.ItemInfo = itemInfos[i];
-                            msg = OnPreCreateCK(t);
-                            if (msg == "true")
+                        {                            
+                            var model = new wmfReference();
+                            model.ItemValue = itemInfos[i];
+                            model.ItemInfo = itemInfos[i];
+                            model.RefGroupId = t.RefGroupId;
+                            t.Sort = i + 1;
+                            model.Sort = t.Sort;
+                            OnAddCK(t);
+                            if (ModelState.IsValid)
                             {
-                                if (string.IsNullOrEmpty(t.ItemInfo) || Guid.Equals(t.RefGroupId, Guid.Empty))
+                                CreateInitObject(model);
+                                var result = Bll.Insert(model, false);
+                                if (result == null)
                                 {
-                                    return base.Create(t);
+                                    "ItemValue".AE(model.ItemValue + "添加失败", ModelState);
                                 }
-                                var newRefer = new wmfReference();
-                                newRefer.ItemValue = itemInfos[i];
-                                newRefer.ItemInfo = itemInfos[i];
-                                newRefer.RefGroupId = t.RefGroupId;
-                                t.Sort = i + 1;
-                                newRefer.Sort = t.Sort;
-                                Create(newRefer);
                             }
                         }
-                        msg = "true";
+                        
                     }
                 }
+                if (ModelState.IsValid)
+                {
+                    fillOperationResult(returnUrl, oper, "添加成功");
+                    Bll.UpdateChanges();
+                    return Json(oper);
+                }
+                else
+                {
+                    oper.AppendData = ModelState.GE();
+                    return Json(oper);
+                }
 
-                return msg;
             }
             else
             {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+                "RefGroupName".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
             }
         }        
 
-        protected override string OnPreCreateCK(wmfReference t)
-        {
-            string ret = "true";
+        protected override string OnAddCK(wmfReference t)
+        {            
             var Refer = Bll.All.FirstOrDefault(r => (r.ItemValue == t.ItemInfo || r.ItemValue == t.ItemValue) && r.RefGroupId == t.RefGroupId);
             if (Refer != null)
             {
                 //该类别已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("类别已存在"), "") });
+                "ItemValue".AE("类别已存在",ModelState);
             }
-
-            return ret;
+            return "";
         }
 
         protected override string OnEditCK(wmfReference t)
         {
-            string ret = "true";
             var Refer = Bll.All.FirstOrDefault(r => (r.ItemValue == t.ItemInfo || r.ItemValue == t.ItemValue) && r.RefGroupId == t.RefGroupId);
             if (Refer != null && t.ID != Refer.ID)
             {
                 //该类别已经存在，请重新输入！
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("类别已存在"), "") });
+                "ItemValue".AE("类别已存在",ModelState);
             }
             if (String.IsNullOrEmpty(t.ItemInfo))
                 t.ItemInfo = t.ItemValue;
             else
                 t.ItemInfo = t.ItemInfo.Trim();
-            return ret;
+            return "";
         }
 
-        [Authorize]
-        public virtual ActionResult ReferList(ReferListVModel t)
-        {
-            return View(t);
-        }
-        public static string GetRefer()
-        {
-            StringBuilder str = new StringBuilder();
+        //[Authorize]
+        //public virtual ActionResult ReferList(ReferListVModel t)
+        //{
+        //    return View(t);
+        //}
+        //public static string GetRefer()
+        //{
+        //    StringBuilder str = new StringBuilder();
 
-            var deptList = new RefGroupVModel().All;
-            str.Append("{id: '1', pId: 0, name: '" + XmlHelper.GetPagesString<wmfReference>("类别组") + "',open:true },");
-            foreach (var item in deptList)
-            {
-                if (item.ParentId == null)
-                {
-                    str.Append("{");
-                    str.AppendFormat("id:\"{0}\",pId:'1',name:\"{1}\",isDept:true", item.ID, item.RefGroupName);
-                    str.Append("}");
-                    str.Append(",");
-                }
-                else
-                {
-                    str.Append("{");
-                    str.AppendFormat("id:'{0}',pId:'{1}',name:'{2}',isDept:true", item.ID, item.ParentId, item.RefGroupName);
-                    str.Append("}");
-                    str.Append(",");
-                }
-            }
-            return "var zNodes =[" + str.ToString().TrimEnd(',') + "]";
-        }
+        //    var deptList = new RefGroupVModel().All;
+        //    str.Append("{id: '1', pId: 0, name: '" + XmlHelper.GetPagesString<wmfReference>("类别组") + "',open:true },");
+        //    foreach (var item in deptList)
+        //    {
+        //        if (item.ParentId == null)
+        //        {
+        //            str.Append("{");
+        //            str.AppendFormat("id:\"{0}\",pId:'1',name:\"{1}\",isDept:true", item.ID, item.RefGroupName);
+        //            str.Append("}");
+        //            str.Append(",");
+        //        }
+        //        else
+        //        {
+        //            str.Append("{");
+        //            str.AppendFormat("id:'{0}',pId:'{1}',name:'{2}',isDept:true", item.ID, item.ParentId, item.RefGroupName);
+        //            str.Append("}");
+        //            str.Append(",");
+        //        }
+        //    }
+        //    return "var zNodes =[" + str.ToString().TrimEnd(',') + "]";
+        //}
 
         //public static string GetRefer(string appId)
         //{
@@ -177,19 +182,19 @@ namespace MorSun.Controllers.CommonController
         //    return "var zNodes =[" + str.ToString().TrimEnd(',') + "]";
         //}
 
-        public virtual String SetDefault(wmfReference t)
+        public virtual ActionResult SetDefault(wmfReference t, string returnUrl)
         {
-            var ret = "true";
+            var oper = new OperationResult(OperationResultType.Error, "添加失败");          
             var refList = new ReferenceVModel().All.Where(p => p.RefGroupId == t.RefGroupId);
             foreach (var item in refList)
             {
                 item.IsDefalut = false;
             }
-            var model = Bll.GetModel(t);
-            UpdateModel(model);
+            var model = Bll.GetModel(t);            
             model.IsDefalut = true;
-            Bll.UpdateChanges();
-            return ret;
+            Bll.Update(model);
+            fillOperationResult(returnUrl, oper, "添加成功");            
+            return Json(oper);
         }
 
         public virtual ActionResult Left(ReferenceVModel t)
@@ -198,50 +203,50 @@ namespace MorSun.Controllers.CommonController
         }
 
 
-        public ActionResult TaskReference(Guid? RefGroup)
-        {
-            if (RefGroup == null || RefGroup == Guid.Empty)
-                RefGroup = Guid.Parse("715bd944-2793-4555-87ec-726fb8cb26c4");
-            ViewBag.RefGroupID = RefGroup;
-            var list = Bll.All.Where(u => u.RefGroupId == RefGroup && u.FlagTrashed == false).OrderBy(u => u.Sort);
-            return View(list);
-        }
+        //public ActionResult TaskReference(Guid? RefGroup)
+        //{
+        //    if (RefGroup == null || RefGroup == Guid.Empty)
+        //        RefGroup = Guid.Parse("715bd944-2793-4555-87ec-726fb8cb26c4");
+        //    ViewBag.RefGroupID = RefGroup;
+        //    var list = Bll.All.Where(u => u.RefGroupId == RefGroup && u.FlagTrashed == false).OrderBy(u => u.Sort);
+        //    return View(list);
+        //}
 
-        public ActionResult EditTaskReference(Guid? id)
-        {
-            var model = Bll.GetModel(id);
-            return View(model);
-        }
-        [HttpPost]
-        public ActionResult EditTaskReference(wmfReference t)
-        {
-            var originalModel = Bll.GetModel(t.ID);
+        //public ActionResult EditTaskReference(Guid? id)
+        //{
+        //    var model = Bll.GetModel(id);
+        //    return View(model);
+        //}
+        //[HttpPost]
+        //public ActionResult EditTaskReference(wmfReference t)
+        //{
+        //    var originalModel = Bll.GetModel(t.ID);
 
-            if (TryUpdateModel(originalModel))
-            {
-                Bll.UpdateChanges();
-            }
-            return RedirectToAction("TaskReference");
-        }
+        //    if (TryUpdateModel(originalModel))
+        //    {
+        //        Bll.UpdateChanges();
+        //    }
+        //    return RedirectToAction("TaskReference");
+        //}
 
-        public ActionResult CreateTaskReferenceAdd(wmfReference t)
-        {
-            t.ID = Guid.NewGuid();
-            return View(t);
-        }
-        [HttpPost]
-        public ActionResult CreateTaskReference(wmfReference t)
-        {
-            var exsit = Bll.All.Any(u => string.Compare(u.ItemValue, t.ItemValue, true) == 0);
-            if (exsit)
-                ModelState.AddModelError("", "已经存在该ItemValue值得数据，请重新查看");
-            t.RegTime = DateTime.Now;
-            t.ModTime = DateTime.Now;
-            t.FlagTrashed = false;
-            t.FlagDeleted = false;
-            Bll.Insert(t);
-            return RedirectToAction("TaskReference", new { RefGroup = t.RefGroupId });
+        //public ActionResult CreateTaskReferenceAdd(wmfReference t)
+        //{
+        //    t.ID = Guid.NewGuid();
+        //    return View(t);
+        //}
+        //[HttpPost]
+        //public ActionResult CreateTaskReference(wmfReference t)
+        //{
+        //    var exsit = Bll.All.Any(u => string.Compare(u.ItemValue, t.ItemValue, true) == 0);
+        //    if (exsit)
+        //        ModelState.AddModelError("", "已经存在该ItemValue值得数据，请重新查看");
+        //    t.RegTime = DateTime.Now;
+        //    t.ModTime = DateTime.Now;
+        //    t.FlagTrashed = false;
+        //    t.FlagDeleted = false;
+        //    Bll.Insert(t);
+        //    return RedirectToAction("TaskReference", new { RefGroup = t.RefGroupId });
 
-        }
+        //}
     }
 }

@@ -8,6 +8,7 @@ using MorSun.Bll;
 using System.Web.Mvc;
 using MorSun.Controllers.ViewModel;
 using System.Xml;
+using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.CommonController
 {
@@ -18,89 +19,140 @@ namespace MorSun.Controllers.CommonController
             get { return MorSun.Common.Privelege.资源.类别组; }
         }
 
-        private BaseBll<wmfRefGroup> _depBll;
+        private BaseBll<wmfRefGroup> _rgBll;
 
         public BaseBll<wmfRefGroup> RefGroupBll
         {
             get
             {
-                _depBll = _depBll.Load();
-                return _depBll;
+                _rgBll = _rgBll.Load();
+                return _rgBll;
             }
-            set { _depBll = value; }
+            set { _rgBll = value; }
         }
 
-        public override string Create(wmfRefGroup t)
+        /// <summary>
+        /// 可批量添加类别组
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        public override ActionResult Add(wmfRefGroup t, string returnUrl, Func<wmfRefGroup, string> ck = null)
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.添加))
+            if (ResourceId.havePrivilege(操作.添加))
             {
-                string msg = "";
+                var oper = new OperationResult(OperationResultType.Error, "添加失败");                
                 string[] refGroupNames = ((t.RefGroupName == null) ? (t.RefGroupName = " ").Split(',') : t.RefGroupName.Split(','));
                 for (int i = 0; i < refGroupNames.Length; i++)
                 {
                     if (refGroupNames.Length == 1)
                     {
                         t.RefGroupName = refGroupNames[0];
-                        msg = OnPreCreateCK(t);
-                        if (msg == "true")
-                        {
-                            return base.Create(t);
+                        OnAddCK(t);
+                        if(ModelState.IsValid)
+                        { 
+                            //添加初始化字段
+                            CreateInitObject(t);
+                            var result = Bll.Insert(t,false);
+                            if (result == null)
+                            {
+                                "RefGroupName".AE(refGroupNames[0] + "添加失败", ModelState);                            
+                            }
                         }
                     }
                     else
                     {
                         if (!string.IsNullOrEmpty(refGroupNames[i]))
-                        {
-                            t.RefGroupName = refGroupNames[i];
-                            msg = OnPreCreateCK(t);
-                            if (msg == "true")
+                        {                              
+                            var model = new wmfRefGroup();
+                            model.RefGroupName = refGroupNames[i];
+                            OnAddCK(t);
+                            if(ModelState.IsValid)
                             {
-                                var newRefGroup = new wmfRefGroup();
-                                newRefGroup.RefGroupName = refGroupNames[i];
-                                NCreate(newRefGroup);
-                            }
-                        }
-                        msg = "true";
+                                CreateInitObject(model);
+                                var result = Bll.Insert(model, false);
+                                if (result == null)
+                                {
+                                    "RefGroupName".AE(refGroupNames[i] + "添加失败", ModelState);
+                                }
+                            }                                                       
+                        }                        
                     }
                 }
-
-                return msg;
+                if (ModelState.IsValid)
+                {
+                    fillOperationResult(returnUrl, oper, "添加成功");
+                    Bll.UpdateChanges();
+                    return Json(oper);
+                }
+                else
+                {
+                    oper.AppendData = ModelState.GE();
+                    return Json(oper);
+                }
             }
             else
             {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+                "RefGroupName".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
             }
         }
 
-        public string TreeTableMove(string id, string pid)
+        public ActionResult TreeTableMove(string id, string pid, string returnUrl)
         {
-            var p1 = Guid.Parse(id.Replace("node-", ""));
-            //父ID
-            var p2 = Guid.Parse(pid.Replace("node-", ""));
-
-            //不能将自己当做父节点
-            if (p1 == p2)
-            {
-                //移动失败，部门A不能移动到部门A下！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("自己的类别组不能移到自己的类别组"), "") });
-            }
-
-            ///判断ID与父级ID相同
-            if (SearchDep(p1, p2))
-            {
-                //上级部门不能往自己的下级部门移动！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("上级类别组不能移到下级类别组"), "") });
+            if (ResourceId.havePrivilege(操作.修改))
+            {                
+                var p1 = Guid.Parse(id.Replace("node-", ""));
+                //父ID
+                var p2 = Guid.Parse(pid.Replace("node-", ""));
+                var errms = "";
+                //不能将自己当做父节点
+                if (p1 == p2)
+                {
+                    //移动失败，类别组A不能移动到类别组A下！
+                    errms = "移动位置错误";
+                    "RefGroupName".AE("移动位置错误", ModelState);
+                }
+                ///判断ID与父级ID相同
+                if (SearchDep(p1, p2))
+                {
+                    //上级部门不能往自己的下级部门移动！
+                    errms = "上级类别组不能移到下级类别组";
+                    "RefGroupName".AE("上级类别组不能移到下级类别组", ModelState);
+                }                
+                var oper = new OperationResult(OperationResultType.Error, "移动失败" + errms);
+                if(ModelState.IsValid)
+                {
+                    var ss = RefGroupBll.GetModel(p1);
+                    ss.ParentId = p2;
+                    RefGroupBll.Update(ss);      
+                    fillOperationResult(returnUrl, oper, "移动成功");
+                    return Json(oper);
+                }
+                else
+                {
+                    oper.AppendData = ModelState.GE();
+                    return Json(oper);
+                }
             }
             else
             {
-                var ss = RefGroupBll.GetModel(p1);
-                ss.ParentId = p2;
-                RefGroupBll.Update(ss);
-                return "true";
+                "RefGroupName".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
             }
         }
 
-        public bool SearchDep(Guid p1, Guid p2)
+        /// <summary>
+        /// 判断上下级关系
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+        private bool SearchDep(Guid p1, Guid p2)
         {
             var dept = RefGroupBll.All.FirstOrDefault(r => r.ID == p2);
             if (dept != null)
@@ -122,27 +174,24 @@ namespace MorSun.Controllers.CommonController
         }
 
 
-        protected override string OnPreCreateCK(wmfRefGroup t)
-        {
-            string ret = "true";
+        protected override string OnAddCK(wmfRefGroup t)
+        {            
             var ReferGrop = Bll.All.FirstOrDefault(r => r.RefGroupName == t.RefGroupName);
             if (ReferGrop != null)
             {
                 //该类别组已经存在，请重新输入！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("类别组已存在"), "") });
+                "RefGroupName".AE("类别组已存在",ModelState);
             }
-
-            return ret;
+            return "";
         }
 
         protected override string OnEditCK(wmfRefGroup t)
-        {
-            string ret = "true";
+        {            
             var ReferGrop = Bll.All.FirstOrDefault(r => r.RefGroupName == t.RefGroupName);
             if (ReferGrop != null && ReferGrop.ID != t.ID)
             {
                 //该类别组已经存在，请重新输入！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("类别组已存在"), "") });
+                "RefGroupName".AE("类别组已存在",ModelState);
             }
             var p1 = t.ID;
             //父ID
@@ -152,29 +201,33 @@ namespace MorSun.Controllers.CommonController
             if (p1 == p2)
             {
                 //移动失败，类别组A不能移动到类别组A下！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("自己的类别组不能移到自己的类别组"), "") });
+                "RefGroupName".AE("移动位置错误",ModelState);
             }
 
             ///判断ID与父级ID相同
             if (SearchDep(p1, p2))
             {
                 //上级类别组不能往自己的下级类别组移动！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("上级类别组不能移到下级类别组"), "") });
+                "RefGroupName".AE("上级类别组不能移到下级类别组",ModelState);
             }
-            return ret;
+            return "";
         }
 
         protected override string OnDelCk(wmfRefGroup t)
-        {
-            string ret = "true";
-            var BaseBll = new BaseBll<wmfReference>();
-            var model = BaseBll.All.FirstOrDefault(r => r.RefGroupId == t.ID);
+        {            
+            var refBll = new BaseBll<wmfReference>();
+            var model = refBll.All.FirstOrDefault(r => r.RefGroupId == t.ID);
+            var childList = Bll.All.Where(r => r.ParentId == t.ID);
             if (model != null)
             {
                 //该类别组类别存在，请重新输入！
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("请先删除类别组下的类别"), "") });
+                "RefGroupName".AE("该类别组还存在类别", ModelState);                
             }
-            return ret;
+            if (childList.Count() > 0)
+            {
+                "RefGroupName".AE("该类别组存在子类别组", ModelState);
+            }
+            return "";
         }
 
         public virtual ActionResult Left(RefGroupVModel t)
