@@ -31,7 +31,7 @@ namespace MorSun
                         "~/Scripts/modernizr-*"));
 
             //slides
-            bundles.Add(new ScriptBundle("~/bundles/slides").Include("~/Scripts/slides.min.jquery.js"));
+            bundles.Add(new ScriptBundle("~/bundles/slides").Include("~/Scripts/slides.min.jquery.js"));            
             //HOHO18.Common
             bundles.Add(new ScriptBundle("~/bundles/hoho18").Include("~/Scripts/Common/HOHO18.Common.js"));
             //MorSun.Common
@@ -61,6 +61,13 @@ namespace MorSun
             //JQueryQtipCustom
             bundles.Add(new StyleBundle("~/Content/JQueryQtipCss").Include("~/Content/JQueryQtipCustom/jquery.qtip.css"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryqtip").Include("~/Content/JQueryQtipCustom/jquery.qtip.js"));
+                //treetable
+            bundles.Add(new ScriptBundle("~/bundles/treetable").Include("~/Content/JQueryTreeTable/jquery.treetable.js"));
+            bundles.Add(new StyleBundle("~/Content/treetableCss").Include("~/Content/JQueryTreeTable/jquery.treetable.css",
+                        "~/Content/JQueryTreeTable/jquery.treetable.theme.default.css",
+                        "~/Content/JQueryTreeTable/screen.css"));
+
+
 
             
         }
