@@ -19,6 +19,7 @@ using MorSun.Common.Privelege;
 namespace MorSun.Controllers.SystemController
 {
     [HandleError]
+    [Authorize]
     public class ResourcesController : BaseController<wmfResource>
     {
         protected override string ResourceId

@@ -20,6 +20,8 @@ namespace MorSun.Controllers.SystemController
     /// <summary>
     /// 资源
     /// </summary>
+    [HandleError]
+    [Authorize]
     public class PrivilegeController : BaseController<wmfPrivilege>
     {
         protected override string ResourceId

@@ -286,7 +286,6 @@ namespace MorSun.Controllers
                     "".AE("修改失败", ModelState);
                     oper.AppendData = ModelState.GE();
                 }
-
                 return Json(oper);
             }
             else
@@ -394,7 +393,11 @@ namespace MorSun.Controllers
             }
             else
             {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+                //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
         
@@ -419,7 +422,11 @@ namespace MorSun.Controllers
             }
             else
             {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+                //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
         #endregion

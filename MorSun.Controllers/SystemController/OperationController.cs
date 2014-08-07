@@ -21,6 +21,8 @@ namespace MorSun.Controllers.SystemController
     /// <summary>
     /// 操作
     /// </summary>
+    [HandleError]
+    [Authorize]
     public class OperationController : BaseController<wmfOperation>
     {
         protected override string ResourceId

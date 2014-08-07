@@ -12,6 +12,8 @@ using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.SystemController
 {
+    [HandleError]
+    [Authorize]
     public class ReferenceController : BaseController<wmfReference>
     {
         protected override string ResourceId
@@ -24,6 +26,8 @@ namespace MorSun.Controllers.SystemController
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public override ActionResult Add(wmfReference t, string returnUrl, Func<wmfReference, string> ck = null)
         {
             if (ResourceId.havePrivilege(操作.添加))

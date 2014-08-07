@@ -706,7 +706,7 @@
     <Content Include="Views\Shared\_TableLogon.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\ActiveAccountEmail.cshtml" />
-    <Content Include="Views\Shared\_EmailLayout.cshtml" />
+    <Content Include="Views\Shared\_SysLayout.cshtml" />
     <Content Include="Views\Home\AccountChangePassword.cshtml" />
     <Content Include="Views\Account\ForgetPass.cshtml" />
     <Content Include="Views\Account\ConfirmQuestion.cshtml" />
@@ -719,6 +719,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\RefGroup\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

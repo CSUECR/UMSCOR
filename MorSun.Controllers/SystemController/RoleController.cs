@@ -18,9 +18,9 @@ using HOHO18.Common.ExHelp;
 using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.SystemController
-{
-    //[Authorize(Roles = "系统管理员")]
+{    
     [HandleError]
+    [Authorize]
     public class RoleController : BaseController<aspnet_Roles>
     {
         protected override string ResourceId
@@ -30,18 +30,59 @@ namespace MorSun.Controllers.SystemController
 
 
         public ActionResult RoleManage(RoleVModel vModel)
-        {            
-            return View(vModel);
+        {      
+            if (ResourceId.havePrivilege(操作.查看))
+            {
+                return View(vModel);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
         }
 
-        protected override aspnet_Roles NInsert(aspnet_Roles t)
+        /// <summary>
+        /// 添加角色
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="returnUrl"></param>
+        /// <param name="ck"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        protected override ActionResult Add(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
         {
-            Roles.CreateRole(t.RoleName);
-            //加了排序增加的方法,不然添加角色时，排序添加不进去。
-            var model = Bll.All.Where(m => m.LoweredRoleName == t.RoleName).FirstOrDefault();
-            model.Sort = t.Sort;
-            Bll.Update(model);
-            return t;
+            if (ResourceId.havePrivilege(操作.添加))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "添加失败");
+                OnAddCK(t);
+                if (ModelState.IsValid)
+                {
+                    Roles.CreateRole(t.RoleName);
+                    //加了排序增加的方法,不然添加角色时，排序添加不进去。
+                    var model = Bll.All.Where(m => m.LoweredRoleName == t.RoleName).FirstOrDefault();
+                    model.Sort = t.Sort;
+                    Bll.Update(model);
+                    fillOperationResult(returnUrl, oper, "添加成功");
+                    return Json(oper);
+                }
+                else
+                {
+                    oper.AppendData = ModelState.GE();
+                    return Json(oper);
+                }
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+            
         }
 
         private BaseBll<wmfPrivilegeInRole> pirBll;
@@ -73,39 +114,51 @@ namespace MorSun.Controllers.SystemController
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        protected override string OnPreCreateCK(aspnet_Roles t)
+        protected override string OnAddCK(aspnet_Roles t)
         {
             //重复
             if (Bll.All.Count(role => role.RoleName == t.RoleName) > 0)
             {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Roles>("角色已存在"), "RoleName") });
+                "RoleName".AE("角色已存在", ModelState);                
             }
 
-            return "true";
+            return "";
         }
 
         //编辑角色
-        public override string Edit(aspnet_Roles t)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public override ActionResult Edit(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
         {
-            var roles = new BaseBll<aspnet_Roles>().GetModel(t);
-            TryUpdateModel<aspnet_Roles>(roles);
-            roles.LoweredRoleName = t.RoleName.ToLower();
-
-            return base.Edit(roles);
-        }
-
-
-        public override ActionResult GetEdit(string id, aspnet_Roles t)
-        {
-            var guid = Guid.Empty;
-            aspnet_Roles model = null;
-            if (Guid.TryParse(id, out guid))
+            if (ResourceId.havePrivilege(操作.修改))
             {
-                model = Bll.All.FirstOrDefault(u => u.RoleId == guid);
+                var oper = new OperationResult(OperationResultType.Error, "修改失败");
+                var model = Bll.GetModel(t);
+                if (model == null)
+                {
+                    "".AE("修改失败", ModelState);
+                }
+                if (ModelState.IsValid)
+                {
+                    TryUpdateModel<aspnet_Roles>(model);
+                    model.LoweredRoleName = t.RoleName.ToLower();
+                    Bll.Update(model);
+                    fillOperationResult(returnUrl, oper, "修改成功");
+                }
+                else
+                {
+                    "".AE("修改失败", ModelState);
+                    oper.AppendData = ModelState.GE();
+                }
+                return Json(oper);
             }
-            var js = JsHelper.Json(model);
-
-            return Json("[" + js + "]");
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }            
         }
 
         //删除前验证
@@ -115,14 +168,13 @@ namespace MorSun.Controllers.SystemController
             if (roles.Count() != 0)
             {
                 //有管理员使用该角色!
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<aspnet_Roles>("有管理员使用该角色"), "") });
+                "RoleName".AE("该角色还有用户使用", ModelState);                
             }
-
             //删除该角色的所有权限
             var privRoleBll = new BaseBll<wmfPrivilegeInRole>();
             var privRole = privRoleBll.All.Where(r => r.RoleId == t.RoleId);
             PirBll.Delete(privRole);
-            return "true";
+            return "";
         }
 
         /// <summary>
@@ -130,187 +182,163 @@ namespace MorSun.Controllers.SystemController
         /// </summary>
         /// <param name="vmodel"></param>
         /// <returns></returns>
-        public virtual string SavePriv(RoleVModel vmodel)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual ActionResult SavePriv(RoleVModel vmodel, string returnUrl)
         {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.配置))
+            if (ResourceId.havePrivilege(操作.修改))
             {
+                var oper = new OperationResult(OperationResultType.Error, "修改失败");
                 //操作的角色
                 var role = vmodel.CheckedRole;
-                //删除该角色的所有操作
-                var delPirs = role.wmfPrivilegeInRoles.Where(pir => pir.RoleId == vmodel.CheckedId);
-                PirBll.Delete(delPirs);
+                if(role != null)
+                { 
+                    //删除该角色的所有操作
+                    var delPirs = role.wmfPrivilegeInRoles.Where(pir => pir.RoleId == vmodel.CheckedId);
+                    PirBll.Delete(delPirs);
 
-                if (vmodel.PrivId != null && vmodel.PrivId.Count() != 0)
-                {
-                    var privStr = vmodel.PrivId.Split(',');
-                    if (privStr != null && privStr.Length != 0)
+                    if (vmodel.PrivId != null && vmodel.PrivId.Count() != 0)
                     {
-                        Guid[] privArrays = new Guid[privStr.Length - 1];
-                        for (int i = 0; i < privStr.Length; i++)
+                        var privStr = vmodel.PrivId.Split(',');
+                        if (privStr != null && privStr.Length != 0)
                         {
-                            if (!string.IsNullOrEmpty(privStr[i]))
+                            Guid[] privArrays = new Guid[privStr.Length - 1];
+                            for (int i = 0; i < privStr.Length; i++)
                             {
-                                privArrays[i] = Guid.Parse(privStr[i]);
-                            }
-                        }
-
-                        //被选中的操作集合
-                        var privs = vmodel.Privs.Where(p => privArrays.Contains(p.ID));
-                        if (privs.Count() != 0)
-                        {
-                            //添加新的数据
-                            foreach (var priv in privs)
-                            {
-                                var newPir = new wmfPrivilegeInRole
+                                if (!string.IsNullOrEmpty(privStr[i]))
                                 {
-                                    wmfPrivilege = priv,
-                                    aspnet_Roles = role,
-                                };
-                                PirBll.Insert(newPir, false);
+                                    privArrays[i] = Guid.Parse(privStr[i]);
+                                }
+                            }
+
+                            //被选中的操作集合
+                            var privs = vmodel.Privs.Where(p => privArrays.Contains(p.ID));
+                            if (privs.Count() != 0)
+                            {
+                                //添加新的数据
+                                foreach (var priv in privs)
+                                {
+                                    var newPir = new wmfPrivilegeInRole
+                                    {
+                                        wmfPrivilege = priv,
+                                        aspnet_Roles = role,
+                                    };
+                                    PirBll.Insert(newPir, false);
+                                }
                             }
                         }
                     }
+                    //执行更新
+                    PirBll.UpdateChanges();
+                    fillOperationResult(returnUrl, oper, "修改成功");                    
                 }
-                //执行更新
-                PirBll.UpdateChanges();
-
-
-                //var treeStr = "";
-                //var privilegeCheckRoleList = vmodel.CheckedRole.wmfPrivilegeInRoles;
-                //var resourceList = vmodel.Resrcs;
-                //foreach (var resrc in resourceList)
-                //{
-                //    //子类是否全部选中
-                //    var ischildChecked = false;
-
-                //    //权限
-                //    var privList = resrc.wmfPrivileges.OrderBy(t => t.wmfOperation.Sort);
-                //    foreach (var priv in privList)
-                //    {
-                //        var flag = privilegeCheckRoleList.Any(pir => pir.PrivilegeId == priv.ID);
-                //        treeStr += "{ id: \"" + priv.ID + "\", pId: \"" + resrc.ID + "\", name: \"" + priv.PrivilegeCNName + "\"" + (flag ? ",checked:true" : "") + " },";
-                //        if (flag)
-                //        {
-                //            ischildChecked = true;
-                //        }
-                //    }
-                //    var reList = resourceList.Where(p => p.ParentId == resrc.ID);
-                //    if (privList.Count() == 0 || reList.Count() != 0)
-                //    {
-                //        ischildChecked = vmodel.GetChecked(resourceList, privilegeCheckRoleList, resrc.ID);
-                //    }
-
-                //    treeStr += "{ id: \"" + resrc.ID + "\", pId: \"" + resrc.ParentId + "\", name: \"" + resrc.ResourcesCNName + "\"" + (ischildChecked ? ",checked:true" : "") + " },";
-                //}
-
-                //if (!string.IsNullOrEmpty(treeStr))
-                //{
-                //    treeStr = treeStr.Substring(0, treeStr.Length - 1);
-                //}
-
-                //treeStr = "var zNodes = [" + treeStr + "];";
-
-                ////文件存放路径
-                //var path = Server.MapPath("/UploadFile/Role/" + vmodel.CheckedId + ".js");
-                ////判断指定的文件是否存在
-                //if (System.IO.File.Exists(path))
-                //{
-                //    //删除文件
-                //    HOHO18.Common.FileObj.FileDel(path);
-                //}
-
-                ////重新生成
-                //HOHO18.Common.FileObj.WriteFile(path, treeStr);
-                return "true";
+                else
+                {
+                    "".AE("修改失败", ModelState);
+                    oper.AppendData = ModelState.GE();
+                }
+                return Json(oper);
             }
             else
             {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-        }
-
-
-        //设置权限范围
-        public virtual string SavePrivilegeRange(wmfPrivilegeInRole model)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.配置))
-            {
-                var privilegeInRole = PirBll.GetModel(model.ID);
-                TryUpdateModel<wmfPrivilegeInRole>(privilegeInRole);
-                //执行更新
-                PirBll.Update(privilegeInRole);
-                return "true";
-            }
-            else
-            {
-                return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
             }
         }
 
         public ActionResult RoleToPrivilege(string ParentResourceID = "9dd4aec9-fa03-46ec-8be6-6d157df3e221")
         {
-            var roleBll = new BaseBll<aspnet_Roles>();
-            var resourceBll = new BaseBll<wmfResource>();
-
-            var ParentResourceGuid = Guid.Parse(ParentResourceID);
-            ViewBag.ParentResourceID = ParentResourceGuid;
-            ViewBag.ParentResoures = resourceBll.All.Where(u => u.wmfResource1.Any() && u.wmfResource1.FirstOrDefault().wmfPrivileges.Any()).OrderByDescending(u=>u.RegTime);
-            ViewBag.Roles = roleBll.All.OrderBy(u => u.RoleName);
-            ViewBag.Resources = resourceBll.All.First(u => u.ID == ParentResourceGuid).wmfResource1.OrderByDescending(u => u.RegTime);
-            return View();
-        }
-        [HttpPost]
-        public ActionResult RoleToPrivilege(string[] Roles, string[] Privileges, bool deletePrivButNotAdd = false)
-        {
-            if (Roles != null && Roles.Length > 0 && Privileges != null && Privileges.Length > 0)
+            if (ResourceId.havePrivilege(操作.修改))
             {
-                var officeId = Guid.Parse("9dd4aec9-fa03-46ec-8be6-6d157df3e221");
                 var roleBll = new BaseBll<aspnet_Roles>();
-                var privilegeBll = new BaseBll<wmfPrivilege>();
-                foreach (var role in Roles)
-                {
-                    var roleGuid = Guid.Empty;
-                    if (Guid.TryParse(role, out roleGuid))
-                    {
-                        var roleModel = roleBll.All.FirstOrDefault(u => u.RoleId == roleGuid);
+                var resourceBll = new BaseBll<wmfResource>();
 
-                        if (Privileges.Count() > 0)
+                var ParentResourceGuid = Guid.Parse(ParentResourceID);
+                ViewBag.ParentResourceID = ParentResourceGuid;
+                ViewBag.ParentResoures = resourceBll.All.Where(u => u.wmfResource1.Any() && u.wmfResource1.FirstOrDefault().wmfPrivileges.Any()).OrderByDescending(u => u.RegTime);
+                ViewBag.Roles = roleBll.All.OrderBy(u => u.RoleName);
+                ViewBag.Resources = resourceBll.All.First(u => u.ID == ParentResourceGuid).wmfResource1.OrderByDescending(u => u.RegTime);
+                return View();
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RoleToPrivilege(string[] Roles, string[] Privileges, string returnUrl, bool deletePrivButNotAdd = false)
+        {
+            if (ResourceId.havePrivilege(操作.修改))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "修改失败");
+                if (Roles != null && Roles.Length > 0 && Privileges != null && Privileges.Length > 0)
+                {
+                    var officeId = Guid.Parse("9dd4aec9-fa03-46ec-8be6-6d157df3e221");                
+                    var privilegeBll = new BaseBll<wmfPrivilege>();
+                    foreach (var role in Roles)
+                    {
+                        var roleGuid = Guid.Empty;
+                        if (Guid.TryParse(role, out roleGuid))
                         {
-                            //先删除
-                            foreach (var privilege in Privileges)
+                            var roleModel = Bll.All.FirstOrDefault(u => u.RoleId == roleGuid);
+                            if (Privileges.Count() > 0)
                             {
-                                var privilegeGuid = Guid.Empty;
-                                if (Guid.TryParse(privilege, out privilegeGuid))
-                                {
-                                    var privilegeModel = privilegeBll.GetModel(privilegeGuid);
-                                    var officePrivs = roleModel.wmfPrivilegeInRoles.Where(u => u.wmfPrivilege.wmfResource.ID == privilegeModel.ResourcesId);
-                                    PirBll.Delete(officePrivs);
-                                }
-                            }
-                            //只删除权限不添加权限。
-                            if (!deletePrivButNotAdd)
-                            {
+                                //先删除
                                 foreach (var privilege in Privileges)
                                 {
                                     var privilegeGuid = Guid.Empty;
                                     if (Guid.TryParse(privilege, out privilegeGuid))
                                     {
-                                        var newPri = new wmfPrivilegeInRole
+                                        var privilegeModel = privilegeBll.GetModel(privilegeGuid);
+                                        var officePrivs = roleModel.wmfPrivilegeInRoles.Where(u => u.wmfPrivilege.wmfResource.ID == privilegeModel.ResourcesId);
+                                        PirBll.Delete(officePrivs);
+                                    }
+                                }
+                                //只删除权限不添加权限。
+                                if (!deletePrivButNotAdd)
+                                {
+                                    foreach (var privilege in Privileges)
+                                    {
+                                        var privilegeGuid = Guid.Empty;
+                                        if (Guid.TryParse(privilege, out privilegeGuid))
                                         {
-                                            PrivilegeId = privilegeGuid,
-                                            RoleId = roleGuid,
-                                            ID = Guid.NewGuid()
-                                        };
-                                        PirBll.Insert(newPri, false);
+                                            var newPri = new wmfPrivilegeInRole
+                                            {
+                                                PrivilegeId = privilegeGuid,
+                                                RoleId = roleGuid,
+                                                ID = Guid.NewGuid()
+                                            };
+                                            PirBll.Insert(newPri, false);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    pirBll.UpdateChanges();
+                    fillOperationResult(returnUrl, oper, "修改成功");
+                }                
+                else
+                {
+                    "".AE("修改失败", ModelState);
+                    oper.AppendData = ModelState.GE();
                 }
-                pirBll.UpdateChanges();
+                return Json(oper);
             }
-            return Content("成功");
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
         }
 
     }
