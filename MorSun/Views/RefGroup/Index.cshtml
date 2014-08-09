@@ -1,57 +1,118 @@
-﻿@{
-    ViewBag.Title = "角色配置";
-    Layout = "_SysLayout";
+﻿@model RefGroupVModel
+@{
+    ViewBag.Title = "类别组配置";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
+    Model.FlagTrashed = "0";
 }
-<section class="featured">
+<section class="featuredwhite">
     <div class="content-wrapper clear-fix">
-        <div id="DIVVoice" class="voiceDiv">
-            <div class="zbSlides_Contain">
-                <div>
-                    <span class="iconVoiceWhite"><a href="#">中标1</a></span>
-                </div>
-                <div>
-                    <span class="iconVoiceWhite"><a href="#">中标2</a></span>
-                </div>
-                <div>
-                    <span class="iconVoiceWhite"><a href="#">中标3</a></span>
-                </div>
-                <div>
-                    <span class="iconVoiceWhite"><a href="#">中标4</a></span>
-                </div>
+        @if (资源.类别组.havePrivilege(操作.添加))
+        { <button class="btn green" type="button">@("添加".GetXmlConfig())</button>}
+            
+        @*<button class="btn blue" type="button">@("修改".GetXmlConfig())</button>
+        <button class="btn red" type="button">@("删除".GetXmlConfig())</button>
+        <button class="btn" type="button">@("返回".GetXmlConfig())</button>
+        <button class="btn yellow" type="button">@("查询".GetXmlConfig())</button>
+        <button class="btn black" type="button">@("查询".GetXmlConfig())</button>*@
+
+
+        <div class="portlet box red">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>类别组设置</div>
+                @*<div class="tools">
+                    <a class="collapse" href="javascript:;"></a>
+                    <a class="config" data-toggle="modal" href="#portlet-config"></a>
+                    <a class="reload" href="javascript:;"></a>
+                    <a class="remove" href="javascript:;"></a>
+                </div>*@
+            </div>
+            <div class="portlet-body">
+                <table id="MoreSunList" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>类别组名</th>
+                            <th>排序</th>
+                            <th>操作</th>
+                            @*<th class="hidden-480">Username</th>*@
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{Action<wmfRefGroup> action = (i) =>
+                        {
+                            Func<wmfRefGroup, HelperResult> fun = @<tr data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
+                                <td style="text-align:left;">
+                                    <span class="folder ui-draggable">
+                                        @item.RefGroupName
+                                    </span>
+                                        <input id="checkedId" type="hidden" value="@item.ID" />
+                                </td>
+                                <td>
+                                    @item.Sort
+                                </td>
+                                <td></td>
+                            </tr>;
+                            Write(fun(i));
+                        };
+                        Model.Each(Model.Roots, action);
+                        }
+
+                        @*<tr>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>Otto</td>
+                <td class="hidden-480">makr124</td>
+                    <td><span class="label label-success">Approved</span></td>
+                </tr>*@
+                    </tbody>
+                </table>
+
             </div>
         </div>
-        @*<h3>We suggest the following:</h3>
-            <ol class="round">
-                <li class="one">
-                    <h5>Getting Started</h5>
-                    ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                    enables a clean separation of concerns and that gives you full control over markup
-                    for enjoyable, agile development. ASP.NET MVC includes many features that enable
-                    fast, TDD-friendly development for creating sophisticated applications that use
-                    the latest web standards.
-                    <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-                </li>
-                <li class="two">
-                    @("s5kdmqwertyuiop".Encrypt())  @("C220C54A34828FBF12BB35E02AE35AE1".Decrypt())
-                    <h5>Add NuGet packages and jump-start your coding</h5>
-                    NuGet makes it easy to install and update free libraries and tools.
-                    <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-                </li>
-                <li class="three">
-                    <h5>Find Web Hosting</h5>
-                    You can easily find a web hosting company that offers the right mix of features
-                    and price for your applications.
-                    <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-                </li>
-            </ol>*@
     </div>
 </section>
-
     @section Scripts {
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/validator")        
-        @Scripts.Render("~/bundles/morsuncommon")        
-        <script type="text/javascript">           
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/validator")
+        @Scripts.Render("~/bundles/morsuncommon")
+        @Styles.Render("~/Content/treetableCss")
+        @Scripts.Render("~/bundles/treetable")        
+        <script type="text/javascript">            
+            $("#MoreSunList").treetable({ expandable: true });
+
+            // Highlight selected row
+            $("#MoreSunList tbody").on("mousedown", "tr", function () {
+                $(".selected").not(this).removeClass("selected");
+                $(this).toggleClass("selected");
+            });
+
+            // Drag & Drop Example Code
+            $("#MoreSunList .file, #example-advanced .folder").draggable({
+                helper: "clone",
+                opacity: .75,
+                refreshPositions: true,
+                revert: "invalid",
+                revertDuration: 300,
+                scroll: true
+            });
+
+            $("#MoreSunList .folder").each(function () {
+                $(this).parents("#example-advanced tr").droppable({
+                    accept: ".file, .folder",
+                    drop: function (e, ui) {
+                        var droppedEl = ui.draggable.parents("tr");
+                        $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
+                    },
+                    hoverClass: "accept",
+                    over: function (e, ui) {
+                        var droppedEl = ui.draggable.parents("tr");
+                        if (this != droppedEl[0] && !$(this).is(".expanded")) {
+                            $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
+                        }
+                    }
+                });
+            });
         </script>
     }

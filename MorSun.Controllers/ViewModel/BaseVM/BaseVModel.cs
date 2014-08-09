@@ -23,19 +23,6 @@ namespace MorSun.Controllers.ViewModel
 
         public int _Psize = "PageSize".GetXmlConfig().ToAs<int>();
 
-        /// <summary>
-        /// 是操作管理员
-        /// </summary>
-        public virtual bool IsAdmin
-        {
-            get
-            {
-                var privilegeList = BasisController.getSessionPrivileges();
-                return privilegeList.Any(u =>string.Compare(u.OperationId,操作.系统管理员,true)==0 
-                    &&string.Compare(u.ResourcesId, 资源.操作范围,true)==0);
-            }
-        }
-
         public virtual int PSize
         {
             get
@@ -363,7 +350,7 @@ namespace MorSun.Controllers.ViewModel
 
         private string _FlagTrashed = "0";
         /// <summary>
-        /// 回收站标记,默认值为false
+        /// 回收站标记("0"或"1")，默认为"0"
         /// </summary>
         public virtual string FlagTrashed { get { return _FlagTrashed; } set { _FlagTrashed = value; } }
         public string isTree { get; set; }
@@ -439,7 +426,6 @@ namespace MorSun.Controllers.ViewModel
             }
         }
         #endregion
-
 
     }
 }

@@ -630,6 +630,16 @@
     <Content Include="Images\iconVoiceWhite.png" />
     <Content Include="Images\PewterLineLeftRedLogo.png" />
     <Content Include="Images\PewterLineRightRedLogo.png" />
+    <Content Include="Images\portlet-collapse-icon-white.png" />
+    <Content Include="Images\portlet-collapse-icon.png" />
+    <Content Include="Images\portlet-config-icon-white.png" />
+    <Content Include="Images\portlet-config-icon.png" />
+    <Content Include="Images\portlet-expand-icon-white.png" />
+    <Content Include="Images\portlet-expand-icon.png" />
+    <Content Include="Images\portlet-reload-icon-white.png" />
+    <Content Include="Images\portlet-reload-icon.png" />
+    <Content Include="Images\portlet-remove-icon-white.png" />
+    <Content Include="Images\portlet-remove-icon.png" />
     <Content Include="Images\RedLineLeftWhiteLogo.png" />
     <Content Include="Images\RedLineRightWhiteLogo.png" />
     <Content Include="Images\WhiteLineLeftWhiteLogo.png" />

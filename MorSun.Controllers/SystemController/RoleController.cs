@@ -53,7 +53,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        protected override ActionResult Add(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
+        public override ActionResult Add(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
         {
             if (ResourceId.havePrivilege(²Ù×÷.Ìí¼Ó))
             {

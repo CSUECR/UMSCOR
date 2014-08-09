@@ -64,8 +64,7 @@ namespace MorSun
                 //treetable
             bundles.Add(new ScriptBundle("~/bundles/treetable").Include("~/Content/JQueryTreeTable/jquery.treetable.js"));
             bundles.Add(new StyleBundle("~/Content/treetableCss").Include("~/Content/JQueryTreeTable/jquery.treetable.css",
-                        "~/Content/JQueryTreeTable/jquery.treetable.theme.default.css",
-                        "~/Content/JQueryTreeTable/screen.css"));
+                "~/Content/JQueryTreeTable/jquery.treetable.theme.default.css"));
 
 
 
