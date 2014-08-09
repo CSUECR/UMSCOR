@@ -21,7 +21,7 @@ namespace System
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string GetXmlConfig(this string str)
+        public static string GX(this string str)
         {
             return XmlConfigHelper.GetXmlConfig(str);
         }
@@ -31,13 +31,13 @@ namespace System
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string GetXmlConfigMenu(this string str)
+        public static string GXM(this string str)
         {
             return XmlConfigHelper.GetXmlConfigMenu(str);
         }
 
 
-        public static string GetWebConfig(this string str)
+        public static string GW(this string str)
         {
             return WebConfigHelper.GetWebConfig(str);
         }

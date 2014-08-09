@@ -32,7 +32,7 @@ namespace HOHO18.Common
                 else
                 {
                     //转换为小写
-                    DefaultLanguage = "DefaultLanguage".GetXmlConfig().ToLower();
+                    DefaultLanguage = "DefaultLanguage".GX().ToLower();
 
                     //保存到Session中
                     System.Web.HttpContext.Current.Session["Language"] = DefaultLanguage;

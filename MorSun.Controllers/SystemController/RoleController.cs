@@ -31,7 +31,7 @@ namespace MorSun.Controllers.SystemController
 
         public ActionResult RoleManage(RoleVModel vModel)
         {      
-            if (ResourceId.havePrivilege(操作.查看))
+            if (ResourceId.HP(操作.查看))
             {
                 return View(vModel);
             }
@@ -55,7 +55,7 @@ namespace MorSun.Controllers.SystemController
         [ValidateAntiForgeryToken]
         public override ActionResult Add(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.添加))
+            if (ResourceId.HP(操作.添加))
             {
                 var oper = new OperationResult(OperationResultType.Error, "添加失败");
                 OnAddCK(t);
@@ -130,7 +130,7 @@ namespace MorSun.Controllers.SystemController
         [ValidateAntiForgeryToken]
         public override ActionResult Edit(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.HP(操作.修改))
             {
                 var oper = new OperationResult(OperationResultType.Error, "修改失败");
                 var model = Bll.GetModel(t);
@@ -186,7 +186,7 @@ namespace MorSun.Controllers.SystemController
         [ValidateAntiForgeryToken]
         public virtual ActionResult SavePriv(RoleVModel vmodel, string returnUrl)
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.HP(操作.修改))
             {
                 var oper = new OperationResult(OperationResultType.Error, "修改失败");
                 //操作的角色
@@ -250,7 +250,7 @@ namespace MorSun.Controllers.SystemController
 
         public ActionResult RoleToPrivilege(string ParentResourceID = "9dd4aec9-fa03-46ec-8be6-6d157df3e221")
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.HP(操作.修改))
             {
                 var roleBll = new BaseBll<aspnet_Roles>();
                 var resourceBll = new BaseBll<wmfResource>();
@@ -275,7 +275,7 @@ namespace MorSun.Controllers.SystemController
         [ValidateAntiForgeryToken]
         public ActionResult RoleToPrivilege(string[] Roles, string[] Privileges, string returnUrl, bool deletePrivButNotAdd = false)
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.HP(操作.修改))
             {
                 var oper = new OperationResult(OperationResultType.Error, "修改失败");
                 if (Roles != null && Roles.Length > 0 && Privileges != null && Privileges.Length > 0)

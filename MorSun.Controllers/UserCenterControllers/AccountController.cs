@@ -95,10 +95,10 @@ namespace MorSun.Controllers
 
             if (user != null)
             {
-                if ("UnlockingFlag".GetXmlConfig() == "true")
+                if ("UnlockingFlag".GX() == "true")
                 {
                     var lockedDate = user.LastLockoutDate;
-                    var days = "UnlockingDay".GetXmlConfig();
+                    var days = "UnlockingDay".GX();
                     if (NumHelp.IsNum(days))
                     {
                         lockedDate = lockedDate.AddDays(double.Parse(days));
@@ -132,7 +132,7 @@ namespace MorSun.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            ViewBag.OpenVerificationCode = "VerificationCode".GetXmlConfig().ToAs<bool>();
+            ViewBag.OpenVerificationCode = "VerificationCode".GX().ToAs<bool>();
             return View();
         }
 
@@ -140,7 +140,7 @@ namespace MorSun.Controllers
         public ActionResult AjaxLogin(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            ViewBag.OpenVerificationCode = "VerificationCode".GetXmlConfig().ToAs<bool>();
+            ViewBag.OpenVerificationCode = "VerificationCode".GX().ToAs<bool>();
             return View();
         }
 
@@ -156,7 +156,7 @@ namespace MorSun.Controllers
             validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "LoginVerificationCode");
             validateLockedUser(model);
             //判断账号是否激活
-            if ("AccountActive".GetXmlConfig() == "true")
+            if ("AccountActive".GX() == "true")
             {
                 var user = new BaseBll<aspnet_Users>().All.FirstOrDefault(p => p.LoweredUserName == model.UserName.ToLower());
                 if (user != null && user.wmfUserInfo.FlagActive == false)
@@ -276,14 +276,14 @@ namespace MorSun.Controllers
                 else
                 {
                     //发送邮件并转发
-                    string fromEmail = "ServiceMail".GetXmlConfig();
-                    string fromEmailPassword = "ServiceMailPassword".GetXmlConfig().Decrypt();
-                    int emailPort = String.IsNullOrEmpty("ServiceMailPort".GetXmlConfig()) ? 587 : "ServiceMailPort".GetXmlConfig().ToAs<int>();
-                    var code = GenerateEncryptCode(user.wmfUserInfo.UserNameString, "EmailChangePass".GetXmlConfig(), false);
-                    string body = new WebClient().GetHtml("ServiceDomain".GetXmlConfig() + "/Home/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
+                    string fromEmail = "ServiceMail".GX();
+                    string fromEmailPassword = "ServiceMailPassword".GX().Decrypt();
+                    int emailPort = String.IsNullOrEmpty("ServiceMailPort".GX()) ? 587 : "ServiceMailPort".GX().ToAs<int>();
+                    var code = GenerateEncryptCode(user.wmfUserInfo.UserNameString, "EmailChangePass".GX(), false);
+                    string body = new WebClient().GetHtml("ServiceDomain".GX() + "/Home/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
                     //创建邮件对象并发送
-                    var mail = new SendMail(user.UserName, fromEmail, body, "找回密码", fromEmailPassword, "ServiceMailName".GetXmlConfig(), user.wmfUserInfo.NickName);
-                    var mailRecord = new wmfMailRecord().wmfMailRecord2(user.UserName, body, "找回密码", "ServiceMailName".GetXmlConfig(), user.wmfUserInfo.NickName, Guid.Parse(Reference.电子邮件类别_找回密码));
+                    var mail = new SendMail(user.UserName, fromEmail, body, "找回密码", fromEmailPassword, "ServiceMailName".GX(), user.wmfUserInfo.NickName);
+                    var mailRecord = new wmfMailRecord().wmfMailRecord2(user.UserName, body, "找回密码", "ServiceMailName".GX(), user.wmfUserInfo.NickName, Guid.Parse(Reference.电子邮件类别_找回密码));
                     new BaseBll<wmfMailRecord>().Insert(mailRecord);
                     mail.Send("smtp.", emailPort, user.UserName + "找回密码邮件发送失败！");
 
@@ -324,7 +324,7 @@ namespace MorSun.Controllers
             else
             {
                 var bll = new BaseBll<wmfEncryptRecord>();
-                var effectiveHour = 0 - "EncryptTime".GetXmlConfig().ToAs<int>();
+                var effectiveHour = 0 - "EncryptTime".GX().ToAs<int>();
                 var timeBefore = DateTime.Now.AddHours(effectiveHour);
                 var er = bll.All.Where(p => p.EncryptCode == model.id && p.EncryptTime >= timeBefore).OrderByDescending(p => p.RegTime).FirstOrDefault();
                 if(er == null)
@@ -383,7 +383,7 @@ namespace MorSun.Controllers
             var oper = new OperationResult(OperationResultType.Error, "注册失败");
             validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "RegVerificationCode");
 
-            if ("Register".GetXmlConfig() != "true")
+            if ("Register".GX() != "true")
             {
                 //注册已经关闭，不允许注册
                 "UserName".AE("用户注册已经关闭", ModelState);                
@@ -415,7 +415,7 @@ namespace MorSun.Controllers
                         userinfoModel.OperatePassword = model.Password.Encrypt(userinfoModel.ID.ToString());
                         //密码串 不用
                         //userinfoModel.ValidateCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
-                        userinfoModel.NickName = String.IsNullOrEmpty(model.NickName) ? "DefaultNickName".GetXmlConfig() : model.NickName;
+                        userinfoModel.NickName = String.IsNullOrEmpty(model.NickName) ? "DefaultNickName".GX() : model.NickName;
                         //邀请码
                         userinfoModel.InviteCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
                         //被邀请码
@@ -443,7 +443,7 @@ namespace MorSun.Controllers
                         userinfoModel.RegTime = DateTime.Now;
                         userinfoModel.FlagTrashed = false;
                         userinfoModel.FlagDeleted = false;
-                        if ("AccountActive".GetXmlConfig() == "true")
+                        if ("AccountActive".GX() == "true")
                         { userinfoModel.FlagActive = false; }
                         else
                         {
@@ -452,7 +452,7 @@ namespace MorSun.Controllers
                         //保存用户信息到 wmfuserinfo 表中
                         userinfobll.Insert(userinfoModel);
                         //设置默认角色
-                        var RoleName = "RoleName".GetXmlConfig();
+                        var RoleName = "RoleName".GX();
                         if (!string.IsNullOrEmpty(RoleName))
                         {
                             //添加角色  被注释的无效
@@ -461,16 +461,16 @@ namespace MorSun.Controllers
                             userinfobll.Db.ExecuteStoreCommand(constr);
                         }
                         //发送激活邮件
-                        if ("AccountActive".GetXmlConfig() == "true")
+                        if ("AccountActive".GX() == "true")
                         {
-                            string fromEmail = "ServiceMail".GetXmlConfig();                            
-                            string fromEmailPassword = "ServiceMailPassword".GetXmlConfig().Decrypt();
-                            int emailPort = String.IsNullOrEmpty("ServiceMailPort".GetXmlConfig()) ? 587 : "ServiceMailPort".GetXmlConfig().ToAs<int>();
-                            var code = GenerateEncryptCode(userinfoModel.UserNameString,"ActiveUserUrl".GetXmlConfig(),false);
-                            string body = new WebClient().GetHtml("ServiceDomain".GetXmlConfig() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", code);
+                            string fromEmail = "ServiceMail".GX();                            
+                            string fromEmailPassword = "ServiceMailPassword".GX().Decrypt();
+                            int emailPort = String.IsNullOrEmpty("ServiceMailPort".GX()) ? 587 : "ServiceMailPort".GX().ToAs<int>();
+                            var code = GenerateEncryptCode(userinfoModel.UserNameString,"ActiveUserUrl".GX(),false);
+                            string body = new WebClient().GetHtml("ServiceDomain".GX() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", code);
                             //创建邮件对象并发送
-                            var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GetXmlConfig(), userinfoModel.NickName);
-                            var mailRecord = new wmfMailRecord().wmfMailRecord2(model.Email, body, "激活账号", "ServiceMailName".GetXmlConfig(), userinfoModel.NickName,Guid.Parse(Reference.电子邮件类别_账号注册));
+                            var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GX(), userinfoModel.NickName);
+                            var mailRecord = new wmfMailRecord().wmfMailRecord2(model.Email, body, "激活账号", "ServiceMailName".GX(), userinfoModel.NickName,Guid.Parse(Reference.电子邮件类别_账号注册));
                             new BaseBll<wmfMailRecord>().Insert(mailRecord);
                             mail.Send("smtp.", emailPort, model.Email + "激活账号邮件发送失败！");
                         } 

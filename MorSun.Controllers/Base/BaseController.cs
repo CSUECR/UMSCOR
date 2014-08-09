@@ -150,7 +150,7 @@ namespace MorSun.Controllers
         [Authorize]
         public virtual ActionResult Add(T t)
         {
-            if (ResourceId.havePrivilege(操作.添加))
+            if (ResourceId.HP(操作.添加))
             {                
                 var item = SetEntity(t);
                 ViewBag.RS = ResourceId;
@@ -177,7 +177,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Add(T t, string returnUrl, Func<T, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.添加))
+            if (ResourceId.HP(操作.添加))
             {
                 var oper = new OperationResult(OperationResultType.Error, "添加失败");
                 ck = ck.Load(() => OnAddCK);
@@ -226,7 +226,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Edit(T t)
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.HP(操作.修改))
             {                
                 var item = SetEntity(t);
                 ViewBag.RS = ResourceId;
@@ -255,7 +255,7 @@ namespace MorSun.Controllers
         [ValidateAntiForgeryToken]
         public virtual ActionResult Edit(T t, string returnUrl, Func<T, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.HP(操作.修改))
             {
                 var oper = new OperationResult(OperationResultType.Error, "修改失败");
                 //编辑前附值
@@ -310,7 +310,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Delete(T t, string returnUrl, Func<T, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.删除))
+            if (ResourceId.HP(操作.删除))
             {
                 var oper = new OperationResult(OperationResultType.Error, "删除失败");
                 ck = ck.Load(() => OnDelCk);
@@ -358,7 +358,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Detail(T t)
         {
-            if (ResourceId.havePrivilege(操作.查看))
+            if (ResourceId.HP(操作.查看))
             {
                 var item = SetEntity(t);
                 ViewBag.RS = ResourceId;
@@ -381,7 +381,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Recycle()
         {
-            if (ResourceId.havePrivilege(操作.回收站))
+            if (ResourceId.HP(操作.回收站))
             {
                 var vModel = VModelType.New();
                 FillModel(vModel);
@@ -412,7 +412,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Index()
         {
-            if (ResourceId.havePrivilege(操作.查看))
+            if (ResourceId.HP(操作.查看))
             {
                 var vModel = VModelType.New();
                 FillModel(vModel);

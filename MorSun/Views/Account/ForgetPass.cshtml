@@ -53,7 +53,7 @@
                         @Html.TextBoxFor(m => m.UserName)
                     </li>
                     
-                    @if ("ForgetPassCode".GetXmlConfig().ToAs<bool>())
+                    @if ("ForgetPassCode".GX().ToAs<bool>())
                     {
                         <li>
                             @Html.LabelFor(m => m.Verifycode)

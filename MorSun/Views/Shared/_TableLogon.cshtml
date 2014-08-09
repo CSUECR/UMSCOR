@@ -23,7 +23,7 @@ int yzmR = new Random().Next(100000);
                     @Html.PasswordFor(m => m.Password, new { @class = "logonText iconPwd" })                   
                 </th>                
             </tr>
-            @if("LoginVerificationCode".GetXmlConfig().ToAs<bool>()){
+            @if("LoginVerificationCode".GX().ToAs<bool>()){
             <tr>
                 <th>                    
                     @Html.TextBoxFor(m => m.Verifycode, new { @class = "logonYZMText iconMa", onfocus = "getVerifyCode('#Verifycode', '#VerifyCodeImg')" })
@@ -48,7 +48,7 @@ int yzmR = new Random().Next(100000);
             <tr><td><input name="VerifycodeRandom" type="hidden" value="@yzmR" /></td></tr>
             <tr>
                 <td>
-                    @if ("Register".GetXmlConfig() == "true")
+                    @if ("Register".GX() == "true")
                     { 
                         @:没有账号？   <a href="/Account/Register">注册新账号</a>
                     }

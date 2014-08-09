@@ -44,10 +44,10 @@ namespace MorSun.Controllers
         public ActionResult EL(string id)
         {
             var bll = new BaseBll<wmfEncryptRecord>();
-            var effectiveHour = 0 - "EncryptTime".GetXmlConfig().ToAs<int>();
+            var effectiveHour = 0 - "EncryptTime".GX().ToAs<int>();
             var timeBefore = DateTime.Now.AddHours(effectiveHour);
             var model = bll.All.Where(p => p.EncryptCode == id && p.EncryptTime >= timeBefore).OrderByDescending(p => p.RegTime).FirstOrDefault();
-            //var au = "ActiveUserUrl".GetXmlConfig();
+            //var au = "ActiveUserUrl".GX();
             if(model != null)
             { 
                 switch (model.EncryptUrl.ToLower())

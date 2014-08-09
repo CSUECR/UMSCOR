@@ -29,9 +29,9 @@ namespace System
         /// <param name="resourceId"></param>
         /// <param name="operationId"></param>
         /// <returns></returns>
-        public static bool havePrivilege(this string resourceId, string operationId)
+        public static bool HP(this string resourceId, string operationId)
         {
-            return MorSun.Controllers.BasisController.havePrivilege(resourceId, operationId);
+            return MorSun.Controllers.BasisController.HP(resourceId, operationId);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace MorSun.Controllers
         /// <returns></returns>
         private static bool IsAU()
         {
-            return UserID.ToString().Eql("AU".GetXmlConfig().Decrypt());
+            return UserID.ToString().Eql("AU".GX().Decrypt());
         }
         
 
@@ -373,7 +373,7 @@ namespace MorSun.Controllers
         protected void validateVerifyCode(string verifyCode, string verifycodeRandom, string xmlconfigName)
         {
             //判断是否验证码开启
-            if (xmlconfigName.GetXmlConfig() == "true")
+            if (xmlconfigName.GX() == "true")
             {
                 //判断验证码是否填写
                 if (String.IsNullOrEmpty(verifyCode))

@@ -22,7 +22,7 @@
                         @Html.LabelFor(m => m.Password)
                         @Html.PasswordFor(m => m.Password)
                     </li>
-                    @if ("LoginVerificationCode".GetXmlConfig().ToAs<bool>())
+                    @if ("LoginVerificationCode".GX().ToAs<bool>())
                     {
                         <li>
                             @Html.LabelFor(m => m.Verifycode)

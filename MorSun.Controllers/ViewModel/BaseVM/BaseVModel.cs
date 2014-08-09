@@ -21,7 +21,7 @@ namespace MorSun.Controllers.ViewModel
 
         public virtual string PIndex { get; set; }
 
-        public int _Psize = "PageSize".GetXmlConfig().ToAs<int>();
+        public int _Psize = "PageSize".GX().ToAs<int>();
 
         public virtual int PSize
         {

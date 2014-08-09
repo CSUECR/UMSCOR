@@ -10,7 +10,7 @@
         <a href="javascript:AddFavorite('http://www.5kdm.com','悟空打码')" onclick="AddFavorite('http://www.5kdm.com', '悟空打码')"> 收藏</a>
     </text>
 } else {
-        if ("Register".GetXmlConfig() == "true")
+        if ("Register".GX() == "true")
         {    
         @Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
         }

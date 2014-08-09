@@ -40,7 +40,7 @@ namespace MorSun
             LogHelper.Write("应用关闭", LogHelper.LogMessageType.Info);
             //解决应用池回收问题 
             System.Threading.Thread.Sleep(5000);
-            string strUrl = "http://" + "ServiceDomain".GetXmlConfig();
+            string strUrl = "http://" + "ServiceDomain".GX();
             System.Net.HttpWebRequest _HttpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(strUrl);
             System.Net.HttpWebResponse _HttpWebResponse = (System.Net.HttpWebResponse)_HttpWebRequest.GetResponse();
             System.IO.Stream _Stream = _HttpWebResponse.GetResponseStream();//得到回写的字节流 

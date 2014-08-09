@@ -31,7 +31,7 @@ namespace MorSun.Controllers.SystemController
         [ValidateAntiForgeryToken]
         public override ActionResult Add(wmfRefGroup t, string returnUrl, Func<wmfRefGroup, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.添加))
+            if (ResourceId.HP(操作.添加))
             {
                 var oper = new OperationResult(OperationResultType.Error, "添加失败");                
                 string[] refGroupNames = ((t.RefGroupName == null) ? (t.RefGroupName = " ").Split(',') : t.RefGroupName.Split(','));
@@ -94,7 +94,7 @@ namespace MorSun.Controllers.SystemController
 
         public ActionResult TreeTableMove(string id, string pid, string returnUrl)
         {
-            if (ResourceId.havePrivilege(操作.修改))
+            if (ResourceId.HP(操作.修改))
             {                
                 var p1 = Guid.Parse(id.Replace("node-", ""));
                 //父ID

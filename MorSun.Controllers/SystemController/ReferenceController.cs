@@ -30,7 +30,7 @@ namespace MorSun.Controllers.SystemController
         [ValidateAntiForgeryToken]
         public override ActionResult Add(wmfReference t, string returnUrl, Func<wmfReference, string> ck = null)
         {
-            if (ResourceId.havePrivilege(操作.添加))
+            if (ResourceId.HP(操作.添加))
             {
                 var oper = new OperationResult(OperationResultType.Error, "添加失败");                
                 string[] itemInfos = ((t.ItemInfo == null) ? (t.ItemInfo = " ").Split(',') : t.ItemInfo.Replace("\r\n", ",").Split(','));

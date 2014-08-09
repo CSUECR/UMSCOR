@@ -29,7 +29,7 @@
                         @Html.LabelFor(m => m.NickName)
                         @Html.TextBoxFor(m => m.NickName)
                     </li>
-                    @if ("RegVerificationCode".GetXmlConfig().ToAs<bool>())
+                    @if ("RegVerificationCode".GX().ToAs<bool>())
                     {
                         <li>
                             @Html.LabelFor(m => m.Verifycode)

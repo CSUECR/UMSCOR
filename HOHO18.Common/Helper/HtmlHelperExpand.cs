@@ -691,7 +691,7 @@ namespace System.Web.Mvc
             }
             else
             {
-                v["buttonImg"] = "buttonImg".GetXmlConfig();
+                v["buttonImg"] = "buttonImg".GX();
             }
 
             v["sizeLimit"] = sizeLimit;
@@ -745,7 +745,7 @@ namespace System.Web.Mvc
             }
             else
             {
-                v["buttonImg"] = "buttonImg".GetXmlConfig();
+                v["buttonImg"] = "buttonImg".GX();
             }
             v["sizeLimit"] = sizeLimit;
             v["operationID"] = operationID;
