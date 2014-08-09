@@ -3,10 +3,11 @@
     ViewBag.Title = "类别组配置";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     Model.FlagTrashed = "0";
+    string rs = ViewBag.RS;
 }
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
-        @if (资源.类别组.havePrivilege(操作.添加))
+        @if (rs.havePrivilege(操作.添加))
         { <button class="btn green" type="button">@("添加".GetXmlConfig())</button>}
             
         @*<button class="btn blue" type="button">@("修改".GetXmlConfig())</button>

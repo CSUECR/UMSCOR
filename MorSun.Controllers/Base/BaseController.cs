@@ -153,6 +153,7 @@ namespace MorSun.Controllers
             if (ResourceId.havePrivilege(操作.添加))
             {                
                 var item = SetEntity(t);
+                ViewBag.RS = ResourceId;
                 return View(item);
             }
             else
@@ -227,7 +228,8 @@ namespace MorSun.Controllers
         {
             if (ResourceId.havePrivilege(操作.修改))
             {                
-                var item = SetEntity(t);                
+                var item = SetEntity(t);
+                ViewBag.RS = ResourceId;
                 return View(item);
             }
             else
@@ -359,6 +361,7 @@ namespace MorSun.Controllers
             if (ResourceId.havePrivilege(操作.查看))
             {
                 var item = SetEntity(t);
+                ViewBag.RS = ResourceId;
                 return View(item);
             }
             else
@@ -388,7 +391,7 @@ namespace MorSun.Controllers
                     var vm = vModel as BaseVModel<T>;
                     vm.DoSth();
                 }
-
+                ViewBag.RS = ResourceId;
                 return View(vModel);
             }
             else
@@ -417,7 +420,8 @@ namespace MorSun.Controllers
                 {
                     var vm = vModel as BaseVModel<T>;
                     vm.DoSth();
-                }                
+                }
+                ViewBag.RS = ResourceId;
                 return View(vModel);
             }
             else
