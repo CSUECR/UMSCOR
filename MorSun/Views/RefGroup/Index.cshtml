@@ -42,7 +42,7 @@
                         {
                             Func<wmfRefGroup, HelperResult> fun = @<tr data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
                                 <td style="text-align:left;">
-                                    <span class="folder ui-draggable">
+                                    <span name="subTreeItem" class="folder ui-draggable">
                                         @item.RefGroupName
                                     </span>
                                         <input id="checkedId" type="hidden" value="@item.ID" />
@@ -74,6 +74,7 @@
     @section Scripts {
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
+        @Styles.Render("~/Content/themes/base/css")
         @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/bundles/validator")
         @Scripts.Render("~/bundles/morsuncommon")
@@ -88,8 +89,35 @@
                 $(this).toggleClass("selected");
             });
 
+            //// Drag & Drop Example Code
+            //$("#MoreSunList .file, #example-advanced .folder").draggable({
+            //    helper: "clone",
+            //    opacity: .75,
+            //    refreshPositions: true,
+            //    revert: "invalid",
+            //    revertDuration: 300,
+            //    scroll: true
+            //});
+
+            //$("#MoreSunList .folder").each(function () {
+            //    $(this).parents("#example-advanced tr").droppable({
+            //        accept: ".file, .folder",
+            //        drop: function (e, ui) {
+            //            var droppedEl = ui.draggable.parents("tr");
+            //            $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
+            //        },
+            //        hoverClass: "accept",
+            //        over: function (e, ui) {
+            //            var droppedEl = ui.draggable.parents("tr");
+            //            if (this != droppedEl[0] && !$(this).is(".expanded")) {
+            //                $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
+            //            }
+            //        }
+            //    });
+            //});
+
             // Drag & Drop Example Code
-            $("#MoreSunList .file, #example-advanced .folder").draggable({
+            $("#MoreSunList span[name=subTreeItem]").draggable_table({
                 helper: "clone",
                 opacity: .75,
                 refreshPositions: true,
@@ -97,19 +125,34 @@
                 revertDuration: 300,
                 scroll: true
             });
-
-            $("#MoreSunList .folder").each(function () {
-                $(this).parents("#example-advanced tr").droppable({
-                    accept: ".file, .folder",
+            $("#MoreSunList span[name=subTreeItem]").each(function () {
+                $($(this).parents("tr")[0]).droppable({
+                    accept: "span[name=subTreeItem]",
                     drop: function (e, ui) {
-                        var droppedEl = ui.draggable.parents("tr");
-                        $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
+                        //确认是否移动
+                        //                if (!confirm(is_move_tree_Language)) {
+                        //                    return false;
+                        //                }
+
+                        $($(ui.draggable_table).parents("tr")[0]).appendBranchTo(this);
+
+                        if ($(ui.draggable_table).parents("tr")[0].id != this.id) {
+                            $.post("TreeTableMove", { id: $(ui.draggable_table).parents("tr")[0].id, pid: this.id },
+                                    function (data) {
+                                        //window.location.href = "Index";                               
+                                        //alert(data);
+                                        alert2(data, move_tree_Language);
+                                        if (data == "true") {
+                                            refePage(false);
+                                        }
+                                    });
+                        }
                     },
                     hoverClass: "accept",
                     over: function (e, ui) {
-                        var droppedEl = ui.draggable.parents("tr");
-                        if (this != droppedEl[0] && !$(this).is(".expanded")) {
-                            $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
+
+                        if (this.id != $(ui.draggable_table.parents("tr.parent")[0]).id && !$(this).is(".expanded")) {
+                            $(this).expand();
                         }
                     }
                 });
