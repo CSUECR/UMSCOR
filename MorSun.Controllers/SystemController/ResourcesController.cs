@@ -38,9 +38,9 @@ namespace MorSun.Controllers.SystemController
         {
             if (ResourceId.HP(操作.修改))
             {
-                var p1 = Guid.Parse(id.Replace("node-", ""));
+                var p1 = Guid.Parse(id);
                 //父ID
-                var p2 = Guid.Parse(pid.Replace("node-", ""));
+                var p2 = Guid.Parse(pid);
                 var errms = "";
                 //不能将自己当做父节点
                 if (p1 == p2)
@@ -57,12 +57,18 @@ namespace MorSun.Controllers.SystemController
                     errms = "上级资源不能移到下级资源目录";
                     "ResourcesCNName".AE("上级资源不能移到下级资源目录", ModelState);
                 }
-                var oper = new OperationResult(OperationResultType.Error, "移动失败" + errms);
-                if (ModelState.IsValid)
+                var model = Bll.GetModel(p1);
+                var pmodel = Bll.GetModel(p2);
+                if (model == null || pmodel == null)
                 {
-                    var ss = Bll.GetModel(p1);
-                    ss.ParentId = p2;
-                    Bll.Update(ss);
+                    errms = "数据提交错误";
+                    "RefGroupName".AE("上级类别组不能移到下级类别组", ModelState);
+                }
+                var oper = new OperationResult(OperationResultType.Error, "移动失败 " + errms);
+                if (ModelState.IsValid)
+                {                    
+                    model.ParentId = p2;
+                    Bll.Update(model);
                     fillOperationResult(returnUrl, oper, "移动成功");
                     return Json(oper);
                 }
