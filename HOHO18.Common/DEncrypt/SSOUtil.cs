@@ -52,7 +52,7 @@ namespace HOHO18.Common.DEncrypt
             byte[] inputBuffer = Encoding.GetEncoding("UTF-8").GetBytes(text);
             byte[] outputBuffer = des.CreateEncryptor().TransformFinalBlock(inputBuffer, 0, inputBuffer.Length);
 
-            return Convert.ToBase64String(outputBuffer).Encrypt();
+            return Convert.ToBase64String(outputBuffer).EP();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace HOHO18.Common.DEncrypt
         public static string DESDecrypt(string text, string key)
         {
             //解密数据
-            text = text.Decrypt();
+            text = text.DP();
 
             DESCryptoServiceProvider des = new DESCryptoServiceProvider();
             des.Mode = System.Security.Cryptography.CipherMode.ECB;
@@ -116,8 +116,8 @@ namespace HOHO18.Common.DEncrypt
                 {
                     userInfo.Append("<username>").Append(username).Append("</username>");
                     userInfo.Append("<loginvalidatecode>").Append(Guid.NewGuid()).Append("</loginvalidatecode>");
-                    userInfo.Append("<title>").Append(title.Encrypt()).Append("</title>");
-                    userInfo.Append("<defaulturl>").Append(defaulturl.Encrypt()).Append("</defaulturl>");
+                    userInfo.Append("<title>").Append(title.EP()).Append("</title>");
+                    userInfo.Append("<defaulturl>").Append(defaulturl.EP()).Append("</defaulturl>");
                     userInfo.Append("<islongin>true</islongin>");
                 }
                 else

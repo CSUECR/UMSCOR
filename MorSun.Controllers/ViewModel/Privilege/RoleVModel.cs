@@ -19,7 +19,7 @@ namespace MorSun.Controllers.ViewModel
             {
                 var roleList = All;
                 //如果不是系统管理员，排除掉系统管理员的角色
-                if(!MorSun.Controllers.BasisController.HP(MorSun.Common.Privelege.资源.操作范围, MorSun.Common.Privelege.操作.系统管理员))
+                if (!MorSun.Common.Privelege.资源.操作范围.HP(MorSun.Common.Privelege.操作.系统管理员))
                 {
                     var zy = Guid.Parse(MorSun.Common.Privelege.资源.操作范围);
                     var cz = Guid.Parse(MorSun.Common.Privelege.操作.系统管理员);

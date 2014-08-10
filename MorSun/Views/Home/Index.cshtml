@@ -52,7 +52,7 @@
                     <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
                 </li>
                 <li class="two">
-                    @("s5kdmqwertyuiop".Encrypt())  @("C220C54A34828FBF12BB35E02AE35AE1".Decrypt())
+                    @("s5kdmqwertyuiop".EP())  @("C220C54A34828FBF12BB35E02AE35AE1".DP())
                     <h5>Add NuGet packages and jump-start your coding</h5>
                     NuGet makes it easy to install and update free libraries and tools.
                     <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
@@ -140,7 +140,7 @@
                     <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
                 </li>
                 <li class="two">
-                    @("s5kdmqwertyuiop".Encrypt())  @("C220C54A34828FBF12BB35E02AE35AE1".Decrypt())
+                    @("s5kdmqwertyuiop".EP())  @("C220C54A34828FBF12BB35E02AE35AE1".DP())
                     <h5>Add NuGet packages and jump-start your coding</h5>
                     NuGet makes it easy to install and update free libraries and tools.
                     <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
@@ -214,8 +214,7 @@
 </section>
 
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jquery")
+    @section Scripts {       
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/validator")
         @Styles.Render("~/Content/JQueryQtipCss")

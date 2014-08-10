@@ -108,6 +108,78 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl) {
         }        
     });
 }
+
+
+//通用ajax处理
+function ajaxHandle(u, d, topErrDiv, jumpUrl)
+{
+    if (!topErrDiv)
+        topErrDiv = '#divInfo';
+    Loading();
+    $.ajax({
+        url: u,
+        data: d,
+        type: 'POST',
+        success: function (data) {
+            EndLoading();
+            //操作成功的提示信息并且跳转页面
+            if (data.ResultType == 0) {
+                $(topErrDiv).qtip({
+                    content: {
+                        text: data.Message,
+                        title: {
+                            button: true
+                        }
+                    }
+                    , position: {
+                        target: [$('body').width() / 2, 20],
+                        my: 'center center',
+                        at: 'center center'
+                    }
+                    , show: {
+                        ready: true
+                    }
+                     , hide: false
+                });
+                if (jumpUrl) {
+                    setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                }
+                else {
+                    setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
+                }
+
+            }
+            else {                
+                $(topErrDiv).qtip({
+                    content: {
+                        text: data.Message,
+                        title: {
+                            button: true
+                        }
+                    }
+                    , position: {
+                        target: [$('body').width() / 2, 20],
+                        my: 'center center',
+                        at: 'center center'
+                    }
+                    , style: {
+                        classes: 'qtip-red'
+                    }
+                    , show: {
+                        ready: true
+                    }
+                     , hide: false
+                });                
+            }
+        },
+        error: function (data) {
+            EndLoading();
+            alert(errMessage);
+        }
+    });
+}
+
+
 /*操作成功调用方法
 *data参数与OperationResult相对应的json数据[ResultType:"xxx",Message:"xxx",AppendData:"xxx",LogMessage:"xxxx"]
 */
@@ -317,3 +389,88 @@ function PromptTextAreaMessage2(msg, inputId) {
 //        });
 //    });
 //});
+
+
+//TreeTable
+//展开或关闭
+function morsunEC(tableid,expand)
+{
+    if (tableid)
+    {
+        if (expand != "expandAll")
+            expand = "collapseAll";
+        jQuery(tableid).treetable(expand);
+    }
+    return false;
+}
+
+//树方法
+function morsunTreeTable(tableid,expand,selected,draggrable,callBack,agrs)
+{
+    if (tableid)
+    {
+        if(!expand)
+            $(tableid).treetable({ expandable: true, initialState: "expanded" });
+        else
+        {
+            if (expand != "expanded")
+                expand = "collapsed";
+            $(tableid).treetable({ expandable: true, initialState: expand });
+        }
+            
+        if (selected != true)
+            selected = false;
+        if (selected)
+        {
+            // Highlight selected row
+            $(tableid + " tbody").on("mousedown", "tr", function () {
+                $(".selected").not(this).removeClass("selected");
+                $(this).toggleClass("selected");
+            });
+        }
+
+        if (draggrable != true)
+            draggrable = false;
+        if (draggrable)
+        {
+            // Drag & Drop Example Code
+            $(tableid +" .file, " + tableid +" .folder").draggable({
+                helper: "clone",
+                opacity: .75,
+                refreshPositions: true,
+                revert: "invalid",
+                revertDuration: 300,
+                scroll: true
+            });
+
+            $(tableid + " .folder").each(function () {
+                $(this).parents(tableid + " tr").droppable({
+                    accept: ".file, .folder",
+                    drop: function (e, ui) {
+                        var droppedEl = ui.draggable.parents("tr");
+                        ajaxHandle("TreeTableMove", { id: droppedEl.data("ttId"), pid: $(this).data("ttId") });
+                        $(tableid).treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
+                        //if (callBack) {
+                        //    if (typeof (callBack) == "function")
+                        //        callBack.apply(this, agrs ? agrs : []);
+                        //    else {
+                        //        for (var i = 0; i < callBack.length; i++) {
+                        //            callBack[i].apply(this, agrs ? agrs[i] : []);
+                        //        }
+                        //    }
+                        //}
+                    },
+                    hoverClass: "accept",
+                    over: function (e, ui) {
+                        var droppedEl = ui.draggable.parents("tr");
+                        if (this != droppedEl[0] && !$(this).is(".expanded")) {
+                            $(tableid).treetable("expandNode", $(this).data("ttId"));
+                        }
+                    }
+                });
+            });
+        }//draggable
+    }//if
+}//func
+
+

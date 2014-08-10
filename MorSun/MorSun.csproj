@@ -196,7 +196,6 @@
     <Content Include="Content\JQueryQtipCustom\imagesloaded.pkg.min.js" />
     <Content Include="Content\JQueryQtipCustom\jquery.qtip.css" />
     <Content Include="Content\JQueryQtipCustom\jquery.qtip.js" />
-    <Content Include="Content\JQueryQtipCustom\jquery.qtip.min.css" />
     <Content Include="Content\JQueryQtipCustom\jquery.qtip.min.js" />
     <Content Include="Content\JQueryTreeTable\jquery.treetable.css" />
     <Content Include="Content\JQueryTreeTable\jquery.treetable.js" />

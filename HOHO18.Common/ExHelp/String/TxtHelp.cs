@@ -447,7 +447,7 @@ namespace System
         /// <param name="str"></param>
         /// <param name="sKey"></param>
         /// <returns></returns>
-        public static string Encrypt(this string str, string sKey = "b59bbf7f-8ec0-40c8-811c-ced8a9769340")
+        public static string EP(this string str, string sKey = "b59bbf7f-8ec0-40c8-811c-ced8a9769340")
         {
             return DESEncrypt.Encrypt(str, sKey);
         }
@@ -457,7 +457,7 @@ namespace System
         /// <param name="str"></param>
         /// <param name="sKey"></param>
         /// <returns></returns>
-        public static string Decrypt(this string str, string sKey = "b59bbf7f-8ec0-40c8-811c-ced8a9769340")
+        public static string DP(this string str, string sKey = "b59bbf7f-8ec0-40c8-811c-ced8a9769340")
         {
             return DESEncrypt.Decrypt(str, sKey);
         }

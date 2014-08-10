@@ -31,7 +31,7 @@ namespace System
         /// <returns></returns>
         public static bool HP(this string resourceId, string operationId)
         {
-            return MorSun.Controllers.BasisController.HP(resourceId, operationId);
+            return MorSun.Controllers.BasisController.havePrivilege(resourceId, operationId);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace MorSun.Controllers
         /// <returns></returns>
         private static bool IsAU()
         {
-            return UserID.ToString().Eql("AU".GX().Decrypt());
+            return UserID.ToString().Eql("AU".GX().DP());
         }
         
 
@@ -428,7 +428,7 @@ namespace MorSun.Controllers
             var er = new wmfEncryptRecord();
             er.ID = Guid.NewGuid();
             er.UserNameString = userNameString;
-            er.EncryptCode = Guid.NewGuid().ToString().Encrypt(Guid.NewGuid().ToString());
+            er.EncryptCode = Guid.NewGuid().ToString().EP(Guid.NewGuid().ToString());
             er.EncryptTime = DateTime.Now;
             er.EncryptUrl = encryptUrl;
             er.FlagTrashed = false;

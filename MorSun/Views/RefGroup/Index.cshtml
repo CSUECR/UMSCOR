@@ -5,11 +5,14 @@
     Model.FlagTrashed = "0";
     string rs = ViewBag.RS;
 }
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
         @if (rs.HP(操作.添加))
         { <button class="btn green" type="button">@("添加".GX())</button>}
-            
+        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
+        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
         @*<button class="btn blue" type="button">@("修改".GX())</button>
         <button class="btn red" type="button">@("删除".GX())</button>
         <button class="btn" type="button">@("返回".GX())</button>
@@ -28,11 +31,11 @@
                 </div>*@
             </div>
             <div class="portlet-body">
-                <table id="MoreSunList" class="table table-hover">
+                <table id="MoreSunTreeTable" class="table table-hover">
                     <thead>
                         <tr>
                             <th>类别组名</th>
-                            <th>排序</th>
+                            <th>序号</th>
                             <th>操作</th>
                             @*<th class="hidden-480">Username</th>*@
 
@@ -43,7 +46,7 @@
                         {
                             Func<wmfRefGroup, HelperResult> fun = @<tr data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
                                 <td style="text-align:left;">
-                                    <span name="subTreeItem" class="folder ui-draggable">
+                                    <span class="folder ui-draggable">
                                         @item.RefGroupName
                                     </span>
                                         <input id="checkedId" type="hidden" value="@item.ID" />
@@ -51,7 +54,19 @@
                                 <td>
                                     @item.Sort
                                 </td>
-                                <td></td>
+                                <td>
+                              @if (rs.HP(操作.修改))
+                            {
+                                <button class="btn blue" type="button">@("修改".GX())</button>
+                              }
+                              @if (rs.HP(操作.修改))
+                                {
+                                    <button class="btn purple" type="button">@("排序".GX())</button>
+                                }
+                            @if (rs.HP(操作.删除)){
+                            <button class="btn red" type="button">@("删除".GX())</button>
+                            }
+                        </td>
                             </tr>;
                             Write(fun(i));
                         };
@@ -70,93 +85,17 @@
 
             </div>
         </div>
-    </div>
+    </div>    
 </section>
-    @section Scripts {
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Styles.Render("~/Content/themes/base/css")
-        @Scripts.Render("~/bundles/jqueryui")
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
         @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
         @Scripts.Render("~/bundles/morsuncommon")
         @Styles.Render("~/Content/treetableCss")
-        @Scripts.Render("~/bundles/treetable")        
-        <script type="text/javascript">            
-            $("#MoreSunList").treetable({ expandable: true });
-
-            // Highlight selected row
-            $("#MoreSunList tbody").on("mousedown", "tr", function () {
-                $(".selected").not(this).removeClass("selected");
-                $(this).toggleClass("selected");
-            });
-
-            //// Drag & Drop Example Code
-            //$("#MoreSunList .file, #example-advanced .folder").draggable({
-            //    helper: "clone",
-            //    opacity: .75,
-            //    refreshPositions: true,
-            //    revert: "invalid",
-            //    revertDuration: 300,
-            //    scroll: true
-            //});
-
-            //$("#MoreSunList .folder").each(function () {
-            //    $(this).parents("#example-advanced tr").droppable({
-            //        accept: ".file, .folder",
-            //        drop: function (e, ui) {
-            //            var droppedEl = ui.draggable.parents("tr");
-            //            $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
-            //        },
-            //        hoverClass: "accept",
-            //        over: function (e, ui) {
-            //            var droppedEl = ui.draggable.parents("tr");
-            //            if (this != droppedEl[0] && !$(this).is(".expanded")) {
-            //                $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
-            //            }
-            //        }
-            //    });
-            //});
-
-            // Drag & Drop Example Code
-            $("#MoreSunList span[name=subTreeItem]").draggable_table({
-                helper: "clone",
-                opacity: .75,
-                refreshPositions: true,
-                revert: "invalid",
-                revertDuration: 300,
-                scroll: true
-            });
-            $("#MoreSunList span[name=subTreeItem]").each(function () {
-                $($(this).parents("tr")[0]).droppable({
-                    accept: "span[name=subTreeItem]",
-                    drop: function (e, ui) {
-                        //确认是否移动
-                        //                if (!confirm(is_move_tree_Language)) {
-                        //                    return false;
-                        //                }
-
-                        $($(ui.draggable_table).parents("tr")[0]).appendBranchTo(this);
-
-                        if ($(ui.draggable_table).parents("tr")[0].id != this.id) {
-                            $.post("TreeTableMove", { id: $(ui.draggable_table).parents("tr")[0].id, pid: this.id },
-                                    function (data) {
-                                        //window.location.href = "Index";                               
-                                        //alert(data);
-                                        alert2(data, move_tree_Language);
-                                        if (data == "true") {
-                                            refePage(false);
-                                        }
-                                    });
-                        }
-                    },
-                    hoverClass: "accept",
-                    over: function (e, ui) {
-
-                        if (this.id != $(ui.draggable_table.parents("tr.parent")[0]).id && !$(this).is(".expanded")) {
-                            $(this).expand();
-                        }
-                    }
-                });
-            });
+        @Scripts.Render("~/bundles/treetable")  
+        <script type="text/javascript">  
+            morsunTreeTable('#MoreSunTreeTable', "expanded", true, true);
         </script>
     }

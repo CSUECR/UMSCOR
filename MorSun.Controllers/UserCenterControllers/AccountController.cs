@@ -259,25 +259,25 @@ namespace MorSun.Controllers
                 model2.Answer2 = user.wmfUserInfo.Answer2;
                 model2.Answer3 = user.wmfUserInfo.Answer3;
 
-                if (string.IsNullOrEmpty(model2.Question1)) model2.Question1 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(model2.Question2)) model2.Question2 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(model2.Question3)) model2.Question3 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(model2.Answer1)) model2.Answer1 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(model2.Answer2)) model2.Answer2 = "".Encrypt(user.UserId.ToString());
-                if (string.IsNullOrEmpty(model2.Answer3)) model2.Answer3 = "".Encrypt(user.UserId.ToString());
-                if (!model.Question1.Encrypt(user.UserId.ToString()).Eql(model2.Question1)
-                    || !model.Answer1.Encrypt(user.UserId.ToString()).Eql(model2.Answer1)
-                    || !model.Question2.Encrypt(user.UserId.ToString()).Eql(model2.Question2)
-                    || !model.Answer2.Encrypt(user.UserId.ToString()).Eql(model2.Answer2)
-                    || !model.Question3.Encrypt(user.UserId.ToString()).Eql(model2.Question3)
-                    || !model.Answer3.Encrypt(user.UserId.ToString()).Eql(model2.Answer3)
+                if (string.IsNullOrEmpty(model2.Question1)) model2.Question1 = "".EP(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Question2)) model2.Question2 = "".EP(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Question3)) model2.Question3 = "".EP(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Answer1)) model2.Answer1 = "".EP(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Answer2)) model2.Answer2 = "".EP(user.UserId.ToString());
+                if (string.IsNullOrEmpty(model2.Answer3)) model2.Answer3 = "".EP(user.UserId.ToString());
+                if (!model.Question1.EP(user.UserId.ToString()).Eql(model2.Question1)
+                    || !model.Answer1.EP(user.UserId.ToString()).Eql(model2.Answer1)
+                    || !model.Question2.EP(user.UserId.ToString()).Eql(model2.Question2)
+                    || !model.Answer2.EP(user.UserId.ToString()).Eql(model2.Answer2)
+                    || !model.Question3.EP(user.UserId.ToString()).Eql(model2.Question3)
+                    || !model.Answer3.EP(user.UserId.ToString()).Eql(model2.Answer3)
                     )
                     "Question1".AE("验证失败", ModelState);
                 else
                 {
                     //发送邮件并转发
                     string fromEmail = "ServiceMail".GX();
-                    string fromEmailPassword = "ServiceMailPassword".GX().Decrypt();
+                    string fromEmailPassword = "ServiceMailPassword".GX().DP();
                     int emailPort = String.IsNullOrEmpty("ServiceMailPort".GX()) ? 587 : "ServiceMailPort".GX().ToAs<int>();
                     var code = GenerateEncryptCode(user.wmfUserInfo.UserNameString, "EmailChangePass".GX(), false);
                     string body = new WebClient().GetHtml("ServiceDomain".GX() + "/Home/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
@@ -346,7 +346,7 @@ namespace MorSun.Controllers
                             MembershipUser muser = Membership.GetUser(user.aspnet_Users.UserName);
                             if (MembershipService.ChangePassword(user.aspnet_Users.UserName, muser.ResetPassword(), model.NewPassword))
                             {
-                                user.UserPassword = model.NewPassword.Encrypt(user.ID.ToString());
+                                user.UserPassword = model.NewPassword.EP(user.ID.ToString());
                                 ubll.Update(user);
                                 //封装返回的数据
                                 fillOperationResult(Url.Action("Index", "Home"), oper, "密码修改成功");
@@ -411,13 +411,13 @@ namespace MorSun.Controllers
                         wmfUserInfo userinfoModel = new wmfUserInfo();
 
                         userinfoModel.ID = user.ProviderUserKey.ToAs<Guid>();
-                        userinfoModel.UserPassword = model.Password.Encrypt(userinfoModel.ID.ToString());
-                        userinfoModel.OperatePassword = model.Password.Encrypt(userinfoModel.ID.ToString());
+                        userinfoModel.UserPassword = model.Password.EP(userinfoModel.ID.ToString());
+                        userinfoModel.OperatePassword = model.Password.EP(userinfoModel.ID.ToString());
                         //密码串 不用
-                        //userinfoModel.ValidateCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
+                        //userinfoModel.ValidateCode = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
                         userinfoModel.NickName = String.IsNullOrEmpty(model.NickName) ? "DefaultNickName".GX() : model.NickName;
                         //邀请码
-                        userinfoModel.InviteCode = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
+                        userinfoModel.InviteCode = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
                         //被邀请码
                         userinfoModel.BeInviteCode = model.BeInviteCode;
                         //被邀请人
@@ -436,8 +436,8 @@ namespace MorSun.Controllers
                             }
                         }
                         //用户串和密码串
-                        userinfoModel.UserNameString = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
-                        userinfoModel.PassWordString = Guid.NewGuid().ToString().Encrypt(userinfoModel.ID.ToString());
+                        userinfoModel.UserNameString = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
+                        userinfoModel.PassWordString = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
 
                         userinfoModel.FlagWorker = false;                        
                         userinfoModel.RegTime = DateTime.Now;
@@ -464,7 +464,7 @@ namespace MorSun.Controllers
                         if ("AccountActive".GX() == "true")
                         {
                             string fromEmail = "ServiceMail".GX();                            
-                            string fromEmailPassword = "ServiceMailPassword".GX().Decrypt();
+                            string fromEmailPassword = "ServiceMailPassword".GX().DP();
                             int emailPort = String.IsNullOrEmpty("ServiceMailPort".GX()) ? 587 : "ServiceMailPort".GX().ToAs<int>();
                             var code = GenerateEncryptCode(userinfoModel.UserNameString,"ActiveUserUrl".GX(),false);
                             string body = new WebClient().GetHtml("ServiceDomain".GX() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", code);

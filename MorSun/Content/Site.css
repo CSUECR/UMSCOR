@@ -522,7 +522,7 @@ table {
     border-top: 1px solid #ddd;
     line-height: 20px;
     padding: 8px;
-    text-align: left;
+    text-align: center;
     vertical-align: top;
 }
 .table th {
@@ -747,7 +747,6 @@ footer .flink a, .flink {
         color:#5e5e5e;
         font-family: 宋体,Tahoma,Geneva,sans-serif;
     }
-
 /*Right Link*/
 #id {
     background: url("../images/pf.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
