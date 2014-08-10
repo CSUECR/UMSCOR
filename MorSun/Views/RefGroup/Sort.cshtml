@@ -13,48 +13,33 @@
         <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
         <div class="portlet box red">
             <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>类别组设置</div>
-                @*<div class="tools">
-                    <a class="collapse" href="javascript:;"></a>
-                    <a class="config" data-toggle="modal" href="#portlet-config"></a>
-                    <a class="reload" href="javascript:;"></a>
-                    <a class="remove" href="javascript:;"></a>
-                </div>*@
+                <div class="caption"><i class="icon-cogs"></i>类别组设置</div>                
             </div>
             <div class="portlet-body">
                 <table id="MoreSunTreeTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>类别组名</th>
+                            <th style="text-align:left">类别组名</th>
                             <th>序号</th>                            
                             @*<th class="hidden-480">Username</th>*@
 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="sortTbody">
                         @foreach(var item in Model.List)
                         {
-                            <tr>
-                                <td style="text-align:left;">                                    
+                            <tr id="@item.ID">
+                                <td style="text-align:left">                                    
                                     @item.RefGroupName                                    
-                                    <input id="checkedId" type="hidden" value="@item.ID" />
+                                    <input id="checkedId" name="checkedId" type="hidden" value="@item.ID" />
                                 </td>
                                 <td>
                                     @item.Sort
                                 </td>                                
                             </tr>  
                         }
-
-                        @*<tr>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>Otto</td>
-                <td class="hidden-480">makr124</td>
-                    <td><span class="label label-success">Approved</span></td>
-                </tr>*@
                     </tbody>
-                </table>
-
+                </table>                
             </div>
         </div>
     </div>    
@@ -66,6 +51,17 @@
         @Scripts.Render("~/bundles/jqueryqtip")
         @Scripts.Render("~/bundles/morsuncommon")        
         <script type="text/javascript">  
-            
+            $(function () {
+                $("#sortTbody").sortable({
+                    cursor: "move",
+                    items: "tr", //只是tr可以拖动
+                    opacity: 0.6, //拖动时，透明度为0.6
+                    revert: true, //释放时，增加动画
+                    update: function (event, ui) { //更新排序之后
+                        alert($(this).sortable("toArray"));
+                    }
+                });
+                $("#sortTbody").disableSelection();
+            });
         </script>
     }
