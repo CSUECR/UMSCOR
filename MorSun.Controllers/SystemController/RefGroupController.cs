@@ -91,7 +91,6 @@ namespace MorSun.Controllers.SystemController
                 return Json(oper);
             }
         }
-
         public ActionResult TreeTableMove(string id, string pid, string returnUrl)
         {
             if (ResourceId.HP(操作.修改))

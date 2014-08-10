@@ -1,0 +1,71 @@
+﻿@model RefGroupVModel
+@{
+    ViewBag.Title = "类别组排序";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
+    Model.FlagTrashed = "0";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.BackUrl ?? "Index";     
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">
+        <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+        <div class="portlet box red">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>类别组设置</div>
+                @*<div class="tools">
+                    <a class="collapse" href="javascript:;"></a>
+                    <a class="config" data-toggle="modal" href="#portlet-config"></a>
+                    <a class="reload" href="javascript:;"></a>
+                    <a class="remove" href="javascript:;"></a>
+                </div>*@
+            </div>
+            <div class="portlet-body">
+                <table id="MoreSunTreeTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>类别组名</th>
+                            <th>序号</th>                            
+                            @*<th class="hidden-480">Username</th>*@
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model.List)
+                        {
+                            <tr>
+                                <td style="text-align:left;">                                    
+                                    @item.RefGroupName                                    
+                                    <input id="checkedId" type="hidden" value="@item.ID" />
+                                </td>
+                                <td>
+                                    @item.Sort
+                                </td>                                
+                            </tr>  
+                        }
+
+                        @*<tr>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>Otto</td>
+                <td class="hidden-480">makr124</td>
+                    <td><span class="label label-success">Approved</span></td>
+                </tr>*@
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")        
+        <script type="text/javascript">  
+            
+        </script>
+    }

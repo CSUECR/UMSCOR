@@ -61,7 +61,7 @@
                               }
                               @if (rs.HP(操作.修改))
                                 {
-                                    <button class="btn purple" type="button">@("排序".GX())</button>
+                                    <button class="btn purple" type="button" onclick="jumptourl('Sort?sIsSort=true&sParentId=@item.ParentId')">@("排序".GX())</button>
                                 }
                             @if (rs.HP(操作.删除)){
                             <button class="btn red" type="button">@("删除".GX())</button>

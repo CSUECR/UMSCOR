@@ -14,8 +14,6 @@ namespace MorSun.Controllers.ViewModel
         /// </summary>
         public virtual Guid? CheckedId { get; set; }
 
-        public virtual Guid? ProjectId { get; set; }
-
         /// <summary>
         /// 获取跟目录
         /// </summary>
@@ -43,7 +41,15 @@ namespace MorSun.Controllers.ViewModel
         {
             get
             {
-                return All;
+                var l = All;
+                if(sIsSort != null && sIsSort.Value == true)
+                {
+                    if (sParentId != null)
+                        l = l.Where(p => p.ParentId == sParentId);
+                    else
+                        l = l.Where(p => p.ParentId == null);
+                }
+                return l;
             }
         }
 
@@ -96,6 +102,10 @@ namespace MorSun.Controllers.ViewModel
             set { privBll = value; }
         }
 
-        public string refGroupName { get; set; }
+        public string sRefGroupName { get; set; }
+
+        public Guid? sParentId { get; set; }
+
+        public bool? sIsSort { get; set; }
     }
 }

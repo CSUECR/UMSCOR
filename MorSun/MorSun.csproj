@@ -733,6 +733,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\RefGroup\Index.cshtml" />
+    <Content Include="Views\RefGroup\Sort.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

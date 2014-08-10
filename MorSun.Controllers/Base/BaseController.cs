@@ -371,7 +371,31 @@ namespace MorSun.Controllers
                 oper.AppendData = ModelState.GE();
                 return Json(oper);
             }
-        }    
+        }
+
+        /// <summary>
+        /// 详细页面 工作流查看页面独立
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        //[Authorize]
+        [ExceptionFilter()]
+        public virtual ActionResult SeeView(T t)
+        {
+            if (ResourceId.HP(操作.查看))
+            {
+                var item = SetEntity(t);
+                ViewBag.RS = ResourceId;
+                return View(item);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        } 
        
         /// <summary>
         /// 回收站页面
@@ -422,6 +446,37 @@ namespace MorSun.Controllers
                     vm.DoSth();
                 }
                 ViewBag.RS = ResourceId;
+                return View(vModel);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+                //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
+            }
+        }
+
+        /// <summary>
+        /// 排序页面
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [ExceptionFilter()]
+        public virtual ActionResult Sort(string returnUrl)
+        {
+            if (ResourceId.HP(操作.修改))
+            {
+                var vModel = VModelType.New();
+                FillModel(vModel);
+                if (vModel is BaseVModel<T>)
+                {
+                    var vm = vModel as BaseVModel<T>;
+                    vm.DoSth();
+                }
+                ViewBag.RS = ResourceId;
+                ViewBag.BackUrl = returnUrl;
                 return View(vModel);
             }
             else
