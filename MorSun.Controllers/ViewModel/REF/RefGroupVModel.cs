@@ -33,7 +33,7 @@ namespace MorSun.Controllers.ViewModel
                     l = l.Where(p => p.FlagTrashed == false);
                 }
 
-                return from q in l orderby q.RefGroupName descending select q;
+                return l.OrderBy(p => p.Sort).ThenBy(p => p.RefGroupName);//from q in l orderby q.RefGroupName descending select q;
             }
         }
 
@@ -49,7 +49,7 @@ namespace MorSun.Controllers.ViewModel
                     else
                         l = l.Where(p => p.ParentId == null);
                 }
-                return l;
+                return l.OrderBy(p => p.Sort).ThenBy(p => p.RefGroupName);
             }
         }
 

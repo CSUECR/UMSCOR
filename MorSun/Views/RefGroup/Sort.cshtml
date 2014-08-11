@@ -20,9 +20,8 @@
                     <thead>
                         <tr>
                             <th style="text-align:left">类别组名</th>
-                            <th>序号</th>                            
-                            @*<th class="hidden-480">Username</th>*@
-
+                            @*<th>序号</th>
+                            <th class="hidden-480">Username</th>*@
                         </tr>
                     </thead>
                     <tbody id="sortTbody">
@@ -33,9 +32,9 @@
                                     @item.RefGroupName                                    
                                     <input id="checkedId" name="checkedId" type="hidden" value="@item.ID" />
                                 </td>
-                                <td>
+                                @*<td name="sort_@item.ID">
                                     @item.Sort
-                                </td>                                
+                                </td>*@                                
                             </tr>  
                         }
                     </tbody>
@@ -51,17 +50,6 @@
         @Scripts.Render("~/bundles/jqueryqtip")
         @Scripts.Render("~/bundles/morsuncommon")        
         <script type="text/javascript">  
-            $(function () {
-                $("#sortTbody").sortable({
-                    cursor: "move",
-                    items: "tr", //只是tr可以拖动
-                    opacity: 0.6, //拖动时，透明度为0.6
-                    revert: true, //释放时，增加动画
-                    update: function (event, ui) { //更新排序之后
-                        alert($(this).sortable("toArray"));
-                    }
-                });
-                $("#sortTbody").disableSelection();
-            });
+            $(morsunSortable('#sortTbody'));            
         </script>
     }

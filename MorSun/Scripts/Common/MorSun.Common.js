@@ -111,10 +111,12 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl) {
 
 
 //通用ajax处理
-function ajaxHandle(u, d, topErrDiv, jumpUrl)
+function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl)
 {
     if (!topErrDiv)
         topErrDiv = '#divInfo';
+    if (!errMessage)
+        errMessage = '操作失败';
     Loading();
     $.ajax({
         url: u,
@@ -472,5 +474,24 @@ function morsunTreeTable(tableid,expand,selected,draggrable,callBack,agrs)
         }//draggable
     }//if
 }//func
+
+
+//排序
+function morsunSortable(contentId)
+{
+    $(contentId).sortable({
+        cursor: "move",
+        items: "tr", //只是tr可以拖动
+        opacity: 0.6, //拖动时，透明度为0.6
+        revert: true, //释放时，增加动画
+        update: function (event, ui) { //更新排序之后
+            //alert($(this).sortable("toArray"));
+            var ids = $(this).sortable("toArray");
+            console.log(ids.toString());
+            ajaxHandle("SortList", { CheckedId: ids.toString() }); 
+        }
+    });
+    $(contentId).disableSelection();
+}
 
 

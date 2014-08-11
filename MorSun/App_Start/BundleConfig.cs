@@ -61,7 +61,7 @@ namespace MorSun
             //JQueryQtipCustom
             bundles.Add(new StyleBundle("~/Content/JQueryQtipCss").Include("~/Content/JQueryQtipCustom/jquery.qtip.css"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryqtip").Include("~/Content/JQueryQtipCustom/jquery.qtip.js"));
-                //treetable
+            //treetable
             bundles.Add(new ScriptBundle("~/bundles/treetable").Include("~/Content/JQueryTreeTable/jquery.treetable.js"));
             bundles.Add(new StyleBundle("~/Content/treetableCss").Include("~/Content/JQueryTreeTable/jquery.treetable.css",
                 "~/Content/JQueryTreeTable/jquery.treetable.theme.default.css"));

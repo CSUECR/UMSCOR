@@ -142,6 +142,23 @@ namespace MorSun.Controllers
 
         #region 基础操作
         #region 添加
+        protected string GetCheckId(T t)
+        {
+            string checkedId = string.Empty;
+            PropertyInfo[] properites = t.GetType().GetProperties();
+            foreach (PropertyInfo item in properites)
+            {
+                if (item.Name == "CheckedId")
+                {
+                    if (item.GetValue(t, null) != null)
+                    {
+                        checkedId = item.GetValue(t, null).ToString();
+                    }
+                }
+            }
+            return checkedId;
+        }
+
         /// <summary>
         /// 显示添加页面
         /// </summary>
@@ -298,7 +315,7 @@ namespace MorSun.Controllers
                 return Json(oper);
             }
         }
-        #endregion
+        #endregion        
 
         #region 删除
         /// <summary>
@@ -347,6 +364,67 @@ namespace MorSun.Controllers
         }
         
         #endregion      
+
+        #region 排序
+        [Authorize]
+        [HttpPost]
+        public virtual ActionResult SortList(T t, string returnUrl)
+        {
+            if (ResourceId.HP(操作.修改))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "排序失败");
+                //前提ID是GUID类型
+                var ids = GetCheckId(t).ToGuidList(",");
+                if (ids.Count() < 0)
+                {
+                    "".AE("排序失败", ModelState);
+                }
+                if (ModelState.IsValid)
+                {                    
+                    int i = 0;
+                    foreach (var id in ids)
+                    {
+                        i++;
+                        var model = Bll.GetModel(id);                        
+                        if (model != null)
+                            SetSort(model,i);
+                    }
+                    Bll.UpdateChanges();
+                    fillOperationResult(returnUrl, oper, "排序成功");
+                }
+                else
+                {
+                    "".AE("排序失败", ModelState);
+                    oper.AppendData = ModelState.GE();
+                }
+                return Json(oper);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }
+
+        /// <summary>
+        /// 设置序号
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="sort"></param>
+        private void SetSort(T t,int sort)
+        {
+            PropertyInfo[] properites = t.GetType().GetProperties();
+            foreach (PropertyInfo item in properites)
+            {
+                if (item.Name == "Sort")
+                {
+                    item.SetValue(t, sort, null);                      
+                }
+            }
+        }
+        #endregion
 
         #region 查询
         /// <summary>
