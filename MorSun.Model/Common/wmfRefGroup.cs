@@ -5,9 +5,10 @@ using System.Text;
 using System.Web.Mvc;
 using System.Data.Linq;
 using HOHO18.Common;
+using System.ComponentModel.DataAnnotations;
 namespace MorSun.Model
 {
-    //[Bind(Include = "RefGroupName")]
+    [MetadataType(typeof(wmfRefGroupMetadata))]
     public partial class wmfRefGroup : IModel
     {
         #region Extensibility Method Definitions
@@ -49,6 +50,15 @@ namespace MorSun.Model
             if (!IsValid)
                 throw new ApplicationException("Rule violations prevent saving");
         }
+    }
+
+    public class wmfRefGroupMetadata
+    {
+        [Display(Name = "父节点")]        
+        public System.String ParentId;
+        [Display(Name = "类别组名")]
+        [Required(ErrorMessage = "{0}必填,可用','分隔批量添加类别组")]        
+        public System.String RefGroupName;
     }
 
 }

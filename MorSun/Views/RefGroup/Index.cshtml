@@ -2,20 +2,31 @@
 @{
     ViewBag.Title = "类别组配置";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
-    Model.FlagTrashed = "0";
     string rs = ViewBag.RS;
+    var backurl = ViewBag.BackUrl ?? "Index";    
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
-        @if (rs.HP(操作.添加))
-        { <button class="btn green" type="button">@("添加".GX())</button>}
-        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
-        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
-        @if (rs.HP(操作.修改))
+        @if (Model.FlagTrashed == "0")
+{
+            if (rs.HP(操作.添加))
+            {
+                <button class="btn green" type="button" onclick="jumptourl('Add?returnUrl=/RefGroup/Index')">@("添加".GX())</button>
+            }
+                <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
+                <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+            if (rs.HP(操作.修改))
+            {
+                <button class="btn black" type="button" onclick="jumptourl('/RefGroup/Move')">@("移动".GX())</button>
+            }
+                <button class="btn" type="button" onclick="jumptourl('Index?FlagTrashed=1')">@("回收站".GX())</button>
+        }
+        else if (Model.FlagTrashed == "1")
         {
-        <button class="btn black" type="button" onclick="jumptourl('/RefGroup/MoveTree')">@("移动".GX())</button>}
+            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+        }
         @*<button class="btn blue" type="button">@("修改".GX())</button>
         <button class="btn red" type="button">@("删除".GX())</button>
         <button class="btn" type="button">@("返回".GX())</button>
@@ -23,7 +34,7 @@
         <button class="btn black" type="button">@("查询".GX())</button>*@
 
 
-        <div class="portlet box red">
+        <div class="portlet box @("red".getBC())">
             <div class="portlet-title">
                 <div class="caption"><i class="icon-cogs"></i>类别组设置</div>
                 @*<div class="tools">
@@ -41,7 +52,6 @@
                             <th>序号</th>
                             <th>操作</th>
                             @*<th class="hidden-480">Username</th>*@
-
                         </tr>
                     </thead>
                     <tbody>
@@ -52,41 +62,50 @@
                                     <span class="folder ui-draggable">
                                         @item.RefGroupName
                                     </span>
-                                        <input id="checkedId" type="hidden" value="@item.ID" />
+                                    <input id="checkedId" type="hidden" value="@item.ID" />
                                 </td>
                                 <td>
                                     @item.Sort
                                 </td>
                                 <td>
-                              @if (rs.HP(操作.修改))
-                            {
-                                <button class="btn blue" type="button">@("修改".GX())</button>
-                              }
-                              @if (rs.HP(操作.修改))
-                                {
-                                    <button class="btn purple" type="button" onclick="jumptourl('Sort?sIsSort=true&sParentId=@item.ParentId')">@("排序".GX())</button>
-                                }
-                            @if (rs.HP(操作.删除))
-                            {
-                                <button class="btn red" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
-                            }
-                        </td>
+                                    @if(Model.FlagTrashed == "0")
+                                    {
+                                        if (rs.HP(操作.修改))
+                                        {
+                                            <button class="btn blue" type="button">@("修改".GX())</button>
+                                        }
+                                        if (rs.HP(操作.修改))
+                                        {
+                                            <button class="btn purple" type="button" onclick="jumptourl('Sort?sIsSort=true&sParentId=@item.ParentId')">@("排序".GX())</button>
+                                        }
+                                        if (rs.HP(操作.删除))
+                                        {
+                                            <button class="btn red" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
+                                        } 
+                                    }
+                                    else if(Model.FlagTrashed == "1")
+                                    {
+                                        if (rs.HP(操作.删除))
+                                        {
+                                            <button class="btn red" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
+                                        } 
+                                    }
+                                    
+                                </td>
                             </tr>;
                             Write(fun(i));
                         };
                         Model.Each(Model.Roots, action);
                         }
-
                         @*<tr>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>Otto</td>
-                <td class="hidden-480">makr124</td>
-                    <td><span class="label label-success">Approved</span></td>
-                </tr>*@
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td class="hidden-480">makr124</td>
+                            <td><span class="label label-success">Approved</span></td>
+                        </tr>*@
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>    
@@ -100,6 +119,6 @@
         @Styles.Render("~/Content/treetableCss")
         @Scripts.Render("~/bundles/treetable")  
         <script type="text/javascript">  
-            morsunTreeTable('#MoreSunTreeTable', "expanded", true, false);
+            morsunTreeTable('#MoreSunTreeTable', "expanded", true);
         </script>
     }

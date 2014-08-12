@@ -43,6 +43,11 @@ namespace System
         {
             return BasisController.GetTypeName(str);
         }
+
+        public static string getBC(this string str)
+        {
+            return BasisController.GBSC(str);
+        }
     }
 }
 
@@ -435,6 +440,22 @@ namespace MorSun.Controllers
             er.FlagDeleted = false;
             new BaseBll<wmfEncryptRecord>().Insert(er, updateChange);
             return er.EncryptCode;
+        }
+        #endregion
+
+        #region 随机生成样式
+        public static string GBSC(string str)
+        {
+            var s = "BootStrapCss".GX().Split(',');
+            if (s.Count() > 0)
+            {
+                var i = s.Count();
+                Random rd = new Random();
+                int j = rd.Next(0,i);
+                return s[j];
+            }
+            else
+                return str;
         }
         #endregion
     }

@@ -53,7 +53,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public override ActionResult Add(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
+        public override ActionResult Add(aspnet_Roles t, string returnUrl)
         {
             if (ResourceId.HP(操作.添加))
             {
@@ -128,7 +128,7 @@ namespace MorSun.Controllers.SystemController
         //编辑角色
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public override ActionResult Edit(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
+        public override ActionResult Update(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
         {
             if (ResourceId.HP(操作.修改))
             {

@@ -29,7 +29,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public override ActionResult Add(wmfRefGroup t, string returnUrl, Func<wmfRefGroup, string> ck = null)
+        public override ActionResult Create(wmfRefGroup t, string returnUrl)
         {
             if (ResourceId.HP(操作.添加))
             {
@@ -58,6 +58,7 @@ namespace MorSun.Controllers.SystemController
                         {                              
                             var model = new wmfRefGroup();
                             model.RefGroupName = refGroupNames[i];
+                            model.ParentId = t.ParentId;
                             OnAddCK(t);
                             if(ModelState.IsValid)
                             {
@@ -180,6 +181,12 @@ namespace MorSun.Controllers.SystemController
             {
                 //该类别组已经存在，请重新输入！
                 "RefGroupName".AE("类别组已存在",ModelState);
+            }
+            if(t.ParentId != null)
+            {
+                var pReferGrop = Bll.All.FirstOrDefault(r => r.ID == t.ParentId);
+                if(pReferGrop == null)
+                    "ParentId".AE("请正确选择类别组", ModelState);
             }
             return "";
         }

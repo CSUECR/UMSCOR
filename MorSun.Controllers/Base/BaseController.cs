@@ -165,12 +165,14 @@ namespace MorSun.Controllers
         /// <param name="t">实体类</param>
         /// <returns></returns>
         [Authorize]
-        public virtual ActionResult Add(T t)
+        public virtual ActionResult Add(T t,string returnUrl)
         {
             if (ResourceId.HP(操作.添加))
             {                
                 var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
+                ViewBag.ReturnUrl = returnUrl; 
+                ViewBag.BackUrl = returnUrl;
                 return View(model);
             }
             else
@@ -192,14 +194,12 @@ namespace MorSun.Controllers
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         [ExceptionFilter()]
-        public virtual ActionResult Add(T t, string returnUrl, Func<T, string> ck = null)
+        public virtual ActionResult Create(T t, string returnUrl)
         {
             if (ResourceId.HP(操作.添加))
             {
-                var oper = new OperationResult(OperationResultType.Error, "添加失败");
-                ck = ck.Load(() => OnAddCK);
-                dynamic v = t;
-                var prers = ck(t);
+                var oper = new OperationResult(OperationResultType.Error, "添加失败"); 
+                var prers = OnAddCK(t);
                 //注意：用ModelState收集错误，v.GetRuleViolations()放到Pre里去做，这边动态获取不了            
                 //if (!v.IsValid)
                 //{
@@ -270,7 +270,7 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult Edit(T t, string returnUrl, Func<T, string> ck = null)
+        public virtual ActionResult Update(T t, string returnUrl, Func<T, string> ck = null)
         {
             if (ResourceId.HP(操作.修改))
             {
@@ -379,11 +379,13 @@ namespace MorSun.Controllers
                 //var ckRs = ck(t);
                 //前提ID是GUID类型
                 var ids = GetCheckId(t).ToGuidList(",");
+                var errs = "";
                 if (ids.Count() < 0)
                 {
+                    errs += "操作失败";
                     "".AE("操作失败", ModelState);
                 }
-                if (ModelState.IsValid)
+                if (String.IsNullOrEmpty(errs))
                 {                    
                     foreach (var id in ids)
                     {
@@ -429,11 +431,13 @@ namespace MorSun.Controllers
                 //var ckRs = ck(t);
                 //前提ID是GUID类型
                 var ids = GetCheckId(t).ToGuidList(",");
+                var errs = "";
                 if (ids.Count() < 0)
                 {
+                    errs += "操作失败";
                     "".AE("操作失败", ModelState);
                 }
-                if (ModelState.IsValid)
+                if (String.IsNullOrEmpty(errs))
                 {        
                     if(flag != null)
                     {
@@ -443,7 +447,7 @@ namespace MorSun.Controllers
                         {                        
                             var model = Bll.GetModel(id);
                             if (model != null)
-                                SetFT(model, true);
+                                SetFT(model, flag.Value);
                         }
                         Bll.UpdateChanges();
                     }
@@ -493,11 +497,13 @@ namespace MorSun.Controllers
                 var oper = new OperationResult(OperationResultType.Error, "排序失败");
                 //前提ID是GUID类型
                 var ids = GetCheckId(t).ToGuidList(",");
+                var errs = "";
                 if (ids.Count() < 0)
                 {
-                    "".AE("排序失败", ModelState);
+                    errs += "操作失败";
+                    "".AE("操作失败", ModelState);
                 }
-                if (ModelState.IsValid)
+                if (String.IsNullOrEmpty(errs))
                 {                    
                     int i = 0;
                     foreach (var id in ids)
@@ -691,7 +697,7 @@ namespace MorSun.Controllers
         /// <returns></returns>
         [Authorize]
         [ExceptionFilter()]
-        public virtual ActionResult MoveTree(string returnUrl)
+        public virtual ActionResult Move(string returnUrl)
         {
             if (ResourceId.HP(操作.修改))
             {

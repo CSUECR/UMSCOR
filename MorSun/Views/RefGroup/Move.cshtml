@@ -1,8 +1,7 @@
 ﻿@model RefGroupVModel
 @{
-    ViewBag.Title = "类别组配置";
-    Layout = "~/Views/Shared/_SysLayout.cshtml";
-    Model.FlagTrashed = "0";
+    ViewBag.Title = "移动类别组";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
     var backurl = ViewBag.BackUrl ?? "Index";   
 }
@@ -13,16 +12,16 @@
         <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
         <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
         <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
-        <div class="portlet box red">
+        <div class="portlet box @("red".getBC())">
             <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>类别组设置</div>                
+                <div class="caption"><i class="icon-cogs"></i>类别组设置</div>
             </div>
             <div class="portlet-body">
                 <table id="MoreSunTreeTable" class="table table-hover">
                     <thead>
                         <tr>
                             <th>类别组名</th>
-                            <th>序号</th>                           
+                            <th>序号</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,11 +32,11 @@
                                     <span class="folder ui-draggable">
                                         @item.RefGroupName
                                     </span>
-                                        <input id="checkedId" type="hidden" value="@item.ID" />
+                                    <input id="checkedId" type="hidden" value="@item.ID" />
                                 </td>
                                 <td>
                                     @item.Sort
-                                </td>                                
+                                </td>
                             </tr>;
                             Write(fun(i));
                         };
@@ -45,7 +44,6 @@
                         }
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>    

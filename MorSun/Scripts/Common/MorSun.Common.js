@@ -13,8 +13,8 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
         topErrDiv = '#divInfo';
     if (!errMessage)
         errMessage = '操作失败';
-    if (!jumpUrl)
-        jumpUrl = true;
+    //if (!jumpUrl)
+    //    jumpUrl = true;
     $(btn).click(function () {        
         var $ajaxSubmitForm = $(formId);
         if ($ajaxSubmitForm.valid()) {
@@ -53,7 +53,7 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                             setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
                         }
                         if (callBack) {
-                            console.log(args);
+                            //console.log(callBack + args);
                             if (typeof (callBack) == "function")
                                 callBack.apply(this, args ? args : []);
                             else {
