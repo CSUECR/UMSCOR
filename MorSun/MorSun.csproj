@@ -641,6 +641,7 @@
     <Content Include="Images\portlet-remove-icon.png" />
     <Content Include="Images\RedLineLeftWhiteLogo.png" />
     <Content Include="Images\RedLineRightWhiteLogo.png" />
+    <Content Include="Images\remove-icon-small.png" />
     <Content Include="Images\WhiteLineLeftWhiteLogo.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\iconMa.png" />
@@ -737,6 +738,10 @@
     <Content Include="Views\RefGroup\Move.cshtml" />
     <Content Include="Views\RefGroup\Add.cshtml" />
     <Content Include="Views\RefGroup\Edit.cshtml" />
+    <Content Include="Views\Reference\Add.cshtml" />
+    <Content Include="Views\Reference\Edit.cshtml" />
+    <Content Include="Views\Reference\Index.cshtml" />
+    <Content Include="Views\Reference\Sort.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

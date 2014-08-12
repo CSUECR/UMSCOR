@@ -28,7 +28,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public override ActionResult Add(wmfReference t, string returnUrl)
+        public override ActionResult Create(wmfReference t, string returnUrl)
         {
             if (ResourceId.HP(操作.添加))
             {

@@ -21,28 +21,30 @@ namespace MorSun.Controllers.ViewModel
             get
             {
                 var l = All;
-                if (!Guid.Equals(RefGroupId, null))
+                if (RefGroupId != null)
                 {
-                    l = l.Where(p => p.RefGroupId == RefGroupId);
+                    if (!Guid.Equals(RefGroupId, null))
+                    {
+                        l = l.Where(p => p.RefGroupId == RefGroupId);
+                    }
+                    if (ItemInfo != null)
+                    {
+                        l = l.Where(p => p.ItemInfo == ItemInfo);
+                    }
+                    if (String.IsNullOrEmpty(FlagTrashed))
+                        FlagTrashed = "0";
+                    if (FlagTrashed == "1")
+                    {
+                        l = l.Where(p => p.FlagTrashed == true);
+                    }
+                    if (FlagTrashed == "0")
+                    {
+                        l = l.Where(p => p.FlagTrashed == false);
+                    }
                 }
-                if (!Guid.Equals(CheckedGId, null))
-                {
-                    l = l.Where(p => p.RefGroupId == CheckedGId);
-                }
-                if (ItemInfo != null)
-                {
-                    l = l.Where(p => p.ItemInfo == ItemInfo);
-                }
-                if (FlagTrashed == "1")
-                {
-                    l = l.Where(p => p.FlagTrashed == true);
-                }
-                if (FlagTrashed == "0")
-                {
-                    l = l.Where(p => p.FlagTrashed == false);
-                }
-
-                return from q in l orderby q.RefGroupId ascending, q.Sort ascending select q;
+                else
+                    l = l.Take(0);
+                return l.OrderBy(p => p.Sort);
             }
         }
         ///// <summary>

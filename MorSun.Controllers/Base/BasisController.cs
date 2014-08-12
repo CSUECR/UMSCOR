@@ -44,9 +44,9 @@ namespace System
             return BasisController.GetTypeName(str);
         }
 
-        public static string getBC(this string str)
+        public static string getBC(this string str,string css)
         {
-            return BasisController.GBSC(str);
+            return BasisController.GBSC(str,css);
         }
     }
 }
@@ -444,9 +444,9 @@ namespace MorSun.Controllers
         #endregion
 
         #region 随机生成样式
-        public static string GBSC(string str)
+        public static string GBSC(string str,string css)
         {
-            var s = "BootStrapCss".GX().Split(',');
+            var s = css.GX().Split(',');
             if (s.Count() > 0)
             {
                 var i = s.Count();
