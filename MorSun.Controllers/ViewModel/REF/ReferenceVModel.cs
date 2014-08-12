@@ -12,7 +12,7 @@ namespace MorSun.Controllers.ViewModel
         /// <summary>
         /// 被选中的编号
         /// </summary>
-        public virtual string CheckedId { get; set; }
+        //public virtual string CheckedId { get; set; }
 
         public virtual Guid? CheckedGId { get; set; }
 
