@@ -270,11 +270,11 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult Update(T t, string returnUrl, Func<T, string> ck = null)
+        public virtual ActionResult Update(T t, string returnUrl)
         {
             if (ResourceId.HP(²Ù×÷.ÐÞ¸Ä))
             {
-                var oper = new OperationResult(OperationResultType.Error, "ÐÞ¸ÄÊ§°Ü");
+                var oper = new OperationResult(OperationResultType.Error, "ÐÞ¸ÄÊ§°Ü");                
                 //±à¼­Ç°¸½Öµ
                 EditInitObject(t);
                 var model = Bll.GetModel(t);
@@ -293,8 +293,7 @@ namespace MorSun.Controllers
                 //}
 
                 TryUpdateModel(model);
-                ck = ck.Load(() => OnEditCK);
-                var ckRs = ck(model);
+                var ckRs = OnEditCK(model);
                 if (ModelState.IsValid)
                 {
                     Bll.Update(model);

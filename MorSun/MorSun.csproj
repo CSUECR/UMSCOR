@@ -736,6 +736,7 @@
     <Content Include="Views\RefGroup\Sort.cshtml" />
     <Content Include="Views\RefGroup\Move.cshtml" />
     <Content Include="Views\RefGroup\Add.cshtml" />
+    <Content Include="Views\RefGroup\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

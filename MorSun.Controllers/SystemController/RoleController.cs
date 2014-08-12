@@ -128,7 +128,7 @@ namespace MorSun.Controllers.SystemController
         //±à¼­½ÇÉ«
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public override ActionResult Update(aspnet_Roles t, string returnUrl, Func<aspnet_Roles, string> ck = null)
+        public override ActionResult Update(aspnet_Roles t, string returnUrl)
         {
             if (ResourceId.HP(²Ù×÷.ÐÞ¸Ä))
             {
