@@ -24,6 +24,8 @@ namespace MorSun.Controllers.ViewModel
                 var l = base.All;
 
                 l = l.Where(dep => dep.ParentId == Guid.Empty || dep.ParentId == null);
+                if (String.IsNullOrEmpty(FlagTrashed))
+                    FlagTrashed = "0";
                 if (FlagTrashed == "1")
                 {
                     l = l.Where(p => p.FlagTrashed == true);
@@ -42,6 +44,16 @@ namespace MorSun.Controllers.ViewModel
             get
             {
                 var l = All;
+                if (String.IsNullOrEmpty(FlagTrashed))
+                    FlagTrashed = "0";
+                if (FlagTrashed == "1")
+                {
+                    l = l.Where(p => p.FlagTrashed == true);
+                }
+                if (FlagTrashed == "0")
+                {
+                    l = l.Where(p => p.FlagTrashed == false);
+                }
                 if(sIsSort != null && sIsSort.Value == true)
                 {
                     if (sParentId != null)

@@ -8,7 +8,7 @@
 //formId:当前FormId
 //errMessage:提交出错处理
 //topErrDiv：顶部DIVId,可不传
-function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl) {
+function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callBack, args) {
     if (!topErrDiv)
         topErrDiv = '#divInfo';
     if (!errMessage)
@@ -52,7 +52,16 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl) {
                         {
                             setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
                         }
-                        
+                        if (callBack) {
+                            console.log(args);
+                            if (typeof (callBack) == "function")
+                                callBack.apply(this, args ? args : []);
+                            else {
+                                for (var i = 0; i < callBack.length; i++) {
+                                    callBack[i].apply(this, args ? args[i] : []);
+                                }
+                            }
+                        }
                     }
                     else {
                         //强制刷新验证码
@@ -111,7 +120,7 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl) {
 
 
 //通用ajax处理
-function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl)
+function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl, callBack, args)
 {
     if (!topErrDiv)
         topErrDiv = '#divInfo';
@@ -149,7 +158,16 @@ function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl)
                 else {
                     setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
                 }
-
+                if (callBack) {
+                    console.log(args);
+                    if (typeof (callBack) == "function")
+                        callBack.apply(this, args ? args : []);
+                    else {
+                        for (var i = 0; i < callBack.length; i++) {
+                            callBack[i].apply(this, args ? args[i] : []);
+                        }
+                    }
+                }
             }
             else {                
                 $(topErrDiv).qtip({
@@ -407,7 +425,7 @@ function morsunEC(tableid,expand)
 }
 
 //树方法
-function morsunTreeTable(tableid,expand,selected,draggrable,callBack,agrs)
+function morsunTreeTable(tableid,expand,selected,draggrable,callBack,args)
 {
     if (tableid)
     {
@@ -454,10 +472,10 @@ function morsunTreeTable(tableid,expand,selected,draggrable,callBack,agrs)
                         $(tableid).treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
                         //if (callBack) {
                         //    if (typeof (callBack) == "function")
-                        //        callBack.apply(this, agrs ? agrs : []);
+                        //        callBack.apply(this, args ? args : []);
                         //    else {
                         //        for (var i = 0; i < callBack.length; i++) {
-                        //            callBack[i].apply(this, agrs ? agrs[i] : []);
+                        //            callBack[i].apply(this, args ? args[i] : []);
                         //        }
                         //    }
                         //}

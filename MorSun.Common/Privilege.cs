@@ -17,6 +17,7 @@ namespace MorSun.Common.Privelege
         public const string 修改 = "e9303f56-c2e7-4636-a42a-4973fee38b1e";
         public const string 删除 = "4a5bef1a-d2c0-459d-8966-b20446fd5a5a";
         public const string 查看 = "1a5292a5-a119-49b8-a209-a9c14c5d0b3a";
+        public const string 彻底删除 = "b9409de8-4804-492f-9476-e0d1092091fc";
         public const string 回收站 = "78bce0ee-1dc0-4cd1-8400-4cf6c75220dc";  
 
         #region 操作范围

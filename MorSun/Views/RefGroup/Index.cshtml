@@ -13,6 +13,9 @@
         { <button class="btn green" type="button">@("添加".GX())</button>}
         <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
         <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+        @if (rs.HP(操作.修改))
+        {
+        <button class="btn black" type="button" onclick="jumptourl('/RefGroup/MoveTree')">@("移动".GX())</button>}
         @*<button class="btn blue" type="button">@("修改".GX())</button>
         <button class="btn red" type="button">@("删除".GX())</button>
         <button class="btn" type="button">@("返回".GX())</button>
@@ -44,7 +47,7 @@
                     <tbody>
                         @{Action<wmfRefGroup> action = (i) =>
                         {
-                            Func<wmfRefGroup, HelperResult> fun = @<tr data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
+                            Func<wmfRefGroup, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
                                 <td style="text-align:left;">
                                     <span class="folder ui-draggable">
                                         @item.RefGroupName
@@ -63,8 +66,9 @@
                                 {
                                     <button class="btn purple" type="button" onclick="jumptourl('Sort?sIsSort=true&sParentId=@item.ParentId')">@("排序".GX())</button>
                                 }
-                            @if (rs.HP(操作.删除)){
-                            <button class="btn red" type="button">@("删除".GX())</button>
+                            @if (rs.HP(操作.删除))
+                            {
+                                <button class="btn red" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
                             }
                         </td>
                             </tr>;
@@ -96,6 +100,6 @@
         @Styles.Render("~/Content/treetableCss")
         @Scripts.Render("~/bundles/treetable")  
         <script type="text/javascript">  
-            morsunTreeTable('#MoreSunTreeTable', "expanded", true, true);
+            morsunTreeTable('#MoreSunTreeTable', "expanded", true, false);
         </script>
     }

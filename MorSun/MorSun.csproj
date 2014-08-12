@@ -734,6 +734,7 @@
     </Content>
     <Content Include="Views\RefGroup\Index.cshtml" />
     <Content Include="Views\RefGroup\Sort.cshtml" />
+    <Content Include="Views\RefGroup\MoveTree.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

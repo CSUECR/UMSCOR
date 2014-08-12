@@ -56,10 +56,10 @@ namespace MorSun.Controllers
         /// <returns></returns>
         protected virtual T SetEntity(T t)
         {
-            var item = Bll.GetModel(t);
-            item = item ?? t;
-            TryUpdateModel(item);
-            return item;
+            var model = Bll.GetModel(t);
+            model = model ?? t;
+            TryUpdateModel(model);
+            return model;
         }  
         
         /// <summary>
@@ -169,9 +169,9 @@ namespace MorSun.Controllers
         {
             if (ResourceId.HP(操作.添加))
             {                
-                var item = SetEntity(t);
+                var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
-                return View(item);
+                return View(model);
             }
             else
             {
@@ -245,9 +245,9 @@ namespace MorSun.Controllers
         {
             if (ResourceId.HP(操作.修改))
             {                
-                var item = SetEntity(t);
+                var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
-                return View(item);
+                return View(model);
             }
             else
             {
@@ -327,17 +327,17 @@ namespace MorSun.Controllers
         [ExceptionFilter()]
         public virtual ActionResult Delete(T t, string returnUrl, Func<T, string> ck = null)
         {
-            if (ResourceId.HP(操作.删除))
+            if (ResourceId.HP(操作.彻底删除))
             {
                 var oper = new OperationResult(OperationResultType.Error, "删除失败");
                 ck = ck.Load(() => OnDelCk);
                 var ckRs = ck(t);
                 if (ModelState.IsValid)
                 {
-                    var item = Bll.GetModel(t);
-                    if (item != null)
+                    var model = Bll.GetModel(t);
+                    if (model != null)
                     {
-                        Bll.Delete(item);
+                        Bll.Delete(model);
                         fillOperationResult(returnUrl, oper, "删除成功");
                     }
                     else
@@ -362,7 +362,125 @@ namespace MorSun.Controllers
             }
 
         }
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        [Authorize]
+        [ExceptionFilter()]
+        public virtual ActionResult BatchDelete(T t, string returnUrl)
+        {
+            if (ResourceId.HP(操作.彻底删除))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "操作失败");
+                //ck = ck.Load(() => OnFTCk);
+                //var ckRs = ck(t);
+                //前提ID是GUID类型
+                var ids = GetCheckId(t).ToGuidList(",");
+                if (ids.Count() < 0)
+                {
+                    "".AE("操作失败", ModelState);
+                }
+                if (ModelState.IsValid)
+                {                    
+                    foreach (var id in ids)
+                    {
+                        var model = Bll.GetModel(id);
+                        if (model != null)
+                            Bll.Delete(model,false); 
+                    }
+                    Bll.UpdateChanges();                    
+                    fillOperationResult(returnUrl, oper, "操作成功");
+                }
+                else
+                {
+                    "".AE("操作失败", ModelState);
+                    oper.AppendData = ModelState.GE();
+                }
+                return Json(oper);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }
         
+        #endregion      
+
+        #region 删除到回收站或还原
+        /// <summary>
+        /// 删除到回收站或还原
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        [Authorize]
+        [ExceptionFilter()]
+        public virtual ActionResult TrashList(T t, bool? flag, string returnUrl)
+        {
+            if (ResourceId.HP(操作.删除))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "操作失败");
+                //ck = ck.Load(() => OnFTCk);
+                //var ckRs = ck(t);
+                //前提ID是GUID类型
+                var ids = GetCheckId(t).ToGuidList(",");
+                if (ids.Count() < 0)
+                {
+                    "".AE("操作失败", ModelState);
+                }
+                if (ModelState.IsValid)
+                {        
+                    if(flag != null)
+                    {
+                        if (flag != true)
+                            flag = false;
+                        foreach (var id in ids)
+                        {                        
+                            var model = Bll.GetModel(id);
+                            if (model != null)
+                                SetFT(model, true);
+                        }
+                        Bll.UpdateChanges();
+                    }
+                    fillOperationResult(returnUrl, oper, "操作成功");
+                }
+                else
+                {
+                    "".AE("操作失败", ModelState);
+                    oper.AppendData = ModelState.GE();
+                }
+                return Json(oper);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }
+
+        /// <summary>
+        /// 设置序号
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="sort"></param>
+        private void SetFT(T t, bool flag)
+        {
+            PropertyInfo[] properites = t.GetType().GetProperties();
+            foreach (PropertyInfo item in properites)
+            {
+                if (item.Name == "FlagTrashed")
+                {
+                    item.SetValue(t, flag, null);
+                }
+            }
+        }
         #endregion      
 
         #region 排序
@@ -438,9 +556,9 @@ namespace MorSun.Controllers
         {
             if (ResourceId.HP(操作.查看))
             {
-                var item = SetEntity(t);
+                var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
-                return View(item);
+                return View(model);
             }
             else
             {
@@ -462,9 +580,9 @@ namespace MorSun.Controllers
         {
             if (ResourceId.HP(操作.查看))
             {
-                var item = SetEntity(t);
+                var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
-                return View(item);
+                return View(model);
             }
             else
             {
@@ -566,6 +684,37 @@ namespace MorSun.Controllers
                 //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
+
+        /// <summary>
+        /// 移动树
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [ExceptionFilter()]
+        public virtual ActionResult MoveTree(string returnUrl)
+        {
+            if (ResourceId.HP(操作.修改))
+            {
+                var vModel = VModelType.New();
+                FillModel(vModel);
+                if (vModel is BaseVModel<T>)
+                {
+                    var vm = vModel as BaseVModel<T>;
+                    vm.DoSth();
+                }
+                ViewBag.RS = ResourceId;
+                ViewBag.BackUrl = returnUrl;
+                return View(vModel);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+                //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
+            }
+        }
         #endregion
         #endregion
 
@@ -596,6 +745,16 @@ namespace MorSun.Controllers
         /// <param name="t">实体类</param>
         /// <returns></returns>
         protected virtual string OnDelCk(T t)
+        {
+            return "";
+        }
+
+        /// <summary>
+        /// 在删除时触发的验证
+        /// </summary>
+        /// <param name="t">实体类</param>
+        /// <returns></returns>
+        protected virtual string OnFTCk(T t)
         {
             return "";
         }  
