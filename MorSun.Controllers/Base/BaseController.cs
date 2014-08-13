@@ -171,8 +171,7 @@ namespace MorSun.Controllers
             {                
                 var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
-                ViewBag.ReturnUrl = returnUrl; 
-                ViewBag.BackUrl = returnUrl;
+                ViewBag.ReturnUrl = returnUrl;                 
                 return View(model);
             }
             else
@@ -241,12 +240,13 @@ namespace MorSun.Controllers
         [Authorize]        
         [ValidateInput(false)]        
         [ExceptionFilter()]
-        public virtual ActionResult Edit(T t)
+        public virtual ActionResult Edit(T t, string returnUrl)
         {
             if (ResourceId.HP(操作.修改))
             {                
                 var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
+                ViewBag.ReturnUrl = returnUrl; 
                 return View(model);
             }
             else
@@ -557,12 +557,13 @@ namespace MorSun.Controllers
         /// <returns></returns>
         //[Authorize]
         [ExceptionFilter()]
-        public virtual ActionResult Detail(T t)
+        public virtual ActionResult Detail(T t,string returnUrl)
         {
             if (ResourceId.HP(操作.查看))
             {
                 var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
+                ViewBag.ReturnUrl = returnUrl; 
                 return View(model);
             }
             else
@@ -581,12 +582,13 @@ namespace MorSun.Controllers
         /// <returns></returns>
         //[Authorize]
         [ExceptionFilter()]
-        public virtual ActionResult SeeView(T t)
+        public virtual ActionResult SeeView(T t, string returnUrl)
         {
             if (ResourceId.HP(操作.查看))
             {
                 var model = SetEntity(t);
                 ViewBag.RS = ResourceId;
+                ViewBag.ReturnUrl = returnUrl; 
                 return View(model);
             }
             else
@@ -598,36 +600,36 @@ namespace MorSun.Controllers
             }
         } 
        
-        /// <summary>
-        /// 回收站页面
-        /// </summary>
-        /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual ActionResult Recycle()
-        {
-            if (ResourceId.HP(操作.回收站))
-            {
-                var vModel = VModelType.New();
-                FillModel(vModel);
+        ///// <summary>
+        ///// 回收站页面
+        ///// </summary>
+        ///// <returns></returns>
+        //[Authorize]
+        //[ExceptionFilter()]
+        //public virtual ActionResult Recycle()
+        //{
+        //    if (ResourceId.HP(操作.回收站))
+        //    {
+        //        var vModel = VModelType.New();
+        //        FillModel(vModel);
 
-                if (vModel is BaseVModel<T>)
-                {
-                    var vm = vModel as BaseVModel<T>;
-                    vm.DoSth();
-                }
-                ViewBag.RS = ResourceId;
-                return View(vModel);
-            }
-            else
-            {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper);
-                //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
+        //        if (vModel is BaseVModel<T>)
+        //        {
+        //            var vm = vModel as BaseVModel<T>;
+        //            vm.DoSth();
+        //        }
+        //        ViewBag.RS = ResourceId;
+        //        return View(vModel);
+        //    }
+        //    else
+        //    {
+        //        "".AE("无权限", ModelState);
+        //        var oper = new OperationResult(OperationResultType.Error, "无权限");
+        //        oper.AppendData = ModelState.GE();
+        //        return Json(oper);
+        //        //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
+        //    }
+        //}
         
         /// <summary>
         /// 首页面
@@ -677,7 +679,7 @@ namespace MorSun.Controllers
                     vm.DoSth();
                 }
                 ViewBag.RS = ResourceId;
-                ViewBag.BackUrl = returnUrl;
+                ViewBag.ReturnUrl = returnUrl;                 
                 return View(vModel);
             }
             else
@@ -708,7 +710,7 @@ namespace MorSun.Controllers
                     vm.DoSth();
                 }
                 ViewBag.RS = ResourceId;
-                ViewBag.BackUrl = returnUrl;
+                ViewBag.ReturnUrl = returnUrl;                 
                 return View(vModel);
             }
             else

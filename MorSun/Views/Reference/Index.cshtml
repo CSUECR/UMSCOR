@@ -3,7 +3,9 @@
     ViewBag.Title = "类别配置";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.BackUrl ?? "Index";    
+    var backurl = ViewBag.ReturnUrl ?? "/Reference/Index";
+
+    var refGroupList = new RefGroupVModel().List.ToList();  
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -13,15 +15,15 @@
         {
             if (rs.HP(操作.添加))
             {
-                <button class="btn green" type="button" onclick="jumptourl('Add?returnUrl=/Reference/Index')">@("添加".GX())</button>
+                <button class="btn green" type="button" onclick="jumptourl('/Reference/Add?returnUrl=@Request.RawUrl')">@("添加".GX())</button>
             }
             if (rs.HP(操作.修改))
             {
-                <button class="btn green" type="button" onclick="jumptourl('Sort?returnUrl=/Reference/Index')">@("排序".GX())</button>
+                <button class="btn purple" type="button" onclick="jumptosort()">@("排序".GX())</button>
             }
             if (rs.HP(操作.回收站))
             {
-                <button class="btn" type="button" onclick="jumptourl('Index?FlagTrashed=1')">@("回收站".GX())</button>
+                <button class="btn" type="button" onclick="jumptourl('/Reference/Index?FlagTrashed=1')">@("回收站".GX())</button>
             }
         }
         else if (Model.FlagTrashed == "1")
@@ -30,24 +32,19 @@
         } 
 
         <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">
-            @*<button class="close" data-dismiss="alert"></button>*@
-            <strong>Warning!</strong> Your monthly traffic is reaching limit.
+            @using (Html.BeginForm("Index","Reference",FormMethod.Get))
+            {
+                @Html.HiddenFor(m => m.FlagTrashed)
+                @MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "RefGroupId", "RefGroupId", Model.RefGroupId.ToSecureString(), "class=\"m-wrap small\"", "", "" + "==类别组=="))
+                <button class="btn yellow" type="submit">@("查询".GX())</button>
+            }
         </div>
         @*<div class="alert alert-success">
             <button class="close" data-dismiss="alert"></button>
             <strong>Success!</strong> The page has been added.
 
         </div>
-        <div class="alert alert-info">
-            <button class="close" data-dismiss="alert"></button>
-            <strong>Info!</strong> You have 198 unread messages.
-
-        </div>
-        <div class="alert alert-error">
-            <button class="close" data-dismiss="alert"></button>
-            <strong>Error!</strong> The daily cronjob has failed.
-
-        </div>*@
+        *@
 
 
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
@@ -55,7 +52,7 @@
                 <div class="caption"><i class="icon-cogs"></i>类别设置</div>                
             </div>
             <div class="portlet-body">
-                <table id="MoreSunTreeTable" class="table table-hover">
+                <table id="MoreSunTable" class="table table-hover">
                     <thead>
                         <tr>
                             <th>类别名</th>
@@ -82,30 +79,30 @@
                                     @item.Icon
                                 </td>*@
                                 <td>
-                                    @if(Model.FlagTrashed == "0")
+                                    @if (Model.FlagTrashed == "0")
                                     {
                                         if (rs.HP(操作.修改))
                                         {
-                                            <button class="btn blue" type="button" onclick="jumptourl('Edit?id=@item.ID&returnUrl=/Reference/Index')">@("修改".GX())</button>
+                                            <button class="btn blue" type="button" onclick="jumptourl('/Reference/Edit?id=@item.ID&returnUrl=@Request.RawUrl')">@("修改".GX())</button>
                                         }
                                         if (rs.HP(操作.修改))
                                         {
-                                            <button class="btn purple" type="button" onclick="ajaxHandle('TrashList', {id : ''@item.ID'}, null, null, null, toggleDefalut,['#TR_@item.ID'])">@("默认".GX())</button>
+                                            <button class="btn purple" type="button" onclick="ajaxHandle('/Reference/SetDefault', {id : ''@item.ID'}, null, null, null, toggleDefalut,['#TR_@item.ID'])">@("默认".GX())</button>
                                         }
                                         if (rs.HP(操作.删除))
                                         {
-                                            <button class="btn red" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
+                                            <button class="btn red" type="button" onclick="ajaxHandle('/Reference/TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
                                         }
                                     }
                                     else if (Model.FlagTrashed == "1")
                                     {
                                         if (rs.HP(操作.删除))
                                         {
-                                            <button class="btn green" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
+                                            <button class="btn green" type="button" onclick="ajaxHandle('/Reference/TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
                                         }
                                         if (rs.HP(操作.彻底删除))
                                         {
-                                            <button class="btn red" type="button" onclick="ajaxHandle('BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
+                                            <button class="btn red" type="button" onclick="ajaxHandle('/Reference/BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
                                         }
                                     }
                                     
@@ -124,12 +121,24 @@
         @Styles.Render("~/Content/JQueryQtipCss")
         @Scripts.Render("~/bundles/jqueryqtip")
         @Scripts.Render("~/bundles/morsuncommon")
-        @Styles.Render("~/Content/treetableCss")
-        @Scripts.Render("~/bundles/treetable")  
+        
         <script type="text/javascript">  
             function toggleDefalut(id){
-                $("#MoreSunTreeTable tbody tr").removeClass("success");
+                $("#MoreSunTable tbody tr").removeClass("success");
                 $("#TR_" + id).toggleClass("success");
-            }           
+            }
+            //到排序页面
+            function jumptosort()
+            {
+                var rgid = $('#RefGroupId').val();
+                if(rgid != '')
+                {
+                    jumptourl('/Reference/Sort?RefGroupId=' + rgid + '&returnUrl=/Reference/Index');
+                }
+                else
+                {
+                    return false;
+                }
+            }
         </script>
     }

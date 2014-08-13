@@ -1,9 +1,9 @@
 ﻿@model RefGroupVModel
 @{
     ViewBag.Title = "类别组排序";
-    Layout = "~/Views/Shared/_SysLayout.cshtml";    
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.BackUrl ?? "Index";     
+    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";     
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")

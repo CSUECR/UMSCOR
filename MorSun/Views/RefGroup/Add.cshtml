@@ -3,7 +3,7 @@
     ViewBag.Title = "添加类别组";
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
-    var backurl = ViewBag.BackUrl ?? "Index";
+    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";
 
     var refGroupList = new RefGroupVModel().List.ToList();
 }
@@ -28,7 +28,7 @@
                         </tr>*@
                         <tr>
                             <th>@Html.LabelFor(m => m.ParentId)</th>
-                            <td>@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", "", "class=\"large m-wrap\"", "", "" + "==请选择=="))</td>
+                            <td>@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
                         </tr>
                     </thead>                  
                     <tbody>

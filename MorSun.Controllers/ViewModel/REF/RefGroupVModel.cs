@@ -68,14 +68,14 @@ namespace MorSun.Controllers.ViewModel
         /// <summary>
         /// 获取被选中的类型组
         /// </summary>
-        public virtual wmfRefGroup RefGroup
-        {
-            get
-            {
-                var refGroup = All.FirstOrDefault(r => r.ID == CheckedId);
-                return refGroup ?? First;
-            }
-        }
+        //public virtual wmfRefGroup RefGroup
+        //{
+        //    get
+        //    {
+        //        var refGroup = All.FirstOrDefault(r => r.ID == CheckedId);
+        //        return refGroup ?? First;
+        //    }
+        //}
 
        private BaseBll<wmfReference> referBll;
         /// <summary>

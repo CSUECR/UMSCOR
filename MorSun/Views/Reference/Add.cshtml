@@ -3,7 +3,7 @@
     ViewBag.Title = "添加类别组";
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
-    var backurl = ViewBag.BackUrl ?? "Index";
+    var backurl = ViewBag.ReturnUrl ?? "/Reference/Index";
 
     var refGroupList = new RefGroupVModel().List.ToList();
 }
@@ -17,9 +17,9 @@
                 <div class="caption"><i class="icon-cogs"></i>添加类别组</div>
             </div>
             <div class="portlet-body">
-@using (Html.BeginForm("Create", "RefGroup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
-        {
-    @Html.AntiForgeryToken()
+        @using (Html.BeginForm("Create", "RefGroup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                {
+            @Html.AntiForgeryToken()
                 <table class="tableadd table-hover">  
                     <thead>
                         @*<tr>

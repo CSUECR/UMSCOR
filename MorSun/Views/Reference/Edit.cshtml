@@ -3,7 +3,7 @@
     ViewBag.Title = "修改类别组";
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
-    var backurl = ViewBag.BackUrl ?? "Index";
+    var backurl = ViewBag.ReturnUrl ?? "/Reference/Index";
 
     var refGroupList = new RefGroupVModel().List.ToList();
 }

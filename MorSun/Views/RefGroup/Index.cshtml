@@ -3,7 +3,7 @@
     ViewBag.Title = "类别组配置";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.BackUrl ?? "Index";    
+    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";    
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -13,17 +13,17 @@
 {
             if (rs.HP(操作.添加))
             {
-                <button class="btn green" type="button" onclick="jumptourl('Add?returnUrl=/RefGroup/Index')">@("添加".GX())</button>
+                <button class="btn green" type="button" onclick="jumptourl('/RefGroup/Add?returnUrl=@Request.RawUrl')">@("添加".GX())</button>
             }
                 <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
                 <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
             if (rs.HP(操作.修改))
             {
-                <button class="btn black" type="button" onclick="jumptourl('/RefGroup/Move')">@("移动".GX())</button>
+                <button class="btn black" type="button" onclick="jumptourl('/RefGroup/Move?returnUrl=@Request.RawUrl')">@("移动".GX())</button>
             }
             if (rs.HP(操作.回收站))
             {
-                <button class="btn" type="button" onclick="jumptourl('Index?FlagTrashed=1')">@("回收站".GX())</button>
+                <button class="btn" type="button" onclick="jumptourl('/RefGroup/Index?FlagTrashed=1&returnUrl=@Request.RawUrl')">@("回收站".GX())</button>
             }
         }
         else if (Model.FlagTrashed == "1")
@@ -71,15 +71,15 @@
                                     @item.Sort
                                 </td>
                                 <td>
-                                    @if(Model.FlagTrashed == "0")
+                                    @if (Model.FlagTrashed == "0")
                                     {
                                         if (rs.HP(操作.修改))
                                         {
-                                            <button class="btn blue" type="button" onclick="jumptourl('Edit?id=@item.ID&returnUrl=/RefGroup/Index')">@("修改".GX())</button>
+                                            <button class="btn blue" type="button" onclick="jumptourl('/RefGroup/Edit?id=@item.ID&returnUrl=@Request.RawUrl')">@("修改".GX())</button>
                                         }
                                         if (rs.HP(操作.修改))
                                         {
-                                            <button class="btn purple" type="button" onclick="jumptourl('Sort?sIsSort=true&sParentId=@item.ParentId')">@("排序".GX())</button>
+                                            <button class="btn purple" type="button" onclick="jumptourl('/RefGroup/Sort?sIsSort=true&sParentId=@item.ParentId&returnUrl=@Request.RawUrl')">@("排序".GX())</button>
                                         }
                                         if (rs.HP(操作.删除))
                                         {
