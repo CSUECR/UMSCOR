@@ -322,45 +322,45 @@ namespace MorSun.Controllers
         /// </summary>
         /// <param name="t">实体类</param>
         /// <returns></returns>
-        [Authorize]
-        [ExceptionFilter()]
-        public virtual ActionResult Delete(T t, string returnUrl, Func<T, string> ck = null)
-        {
-            if (ResourceId.HP(操作.彻底删除))
-            {
-                var oper = new OperationResult(OperationResultType.Error, "删除失败");
-                ck = ck.Load(() => OnDelCk);
-                var ckRs = ck(t);
-                if (ModelState.IsValid)
-                {
-                    var model = Bll.GetModel(t);
-                    if (model != null)
-                    {
-                        Bll.Delete(model);
-                        fillOperationResult(returnUrl, oper, "删除成功");
-                    }
-                    else
-                    {
-                        "".AE("删除失败", ModelState);
-                        oper.AppendData = ModelState.GE();
-                    }
-                }
-                else
-                {
-                    "".AE("添加失败", ModelState);
-                    oper.AppendData = ModelState.GE();
-                }
-                return Json(oper);
-            }                
-            else
-            {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper);
-            }
+        //[Authorize]
+        //[ExceptionFilter()]
+        //public virtual ActionResult Delete(T t, string returnUrl, Func<T, string> ck = null)
+        //{
+        //    if (ResourceId.HP(操作.彻底删除))
+        //    {
+        //        var oper = new OperationResult(OperationResultType.Error, "删除失败");
+        //        ck = ck.Load(() => OnDelCk);
+        //        var ckRs = ck(t);
+        //        if (ModelState.IsValid)
+        //        {
+        //            var model = Bll.GetModel(t);
+        //            if (model != null)
+        //            {
+        //                Bll.Delete(model);
+        //                fillOperationResult(returnUrl, oper, "删除成功");
+        //            }
+        //            else
+        //            {
+        //                "".AE("删除失败", ModelState);
+        //                oper.AppendData = ModelState.GE();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            "".AE("添加失败", ModelState);
+        //            oper.AppendData = ModelState.GE();
+        //        }
+        //        return Json(oper);
+        //    }                
+        //    else
+        //    {
+        //        "".AE("无权限", ModelState);
+        //        var oper = new OperationResult(OperationResultType.Error, "无权限");
+        //        oper.AppendData = ModelState.GE();
+        //        return Json(oper);
+        //    }
 
-        }
+        //}
 
         /// <summary>
         /// 批量删除
