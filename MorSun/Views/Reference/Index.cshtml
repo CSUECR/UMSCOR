@@ -30,9 +30,8 @@
         } 
 
         <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">
-            <button class="close" data-dismiss="alert"></button>
+            @*<button class="close" data-dismiss="alert"></button>*@
             <strong>Warning!</strong> Your monthly traffic is reaching limit.
-
         </div>
         @*<div class="alert alert-success">
             <button class="close" data-dismiss="alert"></button>
@@ -61,8 +60,8 @@
                         <tr>
                             <th>类别名</th>
                             <th>配置Info</th>
-                            <th>配置Url</th>
-                            <th>配置Icon</th>
+                            @*<th>配置Url</th>
+                            <th>配置Icon</th>*@
                             <th>操作</th>                            
                         </tr>
                     </thead>
@@ -76,12 +75,12 @@
                                 <td>
                                     @item.ItemInfo
                                 </td>
-                                <td>
+                                @*<td>
                                     @item.SeeUrl
                                 </td>
                                 <td>
                                     @item.Icon
-                                </td>
+                                </td>*@
                                 <td>
                                     @if(Model.FlagTrashed == "0")
                                     {
@@ -96,14 +95,18 @@
                                         if (rs.HP(操作.删除))
                                         {
                                             <button class="btn red" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
-                                        } 
+                                        }
                                     }
-                                    else if(Model.FlagTrashed == "1")
+                                    else if (Model.FlagTrashed == "1")
                                     {
                                         if (rs.HP(操作.删除))
                                         {
-                                            <button class="btn red" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
-                                        } 
+                                            <button class="btn green" type="button" onclick="ajaxHandle('TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
+                                        }
+                                        if (rs.HP(操作.彻底删除))
+                                        {
+                                            <button class="btn red" type="button" onclick="ajaxHandle('BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
+                                        }
                                     }
                                     
                                 </td>
