@@ -24,7 +24,7 @@ namespace MorSun.Controllers.ViewModel
                 var l = base.All;
 
                 l = l.Where(dep => dep.ParentId == Guid.Empty || dep.ParentId == null);
-                if (String.IsNullOrEmpty(FlagTrashed))
+                if (String.IsNullOrEmpty(FlagTrashed) || (!FlagTrashed.Eql("0") && !FlagTrashed.Eql("1")))
                     FlagTrashed = "0";
                 if (FlagTrashed == "1")
                 {

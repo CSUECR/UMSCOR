@@ -31,7 +31,7 @@ namespace MorSun.Controllers.ViewModel
                     {
                         l = l.Where(p => p.ItemInfo == ItemInfo);
                     }
-                    if (String.IsNullOrEmpty(FlagTrashed))
+                    if (String.IsNullOrEmpty(FlagTrashed) || (!FlagTrashed.Eql("0") && !FlagTrashed.Eql("1")))
                         FlagTrashed = "0";
                     if (FlagTrashed == "1")
                     {
