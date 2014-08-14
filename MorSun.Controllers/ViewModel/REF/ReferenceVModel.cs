@@ -42,6 +42,10 @@ namespace MorSun.Controllers.ViewModel
                         l = l.Where(p => p.FlagTrashed == false);
                     }
                 }
+                else if (RefGroupId == null && FlagTrashed == "1")
+                {
+                    l = l.Where(p => p.FlagTrashed == true);
+                }
                 else
                     l = l.Take(0);
                 return l.OrderBy(p => p.Sort);
