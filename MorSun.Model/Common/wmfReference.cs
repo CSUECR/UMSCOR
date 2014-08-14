@@ -5,9 +5,10 @@ using System.Text;
 using System.Web.Mvc;
 using System.Data.Linq;
 using HOHO18.Common;
+using System.ComponentModel.DataAnnotations;
 namespace MorSun.Model
 {
-    //[Bind(Include = "ItemOrder,ItemValue,ItemInfo,RefGroupId")]
+    [MetadataType(typeof(wmfReferenceMetadata))]
     public partial class wmfReference : IModel
     {
         #region Extensibility Method Definitions
@@ -38,21 +39,7 @@ namespace MorSun.Model
         public IEnumerable<RuleViolation> GetRuleViolations()
         {
             ParameterProcess.TrimParameter<wmfReference>(this);
-
-            if (RefGroupId == Guid.Empty)
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("类别组未选择!"), "RefGroupId");
-            //if (ItemOrder <= 0)
-            //    yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("项排序错误,必须是整数且最小为1"), "ItemOrder");
-            //if (String.IsNullOrEmpty(ItemValue) || ModelStateValidate.IsEmpty(ItemValue))
-            //    yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("项值不能为空"), "ItemValue");
-            if (String.IsNullOrEmpty(ItemInfo) || ModelStateValidate.IsEmpty(ItemInfo.ToString().Trim()))
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("项值不能为空"), "ItemInfo");
-
-            //if (!String.IsNullOrEmpty(ItemValue) && ModelStateValidate.IsNotEmpty(ItemValue.ToString()) && ItemValue.ToString().Length > 15)
-            //    yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("项值长度不可大于15个字符"), "ItemValue");
-            //if (!String.IsNullOrEmpty(ItemInfo) && ModelStateValidate.IsNotEmpty(ItemInfo.ToString()) && ItemInfo.ToString().Length > 15)
-            //    yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("项信息长度不可大于15个字符"), "ItemInfo");
-
+            
             yield break;
         }
 
@@ -62,5 +49,22 @@ namespace MorSun.Model
                 throw new ApplicationException("Rule violations prevent saving");
         }
 
+    }
+
+    public class wmfReferenceMetadata
+    {
+        [Display(Name = "类别组")]
+        [Required(ErrorMessage = "{0}必选")]
+        public System.String RefGroupId;
+        [Display(Name = "类别名")]
+        //[Required(ErrorMessage = "{0}必填,可用','分隔批量添加类别组")]
+        public System.String ItemValue;
+        [Display(Name = "类别信息")]
+        [Required(ErrorMessage = "{0}必填,可用','分隔批量添加类别")]
+        public System.String ItemInfo;
+        [Display(Name = "查看路径")]        
+        public System.String SeeUrl;
+        [Display(Name = "图标")]
+        public System.String Icon;
     }
 }

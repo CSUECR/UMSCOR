@@ -39,9 +39,7 @@ namespace MorSun.Model
 
             if (String.IsNullOrEmpty(RefGroupName))
                 yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("类别组名为空"), "RefGroupName");
-
-            if (!String.IsNullOrEmpty(RefGroupName) && RefGroupName.Length > 20)
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfRefGroup>("类别组名长度"), "RefGroupName");
+            
             yield break;
         }
 

@@ -12,13 +12,13 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
         @if (Model.FlagTrashed == "0")
-        {
-            if (rs.HP(操作.添加))
-            {
-                <button class="btn green" type="button" onclick="jumptourl('/Reference/Add?returnUrl=@Request.RawUrl')">@("添加".GX())</button>
-            }
-            if (rs.HP(操作.修改))
-            {
+{
+    if (rs.HP(操作.添加))
+    {
+        <button class="btn green" type="button" onclick="jumptourl('/Reference/Add?RefGroupId=' + $('#RefGroupId').val() + '&returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
+    }
+    if (rs.HP(操作.修改))
+    {
                 <button class="btn purple" type="button" onclick="jumptosort()">@("排序".GX())</button>
             }
             if (rs.HP(操作.回收站))
@@ -33,10 +33,10 @@
 
         <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">
             @using (Html.BeginForm("Index","Reference",FormMethod.Get))
-            {
-                @Html.HiddenFor(m => m.FlagTrashed)
+            {                
                 @MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "RefGroupId", "RefGroupId", Model.RefGroupId.ToSecureString(), "class=\"m-wrap small\"", "", "" + "==类别组=="))
                 <button class="btn yellow" type="submit">@("查询".GX())</button>
+                @Html.HiddenFor(m => m.FlagTrashed)
             }
         </div>
         @*<div class="alert alert-success">
@@ -83,11 +83,11 @@
                                     {
                                         if (rs.HP(操作.修改))
                                         {
-                                            <button class="btn blue" type="button" onclick="jumptourl('/Reference/Edit?id=@item.ID&returnUrl=@Request.RawUrl')">@("修改".GX())</button>
+                                            <button class="btn blue" type="button" onclick="jumptourl('/Reference/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
                                         }
                                         if (rs.HP(操作.修改))
                                         {
-                                            <button class="btn purple" type="button" onclick="ajaxHandle('/Reference/SetDefault', {id : ''@item.ID'}, null, null, null, toggleDefalut,['#TR_@item.ID'])">@("默认".GX())</button>
+                                            <button class="btn purple" type="button" onclick="ajaxHandle('/Reference/SetDefault', {id : '@item.ID',RefGroupId : '@Model.RefGroupId'}, null, null, null, toggleDefalut,['#TR_@item.ID'])">@("默认".GX())</button>
                                         }
                                         if (rs.HP(操作.删除))
                                         {
@@ -125,15 +125,15 @@
         <script type="text/javascript">  
             function toggleDefalut(id){
                 $("#MoreSunTable tbody tr").removeClass("success");
-                $("#TR_" + id).toggleClass("success");
+                $(id).toggleClass("success");                
             }
             //到排序页面
             function jumptosort()
             {
                 var rgid = $('#RefGroupId').val();
                 if(rgid != '')
-                {
-                    jumptourl('/Reference/Sort?RefGroupId=' + rgid + '&returnUrl=/Reference/Index');
+                {                    
+                    jumptourl('/Reference/Sort?RefGroupId=' + rgid + '&returnUrl=@(Url.Encode(Request.RawUrl))');
                 }
                 else
                 {
