@@ -62,7 +62,7 @@ namespace MorSun.Controllers.SystemController
                 if (model == null || pmodel == null)
                 {
                     errms = "数据提交错误";
-                    "RefGroupName".AE("上级类别组不能移到下级类别组", ModelState);
+                    "RefGroupName".AE("数据提交错误", ModelState);
                 }
                 var oper = new OperationResult(OperationResultType.Error, "移动失败 " + errms);
                 if (ModelState.IsValid)
@@ -117,6 +117,12 @@ namespace MorSun.Controllers.SystemController
             {
                 //该资源名称已经存在，请重新输入！
                 "ResourcesCNName".AE("资源名称已存在",ModelState);
+            }
+            if (t.ParentId != null)
+            {
+                var pReferGrop = Bll.All.FirstOrDefault(r => r.ID == t.ParentId);
+                if (pReferGrop == null)
+                    "ParentId".AE("请正确选择类别组", ModelState);
             }
             return "";
         }
@@ -185,6 +191,11 @@ namespace MorSun.Controllers.SystemController
                 "ResourcesCNName".AE("上级资源不能移到下级资源目录", ModelState);                  
             }
             return "";
+        }
+
+        public ActionResult GetP()
+        {
+            return View();
         }
     }
 }

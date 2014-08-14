@@ -199,6 +199,73 @@ function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl, callBack, args)
     });
 }
 
+//ajax访问路径并设置值
+function ajaxGetData(url, data, callBack) {
+    $.ajax({
+        "url": url,
+        "type": "get",
+        "data": data,
+        "success": function (data) {
+            if (callBack) {                
+                if (typeof (callBack) == "function")
+                    callBack.apply(this, [data] ? [data] : []);
+                else {
+                    for (var i = 0; i < callBack.length; i++) {
+                        callBack[i].apply(this, [data] ? [data] : []);
+                    }
+                }
+            }            
+        },
+        "fail": function (data) {
+        }//function () { alert("操作失败！"); }
+    })
+}
+
+//任意动态路径AJAX访问
+function ajaxLink(url, data, callBack, args) {
+    //alert(data);
+    $.ajax({
+        "url": url,
+        "type": "post",
+        "dataType": "json",
+        "traditional": true,//传送数组类型的数据的时候，必须使用dataType="josn"且traditional=true
+        "data": data,
+        "success": function (data) {
+            if (callBack) {
+                console.log(args);
+                if (typeof (callBack) == "function")
+                    callBack.apply(this, args ? args : []);
+                else {
+                    for (var i = 0; i < callBack.length; i++) {
+                        callBack[i].apply(this, args ? args[i] : []);
+                    }
+                }
+            }
+        },
+        "fail": function (data) {
+            $(topErrDiv).qtip({
+                content: {
+                    text: data.Message,
+                    title: {
+                        button: true
+                    }
+                }
+                        , position: {
+                            target: [$('body').width() / 2, 20],
+                            my: 'center center',
+                            at: 'center center'
+                        }
+                        , style: {
+                            classes: 'qtip-red'
+                        }
+                        , show: {
+                            ready: true
+                        }
+                         , hide: false
+            });
+        }//function () { alert("操作失败！"); }
+    })
+}
 
 /*操作成功调用方法
 *data参数与OperationResult相对应的json数据[ResultType:"xxx",Message:"xxx",AppendData:"xxx",LogMessage:"xxxx"]

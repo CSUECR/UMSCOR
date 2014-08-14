@@ -27,9 +27,9 @@ namespace MorSun.Controllers.ViewModel
                     {
                         l = l.Where(p => p.RefGroupId == RefGroupId);
                     }
-                    if (ItemInfo != null)
+                    if (ItemValue != null)
                     {
-                        l = l.Where(p => p.ItemInfo == ItemInfo);
+                        l = l.Where(p => p.ItemInfo == ItemValue);
                     }
                     if (String.IsNullOrEmpty(FlagTrashed) || (!FlagTrashed.Eql("0") && !FlagTrashed.Eql("1")))
                         FlagTrashed = "0";
@@ -40,7 +40,7 @@ namespace MorSun.Controllers.ViewModel
                     if (FlagTrashed == "0")
                     {
                         l = l.Where(p => p.FlagTrashed == false);
-                    }
+                    }                    
                 }
                 else if (RefGroupId == null && FlagTrashed == "1")
                 {
@@ -88,7 +88,7 @@ namespace MorSun.Controllers.ViewModel
 
         public virtual Guid? RefGroupId { get; set; }
 
-        public virtual string ItemInfo { get; set; }
+        public virtual string ItemValue { get; set; }
 
         /// <summary>
         /// 通过id获取其itemValue

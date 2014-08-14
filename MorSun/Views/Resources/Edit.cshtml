@@ -1,6 +1,6 @@
 ﻿@model wmfRefGroup
 @{
-    ViewBag.Title = "添加类别组";
+    ViewBag.Title = "修改类别组";
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";
@@ -14,21 +14,18 @@
         <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>添加类别组</div>
+                <div class="caption"><i class="icon-cogs"></i>修改类别组</div>
             </div>
             <div class="portlet-body">
-@using (Html.BeginForm("Create", "RefGroup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+@using (Html.BeginForm("Update", "RefGroup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m =>m.ID)
                 <table class="tableadd table-hover">  
-                    <thead>
-                        @*<tr>
-                            <th>标题</th>
-                            <th>内容</th>
-                        </tr>*@
+                    <thead>                        
                         <tr>
                             <th>@Html.LabelFor(m => m.ParentId)</th>
-                            <td id="TDddl">@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
+                            <td>@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", Model.ParentId.ToSecureString(), "class=\"large m-wrap\"", "", "" + "==请选择=="))</td>
                         </tr>
                     </thead>                  
                     <tbody>
@@ -39,7 +36,8 @@
                         </tr>
                         <tr>
                             <th></th>
-                            <td><button class="btn green" type="button" id="submitBtn">@("提交".GX())</button></td>
+                            <td><button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>                            
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -56,14 +54,6 @@
         @Scripts.Render("~/bundles/morsuncommon")
          
         <script type="text/javascript">  
-            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform,[]));
-            function morsunInitform() {
-                $('#RefGroupName').val('');
-                ajaxGetData('/RefGroup/GetP', {},setP);                
-            }
-            function setP(d)
-            {
-                $('#TDddl').html(d);
-            }
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false));            
         </script>
     }

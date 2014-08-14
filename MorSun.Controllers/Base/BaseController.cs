@@ -373,9 +373,7 @@ namespace MorSun.Controllers
         {
             if (ResourceId.HP(操作.彻底删除))
             {
-                var oper = new OperationResult(OperationResultType.Error, "操作失败");
-                //ck = ck.Load(() => OnFTCk);
-                //var ckRs = ck(t);
+                var oper = new OperationResult(OperationResultType.Error, "操作失败");               
                 //前提ID是GUID类型
                 var ids = GetCheckId(t).ToGuidList(",");
                 var errs = "";
@@ -385,15 +383,32 @@ namespace MorSun.Controllers
                     "".AE("操作失败", ModelState);
                 }
                 if (String.IsNullOrEmpty(errs))
-                {                    
+                {
+                    var s = "";
                     foreach (var id in ids)
                     {
                         var model = Bll.GetModel(id);
                         if (model != null)
-                            Bll.Delete(model,false); 
+                        {
+                            //增加删除前判断
+                            var err = OnDelCk(model);
+                            if (String.IsNullOrEmpty(err))
+                                Bll.Delete(model, false);
+                            else
+                                s += err;
+                        }                            
                     }
-                    Bll.UpdateChanges();                    
-                    fillOperationResult(returnUrl, oper, "操作成功");
+                    if(String.IsNullOrEmpty(s))
+                    {
+                        Bll.UpdateChanges();                    
+                        fillOperationResult(returnUrl, oper, "操作成功");
+                    }
+                    else
+                    {
+                        oper = new OperationResult(OperationResultType.Error, "操作失败 " + s);
+                        "".AE("操作失败", ModelState);
+                        oper.AppendData = ModelState.GE();
+                    }                    
                 }
                 else
                 {

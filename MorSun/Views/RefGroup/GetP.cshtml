@@ -1,0 +1,6 @@
+﻿@{
+    Layout = null;
+    var refGroupList = new RefGroupVModel().List.ToList();
+}
+
+@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))

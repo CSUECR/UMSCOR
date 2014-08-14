@@ -24,8 +24,8 @@ namespace MorSun.Controllers.ViewModel
                 var l = base.All;
 
                 if (FlagTrashed == "0")
-                {//回收部不能只取根节点
-                    l = l.Where(dep => dep.ParentId == Guid.Empty || dep.ParentId == null);
+                {//回收站不能只取根节点
+                    l = l.Where(p => p.ParentId == Guid.Empty || p.ParentId == null);
                 }
                 if (String.IsNullOrEmpty(FlagTrashed) || (!FlagTrashed.Eql("0") && !FlagTrashed.Eql("1")))
                     FlagTrashed = "0";
@@ -38,7 +38,7 @@ namespace MorSun.Controllers.ViewModel
                     l = l.Where(p => p.FlagTrashed == false);
                 }
 
-                return l.OrderBy(p => p.Sort).ThenBy(p => p.RefGroupName);//from q in l orderby q.RefGroupName descending select q;
+                return l.OrderBy(p => p.Sort).ThenBy(p => p.RefGroupName);
             }
         }
 

@@ -742,6 +742,13 @@
     <Content Include="Views\Reference\Edit.cshtml" />
     <Content Include="Views\Reference\Index.cshtml" />
     <Content Include="Views\Reference\Sort.cshtml" />
+    <Content Include="Views\Resources\Add.cshtml" />
+    <Content Include="Views\Resources\Edit.cshtml" />
+    <Content Include="Views\Resources\Index.cshtml" />
+    <Content Include="Views\Resources\Move.cshtml" />
+    <Content Include="Views\Resources\Sort.cshtml" />
+    <Content Include="Views\RefGroup\GetP.cshtml" />
+    <Content Include="Views\Resources\GetP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

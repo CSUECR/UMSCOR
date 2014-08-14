@@ -5,7 +5,7 @@
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";
 
-    var refGroupList = new RefGroupVModel().List.ToList();
+    var resGroupList = new RefGroupVModel().List.ToList();
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -28,11 +28,10 @@
                         </tr>*@
                         <tr>
                             <th>@Html.LabelFor(m => m.ParentId)</th>
-                            <td id="TDddl">@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
+                            <td>@MvcHtmlString.Create(Html.DropDownList(resGroupList, "ID", "ResourcesCNName", "ResourcesTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
                         </tr>
                     </thead>                  
-                    <tbody>
-                       
+                    <tbody>                       
                         <tr>
                             <th>@Html.LabelFor(m => m.RefGroupName)</th>
                             <td>@Html.TextBoxFor(m => m.RefGroupName, new { @class="m-wrap large"})</td>
@@ -58,12 +57,7 @@
         <script type="text/javascript">  
             $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform,[]));
             function morsunInitform() {
-                $('#RefGroupName').val('');
-                ajaxGetData('/RefGroup/GetP', {},setP);                
-            }
-            function setP(d)
-            {
-                $('#TDddl').html(d);
+                $('#RefGroupName').val('');                
             }
         </script>
     }

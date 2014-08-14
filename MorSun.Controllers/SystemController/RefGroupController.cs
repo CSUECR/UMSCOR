@@ -121,7 +121,7 @@ namespace MorSun.Controllers.SystemController
                 if(model == null || pmodel == null)
                 {
                     errms = "数据提交错误";
-                    "RefGroupName".AE("上级类别组不能移到下级类别组", ModelState);
+                    "RefGroupName".AE("数据提交错误", ModelState);
                 }
                 var oper = new OperationResult(OperationResultType.Error, "移动失败 " + errms);
                 if(ModelState.IsValid)
@@ -220,30 +220,32 @@ namespace MorSun.Controllers.SystemController
         }
 
         protected override string OnDelCk(wmfRefGroup t)
-        {            
+        {
+            var s = "";
+            var rg = Bll.GetModel(t);
             var refBll = new BaseBll<wmfReference>();
             var model = refBll.All.FirstOrDefault(r => r.RefGroupId == t.ID);
             var childList = Bll.All.Where(r => r.ParentId == t.ID);
             if (model != null)
             {
                 //该类别组类别存在，请重新输入！
-                "RefGroupName".AE("该类别组还存在类别", ModelState);                
+                "RefGroupName".AE("该类别组还存在类别", ModelState);
+                s += rg.RefGroupName + "还存在类别";
             }
             if (childList.Count() > 0)
             {
                 "RefGroupName".AE("该类别组存在子类别组", ModelState);
+                s += rg.RefGroupName + "还存在子类别组";
             }
-            return "";
+            
+            return s;
         }
 
-        public virtual ActionResult Left(RefGroupVModel t)
+        public ActionResult GetP()
         {
-            return View(t);
+            return View();
         }
-        public virtual ActionResult TaskLeft(RefGroupVModel t)
-        {
-            return View(t);
-        }
+
 
     }
 }

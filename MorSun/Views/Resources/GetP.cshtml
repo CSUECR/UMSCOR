@@ -1,0 +1,6 @@
+﻿@{
+    Layout = null;
+    var resGroupList = new ResourcesVModel().List.ToList();
+}
+
+@MvcHtmlString.Create(Html.DropDownList(resGroupList, "ID", "ResourcesCNName", "ResourcesTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))

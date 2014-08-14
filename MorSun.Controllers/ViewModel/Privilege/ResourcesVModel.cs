@@ -11,31 +11,34 @@ namespace MorSun.Controllers.ViewModel
     /// </summary>
     public class ResourcesVModel : BaseVModel<wmfResource>
     {
-
-        /// <summary>
-        /// 被选中的编号
-        /// </summary>
-        public virtual string CheckedId { get; set; }
+        ///// <summary>
+        ///// 被选中的编号
+        ///// </summary>
+        //public virtual string CheckedId { get; set; }
 
         public override IQueryable<wmfResource> List
         {
             get
-            {
-                return All.OrderBy(t => t.Sort);
-                // var l = All;
-                //if (!string.IsNullOrEmpty(ResourcesCNName))
-                //{
-                //    l = l.Where(r => r.ResourcesCNName.Contains(ResourcesCNName));
-                //}
-                //if (ResourcesID != null && ResourcesID != Guid.Empty)
-                //{
-                //    l = l.Where(r => r.ParentId == ResourcesID);
-                //}
-                //if (!string.IsNullOrEmpty(ResourcesName))
-                //{
-                //    l = l.Where(r => r.ResourcesName.Contains(ResourcesName));
-                //}
-                // return from q in l orderby q.Sort ascending select q;
+            {                
+                var l = All;
+                if (String.IsNullOrEmpty(FlagTrashed))
+                    FlagTrashed = "0";
+                if (FlagTrashed == "1")
+                {
+                    l = l.Where(p => p.FlagTrashed == true);
+                }
+                if (FlagTrashed == "0")
+                {
+                    l = l.Where(p => p.FlagTrashed == false);
+                }
+                if (sIsSort != null && sIsSort.Value == true)
+                {
+                    if (sParentId != null)
+                        l = l.Where(p => p.ParentId == sParentId);
+                    else
+                        l = l.Where(p => p.ParentId == null);
+                }
+                return l.OrderBy(p => p.Sort).ThenBy(p => p.ResourcesCNName);
             }
         }
 
@@ -46,20 +49,29 @@ namespace MorSun.Controllers.ViewModel
         {
             get
             {
-                var l = All;
+                var l = base.All;
 
-                l = l.Where(dep => dep.ParentId == Guid.Empty || dep.ParentId == null);
-                //if (FlagTrashed == "1")
-                //{
-                //    l = l.Where(p => p.FlagTrashed == true);
-                //}
-                //if (FlagTrashed == "0")
-                //{
-                //    l = l.Where(p => p.FlagTrashed == false);
-                //}
-
-                return l;
+                if (FlagTrashed == "0")
+                {//回收站不能只取根节点
+                    l = l.Where(p => p.ParentId == Guid.Empty || p.ParentId == null);
+                }
+                if (String.IsNullOrEmpty(FlagTrashed) || (!FlagTrashed.Eql("0") && !FlagTrashed.Eql("1")))
+                    FlagTrashed = "0";
+                if (FlagTrashed == "1")
+                {
+                    l = l.Where(p => p.FlagTrashed == true);
+                }
+                if (FlagTrashed == "0")
+                {
+                    l = l.Where(p => p.FlagTrashed == false);
+                }
+                return l.OrderBy(p => p.Sort).ThenBy(p => p.ResourcesCNName);
             }
         }
+
+
+        public Guid? sParentId { get; set; }
+
+        public bool? sIsSort { get; set; }
     }
 }
