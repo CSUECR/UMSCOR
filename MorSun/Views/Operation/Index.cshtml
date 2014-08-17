@@ -1,0 +1,95 @@
+﻿@model OperationVModel
+@{
+    ViewBag.Title = "操作配置";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/Operation/Index";
+
+    var refGroupList = new RefGroupVModel().List.ToList();  
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">
+        @if (Model.FlagTrashed == "0")
+{
+    if (rs.HP(操作.添加))
+    {
+        <button class="btn green" type="button" onclick="jumptourl('/Operation/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
+    }
+    if (rs.HP(操作.修改))
+    {
+                <button class="btn purple" type="button" onclick="jumptourl('/Operation/Sort?returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
+    }
+    if (rs.HP(操作.回收站))
+    {
+        <button class="btn" type="button" onclick="jumptourl('/Operation/Index?FlagTrashed=1')">@("回收站".GX())</button>
+    }
+    }
+    else if (Model.FlagTrashed == "1")
+    {
+        <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+    } 
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>操作设置</div>                
+            </div>
+            <div class="portlet-body">
+                <table id="MoreSunTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>操作名</th>                                          
+                            <th>操作</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model.List)
+                        {
+                            <tr id="TR_@item.ID">
+                                <td>                                   
+                                    @item.OperationCNName                                                                    
+                                </td>                                
+                                <td>
+                                    @if (Model.FlagTrashed == "0")
+                                    {
+                                        if (rs.HP(操作.修改))
+                                        {
+                                            <button class="btn blue" type="button" onclick="jumptourl('/Operation/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
+                                        }                                        
+                                        if (rs.HP(操作.删除))
+                                        {
+                                            <button class="btn red" type="button" onclick="ajaxHandle('/Operation/TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
+                                        }
+                                    }
+                                    else if (Model.FlagTrashed == "1")
+                                    {
+                                        if (rs.HP(操作.删除))
+                                        {
+                                            <button class="btn green" type="button" onclick="ajaxHandle('/Operation/TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
+                                        }
+                                        if (rs.HP(操作.彻底删除))
+                                        {
+                                            <button class="btn red" type="button" onclick="ajaxHandle('/Operation/BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
+                                        }
+                                    }
+                                    
+                                </td>
+                            </tr>
+                        }                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+        
+        <script type="text/javascript">              
+            
+        </script>
+    }

@@ -5,9 +5,10 @@ using System.Text;
 using System.Web.Mvc;
 using System.Data.Linq;
 using HOHO18.Common;
+using System.ComponentModel.DataAnnotations;
 namespace MorSun.Model
 {
-    //[Bind(Include = "OperationName,OperationCNName,Description")]
+    [MetadataType(typeof(wmfOperationMetadata))]
     public partial class wmfOperation : IModel
     {
         #region Extensibility Method Definitions
@@ -26,16 +27,7 @@ namespace MorSun.Model
 
         public IEnumerable<RuleViolation> GetRuleViolations()
         {
-            ParameterProcess.TrimParameter<wmfOperation>(this);
-            if (String.IsNullOrEmpty(OperationCNName))
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作名称不能为空"), "OperationCNName");
-
-            if (!String.IsNullOrEmpty(OperationCNName) && OperationCNName.Length > 25)
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("操作名称长度不可大于25个字符"), "OperationCNName");
-
-            if (!String.IsNullOrEmpty(Description) && Description.Length > 50)
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfOperation>("描述长度不可大于50个字符"), "Description");
-
+            ParameterProcess.TrimParameter<wmfOperation>(this);            
             yield break;
         }
 
@@ -46,4 +38,10 @@ namespace MorSun.Model
         }
     }
 
+    public class wmfOperationMetadata
+    {        
+        [Display(Name = "操作名")]
+        [Required(ErrorMessage = "{0}必填,可用','分隔批量添加资源")]
+        public System.String OperationCNName;        
+    }
 }

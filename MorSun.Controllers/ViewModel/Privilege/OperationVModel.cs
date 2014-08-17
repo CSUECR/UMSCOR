@@ -25,15 +25,17 @@ namespace MorSun.Controllers.ViewModel
                 {
                     l = l.Where(r => r.OperationCNName.Contains(OperationCNName));
                 }
-                //if (ResourcesID != null && ResourcesID != Guid.Empty)
-                //{
-                //    l = l.Where(r => r.ParentId == ResourcesID);
-                //}
-                //if (!string.IsNullOrEmpty(ResourcesName))
-                //{
-                //    l = l.Where(r => r.ResourcesName.Contains(ResourcesName));
-                //}
-                return from q in l orderby q.Sort ascending select q;
+                if (String.IsNullOrEmpty(FlagTrashed))
+                    FlagTrashed = "0";
+                if (FlagTrashed == "1")
+                {
+                    l = l.Where(p => p.FlagTrashed == true);
+                }
+                if (FlagTrashed == "0")
+                {
+                    l = l.Where(p => p.FlagTrashed == false);
+                }
+                return l.OrderBy(p => p.Sort).ThenBy(p => p.OperationCNName);
             }
         }
         public virtual string OperationCNName { get; set; }

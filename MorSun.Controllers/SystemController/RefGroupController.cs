@@ -188,6 +188,10 @@ namespace MorSun.Controllers.SystemController
                 if(pReferGrop == null)
                     "ParentId".AE("请正确选择类别组", ModelState);
             }
+            if(t.RefGroupName.Length > 50)
+            {
+                "RefGroupName".AE("类别组名长度不可超过50", ModelState);
+            }
             return "";
         }
 
@@ -215,6 +219,10 @@ namespace MorSun.Controllers.SystemController
             {
                 //上级类别组不能往自己的下级类别组移动！
                 "RefGroupName".AE("上级类别组不能移到下级类别组",ModelState);
+            }
+            if (t.RefGroupName.Length > 50)
+            {
+                "RefGroupName".AE("类别组名长度不可超过50", ModelState);
             }
             return "";
         }

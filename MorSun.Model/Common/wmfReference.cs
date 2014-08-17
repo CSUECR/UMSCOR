@@ -61,10 +61,13 @@ namespace MorSun.Model
         public System.String ItemValue;
         [Display(Name = "类别信息")]
         [Required(ErrorMessage = "{0}必填,可用','分隔批量添加类别")]
+        [StringLength(500, ErrorMessage = "类别信息长度不可超过500")]
         public System.String ItemInfo;
-        [Display(Name = "查看路径")]        
+        [Display(Name = "查看路径")]
+        [StringLength(500, ErrorMessage = "查看路径长度不可超过500")]
         public System.String SeeUrl;
         [Display(Name = "图标")]
+        [StringLength(500, ErrorMessage = "图标长度不可超过500")]
         public System.String Icon;
     }
 }

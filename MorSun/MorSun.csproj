@@ -749,6 +749,10 @@
     <Content Include="Views\Resource\Sort.cshtml" />
     <Content Include="Views\RefGroup\GetP.cshtml" />
     <Content Include="Views\Resource\GetP.cshtml" />
+    <Content Include="Views\Operation\Add.cshtml" />
+    <Content Include="Views\Operation\Edit.cshtml" />
+    <Content Include="Views\Operation\Index.cshtml" />
+    <Content Include="Views\Operation\Sort.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

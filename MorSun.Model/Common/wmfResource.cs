@@ -35,15 +35,7 @@ namespace MorSun.Model
 
         public IEnumerable<RuleViolation> GetRuleViolations()
         {
-            ParameterProcess.TrimParameter<wmfResource>(this);
-            if (String.IsNullOrEmpty(ResourceCNName))
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>("资源名称不能为空"), "ResourceCNName");
-            if (!String.IsNullOrEmpty(ResourceCNName) && ResourceCNName.Length > 15)
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>("资源名称长度不可大于15个字符"), "ResourceCNName");
-            if (!String.IsNullOrEmpty(Description) && Description.Length > 50)
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>("描述长度不可大于50个字符"), "Description");
-            //if (MenuId == null || MenuId == Guid.Empty)
-            //    yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfResource>("请选择所属菜单"), "MenuId");
+            ParameterProcess.TrimParameter<wmfResource>(this);            
             yield break;
         }
 
@@ -65,8 +57,10 @@ namespace MorSun.Model
         [Required(ErrorMessage = "{0}必填,可用','分隔批量添加资源")]
         public System.String ResourceCNName;
         [Display(Name = "图标")]
+        [StringLength(50, ErrorMessage = "图标长度不可超过50")]
         public System.String Icon;
         [Display(Name = "路径")]
+        [StringLength(500, ErrorMessage = "路径长度不可超过500")]
         public System.String URL;
     }
 }

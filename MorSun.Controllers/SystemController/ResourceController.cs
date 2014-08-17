@@ -102,7 +102,6 @@ namespace MorSun.Controllers.SystemController
             }
         }
 
-
         /// <summary>
         /// 移动记录
         /// </summary>
@@ -200,6 +199,10 @@ namespace MorSun.Controllers.SystemController
                 if (pReferGrop == null)
                     "ParentId".AE("请正确选择父级资源", ModelState);
             }
+            if(t.ResourceCNName.Length > 50)
+            {
+                "ResourceCNName".AE("资源名长度不可超过50", ModelState);
+            }
             return "";
         }
 
@@ -265,6 +268,11 @@ namespace MorSun.Controllers.SystemController
             {
                 //上级资源不能往自己的下级资源移动！
                 "ResourceCNName".AE("上级资源不能移到下级资源目录", ModelState);                  
+            }
+
+            if (t.ResourceCNName.Length > 50)
+            {
+                "ResourceCNName".AE("资源名长度不可超过50", ModelState);
             }
             return "";
         }
