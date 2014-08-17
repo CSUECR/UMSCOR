@@ -1,9 +1,9 @@
-﻿@model RefGroupVModel
+﻿@model ResourceVModel
 @{
-    ViewBag.Title = "类别组排序";
+    ViewBag.Title = "资源排序";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";     
+    var backurl = ViewBag.ReturnUrl ?? "/Resource/Index";     
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -12,15 +12,13 @@
         <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>类别组排序</div>
+                <div class="caption"><i class="icon-cogs"></i>资源排序</div>
             </div>
             <div class="portlet-body">
                 <table id="MoreSunTreeTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th style="text-align:left">类别组名</th>
-                            @*<th>序号</th>
-                            <th class="hidden-480">Username</th>*@
+                            <th style="text-align:left">资源名</th>                            
                         </tr>
                     </thead>
                     <tbody id="sortTbody">
@@ -28,12 +26,9 @@
                         {
                             <tr id="@item.ID">
                                 <td style="text-align:left">
-                                    @item.RefGroupName
+                                    @item.ResourceCNName
                                     <input id="checkedId" name="checkedId" type="hidden" value="@item.ID" />
-                                </td>
-                                @*<td name="sort_@item.ID">
-                                    @item.Sort
-                                </td>*@
+                                </td>                                
                             </tr>
                         }
                     </tbody>

@@ -340,6 +340,22 @@ namespace MorSun.Model
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
+        public ObjectSet<dmNew> dmNews
+        {
+            get
+            {
+                if ((_dmNews == null))
+                {
+                    _dmNews = base.CreateObjectSet<dmNew>("dmNews");
+                }
+                return _dmNews;
+            }
+        }
+        private ObjectSet<dmNew> _dmNews;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
         public ObjectSet<HF_AccreditUser> HF_AccreditUser
         {
             get
@@ -2080,22 +2096,6 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<wmfRolePrivilegesView> _wmfRolePrivilegesViews;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<dmNew> dmNews
-        {
-            get
-            {
-                if ((_dmNews == null))
-                {
-                    _dmNews = base.CreateObjectSet<dmNew>("dmNews");
-                }
-                return _dmNews;
-            }
-        }
-        private ObjectSet<dmNew> _dmNews;
 
         #endregion
 
@@ -2195,6 +2195,14 @@ namespace MorSun.Model
         public void AddToaspnet_WebEvent_Events(aspnet_WebEvent_Events aspnet_WebEvent_Events)
         {
             base.AddObject("aspnet_WebEvent_Events", aspnet_WebEvent_Events);
+        }
+    
+        /// <summary>
+        /// 用于向 dmNews EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTodmNews(dmNew dmNew)
+        {
+            base.AddObject("dmNews", dmNew);
         }
     
         /// <summary>
@@ -3067,37 +3075,6 @@ namespace MorSun.Model
         public void AddTowmfRolePrivilegesViews(wmfRolePrivilegesView wmfRolePrivilegesView)
         {
             base.AddObject("wmfRolePrivilegesViews", wmfRolePrivilegesView);
-        }
-    
-        /// <summary>
-        /// 用于向 dmNews EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddTodmNews(dmNew dmNew)
-        {
-            base.AddObject("dmNews", dmNew);
-        }
-
-        #endregion
-
-        #region 函数导入
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        /// <param name="userId">没有元数据文档可用。</param>
-        public int HF_GetAllowsStartWorkFlowsPro(global::System.String userId)
-        {
-            ObjectParameter userIdParameter;
-            if (userId != null)
-            {
-                userIdParameter = new ObjectParameter("UserId", userId);
-            }
-            else
-            {
-                userIdParameter = new ObjectParameter("UserId", typeof(global::System.String));
-            }
-    
-            return base.ExecuteFunction("HF_GetAllowsStartWorkFlowsPro", userIdParameter);
         }
 
         #endregion
@@ -39501,48 +39478,48 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String ResourcesName
+        public global::System.String ResourceName
         {
             get
             {
-                return _ResourcesName;
+                return _ResourceName;
             }
             set
             {
-                OnResourcesNameChanging(value);
-                ReportPropertyChanging("ResourcesName");
-                _ResourcesName = StructuralObject.SetValidValue(value, true, "ResourcesName");
-                ReportPropertyChanged("ResourcesName");
-                OnResourcesNameChanged();
+                OnResourceNameChanging(value);
+                ReportPropertyChanging("ResourceName");
+                _ResourceName = StructuralObject.SetValidValue(value, true, "ResourceName");
+                ReportPropertyChanged("ResourceName");
+                OnResourceNameChanged();
             }
         }
-        private global::System.String _ResourcesName;
-        partial void OnResourcesNameChanging(global::System.String value);
-        partial void OnResourcesNameChanged();
+        private global::System.String _ResourceName;
+        partial void OnResourceNameChanging(global::System.String value);
+        partial void OnResourceNameChanged();
     
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String ResourcesCNName
+        public global::System.String ResourceCNName
         {
             get
             {
-                return _ResourcesCNName;
+                return _ResourceCNName;
             }
             set
             {
-                OnResourcesCNNameChanging(value);
-                ReportPropertyChanging("ResourcesCNName");
-                _ResourcesCNName = StructuralObject.SetValidValue(value, true, "ResourcesCNName");
-                ReportPropertyChanged("ResourcesCNName");
-                OnResourcesCNNameChanged();
+                OnResourceCNNameChanging(value);
+                ReportPropertyChanging("ResourceCNName");
+                _ResourceCNName = StructuralObject.SetValidValue(value, true, "ResourceCNName");
+                ReportPropertyChanged("ResourceCNName");
+                OnResourceCNNameChanged();
             }
         }
-        private global::System.String _ResourcesCNName;
-        partial void OnResourcesCNNameChanging(global::System.String value);
-        partial void OnResourcesCNNameChanged();
+        private global::System.String _ResourceCNName;
+        partial void OnResourceCNNameChanging(global::System.String value);
+        partial void OnResourceCNNameChanged();
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -40390,24 +40367,24 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String ResourcesCNName
+        public global::System.String ResourceCNName
         {
             get
             {
-                return _ResourcesCNName;
+                return _ResourceCNName;
             }
             set
             {
-                OnResourcesCNNameChanging(value);
-                ReportPropertyChanging("ResourcesCNName");
-                _ResourcesCNName = StructuralObject.SetValidValue(value, true, "ResourcesCNName");
-                ReportPropertyChanged("ResourcesCNName");
-                OnResourcesCNNameChanged();
+                OnResourceCNNameChanging(value);
+                ReportPropertyChanging("ResourceCNName");
+                _ResourceCNName = StructuralObject.SetValidValue(value, true, "ResourceCNName");
+                ReportPropertyChanged("ResourceCNName");
+                OnResourceCNNameChanged();
             }
         }
-        private global::System.String _ResourcesCNName;
-        partial void OnResourcesCNNameChanging(global::System.String value);
-        partial void OnResourcesCNNameChanged();
+        private global::System.String _ResourceCNName;
+        partial void OnResourceCNNameChanging(global::System.String value);
+        partial void OnResourceCNNameChanged();
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -42468,6 +42445,30 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
+        public global::System.String WeChatId
+        {
+            get
+            {
+                return _WeChatId;
+            }
+            set
+            {
+                OnWeChatIdChanging(value);
+                ReportPropertyChanging("WeChatId");
+                _WeChatId = StructuralObject.SetValidValue(value, true, "WeChatId");
+                ReportPropertyChanged("WeChatId");
+                OnWeChatIdChanged();
+            }
+        }
+        private global::System.String _WeChatId;
+        partial void OnWeChatIdChanging(global::System.String value);
+        partial void OnWeChatIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
         public global::System.String Sex
         {
             get
@@ -43158,30 +43159,6 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String WeChatId
-        {
-            get
-            {
-                return _WeChatId;
-            }
-            set
-            {
-                OnWeChatIdChanging(value);
-                ReportPropertyChanging("WeChatId");
-                _WeChatId = StructuralObject.SetValidValue(value, true, "WeChatId");
-                ReportPropertyChanged("WeChatId");
-                OnWeChatIdChanged();
-            }
-        }
-        private global::System.String _WeChatId;
-        partial void OnWeChatIdChanging(global::System.String value);
-        partial void OnWeChatIdChanged();
 
         #endregion
 

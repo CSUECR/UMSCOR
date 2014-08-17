@@ -98,6 +98,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KQ\" />
+  </ItemGroup>
+  <ItemGroup>
     <EntityDeploy Include="MorSun.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MorSun.Designer.cs</LastGenOutput>
@@ -107,12 +113,6 @@
       <DependentUpon>MorSun.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="KQ\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

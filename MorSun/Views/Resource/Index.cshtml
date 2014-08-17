@@ -1,9 +1,9 @@
-﻿@model RefGroupVModel
+﻿@model ResourceVModel
 @{
     ViewBag.Title = "资源配置";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";    
+    var backurl = ViewBag.ReturnUrl ?? "/Resource/Index";    
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -13,59 +13,46 @@
 {
             if (rs.HP(操作.添加))
             {
-                <button class="btn green" type="button" onclick="jumptourl('/RefGroup/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
+                <button class="btn green" type="button" onclick="jumptourl('/Resource/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
             }
                 <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
                 <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
             if (rs.HP(操作.修改))
             {
-                <button class="btn black" type="button" onclick="jumptourl('/RefGroup/Move?returnUrl=@(Url.Encode(Request.RawUrl))')">@("移动".GX())</button>
+                <button class="btn black" type="button" onclick="jumptourl('/Resource/Move?returnUrl=@(Url.Encode(Request.RawUrl))')">@("移动".GX())</button>
             }
             if (rs.HP(操作.回收站))
             {
-                <button class="btn" type="button" onclick="jumptourl('/RefGroup/Index?FlagTrashed=1&returnUrl=@(Url.Encode(Request.RawUrl))')">@("回收站".GX())</button>
+                <button class="btn" type="button" onclick="jumptourl('/Resource/Index?FlagTrashed=1&returnUrl=@(Url.Encode(Request.RawUrl))')">@("回收站".GX())</button>
             }
         }
         else if (Model.FlagTrashed == "1")
         {
             <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
         }
-        @*<button class="btn blue" type="button">@("修改".GX())</button>
-        <button class="btn red" type="button">@("删除".GX())</button>
-        <button class="btn" type="button">@("返回".GX())</button>
-        <button class="btn yellow" type="button">@("查询".GX())</button>
-        <button class="btn black" type="button">@("查询".GX())</button>*@
-
-
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>类别组设置</div>
-                @*<div class="tools">
-                    <a class="collapse" href="javascript:;"></a>
-                    <a class="config" data-toggle="modal" href="#portlet-config"></a>
-                    <a class="reload" href="javascript:;"></a>
-                    <a class="remove" href="javascript:;"></a>
-                </div>*@
+                <div class="caption"><i class="icon-cogs"></i>资源设置</div>               
             </div>
             <div class="portlet-body">
                 <table id="MoreSunTreeTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>类别组名</th>
+                            <th>资源名</th>
                             <th>序号</th>
-                            <th>操作</th>
-                            @*<th class="hidden-480">Username</th>*@
+                            <th>操作</th>                           
                         </tr>
                     </thead>
                     <tbody>
                         @if(Model.FlagTrashed == "0")
-                        { 
-                            {Action<wmfRefGroup> action = (i) =>
+                        {
                             {
-                                Func<wmfRefGroup, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
+                                Action<wmfResource> action = (i) =>
+                            {
+                                Func<wmfResource, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
                                     <td style="text-align:left;">
                                         <span class="folder ui-draggable">
-                                            @item.RefGroupName
+                                            @item.ResourceCNName
                                         </span>
                                         <input id="checkedId" type="hidden" value="@item.ID" />
                                     </td>
@@ -77,11 +64,11 @@
                                         {
                                             if (rs.HP(操作.修改))
                                             {
-                                                <button class="btn blue" type="button" onclick="jumptourl('/RefGroup/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
+                                                <button class="btn blue" type="button" onclick="jumptourl('/Resource/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
                                             }
                                             if (rs.HP(操作.修改))
                                             {
-                                                <button class="btn purple" type="button" onclick="jumptourl('/RefGroup/Sort?sIsSort=true&sParentId=@item.ParentId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
+                                                <button class="btn purple" type="button" onclick="jumptourl('/Resource/Sort?sIsSort=true&sParentId=@item.ParentId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
                                             }
                                             if (rs.HP(操作.删除))
                                             {
@@ -103,7 +90,7 @@
                                 <tr id="TR_@item.ID">
                                     <td style="text-align:left;">
                                         <span class="folder ui-draggable">
-                                            @item.RefGroupName
+                                            @item.ResourceCNName
                                         </span>
                                         <input id="checkedId" type="hidden" value="@item.ID" />
                                     </td>
@@ -122,14 +109,7 @@
                                     </td>
                                 </tr>
                             }
-                        }
-                        @*<tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td class="hidden-480">makr124</td>
-                            <td><span class="label label-success">Approved</span></td>
-                        </tr>*@
+                        }                        
                     </tbody>
                 </table>
             </div>

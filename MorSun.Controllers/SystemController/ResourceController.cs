@@ -20,12 +20,88 @@ namespace MorSun.Controllers.SystemController
 {
     [HandleError]
     [Authorize]
-    public class ResourcesController : BaseController<wmfResource>
+    public class ResourceController : BaseController<wmfResource>
     {
         protected override string ResourceId
         {
             get { return 资源.资源管理; }
-        }  
+        }
+
+        /// <summary>
+        /// 可批量添加类别组
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public override ActionResult Create(wmfResource t, string returnUrl)
+        {
+            if (ResourceId.HP(操作.添加))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "添加失败");
+                string[] Names = ((t.ResourceCNName == null) ? (t.ResourceCNName = " ").Split(',') : t.ResourceCNName.Split(','));
+                for (int i = 0; i < Names.Length; i++)
+                {
+                    if (Names.Length == 1)
+                    {
+                        t.ResourceCNName = Names[0];
+                        OnAddCK(t);
+                        if (ModelState.IsValid)
+                        {
+                            //添加初始化字段
+                            CreateInitObject(t);
+                            var result = Bll.Insert(t, false);
+                            if (result == null)
+                            {
+                                "ResourceCNName".AE(Names[0] + "添加失败", ModelState);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(Names[i]))
+                        {
+                            var model = new wmfResource();
+                            model.ResourceCNName = Names[i];
+                            model.ParentId = t.ParentId;
+                            //资源数据
+                            model.Icon = t.Icon;
+                            model.URL = t.URL;
+                            OnAddCK(t);
+                            if (ModelState.IsValid)
+                            {
+                                CreateInitObject(model);
+                                var result = Bll.Insert(model, false);
+                                if (result == null)
+                                {
+                                    "ResourceCNName".AE(Names[i] + "添加失败", ModelState);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    fillOperationResult(returnUrl, oper, "添加成功");
+                    Bll.UpdateChanges();
+                    return Json(oper);
+                }
+                else
+                {
+                    oper.AppendData = ModelState.GE();
+                    return Json(oper);
+                }
+            }
+            else
+            {
+                "ResourceCNName".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }
+
 
         /// <summary>
         /// 移动记录
@@ -112,17 +188,17 @@ namespace MorSun.Controllers.SystemController
         //创建前验证
         protected override string OnAddCK(wmfResource t)
         {
-            var resource = Bll.All.FirstOrDefault(r => r.ResourcesCNName == t.ResourcesCNName && r.RefId == t.RefId);
+            var resource = Bll.All.FirstOrDefault(r => r.ResourceCNName == t.ResourceCNName && r.RefId == t.RefId);
             if (resource != null)
             {
                 //该资源名称已经存在，请重新输入！
-                "ResourcesCNName".AE("资源名称已存在",ModelState);
+                "ResourceCNName".AE("资源名称已存在",ModelState);
             }
             if (t.ParentId != null)
             {
                 var pReferGrop = Bll.All.FirstOrDefault(r => r.ID == t.ParentId);
                 if (pReferGrop == null)
-                    "ParentId".AE("请正确选择类别组", ModelState);
+                    "ParentId".AE("请正确选择父级资源", ModelState);
             }
             return "";
         }
@@ -167,11 +243,11 @@ namespace MorSun.Controllers.SystemController
         protected override string OnEditCK(wmfResource t)
         {            
             //大于2条说明已经存在
-            var resource = Bll.All.FirstOrDefault(r => r.ResourcesCNName == t.ResourcesCNName && r.RefId == t.RefId);
+            var resource = Bll.All.FirstOrDefault(r => r.ResourceCNName == t.ResourceCNName && r.RefId == t.RefId);
             if (resource != null && resource.ID != t.ID)
             {
                 //该资源名称已经存在，请重新输入！
-                "ResourcesCNName".AE("资源名称已存在",ModelState);
+                "ResourceCNName".AE("资源名称已存在",ModelState);
             }
             var p1 = t.ID;
             //父ID
@@ -181,14 +257,14 @@ namespace MorSun.Controllers.SystemController
             if (p1 == p2)
             {
                 //移动失败，资源A不能移动到资源A下！
-                "ResourcesCNName".AE("移动位置错误", ModelState);                
+                "ResourceCNName".AE("移动位置错误", ModelState);                
             }
 
             ///判断ID与父级ID相同
             if (SearchDep(p1, p2))
             {
                 //上级资源不能往自己的下级资源移动！
-                "ResourcesCNName".AE("上级资源不能移到下级资源目录", ModelState);                  
+                "ResourceCNName".AE("上级资源不能移到下级资源目录", ModelState);                  
             }
             return "";
         }

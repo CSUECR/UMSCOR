@@ -78,7 +78,7 @@
     </Compile>
     <Compile Include="SystemController\ReferenceController.cs" />
     <Compile Include="SystemController\RefGroupController.cs" />
-    <Compile Include="SystemController\ResourcesController.cs" />
+    <Compile Include="SystemController\ResourceController.cs" />
     <Compile Include="SystemController\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -103,7 +103,7 @@
     <Compile Include="ViewModel\REF\ReferenceVModel.cs" />
     <Compile Include="ViewModel\REF\ReferListVModel.cs" />
     <Compile Include="ViewModel\REF\RefGroupVModel.cs" />
-    <Compile Include="ViewModel\Privilege\ResourcesVModel.cs" />
+    <Compile Include="ViewModel\Privilege\ResourceVModel.cs" />
     <Compile Include="ViewModel\Privilege\RoleVModel.cs" />
     <Compile Include="ViewModel\Dept\UserVModel.cs" />
     <Compile Include="ViewModel\Dept\wmfPersonnelToVModel.cs" />

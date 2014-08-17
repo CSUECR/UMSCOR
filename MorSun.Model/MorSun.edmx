@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -1703,8 +1703,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ResourcesName" Type="nvarchar" MaxLength="512" />
-          <Property Name="ResourcesCNName" Type="nvarchar" MaxLength="512" />
+          <Property Name="ResourceName" Type="nvarchar" MaxLength="512" />
+          <Property Name="ResourceCNName" Type="nvarchar" MaxLength="512" />
           <Property Name="ParentId" Type="uniqueidentifier" />
           <Property Name="Description" Type="nvarchar" MaxLength="2048" />
           <Property Name="Icon" Type="nvarchar" MaxLength="50" />
@@ -1982,7 +1982,7 @@
           </Key>
           <Property Name="OperationCNName" Type="nvarchar" MaxLength="512" />
           <Property Name="PrivilegeCNName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ResourcesCNName" Type="nvarchar" MaxLength="512" />
+          <Property Name="ResourceCNName" Type="nvarchar" MaxLength="512" />
           <Property Name="ResourcesId" Type="varchar" MaxLength="50" />
           <Property Name="OperationId" Type="varchar" MaxLength="50" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
@@ -2970,9 +2970,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="HF_GetAllowsStartWorkFlowsPro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="UserId" Type="varchar" Mode="In" />
-        </Function>
         <EntityContainer Name="MorSunModelStoreContainer">
           <EntitySet Name="Aduit" EntityType="Self.Aduit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AskForLeave" EntityType="Self.AskForLeave" Schema="dbo" store:Type="Tables" />
@@ -3239,7 +3236,7 @@ FROM [dbo].[HF_WorkTaskInstanceView] AS [HF_WorkTaskInstanceView]</DefiningQuery
             <DefiningQuery>SELECT 
 [wmfRolePrivilegesView].[OperationCNName] AS [OperationCNName], 
 [wmfRolePrivilegesView].[PrivilegeCNName] AS [PrivilegeCNName], 
-[wmfRolePrivilegesView].[ResourcesCNName] AS [ResourcesCNName], 
+[wmfRolePrivilegesView].[ResourceCNName] AS [ResourceCNName], 
 [wmfRolePrivilegesView].[ResourcesId] AS [ResourcesId], 
 [wmfRolePrivilegesView].[OperationId] AS [OperationId], 
 [wmfRolePrivilegesView].[RoleId] AS [RoleId], 
@@ -3553,7 +3550,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -3747,6 +3745,22 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="RequestUrl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="ExceptionType" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="dmNew">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="NewRef" Type="Guid" />
+          <Property Name="NewTitle" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NewContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewKeyWord" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="HF_AccreditUser">
           <Key>
@@ -5279,8 +5293,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="ResourcesName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="ResourcesCNName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="ResourceName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="ResourceCNName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="ParentId" Type="Guid" />
           <Property Name="Description" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
           <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -5402,6 +5416,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="TrueName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WeChatId" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BirthDay" Type="DateTime" Precision="3" />
           <Property Name="IdCard" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -5437,7 +5452,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfCounty" Relationship="Self.FK_wmfUserInfo_wmfCounty" FromRole="wmfUserInfo" ToRole="wmfCounty" />
           <NavigationProperty Name="wmfProvince" Relationship="Self.FK_wmfUserInfo_wmfProvince" FromRole="wmfUserInfo" ToRole="wmfProvince" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfUserInfo" ToRole="wmfReference" />
-          <Property Name="WeChatId" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="wmfVillage">
           <Key>
@@ -5640,7 +5654,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           </Key>
           <Property Name="OperationCNName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="PrivilegeCNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ResourcesCNName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="ResourceCNName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="ResourcesId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OperationId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="RoleId" Type="Guid" Nullable="false" />
@@ -6617,6 +6631,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" />
           <EntitySet Name="aspnet_WebEvent_Events" EntityType="Self.aspnet_WebEvent_Events" />
+          <EntitySet Name="dmNews" EntityType="Self.dmNew" />
           <EntitySet Name="HF_AccreditUser" EntityType="Self.HF_AccreditUser" />
           <EntitySet Name="HF_AppLeftMenu" EntityType="Self.HF_AppLeftMenu" />
           <EntitySet Name="HF_AppMenuTree" EntityType="Self.HF_AppMenuTree" />
@@ -7026,27 +7041,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <FunctionImport Name="HF_GetAllowsStartWorkFlowsPro">
-          <Parameter Name="UserId" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="dmNews" EntityType="MorSun.Model.dmNew" />
         </EntityContainer>
-        <EntityType Name="dmNew">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="NewRef" Type="Guid" />
-          <Property Name="NewTitle" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="NewContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="NewKeyWord" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Sort" Type="Int32" />
-          <Property Name="RegUser" Type="Guid" />
-          <Property Name="RegTime" Type="DateTime" Precision="3" />
-          <Property Name="ModTime" Type="DateTime" Precision="3" />
-          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
-          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7217,6 +7212,23 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="RequestUrl" ColumnName="RequestUrl" />
                 <ScalarProperty Name="ExceptionType" ColumnName="ExceptionType" />
                 <ScalarProperty Name="Details" ColumnName="Details" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dmNews">
+            <EntityTypeMapping TypeName="MorSun.Model.dmNew">
+              <MappingFragment StoreEntitySet="dmNew">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NewRef" ColumnName="NewRef" />
+                <ScalarProperty Name="NewTitle" ColumnName="NewTitle" />
+                <ScalarProperty Name="NewContent" ColumnName="NewContent" />
+                <ScalarProperty Name="NewKeyWord" ColumnName="NewKeyWord" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8733,8 +8745,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <EntityTypeMapping TypeName="MorSun.Model.wmfResource">
               <MappingFragment StoreEntitySet="wmfResource">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ResourcesName" ColumnName="ResourcesName" />
-                <ScalarProperty Name="ResourcesCNName" ColumnName="ResourcesCNName" />
+                <ScalarProperty Name="ResourceName" ColumnName="ResourceName" />
+                <ScalarProperty Name="ResourceCNName" ColumnName="ResourceCNName" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
@@ -8833,7 +8845,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="wmfUserInfoes">
             <EntityTypeMapping TypeName="MorSun.Model.wmfUserInfo">
               <MappingFragment StoreEntitySet="wmfUserInfo">
-                <ScalarProperty Name="WeChatId" ColumnName="WeChatId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AutoGeneticId" ColumnName="AutoGeneticId" />
                 <ScalarProperty Name="SID" ColumnName="SID" />
@@ -8848,6 +8859,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="TrueName" ColumnName="TrueName" />
                 <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
                 <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="WeChatId" ColumnName="WeChatId" />
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
@@ -9080,7 +9092,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <MappingFragment StoreEntitySet="wmfRolePrivilegesView">
                 <ScalarProperty Name="OperationCNName" ColumnName="OperationCNName" />
                 <ScalarProperty Name="PrivilegeCNName" ColumnName="PrivilegeCNName" />
-                <ScalarProperty Name="ResourcesCNName" ColumnName="ResourcesCNName" />
+                <ScalarProperty Name="ResourceCNName" ColumnName="ResourceCNName" />
                 <ScalarProperty Name="ResourcesId" ColumnName="ResourcesId" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
@@ -9098,24 +9110,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="HF_GetAllowsStartWorkFlowsPro" FunctionName="MorSun.Model.Store.HF_GetAllowsStartWorkFlowsPro" />
-          <EntitySetMapping Name="dmNews">
-            <EntityTypeMapping TypeName="MorSun.Model.dmNew">
-              <MappingFragment StoreEntitySet="dmNew">
-                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
-                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
-                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="NewKeyWord" ColumnName="NewKeyWord" />
-                <ScalarProperty Name="NewContent" ColumnName="NewContent" />
-                <ScalarProperty Name="NewTitle" ColumnName="NewTitle" />
-                <ScalarProperty Name="NewRef" ColumnName="NewRef" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

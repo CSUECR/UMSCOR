@@ -9,7 +9,7 @@ namespace MorSun.Controllers.ViewModel
     /// <summary>
     /// 资源
     /// </summary>
-    public class ResourcesVModel : BaseVModel<wmfResource>
+    public class ResourceVModel : BaseVModel<wmfResource>
     {
         ///// <summary>
         ///// 被选中的编号
@@ -38,7 +38,7 @@ namespace MorSun.Controllers.ViewModel
                     else
                         l = l.Where(p => p.ParentId == null);
                 }
-                return l.OrderBy(p => p.Sort).ThenBy(p => p.ResourcesCNName);
+                return l.OrderBy(p => p.Sort).ThenBy(p => p.ResourceCNName);
             }
         }
 
@@ -65,7 +65,7 @@ namespace MorSun.Controllers.ViewModel
                 {
                     l = l.Where(p => p.FlagTrashed == false);
                 }
-                return l.OrderBy(p => p.Sort).ThenBy(p => p.ResourcesCNName);
+                return l.OrderBy(p => p.Sort).ThenBy(p => p.ResourceCNName);
             }
         }
 

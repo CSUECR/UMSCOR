@@ -1,9 +1,9 @@
-﻿@model RefGroupVModel
+﻿@model ResourceVModel
 @{
-    ViewBag.Title = "移动类别组";
+    ViewBag.Title = "移动资源";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";   
+    var backurl = ViewBag.ReturnUrl ?? "/Resource/Index";   
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -14,23 +14,23 @@
         <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>移动类别组</div>
+                <div class="caption"><i class="icon-cogs"></i>移动资源</div>
             </div>
             <div class="portlet-body">
                 <table id="MoreSunTreeTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>类别组名</th>
+                            <th>资源名</th>
                             <th>序号</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @{Action<wmfRefGroup> action = (i) =>
-                        {
-                            Func<wmfRefGroup, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
+                        @{Action<wmfResource> action = (i) =>
+                          {
+                              Func<wmfResource, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
                                 <td style="text-align:left;">
                                     <span class="folder ui-draggable">
-                                        @item.RefGroupName
+                                        @item.ResourceCNName
                                     </span>
                                     <input id="checkedId" type="hidden" value="@item.ID" />
                                 </td>
