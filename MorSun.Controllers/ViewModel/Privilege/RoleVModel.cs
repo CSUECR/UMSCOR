@@ -49,6 +49,14 @@ namespace MorSun.Controllers.ViewModel
         }
 
 
+        public virtual IQueryable<wmfPrivilege> Privileges
+        {
+            get
+            {
+                return new PrivilegeVModel().All;
+            }
+    }
+
         /// <summary>
         /// 被选中的权限编号
         /// </summary>

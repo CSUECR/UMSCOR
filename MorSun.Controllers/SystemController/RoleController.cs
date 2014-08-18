@@ -29,7 +29,7 @@ namespace MorSun.Controllers.SystemController
         }
 
 
-        public ActionResult RoleManage(RoleVModel vModel)
+        public ActionResult Manage(RoleVModel vModel)
         {      
             if (ResourceId.HP(²Ù×÷.²é¿´))
             {
