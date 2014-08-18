@@ -5,7 +5,7 @@
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/Resource/Index";
 
-    var resGroupList = new ResourceVModel().List.ToList();
+    var resList = new ResourceVModel().List.ToList();
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -24,7 +24,7 @@
                     <thead>                        
                         <tr>
                             <th>@Html.LabelFor(m => m.ParentId)</th>
-                            <td id="TDddl">@MvcHtmlString.Create(Html.DropDownList(resGroupList, "ID", "ResourceCNName", "ResourceTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
+                            <td id="TDddl">@MvcHtmlString.Create(Html.DropDownList(resList, "ID", "ResourceCNName", "ResourceTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
                         </tr>
                     </thead>                  
                     <tbody>                       

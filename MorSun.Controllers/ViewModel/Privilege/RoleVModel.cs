@@ -23,7 +23,7 @@ namespace MorSun.Controllers.ViewModel
                 {
                     var zy = Guid.Parse(MorSun.Common.Privelege.资源.操作范围);
                     var cz = Guid.Parse(MorSun.Common.Privelege.操作.系统管理员);
-                    var xtgly = roleList.Where(r => r.wmfPrivilegeInRoles.Count(p => p.wmfPrivilege.ResourcesId == zy && p.wmfPrivilege.OperationId == cz) > 0);
+                    var xtgly = roleList.Where(r => r.wmfPrivilegeInRoles.Count(p => p.wmfPrivilege.ResourceId == zy && p.wmfPrivilege.OperationId == cz) > 0);
                     roleList = roleList.Except(xtgly);
                 }
                 return roleList.OrderBy(t => t.Sort);

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Data.Linq;
 using System.Web.Mvc;
 using HOHO18.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace MorSun.Model
 {
-    //[Bind(Include = "OperationId,ResourcesId,PrivilegeName,PrivilegeCNName,DefaultValue,Description,Sort")]
+    [MetadataType(typeof(wmfPrivilegeMetadata))]
     public partial class wmfPrivilege : IModel
     {
 
@@ -28,21 +29,7 @@ namespace MorSun.Model
 
         public IEnumerable<RuleViolation> GetRuleViolations()
         {
-            ParameterProcess.TrimParameter<wmfPrivilege>(this);
-            if (String.IsNullOrEmpty(PrivilegeCNName))
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限名称不能为空"), "PrivilegeCNName");
-            if (!String.IsNullOrEmpty(PrivilegeCNName) && PrivilegeCNName.Length > 25)
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("权限名称长度不能超过25个字符"), "PrivilegeCNName");
-            if (String.IsNullOrEmpty(ResourcesId.ToString()))
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("请选择资源"), "ResourcesId");
-            if (!String.IsNullOrEmpty(ResourcesId.ToString()) && !ModelStateValidate.IsGuid(ResourcesId.ToString()))
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("请选择资源"), "ResourcesId");
-            if (String.IsNullOrEmpty(OperationId.ToString()))
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("请选择操作"), "OperationId");
-            if (!String.IsNullOrEmpty(OperationId.ToString()) && !ModelStateValidate.IsGuid(OperationId.ToString()))
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("请选择操作"), "OperationId");
-            if (!String.IsNullOrEmpty(Description) && Description.Length > 50)
-                yield return new RuleViolation(XmlHelper.GetKeyNameValidation<wmfPrivilege>("描述长度不可大于50个字符"), "Description");
+            ParameterProcess.TrimParameter<wmfPrivilege>(this);            
             yield break;
         }
 
@@ -51,6 +38,16 @@ namespace MorSun.Model
             if (!IsValid)
                 throw new ApplicationException("Rule violations prevent saving");
         }
+    }
+
+    public class wmfPrivilegeMetadata
+    {
+        [Display(Name = "资源")]
+        [Required(ErrorMessage = "{0}必选")]
+        public System.String ResourceId;
+        [Display(Name = "操作")]
+        [Required(ErrorMessage = "{0}必选")]
+        public System.String OperationId;
     }
 
 }

@@ -37134,24 +37134,24 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> ResourcesId
+        public Nullable<global::System.Guid> ResourceId
         {
             get
             {
-                return _ResourcesId;
+                return _ResourceId;
             }
             set
             {
-                OnResourcesIdChanging(value);
-                ReportPropertyChanging("ResourcesId");
-                _ResourcesId = StructuralObject.SetValidValue(value, "ResourcesId");
-                ReportPropertyChanged("ResourcesId");
-                OnResourcesIdChanged();
+                OnResourceIdChanging(value);
+                ReportPropertyChanging("ResourceId");
+                _ResourceId = StructuralObject.SetValidValue(value, "ResourceId");
+                ReportPropertyChanged("ResourceId");
+                OnResourceIdChanged();
             }
         }
-        private Nullable<global::System.Guid> _ResourcesId;
-        partial void OnResourcesIdChanging(Nullable<global::System.Guid> value);
-        partial void OnResourcesIdChanged();
+        private Nullable<global::System.Guid> _ResourceId;
+        partial void OnResourceIdChanging(Nullable<global::System.Guid> value);
+        partial void OnResourceIdChanged();
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -40391,24 +40391,24 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String ResourcesId
+        public global::System.String ResourceId
         {
             get
             {
-                return _ResourcesId;
+                return _ResourceId;
             }
             set
             {
-                OnResourcesIdChanging(value);
-                ReportPropertyChanging("ResourcesId");
-                _ResourcesId = StructuralObject.SetValidValue(value, true, "ResourcesId");
-                ReportPropertyChanged("ResourcesId");
-                OnResourcesIdChanged();
+                OnResourceIdChanging(value);
+                ReportPropertyChanging("ResourceId");
+                _ResourceId = StructuralObject.SetValidValue(value, true, "ResourceId");
+                ReportPropertyChanged("ResourceId");
+                OnResourceIdChanged();
             }
         }
-        private global::System.String _ResourcesId;
-        partial void OnResourcesIdChanging(global::System.String value);
-        partial void OnResourcesIdChanged();
+        private global::System.String _ResourceId;
+        partial void OnResourceIdChanging(global::System.String value);
+        partial void OnResourceIdChanged();
     
         /// <summary>
         /// 没有元数据文档可用。

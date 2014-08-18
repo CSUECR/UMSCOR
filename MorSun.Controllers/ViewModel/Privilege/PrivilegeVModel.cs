@@ -15,8 +15,7 @@ namespace MorSun.Controllers.ViewModel
         /// <summary>
         /// 被选中的编号
         /// </summary>
-        public virtual string CheckedId { get; set; }
-        public virtual string PrivilegeCNName { get; set; }
+        public virtual string CheckedId { get; set; }        
         public virtual Guid? ResourceID { get; set; }
         public virtual Guid? OperationID { get; set; }
         public override IQueryable<wmfPrivilege> List
@@ -24,20 +23,19 @@ namespace MorSun.Controllers.ViewModel
             get
             {
                 var l = All;
-                if (!string.IsNullOrEmpty(PrivilegeCNName))
-                {
-                    l = l.Where(r => r.PrivilegeCNName.Contains(PrivilegeCNName));
+                if (ResourceID != null)
+                {                 
+                    l = l.Where(r => r.ResourceId == ResourceID);                
+                    if (OperationID != null)
+                    {
+                        l = l.Where(r => r.OperationId == OperationID);
+                    }                
+                    return l.OrderBy(p => p.wmfResource.Sort).ThenBy(p => p.wmfOperation.Sort);
                 }
-                if (ResourceID != null && ResourceID != Guid.Empty)
+                else
                 {
-                    l = l.Where(r => r.ResourcesId == ResourceID);
+                    return l.Take(0);
                 }
-                if (OperationID != null && OperationID != Guid.Empty)
-                {
-                    l = l.Where(r => r.OperationId == OperationID);
-                }
-
-                return l.OrderBy(p => p.wmfResource.Sort).ThenBy(p => p.wmfOperation.Sort);
             }
         }
     }

@@ -32,40 +32,26 @@ namespace MorSun.Controllers.SystemController
         //编辑前验证
         protected override string OnEditCK(wmfPrivilege t)
         {
-            var privilege = Bll.All.FirstOrDefault(r => r.PrivilegeCNName == t.PrivilegeCNName && r.ResourcesId==t.ResourcesId);
-            if (privilege != null && privilege.ID != t.ID)
-            {
-                //该权限名称已经存在，请重新输入！
-                "PrivilegeCNName".AE("权限名称已经存在", ModelState);                
-            }
-
-            privilege = Bll.All.FirstOrDefault(r => r.ResourcesId == t.ResourcesId && r.OperationId == t.OperationId);
+            var privilege = Bll.All.FirstOrDefault(r => r.ResourceId == t.ResourceId && r.OperationId == t.OperationId);
             if (privilege != null && privilege.ID != t.ID)
             {
                 //资源和操作相同的权限已经存在！
                 "PrivilegeCNName".AE("已存在相同类型权限", ModelState);                  
             }
-            return "true";
+            return "";
         }
 
         //创建前验证
         protected override string OnAddCK(wmfPrivilege t)
         {
-            var privilege = Bll.All.FirstOrDefault(r => r.PrivilegeCNName == t.PrivilegeCNName && r.ResourcesId == t.ResourcesId);
-            if (privilege != null)
-            {
-                //该权限名称已经存在，请重新输入！
-                "PrivilegeCNName".AE("权限名称已经存在", ModelState); 
-            }
-
-            privilege = Bll.All.FirstOrDefault(r => r.ResourcesId == t.ResourcesId && r.OperationId == t.OperationId);
+            var privilege = Bll.All.FirstOrDefault(r => r.ResourceId == t.ResourceId && r.OperationId == t.OperationId);
             if (privilege != null)
             {
                 //资源和操作相同的权限已经存在！
                 "PrivilegeCNName".AE("已存在相同类型权限", ModelState);                  
             }
 
-            return "true";
+            return "";
         }
 
         
@@ -74,12 +60,14 @@ namespace MorSun.Controllers.SystemController
         {
             var privilegeInRoleBll = new BaseBll<wmfPrivilegeInRole>();
             var privilegeInRole = privilegeInRoleBll.All.Where(r => r.PrivilegeId == t.ID).FirstOrDefault();
+            var s = "";
             if (privilegeInRole != null)
             {
                 //权限在角色中使用!
-                "PrivilegeCNName".AE("权限在角色中使用", ModelState); 
+                "PrivilegeCNName".AE("权限在角色中使用", ModelState);
+                s += "权限在角色中使用";
             }
-            return "true";
+            return s;
         }
 
        

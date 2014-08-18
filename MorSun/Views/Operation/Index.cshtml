@@ -3,9 +3,7 @@
     ViewBag.Title = "操作配置";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/Operation/Index";
-
-    var refGroupList = new RefGroupVModel().List.ToList();  
+    var backurl = ViewBag.ReturnUrl ?? "/Operation/Index";   
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")

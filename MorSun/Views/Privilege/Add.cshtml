@@ -1,11 +1,12 @@
-﻿@model wmfRefGroup
+﻿@model wmfPrivilege
 @{
-    ViewBag.Title = "添加类别组";
+    ViewBag.Title = "添加权限";
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/Privilege/Index";
 
-    var refGroupList = new RefGroupVModel().List.ToList();
+    var resList = new ResourceVModel().List.ToList();
+    var operList = new OperationVModel().List.ToList();
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -14,28 +15,23 @@
         <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>添加类别组</div>
+                <div class="caption"><i class="icon-cogs"></i>添加权限</div>
             </div>
             <div class="portlet-body">
-@using (Html.BeginForm("Create", "RefGroup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
-        {
-    @Html.AntiForgeryToken()
+        @using (Html.BeginForm("Create", "Privilege", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                {
+            @Html.AntiForgeryToken()
                 <table class="tableadd table-hover">  
-                    <thead>
-                        @*<tr>
-                            <th>标题</th>
-                            <th>内容</th>
-                        </tr>*@
+                    <thead>                       
                         <tr>
-                            <th>@Html.LabelFor(m => m.ParentId)</th>
-                            <td id="TDddl">@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "==请选择=="))</td>
+                            <th>@Html.LabelFor(m => m.ResourceId)</th>
+                            <td>@MvcHtmlString.Create(Html.DropDownList(resList, "ID", "ResourceCNName", "ResourceTree", "ParentId", "ResourceID", "ResourceID", Model.ResourceId.ToSecureString(), "class=\"m-wrap medium\"", "", "==资源==")) </td>
                         </tr>
                     </thead>                  
                     <tbody>
-                       
                         <tr>
-                            <th>@Html.LabelFor(m => m.RefGroupName)</th>
-                            <td>@Html.TextBoxFor(m => m.RefGroupName, new { @class="m-wrap large"})</td>
+                            <th>@Html.LabelFor(m => m.OperationId)</th>
+                            <td>@MvcHtmlString.Create(Html.DropDownList("OperationID", "OperationID", operList, Model.OperationId.ToSecureString(), "class=\"m-wrap small\"", "ID", "OperationCNName", "", "==操作=="))</td>
                         </tr>
                         <tr>
                             <th></th>
@@ -58,12 +54,8 @@
         <script type="text/javascript">  
             $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform,[]));
             function morsunInitform() {
-                $('#RefGroupName').val('');
-                ajaxGetData('/RefGroup/GetP', {},setP);                
-            }
-            function setP(d)
-            {
-                $('#TDddl').html(d);
+                //$('#ResourcesId').val('');
+                //$('#OperationID').val('');
             }
         </script>
     }

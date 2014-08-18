@@ -297,7 +297,7 @@ namespace MorSun.Controllers.SystemController
                                     if (Guid.TryParse(privilege, out privilegeGuid))
                                     {
                                         var privilegeModel = privilegeBll.GetModel(privilegeGuid);
-                                        var officePrivs = roleModel.wmfPrivilegeInRoles.Where(u => u.wmfPrivilege.wmfResource.ID == privilegeModel.ResourcesId);
+                                        var officePrivs = roleModel.wmfPrivilegeInRoles.Where(u => u.wmfPrivilege.wmfResource.ID == privilegeModel.ResourceId);
                                         PirBll.Delete(officePrivs);
                                     }
                                 }

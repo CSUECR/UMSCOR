@@ -136,7 +136,7 @@ namespace MorSun.Controllers
             else
             {
                 return BasisController.getSessionPrivileges().Any(p => string.Compare(p.OperationId, operationId, true) == 0
-                    && string.Compare(p.ResourcesId, resourceId, true) == 0) || IsAU();
+                    && string.Compare(p.ResourceId, resourceId, true) == 0) || IsAU();
             }
         }
 
@@ -152,7 +152,7 @@ namespace MorSun.Controllers
             foreach (var operateId in operationIds)
             {
                 res = BasisController.getSessionPrivileges().Any(p => string.Compare(p.OperationId, operateId, true) == 0
-                    && string.Compare(p.ResourcesId, resourceId, true) == 0);
+                    && string.Compare(p.ResourceId, resourceId, true) == 0);
                 if (res)
                     return res;
             }
@@ -173,7 +173,7 @@ namespace MorSun.Controllers
             else
             {
                 return BasisController.getSessionPrivileges().Any(p => string.Compare(p.OperationId, operationId, true) == 0
-                    && string.Compare(p.ResourcesId, resourceId, true) == 0);                
+                    && string.Compare(p.ResourceId, resourceId, true) == 0);                
             }
         }        
 

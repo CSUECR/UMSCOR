@@ -224,7 +224,7 @@ namespace MorSun.Controllers.SystemController
             //如果不存在下级目录，先删除掉角色权限，再删除权限，然后继续。
             //取出该资源的所有权限ID
             var rids = t.ID;
-            var privileges = privilegeBll.All.Where(p => p.ResourcesId != null && rids == p.ResourcesId);
+            var privileges = privilegeBll.All.Where(p => p.ResourceId != null && rids == p.ResourceId);
             var pid = privileges.Select(p => p.ID);
             //先删除角色权限表里面的权限
             var pirBll = new BaseBll<wmfPrivilegeInRole>();

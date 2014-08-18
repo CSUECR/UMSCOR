@@ -1617,7 +1617,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ResourcesId" Type="uniqueidentifier" />
+          <Property Name="ResourceId" Type="uniqueidentifier" />
           <Property Name="OperationId" Type="uniqueidentifier" />
           <Property Name="PrivilegeName" Type="nvarchar" MaxLength="50" />
           <Property Name="PrivilegeCNName" Type="nvarchar" MaxLength="50" />
@@ -1983,7 +1983,7 @@
           <Property Name="OperationCNName" Type="nvarchar" MaxLength="512" />
           <Property Name="PrivilegeCNName" Type="nvarchar" MaxLength="50" />
           <Property Name="ResourceCNName" Type="nvarchar" MaxLength="512" />
-          <Property Name="ResourcesId" Type="varchar" MaxLength="50" />
+          <Property Name="ResourceId" Type="varchar" MaxLength="50" />
           <Property Name="OperationId" Type="varchar" MaxLength="50" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Sort" Type="int" />
@@ -2672,7 +2672,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="wmfPrivilege">
-              <PropertyRef Name="ResourcesId" />
+              <PropertyRef Name="ResourceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3237,7 +3237,7 @@ FROM [dbo].[HF_WorkTaskInstanceView] AS [HF_WorkTaskInstanceView]</DefiningQuery
 [wmfRolePrivilegesView].[OperationCNName] AS [OperationCNName], 
 [wmfRolePrivilegesView].[PrivilegeCNName] AS [PrivilegeCNName], 
 [wmfRolePrivilegesView].[ResourceCNName] AS [ResourceCNName], 
-[wmfRolePrivilegesView].[ResourcesId] AS [ResourcesId], 
+[wmfRolePrivilegesView].[ResourceId] AS [ResourceId], 
 [wmfRolePrivilegesView].[OperationId] AS [OperationId], 
 [wmfRolePrivilegesView].[RoleId] AS [RoleId], 
 [wmfRolePrivilegesView].[Sort] AS [Sort], 
@@ -5181,7 +5181,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="ResourcesId" Type="Guid" />
+          <Property Name="ResourceId" Type="Guid" />
           <Property Name="OperationId" Type="Guid" />
           <Property Name="PrivilegeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PrivilegeCNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -5655,7 +5655,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="OperationCNName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="PrivilegeCNName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ResourceCNName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="ResourcesId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ResourceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OperationId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="RoleId" Type="Guid" Nullable="false" />
           <Property Name="Sort" Type="Int32" />
@@ -6496,7 +6496,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="wmfPrivilege">
-              <PropertyRef Name="ResourcesId" />
+              <PropertyRef Name="ResourceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8654,7 +8654,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <EntityTypeMapping TypeName="MorSun.Model.wmfPrivilege">
               <MappingFragment StoreEntitySet="wmfPrivilege">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ResourcesId" ColumnName="ResourcesId" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />
                 <ScalarProperty Name="PrivilegeName" ColumnName="PrivilegeName" />
                 <ScalarProperty Name="PrivilegeCNName" ColumnName="PrivilegeCNName" />
@@ -9093,7 +9093,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="OperationCNName" ColumnName="OperationCNName" />
                 <ScalarProperty Name="PrivilegeCNName" ColumnName="PrivilegeCNName" />
                 <ScalarProperty Name="ResourceCNName" ColumnName="ResourceCNName" />
-                <ScalarProperty Name="ResourcesId" ColumnName="ResourcesId" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />

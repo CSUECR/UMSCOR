@@ -25,7 +25,7 @@
                     <thead>                        
                         <tr>
                             <th>@Html.LabelFor(m => m.ParentId)</th>
-                            <td>@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", Model.ParentId.ToSecureString(), "class=\"large m-wrap\"", "", "" + "==请选择=="))</td>
+                            <td>@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", Model.ParentId.ToSecureString(), "class=\"large m-wrap\"", "", "==请选择=="))</td>
                         </tr>
                     </thead>                  
                     <tbody>
