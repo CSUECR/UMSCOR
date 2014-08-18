@@ -4,9 +4,10 @@ using System.Linq;
 using System.Data.Linq;
 using System.Web.Mvc;
 using HOHO18.Common;
+using System.ComponentModel.DataAnnotations;
 namespace MorSun.Model
 {
-    //[Bind]
+    [MetadataType(typeof(RoleMetadata))]
     public partial class aspnet_Roles : IModel
     {
 
@@ -17,7 +18,7 @@ namespace MorSun.Model
         partial void OnParentIdChanging(Guid value);
         #endregion
 
-
+        public string CheckedId { get; set; }
 
         public bool IsValid
         {
@@ -28,18 +29,6 @@ namespace MorSun.Model
         public IEnumerable<RuleViolation> GetRuleViolations()
         {
             ParameterProcess.TrimParameter<aspnet_Roles>(this);
-            RoleName.Clone();
-            if (RoleName == null || String.IsNullOrEmpty(RoleName.Trim()))
-                yield return "RoleName".AE("请输入角色名");
-            else
-            {
-                if (!String.IsNullOrEmpty(RoleName.Trim()) && !ModelStateValidate.IsChineseLetter(RoleName.Trim()))
-                    yield return "RoleName".AE("角色名应该是字母或汉字");
-
-                if (!String.IsNullOrEmpty(RoleName) && RoleName.Length > 10)
-                    yield return "RoleName".AE("角色名长度不能超过10个字符"); 
-            }
-
             yield break;
         }
 
@@ -49,5 +38,11 @@ namespace MorSun.Model
                 throw new ApplicationException("Rule violations prevent saving");
         }
     }
-
+    public class RoleMetadata
+    {
+        [Display(Name = "角色名")]
+        [Required(ErrorMessage = "{0}必填")]
+        [StringLength(10, ErrorMessage = "角色名长度不可超过10")]
+        public System.String RoleName;        
+    }
 }

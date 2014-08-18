@@ -756,6 +756,9 @@
     <Content Include="Views\Privilege\Add.cshtml" />
     <Content Include="Views\Privilege\Edit.cshtml" />
     <Content Include="Views\Privilege\Index.cshtml" />
+    <Content Include="Views\Role\Add.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

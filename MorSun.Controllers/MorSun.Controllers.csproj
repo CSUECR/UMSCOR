@@ -101,7 +101,6 @@
     <Compile Include="ViewModel\Privilege\PrivilegeVModel.cs" />
     <Compile Include="ViewModel\PCTD\ProvinceVModel.cs" />
     <Compile Include="ViewModel\REF\ReferenceVModel.cs" />
-    <Compile Include="ViewModel\REF\ReferListVModel.cs" />
     <Compile Include="ViewModel\REF\RefGroupVModel.cs" />
     <Compile Include="ViewModel\Privilege\ResourceVModel.cs" />
     <Compile Include="ViewModel\Privilege\RoleVModel.cs" />

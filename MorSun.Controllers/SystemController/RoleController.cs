@@ -53,7 +53,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public override ActionResult Add(aspnet_Roles t, string returnUrl)
+        public override ActionResult Create(aspnet_Roles t, string returnUrl)
         {
             if (ResourceId.HP(操作.添加))
             {
@@ -63,9 +63,9 @@ namespace MorSun.Controllers.SystemController
                 {
                     Roles.CreateRole(t.RoleName);
                     //加了排序增加的方法,不然添加角色时，排序添加不进去。
-                    var model = Bll.All.Where(m => m.LoweredRoleName == t.RoleName).FirstOrDefault();
-                    model.Sort = t.Sort;
-                    Bll.Update(model);
+                    //var model = Bll.All.Where(m => m.LoweredRoleName == t.RoleName).FirstOrDefault();
+                    //model.Sort = t.Sort;
+                    //Bll.Update(model);
                     fillOperationResult(returnUrl, oper, "添加成功");
                     return Json(oper);
                 }
@@ -124,6 +124,21 @@ namespace MorSun.Controllers.SystemController
 
             return "";
         }
+        /// <summary>
+        /// 判断数据库是否存在非修改角色的角色名称
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        protected override string OnEditCK(aspnet_Roles t)
+        {
+            //重复
+            if (Bll.All.Count(role => role.RoleName == t.RoleName && role.RoleId != t.RoleId) > 0)
+            {
+                "RoleName".AE("角色已存在", ModelState);
+            }
+
+            return "";
+        }
 
         //编辑角色
         [HttpPost]
@@ -138,6 +153,7 @@ namespace MorSun.Controllers.SystemController
                 {
                     "".AE("修改失败", ModelState);
                 }
+                OnEditCK(t);
                 if (ModelState.IsValid)
                 {
                     TryUpdateModel<aspnet_Roles>(model);
