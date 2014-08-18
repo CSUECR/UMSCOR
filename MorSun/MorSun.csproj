@@ -759,6 +759,8 @@
     <Content Include="Views\Role\Add.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Sort.cshtml" />
+    <Content Include="Views\Role\RoleManage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

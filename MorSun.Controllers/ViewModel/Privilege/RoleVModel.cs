@@ -35,6 +35,7 @@ namespace MorSun.Controllers.ViewModel
         /// </summary>
         public virtual Guid? CheckedId { get; set; }
 
+        public virtual Guid? RoleId { get; set; }
         /// <summary>
         /// 获取被选中的房源
         /// </summary>

@@ -4,9 +4,6 @@
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/Role/Index";
-
-    var resList = new ResourceVModel().List.ToList();
-    var operList = new OperationVModel().List.ToList();
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
