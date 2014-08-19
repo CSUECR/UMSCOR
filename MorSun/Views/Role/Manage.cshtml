@@ -1,0 +1,71 @@
+﻿@model RoleVModel
+@{
+    ViewBag.Title = "角色配置";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/Role/Index";       
+    var roleList = new RoleVModel().List.ToList();    
+    var RPVList = new BaseBll<wmfRolePrivilegesView>().All.Where(p => p.RoleId == Model.RoleId);
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">        
+        @if (rs.HP(操作.配置))
+{
+    <button class="btn green" type="button" onclick="jumptourl('/Role/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("提交".GX())</button>
+}        
+        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
+        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>角色配置</div>                
+            </div>
+            <div class="portlet-body">
+                <table id="MoreSunTreeTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>资源</th>
+                            <th style="text-align:left">操作</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{Action<wmfResource> action = (i) =>
+                          {
+                              Func<wmfResource, HelperResult>
+                                fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
+                                    <td style="text-align:left;">
+                                        <span class="folder ui-draggable">
+                                            <input type="checkbox" /> @item.ResourceCNName</span>
+                                    </td>
+                                    <td id="TD_@item.ID" style="text-align:left">
+                                        @{var sp = Model.Privileges.Where(p => p.ResourceId == item.ID).OrderBy(p => p.wmfOperation.Sort);}
+                                        @foreach (var p in sp)
+                                        {
+                                            <input type="checkbox" name="PrivId" value="@p.ID" /> @p.wmfOperation.OperationCNName
+                                        }
+                                    </td>                                    
+                                </tr>;
+                              Write(fun(i));
+                          };
+                          Model.Each(new ResourceVModel().Roots, action);
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+        @Styles.Render("~/Content/treetableCss")
+        @Scripts.Render("~/bundles/treetable")  
+        <script type="text/javascript">              
+            morsunTreeTable('#MoreSunTreeTable', "expanded", true);
+        </script>
+    }
