@@ -8,6 +8,7 @@ using MorSun.Bll;
 using System.Collections;
 using System.Web.Mvc;
 using MorSun.Controllers.ViewModel;
+using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -15,27 +16,11 @@ namespace MorSun.Controllers.SystemController
     {
         protected override string ResourceId
         {
-            get { return MorSun.Common.Privelege.资源.头部菜单; }
+            get { return 资源.头部菜单; }
         }
-
-
-        public override ActionResult Index()
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.查看))
-            {
-                ViewBag.CanDoSth = CanDoSth;
-                var vModel = new ReferenceVModel();
-                return View(vModel);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
-
         
 
-        protected override string OnPreCreateCK(wmfReference t)
+        protected override string OnAddCK(wmfReference t)
         {
             //显示名称
             if (string.IsNullOrEmpty(t.ItemValue))
@@ -64,47 +49,34 @@ namespace MorSun.Controllers.SystemController
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public override string Edit(wmfReference t)
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.修改))
-            {
-                //显示名称
-                if (string.IsNullOrEmpty(t.ItemValue))
-                {
-                    //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("显示名称不能为空"), "ItemValue") });
-                }
-                //图标
-                if (string.IsNullOrEmpty(t.Icon))
-                {
-                    //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("图标不能为空"), "Icon") });
-                }
+        //public override string Update(wmfReference t)
+        //{
+        //    if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.修改))
+        //    {
+        //        //显示名称
+        //        if (string.IsNullOrEmpty(t.ItemValue))
+        //        {
+        //            //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("显示名称不能为空"), "ItemValue") });
+        //        }
+        //        //图标
+        //        if (string.IsNullOrEmpty(t.Icon))
+        //        {
+        //            //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("图标不能为空"), "Icon") });
+        //        }
 
-                string ret = "true";
-                var Refer = Bll.All.FirstOrDefault(r => r.ItemInfo == t.ItemInfo && r.RefGroupId == t.RefGroupId);
-                if (Refer != null && t.ID != Refer.ID)
-                {
-                    //该类别已经存在，请重新输入！
-                    //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("Name已存在"), "ItemInfo") });
-                }
-                return base.Edit(t);
-            }
-            else
-            {
-                //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
-            }
-        }
-
-        public override ActionResult Recycle()
-        {
-            if (MorSun.Controllers.BasisController.havePrivilege(ResourceId, MorSun.Common.Privelege.操作.回收站))
-            {
-                var vModel = new ReferenceVModel();
-                return View(vModel);
-            }
-            else
-            {
-                return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
-            }
-        }
+        //        string ret = "true";
+        //        var Refer = Bll.All.FirstOrDefault(r => r.ItemInfo == t.ItemInfo && r.RefGroupId == t.RefGroupId);
+        //        if (Refer != null && t.ID != Refer.ID)
+        //        {
+        //            //该类别已经存在，请重新输入！
+        //            //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation<wmfReference>("Name已存在"), "ItemInfo") });
+        //        }
+        //        return base.Update(t);
+        //    }
+        //    else
+        //    {
+        //        //return getErrListJson(new[] { new RuleViolation(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"), "") });
+        //    }
+        //}        
     }
 }
