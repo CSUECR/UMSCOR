@@ -48,10 +48,10 @@
                                         if (rs.HP(操作.修改))
                                         {
                                             <button class="btn blue" type="button" onclick="jumptourl('/Privilege/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
-                                        }                                        
+                                        }
                                         if (rs.HP(操作.彻底删除))
                                         {
-                                            <button class="btn red" type="button" onclick="ajaxHandle('/Privilege/BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
+                                            <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Privilege/BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
                                         }
                                     }   
                                 </td>

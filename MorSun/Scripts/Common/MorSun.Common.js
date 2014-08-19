@@ -199,6 +199,15 @@ function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl, callBack, args)
     });
 }
 
+//通用ajax处理
+function confirmHandle(confirmStr, u, d, errMessage, topErrDiv, jumpUrl, callBack, args) {
+    if (!confirmStr)
+        confirmStr = '确认吗';
+    if (confirm(confirmStr)) {
+        ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl, callBack, args);
+    }
+}
+
 //ajax访问路径并设置值
 function ajaxGetData(url, data, callBack) {
     $.ajax({
