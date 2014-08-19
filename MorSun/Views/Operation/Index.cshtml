@@ -53,21 +53,21 @@
                                         if (rs.HP(操作.修改))
                                         {
                                             <button class="btn blue" type="button" onclick="jumptourl('/Operation/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
-                                        }                                        
+                                        }
                                         if (rs.HP(操作.删除))
                                         {
-                                            <button class="btn red" type="button" onclick="ajaxHandle('/Operation/TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
+                                            <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Operation/TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
                                         }
                                     }
                                     else if (Model.FlagTrashed == "1")
                                     {
                                         if (rs.HP(操作.删除))
                                         {
-                                            <button class="btn green" type="button" onclick="ajaxHandle('/Operation/TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
+                                            <button class="btn green" type="button" onclick="confirmHandle('确认要还原吗', '/Operation/TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
                                         }
                                         if (rs.HP(操作.彻底删除))
                                         {
-                                            <button class="btn red" type="button" onclick="ajaxHandle('/Operation/BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
+                                            <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Operation/BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
                                         }
                                     }
                                     
