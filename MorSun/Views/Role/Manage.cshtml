@@ -36,7 +36,7 @@
                                 fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
                                     <td style="text-align:left;">
                                         <span class="folder ui-draggable">
-                                            <input type="checkbox" /> @item.ResourceCNName</span>
+                                            <input id="CK_@item.ID" type="checkbox" onclick="checkContainer('CK_@item.ID','PrivId','TD_@item.ID')" /> @item.ResourceCNName</span>
                                     </td>
                                     <td id="TD_@item.ID" style="text-align:left">
                                         @{var sp = Model.Privileges.Where(p => p.ResourceId == item.ID).OrderBy(p => p.wmfOperation.Sort);}
@@ -61,7 +61,7 @@
         @Scripts.Render("~/bundles/jqueryval")        
         @Scripts.Render("~/bundles/validator")
         @Styles.Render("~/Content/JQueryQtipCss")
-        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/jqueryqtip")       
         @Scripts.Render("~/bundles/morsuncommon")
         @Styles.Render("~/Content/treetableCss")
         @Scripts.Render("~/bundles/treetable")  

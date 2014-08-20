@@ -275,3 +275,110 @@ function showElement(e) {
 function hideElement(e) {
     $(e).hide();
 }
+
+//设置选中复选框项
+function setCBVal(checkName, s) {
+    var thisarray = s.split(",");
+    $(":checkbox[name='" + checkName + "']").each(function () {
+        for (thisval in thisarray) {
+            if ($(this).attr("value") == thisarray[thisval]) {
+                $(this).attr("checked", true); //打勾                
+            }
+        }
+    });
+}
+
+/**
+* 用于批量选择功能
+*/
+function checkOne(el, allboxName) {
+    if (!el.checked)
+        document.all(allboxName).checked = false;
+}
+
+function checkAll(allboxId, checkboxName) {
+    var box = document.getElementsByName(checkboxName);
+    for (i = 0; i < box.length; i++) {
+        if (document.getElementById(allboxId).checked == true) {
+            box[i].checked = true;
+        }
+        else {
+            box[i].checked = false;
+        }
+    }
+    return true;
+}
+//设置某个容器下的复选框选中
+function checkContainer(allboxId, checkboxName, container) {
+    console.log(allboxId + checkboxName + container);
+    //$(container + ' :checkbox[name=' + checkboxName + ']').each(function () {
+    //    $(this).attr("checked", $(allboxId).attr("checked"));
+    //});
+}
+
+//读取复选框的值
+function getChecked(checkboxName, saveId) {
+    checked_str = "";
+    var box = document.getElementsByName(checkboxName);
+    for (var i = 0; i < box.length; i++) {
+        if (box[i].checked) {
+            checked_str += box[i].value + ',';
+        }
+    }
+    $('#' + saveId).val(checked_str);
+}
+
+//选中复选框
+//function SetCheckBoxChecked(value, name) {
+//    var inputs = document.getElementsByName(name);
+//    if (inputs.length > 1) {
+//        if (value != null) {
+//            if (typeof (value) == 'string') {
+//                var values = value.split(',');
+//                for (var j = 0; j < values.length; j++) {
+//                    var v = values[j];
+//                    for (var k = 0; k < inputs.length; k++) {
+//                        var input = inputs[k];
+//                        if (input.value == v) {
+//                            if (!input.checked) {
+//                                input.checked = true;
+//                            }
+//                        }
+//                    }
+//                }
+//            } else {
+//                for (var i = 0; i < inputs.length; i++) {
+//                    var input = inputs[i];
+//                    if (input.value == value && !input.checked) {
+//                        input.checked = true;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+
+
+//通用,在查询的时候选择全部,把所有text清空,select选择第一项
+function clearText(inDivID) {
+    //复选框不选中
+    $(inDivID + " input[type='checkbox']").attr("checked", false);
+    //单选框不选中
+    $(inDivID + " input[type='radio']").attr("checked", false);
+    //文本框清空
+    $(inDivID + " input[type='text']").val("");
+    //隐藏域清空
+    $(inDivID + " input[type='hidden']").val("");
+    //多行文本清空
+    $(inDivID + " textarea").val("");
+    //去除readonly属性
+    $(inDivID + " input").removeAttr("readonly");
+
+    $(inDivID + " textarea").removeAttr("readonly");
+    var selectList = $(inDivID + " select");
+    for (var i = 0; i < selectList.length; i++) {
+        if (selectList[i].options.length > 0) {
+            selectList[i].selectedIndex = 0;
+        }
+    }
+}
