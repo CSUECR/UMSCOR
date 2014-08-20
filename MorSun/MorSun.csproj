@@ -626,6 +626,8 @@
     <Content Include="Content\themes\bootstrap\image\js" />
     <None Include="Properties\PublishProfiles\kdm.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Images\bg-input-focus.png" />
+    <Content Include="Images\bg-input.png" />
     <Content Include="Images\iconVoiceWhite.png" />
     <Content Include="Images\PewterLineLeftRedLogo.png" />
     <Content Include="Images\PewterLineRightRedLogo.png" />
@@ -642,6 +644,7 @@
     <Content Include="Images\RedLineLeftWhiteLogo.png" />
     <Content Include="Images\RedLineRightWhiteLogo.png" />
     <Content Include="Images\remove-icon-small.png" />
+    <Content Include="Images\sprite.png" />
     <Content Include="Images\WhiteLineLeftWhiteLogo.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\iconMa.png" />

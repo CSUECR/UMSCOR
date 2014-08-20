@@ -309,11 +309,10 @@ function checkAll(allboxId, checkboxName) {
     return true;
 }
 //设置某个容器下的复选框选中
-function checkContainer(allboxId, checkboxName, container) {
-    console.log(allboxId + checkboxName + container);
-    //$(container + ' :checkbox[name=' + checkboxName + ']').each(function () {
-    //    $(this).attr("checked", $(allboxId).attr("checked"));
-    //});
+function checkContainer(allboxId, checkboxName, container) {    
+    $(container + ' :checkbox[name=' + checkboxName + ']').each(function () {
+        $(this).attr("checked", $(allboxId).attr("checked") == 'checked');
+    });
 }
 
 //读取复选框的值
