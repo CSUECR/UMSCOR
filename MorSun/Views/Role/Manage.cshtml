@@ -45,11 +45,9 @@
                                             <input type="checkbox" class="m-wrap" name="PrivId" value="@p.ID" /> @p.wmfOperation.OperationCNName
                                         }
 
-
-                                        <label class="checkbox"><div class="checker"><span class=""><input value="" type="checkbox"/></span></div> Checkbox 1</label>
-
-
-
+                                        <div class="controls">
+                                            <label class="checkbox"><div class="checker"><span class=""><input value="" type="checkbox" /></span></div> Checkbox 1</label>
+                                        </div>
                                     </td>                                    
                                 </tr>;
                               Write(fun(i));
@@ -72,6 +70,6 @@
         @Styles.Render("~/Content/treetableCss")
         @Scripts.Render("~/bundles/treetable")  
         <script type="text/javascript">              
-            morsunTreeTable('#MoreSunTreeTable', "expanded", true);
+            morsunTreeTable('#MoreSunTreeTable', "expanded", false);
         </script>
     }
