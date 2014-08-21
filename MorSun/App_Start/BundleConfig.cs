@@ -66,9 +66,9 @@ namespace MorSun
             bundles.Add(new StyleBundle("~/Content/treetableCss").Include("~/Content/JQueryTreeTable/jquery.treetable.css",
                 "~/Content/JQueryTreeTable/jquery.treetable.theme.default.css"));
 
-
-
-            
+            //uniform
+            bundles.Add(new ScriptBundle("~/bundles/uniform").Include("~/Content/uniform/jquery.uniform.js"));
+            bundles.Add(new StyleBundle("~/Content/uniformCss").Include("~/Content/uniform/css/uniform.default.css"));            
         }
     }
 }
