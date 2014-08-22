@@ -2267,8 +2267,8 @@ fieldset {
 
 label {
     display: block;
-    font-size: 1.2em;
-    font-weight: 600;
+    /*font-size: 1.2em;
+    font-weight: 600;*/  /*会导致uniform显示不好看*/
 }
 
 label.checkbox {
