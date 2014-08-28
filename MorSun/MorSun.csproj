@@ -255,17 +255,34 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\uniform\agent\css\uniform.agent.css" />
+    <Content Include="Content\uniform\agent\images\bg-input-agent.png" />
+    <Content Include="Content\uniform\agent\images\bg-input-focus-agent.png" />
+    <Content Include="Content\uniform\agent\images\sprite-agent.png" />
+    <Content Include="Content\uniform\aristo\css\uniform.aristo.css" />
+    <Content Include="Content\uniform\aristo\images\bg-input-aristo.png" />
+    <Content Include="Content\uniform\aristo\images\bg-input-focus-aristo.png" />
+    <Content Include="Content\uniform\aristo\images\sprite-aristo.png" />
     <Content Include="Content\uniform\default\css\uniform.default.css" />
-    <Content Include="Content\uniform\default\css\uniform.default.min.css" />
     <Content Include="Content\uniform\default\images\bg-input-focus.png" />
     <Content Include="Content\uniform\default\images\bg-input.png" />
     <Content Include="Content\uniform\default\images\sprite.png" />
+    <Content Include="Content\uniform\jeans\css\uniform.jeans.css" />
+    <Content Include="Content\uniform\jeans\images\bg-input-focus-jeans.png" />
+    <Content Include="Content\uniform\jeans\images\bg-input-focus-retina-jeans.png" />
+    <Content Include="Content\uniform\jeans\images\bg-input-jeans.png" />
+    <Content Include="Content\uniform\jeans\images\bg-input-retina-jeans.png" />
+    <Content Include="Content\uniform\jeans\images\sprite-jeans.png" />
+    <Content Include="Content\uniform\jeans\images\sprite-retina-jeans.png" />
     <Content Include="Content\uniform\_base\css\uniform._base.css" />
     <Content Include="Content\uniform\_base\css\uniform._base.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\JQueryQtipCustom\jquery.qtip.min.map" />
     <Content Include="Content\uniform\default\css\uniform.default.scss" />
     <Content Include="Content\uniform\_base\css\uniform._base.scss" />
+    <Content Include="Content\uniform\agent\css\uniform.agent.scss" />
+    <Content Include="Content\uniform\aristo\css\uniform.aristo.scss" />
+    <Content Include="Content\uniform\jeans\css\uniform.jeans.scss" />
     <None Include="Properties\PublishProfiles\kdm.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\iconVoiceWhite.png" />
@@ -406,6 +423,8 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Sort.cshtml" />
     <Content Include="Views\Role\Manage.cshtml" />
+    <Content Include="Views\Role\Test.cshtml" />
+    <Content Include="Views\Shared\_TestLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

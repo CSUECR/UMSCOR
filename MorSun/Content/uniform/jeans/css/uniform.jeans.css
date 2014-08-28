@@ -1,8 +1,8 @@
 /*
 
-Uniform Theme: Uniform Default
-Version: 1.8
-By: Josh Pyles
+Uniform Theme: Crayon
+Version: 2.0
+By: Tyler Akins
 License: MIT License
 ---
 For use with the Uniform plugin:
@@ -11,7 +11,7 @@ http://uniformjs.com/
 */
 /* General settings */
 div.selector, div.selector span, div.checker span, div.radio span, div.uploader, div.uploader span.action, div.button, div.button span {
-  background-image: url("/Content/uniform/default/images/sprite.png");
+  background-image: url("/Content/uniform/jeans/images/sprite-jeans.png");
   background-repeat: no-repeat;
   -webkit-font-smoothing: antialiased; }
 div.selector, div.checker, div.button, div.radio, div.uploader {
@@ -28,7 +28,7 @@ div.selector, div.selector *, div.radio, div.radio *, div.checker, div.checker *
   padding: 0; }
 
 .highContrastDetect {
-  background: url("/Content/uniform/agent/default/bg-input.png") repeat-x 0 0;
+  background: url("/Content/uniform/jeans/images/bg-input-jeans.png") repeat-x 0 0;
   width: 0px;
   height: 0px; }
 
@@ -37,12 +37,12 @@ input.uniform-input,
 select.uniform-multiselect,
 textarea.uniform {
   padding: 3px;
-  background: url("/Content/uniform/agent/default/bg-input.png") repeat-x 0 0;
+  background: url("/Content/uniform/jeans/images/bg-input-jeans.png") repeat-x 0 0;
   outline: 0; }
   input.uniform-input.active,
   select.uniform-multiselect.active,
   textarea.uniform.active {
-    background: url("/Content/uniform/default/images/bg-input-focus.png") repeat-x 0 0; }
+    background: url("/Content/uniform/jeans/images/bg-input-focus-jeans.png") repeat-x 0 0; }
 
 /* Remove default webkit and possible mozilla .search styles.
  * Keeping this as :active to remove browser styles */
@@ -271,7 +271,7 @@ div.button {
     text-align: center;
     background-position: right -521px;
     height: 22px;
-    margin-left: 13px;
+    margin-left: 12px;
     padding: 8px 15px 0 2px; }
   div.button.active {
     background-position: 0 -671px; }
@@ -295,7 +295,7 @@ textarea.uniform {
   font-size: 12px;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-weight: normal;
-  color: #777;
+  color: #FFE000;
   border-top: solid 1px #aaaaaa;
   border-left: solid 1px #aaaaaa;
   border-bottom: solid 1px #cccccc;
@@ -303,11 +303,9 @@ textarea.uniform {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px; }
-  input.uniform-input.hover, input.uniform-input.focus,
-  select.uniform-multiselect.hover,
-  select.uniform-multiselect.focus,
-  textarea.uniform.hover,
-  textarea.uniform.focus {
+  input.uniform-input:focus,
+  select.uniform-multiselect:focus,
+  textarea.uniform:focus {
     -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
@@ -320,23 +318,24 @@ div.button span {
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 12px;
   letter-spacing: 1px;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  color: #FFE000; }
 div.button.hover span, div.button.focus span {
-  color: #555; }
+  color: #FFE000; }
 div.button.disabled span, div.button.disabled.active span {
-  color: #bbb; }
+  color: #FFE000; }
 
 /* Select */
 div.selector {
   font-size: 12px; }
-  div.selector span {
-    color: #666;
-    text-shadow: 0 1px 0 white; }
   div.selector select {
     font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-size: 12px; }
+  div.selector span {
+    color: #FFE000;
+    text-shadow: 0 1px 0 black; }
   div.selector.disabled span, div.selector.disabled.active span {
-    color: #bbb; }
+    color: #FFE000; }
 
 /* Checker */
 div.checker {
@@ -348,19 +347,39 @@ div.radio {
 
 /* Uploader */
 div.uploader span.action {
-  text-shadow: white 0px 1px 0px;
+  text-shadow: black 0px 1px 0px;
   background-color: #fff;
   font-size: 11px;
-  font-weight: bold; }
+  font-weight: bold;
+  color: #FFE000; }
 div.uploader span.filename {
-  color: #777;
-  border-right: solid 1px #bbbbbb;
-  font-size: 11px; }
+  color: #FFE000;
+  font-size: 11px;
+  border-right: 1px solid #2f4368; }
 div.uploader.disabled span.action, div.uploader.disabled.active span.action {
-  color: #aaa; }
+  color: #FFE000; }
 div.uploader.disabled span.filename, div.uploader.disabled.active span.filename {
   border-color: #ddd;
-  color: #aaa; }
+  color: #FFE000; }
 
-input.uniform-input, input.uniform-input:focus {
-  background-color: #fff; }
+input.uniform-input, input.uniform-input:focus,
+select.uniform-multiselect,
+select.uniform-multiselect:focus,
+textarea.uniform,
+textarea.uniform:focus {
+  background-repeat: repeat; }
+
+@media only screen and (min-resolution: 124dpi), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 4 / 3), only screen and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 1.3dppx) {
+  div.selector, div.selector span, div.checker span, div.radio span, div.uploader, div.uploader span.action, div.button, div.button span {
+    background-image: url("../images/sprite-retina-jeans.png");
+    background-size: 493px; }
+
+  input.uniform-input,
+  select.uniform-multiselect,
+  textarea.uniform {
+    background-image: url("../images/bg-input-retina-jeans.png");
+    background-size: 60px; }
+    input.uniform-input.active,
+    select.uniform-multiselect.active,
+    textarea.uniform.active {
+      background-image: url("../images/bg-input-focus-retina-jeans.png"); } }

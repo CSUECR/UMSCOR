@@ -68,7 +68,11 @@ namespace MorSun
 
             //uniform
             bundles.Add(new ScriptBundle("~/bundles/uniform").Include("~/Content/uniform/jquery.uniform.js"));
-            bundles.Add(new StyleBundle("~/Content/uniformCss").Include("~/Content/uniform/default/css/uniform.default.css"));            
+            bundles.Add(new StyleBundle("~/Content/uniformdefaultCss").Include("~/Content/uniform/default/css/uniform.default.css"));
+
+            bundles.Add(new StyleBundle("~/Content/uniformagentCss").Include("~/Content/uniform/agent/css/uniform.agent.css"));
+            bundles.Add(new StyleBundle("~/Content/uniformaristoCss").Include("~/Content/uniform/aristo/css/uniform.aristo.css"));
+            bundles.Add(new StyleBundle("~/Content/uniformjeansCss").Include("~/Content/uniform/jeans/css/uniform.jeans.css")); 
         }
     }
 }

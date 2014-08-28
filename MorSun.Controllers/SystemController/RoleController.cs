@@ -28,7 +28,26 @@ namespace MorSun.Controllers.SystemController
             get { return 资源.角色配置; }
         }
 
+        public ActionResult Test(RoleVModel vModel)
+        {
+            if (ResourceId.HP(操作.查看))
+            {
+                return View(vModel);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper);
+            }
+        }
 
+        /// <summary>
+        /// 角色配置
+        /// </summary>
+        /// <param name="vModel"></param>
+        /// <returns></returns>
         public ActionResult Manage(RoleVModel vModel)
         {      
             if (ResourceId.HP(操作.查看))
