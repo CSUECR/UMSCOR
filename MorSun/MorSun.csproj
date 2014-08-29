@@ -263,6 +263,7 @@
     <Content Include="Content\uniform\aristo\images\bg-input-aristo.png" />
     <Content Include="Content\uniform\aristo\images\bg-input-focus-aristo.png" />
     <Content Include="Content\uniform\aristo\images\sprite-aristo.png" />
+    <Content Include="Content\uniform\metro\css\uniform.metro.css" />
     <Content Include="Content\uniform\default\css\uniform.default.css" />
     <Content Include="Content\uniform\default\images\bg-input-focus.png" />
     <Content Include="Content\uniform\default\images\bg-input.png" />
@@ -274,6 +275,9 @@
     <Content Include="Content\uniform\jeans\images\bg-input-retina-jeans.png" />
     <Content Include="Content\uniform\jeans\images\sprite-jeans.png" />
     <Content Include="Content\uniform\jeans\images\sprite-retina-jeans.png" />
+    <Content Include="Content\uniform\metro\images\bg-input-focus.png" />
+    <Content Include="Content\uniform\metro\images\bg-input.png" />
+    <Content Include="Content\uniform\metro\images\sprite.png" />
     <Content Include="Content\uniform\_base\css\uniform._base.css" />
     <Content Include="Content\uniform\_base\css\uniform._base.min.css" />
     <Content Include="Global.asax" />
@@ -283,6 +287,7 @@
     <Content Include="Content\uniform\agent\css\uniform.agent.scss" />
     <Content Include="Content\uniform\aristo\css\uniform.aristo.scss" />
     <Content Include="Content\uniform\jeans\css\uniform.jeans.scss" />
+    <Content Include="Content\uniform\metro\css\uniform.metro.scss" />
     <None Include="Properties\PublishProfiles\kdm.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\iconVoiceWhite.png" />
