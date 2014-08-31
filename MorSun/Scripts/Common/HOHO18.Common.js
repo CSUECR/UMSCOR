@@ -311,9 +311,20 @@ function checkAll(allboxId, checkboxName) {
 //设置某个容器下的复选框选中
 function checkContainer(allboxId, checkboxName, container) {    
     $(container + ' :checkbox[name=' + checkboxName + ']').each(function () {
-        $(this).attr("checked", $(allboxId).attr("checked") == 'checked');
-    });
+        $(this).attr("checked", $(allboxId).attr("checked") == 'checked');//兼容非uniform
+        $.uniform.update($(this).attr("checked", $(allboxId).attr("checked") == 'checked'));//有用uniform就用这个更新 有没有用uniform不影响，前提是引用uniform类库
+        //$.uniform.update($("#check2").attr("checked", true));        
+    });    
 }
+
+//设置树弄表格下的复选框选中
+//function checkTreeContainer(allboxId, checkboxName, resCheckBoxName) {
+//    $(container + ' :checkbox[name=' + checkboxName + ']').each(function () {
+//        $(this).attr("checked", $(allboxId).attr("checked") == 'checked');//兼容非uniform
+//        $.uniform.update($(this).attr("checked", $(allboxId).attr("checked") == 'checked'));//有用uniform就用这个更新 有没有用uniform不影响，前提是引用uniform类库
+//        //$.uniform.update($("#check2").attr("checked", true));        
+//    });
+//}
 
 //读取复选框的值
 function getChecked(checkboxName, saveId) {
