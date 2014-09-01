@@ -323,7 +323,6 @@
     <Content Include="Images\yelloaccent.png" />
     <Content Include="Lib\log4net.dll" />
     <Content Include="Lib\System.Data.dll" />
-    <Content Include="Scripts\3.html" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />
     <Content Include="Scripts\Common\MorSun.Common.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
@@ -428,7 +427,6 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Role\Sort.cshtml" />
     <Content Include="Views\Role\Manage.cshtml" />
-    <Content Include="Views\Role\Test.cshtml" />
     <Content Include="Views\Shared\_TestLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

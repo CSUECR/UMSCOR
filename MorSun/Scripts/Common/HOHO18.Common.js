@@ -288,36 +288,22 @@ function setCBVal(checkName, s) {
     });
 }
 
-/**
-* 用于批量选择功能
-*/
+//只选中一项
 function checkOne(el, allboxName) {
     if (!el.checked)
         document.all(allboxName).checked = false;
 }
 
-function checkAll(allboxId, checkboxName) {
-    var box = document.getElementsByName(checkboxName);
-    for (i = 0; i < box.length; i++) {
-        if (document.getElementById(allboxId).checked == true) {
-            box[i].checked = true;
-        }
-        else {
-            box[i].checked = false;
-        }
-    }
-    return true;
-}
 //设置某个容器下的复选框选中
-function checkContainer(allboxId, checkboxName, container) {    
+function checkContainer(eventcb, checkboxName, container) {    
     $(container + ' :checkbox[name=' + checkboxName + ']').each(function () {
-        $(this).attr("checked", $(allboxId).attr("checked") == 'checked');//兼容非uniform
-        $.uniform.update($(this).attr("checked", $(allboxId).attr("checked") == 'checked'));//有用uniform就用这个更新 有没有用uniform不影响，前提是引用uniform类库
+        $(this).attr("checked", $(eventcb).attr("checked") == 'checked');//兼容非uniform
+        $.uniform.update($(this).attr("checked", $(eventcb).attr("checked") == 'checked'));//有用uniform就用这个更新 有没有用uniform不影响，前提是引用uniform类库
         //$.uniform.update($("#check2").attr("checked", true));        
     });    
 }
 
-//设置树弄表格下的复选框选中
+//设置树弄表格下的复选框选中  先放放，暂时能用，赚钱要紧，以后让别人补充
 //function checkTreeContainer(allboxId, checkboxName, resCheckBoxName) {
 //    $(container + ' :checkbox[name=' + checkboxName + ']').each(function () {
 //        $(this).attr("checked", $(allboxId).attr("checked") == 'checked');//兼容非uniform
@@ -329,13 +315,27 @@ function checkContainer(allboxId, checkboxName, container) {
 //读取复选框的值
 function getChecked(checkboxName, saveId) {
     checked_str = "";
-    var box = document.getElementsByName(checkboxName);
-    for (var i = 0; i < box.length; i++) {
-        if (box[i].checked) {
-            checked_str += box[i].value + ',';
-        }
-    }
-    $('#' + saveId).val(checked_str);
+    //var box = document.getElementsByName(checkboxName);
+    //for (var i = 0; i < box.length; i++) {
+    //    if (box[i].checked) {
+    //        checked_str += box[i].value + ',';
+    //    }
+    //}
+    $(':checkbox[name=' + checkboxName + ']').each(function () {
+        if ($(this).attr("checked") == 'checked')
+            checked_str += $(this).val() + ',';
+    })
+    $(saveId).val(checked_str);
+    return checked_str;
+
+}
+
+function setChecked(checkboxName, array) {
+    $(':checkbox[name=' + checkboxName + ']').each(function () {
+        $(this).attr("checked", $.inArray($(this).val(), array));//兼容非uniform
+        $.uniform.update($(this).attr("checked", $.inArray($(this).val(), array)));
+    })
+    console.log(array);
 }
 
 //选中复选框

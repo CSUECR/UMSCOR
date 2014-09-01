@@ -6,24 +6,29 @@
     var backurl = ViewBag.ReturnUrl ?? "/Role/Index";       
     var roleList = new RoleVModel().List.ToList();    
     var RPVList = new BaseBll<wmfRolePrivilegesView>().All.Where(p => p.RoleId == Model.RoleId);
+    //guid数组变string数组
+    //string[] rpvarr = Array.ConvertAll<Guid, string>(RPVList.Select(p => p.ID).ToArray(), delegate(Guid s) { return s.ToString(); });
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">   
     <div class="content-wrapper clear-fix">        
         @if (rs.HP(操作.配置))
-{
-    <button class="btn green" type="button" onclick="jumptourl('/Role/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("提交".GX())</button>
-}        
+        {
+            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
+        }        
         <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
         <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+        @using (Html.BeginForm("SavePriv", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+        {
+        <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">            
+            @MvcHtmlString.Create(Html.DropDownList("RoleId", "RoleId", roleList, Model.CheckedRole.RoleId.ToString(), "class=\"m-wrap small\" onchange=\"jumptourl('/Role/Manage?RoleId='+$(this).val())\"", "RoleId", "RoleName", "", ""))
+        </div>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
                 <div class="caption"><i class="icon-cogs"></i>角色配置</div>                
             </div>
-            <div class="portlet-body"> 
-            @using (Html.BeginForm("Create", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm"}))
-            {
+            <div class="portlet-body">            
                 <table id="MoreSunTreeTable" class="table table-hover">
                     <thead>
                         <tr>
@@ -36,32 +41,33 @@
                           {
                               Func<wmfResource, HelperResult>
                                 fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId" class="styleThese">
-    <td style="text-align:left;">
-        <span class="treespan folder ui-draggable">
-            <label class="uniformL" onclick="checkContainer('#CK_@item.ID','PrivId','#TD_@item.ID')">
-                <input id="CK_@item.ID" type="checkbox" name="ResId" onclick="checkContainer('#CK_@item.ID','PrivId','#TD_@item.ID')" /> @item.ResourceCNName
-            </label>
-        </span>
-    </td>
-    <td id="TD_@item.ID" style="text-align:left">
-        @{var sp = Model.Privileges.Where(p => p.ResourceId == item.ID).OrderBy(p => p.wmfOperation.Sort);}
-        @foreach (var p in sp)
-        {
-            <label class="uniformL">
-                <input type="checkbox" name="PrivId" value="@p.ID" /> @p.wmfOperation.OperationCNName
-            </label>
-        }
-    </td>
-</tr>;
-                              Write(fun(i));
-                          };
-                          Model.Each(new ResourceVModel().Roots, action);
-}
+                    <td style="text-align:left;">
+                        <span class="treespan folder ui-draggable">
+                            <label class="uniformL" onclick="checkContainer('#CK_@item.ID','PrivId','#TD_@item.ID')">
+                                <input id="CK_@item.ID" type="checkbox" name="ResId" onclick="checkContainer('#CK_@item.ID','PrivId','#TD_@item.ID')" /> @item.ResourceCNName
+                            </label>
+                        </span>
+                    </td>
+                    <td id="TD_@item.ID" style="text-align:left">
+                        @{var sp = Model.Privileges.Where(p => p.ResourceId == item.ID).OrderBy(p => p.wmfOperation.Sort);}
+                        @foreach (var p in sp)
+                        {
+                            <label class="uniformL">
+                                <input type="checkbox" name="PrivId" value="@p.ID" /> @p.wmfOperation.OperationCNName
+                            </label>
+                        }
+                        </td>
+                    </tr>;
+                        Write(fun(i));
+                    };
+                    Model.Each(new ResourceVModel().Roots, action);
+                    }
                     </tbody>  
                 </table>
-             }
+             
             </div>
         </div>
+        }
     </div>   
   
 </section>
@@ -73,21 +79,22 @@
         @Scripts.Render("~/bundles/morsuncommon")
         @Styles.Render("~/Content/treetableCss")
         @Scripts.Render("~/bundles/treetable")  
-        <script type="text/javascript">              
+        <script type="text/javascript">   
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false));
             morsunTreeTable('#MoreSunTreeTable', "expanded", false);
-
             $(function () {
-                var $min, $remove, $apply, $uniformed;
+                //var $min, $remove, $apply, $uniformed;
 
-                // Debugging code to check for multiple click events
-                $selects = $("select").click(function () {
-                    if (typeof console !== 'undefined' && typeof console.log !== 'undefined') {
-                        console.log($(this).attr('id') + " clicked");
-                    }
-                });
+                //// Debugging code to check for multiple click events
+                //$selects = $("select").click(function () {
+                //    if (typeof console !== 'undefined' && typeof console.log !== 'undefined') {
+                //        console.log($(this).attr('id') + " clicked");
+                //    }
+                //});
                 //$uniformed = $(".styleThese").find("input, textarea, select, button, a.uniformTest").not(".skipThese");
                 $uniformed = $(".styleThese").find("input:checkbox").not(".skipThese");
                 $uniformed.uniform();
+                setChecked('PrivId', '@RPVList.Select(p => p.ID).ToArray().Join()');
             });
         </script>
     }

@@ -33,17 +33,17 @@ namespace MorSun.Controllers.ViewModel
         /// <summary>
         /// 被选中的编号
         /// </summary>
-        public virtual Guid? CheckedId { get; set; }
+        //public virtual Guid? CheckedId { get; set; }
 
         public virtual Guid? RoleId { get; set; }
         /// <summary>
-        /// 获取被选中的房源
+        /// 获取被选中的角色
         /// </summary>
         public virtual aspnet_Roles CheckedRole
         {
             get
             {
-                var role = All.FirstOrDefault(r => r.RoleId == CheckedId);
+                var role = All.FirstOrDefault(r => r.RoleId == RoleId);
                 return role ?? First;
             }
         }
@@ -55,7 +55,7 @@ namespace MorSun.Controllers.ViewModel
             {
                 return new PrivilegeVModel().All;
             }
-    }
+        }
 
         /// <summary>
         /// 被选中的权限编号
@@ -81,79 +81,79 @@ namespace MorSun.Controllers.ViewModel
         //    set { _PrivId = value; }
         //}
 
-        BaseBll<wmfPrivilege> privBll;
+        //BaseBll<wmfPrivilege> privBll;
 
-        public virtual BaseBll<wmfPrivilege> PrivBll
-        {
-            get
-            {
-                privBll = privBll.Load();
-                return privBll;
-            }
-            set { privBll = value; }
-        }
+        //public virtual BaseBll<wmfPrivilege> PrivBll
+        //{
+        //    get
+        //    {
+        //        privBll = privBll.Load();
+        //        return privBll;
+        //    }
+        //    set { privBll = value; }
+        //}
 
-        /// <summary>
-        /// 全部权限
-        /// </summary>
-        public virtual IQueryable<wmfPrivilege> Privs
-        {
-            get
-            {
-                var l = PrivBll.All.Where(p => p.FlagTrashed==false);
-                return from q in l orderby q.Sort ascending select q;
-            }
-        }
+        ///// <summary>
+        ///// 全部权限
+        ///// </summary>
+        //public virtual IQueryable<wmfPrivilege> Privs
+        //{
+        //    get
+        //    {
+        //        var l = PrivBll.All.Where(p => p.FlagTrashed==false);
+        //        return from q in l orderby q.Sort ascending select q;
+        //    }
+        //}
 
-        BaseBll<wmfResource> resrcBll;
-        /// <summary>
-        /// 资源
-        /// </summary>
-        public virtual BaseBll<wmfResource> ResrcBll
-        {
-            get
-            {
-                resrcBll = resrcBll.Load();
-                return resrcBll;
-            }
-            set { resrcBll = value; }
-        }
+        //BaseBll<wmfResource> resrcBll;
+        ///// <summary>
+        ///// 资源
+        ///// </summary>
+        //public virtual BaseBll<wmfResource> ResrcBll
+        //{
+        //    get
+        //    {
+        //        resrcBll = resrcBll.Load();
+        //        return resrcBll;
+        //    }
+        //    set { resrcBll = value; }
+        //}
 
-        /// <summary>
-        /// 资源
-        /// </summary>
-        public virtual IQueryable<wmfResource> Resrcs
-        {
-            get
-            {
-                //资源信息
-                var zyRef = Guid.Parse(MorSun.Common.类别.Reference.资源类别_资源);
-                return ResrcBll.All.Where(t => t.RefId == zyRef).OrderBy(t => t.Sort);
-            }
-        }
+        ///// <summary>
+        ///// 资源
+        ///// </summary>
+        //public virtual IQueryable<wmfResource> Resrcs
+        //{
+        //    get
+        //    {
+        //        //资源信息
+        //        var zyRef = Guid.Parse(MorSun.Common.类别.Reference.资源类别_资源);
+        //        return ResrcBll.All.Where(t => t.RefId == zyRef).OrderBy(t => t.Sort);
+        //    }
+        //}
 
         //判断是否有子集选中
-        public bool GetChecked(IQueryable<wmfResource> wmfResourceList, EntityCollection<wmfPrivilegeInRole> wmfPrivilegeInRolesList, Guid resourceid)
-        {
-            var ischildChecked = false;
-            var parentList = wmfResourceList.Where(p => p.ParentId == resourceid);
-            if (parentList != null && parentList.Count() > 0)
-            {
-                foreach (var resrc in parentList)
-                {
-                    //权限
-                    var privList = resrc.wmfPrivileges.OrderBy(t => t.wmfOperation.Sort);
-                    foreach (var priv in privList)
-                    {
-                        var flag = wmfPrivilegeInRolesList.Any(pir => pir.PrivilegeId == priv.ID);
-                        if (flag)
-                        {
-                            ischildChecked = true;
-                        }
-                    }
-                }
-            }
-            return ischildChecked;
-        }
+        //public bool GetChecked(IQueryable<wmfResource> wmfResourceList, EntityCollection<wmfPrivilegeInRole> wmfPrivilegeInRolesList, Guid resourceid)
+        //{
+        //    var ischildChecked = false;
+        //    var parentList = wmfResourceList.Where(p => p.ParentId == resourceid);
+        //    if (parentList != null && parentList.Count() > 0)
+        //    {
+        //        foreach (var resrc in parentList)
+        //        {
+        //            //权限
+        //            var privList = resrc.wmfPrivileges.OrderBy(t => t.wmfOperation.Sort);
+        //            foreach (var priv in privList)
+        //            {
+        //                var flag = wmfPrivilegeInRolesList.Any(pir => pir.PrivilegeId == priv.ID);
+        //                if (flag)
+        //                {
+        //                    ischildChecked = true;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return ischildChecked;
+        //}
     }
 }
