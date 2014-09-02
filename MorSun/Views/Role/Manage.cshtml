@@ -12,17 +12,17 @@
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">   
-    <div class="content-wrapper clear-fix">        
-        @if (rs.HP(操作.配置))
-        {
-            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
-        }        
-        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
-        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+    <div class="content-wrapper clear-fix"> 
         @using (Html.BeginForm("SavePriv", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
         <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">            
             @MvcHtmlString.Create(Html.DropDownList("RoleId", "RoleId", roleList, Model.CheckedRole.RoleId.ToString(), "class=\"m-wrap small\" onchange=\"jumptourl('/Role/Manage?RoleId='+$(this).val())\"", "RoleId", "RoleName", "", ""))
+            @if (rs.HP(操作.配置))
+            {
+                <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
+            }
+            <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
+            <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
         </div>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
