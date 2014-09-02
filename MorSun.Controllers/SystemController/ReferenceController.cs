@@ -86,12 +86,12 @@ namespace MorSun.Controllers.SystemController
                 {
                     fillOperationResult(returnUrl, oper, "添加成功");
                     Bll.UpdateChanges();
-                    return Json(oper);
+                    return Json(oper, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     oper.AppendData = ModelState.GE();
-                    return Json(oper);
+                    return Json(oper, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -100,7 +100,7 @@ namespace MorSun.Controllers.SystemController
                 "RefGroupName".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }        
 
@@ -206,7 +206,7 @@ namespace MorSun.Controllers.SystemController
             model.IsDefalut = true;
             Bll.Update(model);
             fillOperationResult(returnUrl, oper, "添加成功");            
-            return Json(oper);
+            return Json(oper, JsonRequestBehavior.AllowGet);
         }
 
         public virtual ActionResult Left(ReferenceVModel t)

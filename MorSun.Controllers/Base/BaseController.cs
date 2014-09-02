@@ -179,7 +179,7 @@ namespace MorSun.Controllers
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -219,14 +219,14 @@ namespace MorSun.Controllers
                         fillOperationResult(returnUrl, oper, "添加成功");
                     }
                 }
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }     
         #endregion
@@ -254,7 +254,7 @@ namespace MorSun.Controllers
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -304,14 +304,14 @@ namespace MorSun.Controllers
                     "".AE("修改失败", ModelState);
                     oper.AppendData = ModelState.GE();
                 }
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion        
@@ -350,14 +350,14 @@ namespace MorSun.Controllers
         //            "".AE("添加失败", ModelState);
         //            oper.AppendData = ModelState.GE();
         //        }
-        //        return Json(oper);
+        //        return Json(oper, JsonRequestBehavior.AllowGet);
         //    }                
         //    else
         //    {
         //        "".AE("无权限", ModelState);
         //        var oper = new OperationResult(OperationResultType.Error, "无权限");
         //        oper.AppendData = ModelState.GE();
-        //        return Json(oper);
+        //        return Json(oper, JsonRequestBehavior.AllowGet);
         //    }
 
         //}
@@ -415,14 +415,14 @@ namespace MorSun.Controllers
                     "".AE("操作失败", ModelState);
                     oper.AppendData = ModelState.GE();
                 }
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
         
@@ -472,14 +472,14 @@ namespace MorSun.Controllers
                     "".AE("操作失败", ModelState);
                     oper.AppendData = ModelState.GE();
                 }
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -535,14 +535,14 @@ namespace MorSun.Controllers
                     "".AE("排序失败", ModelState);
                     oper.AppendData = ModelState.GE();
                 }
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -586,7 +586,7 @@ namespace MorSun.Controllers
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -611,7 +611,7 @@ namespace MorSun.Controllers
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         } 
        
@@ -641,7 +641,7 @@ namespace MorSun.Controllers
         //        "".AE("无权限", ModelState);
         //        var oper = new OperationResult(OperationResultType.Error, "无权限");
         //        oper.AppendData = ModelState.GE();
-        //        return Json(oper);
+        //        return Json(oper, JsonRequestBehavior.AllowGet);
         //        //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
         //    }
         //}
@@ -671,7 +671,7 @@ namespace MorSun.Controllers
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
                 //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
@@ -702,7 +702,7 @@ namespace MorSun.Controllers
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
                 //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
@@ -733,7 +733,7 @@ namespace MorSun.Controllers
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
                 //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }

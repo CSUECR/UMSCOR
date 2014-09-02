@@ -5,7 +5,8 @@
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/Role/Index";       
     var roleList = new RoleVModel().List.ToList();    
-    var RPVList = new BaseBll<wmfRolePrivilegesView>().All.Where(p => p.RoleId == Model.RoleId);
+    var RPVList = new BaseBll<wmfRolePrivilegesView>().All.Where(p => p.RoleId == Model.RoleId).Select(p => p.ID).ToList();
+    
     //guid数组变string数组
     //string[] rpvarr = Array.ConvertAll<Guid, string>(RPVList.Select(p => p.ID).ToArray(), delegate(Guid s) { return s.ToString(); });
 }
@@ -13,8 +14,9 @@
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">   
     <div class="content-wrapper clear-fix"> 
-        @using (Html.BeginForm("SavePriv", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+        @using (Html.BeginForm("Manage", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
+        @Html.AntiForgeryToken()
         <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">            
             @MvcHtmlString.Create(Html.DropDownList("RoleId", "RoleId", roleList, Model.CheckedRole.RoleId.ToString(), "class=\"m-wrap small\" onchange=\"jumptourl('/Role/Manage?RoleId='+$(this).val())\"", "RoleId", "RoleName", "", ""))
             @if (rs.HP(操作.配置))
@@ -23,6 +25,8 @@
             }
             <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
             <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+            <button class="btn blue" type="button" onclick="ckCB('PrivId')">@("全选".GX())</button>
+            <button class="btn yellow" type="button" onclick="InvertCKCB('PrivId')">@("反选".GX())</button>
         </div>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
@@ -67,7 +71,7 @@
              
             </div>
         </div>
-        }
+        }        
     </div>   
   
 </section>
@@ -94,7 +98,7 @@
                 //$uniformed = $(".styleThese").find("input, textarea, select, button, a.uniformTest").not(".skipThese");
                 $uniformed = $(".styleThese").find("input:checkbox").not(".skipThese");
                 $uniformed.uniform();
-                setChecked('PrivId', '@RPVList.Select(p => p.ID).ToArray().Join()');
+                setChecked('PrivId', '@RPVList.Join()'.split(','));
             });
         </script>
     }

@@ -171,7 +171,7 @@ namespace MorSun.Controllers
                     FormsService.SignIn(model.UserName, model.RememberMe);
                     //封装返回的数据
                     fillOperationResult(returnUrl, oper, "登录成功");                    
-                    return Json(oper);
+                    return Json(oper, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -180,7 +180,7 @@ namespace MorSun.Controllers
                 }
             }
             oper.AppendData = ModelState.GE();
-            return Json(oper);
+            return Json(oper, JsonRequestBehavior.AllowGet);
         } 
 
         // POST: /Account/LogOff        
@@ -213,13 +213,13 @@ namespace MorSun.Controllers
                 {
                     //封装返回的数据
                     fillOperationResult(Url.Action("ConfirmQuestion", "Account", new { UserName = model.UserName, returnUrl = Url.Action("ForgetPass", "Account") }), oper, "提交成功");
-                    return Json(oper);
+                    return Json(oper, JsonRequestBehavior.AllowGet);
                 }
                 else
                     "UserName".AE("提供的用户名不正确", ModelState);
             }
             oper.AppendData = ModelState.GE();
-            return Json(oper);            
+            return Json(oper, JsonRequestBehavior.AllowGet);            
         }
 
         [AllowAnonymous]        
@@ -289,11 +289,11 @@ namespace MorSun.Controllers
 
                     //转发
                     fillOperationResult(Url.Action("SendPassEmail", "Account", new { returnUrl = Url.Action("ConfirmQuestion", "Account", new { UserName = user.UserName}) }), oper, "找回密码邮件发送成功");
-                    return Json(oper);
+                    return Json(oper, JsonRequestBehavior.AllowGet);
                 }
             }
             oper.AppendData = ModelState.GE();
-            return Json(oper);      
+            return Json(oper, JsonRequestBehavior.AllowGet);      
         }
 
         [AllowAnonymous]
@@ -350,14 +350,14 @@ namespace MorSun.Controllers
                                 ubll.Update(user);
                                 //封装返回的数据
                                 fillOperationResult(Url.Action("Index", "Home"), oper, "密码修改成功");
-                                return Json(oper);
+                                return Json(oper, JsonRequestBehavior.AllowGet);
                             }
                         }
                     }
                 }
             }
             oper.AppendData = ModelState.GE();
-            return Json(oper);
+            return Json(oper, JsonRequestBehavior.AllowGet);
         }
         
         #endregion
@@ -481,7 +481,7 @@ namespace MorSun.Controllers
                         }  
                         //封装返回的数据
                         fillOperationResult(returnUrl, oper, "注册成功");
-                        return Json(oper);
+                        return Json(oper, JsonRequestBehavior.AllowGet);
                     }
                 }
                 catch (MembershipCreateUserException e)
@@ -491,7 +491,7 @@ namespace MorSun.Controllers
             }
 
             oper.AppendData = ModelState.GE();
-            return Json(oper);
+            return Json(oper, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

@@ -61,7 +61,7 @@ namespace MorSun.Controllers.ViewModel
         /// 被选中的权限编号
         /// </summary>
 
-        public virtual string PrivId { get; set; }
+        public virtual Guid[] PrivId { get; set; }
 
         //Guid[] _PrivId;
 

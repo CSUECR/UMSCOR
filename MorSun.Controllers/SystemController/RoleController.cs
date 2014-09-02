@@ -45,7 +45,7 @@ namespace MorSun.Controllers.SystemController
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -72,12 +72,12 @@ namespace MorSun.Controllers.SystemController
                     //model.Sort = t.Sort;
                     //Bll.Update(model);
                     fillOperationResult(returnUrl, oper, "添加成功");
-                    return Json(oper);
+                    return Json(oper, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     oper.AppendData = ModelState.GE();
-                    return Json(oper);
+                    return Json(oper, JsonRequestBehavior.AllowGet);
                 }
             }
             else
@@ -85,7 +85,7 @@ namespace MorSun.Controllers.SystemController
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             
         }
@@ -171,14 +171,14 @@ namespace MorSun.Controllers.SystemController
                     "".AE("修改失败", ModelState);
                     oper.AppendData = ModelState.GE();
                 }
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }            
         }
 
@@ -205,7 +205,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public virtual ActionResult SavePriv(RoleVModel vmodel, string returnUrl)
+        public virtual ActionResult Manage(RoleVModel vmodel, string returnUrl)
         {
             if (ResourceId.HP(操作.修改))
             {
@@ -220,34 +220,21 @@ namespace MorSun.Controllers.SystemController
 
                     if (vmodel.PrivId != null && vmodel.PrivId.Count() != 0)
                     {
-                        var privStr = vmodel.PrivId.Split(',');
-                        if (privStr != null && privStr.Length != 0)
+                        //被选中的操作集合
+                        var privs = vmodel.Privileges.Where(p => vmodel.PrivId.Contains(p.ID));
+                        if (privs.Count() != 0)
                         {
-                            Guid[] privArrays = new Guid[privStr.Length - 1];
-                            for (int i = 0; i < privStr.Length; i++)
+                            //添加新的数据
+                            foreach (var priv in privs)
                             {
-                                if (!string.IsNullOrEmpty(privStr[i]))
+                                var newPir = new wmfPrivilegeInRole
                                 {
-                                    privArrays[i] = Guid.Parse(privStr[i]);
-                                }
+                                    wmfPrivilege = priv,
+                                    aspnet_Roles = role,
+                                };
+                                PirBll.Insert(newPir, false);
                             }
-
-                            //被选中的操作集合
-                            var privs = vmodel.Privileges.Where(p => privArrays.Contains(p.ID));
-                            if (privs.Count() != 0)
-                            {
-                                //添加新的数据
-                                foreach (var priv in privs)
-                                {
-                                    var newPir = new wmfPrivilegeInRole
-                                    {
-                                        wmfPrivilege = priv,
-                                        aspnet_Roles = role,
-                                    };
-                                    PirBll.Insert(newPir, false);
-                                }
-                            }
-                        }
+                        }                        
                     }
                     //执行更新
                     PirBll.UpdateChanges();
@@ -258,14 +245,14 @@ namespace MorSun.Controllers.SystemController
                     "".AE("修改失败", ModelState);
                     oper.AppendData = ModelState.GE();
                 }
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -288,7 +275,7 @@ namespace MorSun.Controllers.SystemController
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -351,14 +338,14 @@ namespace MorSun.Controllers.SystemController
                     "".AE("修改失败", ModelState);
                     oper.AppendData = ModelState.GE();
                 }
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 "".AE("无权限", ModelState);
                 var oper = new OperationResult(OperationResultType.Error, "无权限");
                 oper.AppendData = ModelState.GE();
-                return Json(oper);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
         }
 

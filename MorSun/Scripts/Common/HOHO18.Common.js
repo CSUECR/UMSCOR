@@ -277,16 +277,16 @@ function hideElement(e) {
 }
 
 //设置选中复选框项
-function setCBVal(checkName, s) {
-    var thisarray = s.split(",");
-    $(":checkbox[name='" + checkName + "']").each(function () {
-        for (thisval in thisarray) {
-            if ($(this).attr("value") == thisarray[thisval]) {
-                $(this).attr("checked", true); //打勾                
-            }
-        }
-    });
-}
+//function setCBVal(checkName, s) {
+//    var thisarray = s.split(",");
+//    $(":checkbox[name='" + checkName + "']").each(function () {
+//        for (thisval in thisarray) {
+//            if ($(this).attr("value") == thisarray[thisval]) {
+//                $(this).attr("checked", true); //打勾                
+//            }
+//        }
+//    });
+//}
 
 //只选中一项
 function checkOne(el, allboxName) {
@@ -314,13 +314,7 @@ function checkContainer(eventcb, checkboxName, container) {
 
 //读取复选框的值
 function getChecked(checkboxName, saveId) {
-    checked_str = "";
-    //var box = document.getElementsByName(checkboxName);
-    //for (var i = 0; i < box.length; i++) {
-    //    if (box[i].checked) {
-    //        checked_str += box[i].value + ',';
-    //    }
-    //}
+    checked_str = "";    
     $(':checkbox[name=' + checkboxName + ']').each(function () {
         if ($(this).attr("checked") == 'checked')
             checked_str += $(this).val() + ',';
@@ -330,44 +324,31 @@ function getChecked(checkboxName, saveId) {
 
 }
 
+
 function setChecked(checkboxName, array) {
     $(':checkbox[name=' + checkboxName + ']').each(function () {
-        $(this).attr("checked", $.inArray($(this).val(), array));//兼容非uniform
-        $.uniform.update($(this).attr("checked", $.inArray($(this).val(), array)));
-    })
-    console.log(array);
+        $(this).attr("checked", $.inArray($(this).val(), array) != -1);//兼容非uniform
+        $.uniform.update($(this).attr("checked", $.inArray($(this).val(), array) != -1));              
+    })    
 }
 
-//选中复选框
-//function SetCheckBoxChecked(value, name) {
-//    var inputs = document.getElementsByName(name);
-//    if (inputs.length > 1) {
-//        if (value != null) {
-//            if (typeof (value) == 'string') {
-//                var values = value.split(',');
-//                for (var j = 0; j < values.length; j++) {
-//                    var v = values[j];
-//                    for (var k = 0; k < inputs.length; k++) {
-//                        var input = inputs[k];
-//                        if (input.value == v) {
-//                            if (!input.checked) {
-//                                input.checked = true;
-//                            }
-//                        }
-//                    }
-//                }
-//            } else {
-//                for (var i = 0; i < inputs.length; i++) {
-//                    var input = inputs[i];
-//                    if (input.value == value && !input.checked) {
-//                        input.checked = true;
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+function ckCB(checkboxName) {
+    $(':checkbox[name=' + checkboxName + ']').attr("checked", 'true');
+    $.uniform.update($(':checkbox[name=' + checkboxName + ']').attr("checked", 'true'));
+}
 
+function InvertCKCB(checkboxName) {
+    $(':checkbox[name=' + checkboxName + ']').each(function () {
+        if ($(this).attr("checked")) {
+            $(this).removeAttr("checked");
+            $.uniform.update($(this).attr("checked", false));
+        }
+        else {
+            $(this).attr("checked", 'true');
+            $.uniform.update($(this).attr("checked", 'true'));
+        }
+    })
+}
 
 //通用,在查询的时候选择全部,把所有text清空,select选择第一项
 function clearText(inDivID) {

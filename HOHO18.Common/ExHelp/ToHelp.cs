@@ -141,7 +141,7 @@ namespace System
                     }
                     else
                     {
-                        v = Convert.ChangeType(value, toType);
+                        v = Convert.ChangeType(value.ToString(), toType);
                     }
                 }
             }

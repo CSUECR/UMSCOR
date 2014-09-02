@@ -131,12 +131,14 @@ namespace MorSun.Controllers
         /// <returns></returns>
         public static bool havePrivilege(string resourceId, string operationId)
         {
+            if (IsAU())
+                return true;
             if (BasisController.getSessionPrivileges() == null)
                 return false;
             else
             {
                 return BasisController.getSessionPrivileges().Any(p => string.Compare(p.OperationId, operationId, true) == 0
-                    && string.Compare(p.ResourceId, resourceId, true) == 0) || IsAU();
+                    && string.Compare(p.ResourceId, resourceId, true) == 0);
             }
         }
 
