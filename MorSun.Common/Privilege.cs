@@ -108,7 +108,7 @@ namespace MorSun.Common.Privelege
         /// <summary>
         /// 左侧菜单
         /// </summary>
-        public const string 左侧菜单 = "340aaeed-7d57-4a63-ae4d-6a4bcee8ebea";
+        public const string 导航菜单 = "340aaeed-7d57-4a63-ae4d-6a4bcee8ebea";
 
 
         /// <summary>

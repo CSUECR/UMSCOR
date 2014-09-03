@@ -70,7 +70,7 @@
     <Compile Include="Filter\PrivilegeAttribute.cs" />
     <Compile Include="ModelBinder\SmartModelBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemController\MenuReferenceController.cs" />
+    <Compile Include="SystemController\NavigationLinkController.cs" />
     <Compile Include="SystemController\OperationController.cs">
       <SubType>Code</SubType>
     </Compile>
