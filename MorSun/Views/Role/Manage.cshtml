@@ -5,7 +5,7 @@
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/Role/Index";       
     var roleList = new RoleVModel().List.ToList();    
-    var RPVList = new BaseBll<wmfRolePrivilegesView>().All.Where(p => p.RoleId == Model.RoleId).Select(p => p.ID).ToList();
+    var RPVList = new BaseBll<wmfRolePrivilegesView>().All.Where(p => p.RoleId == Model.RoleId).Select(p => p.ID);
     
     //guid数组变string数组
     //string[] rpvarr = Array.ConvertAll<Guid, string>(RPVList.Select(p => p.ID).ToArray(), delegate(Guid s) { return s.ToString(); });
