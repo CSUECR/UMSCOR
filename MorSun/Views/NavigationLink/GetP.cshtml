@@ -1,0 +1,6 @@
+﻿@{
+    Layout = null;
+    var NavLinkList = new NavigationLinkVModel().List.ToList();
+}
+
+@MvcHtmlString.Create(Html.DropDownList(NavLinkList, "ID", "MenuName", "NavLinkTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))

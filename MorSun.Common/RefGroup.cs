@@ -101,8 +101,12 @@ namespace MorSun.Common
             /// </summary>
             public const string 新闻类型 = "e8152433-675e-4d20-a790-7ce571fa8e1f";
             
-            //资源类别
-            public const string 资源类别 = "03cd2760-026a-4bfb-906f-1af92bec5681";   
+            /// <summary>
+            /// 资源类别
+            /// </summary>
+            public const string 资源类别 = "03cd2760-026a-4bfb-906f-1af92bec5681";
+
+            public const string 导航菜单 = "93fe60d1-e4d5-413f-939f-1869cb3be726";
         }
     }    
 }

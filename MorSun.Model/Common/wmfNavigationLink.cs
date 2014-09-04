@@ -23,6 +23,12 @@ namespace MorSun.Model
         /// </summary>
         public Guid[] RIds { get; set; }
 
+        public string NavLinkTree
+        {
+            get;
+            set;
+        }
+
         public bool IsValid
         {
             get { return (GetRuleViolations().Count() == 0); }

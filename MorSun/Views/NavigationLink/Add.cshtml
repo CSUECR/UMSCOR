@@ -1,0 +1,80 @@
+﻿@model wmfNavigationLink
+@{
+    ViewBag.Title = "添加导航";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";    
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/NavigationLink/Index";
+
+    var NavLinkList = new NavigationLinkVModel().List.ToList();
+
+    var refVModel = new ReferenceVModel();
+    var NavList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.导航菜单);
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">       
+        <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>添加导航</div>
+            </div>
+            <div class="portlet-body">
+@using (Html.BeginForm("Create", "NavigationLink", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+        {
+    @Html.AntiForgeryToken()
+                <table class="tableadd table-hover">  
+                    <thead>   
+                        <tr>
+                            <th>@Html.LabelFor(m => m.RefId)</th>
+                            <td>@MvcHtmlString.Create(Html.DropDownList("RefId", "RefId", NavList, Model.RefId.ToString(), "class=\"m-wrap small\"", "ID", "ItemValue", "", ""))</td>
+                        </tr> 
+                    </thead>                  
+                    <tbody>   
+                        <tr>
+                            <th>@Html.LabelFor(m => m.ParentId)</th>
+                            <td id="TDddl">@MvcHtmlString.Create(Html.DropDownList(NavLinkList, "ID", "MenuName", "NavLinkTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
+                        </tr>                    
+                        <tr>
+                            <th>@Html.LabelFor(m => m.MenuName)</th>
+                            <td>@Html.TextBoxFor(m => m.MenuName, new { @class = "m-wrap large" })</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.LabelFor(m => m.Icon)</th>
+                            <td>@Html.TextBoxFor(m => m.Icon, new { @class = "m-wrap large" })</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.LabelFor(m => m.URL)</th>
+                            <td>@Html.TextBoxFor(m => m.URL, new { @class = "m-wrap large" })</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><button class="btn green" type="button" id="submitBtn">@("提交".GX())</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+        }
+            </div>
+        </div>
+    </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+         
+        <script type="text/javascript">  
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform,[]));
+            function morsunInitform() {
+                $('#ResourceCNName').val('');
+                $('#Icon').val('');
+                $('#URL').val('');
+                ajaxGetData('/NavigationLink/GetP', {}, setP);
+            }
+            function setP(d) {
+                $('#TDddl').html(d);
+            }
+        </script>
+    }

@@ -428,6 +428,12 @@
     <Content Include="Views\Role\Sort.cshtml" />
     <Content Include="Views\Role\Manage.cshtml" />
     <Content Include="Views\Shared\_TestLayout.cshtml" />
+    <Content Include="Views\NavigationLink\Add.cshtml" />
+    <Content Include="Views\NavigationLink\Edit.cshtml" />
+    <Content Include="Views\NavigationLink\GetP.cshtml" />
+    <Content Include="Views\NavigationLink\Index.cshtml" />
+    <Content Include="Views\NavigationLink\Move.cshtml" />
+    <Content Include="Views\NavigationLink\Sort.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

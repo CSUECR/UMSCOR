@@ -303,7 +303,7 @@ function checkContainer(eventcb, checkboxName, container) {
     });    
 }
 
-//设置树弄表格下的复选框选中  先放放，暂时能用，赚钱要紧，以后让别人补充
+//设置树弄表格下的复选框选中  先放放，暂时能用，以后找人补充，时间~~
 //function checkTreeContainer(allboxId, checkboxName, resCheckBoxName) {
 //    $(container + ' :checkbox[name=' + checkboxName + ']').each(function () {
 //        $(this).attr("checked", $(allboxId).attr("checked") == 'checked');//兼容非uniform
