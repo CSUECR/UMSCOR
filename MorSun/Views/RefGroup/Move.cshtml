@@ -9,29 +9,31 @@
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
-        <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
-        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
-        <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
-        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-            <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>移动类别组</div>
-            </div>
-            <div class="portlet-body">
-                <table id="MoreSunTreeTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>类别组名</th>
-                            <th>序号</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{Action<wmfRefGroup> action = (i) =>
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+            <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
+            <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+           </div>
+             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>移动类别组</div>
+                </div>
+                <div class="portlet-body">
+                    <table id="MoreSunTreeTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>类别组名</th>
+                                <th>序号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{Action<wmfRefGroup> action = (i) =>
                         {
                             Func<wmfRefGroup, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
                                 <td style="text-align:left;">
                                     <span class="treespan folder ui-draggable">
                                         @item.RefGroupName
-                                    </span>                                    
+                                    </span>
                                 </td>
                                 <td>
                                     @item.Sort
@@ -39,13 +41,13 @@
                             </tr>;
                             Write(fun(i));
                         };
-                        Model.Each(Model.Roots, action);
-                        }
-                    </tbody>
-                </table>
+                            Model.Each(Model.Roots, action);
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </div>    
+        </div>    
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        

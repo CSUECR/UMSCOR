@@ -9,131 +9,134 @@
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
-        @if (Model.FlagTrashed == "0")
-{
-            if (rs.HP(操作.添加))
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            @if (Model.FlagTrashed == "0")
             {
-                <button class="btn green" type="button" onclick="jumptourl('/RefGroup/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
-            }
+                if (rs.HP(操作.添加))
+                {
+                    <button class="btn green" type="button" onclick="jumptourl('/RefGroup/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
+                }
                 <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
                 <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
-            if (rs.HP(操作.修改))
-            {
-                <button class="btn black" type="button" onclick="jumptourl('/RefGroup/Move?returnUrl=@(Url.Encode(Request.RawUrl))')">@("移动".GX())</button>
+                if (rs.HP(操作.修改))
+                {
+                    <button class="btn black" type="button" onclick="jumptourl('/RefGroup/Move?returnUrl=@(Url.Encode(Request.RawUrl))')">@("移动".GX())</button>
+                }
+                if (rs.HP(操作.回收站))
+                {
+                    <button class="btn" type="button" onclick="jumptourl('/RefGroup/Index?FlagTrashed=1&returnUrl=@(Url.Encode(Request.RawUrl))')">@("回收站".GX())</button>
+                }
             }
-            if (rs.HP(操作.回收站))
+            else if (Model.FlagTrashed == "1")
             {
-                <button class="btn" type="button" onclick="jumptourl('/RefGroup/Index?FlagTrashed=1&returnUrl=@(Url.Encode(Request.RawUrl))')">@("回收站".GX())</button>
+                <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
             }
-        }
-        else if (Model.FlagTrashed == "1")
-        {
-            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
-        }
-        @*<button class="btn blue" type="button">@("修改".GX())</button>
-        <button class="btn red" type="button">@("删除".GX())</button>
-        <button class="btn" type="button">@("返回".GX())</button>
-        <button class="btn yellow" type="button">@("查询".GX())</button>
-        <button class="btn black" type="button">@("查询".GX())</button>*@
-
-
-        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-            <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>类别组设置</div>
-                @*<div class="tools">
-                    <a class="collapse" href="javascript:;"></a>
-                    <a class="config" data-toggle="modal" href="#portlet-config"></a>
-                    <a class="reload" href="javascript:;"></a>
-                    <a class="remove" href="javascript:;"></a>
-                </div>*@
             </div>
-            <div class="portlet-body">
-                <table id="MoreSunTreeTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>类别组名</th>
-                            <th>序号</th>
-                            <th>操作</th>
-                            @*<th class="hidden-480">Username</th>*@
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(Model.FlagTrashed == "0")
-                        { 
-                            {Action<wmfRefGroup> action = (i) =>
+            @*<button class="btn blue" type="button">@("修改".GX())</button>
+            <button class="btn red" type="button">@("删除".GX())</button>
+            <button class="btn" type="button">@("返回".GX())</button>
+            <button class="btn yellow" type="button">@("查询".GX())</button>
+            <button class="btn black" type="button">@("查询".GX())</button>*@
+
+
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>类别组设置</div>
+                    @*<div class="tools">
+                        <a class="collapse" href="javascript:;"></a>
+                        <a class="config" data-toggle="modal" href="#portlet-config"></a>
+                        <a class="reload" href="javascript:;"></a>
+                        <a class="remove" href="javascript:;"></a>
+                    </div>*@
+                </div>
+                <div class="portlet-body">
+                    <table id="MoreSunTreeTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>类别组名</th>
+                                <th>序号</th>
+                                <th>操作</th>
+                                @*<th class="hidden-480">Username</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.FlagTrashed == "0")
                             {
-                                Func<wmfRefGroup, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
-                                    <td style="text-align:left;">
-                                        <span class="folder ui-draggable">
-                                            @item.RefGroupName
-                                        </span>                                        
-                                    </td>
-                                    <td>
-                                        @item.Sort
-                                    </td>
-                                    <td>
-                                        @if (Model.FlagTrashed == "0")
+                                {
+                                    Action<wmfRefGroup> action = (i) =>
                                         {
-                                            if (rs.HP(操作.修改))
-                                            {
-                                                <button class="btn blue" type="button" onclick="jumptourl('/RefGroup/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
-                                            }
-                                            if (rs.HP(操作.修改))
-                                            {
-                                                <button class="btn purple" type="button" onclick="jumptourl('/RefGroup/Sort?sIsSort=true&sParentId=@item.ParentId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
-                                            }
-                                            if (rs.HP(操作.删除))
-                                            {
-                                                <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', 'TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
-                                            }
-                                        }                                    
-                                    
-                                    </td>
-                                </tr>;
-                                Write(fun(i));
-                            };
-                            Model.Each(Model.Roots, action);
+                                            Func<wmfRefGroup, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
+                                                <td style="text-align:left;">
+                                                    <span class="folder ui-draggable">
+                                                        @item.RefGroupName
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    @item.Sort
+                                                </td>
+                                                <td>
+                                                    @if (Model.FlagTrashed == "0")
+                                                    {
+                                                        if (rs.HP(操作.修改))
+                                                        {
+                                                            <button class="btn blue" type="button" onclick="jumptourl('/RefGroup/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
+                                                        }
+                                                        if (rs.HP(操作.修改))
+                                                        {
+                                                            <button class="btn purple" type="button" onclick="jumptourl('/RefGroup/Sort?sIsSort=true&sParentId=@item.ParentId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
+                                                        }
+                                                        if (rs.HP(操作.删除))
+                                                        {
+                                                            <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', 'TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
+                                                        }
+                                                    }
+
+                                                </td>
+                                            </tr>;
+                                            Write(fun(i));
+                                        };
+                                    Model.Each(Model.Roots, action);
+                                }
                             }
-                        }
-                        else if (Model.FlagTrashed == "1")
-                        {
-                            foreach(var item in Model.Roots)
-                            { 
-                                <tr id="TR_@item.ID">
-                                    <td style="text-align:left;">
-                                        <span class="treespan folder ui-draggable">
-                                            @item.RefGroupName
-                                        </span>
-                                        <input id="checkedId" type="hidden" value="@item.ID" />
-                                    </td>
-                                    <td>
-                                        @item.Sort
-                                    </td>
-                                    <td>
-                                        @if (rs.HP(操作.删除))
-                                        {
-                                            <button class="btn green" type="button" onclick="confirmHandle('确认要还原吗', 'TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
-                                        }
-                                        @if (rs.HP(操作.彻底删除))
-                                        {
-                                            <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', 'BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
-                                        }
-                                    </td>
-                                </tr>
+                            else if (Model.FlagTrashed == "1")
+                            {
+                                foreach (var item in Model.Roots)
+                                {
+                                    <tr id="TR_@item.ID">
+                                        <td style="text-align:left;">
+                                            <span class="treespan folder ui-draggable">
+                                                @item.RefGroupName
+                                            </span>
+                                            <input id="checkedId" type="hidden" value="@item.ID" />
+                                        </td>
+                                        <td>
+                                            @item.Sort
+                                        </td>
+                                        <td>
+                                            @if (rs.HP(操作.删除))
+                                            {
+                                                <button class="btn green" type="button" onclick="confirmHandle('确认要还原吗', 'TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
+                                            }
+                                            @if (rs.HP(操作.彻底删除))
+                                            {
+                                                <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', 'BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                        @*<tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td class="hidden-480">makr124</td>
-                            <td><span class="label label-success">Approved</span></td>
-                        </tr>*@
-                    </tbody>
-                </table>
+                            @*<tr>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>Otto</td>
+                            <td class="hidden-480">makr124</td>
+                                <td><span class="label label-success">Approved</span></td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </div>    
+        </div>    
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        

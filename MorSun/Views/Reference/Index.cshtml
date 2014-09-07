@@ -11,109 +11,107 @@
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
-        @if (Model.FlagTrashed == "0")
-{
-    if (rs.HP(操作.添加))
-    {
-        <button class="btn green" type="button" onclick="jumptourl('/Reference/Add?RefGroupId=' + $('#RefGroupId').val() + '&returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
-    }
-    if (rs.HP(操作.修改))
-    {
-                <button class="btn purple" type="button" onclick="jumptosort()">@("排序".GX())</button>
-            }
-            if (rs.HP(操作.回收站))
-            {
-                <button class="btn" type="button" onclick="jumptourl('/Reference/Index?FlagTrashed=1')">@("回收站".GX())</button>
-            }
-        }
-        else if (Model.FlagTrashed == "1")
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+        @using (Html.BeginForm("Index", "Reference", FormMethod.Get))
         {
-            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
-        } 
-
-        <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">
-            @using (Html.BeginForm("Index","Reference",FormMethod.Get))
-            {                
-                @MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "RefGroupId", "RefGroupId", Model.RefGroupId.ToSecureString(), "class=\"m-wrap small\"", "", "==类别组=="))
-                <button class="btn yellow" type="submit">@("查询".GX())</button>
-                @Html.HiddenFor(m => m.FlagTrashed)
+            @MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "RefGroupId", "RefGroupId", Model.RefGroupId.ToSecureString(), "class=\"m-wrap small\"", "", "==类别组=="))
+            <button class="btn yellow" type="submit">@("查询".GX())</button>
+            @Html.HiddenFor(m => m.FlagTrashed)
+            if (Model.FlagTrashed == "0")
+            {
+                if (rs.HP(操作.添加))
+                {
+                    <button class="btn green" type="button" onclick="jumptourl('/Reference/Add?RefGroupId=' + $('#RefGroupId').val() + '&returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
+                }
+                if (rs.HP(操作.修改))
+                {
+                    <button class="btn purple" type="button" onclick="jumptosort()">@("排序".GX())</button>
+                }
+                if (rs.HP(操作.回收站))
+                {
+                    <button class="btn" type="button" onclick="jumptourl('/Reference/Index?FlagTrashed=1')">@("回收站".GX())</button>
+                }
             }
-        </div>
-        @*<div class="alert alert-success">
-            <button class="close" data-dismiss="alert"></button>
-            <strong>Success!</strong> The page has been added.
-
-        </div>
-        *@
-
-
-        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-            <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>类别设置</div>                
+            else if (Model.FlagTrashed == "1")
+            {
+                <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+            }   
+                }
             </div>
-            <div class="portlet-body">
-                <table id="MoreSunTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>类别名</th>
-                            <th>配置Info</th>
-                            @*<th>配置Url</th>
-                            <th>配置Icon</th>*@
-                            <th>操作</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach(var item in Model.List)
-                        {
-                            <tr id="TR_@item.ID" class="@(item.IsDefalut ? "success" : "")">
-                                <td>                                   
-                                    @item.ItemValue                                                                    
-                                </td>
-                                <td>
-                                    @item.ItemInfo
-                                </td>
-                                @*<td>
-                                    @item.SeeUrl
-                                </td>
-                                <td>
-                                    @item.Icon
-                                </td>*@
-                                <td>
-                                    @if (Model.FlagTrashed == "0")
-                                    {
-                                        if (rs.HP(操作.修改))
-                                        {
-                                            <button class="btn blue" type="button" onclick="jumptourl('/Reference/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
-                                        }
-                                        if (rs.HP(操作.修改))
-                                        {
-                                            <button class="btn purple" type="button" onclick="ajaxHandle('/Reference/SetDefault', {id : '@item.ID',RefGroupId : '@Model.RefGroupId'}, null, null, null, toggleDefalut,['#TR_@item.ID'])">@("默认".GX())</button>
-                                        }
-                                        if (rs.HP(操作.删除))
-                                        {
-                                            <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Reference/TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
-                                        }
-                                    }
-                                    else if (Model.FlagTrashed == "1")
-                                    {
-                                        if (rs.HP(操作.删除))
-                                        {
-                                            <button class="btn green" type="button" onclick="confirmHandle('确认要还原吗', '/Reference/TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
-                                        }
-                                        if (rs.HP(操作.彻底删除))
-                                        {
-                                            <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Reference/BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
-                                        }
-                                    }
-                                    
-                                </td>
+            @*<div class="alert alert-success">
+                <button class="close" data-dismiss="alert"></button>
+                <strong>Success!</strong> The page has been added.
+
+            </div>
+            *@
+
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>类别设置</div>
+                </div>
+                <div class="portlet-body">
+                    <table id="MoreSunTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>类别名</th>
+                                <th>配置Info</th>
+                                @*<th>配置Url</th>
+                                <th>配置Icon</th>*@
+                                <th>操作</th>
                             </tr>
-                        }                        
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.List)
+                            {
+                                <tr id="TR_@item.ID" class="@(item.IsDefalut ? "success" : "")">
+                                    <td>
+                                        @item.ItemValue
+                                    </td>
+                                    <td>
+                                        @item.ItemInfo
+                                    </td>
+                                    @*<td>
+                                        @item.SeeUrl
+                                    </td>
+                                    <td>
+                                        @item.Icon
+                                    </td>*@
+                                    <td>
+                                        @if (Model.FlagTrashed == "0")
+                                        {
+                                            if (rs.HP(操作.修改))
+                                            {
+                                                <button class="btn blue" type="button" onclick="jumptourl('/Reference/Edit?id=@item.ID&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
+                                            }
+                                            if (rs.HP(操作.修改))
+                                            {
+                                                <button class="btn purple" type="button" onclick="ajaxHandle('/Reference/SetDefault', {id : '@item.ID',RefGroupId : '@Model.RefGroupId'}, null, null, null, toggleDefalut,['#TR_@item.ID'])">@("默认".GX())</button>
+                                            }
+                                            if (rs.HP(操作.删除))
+                                            {
+                                                <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Reference/TrashList', { CheckedId : '@item.ID',flag : 'true'}, null, null, null, hideElement,['#TR_@item.ID'])">@("删除".GX())</button>
+                                            }
+                                        }
+                                        else if (Model.FlagTrashed == "1")
+                                        {
+                                            if (rs.HP(操作.删除))
+                                            {
+                                                <button class="btn green" type="button" onclick="confirmHandle('确认要还原吗', '/Reference/TrashList', { CheckedId : '@item.ID',flag : 'false'}, null, null, null, hideElement,['#TR_@item.ID'])">@("还原".GX())</button>
+                                            }
+                                            if (rs.HP(操作.彻底删除))
+                                            {
+                                                <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Reference/BatchDelete', { CheckedId : '@item.ID'}, null, null, null, hideElement,['#TR_@item.ID'])">@("彻底删除".GX())</button>
+                                            }
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </div>    
+        </div>    
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        

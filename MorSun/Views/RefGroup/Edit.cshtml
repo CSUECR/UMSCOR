@@ -11,40 +11,38 @@
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">       
-        <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
-        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-            <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>修改类别组</div>
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
+            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
             </div>
-            <div class="portlet-body">
-@using (Html.BeginForm("Update", "RefGroup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
-        {
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m =>m.ID)
-                <table class="tableadd table-hover">  
-                    <thead>                        
-                        <tr>
-                            <th>@Html.LabelFor(m => m.ParentId)</th>
-                            <td>@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", Model.ParentId.ToSecureString(), "class=\"large m-wrap\"", "", "==请选择=="))</td>
-                        </tr>
-                    </thead>                  
-                    <tbody>
-                       
-                        <tr>
-                            <th>@Html.LabelFor(m => m.RefGroupName)</th>
-                            <td>@Html.TextBoxFor(m => m.RefGroupName, new { @class="m-wrap large"})</td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td><button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>                            
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-        }
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>修改类别组</div>
+                </div>
+                <div class="portlet-body">
+                    @using (Html.BeginForm("Update", "RefGroup", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.ID)
+                        <table class="tableadd table-hover">
+                            <thead>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.ParentId)</th>
+                                    <td>@MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "ParentId", "ParentId", Model.ParentId.ToSecureString(), "class=\"large m-wrap\"", "", "==请选择=="))</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.RefGroupName)</th>
+                                    <td>@Html.TextBoxFor(m => m.RefGroupName, new { @class = "m-wrap large" })</td>
+                                </tr>                                
+                            </tbody>
+                        </table>
+                    }
+                </div>
             </div>
-        </div>
-    </div>    
+        </div>    
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        
