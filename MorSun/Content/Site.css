@@ -97,6 +97,8 @@ h5, h6 {
         text-decoration: none;
     }
 
+.ptr{cursor: pointer;}
+
 /*btn*/
 .btn {
     background-color: #e5e5e5;
@@ -2445,7 +2447,22 @@ tr.pager td {
     padding: 0 0.25em 0 0;
 }
 
+/*固定导航*/
+.stickytopmenu {
+	position:fixed;
+	top:0;	
+    width: 910px;
+    z-index:1000;
+    margin-top:0px;
+}
 
+.stickybotmenu {
+	position:fixed;
+	bottom:0;
+    width: 910px;
+    z-index:1000;
+    margin-bottom:0px;
+}
 /********************
 *   Mobile Styles   *
 ********************/

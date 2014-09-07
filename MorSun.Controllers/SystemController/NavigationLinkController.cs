@@ -30,23 +30,22 @@ namespace MorSun.Controllers.SystemController
             }
             if (t.RIds != null && t.RIds.Count() > 0)
             {//之前少了个判断，会出错。
-                Guid[] Ids = t.RIds;
-                var idsCount = Ids.Count();
-                if (Ids != null && idsCount > 0)
-                {
-                    t.ResourcesIds = "";
-                    for (int i = 0; i < idsCount; i++)
-                    {
-                        t.ResourcesIds += Ids[i].ToString();
-                        if (i != (idsCount - 1))
-                        {
-                            t.ResourcesIds += ",";
-                        }
-                    }
-                }
-            }
-
-            t.RegTime = DateTime.Now;
+                //Guid[] Ids = t.RIds;
+                //var idsCount = Ids.Count();
+                //if (Ids != null && idsCount > 0)
+                //{
+                //    t.ResourcesIds = "";
+                //    for (int i = 0; i < idsCount; i++)
+                //    {
+                //        t.ResourcesIds += Ids[i].ToString();
+                //        if (i != (idsCount - 1))
+                //        {
+                //            t.ResourcesIds += ",";
+                //        }
+                //    }
+                //}
+                t.ResourcesIds = t.RIds.Join();
+            }            
             return "";
         }
 
@@ -62,23 +61,8 @@ namespace MorSun.Controllers.SystemController
 
             if (t.RIds != null && t.RIds.Count() > 0)
             {//之前少了个判断，会出错。
-                Guid[] Ids = t.RIds;
-                var idsCount = Ids.Count();
-                if (Ids != null && idsCount > 0)
-                {
-                    t.ResourcesIds = "";
-                    for (int i = 0; i < idsCount; i++)
-                    {
-                        t.ResourcesIds += Ids[i].ToString();
-                        if (i != (idsCount - 1))
-                        {
-                            t.ResourcesIds += ",";
-                        }
-                    }
-                }
-            }
-            t.ModTime = DateTime.Now;
-
+                t.ResourcesIds = t.RIds.Join();
+            }            
             return "";
         }
 

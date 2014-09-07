@@ -8,55 +8,98 @@
     var NavLinkList = new NavigationLinkVModel().List.ToList();
 
     var refVModel = new ReferenceVModel();
-    var NavList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.导航菜单);
+    var NavList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.导航菜单).ToList();
+
+    var rsmodel = new ResourceVModel();
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
-    <div class="content-wrapper clear-fix">       
-        <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+    <div class="content-wrapper clear-fix"> 
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            <button class="btn green submitBtn" type="button" id="submitBtn">@("提交".GX())</button>
+            <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
+            <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+        </div>         
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
                 <div class="caption"><i class="icon-cogs"></i>添加导航</div>
             </div>
             <div class="portlet-body">
-@using (Html.BeginForm("Create", "NavigationLink", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
-        {
-    @Html.AntiForgeryToken()
-                <table class="tableadd table-hover">  
-                    <thead>   
-                        <tr>
-                            <th>@Html.LabelFor(m => m.RefId)</th>
-                            <td>@MvcHtmlString.Create(Html.DropDownList("RefId", "RefId", NavList, Model.RefId.ToString(), "class=\"m-wrap small\"", "ID", "ItemValue", "", ""))</td>
-                        </tr> 
-                    </thead>                  
-                    <tbody>   
-                        <tr>
-                            <th>@Html.LabelFor(m => m.ParentId)</th>
-                            <td id="TDddl">@MvcHtmlString.Create(Html.DropDownList(NavLinkList, "ID", "MenuName", "NavLinkTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
-                        </tr>                    
-                        <tr>
-                            <th>@Html.LabelFor(m => m.MenuName)</th>
-                            <td>@Html.TextBoxFor(m => m.MenuName, new { @class = "m-wrap large" })</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.LabelFor(m => m.Icon)</th>
-                            <td>@Html.TextBoxFor(m => m.Icon, new { @class = "m-wrap large" })</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.LabelFor(m => m.URL)</th>
-                            <td>@Html.TextBoxFor(m => m.URL, new { @class = "m-wrap large" })</td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td><button class="btn green" type="button" id="submitBtn">@("提交".GX())</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-        }
+                @using (Html.BeginForm("Create", "NavigationLink", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+            {
+                    @Html.AntiForgeryToken()
+                    <table class="tableadd table-hover">
+                        <thead>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.RefId)</th>
+                                <td>@MvcHtmlString.Create(Html.DropDownList("RefId", "RefId", NavList, Model.RefId.ToString(), "class=\"m-wrap large\"", "ID", "ItemValue", "", ""))</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.ParentId)</th>
+                                <td id="TDddl">@MvcHtmlString.Create(Html.DropDownList(NavLinkList, "ID", "MenuName", "NavLinkTree", "ParentId", "ParentId", "ParentId", "", "class=\"m-wrap large\"", "", "" + "==请选择=="))</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.MenuName)</th>
+                                <td>@Html.TextBoxFor(m => m.MenuName, new { @class = "m-wrap large" })</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.Icon)</th>
+                                <td>@Html.TextBoxFor(m => m.Icon, new { @class = "m-wrap large" })</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.URL)</th>
+                                <td>@Html.TextBoxFor(m => m.URL, new { @class = "m-wrap large" })</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                                        <div class="portlet-title">
+                                            <div class="caption"><i class="icon-cogs"></i>资源</div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <table id="MoreSunTreeTable" class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center">资源名</th>
+                                                        <th style="text-align:left">路径</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                Action<wmfResource> action = (i) =>
+                {
+                    Func<wmfResource, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId" class="styleThese">
+                        <td style="text-align:left;">
+                            <span class="treespan folder ui-draggable">
+                                <label class="uniformL">
+                                    <input id="CK_@item.ID" type="checkbox" name="ResId" /> @item.ResourceCNName
+                                </label>
+                            </span>
+                        </td>
+                        <td onclick="InvertCK('#CK_@item.ID')" style="cursor:pointer;">
+                            @item.URL
+                        </td>
+                    </tr>;
+                    Write(fun(i));
+                };
+                rsmodel.Each(rsmodel.Roots, action);
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>                            
+                        </tbody>
+                    </table>
+            }
             </div>
-        </div>
-    </div>    
+        </div> 
+    </div>   
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        
@@ -64,17 +107,20 @@
         @Styles.Render("~/Content/JQueryQtipCss")
         @Scripts.Render("~/bundles/jqueryqtip")
         @Scripts.Render("~/bundles/morsuncommon")
-         
+        @Styles.Render("~/Content/treetableCss")
+        @Scripts.Render("~/bundles/treetable")  
         <script type="text/javascript">  
-            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform,[]));
+            $(ajaxSubmitFormHandle('.submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform,[]));
             function morsunInitform() {
-                $('#ResourceCNName').val('');
+                $('#MenuName').val('');
                 $('#Icon').val('');
                 $('#URL').val('');
+                unckCB('ResId');
                 ajaxGetData('/NavigationLink/GetP', {}, setP);
             }
             function setP(d) {
                 $('#TDddl').html(d);
             }
+            morsunTreeTable('#MoreSunTreeTable', "expanded", false);            
         </script>
     }

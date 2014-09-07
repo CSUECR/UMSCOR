@@ -11,34 +11,35 @@
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
-    <div class="content-wrapper clear-fix">
-        @if (Model.FlagTrashed == "0")
-{
-    if (rs.HP(操作.添加))
-    {
-        <button class="btn green" type="button" onclick="jumptourl('/NavigationLink/Add?RefId=' + $('#RefId').val() + '&returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
-    }
-                <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
-                <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
-            if (rs.HP(操作.修改))
-            {
-                <button class="btn black" type="button" onclick="jumptourl('/NavigationLink/Move?returnUrl=@(Url.Encode(Request.RawUrl))')">@("移动".GX())</button>
-            }
-            if (rs.HP(操作.回收站))
-            {
-                <button class="btn" type="button" onclick="jumptourl('/NavigationLink/Index?FlagTrashed=1&returnUrl=@(Url.Encode(Request.RawUrl))')">@("回收站".GX())</button>
-            }
-        }
-        else if (Model.FlagTrashed == "1")
-        {
-            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
-        }
-        <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">
+    <div class="content-wrapper clear-fix">        
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
             @using (Html.BeginForm("Index", "NavigationLink", FormMethod.Get))
-            {                
+            {
                 @MvcHtmlString.Create(Html.DropDownList("RefId", "RefId", NavList, Model.RefId.ToString(), "class=\"m-wrap small\"", "ID", "ItemValue", "", ""))
                 <button class="btn yellow" type="submit">@("查询".GX())</button>
                 @Html.HiddenFor(m => m.FlagTrashed)
+            
+            if (Model.FlagTrashed == "0")
+            {
+                if (rs.HP(操作.添加))
+                {
+                    <button class="btn green" type="button" onclick="jumptourl('/NavigationLink/Add?RefId=' + $('#RefId').val() + '&returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
+                }
+                <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'expandAll')">@("展开".GX())</button>
+                <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
+                if (rs.HP(操作.修改))
+                {
+                    <button class="btn black" type="button" onclick="jumptourl('/NavigationLink/Move?returnUrl=@(Url.Encode(Request.RawUrl))')">@("移动".GX())</button>
+                }
+                if (rs.HP(操作.回收站))
+                {
+                    <button class="btn" type="button" onclick="jumptourl('/NavigationLink/Index?FlagTrashed=1&returnUrl=@(Url.Encode(Request.RawUrl))')">@("回收站".GX())</button>
+                }
+            }
+            else if (Model.FlagTrashed == "1")
+            {
+                <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+            }
             }
         </div>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">

@@ -69,7 +69,17 @@
     </footer>     
     <script>
         $(backtop());
+        $(function () {
+            $uniformed = $(".styleThese").find("input:checkbox").not(".skipThese");
+            $uniformed.uniform();
+            //waypoint 
+            $('.topmenu').waypoint(function (event, direction) {
+                $(this).toggleClass('stickytopmenu', direction === "down");
+                event.stopPropagation();
+            });
+        });
     </script>
     @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/waypoint")    
 </body>
 </html>

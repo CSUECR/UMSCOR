@@ -8,54 +8,56 @@
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
-    <div class="content-wrapper clear-fix">        
-        @if (rs.HP(操作.添加))
-{
-    <button class="btn green" type="button" onclick="jumptourl('/Role/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
-}        
-        @if (rs.HP(操作.修改))
-        {
-        <button class="btn purple" type="button" onclick="jumptourl('/Role/Sort?returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
-        }
-        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-            <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>角色设置</div>                
+    <div class="content-wrapper clear-fix">   
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            @if (rs.HP(操作.添加))
+            {
+                <button class="btn green" type="button" onclick="jumptourl('/Role/Add?returnUrl=@(Url.Encode(Request.RawUrl))')">@("添加".GX())</button>
+            }
+            @if (rs.HP(操作.修改))
+            {
+                <button class="btn purple" type="button" onclick="jumptourl('/Role/Sort?returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
+            }
             </div>
-            <div class="portlet-body">
-                <table id="MoreSunTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>角色名</th>                                          
-                            <th>操作</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach(var item in Model.List)
-                        {
-                            <tr id="TR_@item.RoleId">
-                                <td>                                   
-                                    @item.RoleName                                                                 
-                                </td>                                
-                                <td>
-                                    @if (Model.FlagTrashed == "0")
-                                    {
-                                        if (rs.HP(操作.修改))
-                                        {
-                                            <button class="btn blue" type="button" onclick="jumptourl('/Role/Edit?RoleId=@item.RoleId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
-                                        }
-                                        if (rs.HP(操作.彻底删除))
-                                        {
-                                            <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Role/BatchDelete', { CheckedId : '@item.RoleId'}, null, null, null, hideElement,['#TR_@item.RoleId'])">@("彻底删除".GX())</button>
-                                        }
-                                    }   
-                                </td>
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>角色设置</div>
+                </div>
+                <div class="portlet-body">
+                    <table id="MoreSunTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>角色名</th>
+                                <th>操作</th>
                             </tr>
-                        }                        
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.List)
+                            {
+                                <tr id="TR_@item.RoleId">
+                                    <td>
+                                        @item.RoleName
+                                    </td>
+                                    <td>
+                                        @if (Model.FlagTrashed == "0")
+                                        {
+                                            if (rs.HP(操作.修改))
+                                            {
+                                                <button class="btn blue" type="button" onclick="jumptourl('/Role/Edit?RoleId=@item.RoleId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("修改".GX())</button>
+                                            }
+                                            if (rs.HP(操作.彻底删除))
+                                            {
+                                                <button class="btn red" type="button" onclick="confirmHandle('确认要删除吗', '/Role/BatchDelete', { CheckedId : '@item.RoleId'}, null, null, null, hideElement,['#TR_@item.RoleId'])">@("彻底删除".GX())</button>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </div>    
+        </div>    
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        

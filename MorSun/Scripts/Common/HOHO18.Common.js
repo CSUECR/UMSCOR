@@ -337,6 +337,11 @@ function ckCB(checkboxName) {
     $.uniform.update($(':checkbox[name=' + checkboxName + ']').attr("checked", 'true'));
 }
 
+function unckCB(checkboxName) {
+    $(':checkbox[name=' + checkboxName + ']').attr("checked", false);
+    $.uniform.update($(':checkbox[name=' + checkboxName + ']').attr("checked", false));
+}
+
 function InvertCKCB(checkboxName) {
     $(':checkbox[name=' + checkboxName + ']').each(function () {
         if ($(this).attr("checked")) {
@@ -348,6 +353,17 @@ function InvertCKCB(checkboxName) {
             $.uniform.update($(this).attr("checked", 'true'));
         }
     })
+}
+
+function InvertCK(cb) {    
+    if ($(cb).attr("checked")) {
+        $(cb).removeAttr("checked");
+        $.uniform.update($(cb).attr("checked", false));
+    }
+    else {
+        $(cb).attr("checked", 'true');
+        $.uniform.update($(cb).attr("checked", 'true'));
+    }    
 }
 
 //通用,在查询的时候选择全部,把所有text清空,select选择第一项

@@ -154,7 +154,8 @@ namespace MorSun.Controllers.ViewModel
             var groupGuid = Guid.Empty;
             if (Guid.TryParse(groupId, out groupGuid))
             {
-                return List.Where(u => u.RefGroupId == groupGuid);
+                this.RefGroupId = groupGuid;
+                return List;
             }
             throw new ArgumentException("groupId无效");
         }

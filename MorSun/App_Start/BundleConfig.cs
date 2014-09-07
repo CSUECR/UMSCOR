@@ -73,6 +73,9 @@ namespace MorSun
             bundles.Add(new StyleBundle("~/Content/uniformaristoCss").Include("~/Content/uniform/aristo/css/uniform.aristo.css"));
             bundles.Add(new StyleBundle("~/Content/uniformjeansCss").Include("~/Content/uniform/jeans/css/uniform.jeans.css"));
             bundles.Add(new StyleBundle("~/Content/uniformmetroCss").Include("~/Content/uniform/metro/css/uniform.metro.css")); 
+
+            //waypoints
+            bundles.Add(new ScriptBundle("~/bundles/waypoint").Include("~/Scripts/waypoints.js"));
         }
     }
 }
