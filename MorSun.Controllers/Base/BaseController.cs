@@ -219,6 +219,10 @@ namespace MorSun.Controllers
                         fillOperationResult(returnUrl, oper, "Ìí¼Ó³É¹¦");
                     }
                 }
+                else
+                {
+                    oper.AppendData = ModelState.GE();
+                }
                 return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else

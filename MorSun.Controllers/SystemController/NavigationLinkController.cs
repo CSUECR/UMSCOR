@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using MorSun.Controllers.ViewModel;
 using System.Xml;
 using HOHO18.Common;
+using MorSun.Common.Privelege;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -29,36 +30,40 @@ namespace MorSun.Controllers.SystemController
                 "MenuName".AE("同一类别菜单名称已经存在", ModelState); 
             }
             if (t.RIds != null && t.RIds.Count() > 0)
-            {//之前少了个判断，会出错。
-                //Guid[] Ids = t.RIds;
-                //var idsCount = Ids.Count();
-                //if (Ids != null && idsCount > 0)
-                //{
-                //    t.ResourcesIds = "";
-                //    for (int i = 0; i < idsCount; i++)
-                //    {
-                //        t.ResourcesIds += Ids[i].ToString();
-                //        if (i != (idsCount - 1))
-                //        {
-                //            t.ResourcesIds += ",";
-                //        }
-                //    }
-                //}
+            {//之前少了个判断，会出错。                
                 t.ResourcesIds = t.RIds.Join();
             }            
             return "";
         }
 
         protected override string OnEditCK(wmfNavigationLink t)
-        {            
-            var Refer = Bll.All.FirstOrDefault(r => r.MenuName == t.MenuName && r.RefId == t.RefId);
+        {  
+            var p1 = t.ID;
+            //父ID
+            var p2 = t.ParentId.ToAs<Guid>();
 
+            //不能将自己当做父节点
+            if (p1 == p2)
+            {
+                //移动失败，资源A不能移动到资源A下！
+                "ParentId".AE("移动位置错误", ModelState);
+            }
+
+            ///判断ID与父级ID相同
+            if (SearchDep(p1, p2))
+            {
+                //上级资源不能往自己的下级资源移动！
+                "ParentId".AE("上级菜单不能移到下级菜单", ModelState);
+            }
+            var Refer = Bll.All.FirstOrDefault(r => r.MenuName == t.MenuName && r.RefId == t.RefId);
             if (Refer != null && t.ID != Refer.ID)
             {
                 //该类别已经存在，请重新输入！                
                 "MenuName".AE("同一类别菜单名称已经存在", ModelState); 
             }
-
+            //改变链接类别时，要设置父节点为空              
+            if (t.RefId != t.yRefId)
+                t.ParentId = null;
             if (t.RIds != null && t.RIds.Count() > 0)
             {//之前少了个判断，会出错。
                 t.ResourcesIds = t.RIds.Join();
@@ -66,7 +71,91 @@ namespace MorSun.Controllers.SystemController
             return "";
         }
 
+        /// <summary>
+        /// 移动记录
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="pid">目标ID</param>
+        /// <returns></returns>
+        // [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult TreeTableMove(string id, string pid, string returnUrl)
+        {
+            if (ResourceId.HP(操作.修改))
+            {
+                var p1 = Guid.Parse(id);
+                //父ID
+                var p2 = Guid.Parse(pid);
+                var errms = "";
+                //不能将自己当做父节点
+                if (p1 == p2)
+                {
+                    //移动失败，资源A不能移动到资源A下！
+                    errms = "移动位置错误";
+                    "MenuName".AE("移动位置错误", ModelState);
+                }
 
+                ///判断ID与父级ID相同
+                if (SearchDep(p1, p2))
+                {
+                    //上级资源不能往自己的下级资源移动！
+                    errms = "上级资源不能移到下级资源目录";
+                    "MenuName".AE("上级资源不能移到下级资源目录", ModelState);
+                }
+                var model = Bll.GetModel(p1);
+                var pmodel = Bll.GetModel(p2);
+                if (model == null || pmodel == null)
+                {
+                    errms = "数据提交错误";
+                    "MenuName".AE("数据提交错误", ModelState);
+                }
+                var oper = new OperationResult(OperationResultType.Error, "移动失败 " + errms);
+                if (ModelState.IsValid)
+                {
+                    model.ParentId = p2;
+                    Bll.Update(model);
+                    fillOperationResult(returnUrl, oper, "移动成功");
+                    return Json(oper, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    oper.AppendData = ModelState.GE();
+                    return Json(oper, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                "MenuName".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public bool SearchDep(Guid p1, Guid p2)
+        {
+            var dept = Bll.All.FirstOrDefault(r => r.ID == p2);
+            if (dept != null)
+            {
+                Guid parentId = dept.ParentId.ToAs<Guid>();
+                if (parentId == p1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return SearchDep(p1, parentId);
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }  
+
+        public ActionResult GetP()
+        {
+            return View();
+        }
 
         /// <summary>
         /// 生成导航菜单

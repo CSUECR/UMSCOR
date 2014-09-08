@@ -137,7 +137,7 @@ namespace MorSun.Controllers.SystemController
                 if (model == null || pmodel == null)
                 {
                     errms = "数据提交错误";
-                    "RefGroupName".AE("数据提交错误", ModelState);
+                    "ResourcesCNName".AE("数据提交错误", ModelState);
                 }
                 var oper = new OperationResult(OperationResultType.Error, "移动失败 " + errms);
                 if (ModelState.IsValid)

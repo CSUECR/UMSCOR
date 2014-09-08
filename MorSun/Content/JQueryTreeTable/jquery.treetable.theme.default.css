@@ -57,8 +57,10 @@ table.treetable tr.branch {
 }
 
 table.treetable tr.selected {
-  background-color: #8080c0;
-  color: #fff;
+  /*background-color: #8080c0;
+  background-color: #852B99;
+  color: #fff;*/
+  background-color: #eed3d7;  
 }
 
 table.treetable tr span.indenter a {

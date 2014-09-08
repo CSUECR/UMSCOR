@@ -76,7 +76,7 @@
                         <td style="text-align:left;">
                             <span class="treespan folder ui-draggable">
                                 <label class="uniformL">
-                                    <input id="CK_@item.ID" type="checkbox" name="ResId" /> @item.ResourceCNName
+                                    <input id="CK_@item.ID" type="checkbox" name="RIds" value="@item.ID"/> @item.ResourceCNName
                                 </label>
                             </span>
                         </td>
@@ -115,12 +115,12 @@
                 $('#MenuName').val('');
                 $('#Icon').val('');
                 $('#URL').val('');
-                unckCB('ResId');
+                unckCB('RIds');
                 ajaxGetData('/NavigationLink/GetP', {}, setP);
             }
             function setP(d) {
                 $('#TDddl').html(d);
             }
-            morsunTreeTable('#MoreSunTreeTable', "expanded", false);            
+            morsunTreeTable('#MoreSunTreeTable', "expanded", true);            
         </script>
     }

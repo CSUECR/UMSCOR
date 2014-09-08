@@ -25,6 +25,8 @@ namespace MorSun.Model
         /// </summary>
         public Guid[] RIds { get; set; }
 
+        public Guid yRefId { get; set; }
+
         public string NavLinkTree
         {
             get;
@@ -76,7 +78,7 @@ namespace MorSun.Model
         [StringLength(500, ErrorMessage = "路径长度不可超过500")]
         public System.String URL;
         [Display(Name = "资源")]
-        public System.String ResourcesIds;
+        public System.String RIds;
     }
 
 }

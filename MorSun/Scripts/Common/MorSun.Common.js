@@ -27,6 +27,7 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                     EndLoading();
                     //操作成功的提示信息并且跳转页面
                     if (data.ResultType == 0) {
+                        $('.qtip').qtip('destroy');
                         $(topErrDiv).qtip({
                             content: {
                                 text: data.Message,
@@ -50,7 +51,7 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                         }
                         else
                         {
-                            setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
+                            setTimeout(function () { $(topErrDiv).qtip('destroy');}, 2000);
                         }
                         if (callBack) {
                             //console.log(callBack + args);
@@ -133,6 +134,7 @@ function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl, callBack, args)
         type: 'POST',
         success: function (data) {
             EndLoading();
+            $('.qtip').qtip('destroy');
             //操作成功的提示信息并且跳转页面
             if (data.ResultType == 0) {
                 $(topErrDiv).qtip({
@@ -240,6 +242,7 @@ function ajaxLink(url, data, callBack, args) {
         "traditional": true,//传送数组类型的数据的时候，必须使用dataType="josn"且traditional=true
         "data": data,
         "success": function (data) {
+            $('.qtip').qtip('destroy');
             if (callBack) {
                 console.log(args);
                 if (typeof (callBack) == "function")
@@ -276,183 +279,183 @@ function ajaxLink(url, data, callBack, args) {
     })
 }
 
-/*操作成功调用方法
-*data参数与OperationResult相对应的json数据[ResultType:"xxx",Message:"xxx",AppendData:"xxx",LogMessage:"xxxx"]
-*/
-function onSuccess(data, topErrDiv) {
-    if (!topErrDiv)
-        topErrDiv = '#divInfo';
-    //操作成功的提示信息并且跳转页面
-    if (data.ResultType == 0) {
-        $(topErrDiv).qtip({
-            content: {
-                text: data.Message,
-                title: {
-                    button: true
-                }
-            }
-            , position: {
-                target: [$('body').width() / 2, 20],
-                my: 'center center',
-                at: 'center center'
-            }
-            , show: {
-                ready: true
-            }
-             , hide: false
-        });
-        setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
-    }
-    else {
-        $(topErrDiv).qtip({
-            content: {
-                text: data.Message,
-                title: {
-                    button: true
-                }
-            }
-            , position: {
-                target: [$('body').width() / 2, 20],
-                my: 'center center',
-                at: 'center center'
-            }
-            , style: {
-                classes: 'qtip-red'
-            }
-            , show: {
-                ready: true
-            }
-             , hide: false
-        });
+///*操作成功调用方法
+//*data参数与OperationResult相对应的json数据[ResultType:"xxx",Message:"xxx",AppendData:"xxx",LogMessage:"xxxx"]
+//*/
+//function onSuccess(data, topErrDiv) {
+//    if (!topErrDiv)
+//        topErrDiv = '#divInfo';
+//    //操作成功的提示信息并且跳转页面
+//    if (data.ResultType == 0) {
+//        $(topErrDiv).qtip({
+//            content: {
+//                text: data.Message,
+//                title: {
+//                    button: true
+//                }
+//            }
+//            , position: {
+//                target: [$('body').width() / 2, 20],
+//                my: 'center center',
+//                at: 'center center'
+//            }
+//            , show: {
+//                ready: true
+//            }
+//             , hide: false
+//        });
+//        setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+//    }
+//    else {
+//        $(topErrDiv).qtip({
+//            content: {
+//                text: data.Message,
+//                title: {
+//                    button: true
+//                }
+//            }
+//            , position: {
+//                target: [$('body').width() / 2, 20],
+//                my: 'center center',
+//                at: 'center center'
+//            }
+//            , style: {
+//                classes: 'qtip-red'
+//            }
+//            , show: {
+//                ready: true
+//            }
+//             , hide: false
+//        });
 
-        $.each(data.AppendData, function (index, valOfElement) {
-            var inputElem = "#" + valOfElement.Key;
+//        $.each(data.AppendData, function (index, valOfElement) {
+//            var inputElem = "#" + valOfElement.Key;
 
-            var errorText = valOfElement.ErrorMessages.join(',');
-            console.log(inputElem + ',' + errorText);
-            $(inputElem).qtip({
-                content: { text: errorText },
-                position: {
-                    my: 'left center',
-                    at: 'right center',
-                    viewport: $(window)
-                },
-                show: { ready: true },
-                hide: false,
-                style: {
-                    classes: 'qtip-red'
-                }
-            });
-        });
-    }
-}
+//            var errorText = valOfElement.ErrorMessages.join(',');
+//            console.log(inputElem + ',' + errorText);
+//            $(inputElem).qtip({
+//                content: { text: errorText },
+//                position: {
+//                    my: 'left center',
+//                    at: 'right center',
+//                    viewport: $(window)
+//                },
+//                show: { ready: true },
+//                hide: false,
+//                style: {
+//                    classes: 'qtip-red'
+//                }
+//            });
+//        });
+//    }
+//}
 
 
-// Alert/Confirm/Prompt
-function dialogue(content, title) {
-    $('<div />').qtip({
-        content: {
-            text: content,
-            title: title
-        },
-        position: {
-            my: 'center', at: 'center',
-            target: $(window)
-        },
-        show: {
-            ready: true,
-            modal: {
-                on: true,
-                blur: false
-            }
-        },
-        hide: false,
-        style: 'dialogue',
-        events: {
-            render: function (event, api) {
-                $('button', api.elements.content).click(function (e) {
-                    if (e.currentTarget.id == "qtip_bttom_ok") {
-                        if (e.result) {
-                            api.hide(e);
-                        }
-                    }
-                    else {
-                        api.hide(e);
-                    }
-                });
-            },
-            hide: function (event, api) {
-                api.destroy();
-            }
-        }
-    });
-}
+//// Alert/Confirm/Prompt
+//function dialogue(content, title) {
+//    $('<div />').qtip({
+//        content: {
+//            text: content,
+//            title: title
+//        },
+//        position: {
+//            my: 'center', at: 'center',
+//            target: $(window)
+//        },
+//        show: {
+//            ready: true,
+//            modal: {
+//                on: true,
+//                blur: false
+//            }
+//        },
+//        hide: false,
+//        style: 'dialogue',
+//        events: {
+//            render: function (event, api) {
+//                $('button', api.elements.content).click(function (e) {
+//                    if (e.currentTarget.id == "qtip_bttom_ok") {
+//                        if (e.result) {
+//                            api.hide(e);
+//                        }
+//                    }
+//                    else {
+//                        api.hide(e);
+//                    }
+//                });
+//            },
+//            hide: function (event, api) {
+//                api.destroy();
+//            }
+//        }
+//    });
+//}
 
-//提示信息
-//msg:提示内容
-function AlertMessage(msg) {
-    var message = $('<p />', { text: msg }),
-      ok = $('<button />', { text: '确定', 'class': 'full' });
-    dialogue(message.add(ok), '提示');
-}
+////提示信息
+////msg:提示内容
+//function AlertMessage(msg) {
+//    var message = $('<p />', { text: msg }),
+//      ok = $('<button />', { text: '确定', 'class': 'full' });
+//    dialogue(message.add(ok), '提示');
+//}
 
-///提示信息有包含多行文本控件填写值
-///inputId: 把多行文本的所填的值赋值到inputId的控件， 传值如：‘AuditMessage’
-//func:回调函数
-function PromptTextAreaMessage(inputId, func) {
-    var message = $('<p />', { text: '审核不通过的原因' }),
-   span=$('<span />'),
-      input = $('<textarea />', { id: 'qtip_textarea_message', rows: '5', cols: "10", style: " width: 255px; height: 100px;" }),
-       ok = $('<button />', {
-          id: 'qtip_bttom_ok',
-          text: '确定',
-          click: function (event) {
+/////提示信息有包含多行文本控件填写值
+/////inputId: 把多行文本的所填的值赋值到inputId的控件， 传值如：‘AuditMessage’
+////func:回调函数
+//function PromptTextAreaMessage(inputId, func) {
+//    var message = $('<p />', { text: '审核不通过的原因' }),
+//   span=$('<span />'),
+//      input = $('<textarea />', { id: 'qtip_textarea_message', rows: '5', cols: "10", style: " width: 255px; height: 100px;" }),
+//       ok = $('<button />', {
+//          id: 'qtip_bttom_ok',
+//          text: '确定',
+//          click: function (event) {
               
-              if ($('#qtip_textarea_message').val().length > 0) {
-                  $('#' + inputId).val($('#qtip_textarea_message').val());
+//              if ($('#qtip_textarea_message').val().length > 0) {
+//                  $('#' + inputId).val($('#qtip_textarea_message').val());
                  
-                  func();
-                  return true;
-              } else {
-                  alert('请输入内容');
-                  //$('#qtip_textarea_message').qtip({ content: "请输入内容", show: { ready: true }, hide: false, style: { classes: 'qtip-red'} });
-                  //setTimeout(function () { $('#qtip_textarea_message').qtip('destroy'); }, 2000); //2秒后消失  
-                  return false;
-              }
-          }
-      }),
-      cancel = $('<button />', {
-          text: '取消', click: function () {
-              $('#' + inputId).val("");
-          }
+//                  func();
+//                  return true;
+//              } else {
+//                  alert('请输入内容');
+//                  //$('#qtip_textarea_message').qtip({ content: "请输入内容", show: { ready: true }, hide: false, style: { classes: 'qtip-red'} });
+//                  //setTimeout(function () { $('#qtip_textarea_message').qtip('destroy'); }, 2000); //2秒后消失  
+//                  return false;
+//              }
+//          }
+//      }),
+//      cancel = $('<button />', {
+//          text: '取消', click: function () {
+//              $('#' + inputId).val("");
+//          }
     
-      });
-      span.append(ok).append(cancel);
-    dialogue(message.add(input).add(span), '提示!');
+//      });
+//      span.append(ok).append(cancel);
+//    dialogue(message.add(input).add(span), '提示!');
 
 
-}
+//}
 
-///提示信息有包含多行文本控件填写值
-//msg：提示内容
-///inputId: 把多行文本的所填的值赋值到inputId的控件， 传值如：‘AuditMessage’
-function PromptTextAreaMessage2(msg, inputId) {
-    var message = $('<p />', { text: msg }),
-      input = $('<textarea />', { id: 'qtip_textarea_message', rows: '5', cols: "10", style: " width: 255px; height: 100px;" }),
-      ok = $('<button />', {
-          text: '确定',
-          click: function () {
-              $('#' + inputId).val($('#qtip_textarea_message').val());
-          }
-      }),
-      cancel = $('<button />', {
-          text: '取消', click: function () {
-              $('#' + inputId).val("");
-          }
-      });
+/////提示信息有包含多行文本控件填写值
+////msg：提示内容
+/////inputId: 把多行文本的所填的值赋值到inputId的控件， 传值如：‘AuditMessage’
+//function PromptTextAreaMessage2(msg, inputId) {
+//    var message = $('<p />', { text: msg }),
+//      input = $('<textarea />', { id: 'qtip_textarea_message', rows: '5', cols: "10", style: " width: 255px; height: 100px;" }),
+//      ok = $('<button />', {
+//          text: '确定',
+//          click: function () {
+//              $('#' + inputId).val($('#qtip_textarea_message').val());
+//          }
+//      }),
+//      cancel = $('<button />', {
+//          text: '取消', click: function () {
+//              $('#' + inputId).val("");
+//          }
+//      });
 
-    dialogue(message.add(input).add(ok).add(cancel), '提示!');
-}
+//    dialogue(message.add(input).add(ok).add(cancel), '提示!');
+//}
 //window.Confirm = function () {
 //    var message = $('<p />', { text: 'Click a button to exit the custom dialogue' }),
 //      ok = $('<button />', {

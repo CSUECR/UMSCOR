@@ -29,7 +29,7 @@
                 <button class="btn purple" type="button" onclick="morsunEC('#MoreSunTreeTable', 'collapseAll')">@("收起".GX())</button>
                 if (rs.HP(操作.修改))
                 {
-                    <button class="btn black" type="button" onclick="jumptourl('/NavigationLink/Move?returnUrl=@(Url.Encode(Request.RawUrl))')">@("移动".GX())</button>
+                    <button class="btn black" type="button" onclick="jumptourl('/NavigationLink/Move?RefId=' + $('#RefId').val() + '&returnUrl=@(Url.Encode(Request.RawUrl))')">@("移动".GX())</button>
                 }
                 if (rs.HP(操作.回收站))
                 {
@@ -51,7 +51,7 @@
                     <thead>
                         <tr>
                             <th>导航名</th>
-                            <th>序号</th>
+                            <th>路径</th>
                             <th>操作</th>                           
                         </tr>
                     </thead>
@@ -79,7 +79,7 @@
                                             }
                                             if (rs.HP(操作.修改))
                                             {
-                                                <button class="btn purple" type="button" onclick="jumptourl('/NavigationLink/Sort?sIsSort=true&sParentId=@item.ParentId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
+                                                <button class="btn purple" type="button" onclick="jumptourl('/NavigationLink/Sort?RefId=' + $('#RefId').val() + '&sIsSort=true&sParentId=@item.ParentId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("排序".GX())</button>
                                             }
                                             if (rs.HP(操作.删除))
                                             {
@@ -138,7 +138,7 @@
         <script type="text/javascript">  
             @if (Model.FlagTrashed == "0")
             {
-               @:morsunTreeTable('#MoreSunTreeTable', "expanded", true);
+               @:morsunTreeTable('#MoreSunTreeTable', "expanded", true); 
             }
         </script>
     }
