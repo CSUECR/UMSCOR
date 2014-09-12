@@ -418,6 +418,9 @@ namespace MorSun.Controllers
                         userinfoModel.NickName = String.IsNullOrEmpty(model.NickName) ? "DefaultNickName".GX() : model.NickName;
                         //邀请码
                         userinfoModel.InviteCode = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
+                        //邀请码明码
+                        var hbc = model.UserName.Substring(model.UserName.LastIndexOf("."), model.UserName.Length - model.UserName.LastIndexOf(".")).Replace(".", "|");
+                        userinfoModel.HamInviteCode = model.UserName.Substring(0, model.UserName.LastIndexOf(".")) + hbc;
                         //被邀请码
                         userinfoModel.BeInviteCode = model.BeInviteCode;
                         //被邀请人
@@ -428,11 +431,17 @@ namespace MorSun.Controllers
                                 userinfoModel.InviteUser = inviteUser.ID;
                             else
                             {
-                                var bc = model.BeInviteCode.Substring(model.BeInviteCode.LastIndexOf("|"), model.BeInviteCode.Length - model.BeInviteCode.LastIndexOf("|")).Replace("|", ".");
-                                model.BeInviteCode = model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc;
-                                var aspnetUser = Membership.GetUser(model.BeInviteCode);
-                                if (aspnetUser != null)
-                                    userinfoModel.InviteUser = aspnetUser.ProviderUserKey.ToAs<Guid>();
+                                inviteUser = userinfobll.All.FirstOrDefault(p => p.HamInviteCode == model.BeInviteCode);
+                                if (inviteUser != null)
+                                    userinfoModel.InviteUser = inviteUser.ID;
+                                else
+                                { 
+                                    var bc = model.BeInviteCode.Substring(model.BeInviteCode.LastIndexOf("|"), model.BeInviteCode.Length - model.BeInviteCode.LastIndexOf("|")).Replace("|", ".");
+                                    model.BeInviteCode = model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc;
+                                    var aspnetUser = Membership.GetUser(model.BeInviteCode);
+                                    if (aspnetUser != null)
+                                        userinfoModel.InviteUser = aspnetUser.ProviderUserKey.ToAs<Guid>();
+                                }
                             }
                         }
                         //用户串和密码串

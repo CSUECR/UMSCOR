@@ -1517,7 +1517,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ParentId" Type="uniqueidentifier" />
           <Property Name="Icon" Type="nvarchar" MaxLength="50" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="50" />
           <Property Name="URL" Type="nvarchar" MaxLength="512" />
@@ -1828,6 +1827,7 @@
           <Property Name="FlagWorker" Type="bit" />
           <Property Name="FlagActive" Type="bit" />
           <Property Name="InviteCode" Type="nvarchar" MaxLength="256" />
+          <Property Name="HamInviteCode" Type="nvarchar" MaxLength="50" />
           <Property Name="BeInviteCode" Type="nvarchar" MaxLength="256" />
           <Property Name="InviteUser" Type="uniqueidentifier" />
           <Property Name="UserNameString" Type="nvarchar" MaxLength="256" />
@@ -5453,6 +5453,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfCounty" Relationship="Self.FK_wmfUserInfo_wmfCounty" FromRole="wmfUserInfo" ToRole="wmfCounty" />
           <NavigationProperty Name="wmfProvince" Relationship="Self.FK_wmfUserInfo_wmfProvince" FromRole="wmfUserInfo" ToRole="wmfProvince" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfUserInfo" ToRole="wmfReference" />
+          <Property Name="HamInviteCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="wmfVillage">
           <Key>
@@ -8548,7 +8549,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="wmfNavigationLinks">
             <EntityTypeMapping TypeName="MorSun.Model.wmfNavigationLink">
               <MappingFragment StoreEntitySet="wmfNavigationLink">
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
                 <ScalarProperty Name="MenuName" ColumnName="MenuName" />
@@ -8847,6 +8847,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="wmfUserInfoes">
             <EntityTypeMapping TypeName="MorSun.Model.wmfUserInfo">
               <MappingFragment StoreEntitySet="wmfUserInfo">
+                <ScalarProperty Name="HamInviteCode" ColumnName="HamInviteCode" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AutoGeneticId" ColumnName="AutoGeneticId" />
                 <ScalarProperty Name="SID" ColumnName="SID" />

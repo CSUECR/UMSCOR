@@ -43183,6 +43183,30 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String HamInviteCode
+        {
+            get
+            {
+                return _HamInviteCode;
+            }
+            set
+            {
+                OnHamInviteCodeChanging(value);
+                ReportPropertyChanging("HamInviteCode");
+                _HamInviteCode = StructuralObject.SetValidValue(value, true, "HamInviteCode");
+                ReportPropertyChanged("HamInviteCode");
+                OnHamInviteCodeChanged();
+            }
+        }
+        private global::System.String _HamInviteCode;
+        partial void OnHamInviteCodeChanging(global::System.String value);
+        partial void OnHamInviteCodeChanged();
 
         #endregion
 
