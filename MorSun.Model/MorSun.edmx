@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -1517,6 +1517,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentId" Type="uniqueidentifier" />
           <Property Name="Icon" Type="nvarchar" MaxLength="50" />
           <Property Name="MenuName" Type="nvarchar" MaxLength="50" />
           <Property Name="URL" Type="nvarchar" MaxLength="512" />
@@ -1871,108 +1872,6 @@
           <Property Name="ModTime" Type="datetime" />
           <Property Name="FlagTrashed" Type="bit" Nullable="false" />
           <Property Name="FlagDeleted" Type="bit" Nullable="false" />
-        </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“UserCenter.dbo.HF_AccreditInstanceView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
-        <EntityType Name="HF_AccreditInstanceView">
-          <Key>
-            <PropertyRef Name="taskInsType" />
-          </Key>
-          <Property Name="AccreditStatus" Type="char" MaxLength="1" />
-          <Property Name="AccreditToUserId" Type="varchar" MaxLength="10" />
-          <Property Name="Priority" Type="char" MaxLength="1" />
-          <Property Name="WorkFlowNo" Type="int" />
-          <Property Name="taskStartTime" Type="datetime" />
-          <Property Name="TaskInstanceCaption" Type="varchar" MaxLength="128" />
-          <Property Name="FlowInstanceCaption" Type="varchar" MaxLength="128" />
-          <Property Name="OperContent" Type="varchar" MaxLength="256" />
-          <Property Name="FlowCaption" Type="varchar" MaxLength="128" />
-          <Property Name="TaskCaption" Type="varchar" MaxLength="128" />
-          <Property Name="UserId" Type="varchar" MaxLength="50" />
-          <Property Name="OperatorInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="WorkFlowId" Type="varchar" MaxLength="50" />
-          <Property Name="WorkTaskId" Type="varchar" MaxLength="50" />
-          <Property Name="WorkFlowInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="WorkTaskInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="OperType" Type="int" />
-          <Property Name="TaskTypeId" Type="char" MaxLength="1" />
-          <Property Name="IsSubWorkFlow" Type="bit" />
-          <Property Name="MainWorkTaskId" Type="varchar" MaxLength="50" />
-          <Property Name="MainWorkFlowInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="OperatedDes" Type="varchar" MaxLength="256" />
-          <Property Name="OperDateTime" Type="datetime" />
-          <Property Name="taskEndTime" Type="datetime" />
-          <Property Name="flowStartTime" Type="datetime" />
-          <Property Name="flowEndTime" Type="datetime" />
-          <Property Name="pOperatedDes" Type="varchar" MaxLength="256" />
-          <Property Name="Description" Type="varchar" MaxLength="512" />
-          <Property Name="OperStatus" Type="char" MaxLength="1" />
-          <Property Name="Status" Type="char" MaxLength="1" />
-          <Property Name="flStatus" Type="char" MaxLength="1" />
-          <Property Name="PreviousTaskInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="OperContentText" Type="varchar" MaxLength="256" />
-          <Property Name="SuccessMsg" Type="varchar" MaxLength="512" />
-          <Property Name="taskInsType" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="ChangeOperator" Type="varchar" MaxLength="256" />
-          <Property Name="TaskInsDescription" Type="varchar" MaxLength="256" />
-          <Property Name="IsDebug" Type="bit" />
-        </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“UserCenter.dbo.HF_OperContentView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
-        <EntityType Name="HF_OperContentView">
-          <Key>
-            <PropertyRef Name="operContentType" />
-          </Key>
-          <Property Name="operContent" Type="char" MaxLength="36" />
-          <Property Name="UserId" Type="char" MaxLength="36" />
-          <Property Name="operContentType" Type="int" Nullable="false" />
-        </EntityType>
-        <!--生成过程中发现错误:
-警告 6002: 表/视图“UserCenter.dbo.HF_WorkTaskInstanceView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
-        <EntityType Name="HF_WorkTaskInstanceView">
-          <Key>
-            <PropertyRef Name="WorkTaskInstanceId" />
-            <PropertyRef Name="taskInsType" />
-          </Key>
-          <Property Name="Priority" Type="char" MaxLength="1" />
-          <Property Name="WorkFlowNo" Type="int" />
-          <Property Name="taskStartTime" Type="datetime" />
-          <Property Name="TaskInstanceCaption" Type="varchar" MaxLength="128" />
-          <Property Name="FlowInstanceCaption" Type="varchar" MaxLength="128" />
-          <Property Name="OperContent" Type="varchar" MaxLength="256" />
-          <Property Name="FlowCaption" Type="varchar" MaxLength="128" />
-          <Property Name="TaskCaption" Type="varchar" MaxLength="128" />
-          <Property Name="UserId" Type="varchar" MaxLength="50" />
-          <Property Name="OperatorInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="WorkFlowId" Type="varchar" MaxLength="50" />
-          <Property Name="WorkTaskId" Type="varchar" MaxLength="50" />
-          <Property Name="WorkFlowInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="WorkTaskInstanceId" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="OperType" Type="int" />
-          <Property Name="TaskTypeId" Type="char" MaxLength="1" />
-          <Property Name="IsSubWorkFlow" Type="bit" />
-          <Property Name="MainWorkTaskId" Type="varchar" MaxLength="50" />
-          <Property Name="MainWorkFlowInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="OperatedDes" Type="varchar" MaxLength="256" />
-          <Property Name="OperDateTime" Type="datetime" />
-          <Property Name="taskEndTime" Type="datetime" />
-          <Property Name="flowStartTime" Type="datetime" />
-          <Property Name="flowEndTime" Type="datetime" />
-          <Property Name="pOperatedDes" Type="varchar" MaxLength="256" />
-          <Property Name="Description" Type="varchar" MaxLength="512" />
-          <Property Name="OperStatus" Type="char" MaxLength="1" />
-          <Property Name="Status" Type="char" MaxLength="1" />
-          <Property Name="flStatus" Type="char" MaxLength="1" />
-          <Property Name="PreviousTaskInstanceId" Type="varchar" MaxLength="50" />
-          <Property Name="OperContentText" Type="varchar" MaxLength="256" />
-          <Property Name="taskInsType" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="SuccessMsg" Type="varchar" MaxLength="512" />
-          <Property Name="ChangeOperator" Type="varchar" MaxLength="256" />
-          <Property Name="TaskInsDescription" Type="varchar" MaxLength="256" />
-          <Property Name="NowTaskId" Type="varchar" MaxLength="50" />
-          <Property Name="UserName" Type="varchar" MaxLength="10" />
-          <Property Name="IsJumpSelf" Type="bit" />
-          <Property Name="IsDebug" Type="bit" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.wmfRolePrivilegesView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -3141,98 +3040,6 @@ FROM [dbo].[QRTZ_BLOB_TRIGGERS] AS [QRTZ_BLOB_TRIGGERS]</DefiningQuery>
 [wmfLog].[Message] AS [Message]
 FROM [dbo].[wmfLog] AS [wmfLog]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="HF_AccreditInstanceView" EntityType="Self.HF_AccreditInstanceView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[HF_AccreditInstanceView].[AccreditStatus] AS [AccreditStatus], 
-[HF_AccreditInstanceView].[AccreditToUserId] AS [AccreditToUserId], 
-[HF_AccreditInstanceView].[Priority] AS [Priority], 
-[HF_AccreditInstanceView].[WorkFlowNo] AS [WorkFlowNo], 
-[HF_AccreditInstanceView].[taskStartTime] AS [taskStartTime], 
-[HF_AccreditInstanceView].[TaskInstanceCaption] AS [TaskInstanceCaption], 
-[HF_AccreditInstanceView].[FlowInstanceCaption] AS [FlowInstanceCaption], 
-[HF_AccreditInstanceView].[OperContent] AS [OperContent], 
-[HF_AccreditInstanceView].[FlowCaption] AS [FlowCaption], 
-[HF_AccreditInstanceView].[TaskCaption] AS [TaskCaption], 
-[HF_AccreditInstanceView].[UserId] AS [UserId], 
-[HF_AccreditInstanceView].[OperatorInstanceId] AS [OperatorInstanceId], 
-[HF_AccreditInstanceView].[WorkFlowId] AS [WorkFlowId], 
-[HF_AccreditInstanceView].[WorkTaskId] AS [WorkTaskId], 
-[HF_AccreditInstanceView].[WorkFlowInstanceId] AS [WorkFlowInstanceId], 
-[HF_AccreditInstanceView].[WorkTaskInstanceId] AS [WorkTaskInstanceId], 
-[HF_AccreditInstanceView].[OperType] AS [OperType], 
-[HF_AccreditInstanceView].[TaskTypeId] AS [TaskTypeId], 
-[HF_AccreditInstanceView].[IsSubWorkFlow] AS [IsSubWorkFlow], 
-[HF_AccreditInstanceView].[MainWorkTaskId] AS [MainWorkTaskId], 
-[HF_AccreditInstanceView].[MainWorkFlowInstanceId] AS [MainWorkFlowInstanceId], 
-[HF_AccreditInstanceView].[OperatedDes] AS [OperatedDes], 
-[HF_AccreditInstanceView].[OperDateTime] AS [OperDateTime], 
-[HF_AccreditInstanceView].[taskEndTime] AS [taskEndTime], 
-[HF_AccreditInstanceView].[flowStartTime] AS [flowStartTime], 
-[HF_AccreditInstanceView].[flowEndTime] AS [flowEndTime], 
-[HF_AccreditInstanceView].[pOperatedDes] AS [pOperatedDes], 
-[HF_AccreditInstanceView].[Description] AS [Description], 
-[HF_AccreditInstanceView].[OperStatus] AS [OperStatus], 
-[HF_AccreditInstanceView].[Status] AS [Status], 
-[HF_AccreditInstanceView].[flStatus] AS [flStatus], 
-[HF_AccreditInstanceView].[PreviousTaskInstanceId] AS [PreviousTaskInstanceId], 
-[HF_AccreditInstanceView].[OperContentText] AS [OperContentText], 
-[HF_AccreditInstanceView].[SuccessMsg] AS [SuccessMsg], 
-[HF_AccreditInstanceView].[taskInsType] AS [taskInsType], 
-[HF_AccreditInstanceView].[ChangeOperator] AS [ChangeOperator], 
-[HF_AccreditInstanceView].[TaskInsDescription] AS [TaskInsDescription], 
-[HF_AccreditInstanceView].[IsDebug] AS [IsDebug]
-FROM [dbo].[HF_AccreditInstanceView] AS [HF_AccreditInstanceView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="HF_OperContentView" EntityType="Self.HF_OperContentView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[HF_OperContentView].[operContent] AS [operContent], 
-[HF_OperContentView].[UserId] AS [UserId], 
-[HF_OperContentView].[operContentType] AS [operContentType]
-FROM [dbo].[HF_OperContentView] AS [HF_OperContentView]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="HF_WorkTaskInstanceView" EntityType="Self.HF_WorkTaskInstanceView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[HF_WorkTaskInstanceView].[Priority] AS [Priority], 
-[HF_WorkTaskInstanceView].[WorkFlowNo] AS [WorkFlowNo], 
-[HF_WorkTaskInstanceView].[taskStartTime] AS [taskStartTime], 
-[HF_WorkTaskInstanceView].[TaskInstanceCaption] AS [TaskInstanceCaption], 
-[HF_WorkTaskInstanceView].[FlowInstanceCaption] AS [FlowInstanceCaption], 
-[HF_WorkTaskInstanceView].[OperContent] AS [OperContent], 
-[HF_WorkTaskInstanceView].[FlowCaption] AS [FlowCaption], 
-[HF_WorkTaskInstanceView].[TaskCaption] AS [TaskCaption], 
-[HF_WorkTaskInstanceView].[UserId] AS [UserId], 
-[HF_WorkTaskInstanceView].[OperatorInstanceId] AS [OperatorInstanceId], 
-[HF_WorkTaskInstanceView].[WorkFlowId] AS [WorkFlowId], 
-[HF_WorkTaskInstanceView].[WorkTaskId] AS [WorkTaskId], 
-[HF_WorkTaskInstanceView].[WorkFlowInstanceId] AS [WorkFlowInstanceId], 
-[HF_WorkTaskInstanceView].[WorkTaskInstanceId] AS [WorkTaskInstanceId], 
-[HF_WorkTaskInstanceView].[OperType] AS [OperType], 
-[HF_WorkTaskInstanceView].[TaskTypeId] AS [TaskTypeId], 
-[HF_WorkTaskInstanceView].[IsSubWorkFlow] AS [IsSubWorkFlow], 
-[HF_WorkTaskInstanceView].[MainWorkTaskId] AS [MainWorkTaskId], 
-[HF_WorkTaskInstanceView].[MainWorkFlowInstanceId] AS [MainWorkFlowInstanceId], 
-[HF_WorkTaskInstanceView].[OperatedDes] AS [OperatedDes], 
-[HF_WorkTaskInstanceView].[OperDateTime] AS [OperDateTime], 
-[HF_WorkTaskInstanceView].[taskEndTime] AS [taskEndTime], 
-[HF_WorkTaskInstanceView].[flowStartTime] AS [flowStartTime], 
-[HF_WorkTaskInstanceView].[flowEndTime] AS [flowEndTime], 
-[HF_WorkTaskInstanceView].[pOperatedDes] AS [pOperatedDes], 
-[HF_WorkTaskInstanceView].[Description] AS [Description], 
-[HF_WorkTaskInstanceView].[OperStatus] AS [OperStatus], 
-[HF_WorkTaskInstanceView].[Status] AS [Status], 
-[HF_WorkTaskInstanceView].[flStatus] AS [flStatus], 
-[HF_WorkTaskInstanceView].[PreviousTaskInstanceId] AS [PreviousTaskInstanceId], 
-[HF_WorkTaskInstanceView].[OperContentText] AS [OperContentText], 
-[HF_WorkTaskInstanceView].[taskInsType] AS [taskInsType], 
-[HF_WorkTaskInstanceView].[SuccessMsg] AS [SuccessMsg], 
-[HF_WorkTaskInstanceView].[ChangeOperator] AS [ChangeOperator], 
-[HF_WorkTaskInstanceView].[TaskInsDescription] AS [TaskInsDescription], 
-[HF_WorkTaskInstanceView].[NowTaskId] AS [NowTaskId], 
-[HF_WorkTaskInstanceView].[UserName] AS [UserName], 
-[HF_WorkTaskInstanceView].[IsJumpSelf] AS [IsJumpSelf], 
-[HF_WorkTaskInstanceView].[IsDebug] AS [IsDebug]
-FROM [dbo].[HF_WorkTaskInstanceView] AS [HF_WorkTaskInstanceView]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="wmfRolePrivilegesView" EntityType="Self.wmfRolePrivilegesView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [wmfRolePrivilegesView].[OperationCNName] AS [OperationCNName], 
@@ -3551,7 +3358,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -5071,6 +4879,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="ParentId" Type="Guid" />
           <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MenuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="URL" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
@@ -5083,7 +4892,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfNavigationLink_wmfReference" FromRole="wmfNavigationLink" ToRole="wmfReference" />
           <NavigationProperty Name="wmfResources" Relationship="Self.FK_wmfResource_wmfNavigationLink" FromRole="wmfNavigationLink" ToRole="wmfResource" />
-          <Property Name="ParentId" Type="Guid" />
         </EntityType>
         <EntityType Name="wmfOperation">
           <Key>
@@ -5432,6 +5240,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="FlagWorker" Type="Boolean" />
           <Property Name="FlagActive" Type="Boolean" />
           <Property Name="InviteCode" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="HamInviteCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BeInviteCode" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="InviteUser" Type="Guid" />
           <Property Name="UserNameString" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
@@ -5453,7 +5262,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfCounty" Relationship="Self.FK_wmfUserInfo_wmfCounty" FromRole="wmfUserInfo" ToRole="wmfCounty" />
           <NavigationProperty Name="wmfProvince" Relationship="Self.FK_wmfUserInfo_wmfProvince" FromRole="wmfUserInfo" ToRole="wmfProvince" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfUserInfo" ToRole="wmfReference" />
-          <Property Name="HamInviteCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="wmfVillage">
           <Key>
@@ -5552,102 +5360,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="Level" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Logger" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Message" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HF_AccreditInstanceView">
-          <Key>
-            <PropertyRef Name="taskInsType" />
-          </Key>
-          <Property Name="AccreditStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="AccreditToUserId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Priority" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="WorkFlowNo" Type="Int32" />
-          <Property Name="taskStartTime" Type="DateTime" Precision="3" />
-          <Property Name="TaskInstanceCaption" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="FlowInstanceCaption" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="OperContent" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="FlowCaption" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="TaskCaption" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OperatorInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkFlowId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkTaskId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkFlowInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkTaskInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OperType" Type="Int32" />
-          <Property Name="TaskTypeId" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="IsSubWorkFlow" Type="Boolean" />
-          <Property Name="MainWorkTaskId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MainWorkFlowInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OperatedDes" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="OperDateTime" Type="DateTime" Precision="3" />
-          <Property Name="taskEndTime" Type="DateTime" Precision="3" />
-          <Property Name="flowStartTime" Type="DateTime" Precision="3" />
-          <Property Name="flowEndTime" Type="DateTime" Precision="3" />
-          <Property Name="pOperatedDes" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <Property Name="OperStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="flStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="PreviousTaskInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OperContentText" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="SuccessMsg" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <Property Name="taskInsType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ChangeOperator" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="TaskInsDescription" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="IsDebug" Type="Boolean" />
-        </EntityType>
-        <EntityType Name="HF_OperContentView">
-          <Key>
-            <PropertyRef Name="operContentType" />
-          </Key>
-          <Property Name="operContent" Type="String" MaxLength="36" FixedLength="true" Unicode="false" />
-          <Property Name="UserId" Type="String" MaxLength="36" FixedLength="true" Unicode="false" />
-          <Property Name="operContentType" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HF_WorkTaskInstanceView">
-          <Key>
-            <PropertyRef Name="WorkTaskInstanceId" />
-            <PropertyRef Name="taskInsType" />
-          </Key>
-          <Property Name="Priority" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="WorkFlowNo" Type="Int32" />
-          <Property Name="taskStartTime" Type="DateTime" Precision="3" />
-          <Property Name="TaskInstanceCaption" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="FlowInstanceCaption" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="OperContent" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="FlowCaption" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="TaskCaption" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OperatorInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkFlowId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkTaskId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkFlowInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="WorkTaskInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="OperType" Type="Int32" />
-          <Property Name="TaskTypeId" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="IsSubWorkFlow" Type="Boolean" />
-          <Property Name="MainWorkTaskId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MainWorkFlowInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OperatedDes" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="OperDateTime" Type="DateTime" Precision="3" />
-          <Property Name="taskEndTime" Type="DateTime" Precision="3" />
-          <Property Name="flowStartTime" Type="DateTime" Precision="3" />
-          <Property Name="flowEndTime" Type="DateTime" Precision="3" />
-          <Property Name="pOperatedDes" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <Property Name="OperStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="flStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="PreviousTaskInstanceId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OperContentText" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="taskInsType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SuccessMsg" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <Property Name="ChangeOperator" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="TaskInsDescription" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="NowTaskId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="IsJumpSelf" Type="Boolean" />
-          <Property Name="IsDebug" Type="Boolean" />
         </EntityType>
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -6739,9 +6451,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="HF_WorkTaskPower" EntityType="Self.HF_WorkTaskPower" />
           <EntitySet Name="QRTZ_BLOB_TRIGGERS" EntityType="Self.QRTZ_BLOB_TRIGGERS" />
           <EntitySet Name="wmfLogs" EntityType="Self.wmfLog" />
-          <EntitySet Name="HF_AccreditInstanceView" EntityType="Self.HF_AccreditInstanceView" />
-          <EntitySet Name="HF_OperContentView" EntityType="Self.HF_OperContentView" />
-          <EntitySet Name="HF_WorkTaskInstanceView" EntityType="Self.HF_WorkTaskInstanceView" />
           <EntitySet Name="wmfRolePrivilegesViews" EntityType="Self.wmfRolePrivilegesView" />
           <AssociationSet Name="FK__aspnet_Me__Appli__145C0A3F" Association="Self.FK__aspnet_Me__Appli__145C0A3F">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
@@ -8550,6 +8259,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <EntityTypeMapping TypeName="MorSun.Model.wmfNavigationLink">
               <MappingFragment StoreEntitySet="wmfNavigationLink">
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
                 <ScalarProperty Name="MenuName" ColumnName="MenuName" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
@@ -8847,7 +8557,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="wmfUserInfoes">
             <EntityTypeMapping TypeName="MorSun.Model.wmfUserInfo">
               <MappingFragment StoreEntitySet="wmfUserInfo">
-                <ScalarProperty Name="HamInviteCode" ColumnName="HamInviteCode" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AutoGeneticId" ColumnName="AutoGeneticId" />
                 <ScalarProperty Name="SID" ColumnName="SID" />
@@ -8877,6 +8586,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="FlagWorker" ColumnName="FlagWorker" />
                 <ScalarProperty Name="FlagActive" ColumnName="FlagActive" />
                 <ScalarProperty Name="InviteCode" ColumnName="InviteCode" />
+                <ScalarProperty Name="HamInviteCode" ColumnName="HamInviteCode" />
                 <ScalarProperty Name="BeInviteCode" ColumnName="BeInviteCode" />
                 <ScalarProperty Name="InviteUser" ColumnName="InviteUser" />
                 <ScalarProperty Name="UserNameString" ColumnName="UserNameString" />
@@ -8989,104 +8699,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="Level" ColumnName="Level" />
                 <ScalarProperty Name="Logger" ColumnName="Logger" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HF_AccreditInstanceView">
-            <EntityTypeMapping TypeName="MorSun.Model.HF_AccreditInstanceView">
-              <MappingFragment StoreEntitySet="HF_AccreditInstanceView">
-                <ScalarProperty Name="AccreditStatus" ColumnName="AccreditStatus" />
-                <ScalarProperty Name="AccreditToUserId" ColumnName="AccreditToUserId" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="WorkFlowNo" ColumnName="WorkFlowNo" />
-                <ScalarProperty Name="taskStartTime" ColumnName="taskStartTime" />
-                <ScalarProperty Name="TaskInstanceCaption" ColumnName="TaskInstanceCaption" />
-                <ScalarProperty Name="FlowInstanceCaption" ColumnName="FlowInstanceCaption" />
-                <ScalarProperty Name="OperContent" ColumnName="OperContent" />
-                <ScalarProperty Name="FlowCaption" ColumnName="FlowCaption" />
-                <ScalarProperty Name="TaskCaption" ColumnName="TaskCaption" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="OperatorInstanceId" ColumnName="OperatorInstanceId" />
-                <ScalarProperty Name="WorkFlowId" ColumnName="WorkFlowId" />
-                <ScalarProperty Name="WorkTaskId" ColumnName="WorkTaskId" />
-                <ScalarProperty Name="WorkFlowInstanceId" ColumnName="WorkFlowInstanceId" />
-                <ScalarProperty Name="WorkTaskInstanceId" ColumnName="WorkTaskInstanceId" />
-                <ScalarProperty Name="OperType" ColumnName="OperType" />
-                <ScalarProperty Name="TaskTypeId" ColumnName="TaskTypeId" />
-                <ScalarProperty Name="IsSubWorkFlow" ColumnName="IsSubWorkFlow" />
-                <ScalarProperty Name="MainWorkTaskId" ColumnName="MainWorkTaskId" />
-                <ScalarProperty Name="MainWorkFlowInstanceId" ColumnName="MainWorkFlowInstanceId" />
-                <ScalarProperty Name="OperatedDes" ColumnName="OperatedDes" />
-                <ScalarProperty Name="OperDateTime" ColumnName="OperDateTime" />
-                <ScalarProperty Name="taskEndTime" ColumnName="taskEndTime" />
-                <ScalarProperty Name="flowStartTime" ColumnName="flowStartTime" />
-                <ScalarProperty Name="flowEndTime" ColumnName="flowEndTime" />
-                <ScalarProperty Name="pOperatedDes" ColumnName="pOperatedDes" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="OperStatus" ColumnName="OperStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="flStatus" ColumnName="flStatus" />
-                <ScalarProperty Name="PreviousTaskInstanceId" ColumnName="PreviousTaskInstanceId" />
-                <ScalarProperty Name="OperContentText" ColumnName="OperContentText" />
-                <ScalarProperty Name="SuccessMsg" ColumnName="SuccessMsg" />
-                <ScalarProperty Name="taskInsType" ColumnName="taskInsType" />
-                <ScalarProperty Name="ChangeOperator" ColumnName="ChangeOperator" />
-                <ScalarProperty Name="TaskInsDescription" ColumnName="TaskInsDescription" />
-                <ScalarProperty Name="IsDebug" ColumnName="IsDebug" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HF_OperContentView">
-            <EntityTypeMapping TypeName="MorSun.Model.HF_OperContentView">
-              <MappingFragment StoreEntitySet="HF_OperContentView">
-                <ScalarProperty Name="operContent" ColumnName="operContent" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="operContentType" ColumnName="operContentType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HF_WorkTaskInstanceView">
-            <EntityTypeMapping TypeName="MorSun.Model.HF_WorkTaskInstanceView">
-              <MappingFragment StoreEntitySet="HF_WorkTaskInstanceView">
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="WorkFlowNo" ColumnName="WorkFlowNo" />
-                <ScalarProperty Name="taskStartTime" ColumnName="taskStartTime" />
-                <ScalarProperty Name="TaskInstanceCaption" ColumnName="TaskInstanceCaption" />
-                <ScalarProperty Name="FlowInstanceCaption" ColumnName="FlowInstanceCaption" />
-                <ScalarProperty Name="OperContent" ColumnName="OperContent" />
-                <ScalarProperty Name="FlowCaption" ColumnName="FlowCaption" />
-                <ScalarProperty Name="TaskCaption" ColumnName="TaskCaption" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="OperatorInstanceId" ColumnName="OperatorInstanceId" />
-                <ScalarProperty Name="WorkFlowId" ColumnName="WorkFlowId" />
-                <ScalarProperty Name="WorkTaskId" ColumnName="WorkTaskId" />
-                <ScalarProperty Name="WorkFlowInstanceId" ColumnName="WorkFlowInstanceId" />
-                <ScalarProperty Name="WorkTaskInstanceId" ColumnName="WorkTaskInstanceId" />
-                <ScalarProperty Name="OperType" ColumnName="OperType" />
-                <ScalarProperty Name="TaskTypeId" ColumnName="TaskTypeId" />
-                <ScalarProperty Name="IsSubWorkFlow" ColumnName="IsSubWorkFlow" />
-                <ScalarProperty Name="MainWorkTaskId" ColumnName="MainWorkTaskId" />
-                <ScalarProperty Name="MainWorkFlowInstanceId" ColumnName="MainWorkFlowInstanceId" />
-                <ScalarProperty Name="OperatedDes" ColumnName="OperatedDes" />
-                <ScalarProperty Name="OperDateTime" ColumnName="OperDateTime" />
-                <ScalarProperty Name="taskEndTime" ColumnName="taskEndTime" />
-                <ScalarProperty Name="flowStartTime" ColumnName="flowStartTime" />
-                <ScalarProperty Name="flowEndTime" ColumnName="flowEndTime" />
-                <ScalarProperty Name="pOperatedDes" ColumnName="pOperatedDes" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="OperStatus" ColumnName="OperStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="flStatus" ColumnName="flStatus" />
-                <ScalarProperty Name="PreviousTaskInstanceId" ColumnName="PreviousTaskInstanceId" />
-                <ScalarProperty Name="OperContentText" ColumnName="OperContentText" />
-                <ScalarProperty Name="taskInsType" ColumnName="taskInsType" />
-                <ScalarProperty Name="SuccessMsg" ColumnName="SuccessMsg" />
-                <ScalarProperty Name="ChangeOperator" ColumnName="ChangeOperator" />
-                <ScalarProperty Name="TaskInsDescription" ColumnName="TaskInsDescription" />
-                <ScalarProperty Name="NowTaskId" ColumnName="NowTaskId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="IsJumpSelf" ColumnName="IsJumpSelf" />
-                <ScalarProperty Name="IsDebug" ColumnName="IsDebug" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
