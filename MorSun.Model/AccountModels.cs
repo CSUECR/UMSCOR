@@ -135,6 +135,8 @@ namespace MorSun.Model
         [DisplayName("被邀请码")]
         [StringLength(200, ErrorMessage = "邀请码长度超过200个字符")]
         public string BeInviteCode { get; set; }
+
+        public Guid? Uid { get; set; }
     }
     #endregion
 
@@ -149,7 +151,7 @@ namespace MorSun.Model
         int MinPasswordLength { get; }
 
         bool ValidateUser(string userName, string password);
-        MembershipCreateStatus CreateUser(string userName, string password, string email);
+        MembershipCreateStatus CreateUser(string userName, string password, string email, Guid? uid);
         bool ChangePassword(string userName, string oldPassword, string newPassword);
     }
 
@@ -183,14 +185,16 @@ namespace MorSun.Model
             return _provider.ValidateUser(userName, password);
         }
 
-        public MembershipCreateStatus CreateUser(string userName, string password, string email)
+        public MembershipCreateStatus CreateUser(string userName, string password, string email, Guid? uid)
         {
             if (String.IsNullOrEmpty(userName)) throw new ArgumentException("值不能为 null 或为空。", "userName");
             if (String.IsNullOrEmpty(password)) throw new ArgumentException("值不能为 null 或为空。", "password");
             if (String.IsNullOrEmpty(email)) throw new ArgumentException("值不能为 null 或为空。", "email");
 
+            if (uid == null)
+                uid = Guid.NewGuid();
             MembershipCreateStatus status;
-            _provider.CreateUser(userName, password, email, null, null, true, null, out status);
+            _provider.CreateUser(userName, password, email, null, null, true, uid, out status);//自定义UID
             return status;
         }
 

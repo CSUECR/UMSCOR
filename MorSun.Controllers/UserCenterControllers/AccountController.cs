@@ -402,7 +402,9 @@ namespace MorSun.Controllers
                 // 尝试注册用户
                 try
                 {
-                    var createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email);
+                    if (model.Uid == null)
+                        model.Uid = Guid.NewGuid();
+                    var createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email, model.Uid);
                     if (createStatus == MembershipCreateStatus.Success)
                     {
                         //查询出新注册的用户信息
