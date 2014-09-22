@@ -70,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\ExcleHelper.cs" />
+    <Compile Include="SSO\OnlineUserModel.cs" />
+    <Compile Include="SSO\SecurityHelper.cs" />
+    <Compile Include="SSO\SsoConst.cs" />
     <Compile Include="CommonObject\CacheAccess.cs" />
     <Compile Include="CommonObject\ChangeDateTime.cs" />
     <Compile Include="CommonObject\WebConfigHelper.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="Model\RuleViolation.cs" />
     <Compile Include="Model\wmfSessionPrivilege.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SSO\SsoHttpModule.cs" />
     <Compile Include="WEB\HttpProc.cs" />
     <Compile Include="WEB\LogHelper.cs" />
     <Compile Include="WEB\MailSender.cs" />
