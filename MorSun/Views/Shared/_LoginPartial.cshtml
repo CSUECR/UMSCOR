@@ -7,7 +7,7 @@
             @Html.AntiForgeryToken()
             <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>
         }
-        <a href="javascript:AddFavorite('http://www.5kdm.com','悟空打码')" onclick="AddFavorite('http://www.5kdm.com', '悟空打码')"> 收藏</a>
+        <a href="javascript:AddFavorite('@("ServiceDomain".GX())','悟空打码')" onclick="AddFavorite('@("ServiceDomain".GX())', '悟空打码')"> 收藏</a>
     </text>
 } else {
         if ("Register".GX() == "true")
@@ -15,5 +15,5 @@
         @Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
         }
         @Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-    <a href="javascript:AddFavorite('http://www.5kdm.com','悟空打码')" onclick="AddFavorite('http://www.5kdm.com', '悟空打码')"> 收藏</a>
+    <a href="javascript:AddFavorite('@("ServiceDomain".GX())','悟空打码')" onclick="AddFavorite('@("ServiceDomain".GX())', '悟空打码')"> 收藏</a>
 }

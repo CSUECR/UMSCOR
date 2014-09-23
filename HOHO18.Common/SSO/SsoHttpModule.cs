@@ -63,7 +63,7 @@ namespace HOHO18.Common.SSO
 
             if (ctx.User != null && !ctx.User.Identity.IsAuthenticated)
             {
-                //未登录，跳转到sso login页面
+                //未登录，跳转到sso login页面               
                 ctx.Response.RedirectPermanent("SSOUrl".GX() + SsoConst.SsoLoginPageName + "?" + SsoConst.ReturnUrlParameterName + "=" + HttpUtility.UrlEncode(ctx.Request.Url.ToString()));
             }
 

@@ -169,7 +169,7 @@
           <Property Name="ExceptionType" Type="nvarchar" MaxLength="256" />
           <Property Name="Details" Type="ntext" />
         </EntityType>
-        <EntityType Name="dmNew">
+        <EntityType Name="bmNew">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -2796,18 +2796,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_wmfUserInfo_aspnet_Users1">
-          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
-          <End Role="wmfUserInfo" Type="Self.wmfUserInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="wmfUserInfo">
-              <PropertyRef Name="InviteUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_wmfUserInfo_wmfCity">
           <End Role="wmfCity" Type="Self.wmfCity" Multiplicity="0..1" />
           <End Role="wmfUserInfo" Type="Self.wmfUserInfo" Multiplicity="*" />
@@ -2884,7 +2872,7 @@
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_WebEvent_Events" EntityType="Self.aspnet_WebEvent_Events" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="dmNew" EntityType="Self.dmNew" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bmNew" EntityType="Self.bmNew" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HF_AccreditUser" EntityType="Self.HF_AccreditUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HF_AppLeftMenu" EntityType="Self.HF_AppLeftMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HF_AppMenuTree" EntityType="Self.HF_AppMenuTree" Schema="dbo" store:Type="Tables" />
@@ -3333,10 +3321,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="wmfUserInfo" EntitySet="wmfUserInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK_wmfUserInfo_aspnet_Users1" Association="Self.FK_wmfUserInfo_aspnet_Users1">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="wmfUserInfo" EntitySet="wmfUserInfo" />
-          </AssociationSet>
           <AssociationSet Name="FK_wmfUserInfo_wmfCity" Association="Self.FK_wmfUserInfo_wmfCity">
             <End Role="wmfCity" EntitySet="wmfCity" />
             <End Role="wmfUserInfo" EntitySet="wmfUserInfo" />
@@ -3531,7 +3515,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfUploadFiles" Relationship="Self.FK_wmfUploadFile_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUploadFile" />
           <NavigationProperty Name="wmfUserDeptPositions" Relationship="Self.FK_wmfUserDeptPosition_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserDeptPosition" />
           <NavigationProperty Name="wmfUserInfo" Relationship="Self.FK_wmfUserInfo_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserInfo" />
-          <NavigationProperty Name="wmfUserInfoes" Relationship="Self.FK_wmfUserInfo_aspnet_Users1" FromRole="aspnet_Users" ToRole="wmfUserInfo" />
           <NavigationProperty Name="aspnet_Roles" Relationship="Self.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
         </EntityType>
         <EntityType Name="aspnet_WebEvent_Events">
@@ -3554,7 +3537,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="ExceptionType" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="dmNew">
+        <EntityType Name="bmNew">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -5257,7 +5240,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
           <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_wmfUserInfo_aspnet_Users" FromRole="wmfUserInfo" ToRole="aspnet_Users" />
-          <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_wmfUserInfo_aspnet_Users1" FromRole="wmfUserInfo" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfCity" Relationship="Self.FK_wmfUserInfo_wmfCity" FromRole="wmfUserInfo" ToRole="wmfCity" />
           <NavigationProperty Name="wmfCounty" Relationship="Self.FK_wmfUserInfo_wmfCounty" FromRole="wmfUserInfo" ToRole="wmfCounty" />
           <NavigationProperty Name="wmfProvince" Relationship="Self.FK_wmfUserInfo_wmfProvince" FromRole="wmfUserInfo" ToRole="wmfProvince" />
@@ -5669,18 +5651,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Principal>
             <Dependent Role="wmfUserInfo">
               <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_wmfUserInfo_aspnet_Users1">
-          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
-          <End Role="wmfUserInfo" Type="Self.wmfUserInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="wmfUserInfo">
-              <PropertyRef Name="InviteUser" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6345,7 +6315,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" />
           <EntitySet Name="aspnet_WebEvent_Events" EntityType="Self.aspnet_WebEvent_Events" />
-          <EntitySet Name="dmNews" EntityType="Self.dmNew" />
+          <EntitySet Name="bmNews" EntityType="Self.bmNew" />
           <EntitySet Name="HF_AccreditUser" EntityType="Self.HF_AccreditUser" />
           <EntitySet Name="HF_AppLeftMenu" EntityType="Self.HF_AppLeftMenu" />
           <EntitySet Name="HF_AppMenuTree" EntityType="Self.HF_AppMenuTree" />
@@ -6541,10 +6511,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfUserDeptPosition" EntitySet="wmfUserDeptPositions" />
           </AssociationSet>
           <AssociationSet Name="FK_wmfUserInfo_aspnet_Users" Association="Self.FK_wmfUserInfo_aspnet_Users">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="wmfUserInfo" EntitySet="wmfUserInfoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_wmfUserInfo_aspnet_Users1" Association="Self.FK_wmfUserInfo_aspnet_Users1">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="wmfUserInfo" EntitySet="wmfUserInfoes" />
           </AssociationSet>
@@ -6926,9 +6892,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="dmNews">
-            <EntityTypeMapping TypeName="MorSun.Model.dmNew">
-              <MappingFragment StoreEntitySet="dmNew">
+          <EntitySetMapping Name="bmNews">
+            <EntityTypeMapping TypeName="MorSun.Model.bmNew">
+              <MappingFragment StoreEntitySet="bmNew">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NewRef" ColumnName="NewRef" />
                 <ScalarProperty Name="NewTitle" ColumnName="NewTitle" />

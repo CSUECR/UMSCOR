@@ -42,7 +42,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfUploadFile_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "wmfUploadFile", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfUploadFile), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfUserDeptPosition_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.aspnet_Users), "wmfUserDeptPosition", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfUserDeptPosition), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfUserInfo_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.aspnet_Users), "wmfUserInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfUserInfo), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfUserInfo_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "wmfUserInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfUserInfo), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_kqCPTCS_kqCalssPlanTemplate", "kqCalssPlanTemplate", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.kqCalssPlanTemplate), "kqCPTCS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.kqCPTC), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_kqDeptCPT_kqCalssPlanTemplate", "kqCalssPlanTemplate", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.kqCalssPlanTemplate), "kqDUCPT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.kqDUCPT), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_kqClassesRelation_kqClassesRef", "kqClassesRef", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.kqClassesRef), "kqClassesRelation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.kqClassesRelation), true)]
@@ -340,18 +339,18 @@ namespace MorSun.Model
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
-        public ObjectSet<dmNew> dmNews
+        public ObjectSet<bmNew> bmNews
         {
             get
             {
-                if ((_dmNews == null))
+                if ((_bmNews == null))
                 {
-                    _dmNews = base.CreateObjectSet<dmNew>("dmNews");
+                    _bmNews = base.CreateObjectSet<bmNew>("bmNews");
                 }
-                return _dmNews;
+                return _bmNews;
             }
         }
-        private ObjectSet<dmNew> _dmNews;
+        private ObjectSet<bmNew> _bmNews;
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -2150,11 +2149,11 @@ namespace MorSun.Model
         }
     
         /// <summary>
-        /// 用于向 dmNews EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// 用于向 bmNews EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
         /// </summary>
-        public void AddTodmNews(dmNew dmNew)
+        public void AddTobmNews(bmNew bmNew)
         {
-            base.AddObject("dmNews", dmNew);
+            base.AddObject("bmNews", bmNew);
         }
     
         /// <summary>
@@ -6330,28 +6329,6 @@ namespace MorSun.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfUserInfo_aspnet_Users1", "wmfUserInfo")]
-        public EntityCollection<wmfUserInfo> wmfUserInfoes
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<wmfUserInfo>("MorSun.Model.FK_wmfUserInfo_aspnet_Users1", "wmfUserInfo");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfUserInfo>("MorSun.Model.FK_wmfUserInfo_aspnet_Users1", "wmfUserInfo", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "aspnet_UsersInRoles", "aspnet_Roles")]
         public EntityCollection<aspnet_Roles> aspnet_Roles
         {
@@ -6783,26 +6760,26 @@ namespace MorSun.Model
     /// <summary>
     /// 没有元数据文档可用。
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="dmNew")]
+    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="bmNew")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class dmNew : EntityObject
+    public partial class bmNew : EntityObject
     {
         #region 工厂方法
     
         /// <summary>
-        /// 创建新的 dmNew 对象。
+        /// 创建新的 bmNew 对象。
         /// </summary>
         /// <param name="id">ID 属性的初始值。</param>
         /// <param name="flagTrashed">FlagTrashed 属性的初始值。</param>
         /// <param name="flagDeleted">FlagDeleted 属性的初始值。</param>
-        public static dmNew CreatedmNew(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted)
+        public static bmNew CreatebmNew(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted)
         {
-            dmNew dmNew = new dmNew();
-            dmNew.ID = id;
-            dmNew.FlagTrashed = flagTrashed;
-            dmNew.FlagDeleted = flagDeleted;
-            return dmNew;
+            bmNew bmNew = new bmNew();
+            bmNew.ID = id;
+            bmNew.FlagTrashed = flagTrashed;
+            bmNew.FlagDeleted = flagDeleted;
+            return bmNew;
         }
 
         #endregion
@@ -41153,44 +41130,6 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfUserInfo_aspnet_Users", "aspnet_Users", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfUserInfo_aspnet_Users1", "aspnet_Users")]
-        public aspnet_Users aspnet_Users1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfUserInfo_aspnet_Users1", "aspnet_Users").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfUserInfo_aspnet_Users1", "aspnet_Users").Value = value;
-            }
-        }
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<aspnet_Users> aspnet_Users1Reference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfUserInfo_aspnet_Users1", "aspnet_Users");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfUserInfo_aspnet_Users1", "aspnet_Users", value);
                 }
             }
         }

@@ -17,6 +17,7 @@ using HOHO18.Common.Web;
 using MorSun.Bll;
 using MorSun.Common.类别;
 using HOHO18.Common.WEB;
+using HOHO18.Common.SSO;
 
 namespace MorSun.Controllers
 {
@@ -168,7 +169,41 @@ namespace MorSun.Controllers
             {                
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
-                    FormsService.SignIn(model.UserName, model.RememberMe);
+                    FormsService.SignIn(model.UserName, model.RememberMe);   
+                    //SSO增加内容
+                    if(string.IsNullOrEmpty(returnUrl))
+                    {
+                        returnUrl = Request.QueryString[SsoConst.ReturnUrlParameterName];
+                        if (string.IsNullOrEmpty(returnUrl))
+                        {
+                            returnUrl = "SsoUrl".GX();
+                        }
+                    }
+                    if (returnUrl.Contains("?"))
+                    {
+                        returnUrl += "&" + Guid.NewGuid().ToString().Replace("-", "");
+                    }
+                    else
+                    {
+                        returnUrl += "?" + Guid.NewGuid().ToString().Replace("-", "");
+                    }
+                    //更新在线用户
+                    //Dictionary<string, OnlineUserModel> onlineUsers = Application["OnlineUsers"];
+                    //if (onlineUsers.ContainsKey(model.UserName))
+                    //{
+                    //    onlineUsers[model.UserName].LastLoginTime = DateTime.Now;
+                    //    onlineUsers[model.UserName].LoginAppName = returnUrl;
+                    //}
+                    //else
+                    //{
+                    //    onlineUsers.Add(model.UserName,
+                    //                    new OnlineUserModel()
+                    //                    {
+                    //                        UserName = model.UserName,
+                    //                        LastLoginTime = DateTime.Now,
+                    //                        LoginAppName = returnUrl
+                    //                    });
+                    //}
                     //封装返回的数据
                     fillOperationResult(returnUrl, oper, "登录成功");                    
                     return Json(oper, JsonRequestBehavior.AllowGet);
