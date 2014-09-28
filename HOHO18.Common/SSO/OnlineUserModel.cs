@@ -8,6 +8,10 @@ namespace HOHO18.Common.SSO
     public class OnlineUserModel
     {
         /// <summary>
+        /// 用户唯一ID，多个应用合并数据的唯一标识
+        /// </summary>
+        public string UserId { get; set; }
+        /// <summary>
         /// 用户名
         /// </summary>
         public string UserName { set; get; }
