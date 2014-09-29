@@ -32,6 +32,7 @@ namespace HOHO18.Common.SSO
                 if (!string.IsNullOrEmpty(userName))
                 {
                     userName = SecurityHelper.Decrypt(userName);
+                    //在这个位置增加用户。
                     FormsAuthentication.SetAuthCookie(userName, true);//登录子应用
                 }
 

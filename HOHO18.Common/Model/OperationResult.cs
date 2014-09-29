@@ -95,6 +95,10 @@ namespace HOHO18.Common
         /// </summary>
         public object AppendData { get; set; }
 
+        /// <summary>
+        /// SSO要登录的子网站集
+        /// </summary>
+        public string SSOLink { get; set; }
         #endregion
     }
 }

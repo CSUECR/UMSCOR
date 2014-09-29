@@ -69,6 +69,22 @@ namespace MorSun.Controllers
             oper.Message = message;
             oper.AppendData = string.IsNullOrEmpty(returnUrl) ? Url.Action(defAction, defController) : returnUrl;
         }
+        /// <summary>
+        /// SSO登录时使用，需要访问子网站
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <param name="SSOLink"></param>
+        /// <param name="oper"></param>
+        /// <param name="message"></param>
+        /// <param name="defAction"></param>
+        /// <param name="defController"></param>
+        protected void fillOperationSSOResult(string returnUrl, string SSOLink, OperationResult oper, string message = "操作成功", string defAction = "index", string defController = "home")
+        {
+            oper.ResultType = OperationResultType.Success;
+            oper.Message = message;
+            oper.AppendData = string.IsNullOrEmpty(returnUrl) ? Url.Action(defAction, defController) : returnUrl;
+            oper.SSOLink = SSOLink;
+        }
         #endregion  
 
         #region 基本信息

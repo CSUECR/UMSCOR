@@ -47,6 +47,8 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                         });
                         if (jumpUrl)
                         {
+                            //子网站登录要跳转的
+                            //document.write("<script language='javascript' src='js/b.js'></script>");
                             setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
                         }
                         else
