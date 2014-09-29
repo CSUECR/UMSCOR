@@ -78,7 +78,7 @@ namespace MorSun.Controllers
         /// <param name="message"></param>
         /// <param name="defAction"></param>
         /// <param name="defController"></param>
-        protected void fillOperationSSOResult(string returnUrl, string SSOLink, OperationResult oper, string message = "操作成功", string defAction = "index", string defController = "home")
+        protected void fillOperationResult(string returnUrl, string SSOLink, OperationResult oper, string message = "操作成功", string defAction = "index", string defController = "home")
         {
             oper.ResultType = OperationResultType.Success;
             oper.Message = message;

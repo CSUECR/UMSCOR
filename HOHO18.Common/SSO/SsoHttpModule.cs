@@ -28,11 +28,19 @@ namespace HOHO18.Common.SSO
                 ctx.Response.ContentType = "text/plain";
                 ctx.Response.Write(";");
 
-                string userName = ctx.Request.QueryString[SsoConst.SsoTokenName];
-                if (!string.IsNullOrEmpty(userName))
+                string userCode = ctx.Request.QueryString[SsoConst.SsoTokenName];
+                string userName = "";
+                if (!string.IsNullOrEmpty(userCode))
                 {
-                    userName = SecurityHelper.Decrypt(userName);
+                    userCode = SecurityHelper.Decrypt(userCode);
+                    //修改了内容，取用户名要区分开来
+                    //取时间戳
+                    var ind = userCode.IndexOf(';');
+                    DateTime dt = DateTime.Parse(userCode.Substring(0, ind));
+                    var uid = Guid.Parse(userCode.Substring(ind + 1, 36));
+                    userName = userCode.Substring(ind + 1 + 36, userCode.Length - ind - 36 - 1);
                     //在这个位置增加用户。
+                    
                     FormsAuthentication.SetAuthCookie(userName, true);//登录子应用
                 }
 

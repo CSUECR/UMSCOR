@@ -156,10 +156,11 @@ namespace MorSun.Controllers
             var oper = new OperationResult(OperationResultType.Error, "登录失败");
             validateVerifyCode(model.Verifycode, model.VerifycodeRandom, "LoginVerificationCode");
             validateLockedUser(model);
+            //SSO也要用到，所以从if(AccountActive)里取出来。
+            var user = new BaseBll<aspnet_Users>().All.FirstOrDefault(p => p.LoweredUserName == model.UserName.ToLower());
             //判断账号是否激活
             if ("AccountActive".GX() == "true")
-            {
-                var user = new BaseBll<aspnet_Users>().All.FirstOrDefault(p => p.LoweredUserName == model.UserName.ToLower());
+            {                
                 if (user != null && user.wmfUserInfo.FlagActive == false)
                 {
                     "UserName".AE("账号未激活", ModelState);
@@ -204,8 +205,19 @@ namespace MorSun.Controllers
                     //                        LoginAppName = returnUrl
                     //                    });
                     //}
+                    //生成登录子应用链接
+                    var apps = "AppsUrl".GX().Split(',');
+                    string SSOLink = "";
+                    foreach(var item in apps)
+                    {
+                        var dt = DateTime.Now;
+                        var dts = dt.ToShortDateString() + " " + dt.ToShortTimeString();
+                        SSOLink += item + SsoConst.AppLoginPageName + "?" +
+                                 SsoConst.SsoTokenName + "=" + HttpUtility.UrlEncode(SecurityHelper.Encrypt(dts + ";" + user.UserId + model.UserName));//只传ID和用户名到子站吧，其他的子站ajax从主站获取
+                        SSOLink +=",";
+                    }
                     //封装返回的数据
-                    fillOperationResult(returnUrl, oper, "登录成功");                    
+                    fillOperationResult(returnUrl, SSOLink, oper, "登录成功");                    
                     return Json(oper, JsonRequestBehavior.AllowGet);
                 }
                 else
