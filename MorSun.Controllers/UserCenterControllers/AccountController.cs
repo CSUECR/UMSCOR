@@ -410,10 +410,11 @@ namespace MorSun.Controllers
                         "OldPassword".AE("非法提交", ModelState);
                     else
                     {
-                        if(!MembershipService.ValidateUser(user.aspnet_Users.UserName, model.OldPassword))
-                        {
-                            "OldPassword".AE("旧密码输入错误", ModelState);
-                        }
+                        //忘记密码是不知道以前的密码才用邮件修改的，下面的多此一举
+                        //if(!MembershipService.ValidateUser(user.aspnet_Users.UserName, model.OldPassword))
+                        //{
+                        //    "OldPassword".AE("旧密码输入错误", ModelState);
+                        //}
                         if(ModelState.IsValid)
                         {
                             MembershipUser muser = Membership.GetUser(user.aspnet_Users.UserName);

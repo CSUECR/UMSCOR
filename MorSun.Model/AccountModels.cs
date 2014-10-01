@@ -36,10 +36,10 @@ namespace MorSun.Model
     [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "新密码和确认密码不匹配。")]
     public class ECPWModel
     {
-        [Required(ErrorMessage = "{0}必填")]
-        [DataType(DataType.Password)]
-        [DisplayName("当前密码")]
-        public string OldPassword { get; set; }
+        //[Required(ErrorMessage = "{0}必填")]
+        //[DataType(DataType.Password)]
+        //[DisplayName("当前密码")]
+        //public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "{0}必填")]
         [ValidatePasswordLength]
@@ -58,7 +58,7 @@ namespace MorSun.Model
     public class ForgetModel
     {
         [Required(ErrorMessage = "{0}必填")]
-        [DisplayName("用户名")]
+        [DisplayName("常用电子邮件")]
         [Email(ErrorMessage = "请输入正确的邮件格式")]
         [Remote("CheckUserNameTrue", "Account", ErrorMessage = "该邮件不存在")]   
         public string UserName { get; set; }
@@ -73,7 +73,7 @@ namespace MorSun.Model
     public class LoginModel
     {
         [Required(ErrorMessage = "{0}必填")]
-        [DisplayName("用户名")]
+        [DisplayName("常用电子邮件")]
         [Email(ErrorMessage = "请输入正确的邮件格式")]
         public string UserName { get; set; }
 

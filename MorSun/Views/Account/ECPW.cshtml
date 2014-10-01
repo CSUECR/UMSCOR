@@ -46,11 +46,7 @@
             @Html.AntiForgeryToken()
             <fieldset>
                 <legend>账号验证</legend>
-                <ol>
-                    <li>
-                        @Html.LabelFor(m => m.OldPassword)
-                        @Html.PasswordFor(m => m.OldPassword)
-                    </li> 
+                <ol>                    
                     <li>
                         @Html.LabelFor(m => m.NewPassword)
                         @Html.PasswordFor(m => m.NewPassword)

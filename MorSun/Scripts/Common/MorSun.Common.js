@@ -47,17 +47,19 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                         });
                         if (jumpUrl)
                         {
-                            //子网站登录要跳转的
-                            var s = data.SSOLink.split(',');                            
-                            $.each(s, function (i, val) {
-                                if (val != "")
-                                {                                                                      
-                                    var so = document.createElement('SCRIPT');
-                                    so.src = val;
-                                    document.body.appendChild(so);
-                                    //这种方式不一定能全部登录子网站，还是从链接那边生成Token登录来的好。
-                                }
-                            });                            
+                            if (data.SSOLink != null)
+                            {//子网站登录要跳转的
+                                console.log(data.SSOLink);
+                                var s = data.SSOLink.split(',');
+                                $.each(s, function (i, val) {
+                                    if (val != "") {
+                                        var so = document.createElement('SCRIPT');
+                                        so.src = val;
+                                        document.body.appendChild(so);
+                                        //这种方式不一定能全部登录子网站，还是从链接那边生成Token登录来的好。
+                                    }
+                                });
+                            }
                             setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
                         }
                         else
