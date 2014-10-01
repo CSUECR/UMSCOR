@@ -12,9 +12,26 @@ namespace MorSun.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
-        {            
+        public ActionResult Index(string bic, string returnUrl)
+        {
+            HttpCookie Cookie_login = Request.Cookies["BIC"];
+            if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["BIC"].ToString()))
+            {
+                bic = Cookie_login["BIC"].ToString();
+            }
+            else if(!String.IsNullOrEmpty(bic))
+            {
+                Cookie_login = new HttpCookie("BIC");
+                Cookie_login["BIC"] = bic;
+                //对修改 及 新创建的cookie进行重新管理
+                Cookie_login.Path = "/";
+                Cookie_login.Expires = DateTime.Now.AddDays(1);
+                Response.Cookies.Add(Cookie_login);
+            }            
+
             ViewBag.Title = "悟空打码";
+            if (!String.IsNullOrEmpty(returnUrl))
+                return Redirect(returnUrl);
             return View();
         }
 

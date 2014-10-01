@@ -171,6 +171,19 @@ namespace MorSun.Controllers
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
                     FormsService.SignIn(model.UserName, model.RememberMe);  
+
+                    if(user.wmfUserInfo != null && !String.IsNullOrEmpty(user.wmfUserInfo.HamInviteCode))
+                    {
+                        //用户登录都更换推广码,否则用之前的推广码。
+                        HttpCookie Cookie_login = Request.Cookies["BIC"];                 
+                        Cookie_login = new HttpCookie("BIC");
+                        Cookie_login["BIC"] = user.wmfUserInfo.HamInviteCode;
+                        //对修改 及 新创建的cookie进行重新管理
+                        Cookie_login.Path = "/";
+                        Cookie_login.Expires = DateTime.Now.AddDays(1);
+                        Response.Cookies.Add(Cookie_login);
+                    }         
+
                     //生成登录子应用链接
                     var apps = "AppsUrl".GX().Split(',');
                     string SSOLink = "";
@@ -418,6 +431,21 @@ namespace MorSun.Controllers
         [AllowAnonymous]
         public ActionResult Register(string id)
         {
+            HttpCookie Cookie_login = Request.Cookies["BIC"];
+            if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["BIC"].ToString()))
+            {
+                id = Cookie_login["BIC"].ToString();
+            }
+            else if (!String.IsNullOrEmpty(id))
+            {
+                Cookie_login = new HttpCookie("BIC");
+                Cookie_login["BIC"] = id;
+                //对修改 及 新创建的cookie进行重新管理
+                Cookie_login.Path = "/";
+                Cookie_login.Expires = DateTime.Now.AddDays(1);
+                Response.Cookies.Add(Cookie_login);
+            }            
+
             RegisterModel model = new RegisterModel();
             model.BeInviteCode = id;
             return View(model);
@@ -479,23 +507,34 @@ namespace MorSun.Controllers
                         //被邀请人
                         if (!string.IsNullOrEmpty(model.BeInviteCode))
                         {
-                            var inviteUser = userinfobll.All.FirstOrDefault(p => p.InviteCode == model.BeInviteCode);
+                            //去掉复杂版推广码，一般没人用。
+                            //var inviteUser = userinfobll.All.FirstOrDefault(p => p.InviteCode == model.BeInviteCode);
+                            //if (inviteUser != null)
+                            //    userinfoModel.InviteUser = inviteUser.ID;
+                            //else
+                            //{
+                            var inviteUser = userinfobll.All.FirstOrDefault(p => p.HamInviteCode == model.BeInviteCode);
+                            //如果邀请人为空，从cookie里取邀请人
+                            if(inviteUser == null)
+                            {
+                                HttpCookie Cookie_login = Request.Cookies["BIC"];//创建Cookie
+                                if (Cookie_login != null)
+                                {
+                                    var bic = Cookie_login["BIC"].ToString();
+                                    inviteUser = userinfobll.All.FirstOrDefault(p => p.HamInviteCode == bic);
+                                }
+                            }
                             if (inviteUser != null)
                                 userinfoModel.InviteUser = inviteUser.ID;
                             else
-                            {
-                                inviteUser = userinfobll.All.FirstOrDefault(p => p.HamInviteCode == model.BeInviteCode);
-                                if (inviteUser != null)
-                                    userinfoModel.InviteUser = inviteUser.ID;
-                                else
-                                { 
-                                    var bc = model.BeInviteCode.Substring(model.BeInviteCode.LastIndexOf("|"), model.BeInviteCode.Length - model.BeInviteCode.LastIndexOf("|")).Replace("|", ".");
-                                    model.BeInviteCode = model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc;
-                                    var aspnetUser = Membership.GetUser(model.BeInviteCode);
-                                    if (aspnetUser != null)
-                                        userinfoModel.InviteUser = aspnetUser.ProviderUserKey.ToAs<Guid>();
-                                }
+                            { 
+                                var bc = model.BeInviteCode.Substring(model.BeInviteCode.LastIndexOf("|"), model.BeInviteCode.Length - model.BeInviteCode.LastIndexOf("|")).Replace("|", ".");
+                                model.BeInviteCode = model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc;
+                                var aspnetUser = Membership.GetUser(model.BeInviteCode);
+                                if (aspnetUser != null)
+                                    userinfoModel.InviteUser = aspnetUser.ProviderUserKey.ToAs<Guid>();
                             }
+                            //}
                         }
                         //用户串和密码串
                         userinfoModel.UserNameString = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
