@@ -6,7 +6,7 @@ $.validator.addMethod("email", function (value, element) {
     if (this.optional(element) || /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]*$/i.test(value)) {
         return true;
     }
-    console.log('email');
+    //console.log('email');
 });
 //电子邮件扩展方法注册
 $.validator.unobtrusive.adapters.addBool("email");

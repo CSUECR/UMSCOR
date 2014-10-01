@@ -208,12 +208,14 @@ namespace MorSun.Controllers
                     //生成登录子应用链接
                     var apps = "AppsUrl".GX().Split(',');
                     string SSOLink = "";
+                    var dt = DateTime.Now;
+                    var dts = dt.ToShortDateString() + " " + dt.ToShortTimeString();
+                    var tok = HttpUtility.UrlEncode(SecurityHelper.Encrypt(dts + ";" + user.UserId + model.UserName));
                     foreach(var item in apps)
                     {
-                        var dt = DateTime.Now;
-                        var dts = dt.ToShortDateString() + " " + dt.ToShortTimeString();
+                        
                         SSOLink += item + SsoConst.AppLoginPageName + "?" +
-                                 SsoConst.SsoTokenName + "=" + HttpUtility.UrlEncode(SecurityHelper.Encrypt(dts + ";" + user.UserId + model.UserName));//只传ID和用户名到子站吧，其他的子站ajax从主站获取
+                                 SsoConst.SsoTokenName + "=" + tok;//只传ID和用户名到子站吧，其他的子站ajax从主站获取
                         SSOLink +=",";
                     }
                     //封装返回的数据
@@ -236,6 +238,40 @@ namespace MorSun.Controllers
             FormsService.SignOut();            
             System.Web.HttpContext.Current.Session.Abandon();
             return RedirectToAction("Index", "Home");
+        }
+        /// <summary>
+        /// 通行证登录
+        /// </summary>
+        /// <returns></returns>
+        public String AppLogin()
+        {
+            string userCode = Request.QueryString[SsoConst.SsoTokenName];
+            string userName = "";
+            if (!string.IsNullOrEmpty(userCode))
+            {
+                userCode = SecurityHelper.Decrypt(userCode);
+                //修改了内容，取用户名要区分开来
+                //取时间戳
+                var ind = userCode.IndexOf(';');
+                DateTime dt = DateTime.Parse(userCode.Substring(0, ind));
+                var uid = Guid.Parse(userCode.Substring(ind + 1, 36));
+                userName = userCode.Substring(ind + 1 + 36, userCode.Length - ind - 36 - 1);
+                //在这个位置增加用户。
+
+                FormsService.SignIn(userName, true);   
+            }
+            return ";";
+        }
+
+        /// <summary>
+        /// 通行证退出
+        /// </summary>
+        /// <returns></returns>
+        public String AppLogOff()
+        {
+            FormsService.SignOut();
+            System.Web.HttpContext.Current.Session.Abandon();
+            return ";";
         }
         #endregion
 

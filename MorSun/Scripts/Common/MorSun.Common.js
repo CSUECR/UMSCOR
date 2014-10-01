@@ -55,11 +55,15 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                                 if (val != "")
                                 {
                                     console.log(val);
-                                    document.write("<script language='javascript' src='" + val + "'></script>");
+                                    //$('#DIVSL').append("<script type='text/javascript' src='" + val + "'></script>");
+                                    //document.write("<script type='text/javascript' src='" + val + "'></script>");
+                                    var so = document.createElement('SCRIPT');
+                                    so.src = val;
+                                    document.body.appendChild(so);
                                 }
                             });
                             //document.write("<script language='javascript' src='js/b.js'></script>");
-                            setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                            //setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
                         }
                         else
                         {

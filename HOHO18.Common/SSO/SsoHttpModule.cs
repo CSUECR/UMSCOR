@@ -43,7 +43,7 @@ namespace HOHO18.Common.SSO
                     
                     FormsAuthentication.SetAuthCookie(userName, true);//登录子应用
                 }
-
+                ctx.Response.Write(userName);
                 ctx.Response.End();
             }
 
@@ -70,11 +70,11 @@ namespace HOHO18.Common.SSO
                 return;
             }
 
-            if (ctx.User != null && !ctx.User.Identity.IsAuthenticated)
-            {
-                //未登录，跳转到sso login页面               
-                ctx.Response.RedirectPermanent("SSOUrl".GX() + SsoConst.SsoLoginPageName + "?" + SsoConst.ReturnUrlParameterName + "=" + HttpUtility.UrlEncode(ctx.Request.Url.ToString()));
-            }
+            //if (ctx.User != null && !ctx.User.Identity.IsAuthenticated)
+            //{
+            //    //未登录，跳转到sso login页面               
+            //    ctx.Response.RedirectPermanent("SSOUrl".GX() + SsoConst.SsoLoginPageName + "?" + SsoConst.ReturnUrlParameterName + "=" + HttpUtility.UrlEncode(ctx.Request.Url.ToString()));
+            //}
 
         }
     }
