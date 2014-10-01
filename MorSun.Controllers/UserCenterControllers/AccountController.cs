@@ -170,19 +170,9 @@ namespace MorSun.Controllers
             {                
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
-                    FormsService.SignIn(model.UserName, model.RememberMe);  
+                    FormsService.SignIn(model.UserName, model.RememberMe);
 
-                    if(user.wmfUserInfo != null && !String.IsNullOrEmpty(user.wmfUserInfo.HamInviteCode))
-                    {
-                        //用户登录都更换推广码,否则用之前的推广码。
-                        HttpCookie Cookie_login = Request.Cookies["BIC"];                 
-                        Cookie_login = new HttpCookie("BIC");
-                        Cookie_login["BIC"] = user.wmfUserInfo.HamInviteCode;
-                        //对修改 及 新创建的cookie进行重新管理
-                        Cookie_login.Path = "/";
-                        Cookie_login.Expires = DateTime.Now.AddDays(1);
-                        Response.Cookies.Add(Cookie_login);
-                    }         
+                    LoginFunction(user);        
 
                     //生成登录子应用链接
                     var apps = "AppsUrl".GX().Split(',');
@@ -209,6 +199,25 @@ namespace MorSun.Controllers
             }
             oper.AppendData = ModelState.GE();
             return Json(oper, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 登录后的通用设置方法
+        /// </summary>
+        /// <param name="user"></param>
+        private void LoginFunction(aspnet_Users user)
+        {
+            if (user.wmfUserInfo != null && !String.IsNullOrEmpty(user.wmfUserInfo.HamInviteCode))
+            {
+                //用户登录都更换推广码,否则用之前的推广码。
+                HttpCookie Cookie_login = Request.Cookies["BIC"];
+                Cookie_login = new HttpCookie("BIC");
+                Cookie_login["BIC"] = user.wmfUserInfo.HamInviteCode;
+                //对修改 及 新创建的cookie进行重新管理
+                Cookie_login.Path = "/";
+                Cookie_login.Expires = DateTime.Now.AddDays(1);
+                Response.Cookies.Add(Cookie_login);
+            }
         } 
 
         // POST: /Account/LogOff        
@@ -344,7 +353,7 @@ namespace MorSun.Controllers
                     string fromEmailPassword = "ServiceMailPassword".GX().DP();
                     int emailPort = String.IsNullOrEmpty("ServiceMailPort".GX()) ? 587 : "ServiceMailPort".GX().ToAs<int>();
                     var code = GenerateEncryptCode(user.wmfUserInfo.UserNameString, "EmailChangePass".GX(), false);
-                    string body = new WebClient().GetHtml("ServiceDomain".GX() + "/Home/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
+                    string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/Home/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
                     //创建邮件对象并发送
                     var mail = new SendMail(user.UserName, fromEmail, body, "找回密码", fromEmailPassword, "ServiceMailName".GX(), user.wmfUserInfo.NickName);
                     var mailRecord = new wmfMailRecord().wmfMailRecord2(user.UserName, body, "找回密码", "ServiceMailName".GX(), user.wmfUserInfo.NickName, Guid.Parse(Reference.电子邮件类别_找回密码));
@@ -434,17 +443,23 @@ namespace MorSun.Controllers
             HttpCookie Cookie_login = Request.Cookies["BIC"];
             if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["BIC"].ToString()))
             {
-                id = Cookie_login["BIC"].ToString();
+                if(String.IsNullOrEmpty(id))
+                    id = Cookie_login["BIC"].ToString();
+                else if(!Cookie_login["BIC"].ToString().Eql(id))
+                {
+                    Cookie_login = new HttpCookie("BIC");
+                    Cookie_login["BIC"] = id;
+                }
             }
             else if (!String.IsNullOrEmpty(id))
             {
                 Cookie_login = new HttpCookie("BIC");
-                Cookie_login["BIC"] = id;
-                //对修改 及 新创建的cookie进行重新管理
-                Cookie_login.Path = "/";
-                Cookie_login.Expires = DateTime.Now.AddDays(1);
-                Response.Cookies.Add(Cookie_login);
-            }            
+                Cookie_login["BIC"] = id;                
+            }
+            //对修改 及 新创建的cookie进行重新管理
+            Cookie_login.Path = "/";
+            Cookie_login.Expires = DateTime.Now.AddDays(1);
+            Response.Cookies.Add(Cookie_login);
 
             RegisterModel model = new RegisterModel();
             model.BeInviteCode = id;
@@ -523,7 +538,7 @@ namespace MorSun.Controllers
                                     var bic = Cookie_login["BIC"].ToString();
                                     inviteUser = userinfobll.All.FirstOrDefault(p => p.HamInviteCode == bic);
                                 }
-                            }
+                            }                            
                             if (inviteUser != null)
                                 userinfoModel.InviteUser = inviteUser.ID;
                             else
@@ -568,7 +583,7 @@ namespace MorSun.Controllers
                             string fromEmailPassword = "ServiceMailPassword".GX().DP();
                             int emailPort = String.IsNullOrEmpty("ServiceMailPort".GX()) ? 587 : "ServiceMailPort".GX().ToAs<int>();
                             var code = GenerateEncryptCode(userinfoModel.UserNameString,"ActiveUserUrl".GX(),false);
-                            string body = new WebClient().GetHtml("ServiceDomain".GX() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", code);
+                            string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", code);
                             //创建邮件对象并发送
                             var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GX(), userinfoModel.NickName);
                             var mailRecord = new wmfMailRecord().wmfMailRecord2(model.Email, body, "激活账号", "ServiceMailName".GX(), userinfoModel.NickName,Guid.Parse(Reference.电子邮件类别_账号注册));

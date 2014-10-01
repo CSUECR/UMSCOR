@@ -41,6 +41,21 @@ namespace System
         {
             return WebConfigHelper.GetWebConfig(str);
         }
+
+        public static string GHU(this String str)
+        {
+            var u = new StringBuilder();
+            u.Append("http://");            
+            if(HttpContext.Current.Request.Url.Port != 80)
+            {                
+                u.Append(HttpContext.Current.Request.Url.Authority);
+            }
+            else
+            {
+                u.Append(HttpContext.Current.Request.Url.Host);
+            }            
+            return u.ToString();
+        }
         #endregion
 
     }

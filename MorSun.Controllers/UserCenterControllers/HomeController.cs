@@ -17,20 +17,27 @@ namespace MorSun.Controllers
             HttpCookie Cookie_login = Request.Cookies["BIC"];
             if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["BIC"].ToString()))
             {
-                bic = Cookie_login["BIC"].ToString();
+                if(String.IsNullOrEmpty(bic))
+                    bic = Cookie_login["BIC"].ToString();
+                else if(!Cookie_login["BIC"].ToString().Eql(bic))
+                {
+                    Cookie_login = new HttpCookie("BIC");
+                    Cookie_login["BIC"] = bic;
+                }
             }
             else if(!String.IsNullOrEmpty(bic))
             {
                 Cookie_login = new HttpCookie("BIC");
-                Cookie_login["BIC"] = bic;
-                //对修改 及 新创建的cookie进行重新管理
-                Cookie_login.Path = "/";
-                Cookie_login.Expires = DateTime.Now.AddDays(1);
-                Response.Cookies.Add(Cookie_login);
-            }            
+                Cookie_login["BIC"] = bic;                
+            }
+
+            //对修改 及 新创建的cookie进行重新管理
+            Cookie_login.Path = "/";
+            Cookie_login.Expires = DateTime.Now.AddDays(1);
+            Response.Cookies.Add(Cookie_login);
 
             ViewBag.Title = "悟空打码";
-            if (!String.IsNullOrEmpty(returnUrl))
+            if (!String.IsNullOrEmpty(returnUrl) && !returnUrl.Substring(0,1).Eql("/"))
                 return Redirect(returnUrl);
             return View();
         }
@@ -90,8 +97,28 @@ namespace MorSun.Controllers
                 user.FlagActive = true;
                 bll.Update(user);                
                 FormsService.SignIn(user.aspnet_Users.UserName,false);
+                LoginFunction(user.aspnet_Users); 
             }
             return RedirectToAction("Index", "Home");
-        }        
+        }
+
+        /// <summary>
+        /// 登录后的通用设置方法
+        /// </summary>
+        /// <param name="user"></param>
+        private void LoginFunction(aspnet_Users user)
+        {
+            if (user.wmfUserInfo != null && !String.IsNullOrEmpty(user.wmfUserInfo.HamInviteCode))
+            {
+                //用户登录都更换推广码,否则用之前的推广码。
+                HttpCookie Cookie_login = Request.Cookies["BIC"];
+                Cookie_login = new HttpCookie("BIC");
+                Cookie_login["BIC"] = user.wmfUserInfo.HamInviteCode;
+                //对修改 及 新创建的cookie进行重新管理
+                Cookie_login.Path = "/";
+                Cookie_login.Expires = DateTime.Now.AddDays(1);
+                Response.Cookies.Add(Cookie_login);
+            }
+        } 
     }
 }

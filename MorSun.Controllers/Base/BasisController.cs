@@ -47,7 +47,7 @@ namespace System
         public static string getBC(this string str,string css)
         {
             return BasisController.GBSC(str,css);
-        }
+        }        
     }
 }
 

@@ -223,7 +223,7 @@
         @Scripts.Render("~/bundles/morsuncommon")
         @Scripts.Render("~/bundles/slides")
         <script type="text/javascript">
-            $(ajaxSubmitFormHandle('#logonBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo',true));
+            $(ajaxSubmitFormHandle('#submitBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo', true));
             $(document).ready(function () {
                 $('#DIVVoice').slides({
                     preload: true,
@@ -234,6 +234,6 @@
                     pause: 1,
                     hoverPause: true
                 });
-            });
+            });            
         </script>
     }

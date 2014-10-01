@@ -34,7 +34,7 @@ int yzmR = new Random().Next(100000);
             }
             <tr>
                 <th>
-                    <input type="button" id="logonBtn" value="登录" class="logonBtn green" />
+                    <input type="button" id="submitBtn" value="登录" class="logonBtn green" />
                 </th>
             </tr>
             <tr><td></td></tr>
@@ -59,8 +59,8 @@ int yzmR = new Random().Next(100000);
     }
     else
     {var user=MorSun.Controllers.BasisController.CurrentAspNetUser;
-        <p style="margin-left:10px;">欢迎你：@(user.wmfUserInfo == null ? user.UserName:user.wmfUserInfo.NickName)</p>
-        <p style="margin-left:10px;"><a style="margin-right:50px;" href="/admin/home/index">进入后台</a>  <a href="/account/logoff">【注销】</a></p>
+        <p style="margin-left:10px;">欢迎你：@(user.wmfUserInfo == null ? user.UserName:user.wmfUserInfo.NickName) <a style="margin-right:50px;" href="/admin/home/index">会员中心</a></p>
+        <p style="margin-left:10px;"><a style="margin-right:50px;" href="/admin/home/index">进入后台</a>  </p>
         
     }
 </div>
