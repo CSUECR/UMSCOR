@@ -172,7 +172,7 @@ namespace MorSun.Controllers
                 {
                     FormsService.SignIn(model.UserName, model.RememberMe);   
                     //SSO增加内容
-                    if(string.IsNullOrEmpty(returnUrl))
+                    if (string.IsNullOrEmpty(returnUrl))
                     {
                         returnUrl = Request.QueryString[SsoConst.ReturnUrlParameterName];
                         if (string.IsNullOrEmpty(returnUrl))
@@ -211,12 +211,12 @@ namespace MorSun.Controllers
                     var dt = DateTime.Now;
                     var dts = dt.ToShortDateString() + " " + dt.ToShortTimeString();
                     var tok = HttpUtility.UrlEncode(SecurityHelper.Encrypt(dts + ";" + user.UserId + model.UserName));
-                    foreach(var item in apps)
+                    foreach (var item in apps)
                     {
-                        
+
                         SSOLink += item + SsoConst.AppLoginPageName + "?" +
                                  SsoConst.SsoTokenName + "=" + tok;//只传ID和用户名到子站吧，其他的子站ajax从主站获取
-                        SSOLink +=",";
+                        SSOLink += ",";
                     }
                     //封装返回的数据
                     fillOperationResult(returnUrl, SSOLink, oper, "登录成功");                    
@@ -243,6 +243,7 @@ namespace MorSun.Controllers
         /// 通行证登录
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public String AppLogin()
         {
             string userCode = Request.QueryString[SsoConst.SsoTokenName];
@@ -258,7 +259,7 @@ namespace MorSun.Controllers
                 userName = userCode.Substring(ind + 1 + 36, userCode.Length - ind - 36 - 1);
                 //在这个位置增加用户。
 
-                FormsService.SignIn(userName, true);   
+                FormsService.SignIn(userName, true);
             }
             return ";";
         }
@@ -267,6 +268,7 @@ namespace MorSun.Controllers
         /// 通行证退出
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public String AppLogOff()
         {
             FormsService.SignOut();

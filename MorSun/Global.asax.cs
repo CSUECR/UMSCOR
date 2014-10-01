@@ -8,7 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using MorSun.Controllers;
 using HOHO18.Common.WEB;
-using HOHO18.Common.SSO;
+
 
 namespace MorSun
 {
@@ -36,8 +36,7 @@ namespace MorSun
             //log4net.Config.XmlConfigurator.Configure();
             LogHelper.Init();
             LogHelper.Write("应用开启", LogHelper.LogMessageType.Info);
-            //在线用户初始化
-            //onlineUsers = new Dictionary<string, OnlineUserModel>();
+            
             AreaRegistration.RegisterAllAreas();
             ///todo:替换默认模型绑定器
             ModelBinders.Binders.DefaultBinder = new SmartModelBinder();

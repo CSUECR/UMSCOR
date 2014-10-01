@@ -158,15 +158,9 @@
     <Compile Include="Model\RuleViolation.cs" />
     <Compile Include="Model\wmfSessionPrivilege.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SSO\OnlineUserModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SSO\SecurityHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SSO\SsoConst.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="SSO\OnlineUserModel.cs" />
+    <Compile Include="SSO\SecurityHelper.cs" />
+    <Compile Include="SSO\SsoConst.cs" />
     <Compile Include="WEB\HttpProc.cs" />
     <Compile Include="WEB\LogHelper.cs" />
     <Compile Include="WEB\MailSender.cs" />

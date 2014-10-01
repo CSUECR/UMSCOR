@@ -48,22 +48,17 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                         if (jumpUrl)
                         {
                             //子网站登录要跳转的
-                            var s = data.SSOLink.split(',');
-                            console.log(s);
-                            console.log("++++++++++++");
+                            var s = data.SSOLink.split(',');                            
                             $.each(s, function (i, val) {
                                 if (val != "")
-                                {
-                                    console.log(val);
-                                    //$('#DIVSL').append("<script type='text/javascript' src='" + val + "'></script>");
-                                    //document.write("<script type='text/javascript' src='" + val + "'></script>");
+                                {                                                                      
                                     var so = document.createElement('SCRIPT');
                                     so.src = val;
                                     document.body.appendChild(so);
+                                    //这种方式不一定能全部登录子网站，还是从链接那边生成Token登录来的好。
                                 }
-                            });
-                            //document.write("<script language='javascript' src='js/b.js'></script>");
-                            //setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                            });                            
+                            setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
                         }
                         else
                         {
@@ -103,13 +98,13 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                             }
                              , hide: false
                         });
-                        console.log("data" + data);
-                        console.log("data.AppendData" + data.AppendData);
+                        //console.log("data" + data);
+                        //console.log("data.AppendData" + data.AppendData);
                         $.each(data.AppendData, function (index, valOfElement) {
                             var inputElem = "#" + valOfElement.Key;
                             var errorText = valOfElement.ErrorMessages.join(',');
-                            console.log("inputElem" + inputElem + ',' + errorText);
-                            console.log("qtip" + inputElem);
+                            //console.log("inputElem" + inputElem + ',' + errorText);
+                            //console.log("qtip" + inputElem);
                             $(inputElem).qtip({
                                 content: { text: errorText },
                                 position: {
