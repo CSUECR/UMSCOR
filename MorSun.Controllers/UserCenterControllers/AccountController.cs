@@ -170,41 +170,7 @@ namespace MorSun.Controllers
             {                
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
-                    FormsService.SignIn(model.UserName, model.RememberMe);   
-                    //SSO增加内容
-                    if (string.IsNullOrEmpty(returnUrl))
-                    {
-                        returnUrl = Request.QueryString[SsoConst.ReturnUrlParameterName];
-                        if (string.IsNullOrEmpty(returnUrl))
-                        {
-                            returnUrl = "SsoUrl".GX();
-                        }
-                    }
-                    if (returnUrl.Contains("?"))
-                    {
-                        returnUrl += "&" + Guid.NewGuid().ToString().Replace("-", "");
-                    }
-                    else
-                    {
-                        returnUrl += "?" + Guid.NewGuid().ToString().Replace("-", "");
-                    }
-                    //更新在线用户
-                    //Dictionary<string, OnlineUserModel> onlineUsers = Application["OnlineUsers"];
-                    //if (onlineUsers.ContainsKey(model.UserName))
-                    //{
-                    //    onlineUsers[model.UserName].LastLoginTime = DateTime.Now;
-                    //    onlineUsers[model.UserName].LoginAppName = returnUrl;
-                    //}
-                    //else
-                    //{
-                    //    onlineUsers.Add(model.UserName,
-                    //                    new OnlineUserModel()
-                    //                    {
-                    //                        UserName = model.UserName,
-                    //                        LastLoginTime = DateTime.Now,
-                    //                        LoginAppName = returnUrl
-                    //                    });
-                    //}
+                    FormsService.SignIn(model.UserName, model.RememberMe);  
                     //生成登录子应用链接
                     var apps = "AppsUrl".GX().Split(',');
                     string SSOLink = "";
