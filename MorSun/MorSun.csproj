@@ -435,6 +435,9 @@
     <Content Include="Views\NavigationLink\Index.cshtml" />
     <Content Include="Views\NavigationLink\Move.cshtml" />
     <Content Include="Views\NavigationLink\Sort.cshtml" />
+    <Content Include="Views\Shared\_UCLayout.cshtml" />
+    <Content Include="Views\Member\Info.cshtml" />
+    <Content Include="Views\Member\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

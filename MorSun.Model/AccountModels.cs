@@ -35,11 +35,7 @@ namespace MorSun.Model
 
     [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "新密码和确认密码不匹配。")]
     public class ECPWModel
-    {
-        //[Required(ErrorMessage = "{0}必填")]
-        //[DataType(DataType.Password)]
-        //[DisplayName("当前密码")]
-        //public string OldPassword { get; set; }
+    {      
 
         [Required(ErrorMessage = "{0}必填")]
         [ValidatePasswordLength]
@@ -137,6 +133,17 @@ namespace MorSun.Model
         public string BeInviteCode { get; set; }
 
         public Guid? Uid { get; set; }
+    }
+
+    /// <summary>
+    /// 用户类
+    /// </summary>
+    public class UInfo
+    {
+        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("昵称")]
+        [StringLength(25, ErrorMessage = "昵称长度请控制在25个字符内")]  
+        public string NickName { get; set; }
     }
     #endregion
 

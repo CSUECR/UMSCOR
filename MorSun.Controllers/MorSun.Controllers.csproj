@@ -86,6 +86,7 @@
     <Compile Include="UserCenterControllers\AccountController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UserCenterControllers\MemberController.cs" />
     <Compile Include="UserCenterControllers\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
