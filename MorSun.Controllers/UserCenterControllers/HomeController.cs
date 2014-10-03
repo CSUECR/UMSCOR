@@ -31,6 +31,16 @@ namespace MorSun.Controllers
                 Cookie_login["BIC"] = bic;                
             }
 
+            //如果用户已经登录，则设置cookei为当前用户，防止用户未退出但被人推广
+            if(User != null && User.Identity.IsAuthenticated)
+            {
+                var uinfo = MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
+                if(!Cookie_login["BIC"].ToString().Eql(uinfo.HamInviteCode))
+                {
+                    Cookie_login["BIC"] = uinfo.HamInviteCode;
+                }
+            }
+
             //对修改 及 新创建的cookie进行重新管理
             Cookie_login.Path = "/";
             Cookie_login.Expires = DateTime.Now.AddDays(1);

@@ -131,7 +131,131 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
         }        
     });
 }
-
+//多整了冗余代码
+function confirmSubmitFormHandle(confirmStr, btn, formId, errMessage, topErrDiv, jumpUrl, callBack, args) {   
+    if (!topErrDiv)
+        topErrDiv = '#divInfo';
+    if (!errMessage)
+        errMessage = '操作失败';
+    //if (!jumpUrl)
+    //    jumpUrl = true;
+    $(btn).click(function () {
+        if (!confirmStr)
+            confirmStr = '确认吗';
+        if (confirm(confirmStr)) {
+            var $ajaxSubmitForm = $(formId);
+            if ($ajaxSubmitForm.valid()) {
+                Loading();
+                $.ajax({
+                    url: $ajaxSubmitForm.attr("action"),
+                    data: $ajaxSubmitForm.serialize(),
+                    type: 'POST',
+                    success: function (data) {
+                        EndLoading();
+                        //操作成功的提示信息并且跳转页面
+                        if (data.ResultType == 0) {
+                            $('.qtip').qtip('destroy');
+                            $(topErrDiv).qtip({
+                                content: {
+                                    text: data.Message,
+                                    title: {
+                                        button: true
+                                    }
+                                }
+                                , position: {
+                                    target: [$('body').width() / 2, 20],
+                                    my: 'center center',
+                                    at: 'center center'
+                                }
+                                , show: {
+                                    ready: true
+                                }
+                                 , hide: false
+                            });
+                            if (jumpUrl) {
+                                if (data.SSOLink != null) {//子网站登录要跳转的
+                                    console.log(data.SSOLink);
+                                    var s = data.SSOLink.split(',');
+                                    $.each(s, function (i, val) {
+                                        if (val != "") {
+                                            var so = document.createElement('SCRIPT');
+                                            so.src = val;
+                                            document.body.appendChild(so);
+                                            //这种方式不一定能全部登录子网站，还是从链接那边生成Token登录来的好。
+                                        }
+                                    });
+                                }
+                                setTimeout(function () { $(topErrDiv).qtip('destroy'); window.location.href = data.AppendData; }, 2000);
+                            }
+                            else {
+                                setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
+                            }
+                            if (callBack) {
+                                //console.log(callBack + args);
+                                if (typeof (callBack) == "function")
+                                    callBack.apply(this, args ? args : []);
+                                else {
+                                    for (var i = 0; i < callBack.length; i++) {
+                                        callBack[i].apply(this, args ? args[i] : []);
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            //强制刷新验证码
+                            $('#Verifycode').focus();
+                            $(topErrDiv).qtip({
+                                content: {
+                                    text: data.Message,
+                                    title: {
+                                        button: true
+                                    }
+                                }
+                                , position: {
+                                    target: [$('body').width() / 2, 20],
+                                    my: 'center center',
+                                    at: 'center center'
+                                }
+                                , style: {
+                                    classes: 'qtip-red'
+                                }
+                                , show: {
+                                    ready: true
+                                }
+                                 , hide: false
+                            });
+                            //console.log("data" + data);
+                            //console.log("data.AppendData" + data.AppendData);
+                            $.each(data.AppendData, function (index, valOfElement) {
+                                var inputElem = "#" + valOfElement.Key;
+                                var errorText = valOfElement.ErrorMessages.join(',');
+                                //console.log("inputElem" + inputElem + ',' + errorText);
+                                //console.log("qtip" + inputElem);
+                                $(inputElem).qtip({
+                                    content: { text: errorText },
+                                    position: {
+                                        my: 'left center',
+                                        at: 'right center',
+                                        viewport: $(window)
+                                    },
+                                    show: { ready: true },
+                                    hide: false,
+                                    style: {
+                                        classes: 'qtip-red'
+                                    }
+                                });
+                            });
+                        }
+                    },
+                    error: function (data) {
+                        EndLoading();
+                        alert(errMessage);
+                    }
+                });
+            }
+        }
+    });
+}
 
 //通用ajax处理
 function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl, callBack, args)

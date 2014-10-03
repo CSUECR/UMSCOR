@@ -430,7 +430,11 @@ namespace MorSun.Controllers
                     }
                 }
             }
-            oper.AppendData = ModelState.GE();
+            var ers = ModelState.GE();
+            var eper = ers.Where(p => p.Key == "").FirstOrDefault().ErrorMessages.Join();
+            if (!String.IsNullOrEmpty(eper))
+                oper = new OperationResult(OperationResultType.Error, eper);
+            oper.AppendData = ers;
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
         
@@ -607,7 +611,11 @@ namespace MorSun.Controllers
                 }
             }
 
-            oper.AppendData = ModelState.GE();
+            var er = ModelState.GE();
+            var eper = er.Where(p => p.Key == "").FirstOrDefault().ErrorMessages.Join();
+            if (!String.IsNullOrEmpty(eper))
+                oper = new OperationResult(OperationResultType.Error, eper);
+            oper.AppendData = er;
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
 

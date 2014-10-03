@@ -60,7 +60,7 @@ int yzmR = new Random().Next(100000);
     else
     {var user=MorSun.Controllers.BasisController.CurrentAspNetUser;
         <p style="margin-left:10px;">欢迎你：@(user.wmfUserInfo == null ? user.UserName:user.wmfUserInfo.NickName) <a style="margin-right:50px;" href="/Member/Index">会员中心</a></p>
-        <p style="margin-left:10px;"><a style="margin-right:50px;" href="/admin/home/index">进入后台</a>  </p>
+        <p style="margin-left:10px;">@*<a style="margin-right:50px;" href="/admin/home/index">进入后台</a>*@  </p>
         
     }
 </div>

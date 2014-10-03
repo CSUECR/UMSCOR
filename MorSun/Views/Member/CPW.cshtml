@@ -1,10 +1,10 @@
-﻿@model UInfo
+﻿@model ChangePasswordModel
 @{
-    ViewBag.Title = "个人信息";
+    ViewBag.Title = "修改密码";
     Layout = "~/Views/Shared/_UCLayout.cshtml";
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/Member/Index";
-    var user = MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
+    var user=MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -12,27 +12,34 @@
     <div class="content-wrapper clear-fix">   
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
             <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
-            <button class="btn blue" type="button" onclick="jumptourl('/Member/CPW')">修改密码</button>
+            <button class="btn purple" type="button" onclick="jumptourl('/Member/Info')">个人信息</button>
             @if (String.IsNullOrEmpty(user.Question1) && String.IsNullOrEmpty(user.Question2) && String.IsNullOrEmpty(user.Question3) && String.IsNullOrEmpty(user.Answer1) && String.IsNullOrEmpty(user.Answer2) && String.IsNullOrEmpty(user.Answer3))
-            {<button class="btn red" type="button" onclick="jumptourl('/Member/CMB')">修改密保</button> }  
+            {<button class="btn red" type="button" onclick="jumptourl('/Member/CMB')">修改密保</button> }            
             </div>
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>个人信息</div>
+                    <div class="caption"><i class="icon-cogs"></i>修改密码</div>
                 </div>
                 <div class="portlet-body">
-                    @using (Html.BeginForm("Info", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                    @using (Html.BeginForm("CPW", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
                     {
                         @Html.AntiForgeryToken()                       
                         <table class="tableadd table-hover">
                             <thead>
                                 <tr>
-                                    <th>@Html.LabelFor(m => m.NickName)</th>
-                                    <td>@Html.TextBoxFor(m => m.NickName, new { @class = "m-wrap large" })</td>
+                                    <th>@Html.LabelFor(m => m.OldPassword)</th>
+                                    <td>@Html.PasswordFor(m => m.OldPassword, new { @class = "m-wrap large" })</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.NewPassword)</th>
+                                    <td>@Html.PasswordFor(m => m.NewPassword, new { @class = "m-wrap large" })</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.ConfirmPassword)</th>
+                                    <td>@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "m-wrap large" })</td>
+                                </tr>
                             </tbody>
                         </table>
                     }

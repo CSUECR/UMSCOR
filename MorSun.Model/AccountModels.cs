@@ -13,7 +13,7 @@ namespace MorSun.Model
 {
 
     #region 模型
-    [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "新密码和确认密码不匹配。")]
+    [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "新密码和确认密码不匹配")]
     public class ChangePasswordModel
     {
         [Required(ErrorMessage = "{0}必填")]
@@ -33,7 +33,7 @@ namespace MorSun.Model
         public string ConfirmPassword { get; set; }
     }
 
-    [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "新密码和确认密码不匹配。")]
+    [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "新密码和确认密码不匹配")]
     public class ECPWModel
     {      
 
@@ -89,7 +89,7 @@ namespace MorSun.Model
         public bool RememberMe { get; set; }
     }
 
-    [PropertiesMustMatch("Password", "ConfirmPassword", ErrorMessage = "密码和确认密码不匹配。")]
+    [PropertiesMustMatch("Password", "ConfirmPassword", ErrorMessage = "密码和确认密码不匹配")]
     public class RegisterModel
     {
         [Required(ErrorMessage = "{0}必填")]
