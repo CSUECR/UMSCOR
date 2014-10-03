@@ -1630,6 +1630,15 @@ header .telSpan {
 .tdHR{
     border-bottom:solid 1px #dedede;
 }
+
+.logonSpanReight{
+    float:right;   
+    margin-right:20px;
+}
+
+.logonP{
+    margin-left:10px;
+}
 /* menu
 ----------------------------------------------------------*/
 ul#menu {

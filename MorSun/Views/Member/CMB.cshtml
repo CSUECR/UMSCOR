@@ -1,0 +1,71 @@
+﻿@model ConfirmQuestionModel
+@{
+    ViewBag.Title = "修改密保";
+    Layout = "~/Views/Shared/_UCLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/Member/Index";
+
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">   
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
+            <button class="btn purple" type="button" onclick="jumptourl('/Member/Info')">个人信息</button>
+            <button class="btn blue" type="button" onclick="jumptourl('/Member/CPW')">修改密码</button>
+            </div>
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>修改密保</div>
+                </div>
+                <div class="portlet-body">
+                    @using (Html.BeginForm("CMB", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                    {
+                        @Html.AntiForgeryToken()                       
+                        <table class="tableadd table-hover">
+                            <thead>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.Question1)</th>
+                                    <td>@Html.PasswordFor(m => m.Question1, new { @class = "m-wrap large" })</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.Answer1)</th>
+                                    <td>@Html.PasswordFor(m => m.Answer1, new { @class = "m-wrap large" })</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.Question2)</th>
+                                    <td>@Html.PasswordFor(m => m.Question2, new { @class = "m-wrap large" })</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.Answer2)</th>
+                                    <td>@Html.PasswordFor(m => m.Answer2, new { @class = "m-wrap large" })</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.Question3)</th>
+                                    <td>@Html.PasswordFor(m => m.Question3, new { @class = "m-wrap large" })</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.Answer3)</th>
+                                    <td>@Html.PasswordFor(m => m.Answer3, new { @class = "m-wrap large" })</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+         
+        <script type="text/javascript">  
+            $(confirmSubmitFormHandle('提交后将不可再修改，确认要提交吗','#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false));
+        </script>
+    }

@@ -291,6 +291,8 @@
     <None Include="Properties\PublishProfiles\kdm.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\iconVoiceWhite.png" />
+    <Content Include="Images\lamp.png" />
+    <Content Include="Images\lamp2.png" />
     <Content Include="Images\PewterLineLeftRedLogo.png" />
     <Content Include="Images\PewterLineRightRedLogo.png" />
     <Content Include="Images\portlet-collapse-icon-white.png" />
@@ -440,6 +442,7 @@
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Member\CPW.cshtml" />
     <Content Include="Views\Member\CMB.cshtml" />
+    <Content Include="Views\Shared\_Lamp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
