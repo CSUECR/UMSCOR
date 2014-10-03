@@ -55,7 +55,7 @@ namespace System
                 u.Append(HttpContext.Current.Request.Url.Host);
             }            
             return u.ToString();
-        }
+        }        
         #endregion
 
     }

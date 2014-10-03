@@ -323,6 +323,8 @@
     <Content Include="Images\VerifyCode.aspx" />
     <Content Include="Images\WhiteLineRightWhiteLogo.png" />
     <Content Include="Images\yelloaccent.png" />
+    <Content Include="Images\zyb\zyb258.jpg" />
+    <Content Include="Images\zyb\zyb430.jpg" />
     <Content Include="Lib\log4net.dll" />
     <Content Include="Lib\System.Data.dll" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />

@@ -1,6 +1,8 @@
 ﻿@model MorSun.Model.LoginModel
 @{
-int yzmR = new Random().Next(100000);
+    int yzmR = new Random().Next(100000);
+    HttpCookie Cookie_login = Request.Cookies["BIC"];
+    var bic = Cookie_login["BIC"].ToString();
 }
 
 <div class="divLogon" style="height:86px;">
@@ -65,6 +67,8 @@ int yzmR = new Random().Next(100000);
         <p class="logonP">马币:   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsMB".GX())">@Html.Partial("_Lamp")</a></span></p>
         <p class="logonP">邦币:   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBB".GX())">@Html.Partial("_Lamp")</a></span></p>
         <p class="logonP">绑币:   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBDB".GX())">@Html.Partial("_Lamp")</a></span></p>
+        <p class="logonP">推广链接： <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsEXT".GX())">@Html.Partial("_Lamp")</a></span></p>
+        <p class="logonP"><span class="logonSpanGreen">@("ServiceDomain".GHU())/Home/Index?bic=@(bic)</span></p>
     }
 </div>
 

@@ -32,6 +32,12 @@ a {
         text-decoration: none;
     }
 
+/*百度链接独立写*/
+a.bdshare-slide-button{
+    padding-left:0px;
+    padding-right:0px;
+}
+
 img{border:none;}
 .Loading
 { background:#fa5d31;color:#fff; word-break: break-all; word-wrap: break-word; overflow: visible; z-index: 1000000; position: fixed; top: 0px; left: 30%; width: 35%;
@@ -1636,6 +1642,10 @@ header .telSpan {
     margin-right:20px;
 }
 
+.logonSpanGreen{
+    color:#1d943b;
+}
+
 .logonP{
     margin-left:10px;
 }
@@ -1698,6 +1708,23 @@ ul#menu {
 
         .featured p {
             font-size: 1.1em;
+        }
+
+        .featured .content-wrapper .content-leftExp {  
+            float:left;
+            width:380px;            
+            padding:10px 0px;
+            text-align:center;
+        }
+
+        .featured .content-wrapper .content-leftExp .weixinImg{
+            margin: 20px auto;
+        }
+
+        .featured .content-wrapper .content-leftExp .weixinText{
+            color:white;
+            font-size:xx-large;
+            font-weight:300;
         }
 
 /*featured white*/

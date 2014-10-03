@@ -46,8 +46,8 @@ namespace MorSun.Controllers
             Cookie_login.Expires = DateTime.Now.AddDays(1);
             Response.Cookies.Add(Cookie_login);
 
-            ViewBag.Title = "悟空打码";
-            if (!String.IsNullOrEmpty(returnUrl) && !returnUrl.Substring(0,1).Eql("/"))
+            ViewBag.Title = "ServiceName".GX();
+            if (!String.IsNullOrEmpty(returnUrl) && returnUrl.StartsWith("ServiceDomain".GHU()))
                 return Redirect(returnUrl);
             return View();
         }
