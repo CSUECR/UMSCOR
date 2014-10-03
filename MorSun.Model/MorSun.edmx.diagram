@@ -198,6 +198,25 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfResource_wmfResource" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MorSun.Model.bmQA" Width="1.5" PointX="18.5" PointY="31.125" />
+        <EntityTypeShape EntityType="MorSun.Model.bmRecharge" Width="1.5" PointX="15.5" PointY="32.125" />
+        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBi" Width="1.5" PointX="21.5" PointY="31.75" />
+        <EntityTypeShape EntityType="MorSun.Model.bmUserWeixin" Width="1.5" PointX="10.5" PointY="61.25" />
+        <AssociationConnector Association="MorSun.Model.FK_bmQA_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmQA_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmRecharge_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmRecharge_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBi_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBi_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserWeixin_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserWeixin_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmQA_wmfReference" />
+        <AssociationConnector Association="MorSun.Model.FK_bmQA_wmfReference1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference" />
+        <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference2" />
+        <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference3" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBi_wmfReference" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

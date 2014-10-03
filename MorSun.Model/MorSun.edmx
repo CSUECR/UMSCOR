@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -178,6 +178,73 @@
           <Property Name="NewTitle" Type="nvarchar" MaxLength="256" />
           <Property Name="NewContent" Type="ntext" />
           <Property Name="NewKeyWord" Type="nvarchar" MaxLength="256" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bmQA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentId" Type="uniqueidentifier" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="WeisinId" Type="nvarchar" MaxLength="128" />
+          <Property Name="QARef" Type="uniqueidentifier" />
+          <Property Name="QAContent" Type="ntext" />
+          <Property Name="Profile" Type="nvarchar" MaxLength="4000" />
+          <Property Name="MaBiRef" Type="uniqueidentifier" />
+          <Property Name="MaBiNum" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bmRecharge">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="KameRef" Type="uniqueidentifier" />
+          <Property Name="KameUse" Type="uniqueidentifier" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="kame" Type="nvarchar" MaxLength="256" />
+          <Property Name="Effective" Type="uniqueidentifier" />
+          <Property Name="Recharge" Type="uniqueidentifier" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bmUserMaBi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="MaBiRef" Type="uniqueidentifier" />
+          <Property Name="MaBiNum" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bmUserWeixin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -2028,6 +2095,186 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmQA_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmQA" Type="Self.bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmQA_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmQA" Type="Self.bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmQA_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmQA" Type="Self.bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="QARef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmQA_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmQA" Type="Self.bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="MaBiRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="KameRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="KameUse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_wmfReference2">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="Effective" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_wmfReference3">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="Recharge" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBi_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmUserMaBi" Type="Self.bmUserMaBi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBi">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBi_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmUserMaBi" Type="Self.bmUserMaBi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBi">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBi_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmUserMaBi" Type="Self.bmUserMaBi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBi">
+              <PropertyRef Name="MaBiRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserWeixin_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmUserWeixin" Type="Self.bmUserWeixin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserWeixin">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserWeixin_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmUserWeixin" Type="Self.bmUserWeixin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserWeixin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_kqClassesRelation_kqClassesRef">
           <End Role="kqClassesRef" Type="Self.kqClassesRef" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -2873,6 +3120,10 @@
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_WebEvent_Events" EntityType="Self.aspnet_WebEvent_Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmNew" EntityType="Self.bmNew" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bmQA" EntityType="Self.bmQA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bmRecharge" EntityType="Self.bmRecharge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bmUserMaBi" EntityType="Self.bmUserMaBi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bmUserWeixin" EntityType="Self.bmUserWeixin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HF_AccreditUser" EntityType="Self.HF_AccreditUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HF_AppLeftMenu" EntityType="Self.HF_AppLeftMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HF_AppMenuTree" EntityType="Self.HF_AppMenuTree" Schema="dbo" store:Type="Tables" />
@@ -3084,6 +3335,66 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK__aspnet_Us__UserI__36B12243" Association="Self.FK__aspnet_Us__UserI__36B12243">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmQA_aspnet_Users" Association="Self.FK_bmQA_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmQA" EntitySet="bmQA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmQA_aspnet_Users1" Association="Self.FK_bmQA_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmQA" EntitySet="bmQA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmQA_wmfReference" Association="Self.FK_bmQA_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmQA" EntitySet="bmQA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmQA_wmfReference1" Association="Self.FK_bmQA_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmQA" EntitySet="bmQA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_aspnet_Users" Association="Self.FK_bmRecharge_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmRecharge" EntitySet="bmRecharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_aspnet_Users1" Association="Self.FK_bmRecharge_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmRecharge" EntitySet="bmRecharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_wmfReference" Association="Self.FK_bmRecharge_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmRecharge" EntitySet="bmRecharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_wmfReference1" Association="Self.FK_bmRecharge_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmRecharge" EntitySet="bmRecharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_wmfReference2" Association="Self.FK_bmRecharge_wmfReference2">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmRecharge" EntitySet="bmRecharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_wmfReference3" Association="Self.FK_bmRecharge_wmfReference3">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmRecharge" EntitySet="bmRecharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBi_aspnet_Users" Association="Self.FK_bmUserMaBi_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBi" EntitySet="bmUserMaBi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBi_aspnet_Users1" Association="Self.FK_bmUserMaBi_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBi" EntitySet="bmUserMaBi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBi_wmfReference" Association="Self.FK_bmUserMaBi_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmUserMaBi" EntitySet="bmUserMaBi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserWeixin_aspnet_Users" Association="Self.FK_bmUserWeixin_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserWeixin" EntitySet="bmUserWeixin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserWeixin_aspnet_Users1" Association="Self.FK_bmUserWeixin_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserWeixin" EntitySet="bmUserWeixin" />
           </AssociationSet>
           <AssociationSet Name="FK_kqClassesRelation_kqClassesRef" Association="Self.FK_kqClassesRelation_kqClassesRef">
             <End Role="kqClassesRef" EntitySet="kqClassesRef" />
@@ -3342,8 +3653,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -3516,6 +3826,14 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfUserDeptPositions" Relationship="Self.FK_wmfUserDeptPosition_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserDeptPosition" />
           <NavigationProperty Name="wmfUserInfo" Relationship="Self.FK_wmfUserInfo_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserInfo" />
           <NavigationProperty Name="aspnet_Roles" Relationship="Self.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
+          <NavigationProperty Name="bmQAs" Relationship="MorSun.Model.FK_bmQA_aspnet_Users" FromRole="aspnet_Users" ToRole="bmQA" />
+          <NavigationProperty Name="bmQAs1" Relationship="MorSun.Model.FK_bmQA_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmQA" />
+          <NavigationProperty Name="bmRecharges" Relationship="MorSun.Model.FK_bmRecharge_aspnet_Users" FromRole="aspnet_Users" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmRecharges1" Relationship="MorSun.Model.FK_bmRecharge_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmUserMaBis" Relationship="MorSun.Model.FK_bmUserMaBi_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserMaBi" />
+          <NavigationProperty Name="bmUserMaBis1" Relationship="MorSun.Model.FK_bmUserMaBi_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserMaBi" />
+          <NavigationProperty Name="bmUserWeixins" Relationship="MorSun.Model.FK_bmUserWeixin_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserWeixin" />
+          <NavigationProperty Name="bmUserWeixins1" Relationship="MorSun.Model.FK_bmUserWeixin_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserWeixin" />
         </EntityType>
         <EntityType Name="aspnet_WebEvent_Events">
           <Key>
@@ -5063,6 +5381,13 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfResources" Relationship="Self.FK_wmfResource_wmfReference" FromRole="wmfReference" ToRole="wmfResource" />
           <NavigationProperty Name="wmfUploadFiles" Relationship="Self.FK_wmfUploadFile_wmfReference" FromRole="wmfReference" ToRole="wmfUploadFile" />
           <NavigationProperty Name="wmfUserInfoes" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfReference" ToRole="wmfUserInfo" />
+          <NavigationProperty Name="bmQAs" Relationship="MorSun.Model.FK_bmQA_wmfReference" FromRole="wmfReference" ToRole="bmQA" />
+          <NavigationProperty Name="bmQAs1" Relationship="MorSun.Model.FK_bmQA_wmfReference1" FromRole="wmfReference" ToRole="bmQA" />
+          <NavigationProperty Name="bmRecharges" Relationship="MorSun.Model.FK_bmRecharge_wmfReference" FromRole="wmfReference" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmRecharges1" Relationship="MorSun.Model.FK_bmRecharge_wmfReference1" FromRole="wmfReference" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmRecharges2" Relationship="MorSun.Model.FK_bmRecharge_wmfReference2" FromRole="wmfReference" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmRecharges3" Relationship="MorSun.Model.FK_bmRecharge_wmfReference3" FromRole="wmfReference" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmUserMaBis" Relationship="MorSun.Model.FK_bmUserMaBi_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBi" />
         </EntityType>
         <EntityType Name="wmfRefGroup">
           <Key>
@@ -6718,7 +7043,333 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <EntitySet Name="bmQAs" EntityType="MorSun.Model.bmQA" />
+          <EntitySet Name="bmRecharges" EntityType="MorSun.Model.bmRecharge" />
+          <EntitySet Name="bmUserMaBis" EntityType="MorSun.Model.bmUserMaBi" />
+          <EntitySet Name="bmUserWeixins" EntityType="MorSun.Model.bmUserWeixin" />
+          <AssociationSet Name="FK_bmQA_aspnet_Users" Association="MorSun.Model.FK_bmQA_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmQA" EntitySet="bmQAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmQA_aspnet_Users1" Association="MorSun.Model.FK_bmQA_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmQA" EntitySet="bmQAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_aspnet_Users" Association="MorSun.Model.FK_bmRecharge_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmRecharge" EntitySet="bmRecharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_aspnet_Users1" Association="MorSun.Model.FK_bmRecharge_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmRecharge" EntitySet="bmRecharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBi_aspnet_Users" Association="MorSun.Model.FK_bmUserMaBi_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBi" EntitySet="bmUserMaBis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBi_aspnet_Users1" Association="MorSun.Model.FK_bmUserMaBi_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBi" EntitySet="bmUserMaBis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserWeixin_aspnet_Users" Association="MorSun.Model.FK_bmUserWeixin_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserWeixin" EntitySet="bmUserWeixins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserWeixin_aspnet_Users1" Association="MorSun.Model.FK_bmUserWeixin_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserWeixin" EntitySet="bmUserWeixins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmQA_wmfReference" Association="MorSun.Model.FK_bmQA_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmQA" EntitySet="bmQAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmQA_wmfReference1" Association="MorSun.Model.FK_bmQA_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmQA" EntitySet="bmQAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_wmfReference" Association="MorSun.Model.FK_bmRecharge_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmRecharge" EntitySet="bmRecharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_wmfReference1" Association="MorSun.Model.FK_bmRecharge_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmRecharge" EntitySet="bmRecharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_wmfReference2" Association="MorSun.Model.FK_bmRecharge_wmfReference2">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmRecharge" EntitySet="bmRecharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmRecharge_wmfReference3" Association="MorSun.Model.FK_bmRecharge_wmfReference3">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmRecharge" EntitySet="bmRecharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBi_wmfReference" Association="MorSun.Model.FK_bmUserMaBi_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmUserMaBi" EntitySet="bmUserMaBis" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="bmQA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="ParentId" Type="Guid" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="WeisinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="QARef" Type="Guid" />
+          <Property Name="QAContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Profile" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="MaBiRef" Type="Guid" />
+          <Property Name="MaBiNum" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmQA_aspnet_Users" FromRole="bmQA" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmQA_aspnet_Users1" FromRole="bmQA" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmQA_wmfReference" FromRole="bmQA" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference1" Relationship="MorSun.Model.FK_bmQA_wmfReference1" FromRole="bmQA" ToRole="wmfReference" />
+        </EntityType>
+        <EntityType Name="bmRecharge">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="KameRef" Type="Guid" />
+          <Property Name="KameUse" Type="Guid" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="kame" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Effective" Type="Guid" />
+          <Property Name="Recharge" Type="Guid" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmRecharge_aspnet_Users" FromRole="bmRecharge" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmRecharge_aspnet_Users1" FromRole="bmRecharge" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmRecharge_wmfReference" FromRole="bmRecharge" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference1" Relationship="MorSun.Model.FK_bmRecharge_wmfReference1" FromRole="bmRecharge" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference2" Relationship="MorSun.Model.FK_bmRecharge_wmfReference2" FromRole="bmRecharge" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference3" Relationship="MorSun.Model.FK_bmRecharge_wmfReference3" FromRole="bmRecharge" ToRole="wmfReference" />
+        </EntityType>
+        <EntityType Name="bmUserMaBi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="MaBiRef" Type="Guid" />
+          <Property Name="MaBiNum" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmUserMaBi_aspnet_Users" FromRole="bmUserMaBi" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmUserMaBi_aspnet_Users1" FromRole="bmUserMaBi" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmUserMaBi_wmfReference" FromRole="bmUserMaBi" ToRole="wmfReference" />
+        </EntityType>
+        <EntityType Name="bmUserWeixin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmUserWeixin_aspnet_Users" FromRole="bmUserWeixin" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmUserWeixin_aspnet_Users1" FromRole="bmUserWeixin" ToRole="aspnet_Users" />
+        </EntityType>
+        <Association Name="FK_bmQA_aspnet_Users">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmQA" Role="bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmQA_aspnet_Users1">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmQA" Role="bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_aspnet_Users">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_aspnet_Users1">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBi_aspnet_Users">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBi" Role="bmUserMaBi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBi">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBi_aspnet_Users1">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBi" Role="bmUserMaBi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBi">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserWeixin_aspnet_Users">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserWeixin" Role="bmUserWeixin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserWeixin">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserWeixin_aspnet_Users1">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserWeixin" Role="bmUserWeixin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserWeixin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmQA_wmfReference">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmQA" Role="bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="QARef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmQA_wmfReference1">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmQA" Role="bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="MaBiRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_wmfReference">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="KameRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_wmfReference1">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="KameUse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_wmfReference2">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="Effective" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmRecharge_wmfReference3">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmRecharge">
+              <PropertyRef Name="Recharge" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBi_wmfReference">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBi" Role="bmUserMaBi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBi">
+              <PropertyRef Name="MaBiRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8691,6 +9342,77 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="bmQAs">
+            <EntityTypeMapping TypeName="MorSun.Model.bmQA">
+              <MappingFragment StoreEntitySet="bmQA">
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
+                <ScalarProperty Name="MaBiRef" ColumnName="MaBiRef" />
+                <ScalarProperty Name="Profile" ColumnName="Profile" />
+                <ScalarProperty Name="QAContent" ColumnName="QAContent" />
+                <ScalarProperty Name="QARef" ColumnName="QARef" />
+                <ScalarProperty Name="WeisinId" ColumnName="WeisinId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmRecharges">
+            <EntityTypeMapping TypeName="MorSun.Model.bmRecharge">
+              <MappingFragment StoreEntitySet="bmRecharge">
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="Recharge" ColumnName="Recharge" />
+                <ScalarProperty Name="Effective" ColumnName="Effective" />
+                <ScalarProperty Name="kame" ColumnName="kame" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="KameUse" ColumnName="KameUse" />
+                <ScalarProperty Name="KameRef" ColumnName="KameRef" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmUserMaBis">
+            <EntityTypeMapping TypeName="MorSun.Model.bmUserMaBi">
+              <MappingFragment StoreEntitySet="bmUserMaBi">
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
+                <ScalarProperty Name="MaBiRef" ColumnName="MaBiRef" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmUserWeixins">
+            <EntityTypeMapping TypeName="MorSun.Model.bmUserWeixin">
+              <MappingFragment StoreEntitySet="bmUserWeixin">
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
