@@ -211,6 +211,7 @@
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="KameRef" Type="uniqueidentifier" />
+          <Property Name="MabiNum" Type="decimal" Precision="18" Scale="6" />
           <Property Name="KameUse" Type="uniqueidentifier" />
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="kame" Type="nvarchar" MaxLength="256" />
@@ -229,6 +230,23 @@
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="MaBiRef" Type="uniqueidentifier" />
+          <Property Name="MaBiNum" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="SettleTime" Type="datetime" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bmUserMaBiRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="SourceRef" Type="uniqueidentifier" />
           <Property Name="MaBiRef" Type="uniqueidentifier" />
           <Property Name="MaBiNum" Type="decimal" Precision="18" Scale="6" />
           <Property Name="Sort" Type="int" />
@@ -2251,6 +2269,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmUserMaBiRecord_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiRecord_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiRecord_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="SourceRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiRecord_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="MaBiRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmUserWeixin_aspnet_Users">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
           <End Role="bmUserWeixin" Type="Self.bmUserWeixin" Multiplicity="*" />
@@ -3123,6 +3189,7 @@
           <EntitySet Name="bmQA" EntityType="Self.bmQA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmRecharge" EntityType="Self.bmRecharge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmUserMaBi" EntityType="Self.bmUserMaBi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bmUserMaBiRecord" EntityType="Self.bmUserMaBiRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmUserWeixin" EntityType="Self.bmUserWeixin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HF_AccreditUser" EntityType="Self.HF_AccreditUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HF_AppLeftMenu" EntityType="Self.HF_AppLeftMenu" Schema="dbo" store:Type="Tables" />
@@ -3387,6 +3454,22 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_bmUserMaBi_wmfReference" Association="Self.FK_bmUserMaBi_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReference" />
             <End Role="bmUserMaBi" EntitySet="bmUserMaBi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_aspnet_Users" Association="Self.FK_bmUserMaBiRecord_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_aspnet_Users1" Association="Self.FK_bmUserMaBiRecord_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_wmfReference" Association="Self.FK_bmUserMaBiRecord_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_wmfReference1" Association="Self.FK_bmUserMaBiRecord_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
           </AssociationSet>
           <AssociationSet Name="FK_bmUserWeixin_aspnet_Users" Association="Self.FK_bmUserWeixin_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
@@ -3834,6 +3917,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmUserMaBis1" Relationship="MorSun.Model.FK_bmUserMaBi_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserMaBi" />
           <NavigationProperty Name="bmUserWeixins" Relationship="MorSun.Model.FK_bmUserWeixin_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserWeixin" />
           <NavigationProperty Name="bmUserWeixins1" Relationship="MorSun.Model.FK_bmUserWeixin_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserWeixin" />
+          <NavigationProperty Name="bmUserMaBiRecords" Relationship="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserMaBiRecord" />
+          <NavigationProperty Name="bmUserMaBiRecords1" Relationship="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserMaBiRecord" />
         </EntityType>
         <EntityType Name="aspnet_WebEvent_Events">
           <Key>
@@ -5388,6 +5473,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmRecharges2" Relationship="MorSun.Model.FK_bmRecharge_wmfReference2" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges3" Relationship="MorSun.Model.FK_bmRecharge_wmfReference3" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmUserMaBis" Relationship="MorSun.Model.FK_bmUserMaBi_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBi" />
+          <NavigationProperty Name="bmUserMaBiRecords" Relationship="MorSun.Model.FK_bmUserMaBiRecord_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBiRecord" />
+          <NavigationProperty Name="bmUserMaBiRecords1" Relationship="MorSun.Model.FK_bmUserMaBiRecord_wmfReference1" FromRole="wmfReference" ToRole="bmUserMaBiRecord" />
         </EntityType>
         <EntityType Name="wmfRefGroup">
           <Key>
@@ -7107,6 +7194,23 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmUserMaBi" EntitySet="bmUserMaBis" />
           </AssociationSet>
+          <EntitySet Name="bmUserMaBiRecords" EntityType="MorSun.Model.bmUserMaBiRecord" />
+          <AssociationSet Name="FK_bmUserMaBiRecord_aspnet_Users" Association="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_aspnet_Users1" Association="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_wmfReference" Association="MorSun.Model.FK_bmUserMaBiRecord_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_wmfReference1" Association="MorSun.Model.FK_bmUserMaBiRecord_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="bmQA">
           <Key>
@@ -7155,6 +7259,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfReference1" Relationship="MorSun.Model.FK_bmRecharge_wmfReference1" FromRole="bmRecharge" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference2" Relationship="MorSun.Model.FK_bmRecharge_wmfReference2" FromRole="bmRecharge" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference3" Relationship="MorSun.Model.FK_bmRecharge_wmfReference3" FromRole="bmRecharge" ToRole="wmfReference" />
+          <Property Name="MabiNum" Type="Decimal" Precision="18" Scale="6" />
         </EntityType>
         <EntityType Name="bmUserMaBi">
           <Key>
@@ -7173,6 +7278,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmUserMaBi_aspnet_Users" FromRole="bmUserMaBi" ToRole="aspnet_Users" />
           <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmUserMaBi_aspnet_Users1" FromRole="bmUserMaBi" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmUserMaBi_wmfReference" FromRole="bmUserMaBi" ToRole="wmfReference" />
+          <Property Name="SettleTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="bmUserWeixin">
           <Key>
@@ -7366,6 +7472,74 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="bmUserMaBi">
+              <PropertyRef Name="MaBiRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="bmUserMaBiRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="SourceRef" Type="Guid" />
+          <Property Name="MaBiRef" Type="Guid" />
+          <Property Name="MaBiNum" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users" FromRole="bmUserMaBiRecord" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users1" FromRole="bmUserMaBiRecord" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmUserMaBiRecord_wmfReference" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference1" Relationship="MorSun.Model.FK_bmUserMaBiRecord_wmfReference1" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
+        </EntityType>
+        <Association Name="FK_bmUserMaBiRecord_aspnet_Users">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBiRecord" Role="bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiRecord_aspnet_Users1">
+          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBiRecord" Role="bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiRecord_wmfReference">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBiRecord" Role="bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="SourceRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiRecord_wmfReference1">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBiRecord" Role="bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
               <PropertyRef Name="MaBiRef" />
             </Dependent>
           </ReferentialConstraint>
@@ -9366,6 +9540,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmRecharges">
             <EntityTypeMapping TypeName="MorSun.Model.bmRecharge">
               <MappingFragment StoreEntitySet="bmRecharge">
+                <ScalarProperty Name="MabiNum" ColumnName="MabiNum" />
                 <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
                 <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
                 <ScalarProperty Name="ModTime" ColumnName="ModTime" />
@@ -9385,6 +9560,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmUserMaBis">
             <EntityTypeMapping TypeName="MorSun.Model.bmUserMaBi">
               <MappingFragment StoreEntitySet="bmUserMaBi">
+                <ScalarProperty Name="SettleTime" ColumnName="SettleTime" />
                 <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
                 <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
                 <ScalarProperty Name="ModTime" ColumnName="ModTime" />
@@ -9408,6 +9584,23 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="RegUser" ColumnName="RegUser" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmUserMaBiRecords">
+            <EntityTypeMapping TypeName="MorSun.Model.bmUserMaBiRecord">
+              <MappingFragment StoreEntitySet="bmUserMaBiRecord">
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
+                <ScalarProperty Name="MaBiRef" ColumnName="MaBiRef" />
+                <ScalarProperty Name="SourceRef" ColumnName="SourceRef" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

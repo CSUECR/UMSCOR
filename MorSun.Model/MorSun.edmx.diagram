@@ -217,6 +217,11 @@
         <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference2" />
         <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference3" />
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBi_wmfReference" />
+        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBiRecord" Width="1.5" PointX="22.75" PointY="37.75" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_wmfReference" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_wmfReference1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

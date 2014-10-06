@@ -30,6 +30,12 @@ namespace MorSun.Controllers
                 Cookie_login = new HttpCookie("BIC");
                 Cookie_login["BIC"] = bic;                
             }
+            else if(Cookie_login == null)
+            {
+                //无值时设置为bungma
+                Cookie_login = new HttpCookie("BIC");
+                Cookie_login["BIC"] = "bungma";
+            }
 
             //如果用户已经登录，则设置cookei为当前用户，防止用户未退出但被人推广
             if(User != null && User.Identity.IsAuthenticated)

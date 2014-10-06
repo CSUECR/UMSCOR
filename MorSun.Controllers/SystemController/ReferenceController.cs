@@ -112,7 +112,7 @@ namespace MorSun.Controllers.SystemController
                 //该类别已经存在，请重新输入！
                 "ItemValue".AE("类别已存在",ModelState);
             }
-            if (t.ItemValue.Length > 50)
+            if (t.ItemValue != null && t.ItemValue.Length > 50)
             {
                 "ItemValue".AE("类别名长度不可超过50", ModelState);
             }
