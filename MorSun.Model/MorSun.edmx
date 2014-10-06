@@ -249,6 +249,7 @@
           <Property Name="SourceRef" Type="uniqueidentifier" />
           <Property Name="MaBiRef" Type="uniqueidentifier" />
           <Property Name="MaBiNum" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="IsSettle" Type="bit" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -7495,6 +7496,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users1" FromRole="bmUserMaBiRecord" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmUserMaBiRecord_wmfReference" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference1" Relationship="MorSun.Model.FK_bmUserMaBiRecord_wmfReference1" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
+          <Property Name="IsSettle" Type="Boolean" />
         </EntityType>
         <Association Name="FK_bmUserMaBiRecord_aspnet_Users">
           <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
@@ -9592,6 +9594,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmUserMaBiRecords">
             <EntityTypeMapping TypeName="MorSun.Model.bmUserMaBiRecord">
               <MappingFragment StoreEntitySet="bmUserMaBiRecord">
+                <ScalarProperty Name="IsSettle" ColumnName="IsSettle" />
                 <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
                 <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
                 <ScalarProperty Name="ModTime" ColumnName="ModTime" />

@@ -9285,6 +9285,30 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> IsSettle
+        {
+            get
+            {
+                return _IsSettle;
+            }
+            set
+            {
+                OnIsSettleChanging(value);
+                ReportPropertyChanging("IsSettle");
+                _IsSettle = StructuralObject.SetValidValue(value, "IsSettle");
+                ReportPropertyChanged("IsSettle");
+                OnIsSettleChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _IsSettle;
+        partial void OnIsSettleChanging(Nullable<global::System.Boolean> value);
+        partial void OnIsSettleChanged();
 
         #endregion
 
