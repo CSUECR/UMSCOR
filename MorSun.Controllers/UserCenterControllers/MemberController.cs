@@ -8,6 +8,7 @@ using MorSun.Model;
 using System.Web.Routing;
 using HOHO18.Common;
 using System.Web.Security;
+using MorSun.Common.类别;
 
 
 namespace MorSun.Controllers
@@ -137,11 +138,67 @@ namespace MorSun.Controllers
                     ubll.Update(user2); 
                 }                   
                 //封装返回的数据
-                fillOperationResult(Url.Action("CPW", "Member"), oper, "修改成功");
+                fillOperationResult(Url.Action("Info", "Member"), oper, "修改成功");
                 return Json(oper, JsonRequestBehavior.AllowGet);                
             }            
             oper.AppendData = ModelState.GE();
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Recharge(string returnUrl)
+        {
+            var recharge = new Recharge();
+            var curUser = CurrentAspNetUser;
+            var yxKM = Guid.Parse(Reference.卡密有效性_有效);
+            var ycKM = Guid.Parse(Reference.卡密充值_已充值);
+            recharge.rList = new BaseBll<bmRecharge>().All.Where(p => p.UserId == curUser.UserId && p.Effective == yxKM && p.Recharge == ycKM).OrderByDescending(p => p.RegTime).Take(5);
+
+            return View(recharge);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Recharge(Recharge recharge, string returnUrl)
+        {
+            var oper = new OperationResult(OperationResultType.Error, "提交失败");
+
+            var curUser = CurrentAspNetUser;
+            var startTime = DateTime.Now.AddMinutes(-5);
+            var rbll = new BaseBll<bmRecharge>();
+            var rFive = rbll.All.Where(p => p.aspnet_Users.UserId == UserID && p.RegTime >= startTime);
+            //防攻击判断
+            if (rFive.Count() >= 5)
+            {
+                "KaMe".AE("五分钟内最多只能输入5次卡密", ModelState);
+            }
+            //重复输入判断
+            var repeatKaMe = rbll.All.Where(p => p.KaMe == recharge.KaMe).FirstOrDefault();
+            if(repeatKaMe != null)
+            {
+                "KaMe".AE("该卡密已经被使用", ModelState);
+            }
+            if (ModelState.IsValid)
+            {     
+                var model = new bmRecharge();
+                model.ID = Guid.NewGuid();
+                model.KaMeUse = Guid.Parse(Reference.卡密用途_充值);
+                model.UserId = curUser.UserId;
+                model.KaMe = recharge.KaMe;
+                model.Recharge = Guid.Parse(Reference.卡密充值_未充值);
+
+                model.RegTime = DateTime.Now;
+                model.ModTime = DateTime.Now;
+                model.RegUser = curUser.UserId;
+                model.FlagTrashed = false;
+                model.FlagDeleted = false;
+                rbll.Insert(model);
+                //封装返回的数据
+                fillOperationResult(Url.Action("Recharge", "Member"), oper, "提交成功");
+                return Json(oper, JsonRequestBehavior.AllowGet);
+            }
+            oper.AppendData = ModelState.GE();
+            return Json(oper, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

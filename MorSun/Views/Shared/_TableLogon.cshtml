@@ -62,7 +62,7 @@
     else
     {var user=MorSun.Controllers.BasisController.CurrentAspNetUser;
         <p class="logonP">欢迎你：@(user.wmfUserInfo == null ? user.UserName:user.wmfUserInfo.NickName) <span class="logonSpanReight"><a href="/Member/Index">进入会员中心</a></span></p>
-        <p class="logonP"><input type="button"  value="充值" class="logonBtn green" /></p>
+        <p class="logonP"><input type="button" value="充值" class="logonBtn green" onclick="jumptourl('/Member/Recharge')" /></p>
         
         <p class="logonP">马币:   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsMB".GX())">@Html.Partial("_Lamp")</a></span></p>
         <p class="logonP">邦币:   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBB".GX())">@Html.Partial("_Lamp")</a></span></p>

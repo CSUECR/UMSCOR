@@ -142,8 +142,18 @@ namespace MorSun.Model
     {
         [Required(ErrorMessage = "{0}必填")]
         [DisplayName("昵称")]
-        [StringLength(25, ErrorMessage = "昵称长度请控制在25个字符内")]  
+        [StringLength(25, ErrorMessage = "昵称长度请控制在25个字符内")]
         public string NickName { get; set; }
+    }
+
+    public class Recharge
+    {
+        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("卡密")]
+        [StringLength(80, MinimumLength = 80, ErrorMessage = "请输入80个字符的卡密，或者请直接复制并粘贴到文本框里")]
+        public string KaMe { get; set; }
+
+        public System.Linq.IQueryable rList { get; set; }
     }
     #endregion
 

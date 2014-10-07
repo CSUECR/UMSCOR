@@ -445,6 +445,7 @@
     <Content Include="Views\Member\CPW.cshtml" />
     <Content Include="Views\Member\CMB.cshtml" />
     <Content Include="Views\Shared\_Lamp.cshtml" />
+    <Content Include="Views\Member\Recharge.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

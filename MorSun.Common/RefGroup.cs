@@ -57,6 +57,21 @@ namespace MorSun.Common
             public const string 资源类别_个人桌面 = "486225d8-4278-44f3-9e85-d703bfabec12";
             public const string 资源类别_资源 = "496533f6-2281-4fd4-904c-4f7b3d264d76";
             #endregion                                   
+
+            #region 邦马
+            //卡密用途
+            public const string 卡密用途_充值 = "ea1586f3-4bfc-4dbe-9ce9-16e2f2fbd6cf";
+            public const string 卡密用途_对照 = "6229237a-c0f7-4c16-b527-b50318245388";
+
+            //卡密充值
+            public const string 卡密充值_已充值 = "183cb93d-4b41-46ce-a1ff-8c12141660e4";
+            public const string 卡密充值_未充值 = "3799d19f-db33-41f4-87f8-ffac87e68cf8";
+
+            //卡密有效性
+            public const string 卡密有效性_有效 = "97afe305-a2b1-44c4-a6d4-e7df1289e13e";
+            public const string 卡密有效性_失效 = "7e5b5100-723b-430c-9690-92402d2caedd";
+            #endregion
+
         }
     }
 
