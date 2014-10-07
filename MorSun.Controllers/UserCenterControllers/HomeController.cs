@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MorSun.Bll;
 using MorSun.Model;
 using System.Web.Routing;
+using MorSun.Common.类别;
 
 
 namespace MorSun.Controllers
@@ -51,11 +52,16 @@ namespace MorSun.Controllers
             Cookie_login.Path = "/";
             Cookie_login.Expires = DateTime.Now.AddDays(1);
             Response.Cookies.Add(Cookie_login);
-
             ViewBag.Title = "ServiceName".GX();
             if (!String.IsNullOrEmpty(returnUrl) && returnUrl.StartsWith("ServiceDomain".GHU()))
                 return Redirect(returnUrl);
-            return View();
+            var indexModel = new IndexModel();
+            var newtz = Guid.Parse(Reference.新闻类别_通知);
+            var inc = String.IsNullOrEmpty("IndexNoticeCount".GX()) ? "5" : "IndexNoticeCount".GX();
+            int takeCount = Convert.ToInt32(inc);
+            if (takeCount < 5) takeCount = 5;
+            indexModel.nList = new BaseBll<bmNew>().All.Where(p => p.NewRef == newtz).OrderBy(p => p.Sort).Take(takeCount);
+            return View(indexModel);
         }
 
         public ActionResult About()

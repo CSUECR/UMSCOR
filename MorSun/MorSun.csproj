@@ -448,8 +448,10 @@
     <Content Include="Views\Member\Recharge.cshtml" />
     <Content Include="Views\BMNew\Add.cshtml" />
     <Content Include="Views\BMNew\Edit.cshtml" />
-    <Content Include="Views\BMNew\Index.cshtml" />
+    <Content Include="Views\N\A.cshtml" />
     <Content Include="Views\BMNew\Sort.cshtml" />
+    <Content Include="Views\BMNew\Index.cshtml" />
+    <Content Include="Views\N\S.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

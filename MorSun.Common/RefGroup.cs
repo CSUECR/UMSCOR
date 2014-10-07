@@ -70,6 +70,12 @@ namespace MorSun.Common
             //卡密有效性
             public const string 卡密有效性_有效 = "97afe305-a2b1-44c4-a6d4-e7df1289e13e";
             public const string 卡密有效性_失效 = "7e5b5100-723b-430c-9690-92402d2caedd";
+
+            //新闻类别
+            public const string 新闻类别_新闻 = "78fba6d7-ade7-46eb-9662-a9f75ea26b69";
+            public const string 新闻类别_维基 = "9e72c2d3-0659-46fa-8cfc-3a0f392e7192";
+            public const string 新闻类别_通知 = "5b0bc466-04d8-4ef4-bf1a-7c113108b41f";
+            
             #endregion
 
         }

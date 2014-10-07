@@ -3,14 +3,10 @@
     ViewBag.Title = "添加新闻";
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/BMNew/Index";
-
-    var NavLinkList = new NavigationLinkVModel().List.ToList();
+    var backurl = ViewBag.ReturnUrl ?? "/BMNew/Index";    
 
     var refVModel = new ReferenceVModel();
     var NavList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.新闻类别).ToList();
-
-    var rsmodel = new ResourceVModel();
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")

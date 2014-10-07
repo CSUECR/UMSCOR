@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IndexModel
+@{
     ViewBag.Title = "悟空打码";
     
 }
@@ -11,7 +12,7 @@
                     <div><span class="weixinText">老师学霸跟着走</span></div>
                 </div>
                 <div class="content-login">
-                    @Html.Partial("_TableLogon")
+                    @Html.Partial("_TableLogon",new LoginModel())
                 </div>
                 <div style="display:none" id="DIVSL"></div>
             </div>
@@ -21,18 +22,13 @@
     <div class="content-wrapper clear-fix">
         <div id="DIVVoice" class="voiceDiv">
             <div class="zbSlides_Contain">
-                <div>
-                    <span class="iconVoiceWhite"><a href="#">中标1</a></span>
-                </div>
-                <div>
-                    <span class="iconVoiceWhite"><a href="#">中标2</a></span>
-                </div>
-                <div>
-                    <span class="iconVoiceWhite"><a href="#">中标3</a></span>
-                </div>
-                <div>
-                    <span class="iconVoiceWhite"><a href="#">中标4</a></span>
-                </div>
+                @foreach(var item in Model.nList)
+                {
+                    <div>
+                        <span class="iconVoiceWhite"><a href="/N/S/@item.ID" target="_blank">@item.NewTitle</a></span>
+                    </div>     
+                }
+                           
             </div>
         </div>
         @*<h3>We suggest the following:</h3>

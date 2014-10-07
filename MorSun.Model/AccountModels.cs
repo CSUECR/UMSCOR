@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using MvcValidation.Extension;
+using System.Linq;
 
 namespace MorSun.Model
 {
@@ -153,7 +154,13 @@ namespace MorSun.Model
         [StringLength(80, MinimumLength = 80, ErrorMessage = "请输入80个字符的卡密，或者请直接复制并粘贴到文本框里")]
         public string KaMe { get; set; }
 
-        public System.Linq.IQueryable<bmRecharge> rList { get; set; }
+        public IQueryable<bmRecharge> rList { get; set; }
+    }
+
+    public class IndexModel
+    {
+        //通知列表
+        public IQueryable<bmNew> nList { get; set; }
     }
     #endregion
 

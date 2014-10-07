@@ -105,6 +105,9 @@ h5, h6 {
 
 .ptr{cursor: pointer;}
 
+.spanLeft{float:left;}
+.spanRight{float:right;}
+
 /*btn*/
 .btn {
     background-color: #e5e5e5;
@@ -1765,6 +1768,15 @@ ul#menu {
         height:600px;
     }
 
+.voicedRedPewterR a {    
+    color: #fff;        
+}
+
+.voicedRedPewterR a:link, .voicedRedPewterR a:visited,
+   .voicedRedPewterR a:active, .voicedRedPewterR a:hover {        
+        color: #fff;
+    }
+
 .voicedRedPewterL {
     background-color:#303030;
 }
@@ -1775,6 +1787,15 @@ ul#menu {
         color: #1a1011;
         padding: 20px 40px 30px 40px;
         height:600px;
+    }
+
+    .voicedRedPewterL a {    
+    color: #fff;        
+}
+
+.voicedRedPewterL a:link, .voicedRedPewterL a:visited,
+   .voicedRedPewterL a:active, .voicedRedPewterL a:hover {        
+        color: #fff;
     }
 
 .voicedPewterWhiteR {

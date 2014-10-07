@@ -1,0 +1,49 @@
+﻿@model BMNewVModel
+@{
+    ViewBag.Title = Model.NewRef == null ? "新闻" : new ReferenceVModel().GetReferenceValue(Model.NewRef);        
+    var backurl = ViewBag.ReturnUrl ?? "/N/A";    
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix"> 
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>@(Model.NewRef == null ? "新闻" : new ReferenceVModel().GetReferenceValue(Model.NewRef))
+                </div>               
+            </div>
+            <div class="portlet-body">
+                <table id="MoreSunTreeTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>新闻标题</th>
+                            <th>发布时间</th>                                             
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.List)
+                        {
+                            <tr id="TR_@item.ID">
+                                <td>
+                                    <a href="/N/S/@item.ID">@item.NewTitle</a>
+                                </td>
+                                <td>
+                                    @item.RegTime.ToShortDateString()
+                                </td> 
+                            </tr>
+                        }                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")        
+        <script type="text/javascript">            
+        </script>
+    }
