@@ -9,6 +9,7 @@ using System.Web.Routing;
 using HOHO18.Common;
 using System.Web.Security;
 using MorSun.Common.类别;
+using HOHO18.Common.WEB;
 
 
 namespace MorSun.Controllers
@@ -50,7 +51,8 @@ namespace MorSun.Controllers
                 var ubll = new BaseBll<wmfUserInfo>();
                 var model = ubll.GetModel(UserID);
                 if(!uinfo.NickName.Eql(model.NickName))  //只有呢称时的临时方法，防止用户非法乱提交
-                {
+                {                    
+                    LogHelper.Write(model.aspnet_Users.UserName + "IP;" + Request.UserHostAddress + "修改呢称" + model.NickName + ";" + uinfo.NickName, LogHelper.LogMessageType.Info);
                     TryUpdateModel(model);
                     ubll.Update(model);
                 }                
@@ -86,11 +88,11 @@ namespace MorSun.Controllers
                     MembershipUser muser = Membership.GetUser(CurrentAspNetUser.UserName);
                     if (MembershipService.ChangePassword(CurrentAspNetUser.UserName, muser.ResetPassword(), model.NewPassword))
                     {
-                    
-                            var ubll = new BaseBll<wmfUserInfo>();
-                            var user = ubll.All.Where(p => p.ID == CurrentAspNetUser.UserId).FirstOrDefault();
-                            user.UserPassword = model.NewPassword.EP(user.ID.ToString());
-                            ubll.Update(user);                   
+                        var ubll = new BaseBll<wmfUserInfo>();
+                        var user = ubll.All.Where(p => p.ID == CurrentAspNetUser.UserId).FirstOrDefault();                        
+                        user.UserPassword = model.NewPassword.EP(user.ID.ToString());
+                        ubll.Update(user);
+                        LogHelper.Write(user.aspnet_Users.UserName + "IP;" + Request.UserHostAddress + "修改密码", LogHelper.LogMessageType.Info);
                     }
                 }
                 //封装返回的数据
@@ -135,7 +137,8 @@ namespace MorSun.Controllers
                 if (!(String.IsNullOrEmpty(model.Question1) && String.IsNullOrEmpty(model.Question2) && String.IsNullOrEmpty(model.Question3) && String.IsNullOrEmpty(model.Answer1) && String.IsNullOrEmpty(model.Answer2) && String.IsNullOrEmpty(model.Answer3)))
                 {
                     TryUpdateModel(user2);
-                    ubll.Update(user2); 
+                    ubll.Update(user2);
+                    LogHelper.Write(user.aspnet_Users.UserName + "IP;" + Request.UserHostAddress + "修改密保", LogHelper.LogMessageType.Info);
                 }                   
                 //封装返回的数据
                 fillOperationResult(Url.Action("Info", "Member"), oper, "修改成功");
@@ -192,6 +195,7 @@ namespace MorSun.Controllers
                 model.FlagTrashed = false;
                 model.FlagDeleted = false;
                 rbll.Insert(model);
+                LogHelper.Write(curUser.UserName + "IP;" + Request.UserHostAddress + "提交卡密", LogHelper.LogMessageType.Info);
                 //封装返回的数据
                 fillOperationResult(Url.Action("Recharge", "Member"), oper, "提交成功");
                 return Json(oper, JsonRequestBehavior.AllowGet);

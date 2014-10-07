@@ -153,7 +153,7 @@ namespace MorSun.Model
         [StringLength(80, MinimumLength = 80, ErrorMessage = "请输入80个字符的卡密，或者请直接复制并粘贴到文本框里")]
         public string KaMe { get; set; }
 
-        public System.Linq.IQueryable rList { get; set; }
+        public System.Linq.IQueryable<bmRecharge> rList { get; set; }
     }
     #endregion
 
