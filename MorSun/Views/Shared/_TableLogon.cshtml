@@ -68,7 +68,8 @@
         <p class="logonP">邦币:   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBB".GX())">@Html.Partial("_Lamp")</a></span></p>
         <p class="logonP">绑币:   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBDB".GX())">@Html.Partial("_Lamp")</a></span></p>
         <p class="logonP">推广链接： <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsEXT".GX())">@Html.Partial("_Lamp")</a></span></p>
-        <p class="logonP"><span class="logonSpanGreen">@("ServiceDomain".GHU())/Home/Index?bic=@(bic)</span></p>
+        <span class="logonSpanGreen">@("ServiceDomain".GHU())/Home/Index?bic=</span>
+        <span class="logonSpanGreen">@(bic)</span>
     }
 </div>
 

@@ -162,6 +162,20 @@ namespace MorSun.Model
         //通知列表
         public IQueryable<bmNew> nList { get; set; }
     }
+
+    public class AddMBRModel
+    {
+        public AddMBRModel()
+        {
+            this.uIds = new List<Guid>();    
+        }
+        public List<Guid> uIds { get; set; }
+        public Guid sr { get; set; }
+
+        public Guid mbr { get; set; }
+
+        public decimal mbn { get; set; }
+    }
     #endregion
 
     #region Services

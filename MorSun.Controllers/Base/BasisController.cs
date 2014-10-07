@@ -476,5 +476,60 @@ namespace MorSun.Controllers
                 return str;
         }
         #endregion
+
+        #region 用户币记录
+        /// <summary>
+        /// 添加用户币记录
+        /// </summary>
+        /// <param name="uIds">用户ID集，可批量添加。</param>
+        /// <param name="sr">来源</param>
+        /// <param name="mbr">币种</param>
+        /// <param name="mbn">币值</param>
+        public void AddUMBR(AddMBRModel addMBR, bool updateChange = true)
+        {
+            var rbll = new BaseBll<bmUserMaBiRecord>();  
+            //检测用户是否存在
+            var users = new BaseBll<aspnet_Users>().All.Where(p => addMBR.uIds.Contains(p.UserId));//找得到userId 就添加
+            foreach (var u in users)
+            {
+                var model = new bmUserMaBiRecord();
+                model.SourceRef = addMBR.sr;
+                model.MaBiRef = addMBR.mbr;
+                model.MaBiNum = addMBR.mbn;
+                model.IsSettle = false;
+
+                model.RegTime = DateTime.Now;
+                model.ModTime = DateTime.Now;
+                model.FlagTrashed = false;
+                model.FlagDeleted = false;
+
+                model.ID = Guid.NewGuid();
+                model.UserId = u.UserId;
+                if (User != null && User.Identity.IsAuthenticated)
+                    model.RegUser = UserID;
+                else
+                    model.RegUser = u.UserId;
+                rbll.Insert(model, false);
+            }
+            if (updateChange)
+                rbll.UpdateChanges();
+        }
+
+        /// <summary>
+        /// 批量设置为已结算
+        /// </summary>
+        /// <param name="mbList"></param>
+        protected void setUMBRSettle(IQueryable<bmUserMaBiRecord> mbList, bool updateChange = true)
+        {
+            var rbll = new BaseBll<bmUserMaBiRecord>();
+            foreach(var m in mbList)
+            {
+                m.IsSettle = true;
+                m.ModTime = DateTime.Now;
+            }
+            if (updateChange)
+                rbll.UpdateChanges();
+        }
+        #endregion
     }
 }
