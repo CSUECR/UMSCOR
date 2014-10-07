@@ -182,6 +182,9 @@ namespace MorSun.Common.Privelege
 
 
         //操作范围
-        public const string 操作范围 = "57688bea-7ea6-4473-9c9d-608f1b41bae2";        
+        public const string 操作范围 = "57688bea-7ea6-4473-9c9d-608f1b41bae2";   
+     
+        //新闻
+        public const string 新闻 = "5857b234-388d-4aec-9262-9ed1d3fa02df";   
     }   
 }

@@ -1,0 +1,71 @@
+﻿@model bmNew
+@{
+    ViewBag.Title = "添加新闻";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";    
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/BMNew/Index";
+
+    var NavLinkList = new NavigationLinkVModel().List.ToList();
+
+    var refVModel = new ReferenceVModel();
+    var NavList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.新闻类别).ToList();
+
+    var rsmodel = new ResourceVModel();
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix"> 
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            <button class="btn green submitBtn" type="button" id="submitBtn">@("提交".GX())</button>            
+            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+        </div>         
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>添加新闻</div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("Create", "BMNew", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+            {
+                    @Html.AntiForgeryToken()
+                    <table class="tableadd table-hover">
+                        <thead>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.NewRef)</th>
+                                <td>@MvcHtmlString.Create(Html.DropDownList("NewRef", "NewRef", NavList, Model.NewRef.ToString(), "class=\"m-wrap large\"", "ID", "ItemValue", "", ""))</td>
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            <tr>
+                                <th>@Html.LabelFor(m => m.NewTitle)</th>
+                                <td>@Html.TextBoxFor(m => m.NewTitle, new { @class = "m-wrap large" })</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.NewKeyWord)</th>
+                                <td>@Html.TextBoxFor(m => m.NewKeyWord, new { @class = "m-wrap large" })</td>
+                            </tr>
+                            <tr>                                
+                                <td colspan="2">@Html.TextAreaFor(m => m.NewContent, new { @class = "m-wrap large" })</td>
+                            </tr>                                                      
+                        </tbody>
+                    </table>
+            }
+            </div>
+        </div> 
+    </div>   
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")        
+        <script type="text/javascript">  
+            $(ajaxSubmitFormHandle('.submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform,[]));
+            function morsunInitform() {
+                $('#NewTitle').val('');
+                $('#NewKeyWord').val('');
+                $('#NewContent').val('');    
+            }                   
+        </script>
+    }

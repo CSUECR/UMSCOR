@@ -114,7 +114,7 @@ namespace MorSun.Common
             /// <summary>
             /// 新闻类型
             /// </summary>
-            public const string 新闻类型 = "e8152433-675e-4d20-a790-7ce571fa8e1f";
+            public const string 新闻类别 = "e8152433-675e-4d20-a790-7ce571fa8e1f";
             
             /// <summary>
             /// 资源类别

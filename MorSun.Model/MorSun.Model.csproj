@@ -58,6 +58,7 @@
     <Compile Include="AttributeExtensions\LocalizedDisplayNameAttribute.cs" />
     <Compile Include="AttributeExtensions\LocalizedRequiredAttribute.cs" />
     <Compile Include="AttributeExtensions\RequiredIfAttribute.cs" />
+    <Compile Include="BM\bmNew.cs" />
     <Compile Include="Common\aspnet_Roles.cs" />
     <Compile Include="Common\aspnet_Users.cs" />
     <Compile Include="Common\HF_WorkTaskInstanceView.cs" />

@@ -1,0 +1,50 @@
+﻿@model BMNewVModel
+@{
+    ViewBag.Title = "新闻排序";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/BMNew/Index";     
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+            </div>
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>新闻排序</div>
+                </div>
+                <div class="portlet-body">
+                    <table id="MoreSunTreeTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left">新闻名</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sortTbody">
+                            @foreach (var item in Model.List)
+                            {
+                                <tr id="@item.ID">
+                                    <td style="text-align:left">
+                                        @item.NewTitle
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")        
+        <script type="text/javascript">  
+            $(morsunSortable('#sortTbody'));            
+        </script>
+    }
