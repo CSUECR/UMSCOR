@@ -1645,6 +1645,21 @@ header .telSpan {
     margin-right:20px;
 }
 
+.logonSpanRed{
+    margin-left:10px;
+    color:#d84a38;
+}
+
+.logonSpanGreenMabi{
+    margin-left:10px;
+    color: #35aa47;
+}
+
+.logonSpanYellow{
+    margin-left:10px;
+    color:#eca22e;
+}
+
 .logonSpanGreen{
     color:#1d943b;
 }

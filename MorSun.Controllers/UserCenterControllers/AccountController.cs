@@ -621,6 +621,12 @@ namespace MorSun.Controllers
 
         #endregion
 
+        public string UPMaBi()
+        {
+            SettleMaBe();
+            return "true";
+        }
+
         #region 帮助程序
         private ActionResult RedirectToLocal(string returnUrl)
         {

@@ -18,6 +18,7 @@ using MorSun.Common.Privelege;
 using System.Data.Objects.DataClasses;
 using MorSun.Controllers;
 using HOHO18.Common.Web;
+using MorSun.Common.类别;
 
 namespace System
 {
@@ -114,6 +115,28 @@ namespace MorSun.Controllers
             {
                 aspnet_Users user = new BaseBll<aspnet_Users>().GetModel(UserID);
                 return user;
+            }
+        }
+
+        public static UserMaBi CurrentUserMabi
+        {
+            get
+            {
+                var umb = new BaseBll<bmUserMaBi>().All.Where(p => p.UserId == UserID);
+                //币种
+                var mabi = Guid.Parse(Reference.马币类别_马币);
+                var bbi = Guid.Parse(Reference.马币类别_邦币);
+                var banbi = Guid.Parse(Reference.马币类别_绑币);
+
+                var mabiO = umb.FirstOrDefault(p => p.MaBiRef == mabi);
+                var bbiO = umb.FirstOrDefault(p => p.MaBiRef == bbi);
+                var banbiO = umb.FirstOrDefault(p => p.MaBiRef == banbi);
+                var userMaBi = new UserMaBi();
+                userMaBi.mabi = mabiO == null ? 0 : mabiO.MaBiNum.Value;
+                userMaBi.bbi = bbiO == null ? 0 : bbiO.MaBiNum.Value;
+                userMaBi.banbi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
+
+                return userMaBi;
             }
         }
         #endregion
@@ -529,6 +552,121 @@ namespace MorSun.Controllers
             }
             if (updateChange)
                 rbll.UpdateChanges();
+        }
+
+        protected void SettleMaBe()
+        {
+            var rbll = new BaseBll<bmUserMaBiRecord>();
+            var umbbll = new BaseBll<bmUserMaBi>();
+            //用户币记录
+            var nonSettleMBR = rbll.All.Where(p => p.IsSettle == false && p.UserId != null);            
+            var nonSMGroup = nonSettleMBR.GroupBy(p => p.UserId);
+            var userIds = nonSMGroup.Select(p => p.Key);
+            //用户各种币
+            var userMabi = umbbll.All.Where(p => userIds.Contains(p.UserId));
+            //币种
+            var mabi = Guid.Parse(Reference.马币类别_马币);
+            var bbi = Guid.Parse(Reference.马币类别_邦币);
+            var banbi = Guid.Parse(Reference.马币类别_绑币);
+
+            foreach(var smg in nonSMGroup)
+            {
+                //加马币
+                var mabisum = smg.Where(p => p.MaBiRef == mabi).Sum(p => p.MaBiNum);
+                if(mabisum != 0)
+                {
+                    var thisUserMabi = userMabi.Where(p => p.UserId == smg.Key && p.MaBiRef == mabi).FirstOrDefault();
+                    if(thisUserMabi == null)
+                    {//系统还没有添加此马币的情况
+                        var model = new bmUserMaBi();
+                        model.ID = Guid.NewGuid();
+                        model.UserId = smg.Key;
+                        model.MaBiRef = mabi;
+                        model.MaBiNum = mabisum;
+                        model.SettleTime = DateTime.Now;
+
+                        model.RegUser = smg.Key;
+                        model.RegTime = DateTime.Now;
+                        model.ModTime = DateTime.Now;
+                        model.FlagTrashed = false;
+                        model.FlagDeleted = false;
+                        umbbll.Insert(model, false);
+                    }
+                    else
+                    {
+                        thisUserMabi.MaBiNum += mabisum;
+                        thisUserMabi.SettleTime = DateTime.Now;
+                        thisUserMabi.ModTime = DateTime.Now;
+                    }
+                }
+                //加邦币
+                var bbisum = smg.Where(p => p.MaBiRef == bbi).Sum(p => p.MaBiNum);
+                if (bbisum != 0)
+                {
+                    var thisUserMabi = userMabi.Where(p => p.UserId == smg.Key && p.MaBiRef == bbi).FirstOrDefault();
+                    if (thisUserMabi == null)
+                    {//系统还没有添加此马币的情况
+                        var model = new bmUserMaBi();
+                        model.ID = Guid.NewGuid();
+                        model.UserId = smg.Key;
+                        model.MaBiRef = bbi;
+                        model.MaBiNum = bbisum;
+                        model.SettleTime = DateTime.Now;
+
+                        model.RegUser = smg.Key;
+                        model.RegTime = DateTime.Now;
+                        model.ModTime = DateTime.Now;
+                        model.FlagTrashed = false;
+                        model.FlagDeleted = false;
+                        umbbll.Insert(model, false);
+                    }
+                    else
+                    {
+                        thisUserMabi.MaBiNum += bbisum;
+                        thisUserMabi.SettleTime = DateTime.Now;
+                        thisUserMabi.ModTime = DateTime.Now;
+                    }
+                }
+
+
+                //加绑币
+                var banbisum = smg.Where(p => p.MaBiRef == banbi).Sum(p => p.MaBiNum);
+                if (banbisum != 0)
+                {
+                    var thisUserMabi = userMabi.Where(p => p.UserId == smg.Key && p.MaBiRef == banbi).FirstOrDefault();
+                    if (thisUserMabi == null)
+                    {//系统还没有添加此马币的情况
+                        var model = new bmUserMaBi();
+                        model.ID = Guid.NewGuid();
+                        model.UserId = smg.Key;
+                        model.MaBiRef = banbi;
+                        model.MaBiNum = banbisum;
+                        model.SettleTime = DateTime.Now;
+
+                        model.RegUser = smg.Key;
+                        model.RegTime = DateTime.Now;
+                        model.ModTime = DateTime.Now;
+                        model.FlagTrashed = false;
+                        model.FlagDeleted = false;
+                        umbbll.Insert(model, false);
+                    }
+                    else
+                    {
+                        thisUserMabi.MaBiNum += banbisum;
+                        thisUserMabi.SettleTime = DateTime.Now;
+                        thisUserMabi.ModTime = DateTime.Now;
+                    }
+                }
+            }
+
+            //将用户币记录设置为已结算
+            foreach(var item in nonSettleMBR)
+            {
+                item.IsSettle = true;
+                item.ModTime = DateTime.Now;
+            }
+
+            rbll.UpdateChanges();
         }
         #endregion
     }
