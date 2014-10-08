@@ -11,7 +11,7 @@
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">       
-        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+        <div class="alert @("alert-success".getBC("BootStrapCssAlert"))">
             <button class="btn green submitBtn" type="button" id="submitBtn">@("提交".GX())</button>            
             <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
         </div>  
@@ -41,7 +41,7 @@
                                 <td>@Html.TextBoxFor(m => m.NewKeyWord, new { @class = "m-wrap large" })</td>
                             </tr>
                             <tr>                                
-                                <td colspan="2">@Html.TextAreaFor(m => m.NewContent, new { @class = "m-wrap large" })</td>
+                                <td colspan="2">@Html.HtmlEditor("NewContent", Model.NewContent)</td>
                             </tr>                                                      
                         </tbody>
                     </table>

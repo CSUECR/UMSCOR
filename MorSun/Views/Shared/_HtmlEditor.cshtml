@@ -1,0 +1,15 @@
+﻿@{
+    var name = ViewData["Name"] as string;
+    var val = ViewData["Value"] as string;
+    var width = ViewData["Width"] ?? "100%";
+    var height = ViewData["Height"] ?? "200px";
+    var isFirst = ViewData["isFirst"]  as bool?;
+    }
+@Html.TextArea(name, val, new { style = "width:"+width+";height:"+height+";" })
+@if (isFirst.Value){
+<script src="/Content/UEditor/ueditor.config.js" type="text/javascript"  charset="utf-8"></script>
+    <script src="/Content/UEditor/ueditor.all.min.js"></script>
+}
+<script type="text/javascript">
+    UE.getEditor('@name', {initialFrameWidth:null});
+</script>

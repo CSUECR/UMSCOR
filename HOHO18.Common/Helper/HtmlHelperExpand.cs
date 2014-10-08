@@ -922,5 +922,19 @@ namespace System.Web.Mvc
             return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
         }
         #endregion 
+
+        #region UEditor
+        public static MvcHtmlString HtmlEditor(this HtmlHelper helper, string name, object value, string width = "100%", string height = "200px", bool isFirst = true)
+        {
+            var v = new ViewDataDictionary();
+            v["Name"] = name;
+            v["Value"] = value;
+            v["Width"] = width;
+            v["Height"] = height;
+            v["isFirst"] = isFirst;
+            helper.RenderPartial("_HtmlEditor", v);
+            return MvcHtmlString.Empty;
+        }
+        #endregion
     }
 }
