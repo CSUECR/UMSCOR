@@ -60,9 +60,8 @@
             $(ajaxSubmitFormHandle('.submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform,[]));
             function morsunInitform() {
                 $('#NewTitle').val('');
-                $('#NewKeyWord').val('');
-                //$('#NewContent').val('');
-                //NewContent.execCommand('cleardoc');
+                $('#NewKeyWord').val('');                
+                UE.getEditor('NewContent').execCommand('cleardoc');
             }                   
         </script>
     }
