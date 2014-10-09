@@ -136,7 +136,22 @@ namespace MorSun.Controllers
                 var user2 = ubll.All.Where(p => p.ID == CurrentAspNetUser.UserId).FirstOrDefault();
                 if (!(String.IsNullOrEmpty(model.Question1) && String.IsNullOrEmpty(model.Question2) && String.IsNullOrEmpty(model.Question3) && String.IsNullOrEmpty(model.Answer1) && String.IsNullOrEmpty(model.Answer2) && String.IsNullOrEmpty(model.Answer3)))
                 {
-                    TryUpdateModel(user2);
+                    //TryUpdateModel(user2);
+                    var ep = user2.ID.ToString();
+                    //在这个位置要加密存储，否则用户无法使用
+                    if (!String.IsNullOrEmpty(model.Question1))
+                        user2.Question1 = model.Question1.EP(ep);
+                    if (!String.IsNullOrEmpty(model.Question2))
+                        user2.Question2 = model.Question2.EP(ep);
+                    if (!String.IsNullOrEmpty(model.Question3))
+                        user2.Question3 = model.Question3.EP(ep);
+
+                    if (!String.IsNullOrEmpty(model.Answer1))
+                        user2.Answer1 = model.Answer1.EP(ep);
+                    if (!String.IsNullOrEmpty(model.Answer2))
+                        user2.Answer2 = model.Answer2.EP(ep);
+                    if (!String.IsNullOrEmpty(model.Answer3))
+                        user2.Answer3 = model.Answer3.EP(ep);
                     ubll.Update(user2);
                     LogHelper.Write(user.aspnet_Users.UserName + "IP;" + Request.UserHostAddress + "修改密保", LogHelper.LogMessageType.Info);
                 }                   
