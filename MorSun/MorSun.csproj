@@ -737,6 +737,7 @@
     <Content Include="Views\BMNew\Index.cshtml" />
     <Content Include="Views\N\S.cshtml" />
     <Content Include="Views\Shared\_HtmlEditor.cshtml" />
+    <Content Include="Views\Member\Take.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

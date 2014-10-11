@@ -185,6 +185,9 @@ namespace MorSun.Common.Privelege
         public const string 操作范围 = "57688bea-7ea6-4473-9c9d-608f1b41bae2";   
      
         //新闻
-        public const string 新闻 = "5857b234-388d-4aec-9262-9ed1d3fa02df";   
+        public const string 新闻 = "5857b234-388d-4aec-9262-9ed1d3fa02df";
+
+        //取现
+        public const string 取现 = "2bdceded-c43e-4576-b1aa-612502086a41";   
     }   
 }

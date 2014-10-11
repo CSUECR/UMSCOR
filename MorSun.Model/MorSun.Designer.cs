@@ -112,6 +112,15 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfResource_wmfResource", "wmfResource", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfResource), "wmfResource1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfResource), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfVillage_wmfTown", "wmfTown", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.wmfTown), "wmfVillage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfVillage), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "aspnet_UsersInRoles", "aspnet_Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Roles), "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Users))]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfAuthentication_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.aspnet_Users), "wmfAuthentication", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfAuthentication), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference1", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfAuthentication_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfAuthentication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfAuthentication), true)]
 
 #endregion
 
@@ -2146,6 +2155,54 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<wmfRolePrivilegesView> _wmfRolePrivilegesViews;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<bmTakeNow> bmTakeNows
+        {
+            get
+            {
+                if ((_bmTakeNows == null))
+                {
+                    _bmTakeNows = base.CreateObjectSet<bmTakeNow>("bmTakeNows");
+                }
+                return _bmTakeNows;
+            }
+        }
+        private ObjectSet<bmTakeNow> _bmTakeNows;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
+        {
+            get
+            {
+                if ((_bmUserMaBiSettleRecords == null))
+                {
+                    _bmUserMaBiSettleRecords = base.CreateObjectSet<bmUserMaBiSettleRecord>("bmUserMaBiSettleRecords");
+                }
+                return _bmUserMaBiSettleRecords;
+            }
+        }
+        private ObjectSet<bmUserMaBiSettleRecord> _bmUserMaBiSettleRecords;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<wmfAuthentication> wmfAuthentications
+        {
+            get
+            {
+                if ((_wmfAuthentications == null))
+                {
+                    _wmfAuthentications = base.CreateObjectSet<wmfAuthentication>("wmfAuthentications");
+                }
+                return _wmfAuthentications;
+            }
+        }
+        private ObjectSet<wmfAuthentication> _wmfAuthentications;
 
         #endregion
 
@@ -3141,6 +3198,30 @@ namespace MorSun.Model
         public void AddTowmfRolePrivilegesViews(wmfRolePrivilegesView wmfRolePrivilegesView)
         {
             base.AddObject("wmfRolePrivilegesViews", wmfRolePrivilegesView);
+        }
+    
+        /// <summary>
+        /// 用于向 bmTakeNows EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTobmTakeNows(bmTakeNow bmTakeNow)
+        {
+            base.AddObject("bmTakeNows", bmTakeNow);
+        }
+    
+        /// <summary>
+        /// 用于向 bmUserMaBiSettleRecords EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTobmUserMaBiSettleRecords(bmUserMaBiSettleRecord bmUserMaBiSettleRecord)
+        {
+            base.AddObject("bmUserMaBiSettleRecords", bmUserMaBiSettleRecord);
+        }
+    
+        /// <summary>
+        /// 用于向 wmfAuthentications EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTowmfAuthentications(wmfAuthentication wmfAuthentication)
+        {
+            base.AddObject("wmfAuthentications", wmfAuthentication);
         }
 
         #endregion
@@ -6703,6 +6784,132 @@ namespace MorSun.Model
                 }
             }
         }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users", "bmTakeNow")]
+        public EntityCollection<bmTakeNow> bmTakeNows
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "bmTakeNow", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users1", "bmTakeNow")]
+        public EntityCollection<bmTakeNow> bmTakeNows1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "bmTakeNow", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord")]
+        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord")]
+        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfAuthentication_aspnet_Users", "wmfAuthentication")]
+        public wmfAuthentication wmfAuthentication
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfAuthentication> wmfAuthenticationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -8575,6 +8782,534 @@ namespace MorSun.Model
     /// <summary>
     /// 没有元数据文档可用。
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="bmTakeNow")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class bmTakeNow : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 bmTakeNow 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        /// <param name="flagTrashed">FlagTrashed 属性的初始值。</param>
+        /// <param name="flagDeleted">FlagDeleted 属性的初始值。</param>
+        public static bmTakeNow CreatebmTakeNow(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted)
+        {
+            bmTakeNow bmTakeNow = new bmTakeNow();
+            bmTakeNow.ID = id;
+            bmTakeNow.FlagTrashed = flagTrashed;
+            bmTakeNow.FlagDeleted = flagDeleted;
+            return bmTakeNow;
+        }
+
+        #endregion
+
+        #region 简单属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value, "ID");
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value, "UserId");
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _UserId;
+        partial void OnUserIdChanging(Nullable<global::System.Guid> value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> MaBiNum
+        {
+            get
+            {
+                return _MaBiNum;
+            }
+            set
+            {
+                OnMaBiNumChanging(value);
+                ReportPropertyChanging("MaBiNum");
+                _MaBiNum = StructuralObject.SetValidValue(value, "MaBiNum");
+                ReportPropertyChanged("MaBiNum");
+                OnMaBiNumChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _MaBiNum;
+        partial void OnMaBiNumChanging(Nullable<global::System.Decimal> value);
+        partial void OnMaBiNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> Effective
+        {
+            get
+            {
+                return _Effective;
+            }
+            set
+            {
+                OnEffectiveChanging(value);
+                ReportPropertyChanging("Effective");
+                _Effective = StructuralObject.SetValidValue(value, "Effective");
+                ReportPropertyChanged("Effective");
+                OnEffectiveChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _Effective;
+        partial void OnEffectiveChanging(Nullable<global::System.Guid> value);
+        partial void OnEffectiveChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> TakeRef
+        {
+            get
+            {
+                return _TakeRef;
+            }
+            set
+            {
+                OnTakeRefChanging(value);
+                ReportPropertyChanging("TakeRef");
+                _TakeRef = StructuralObject.SetValidValue(value, "TakeRef");
+                ReportPropertyChanged("TakeRef");
+                OnTakeRefChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _TakeRef;
+        partial void OnTakeRefChanging(Nullable<global::System.Guid> value);
+        partial void OnTakeRefChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String UserRemark
+        {
+            get
+            {
+                return _UserRemark;
+            }
+            set
+            {
+                OnUserRemarkChanging(value);
+                ReportPropertyChanging("UserRemark");
+                _UserRemark = StructuralObject.SetValidValue(value, true, "UserRemark");
+                ReportPropertyChanged("UserRemark");
+                OnUserRemarkChanged();
+            }
+        }
+        private global::System.String _UserRemark;
+        partial void OnUserRemarkChanging(global::System.String value);
+        partial void OnUserRemarkChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String BMExplain
+        {
+            get
+            {
+                return _BMExplain;
+            }
+            set
+            {
+                OnBMExplainChanging(value);
+                ReportPropertyChanging("BMExplain");
+                _BMExplain = StructuralObject.SetValidValue(value, true, "BMExplain");
+                ReportPropertyChanged("BMExplain");
+                OnBMExplainChanged();
+            }
+        }
+        private global::System.String _BMExplain;
+        partial void OnBMExplainChanging(global::System.String value);
+        partial void OnBMExplainChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Sort
+        {
+            get
+            {
+                return _Sort;
+            }
+            set
+            {
+                OnSortChanging(value);
+                ReportPropertyChanging("Sort");
+                _Sort = StructuralObject.SetValidValue(value, "Sort");
+                ReportPropertyChanged("Sort");
+                OnSortChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Sort;
+        partial void OnSortChanging(Nullable<global::System.Int32> value);
+        partial void OnSortChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> RegUser
+        {
+            get
+            {
+                return _RegUser;
+            }
+            set
+            {
+                OnRegUserChanging(value);
+                ReportPropertyChanging("RegUser");
+                _RegUser = StructuralObject.SetValidValue(value, "RegUser");
+                ReportPropertyChanged("RegUser");
+                OnRegUserChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _RegUser;
+        partial void OnRegUserChanging(Nullable<global::System.Guid> value);
+        partial void OnRegUserChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> RegTime
+        {
+            get
+            {
+                return _RegTime;
+            }
+            set
+            {
+                OnRegTimeChanging(value);
+                ReportPropertyChanging("RegTime");
+                _RegTime = StructuralObject.SetValidValue(value, "RegTime");
+                ReportPropertyChanged("RegTime");
+                OnRegTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _RegTime;
+        partial void OnRegTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnRegTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModTime
+        {
+            get
+            {
+                return _ModTime;
+            }
+            set
+            {
+                OnModTimeChanging(value);
+                ReportPropertyChanging("ModTime");
+                _ModTime = StructuralObject.SetValidValue(value, "ModTime");
+                ReportPropertyChanged("ModTime");
+                OnModTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModTime;
+        partial void OnModTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagTrashed
+        {
+            get
+            {
+                return _FlagTrashed;
+            }
+            set
+            {
+                OnFlagTrashedChanging(value);
+                ReportPropertyChanging("FlagTrashed");
+                _FlagTrashed = StructuralObject.SetValidValue(value, "FlagTrashed");
+                ReportPropertyChanged("FlagTrashed");
+                OnFlagTrashedChanged();
+            }
+        }
+        private global::System.Boolean _FlagTrashed;
+        partial void OnFlagTrashedChanging(global::System.Boolean value);
+        partial void OnFlagTrashedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagDeleted
+        {
+            get
+            {
+                return _FlagDeleted;
+            }
+            set
+            {
+                OnFlagDeletedChanging(value);
+                ReportPropertyChanging("FlagDeleted");
+                _FlagDeleted = StructuralObject.SetValidValue(value, "FlagDeleted");
+                ReportPropertyChanged("FlagDeleted");
+                OnFlagDeletedChanged();
+            }
+        }
+        private global::System.Boolean _FlagDeleted;
+        partial void OnFlagDeletedChanging(global::System.Boolean value);
+        partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> TakeTime
+        {
+            get
+            {
+                return _TakeTime;
+            }
+            set
+            {
+                OnTakeTimeChanging(value);
+                ReportPropertyChanging("TakeTime");
+                _TakeTime = StructuralObject.SetValidValue(value, "TakeTime");
+                ReportPropertyChanged("TakeTime");
+                OnTakeTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _TakeTime;
+        partial void OnTakeTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnTakeTimeChanged();
+
+        #endregion
+
+        #region 导航属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users", "aspnet_Users")]
+        public aspnet_Users aspnet_Users
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "aspnet_Users").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "aspnet_Users").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<aspnet_Users> aspnet_UsersReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "aspnet_Users");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<aspnet_Users>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "aspnet_Users", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users1", "aspnet_Users")]
+        public aspnet_Users aspnet_Users1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "aspnet_Users").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "aspnet_Users").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<aspnet_Users> aspnet_Users1Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "aspnet_Users");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<aspnet_Users>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "aspnet_Users", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference", "wmfReference")]
+        public wmfReference wmfReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmTakeNow_wmfReference", "wmfReference").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmTakeNow_wmfReference", "wmfReference").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfReference> wmfReferenceReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmTakeNow_wmfReference", "wmfReference");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_bmTakeNow_wmfReference", "wmfReference", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference1", "wmfReference")]
+        public wmfReference wmfReference1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmTakeNow_wmfReference1", "wmfReference").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmTakeNow_wmfReference1", "wmfReference").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfReference> wmfReference1Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmTakeNow_wmfReference1", "wmfReference");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_bmTakeNow_wmfReference1", "wmfReference", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="bmUserMaBi")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -9462,6 +10197,424 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_bmUserMaBiRecord_wmfReference1", "wmfReference", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="bmUserMaBiSettleRecord")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class bmUserMaBiSettleRecord : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 bmUserMaBiSettleRecord 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        /// <param name="flagTrashed">FlagTrashed 属性的初始值。</param>
+        /// <param name="flagDeleted">FlagDeleted 属性的初始值。</param>
+        public static bmUserMaBiSettleRecord CreatebmUserMaBiSettleRecord(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted)
+        {
+            bmUserMaBiSettleRecord bmUserMaBiSettleRecord = new bmUserMaBiSettleRecord();
+            bmUserMaBiSettleRecord.ID = id;
+            bmUserMaBiSettleRecord.FlagTrashed = flagTrashed;
+            bmUserMaBiSettleRecord.FlagDeleted = flagDeleted;
+            return bmUserMaBiSettleRecord;
+        }
+
+        #endregion
+
+        #region 简单属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value, "ID");
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value, "UserId");
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _UserId;
+        partial void OnUserIdChanging(Nullable<global::System.Guid> value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> MaBiRef
+        {
+            get
+            {
+                return _MaBiRef;
+            }
+            set
+            {
+                OnMaBiRefChanging(value);
+                ReportPropertyChanging("MaBiRef");
+                _MaBiRef = StructuralObject.SetValidValue(value, "MaBiRef");
+                ReportPropertyChanged("MaBiRef");
+                OnMaBiRefChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _MaBiRef;
+        partial void OnMaBiRefChanging(Nullable<global::System.Guid> value);
+        partial void OnMaBiRefChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> MaBiNum
+        {
+            get
+            {
+                return _MaBiNum;
+            }
+            set
+            {
+                OnMaBiNumChanging(value);
+                ReportPropertyChanging("MaBiNum");
+                _MaBiNum = StructuralObject.SetValidValue(value, "MaBiNum");
+                ReportPropertyChanged("MaBiNum");
+                OnMaBiNumChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _MaBiNum;
+        partial void OnMaBiNumChanging(Nullable<global::System.Decimal> value);
+        partial void OnMaBiNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> SettleTime
+        {
+            get
+            {
+                return _SettleTime;
+            }
+            set
+            {
+                OnSettleTimeChanging(value);
+                ReportPropertyChanging("SettleTime");
+                _SettleTime = StructuralObject.SetValidValue(value, "SettleTime");
+                ReportPropertyChanged("SettleTime");
+                OnSettleTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _SettleTime;
+        partial void OnSettleTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnSettleTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Sort
+        {
+            get
+            {
+                return _Sort;
+            }
+            set
+            {
+                OnSortChanging(value);
+                ReportPropertyChanging("Sort");
+                _Sort = StructuralObject.SetValidValue(value, "Sort");
+                ReportPropertyChanged("Sort");
+                OnSortChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Sort;
+        partial void OnSortChanging(Nullable<global::System.Int32> value);
+        partial void OnSortChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> RegUser
+        {
+            get
+            {
+                return _RegUser;
+            }
+            set
+            {
+                OnRegUserChanging(value);
+                ReportPropertyChanging("RegUser");
+                _RegUser = StructuralObject.SetValidValue(value, "RegUser");
+                ReportPropertyChanged("RegUser");
+                OnRegUserChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _RegUser;
+        partial void OnRegUserChanging(Nullable<global::System.Guid> value);
+        partial void OnRegUserChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> RegTime
+        {
+            get
+            {
+                return _RegTime;
+            }
+            set
+            {
+                OnRegTimeChanging(value);
+                ReportPropertyChanging("RegTime");
+                _RegTime = StructuralObject.SetValidValue(value, "RegTime");
+                ReportPropertyChanged("RegTime");
+                OnRegTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _RegTime;
+        partial void OnRegTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnRegTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModTime
+        {
+            get
+            {
+                return _ModTime;
+            }
+            set
+            {
+                OnModTimeChanging(value);
+                ReportPropertyChanging("ModTime");
+                _ModTime = StructuralObject.SetValidValue(value, "ModTime");
+                ReportPropertyChanged("ModTime");
+                OnModTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModTime;
+        partial void OnModTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagTrashed
+        {
+            get
+            {
+                return _FlagTrashed;
+            }
+            set
+            {
+                OnFlagTrashedChanging(value);
+                ReportPropertyChanging("FlagTrashed");
+                _FlagTrashed = StructuralObject.SetValidValue(value, "FlagTrashed");
+                ReportPropertyChanged("FlagTrashed");
+                OnFlagTrashedChanged();
+            }
+        }
+        private global::System.Boolean _FlagTrashed;
+        partial void OnFlagTrashedChanging(global::System.Boolean value);
+        partial void OnFlagTrashedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagDeleted
+        {
+            get
+            {
+                return _FlagDeleted;
+            }
+            set
+            {
+                OnFlagDeletedChanging(value);
+                ReportPropertyChanging("FlagDeleted");
+                _FlagDeleted = StructuralObject.SetValidValue(value, "FlagDeleted");
+                ReportPropertyChanged("FlagDeleted");
+                OnFlagDeletedChanged();
+            }
+        }
+        private global::System.Boolean _FlagDeleted;
+        partial void OnFlagDeletedChanging(global::System.Boolean value);
+        partial void OnFlagDeletedChanged();
+
+        #endregion
+
+        #region 导航属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users", "aspnet_Users")]
+        public aspnet_Users aspnet_Users
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "aspnet_Users").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "aspnet_Users").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<aspnet_Users> aspnet_UsersReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "aspnet_Users");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "aspnet_Users", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users1", "aspnet_Users")]
+        public aspnet_Users aspnet_Users1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "aspnet_Users").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "aspnet_Users").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<aspnet_Users> aspnet_Users1Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "aspnet_Users");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "aspnet_Users", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_wmfReference", "wmfReference")]
+        public wmfReference wmfReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "wmfReference").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "wmfReference").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfReference> wmfReferenceReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "wmfReference");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "wmfReference", value);
                 }
             }
         }
@@ -30686,6 +31839,434 @@ namespace MorSun.Model
     /// <summary>
     /// 没有元数据文档可用。
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="wmfAuthentication")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class wmfAuthentication : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 wmfAuthentication 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        /// <param name="flagTrashed">FlagTrashed 属性的初始值。</param>
+        /// <param name="flagDeleted">FlagDeleted 属性的初始值。</param>
+        public static wmfAuthentication CreatewmfAuthentication(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted)
+        {
+            wmfAuthentication wmfAuthentication = new wmfAuthentication();
+            wmfAuthentication.ID = id;
+            wmfAuthentication.FlagTrashed = flagTrashed;
+            wmfAuthentication.FlagDeleted = flagDeleted;
+            return wmfAuthentication;
+        }
+
+        #endregion
+
+        #region 简单属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value, "ID");
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> UserRef
+        {
+            get
+            {
+                return _UserRef;
+            }
+            set
+            {
+                OnUserRefChanging(value);
+                ReportPropertyChanging("UserRef");
+                _UserRef = StructuralObject.SetValidValue(value, "UserRef");
+                ReportPropertyChanged("UserRef");
+                OnUserRefChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _UserRef;
+        partial void OnUserRefChanging(Nullable<global::System.Guid> value);
+        partial void OnUserRefChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String TrueName
+        {
+            get
+            {
+                return _TrueName;
+            }
+            set
+            {
+                OnTrueNameChanging(value);
+                ReportPropertyChanging("TrueName");
+                _TrueName = StructuralObject.SetValidValue(value, true, "TrueName");
+                ReportPropertyChanged("TrueName");
+                OnTrueNameChanged();
+            }
+        }
+        private global::System.String _TrueName;
+        partial void OnTrueNameChanging(global::System.String value);
+        partial void OnTrueNameChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String CardNum
+        {
+            get
+            {
+                return _CardNum;
+            }
+            set
+            {
+                OnCardNumChanging(value);
+                ReportPropertyChanging("CardNum");
+                _CardNum = StructuralObject.SetValidValue(value, true, "CardNum");
+                ReportPropertyChanged("CardNum");
+                OnCardNumChanged();
+            }
+        }
+        private global::System.String _CardNum;
+        partial void OnCardNumChanging(global::System.String value);
+        partial void OnCardNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MobilePhone
+        {
+            get
+            {
+                return _MobilePhone;
+            }
+            set
+            {
+                OnMobilePhoneChanging(value);
+                ReportPropertyChanging("MobilePhone");
+                _MobilePhone = StructuralObject.SetValidValue(value, true, "MobilePhone");
+                ReportPropertyChanged("MobilePhone");
+                OnMobilePhoneChanged();
+            }
+        }
+        private global::System.String _MobilePhone;
+        partial void OnMobilePhoneChanging(global::System.String value);
+        partial void OnMobilePhoneChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String AliPayNum
+        {
+            get
+            {
+                return _AliPayNum;
+            }
+            set
+            {
+                OnAliPayNumChanging(value);
+                ReportPropertyChanging("AliPayNum");
+                _AliPayNum = StructuralObject.SetValidValue(value, true, "AliPayNum");
+                ReportPropertyChanged("AliPayNum");
+                OnAliPayNumChanged();
+            }
+        }
+        private global::System.String _AliPayNum;
+        partial void OnAliPayNumChanging(global::System.String value);
+        partial void OnAliPayNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String BankNum
+        {
+            get
+            {
+                return _BankNum;
+            }
+            set
+            {
+                OnBankNumChanging(value);
+                ReportPropertyChanging("BankNum");
+                _BankNum = StructuralObject.SetValidValue(value, true, "BankNum");
+                ReportPropertyChanged("BankNum");
+                OnBankNumChanged();
+            }
+        }
+        private global::System.String _BankNum;
+        partial void OnBankNumChanging(global::System.String value);
+        partial void OnBankNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Sort
+        {
+            get
+            {
+                return _Sort;
+            }
+            set
+            {
+                OnSortChanging(value);
+                ReportPropertyChanging("Sort");
+                _Sort = StructuralObject.SetValidValue(value, "Sort");
+                ReportPropertyChanged("Sort");
+                OnSortChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Sort;
+        partial void OnSortChanging(Nullable<global::System.Int32> value);
+        partial void OnSortChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> RegUser
+        {
+            get
+            {
+                return _RegUser;
+            }
+            set
+            {
+                OnRegUserChanging(value);
+                ReportPropertyChanging("RegUser");
+                _RegUser = StructuralObject.SetValidValue(value, "RegUser");
+                ReportPropertyChanged("RegUser");
+                OnRegUserChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _RegUser;
+        partial void OnRegUserChanging(Nullable<global::System.Guid> value);
+        partial void OnRegUserChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> RegTime
+        {
+            get
+            {
+                return _RegTime;
+            }
+            set
+            {
+                OnRegTimeChanging(value);
+                ReportPropertyChanging("RegTime");
+                _RegTime = StructuralObject.SetValidValue(value, "RegTime");
+                ReportPropertyChanged("RegTime");
+                OnRegTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _RegTime;
+        partial void OnRegTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnRegTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModTime
+        {
+            get
+            {
+                return _ModTime;
+            }
+            set
+            {
+                OnModTimeChanging(value);
+                ReportPropertyChanging("ModTime");
+                _ModTime = StructuralObject.SetValidValue(value, "ModTime");
+                ReportPropertyChanged("ModTime");
+                OnModTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModTime;
+        partial void OnModTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagTrashed
+        {
+            get
+            {
+                return _FlagTrashed;
+            }
+            set
+            {
+                OnFlagTrashedChanging(value);
+                ReportPropertyChanging("FlagTrashed");
+                _FlagTrashed = StructuralObject.SetValidValue(value, "FlagTrashed");
+                ReportPropertyChanged("FlagTrashed");
+                OnFlagTrashedChanged();
+            }
+        }
+        private global::System.Boolean _FlagTrashed;
+        partial void OnFlagTrashedChanging(global::System.Boolean value);
+        partial void OnFlagTrashedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagDeleted
+        {
+            get
+            {
+                return _FlagDeleted;
+            }
+            set
+            {
+                OnFlagDeletedChanging(value);
+                ReportPropertyChanging("FlagDeleted");
+                _FlagDeleted = StructuralObject.SetValidValue(value, "FlagDeleted");
+                ReportPropertyChanged("FlagDeleted");
+                OnFlagDeletedChanged();
+            }
+        }
+        private global::System.Boolean _FlagDeleted;
+        partial void OnFlagDeletedChanging(global::System.Boolean value);
+        partial void OnFlagDeletedChanged();
+
+        #endregion
+
+        #region 导航属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfAuthentication_aspnet_Users", "aspnet_Users")]
+        public aspnet_Users aspnet_Users
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "aspnet_Users").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "aspnet_Users").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<aspnet_Users> aspnet_UsersReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "aspnet_Users");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<aspnet_Users>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "aspnet_Users", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfAuthentication_wmfReference", "wmfReference")]
+        public wmfReference wmfReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfReference").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfReference").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfReference> wmfReferenceReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfReference");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfReference", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="wmfCalendar")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -39944,6 +41525,94 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfUserInfo>("MorSun.Model.FK_wmfUserInfo_wmfReference", "wmfUserInfo", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference", "bmTakeNow")]
+        public EntityCollection<bmTakeNow> bmTakeNows
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference", "bmTakeNow", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference1", "bmTakeNow")]
+        public EntityCollection<bmTakeNow> bmTakeNows1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference1", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference1", "bmTakeNow", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord")]
+        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfAuthentication_wmfReference", "wmfAuthentication")]
+        public EntityCollection<wmfAuthentication> wmfAuthentications
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfAuthentication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfAuthentication", value);
                 }
             }
         }

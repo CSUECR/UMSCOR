@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
@@ -29,6 +30,8 @@
                         <li>@Html.ActionLink("首页", "Index", "Home")</li>
                         <li>@Html.ActionLink("会员中心", "Index", "Member")</li>
                         <li>@Html.ActionLink("充值", "Recharge", "Member")</li>
+                        @if (资源.取现.HP(操作.添加))
+                        {<li>@Html.ActionLink("取现", "Take", "Member")</li> }                        
                         <li>@Html.ActionLink("个人信息", "Info", "Member")</li>
                     </ul>
                 </nav>

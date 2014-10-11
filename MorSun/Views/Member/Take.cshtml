@@ -1,0 +1,93 @@
+﻿@model Take
+@{
+    ViewBag.Title = "取现";
+    Layout = "~/Views/Shared/_UCLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/Member/Index";   
+    var refVM = new ReferenceVModel(); 
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">   
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>            
+            </div>
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>取现</div>
+                </div>
+                <div class="portlet-body">
+                    @using (Html.BeginForm("Take", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                    {
+                        @Html.AntiForgeryToken()                       
+                        <table class="tableadd table-hover">
+                            <thead>
+                                <tr>
+                                    <th>马币余额</th>
+                                    <td>@MorSun.Controllers.BasisController.CurrentUserMabi.mabi.ToString("f2")</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.MaBiNum)</th>
+                                    <td>@Html.TextBoxFor(m => m.MaBiNum, new { @class = "m-wrap large" })</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.UserRemark)</th>
+                                    <td>@Html.TextAreaFor(m => m.UserRemark, new { @class = "m-wrap large" })</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>取现记录</div>
+            </div>
+            <div class="portlet-body">                
+                <table class="tableadd table-hover">
+                    <thead>
+                        <tr>
+                            <th>币值</th>
+                            <th>有效性</th>
+                            <th>添加时间</th>
+                            <th>取现</th>
+                            <th>取现时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model.tList)
+                        {
+                            <tr>
+                                <td title="@m.UserRemark">@m.MaBiNum.ToString("f2")</td>
+                                <td title="@m.BMExplain">@refVM.GetReferenceValue(m.Effective)</td>
+                                <td>@m.RegTime.ToShortDateString()</td>
+                                <td>@refVM.GetReferenceValue(m.TakeRef)</td>
+                                <td>@m.TakeTime.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+         
+        <script type="text/javascript">  
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform, []));
+            function morsunInitform() {
+                $('#MaBiNum').val('');
+                $('#UserRemark').val('');
+            }
+        </script>
+    }

@@ -222,6 +222,18 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfResource_wmfResource" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MorSun.Model.bmTakeNow" Width="1.5" PointX="19.5" PointY="45.875" />
+        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBiSettleRecord" Width="1.5" PointX="19.5" PointY="41.125" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfAuthentication" Width="1.5" PointX="16.5" PointY="41.125" />
+        <AssociationConnector Association="MorSun.Model.FK_bmTakeNow_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmTakeNow_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_wmfAuthentication_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmTakeNow_wmfReference" />
+        <AssociationConnector Association="MorSun.Model.FK_bmTakeNow_wmfReference1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference" />
+        <AssociationConnector Association="MorSun.Model.FK_wmfAuthentication_wmfReference" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

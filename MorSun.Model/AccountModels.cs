@@ -147,6 +147,9 @@ namespace MorSun.Model
         public string NickName { get; set; }
     }
 
+    /// <summary>
+    /// 充值
+    /// </summary>
     public class Recharge
     {
         [Required(ErrorMessage = "{0}必填")]
@@ -157,6 +160,26 @@ namespace MorSun.Model
         public IQueryable<bmRecharge> rList { get; set; }
     }
 
+    /// <summary>
+    /// 取现
+    /// </summary>
+    public class Take
+    {
+        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("币值")]        
+        [RangeAttribute(50000,50000000,ErrorMessage="输入范围从50000到50000000，并且是50000的整数倍")]
+        public decimal MaBiNum { get; set; }
+
+        [DisplayName("备注")]
+        [StringLength(200, ErrorMessage = "字符限制在200字以内")]
+        public string UserRemark { get; set; }
+
+        public IQueryable<bmTakeNow> tList { get; set; }
+    }
+
+    /// <summary>
+    /// 首页模型
+    /// </summary>
     public class IndexModel
     {
         //通知列表

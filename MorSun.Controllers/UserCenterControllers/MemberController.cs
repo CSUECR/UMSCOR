@@ -10,6 +10,7 @@ using HOHO18.Common;
 using System.Web.Security;
 using MorSun.Common.类别;
 using HOHO18.Common.WEB;
+using MorSun.Common.Privelege;
 
 
 namespace MorSun.Controllers
@@ -33,6 +34,11 @@ namespace MorSun.Controllers
             return View(new UInfo());
         }
 
+        /// <summary>
+        /// 改个人信息
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public ActionResult Info(string returnUrl)
         {
             var cu = CurrentAspNetUser.wmfUserInfo;
@@ -64,7 +70,11 @@ namespace MorSun.Controllers
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
 
-        
+        /// <summary>
+        /// 改密码
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public ActionResult CPW(string returnUrl)
         {
             var model = new ChangePasswordModel();            
@@ -107,6 +117,12 @@ namespace MorSun.Controllers
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 改密保
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public ActionResult CMB(string returnUrl)
         {
             var user = CurrentAspNetUser.wmfUserInfo;
@@ -117,7 +133,7 @@ namespace MorSun.Controllers
             }
             return RedirectToAction("Info");
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CMB(ConfirmQuestionModel model, string returnUrl)
@@ -163,6 +179,11 @@ namespace MorSun.Controllers
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 充值
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public ActionResult Recharge(string returnUrl)
         {
             var recharge = new Recharge();
@@ -218,6 +239,71 @@ namespace MorSun.Controllers
             oper.AppendData = ModelState.GE();
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
+
+
+        /// <summary>
+        /// 取现
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        public ActionResult Take(string returnUrl)
+        {
+            var take = new Take();
+            var curUser = CurrentAspNetUser;
+            take.tList = new BaseBll<bmTakeNow>().All.Where(p => p.UserId == curUser.UserId).OrderByDescending(p => p.RegTime).Take(5);
+            ViewBag.RS = 资源.取现;
+            return View(take);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Take(Take take, string returnUrl)
+        {
+            var oper = new OperationResult(OperationResultType.Error, "提交失败");
+            var tbll = new BaseBll<bmTakeNow>();
+            var curUser = CurrentAspNetUser;
+            var curUserMB = CurrentUserMabi.mabi;
+            
+            var curUserTake = tbll.All.Where(p => p.UserId == curUser.UserId && p.Effective == null).Sum(p => p.MaBiNum);
+            if (curUserTake == null) curUserTake = 0;
+            if((curUserTake + take.MaBiNum) >= curUserMB)
+            {
+                "MaBiNum".AE("已经超出取现范围", ModelState);
+            }
+
+            if(take.MaBiNum % 5000 != 0)
+            {
+                "MaBiNum".AE("币值必须为5000的整数倍", ModelState);
+            }
+
+            if(!资源.取现.HP(操作.添加))
+            {
+                "MaBiNum".AE("您还未认证，无权限操作", ModelState);
+            }
+         
+            if (ModelState.IsValid)
+            {
+                var model = new bmTakeNow();
+                model.ID = Guid.NewGuid();                
+                model.UserId = curUser.UserId;
+                model.MaBiNum = take.MaBiNum;
+                model.UserRemark = take.UserRemark;
+
+                model.RegTime = DateTime.Now;
+                model.ModTime = DateTime.Now;
+                model.RegUser = curUser.UserId;
+                model.FlagTrashed = false;
+                model.FlagDeleted = false;
+                tbll.Insert(model);
+                LogHelper.Write(curUser.UserName + "IP;" + Request.UserHostAddress + "取现", LogHelper.LogMessageType.Info);
+                //封装返回的数据
+                fillOperationResult(Url.Action("Take", "Member"), oper, "提交成功");
+                return Json(oper, JsonRequestBehavior.AllowGet);
+            }
+            oper.AppendData = ModelState.GE();
+            return Json(oper, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }
