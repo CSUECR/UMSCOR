@@ -17,19 +17,17 @@ namespace MorSun.WX.Service.CustomMessageHandler
     {
         private string GetWelcomeInfo()
         {
-            //获取Senparc.Weixin.MP.dll版本信息
-            var fileVersionInfo = FileVersionInfo.GetVersionInfo(HttpContext.Current.Server.MapPath("~/bin/Senparc.Weixin.MP.dll"));
-            var version = string.Format("{0}.{1}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart);
-            return string.Format(
-@"欢迎关注【Senparc.Weixin.MP 微信公众平台SDK】，当前运行版本：v{0}。
-您可以发送【文字】【位置】【图片】【语音】等不同类型的信息，查看不同格式的回复。
-
-您也可以直接点击菜单查看各种类型的回复。
-
-SDK官方地址：http://weixin.senparc.com
-源代码及Demo下载地址：https://github.com/JeffreySu/WeiXinMPSDK
-Nuget地址：https://www.nuget.org/packages/Senparc.Weixin.MP",
-                version);
+            var returnStr = @"欢迎关注【作业邦】，
+从此问题不会难。
+哪里不会拍哪里，
+老师学霸帮你忙。
+节省无尽脑细胞，
+乐享生活快成长！
+自从有了【作业邦】，
+咔嚓咔嚓无限爽。
+更多内容
+请上www.bungma.com了解。";
+            return returnStr;
         }
 
         public override IResponseMessageBase OnTextOrEventRequest(RequestMessageText requestMessage)
@@ -79,8 +77,8 @@ Nuget地址：https://www.nuget.org/packages/Senparc.Weixin.MP",
                         {
                             Title = "您点击了子菜单图文按钮",
                             Description = "您点击了子菜单图文按钮，这是一条图文信息。",
-                            PicUrl = "http://weixin.senparc.com/Images/qrcode.jpg",
-                            Url = "http://weixin.senparc.com"
+                            PicUrl = "http://www.bungma.com/Images/logo.gif",
+                            Url = "http://www.bungma.com"
                         });
                     }
                     break;
@@ -88,7 +86,7 @@ Nuget地址：https://www.nuget.org/packages/Senparc.Weixin.MP",
                     {
                         var strongResponseMessage = CreateResponseMessage<ResponseMessageMusic>();
                         reponseMessage = strongResponseMessage;
-                        strongResponseMessage.Music.MusicUrl = "http://weixin.senparc.com/Content/music1.mp3";
+                        strongResponseMessage.Music.MusicUrl = "";
                     }
                     break;
                 case "SubClickRoot_Image":

@@ -121,12 +121,12 @@ namespace MorSun.WX.Service.CustomMessageHandler
                 if (requestMessage.Content == "测试")
                 {
                     //进入APP测试
-                    responseMessage.Content = "您已经进入【盛派网络小助手】的测试程序，请发送任意信息进行测试。发送文字【退出】退出测试对话。10分钟内无任何交互将自动退出应用对话状态。";
+                    responseMessage.Content = "您已经进入【作业邦】的测试程序，请发送任意信息进行测试。发送文字【退出】退出测试对话。10分钟内无任何交互将自动退出应用对话状态。";
                 }
                 else
                 {
                     //退出APP测试
-                    responseMessage.Content = "您已经退出【盛派网络小助手】的测试程序。";
+                    responseMessage.Content = "您已经退出【作业邦】的测试程序。";
                 }
             }
             else
@@ -153,7 +153,7 @@ namespace MorSun.WX.Service.CustomMessageHandler
 
                 result.AppendFormat("如果您在{0}分钟内连续发送消息，记录将被自动保留（当前设置：最多记录{1}条）。过期后记录将会自动清除。\r\n", WeixinContext.ExpireMinutes, WeixinContext.MaxRecordCount);
                 result.AppendLine("\r\n");
-                result.AppendLine("您还可以发送【位置】【图片】【语音】【视频】等类型的信息（注意是这几种类型，不是这几个文字），查看不同格式的回复。\r\nSDK官方地址：http://weixin.senparc.com");
+                result.AppendLine("您还可以发送【位置】【图片】【语音】【视频】等类型的信息（注意是这几种类型，不是这几个文字），查看不同格式的回复。");
 
                 responseMessage.Content = result.ToString();
             }
@@ -185,14 +185,14 @@ namespace MorSun.WX.Service.CustomMessageHandler
                 Title = "您刚才发送了图片信息",
                 Description = "您发送的图片将会显示在边上",
                 PicUrl = requestMessage.PicUrl,
-                Url = "http://weixin.senparc.com"
+                Url = "http://www.bungma.com"
             });
             responseMessage.Articles.Add(new Article()
             {
-                Title = "第二条",
-                Description = "第二条带连接的内容",
+                Title = "问题ID",
+                Description = "这是问题ID",
                 PicUrl = requestMessage.PicUrl,
-                Url = "http://weixin.senparc.com"
+                Url = "http://www.bungma.com"
             });
             return responseMessage;
         }
@@ -204,11 +204,14 @@ namespace MorSun.WX.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnVoiceRequest(RequestMessageVoice requestMessage)
         {
-            var responseMessage = CreateResponseMessage<ResponseMessageMusic>();
-            responseMessage.Music.MusicUrl = "http://weixin.senparc.com/Content/music1.mp3";
-            responseMessage.Music.Title = "这里是一条音乐消息";
-            responseMessage.Music.Description = "来自Jeffrey Su的美妙歌声~~";
-            responseMessage.Music.ThumbMediaId = "mediaid";
+            //var responseMessage = CreateResponseMessage<ResponseMessageMusic>();
+            //responseMessage.Music.MusicUrl = "http://weixin.senparc.com/Content/music1.mp3";
+            //responseMessage.Music.Title = "这里是一条音乐消息";
+            //responseMessage.Music.Description = "来自Jeffrey Su的美妙歌声~~";
+            //responseMessage.Music.ThumbMediaId = "mediaid";
+
+            var responseMessage = CreateResponseMessage<ResponseMessageVoice>();            
+            responseMessage.Voice.MediaId = requestMessage.MediaId;
             return responseMessage;
         }
 
