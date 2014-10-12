@@ -23,16 +23,16 @@ namespace MorSun.WX.Service.CustomMessageHandler
          */
 
 
-#if DEBUG
-        string agentUrl = "http://localhost:12222/App/Weixin/4";
-        string agentToken = "27C455F496044A87";
-        string wiweihiKey = "CNadjJuWzyX5bz5Gn+/XoyqiqMa5DjXQ";
-#else
-        //下面的Url和Token可以用其他平台的消息，或者到www.weiweihi.com注册微信用户，将自动在“微信营销工具”下得到
-        private string agentUrl = WebConfigurationManager.AppSettings["WeixinAgentUrl"];//这里使用了www.weiweihi.com微信自动托管平台
-        private string agentToken = WebConfigurationManager.AppSettings["WeixinAgentToken"];//Token
-        private string wiweihiKey = WebConfigurationManager.AppSettings["WeixinAgentWeiweihiKey"];//WeiweihiKey专门用于对接www.Weiweihi.com平台，获取方式见：http://www.weiweihi.com/ApiDocuments/Item/25#51
-#endif
+//#if DEBUG
+//        string agentUrl = "http://localhost:12222/App/Weixin/4";
+//        string agentToken = "27C455F496044A87";
+//        string wiweihiKey = "CNadjJuWzyX5bz5Gn+/XoyqiqMa5DjXQ";
+//#else
+//        //下面的Url和Token可以用其他平台的消息，或者到www.weiweihi.com注册微信用户，将自动在“微信营销工具”下得到
+//        private string agentUrl = WebConfigurationManager.AppSettings["WeixinAgentUrl"];//这里使用了www.weiweihi.com微信自动托管平台
+//        private string agentToken = WebConfigurationManager.AppSettings["WeixinAgentToken"];//Token
+//        private string wiweihiKey = WebConfigurationManager.AppSettings["WeixinAgentWeiweihiKey"];//WeiweihiKey专门用于对接www.Weiweihi.com平台，获取方式见：http://www.weiweihi.com/ApiDocuments/Item/25#51
+//#endif
 
         public CustomMessageHandler(Stream inputStream, int maxRecordCount = 0)
             : base(inputStream, maxRecordCount)
@@ -92,14 +92,14 @@ namespace MorSun.WX.Service.CustomMessageHandler
 
                 DateTime dt1 = DateTime.Now;//计时开始
 
-                var responseXml = MessageAgent.RequestXml(this, agentUrl, agentToken, RequestDocument.ToString());//获取返回的XML
+                ////var responseXml = MessageAgent.RequestXml(this, agentUrl, agentToken, RequestDocument.ToString());//获取返回的XML
                 //上面的方法也可以使用扩展方法：this.RequestResponseMessage(this,agentUrl, agentToken, RequestDocument.ToString());
 
                 /* 如果有WeiweihiKey，可以直接使用下面的这个MessageAgent.RequestWeiweihiXml()方法。
                  * WeiweihiKey专门用于对接www.weiweihi.com平台，获取方式见：http://www.weiweihi.com/ApiDocuments/Item/25#51
                  */
                 //var responseXml = MessageAgent.RequestWeiweihiXml(weiweihiKey, RequestDocument.ToString());//获取Weiweihi返回的XML
-
+                var responseXml = "";
                 DateTime dt2 = DateTime.Now;//计时结束
 
                 //转成实体。
