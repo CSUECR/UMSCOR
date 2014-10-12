@@ -39,6 +39,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\HOHO18.Common\Lib\NPOI.dll</HintPath>
     </Reference>
+    <Reference Include="Senparc.Weixin.MP">
+      <HintPath>..\packages\Senparc\Senparc.Weixin.MP.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP.MvcExtension">
+      <HintPath>..\packages\Senparc\Senparc.Weixin.MP.MvcExtension.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -70,26 +76,26 @@
     <Compile Include="Filter\PrivilegeAttribute.cs" />
     <Compile Include="ModelBinder\SmartModelBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BM\BMNewController.cs" />
-    <Compile Include="SystemController\NavigationLinkController.cs" />
-    <Compile Include="SystemController\OperationController.cs">
+    <Compile Include="ControllersBM\BMNewController.cs" />
+    <Compile Include="ControllersSystem\NavigationLinkController.cs" />
+    <Compile Include="ControllersSystem\OperationController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemController\PrivilegeController.cs">
+    <Compile Include="ControllersSystem\PrivilegeController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemController\ReferenceController.cs" />
-    <Compile Include="SystemController\RefGroupController.cs" />
-    <Compile Include="SystemController\ResourceController.cs" />
-    <Compile Include="SystemController\RoleController.cs">
+    <Compile Include="ControllersSystem\ReferenceController.cs" />
+    <Compile Include="ControllersSystem\RefGroupController.cs" />
+    <Compile Include="ControllersSystem\ResourceController.cs" />
+    <Compile Include="ControllersSystem\RoleController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UserCenterControllers\AccountController.cs">
+    <Compile Include="ControllersUserCenter\AccountController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UserCenterControllers\NController.cs" />
-    <Compile Include="UserCenterControllers\MemberController.cs" />
-    <Compile Include="UserCenterControllers\HomeController.cs">
+    <Compile Include="ControllersUserCenter\NController.cs" />
+    <Compile Include="ControllersUserCenter\MemberController.cs" />
+    <Compile Include="ControllersUserCenter\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\BaseVM\BaseVModel.cs" />
@@ -146,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AttendanceController\" />
+    <Folder Include="ControllersWeiXin\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

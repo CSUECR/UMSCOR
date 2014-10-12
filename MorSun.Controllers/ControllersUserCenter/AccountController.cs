@@ -353,7 +353,7 @@ namespace MorSun.Controllers
                 var timeBefore = DateTime.Now.AddHours(effectiveHour);
                 var uns = user.wmfUserInfo.UserNameString;
                 var erCount = new BaseBll<wmfEncryptRecord>().All.Where(p => p.UserNameString == uns && p.EncryptTime >= timeBefore && p.EncryptUrl.ToLower() == "/account/ecpw").Count();
-                if(erCount > 5)
+                if(erCount >= 5)
                     "Question1".AE(CFG.有效时间 + "小时内最多找回密码5次", ModelState);
 
                 if(ModelState.IsValid)                
