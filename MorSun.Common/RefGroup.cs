@@ -155,6 +155,9 @@ namespace MorSun.Common
             public const string 邮件通用入口 = "/Home/EL";
             public const string 账号激活路径 = "/Account/ActiveUser";
             public const string 邮件改密路径 = "/Account/ECPW";
+
+            //微信
+            public const string 作业邦微信令牌 = "WXZYBung34fdjs38";
         }
     }
 }

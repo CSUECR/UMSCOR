@@ -39,6 +39,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\HOHO18.Common\Lib\NPOI.dll</HintPath>
     </Reference>
+    <Reference Include="Senparc.Weixin">
+      <HintPath>..\packages\Senparc\Senparc.Weixin.dll</HintPath>
+    </Reference>
     <Reference Include="Senparc.Weixin.MP">
       <HintPath>..\packages\Senparc\Senparc.Weixin.MP.dll</HintPath>
     </Reference>
@@ -72,6 +75,7 @@
     <Compile Include="Base\ExportExcel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ControllersWeiXin\WXController.cs" />
     <Compile Include="Filter\ExceptionFilter.cs" />
     <Compile Include="Filter\PrivilegeAttribute.cs" />
     <Compile Include="ModelBinder\SmartModelBinder.cs" />
@@ -149,10 +153,13 @@
       <Project>{d335634f-20b7-464a-87a0-6d4718cf264e}</Project>
       <Name>MorSun.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MorSun.WX.Service\MorSun.WX.Service.csproj">
+      <Project>{85d316a9-f411-4d50-bc06-0dacddc78d46}</Project>
+      <Name>MorSun.WX.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AttendanceController\" />
-    <Folder Include="ControllersWeiXin\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
