@@ -141,4 +141,20 @@ namespace MorSun.Common
             public const string 导航菜单 = "93fe60d1-e4d5-413f-939f-1869cb3be726";
         }
     }    
+
+    namespace 配置
+    {
+        public struct CFG
+        {
+            public const string 应用邮箱 = "s5kdm@qq.com";
+            public const string 邮箱密码 = "4F2CCCEC077614815761B530E9D9164C";
+            public const string 邮箱端口 = "587";
+
+
+            public const string 有效时间 = "48";
+            public const string 邮件通用入口 = "/Home/EL";
+            public const string 账号激活路径 = "/Account/ActiveUser";
+            public const string 邮件改密路径 = "/Account/ECPW";
+        }
+    }
 }

@@ -18,6 +18,7 @@ using MorSun.Bll;
 using MorSun.Common.类别;
 using HOHO18.Common.WEB;
 using HOHO18.Common.SSO;
+using MorSun.Common.配置;
 
 namespace MorSun.Controllers
 {
@@ -346,13 +347,22 @@ namespace MorSun.Controllers
                     || !model.Answer3.EP(user.UserId.ToString()).Eql(model2.Answer3)
                     )
                     "Question1".AE("验证失败", ModelState);
-                else
+
+                //多次提交判断                
+                var effectiveHour = 0 - CFG.有效时间.ToAs<int>();
+                var timeBefore = DateTime.Now.AddHours(effectiveHour);
+                var uns = user.wmfUserInfo.UserNameString;
+                var erCount = new BaseBll<wmfEncryptRecord>().All.Where(p => p.UserNameString == uns && p.EncryptTime >= timeBefore && p.EncryptUrl.ToLower() == "/account/ecpw").Count();
+                if(erCount > 5)
+                    "Question1".AE(CFG.有效时间 + "小时内最多找回密码5次", ModelState);
+
+                if(ModelState.IsValid)                
                 {
                     //发送邮件并转发
-                    string fromEmail = "ServiceMail".GX();
-                    string fromEmailPassword = "ServiceMailPassword".GX().DP();
-                    int emailPort = String.IsNullOrEmpty("ServiceMailPort".GX()) ? 587 : "ServiceMailPort".GX().ToAs<int>();
-                    var code = GenerateEncryptCode(user.wmfUserInfo.UserNameString, "EmailChangePass".GX(), false);
+                    string fromEmail = CFG.应用邮箱;
+                    string fromEmailPassword = CFG.邮箱密码.DP();
+                    int emailPort = String.IsNullOrEmpty(CFG.邮箱端口) ? 587 : CFG.邮箱端口.ToAs<int>();
+                    var code = GenerateEncryptCode(user.wmfUserInfo.UserNameString, CFG.邮件改密路径, false);
                     string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/Home/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
                     //创建邮件对象并发送
                     var mail = new SendMail(user.UserName, fromEmail, body, "找回密码", fromEmailPassword, "ServiceMailName".GX(), user.wmfUserInfo.NickName);
@@ -391,13 +401,13 @@ namespace MorSun.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ECPW(ECPWModel model, string returnUrl)
         {
-            var oper = new OperationResult(OperationResultType.Error, "提交失败");
+            var oper = new OperationResult(OperationResultType.Error, "提交失败");            
             if (string.IsNullOrEmpty(model.id))
                 "OldPassword".AE("非法提交", ModelState);
             else
             {
                 var bll = new BaseBll<wmfEncryptRecord>();
-                var effectiveHour = 0 - "EncryptTime".GX().ToAs<int>();
+                var effectiveHour = 0 - CFG.有效时间.ToAs<int>();
                 var timeBefore = DateTime.Now.AddHours(effectiveHour);
                 var er = bll.All.Where(p => p.EncryptCode == model.id && p.EncryptTime >= timeBefore).OrderByDescending(p => p.RegTime).FirstOrDefault();
                 if(er == null)
@@ -584,10 +594,10 @@ namespace MorSun.Controllers
                         //发送激活邮件
                         if ("AccountActive".GX() == "true")
                         {
-                            string fromEmail = "ServiceMail".GX();                            
-                            string fromEmailPassword = "ServiceMailPassword".GX().DP();
-                            int emailPort = String.IsNullOrEmpty("ServiceMailPort".GX()) ? 587 : "ServiceMailPort".GX().ToAs<int>();
-                            var code = GenerateEncryptCode(userinfoModel.UserNameString,"ActiveUserUrl".GX(),false);
+                            string fromEmail = CFG.应用邮箱;                            
+                            string fromEmailPassword = CFG.邮箱密码.DP();
+                            int emailPort = String.IsNullOrEmpty(CFG.邮箱端口) ? 587 : CFG.邮箱端口.ToAs<int>();
+                            var code = GenerateEncryptCode(userinfoModel.UserNameString,CFG.账号激活路径,false);
                             string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", code);
                             //创建邮件对象并发送
                             var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GX(), userinfoModel.NickName);

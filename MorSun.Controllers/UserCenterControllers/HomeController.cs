@@ -7,6 +7,7 @@ using MorSun.Bll;
 using MorSun.Model;
 using System.Web.Routing;
 using MorSun.Common.类别;
+using MorSun.Common.配置;
 
 
 namespace MorSun.Controllers
@@ -89,10 +90,17 @@ namespace MorSun.Controllers
         public ActionResult EL(string id)
         {
             var bll = new BaseBll<wmfEncryptRecord>();
-            var effectiveHour = 0 - "EncryptTime".GX().ToAs<int>();
+            var effectiveHour = 0 - CFG.有效时间.ToAs<int>();
             var timeBefore = DateTime.Now.AddHours(effectiveHour);
             var model = bll.All.Where(p => p.EncryptCode == id && p.EncryptTime >= timeBefore).OrderByDescending(p => p.RegTime).FirstOrDefault();
-            //var au = "ActiveUserUrl".GX();
+            //var au = CFG.账号激活路径;
+            //用户激活不能限制时间
+            if(model == null)
+            {
+                var actModel = bll.All.Where(p => p.EncryptCode == id && p.EncryptUrl.ToLower() == "/account/activeuser").OrderByDescending(p => p.RegTime).FirstOrDefault();
+                if (actModel != null)
+                    model = actModel;
+            }            
             if(model != null)
             { 
                 switch (model.EncryptUrl.ToLower())

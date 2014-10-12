@@ -665,7 +665,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="XmlConfig\web.config" />
+    <Content Include="XmlConfig\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="XmlConfig\zh_CN\Menu.config" />
     <Content Include="XmlConfig\zh_CN\Validation.config" />
     <Content Include="XmlConfig\zh_CN\web.config" />
@@ -738,6 +740,7 @@
     <Content Include="Views\N\S.cshtml" />
     <Content Include="Views\Shared\_HtmlEditor.cshtml" />
     <Content Include="Views\Member\Take.cshtml" />
+    <Content Include="Views\Member\MaBiSettle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

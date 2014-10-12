@@ -304,6 +304,19 @@ namespace MorSun.Controllers
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult MaBiSettle(string returnUrl)
+        {
+            var take = new MaBiSettle();
 
+            //币种
+            var mabi = Guid.Parse(Reference.马币类别_马币);
+            var bbi = Guid.Parse(Reference.马币类别_邦币);
+            var banbi = Guid.Parse(Reference.马币类别_绑币);
+            var curUser = CurrentAspNetUser;
+            take.mabiList = new BaseBll<bmUserMaBiSettleRecord>().All.Where(p => p.UserId == curUser.UserId).OrderByDescending(p => p.RegTime).Take(5);
+            take.bbiList = new BaseBll<bmUserMaBiSettleRecord>().All.Where(p => p.UserId == curUser.UserId).OrderByDescending(p => p.RegTime).Take(5);
+            take.banbiList = new BaseBll<bmUserMaBiSettleRecord>().All.Where(p => p.UserId == curUser.UserId).OrderByDescending(p => p.RegTime).Take(5);
+            return View(take);
+        }
     }
 }

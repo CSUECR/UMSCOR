@@ -177,6 +177,13 @@ namespace MorSun.Model
         public IQueryable<bmTakeNow> tList { get; set; }
     }
 
+    public class MaBiSettle
+    {
+        public IQueryable<bmUserMaBiSettleRecord> mabiList { get; set; }
+        public IQueryable<bmUserMaBiSettleRecord> bbiList { get; set; }
+        public IQueryable<bmUserMaBiSettleRecord> banbiList { get; set; }
+    }
+
     /// <summary>
     /// 首页模型
     /// </summary>

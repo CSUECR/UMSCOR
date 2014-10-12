@@ -1,0 +1,100 @@
+﻿@model MaBiSettle
+@{
+    ViewBag.Title = "结算记录";
+    Layout = "~/Views/Shared/_UCLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/Member/Index";   
+    var refVM = new ReferenceVModel(); 
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix"> 
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>马币</div>
+            </div>
+            <div class="portlet-body">                
+                <table class="tableadd table-hover">
+                    <thead>
+                        <tr>
+                            <th>币值</th>
+                            <th>结算时间</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model.mabiList)
+                        {
+                            <tr>
+                                <td>@m.MaBiNum.ToString("f2")</td>                                
+                                <td>@m.RegTime.ToShortDateString()</td>                               
+                            </tr>
+                        }
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+
+
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>邦币</div>
+            </div>
+            <div class="portlet-body">
+                <table class="tableadd table-hover">
+                    <thead>
+                        <tr>
+                            <th>币值</th>
+                            <th>结算时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model.bbiList)
+                        {
+                            <tr>
+                                <td>@m.MaBiNum.ToString("f2")</td>
+                                <td>@m.RegTime.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>绑币</div>
+            </div>
+            <div class="portlet-body">
+                <table class="tableadd table-hover">
+                    <thead>
+                        <tr>
+                            <th>币值</th>
+                            <th>结算时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model.banbiList)
+                        {
+                            <tr>
+                                <td>@m.MaBiNum.ToString("f2")</td>
+                                <td>@m.RegTime.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+         
+        <script type="text/javascript">              
+            
+        </script>
+    }
