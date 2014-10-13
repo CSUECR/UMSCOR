@@ -7,8 +7,8 @@
     <ProjectGuid>{85D316A9-F411-4D50-BC06-0DACDDC78D46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MorSun.WX.Service</RootNamespace>
-    <AssemblyName>MorSun.WX.Service</AssemblyName>
+    <RootNamespace>MorSun.WX.ZYB.Service</RootNamespace>
+    <AssemblyName>MorSun.WX.ZYB.Service</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -2,7 +2,7 @@
 {
     var user = MorSun.Controllers.BasisController.CurrentAspNetUser;
     <text>
-        你好，@Html.ActionLink(user.wmfUserInfo == null ? user.UserName : user.wmfUserInfo.NickName, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "管理" })!
+        你好，@Html.ActionLink(user.wmfUserInfo == null ? user.UserName : user.wmfUserInfo.NickName, "Info", "Member", routeValues: null, htmlAttributes: new { @class = "username", title = "管理" })!
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
             <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>

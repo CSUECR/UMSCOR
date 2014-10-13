@@ -182,17 +182,17 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var responseMessage = CreateResponseMessage<ResponseMessageNews>();
             responseMessage.Articles.Add(new Article()
             {
-                Title = "您刚才发送了图片信息",
-                Description = "您发送的图片将会显示在边上",
+                Title = "问题ID",
+                Description = "问题ID",
                 PicUrl = requestMessage.PicUrl,
-                Url = "http://www.bungma.com"
+                Url = requestMessage.PicUrl
             });
             responseMessage.Articles.Add(new Article()
             {
-                Title = "问题ID",
-                Description = "这是问题ID",
-                PicUrl = requestMessage.PicUrl,
-                Url = "http://www.bungma.com"
+                Title = "使用",
+                Description = "马币值",
+                PicUrl = "",
+                Url = ""
             });
             return responseMessage;
         }

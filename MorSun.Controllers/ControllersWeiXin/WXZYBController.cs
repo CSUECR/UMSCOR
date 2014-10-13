@@ -62,11 +62,11 @@ namespace MorSun.Controllers
             try
             {
                 //测试时可开启此记录，帮助跟踪数据，使用前请确保App_Data文件夹存在，且有读写权限。
-                messageHandler.RequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
+                //messageHandler.RequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
                 //执行微信处理过程
                 messageHandler.Execute();
                 //测试时可开启，帮助跟踪数据
-                messageHandler.ResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
+                //messageHandler.ResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
 
                 //return Content(messageHandler.ResponseDocument.ToString());//v0.7-
                 return new FixWeixinBugWeixinResult(messageHandler);//为了解决官方微信5.0软件换行bug暂时添加的方法，平时用下面一个方法即可

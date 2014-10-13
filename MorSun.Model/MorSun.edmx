@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -194,10 +194,13 @@
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
           <Property Name="QARef" Type="uniqueidentifier" />
-          <Property Name="QAContent" Type="ntext" />
-          <Property Name="Profile" Type="nvarchar" MaxLength="4000" />
+          <Property Name="QAContent" Type="nvarchar" MaxLength="4000" />
           <Property Name="MaBiRef" Type="uniqueidentifier" />
           <Property Name="MaBiNum" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="MsgId" Type="nvarchar" MaxLength="128" />
+          <Property Name="MsgType" Type="uniqueidentifier" />
+          <Property Name="MediaId" Type="nvarchar" MaxLength="512" />
+          <Property Name="PicUrl" Type="nvarchar" MaxLength="512" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -2215,6 +2218,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmQA_wmfReference2">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmQA" Type="Self.bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="MsgType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmRecharge_aspnet_Users">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
           <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="*" />
@@ -3584,6 +3599,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReference" />
             <End Role="bmQA" EntitySet="bmQA" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmQA_wmfReference2" Association="Self.FK_bmQA_wmfReference2">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmQA" EntitySet="bmQA" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmRecharge_aspnet_Users" Association="Self.FK_bmRecharge_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmRecharge" EntitySet="bmRecharge" />
@@ -3937,7 +3956,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -4102,15 +4122,20 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmQAs1" Relationship="Self.FK_bmQA_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmQA" />
           <NavigationProperty Name="bmRecharges" Relationship="Self.FK_bmRecharge_aspnet_Users" FromRole="aspnet_Users" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges1" Relationship="Self.FK_bmRecharge_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmTakeNows" Relationship="Self.FK_bmTakeNow_aspnet_Users" FromRole="aspnet_Users" ToRole="bmTakeNow" />
+          <NavigationProperty Name="bmTakeNows1" Relationship="Self.FK_bmTakeNow_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmTakeNow" />
           <NavigationProperty Name="bmUserMaBis" Relationship="Self.FK_bmUserMaBi_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserMaBi" />
           <NavigationProperty Name="bmUserMaBis1" Relationship="Self.FK_bmUserMaBi_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserMaBi" />
           <NavigationProperty Name="bmUserMaBiRecords" Relationship="Self.FK_bmUserMaBiRecord_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserMaBiRecord" />
           <NavigationProperty Name="bmUserMaBiRecords1" Relationship="Self.FK_bmUserMaBiRecord_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserMaBiRecord" />
+          <NavigationProperty Name="bmUserMaBiSettleRecords" Relationship="Self.FK_bmUserMaBiSettleRecord_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserMaBiSettleRecord" />
+          <NavigationProperty Name="bmUserMaBiSettleRecords1" Relationship="Self.FK_bmUserMaBiSettleRecord_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserMaBiSettleRecord" />
           <NavigationProperty Name="bmUserWeixins" Relationship="Self.FK_bmUserWeixin_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserWeixin" />
           <NavigationProperty Name="bmUserWeixins1" Relationship="Self.FK_bmUserWeixin_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserWeixin" />
           <NavigationProperty Name="kqClassPlans" Relationship="Self.FK_kqClassPlan_aspnet_Users" FromRole="aspnet_Users" ToRole="kqClassPlan" />
           <NavigationProperty Name="KQDELETESCHEDULEs" Relationship="Self.FK_KQDELETESCHEDULE_aspnet_Users" FromRole="aspnet_Users" ToRole="KQDELETESCHEDULE" />
           <NavigationProperty Name="kqDUCPTs" Relationship="Self.FK_kqDeptCPT_aspnet_Users" FromRole="aspnet_Users" ToRole="kqDUCPT" />
+          <NavigationProperty Name="wmfAuthentication" Relationship="Self.FK_wmfAuthentication_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfAuthentication" />
           <NavigationProperty Name="wmfMails" Relationship="Self.FK_wmfMail_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfMail" />
           <NavigationProperty Name="wmfMails1" Relationship="Self.FK_wmfMail_aspnet_Users1" FromRole="aspnet_Users" ToRole="wmfMail" />
           <NavigationProperty Name="wmfOperationalLogbooks" Relationship="Self.FK_wmfOperationalLogbook_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfOperationalLogbook" />
@@ -4120,11 +4145,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfUserDeptPositions" Relationship="Self.FK_wmfUserDeptPosition_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserDeptPosition" />
           <NavigationProperty Name="wmfUserInfo" Relationship="Self.FK_wmfUserInfo_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserInfo" />
           <NavigationProperty Name="aspnet_Roles" Relationship="Self.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
-          <NavigationProperty Name="bmTakeNows" Relationship="MorSun.Model.FK_bmTakeNow_aspnet_Users" FromRole="aspnet_Users" ToRole="bmTakeNow" />
-          <NavigationProperty Name="bmTakeNows1" Relationship="MorSun.Model.FK_bmTakeNow_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmTakeNow" />
-          <NavigationProperty Name="bmUserMaBiSettleRecords" Relationship="MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserMaBiSettleRecord" />
-          <NavigationProperty Name="bmUserMaBiSettleRecords1" Relationship="MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmUserMaBiSettleRecord" />
-          <NavigationProperty Name="wmfAuthentication" Relationship="MorSun.Model.FK_wmfAuthentication_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfAuthentication" />
         </EntityType>
         <EntityType Name="aspnet_WebEvent_Events">
           <Key>
@@ -4171,10 +4191,13 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="UserId" Type="Guid" />
           <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="QARef" Type="Guid" />
-          <Property Name="QAContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Profile" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="QAContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="MaBiRef" Type="Guid" />
           <Property Name="MaBiNum" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="MsgId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="MsgType" Type="Guid" />
+          <Property Name="MediaId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PicUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="Sort" Type="Int32" />
           <Property Name="RegUser" Type="Guid" />
           <Property Name="RegTime" Type="DateTime" Precision="3" />
@@ -4185,6 +4208,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmQA_aspnet_Users1" FromRole="bmQA" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmQA_wmfReference" FromRole="bmQA" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmQA_wmfReference1" FromRole="bmQA" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference2" Relationship="Self.FK_bmQA_wmfReference2" FromRole="bmQA" ToRole="wmfReference" />
         </EntityType>
         <EntityType Name="bmRecharge">
           <Key>
@@ -4210,6 +4234,29 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmRecharge_wmfReference1" FromRole="bmRecharge" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference2" Relationship="Self.FK_bmRecharge_wmfReference2" FromRole="bmRecharge" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference3" Relationship="Self.FK_bmRecharge_wmfReference3" FromRole="bmRecharge" ToRole="wmfReference" />
+        </EntityType>
+        <EntityType Name="bmTakeNow">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="MaBiNum" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Effective" Type="Guid" />
+          <Property Name="TakeRef" Type="Guid" />
+          <Property Name="UserRemark" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="BMExplain" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="TakeTime" Type="DateTime" Precision="3" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_bmTakeNow_aspnet_Users" FromRole="bmTakeNow" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmTakeNow_aspnet_Users1" FromRole="bmTakeNow" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmTakeNow_wmfReference" FromRole="bmTakeNow" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmTakeNow_wmfReference1" FromRole="bmTakeNow" ToRole="wmfReference" />
         </EntityType>
         <EntityType Name="bmUserMaBi">
           <Key>
@@ -4250,6 +4297,25 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmUserMaBiRecord_aspnet_Users1" FromRole="bmUserMaBiRecord" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmUserMaBiRecord_wmfReference" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmUserMaBiRecord_wmfReference1" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
+        </EntityType>
+        <EntityType Name="bmUserMaBiSettleRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="MaBiRef" Type="Guid" />
+          <Property Name="MaBiNum" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="SettleTime" Type="DateTime" Precision="3" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_bmUserMaBiSettleRecord_aspnet_Users" FromRole="bmUserMaBiSettleRecord" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmUserMaBiSettleRecord_aspnet_Users1" FromRole="bmUserMaBiSettleRecord" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmUserMaBiSettleRecord_wmfReference" FromRole="bmUserMaBiSettleRecord" ToRole="wmfReference" />
         </EntityType>
         <EntityType Name="bmUserWeixin">
           <Key>
@@ -5359,6 +5425,26 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfCounty" Relationship="Self.FK_wmfArea_wmfCounty" FromRole="wmfArea" ToRole="wmfCounty" />
           <NavigationProperty Name="wmfDepts" Relationship="Self.FK_wmfDept_wmfArea" FromRole="wmfArea" ToRole="wmfDept" />
         </EntityType>
+        <EntityType Name="wmfAuthentication">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserRef" Type="Guid" />
+          <Property Name="TrueName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CardNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AliPayNum" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BankNum" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_wmfAuthentication_aspnet_Users" FromRole="wmfAuthentication" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="Self.FK_wmfAuthentication_wmfReference" FromRole="wmfAuthentication" ToRole="wmfReference" />
+        </EntityType>
         <EntityType Name="wmfCalendar">
           <Key>
             <PropertyRef Name="ID" />
@@ -5764,15 +5850,20 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="bmQAs" Relationship="Self.FK_bmQA_wmfReference" FromRole="wmfReference" ToRole="bmQA" />
           <NavigationProperty Name="bmQAs1" Relationship="Self.FK_bmQA_wmfReference1" FromRole="wmfReference" ToRole="bmQA" />
+          <NavigationProperty Name="bmQAs2" Relationship="Self.FK_bmQA_wmfReference2" FromRole="wmfReference" ToRole="bmQA" />
           <NavigationProperty Name="bmRecharges" Relationship="Self.FK_bmRecharge_wmfReference" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges1" Relationship="Self.FK_bmRecharge_wmfReference1" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges2" Relationship="Self.FK_bmRecharge_wmfReference2" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges3" Relationship="Self.FK_bmRecharge_wmfReference3" FromRole="wmfReference" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmTakeNows" Relationship="Self.FK_bmTakeNow_wmfReference" FromRole="wmfReference" ToRole="bmTakeNow" />
+          <NavigationProperty Name="bmTakeNows1" Relationship="Self.FK_bmTakeNow_wmfReference1" FromRole="wmfReference" ToRole="bmTakeNow" />
           <NavigationProperty Name="bmUserMaBis" Relationship="Self.FK_bmUserMaBi_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBi" />
           <NavigationProperty Name="bmUserMaBiRecords" Relationship="Self.FK_bmUserMaBiRecord_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBiRecord" />
           <NavigationProperty Name="bmUserMaBiRecords1" Relationship="Self.FK_bmUserMaBiRecord_wmfReference1" FromRole="wmfReference" ToRole="bmUserMaBiRecord" />
+          <NavigationProperty Name="bmUserMaBiSettleRecords" Relationship="Self.FK_bmUserMaBiSettleRecord_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBiSettleRecord" />
           <NavigationProperty Name="kqClassesSequences" Relationship="Self.FK_kqClassesSequence_wmfReference" FromRole="wmfReference" ToRole="kqClassesSequence" />
           <NavigationProperty Name="kqPorts" Relationship="Self.FK_kqPort_wmfReference" FromRole="wmfReference" ToRole="kqPort" />
+          <NavigationProperty Name="wmfAuthentications" Relationship="Self.FK_wmfAuthentication_wmfReference" FromRole="wmfReference" ToRole="wmfAuthentication" />
           <NavigationProperty Name="wmfCalendars" Relationship="Self.FK_wmfCalendar_wmfReference" FromRole="wmfReference" ToRole="wmfCalendar" />
           <NavigationProperty Name="wmfCalendars1" Relationship="Self.FK_wmfCalendar_wmfReference1" FromRole="wmfReference" ToRole="wmfCalendar" />
           <NavigationProperty Name="wmfCalendars2" Relationship="Self.FK_wmfCalendar_wmfReference2" FromRole="wmfReference" ToRole="wmfCalendar" />
@@ -5786,10 +5877,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfResources" Relationship="Self.FK_wmfResource_wmfReference" FromRole="wmfReference" ToRole="wmfResource" />
           <NavigationProperty Name="wmfUploadFiles" Relationship="Self.FK_wmfUploadFile_wmfReference" FromRole="wmfReference" ToRole="wmfUploadFile" />
           <NavigationProperty Name="wmfUserInfoes" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfReference" ToRole="wmfUserInfo" />
-          <NavigationProperty Name="bmTakeNows" Relationship="MorSun.Model.FK_bmTakeNow_wmfReference" FromRole="wmfReference" ToRole="bmTakeNow" />
-          <NavigationProperty Name="bmTakeNows1" Relationship="MorSun.Model.FK_bmTakeNow_wmfReference1" FromRole="wmfReference" ToRole="bmTakeNow" />
-          <NavigationProperty Name="bmUserMaBiSettleRecords" Relationship="MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBiSettleRecord" />
-          <NavigationProperty Name="wmfAuthentications" Relationship="MorSun.Model.FK_wmfAuthentication_wmfReference" FromRole="wmfReference" ToRole="wmfAuthentication" />
         </EntityType>
         <EntityType Name="wmfRefGroup">
           <Key>
@@ -6281,6 +6368,30 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmTakeNow_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmTakeNow" Type="Self.bmTakeNow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmTakeNow">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmTakeNow_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmTakeNow" Type="Self.bmTakeNow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmTakeNow">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmUserMaBi_aspnet_Users">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
           <End Role="bmUserMaBi" Type="Self.bmUserMaBi" Multiplicity="*" />
@@ -6325,6 +6436,30 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiSettleRecord_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmUserMaBiSettleRecord" Type="Self.bmUserMaBiSettleRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBiSettleRecord">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiSettleRecord_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmUserMaBiSettleRecord" Type="Self.bmUserMaBiSettleRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmUserMaBiSettleRecord">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -6390,6 +6525,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Principal>
             <Dependent Role="kqDUCPT">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wmfAuthentication_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
+          <End Role="wmfAuthentication" Type="Self.wmfAuthentication" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="wmfAuthentication">
+              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6525,6 +6672,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmQA_wmfReference2">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmQA" Type="Self.bmQA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmQA">
+              <PropertyRef Name="MsgType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmRecharge_wmfReference">
           <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
           <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="*" />
@@ -6573,6 +6732,30 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmTakeNow_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmTakeNow" Type="Self.bmTakeNow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmTakeNow">
+              <PropertyRef Name="Effective" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmTakeNow_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmTakeNow" Type="Self.bmTakeNow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmTakeNow">
+              <PropertyRef Name="TakeRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmUserMaBi_wmfReference">
           <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
           <End Role="bmUserMaBi" Type="Self.bmUserMaBi" Multiplicity="*" />
@@ -6605,6 +6788,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="MaBiRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiSettleRecord_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmUserMaBiSettleRecord" Type="Self.bmUserMaBiSettleRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiSettleRecord">
               <PropertyRef Name="MaBiRef" />
             </Dependent>
           </ReferentialConstraint>
@@ -6840,6 +7035,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Principal>
             <Dependent Role="wmfDept">
               <PropertyRef Name="AreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wmfAuthentication_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="wmfAuthentication" Type="Self.wmfAuthentication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="wmfAuthentication">
+              <PropertyRef Name="UserRef" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7273,8 +7480,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="bmNews" EntityType="Self.bmNew" />
           <EntitySet Name="bmQAs" EntityType="Self.bmQA" />
           <EntitySet Name="bmRecharges" EntityType="Self.bmRecharge" />
+          <EntitySet Name="bmTakeNows" EntityType="Self.bmTakeNow" />
           <EntitySet Name="bmUserMaBis" EntityType="Self.bmUserMaBi" />
           <EntitySet Name="bmUserMaBiRecords" EntityType="Self.bmUserMaBiRecord" />
+          <EntitySet Name="bmUserMaBiSettleRecords" EntityType="Self.bmUserMaBiSettleRecord" />
           <EntitySet Name="bmUserWeixins" EntityType="Self.bmUserWeixin" />
           <EntitySet Name="HF_AccreditUser" EntityType="Self.HF_AccreditUser" />
           <EntitySet Name="HF_AppLeftMenu" EntityType="Self.HF_AppLeftMenu" />
@@ -7348,6 +7557,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="QRTZ_TRIGGERS" EntityType="Self.QRTZ_TRIGGERS" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="wmfAreas" EntityType="Self.wmfArea" />
+          <EntitySet Name="wmfAuthentications" EntityType="Self.wmfAuthentication" />
           <EntitySet Name="wmfCalendars" EntityType="Self.wmfCalendar" />
           <EntitySet Name="wmfCities" EntityType="Self.wmfCity" />
           <EntitySet Name="wmfCityDistrictNumbers" EntityType="Self.wmfCityDistrictNumber" />
@@ -7446,6 +7656,14 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmRecharge" EntitySet="bmRecharges" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmTakeNow_aspnet_Users" Association="Self.FK_bmTakeNow_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmTakeNow_aspnet_Users1" Association="Self.FK_bmTakeNow_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmUserMaBi_aspnet_Users" Association="Self.FK_bmUserMaBi_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmUserMaBi" EntitySet="bmUserMaBis" />
@@ -7461,6 +7679,14 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_bmUserMaBiRecord_aspnet_Users1" Association="Self.FK_bmUserMaBiRecord_aspnet_Users1">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiSettleRecord_aspnet_Users" Association="Self.FK_bmUserMaBiSettleRecord_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBiSettleRecord" EntitySet="bmUserMaBiSettleRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiSettleRecord_aspnet_Users1" Association="Self.FK_bmUserMaBiSettleRecord_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmUserMaBiSettleRecord" EntitySet="bmUserMaBiSettleRecords" />
           </AssociationSet>
           <AssociationSet Name="FK_bmUserWeixin_aspnet_Users" Association="Self.FK_bmUserWeixin_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
@@ -7481,6 +7707,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_kqDeptCPT_aspnet_Users" Association="Self.FK_kqDeptCPT_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="kqDUCPT" EntitySet="kqDUCPTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wmfAuthentication_aspnet_Users" Association="Self.FK_wmfAuthentication_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="wmfAuthentication" EntitySet="wmfAuthentications" />
           </AssociationSet>
           <AssociationSet Name="FK_wmfMail_aspnet_Users" Association="Self.FK_wmfMail_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
@@ -7522,6 +7752,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmQA" EntitySet="bmQAs" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmQA_wmfReference2" Association="Self.FK_bmQA_wmfReference2">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmQA" EntitySet="bmQAs" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmRecharge_wmfReference" Association="Self.FK_bmRecharge_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmRecharge" EntitySet="bmRecharges" />
@@ -7538,6 +7772,14 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmRecharge" EntitySet="bmRecharges" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmTakeNow_wmfReference" Association="Self.FK_bmTakeNow_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmTakeNow_wmfReference1" Association="Self.FK_bmTakeNow_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmUserMaBi_wmfReference" Association="Self.FK_bmUserMaBi_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmUserMaBi" EntitySet="bmUserMaBis" />
@@ -7549,6 +7791,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_bmUserMaBiRecord_wmfReference1" Association="Self.FK_bmUserMaBiRecord_wmfReference1">
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiSettleRecord_wmfReference" Association="Self.FK_bmUserMaBiSettleRecord_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmUserMaBiSettleRecord" EntitySet="bmUserMaBiSettleRecords" />
           </AssociationSet>
           <AssociationSet Name="FK_kqCPTCS_kqCalssPlanTemplate" Association="Self.FK_kqCPTCS_kqCalssPlanTemplate">
             <End Role="kqCalssPlanTemplate" EntitySet="kqCalssPlanTemplates" />
@@ -7617,6 +7863,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_wmfDept_wmfArea" Association="Self.FK_wmfDept_wmfArea">
             <End Role="wmfArea" EntitySet="wmfAreas" />
             <End Role="wmfDept" EntitySet="wmfDepts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wmfAuthentication_wmfReference" Association="Self.FK_wmfAuthentication_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="wmfAuthentication" EntitySet="wmfAuthentications" />
           </AssociationSet>
           <AssociationSet Name="FK_wmfCalendar_wmfReference" Association="Self.FK_wmfCalendar_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReferences" />
@@ -7754,216 +8004,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <EntitySet Name="bmTakeNows" EntityType="MorSun.Model.bmTakeNow" />
-          <EntitySet Name="bmUserMaBiSettleRecords" EntityType="MorSun.Model.bmUserMaBiSettleRecord" />
-          <EntitySet Name="wmfAuthentications" EntityType="MorSun.Model.wmfAuthentication" />
-          <AssociationSet Name="FK_bmTakeNow_aspnet_Users" Association="MorSun.Model.FK_bmTakeNow_aspnet_Users">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bmTakeNow_aspnet_Users1" Association="MorSun.Model.FK_bmTakeNow_aspnet_Users1">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bmUserMaBiSettleRecord_aspnet_Users" Association="MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="bmUserMaBiSettleRecord" EntitySet="bmUserMaBiSettleRecords" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bmUserMaBiSettleRecord_aspnet_Users1" Association="MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="bmUserMaBiSettleRecord" EntitySet="bmUserMaBiSettleRecords" />
-          </AssociationSet>
-          <AssociationSet Name="FK_wmfAuthentication_aspnet_Users" Association="MorSun.Model.FK_wmfAuthentication_aspnet_Users">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="wmfAuthentication" EntitySet="wmfAuthentications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bmTakeNow_wmfReference" Association="MorSun.Model.FK_bmTakeNow_wmfReference">
-            <End Role="wmfReference" EntitySet="wmfReferences" />
-            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bmTakeNow_wmfReference1" Association="MorSun.Model.FK_bmTakeNow_wmfReference1">
-            <End Role="wmfReference" EntitySet="wmfReferences" />
-            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bmUserMaBiSettleRecord_wmfReference" Association="MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference">
-            <End Role="wmfReference" EntitySet="wmfReferences" />
-            <End Role="bmUserMaBiSettleRecord" EntitySet="bmUserMaBiSettleRecords" />
-          </AssociationSet>
-          <AssociationSet Name="FK_wmfAuthentication_wmfReference" Association="MorSun.Model.FK_wmfAuthentication_wmfReference">
-            <End Role="wmfReference" EntitySet="wmfReferences" />
-            <End Role="wmfAuthentication" EntitySet="wmfAuthentications" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="bmTakeNow">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="UserId" Type="Guid" />
-          <Property Name="MaBiNum" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="Effective" Type="Guid" />
-          <Property Name="TakeRef" Type="Guid" />
-          <Property Name="UserRemark" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="BMExplain" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="Sort" Type="Int32" />
-          <Property Name="RegUser" Type="Guid" />
-          <Property Name="RegTime" Type="DateTime" Precision="3" />
-          <Property Name="ModTime" Type="DateTime" Precision="3" />
-          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
-          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmTakeNow_aspnet_Users" FromRole="bmTakeNow" ToRole="aspnet_Users" />
-          <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmTakeNow_aspnet_Users1" FromRole="bmTakeNow" ToRole="aspnet_Users" />
-          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmTakeNow_wmfReference" FromRole="bmTakeNow" ToRole="wmfReference" />
-          <NavigationProperty Name="wmfReference1" Relationship="MorSun.Model.FK_bmTakeNow_wmfReference1" FromRole="bmTakeNow" ToRole="wmfReference" />
-          <Property Name="TakeTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="bmUserMaBiSettleRecord">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="UserId" Type="Guid" />
-          <Property Name="MaBiRef" Type="Guid" />
-          <Property Name="MaBiNum" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="SettleTime" Type="DateTime" Precision="3" />
-          <Property Name="Sort" Type="Int32" />
-          <Property Name="RegUser" Type="Guid" />
-          <Property Name="RegTime" Type="DateTime" Precision="3" />
-          <Property Name="ModTime" Type="DateTime" Precision="3" />
-          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
-          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users" FromRole="bmUserMaBiSettleRecord" ToRole="aspnet_Users" />
-          <NavigationProperty Name="aspnet_Users1" Relationship="MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1" FromRole="bmUserMaBiSettleRecord" ToRole="aspnet_Users" />
-          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference" FromRole="bmUserMaBiSettleRecord" ToRole="wmfReference" />
-        </EntityType>
-        <EntityType Name="wmfAuthentication">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="UserRef" Type="Guid" />
-          <Property Name="TrueName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CardNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AliPayNum" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="BankNum" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="Sort" Type="Int32" />
-          <Property Name="RegUser" Type="Guid" />
-          <Property Name="RegTime" Type="DateTime" Precision="3" />
-          <Property Name="ModTime" Type="DateTime" Precision="3" />
-          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
-          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_wmfAuthentication_aspnet_Users" FromRole="wmfAuthentication" ToRole="aspnet_Users" />
-          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_wmfAuthentication_wmfReference" FromRole="wmfAuthentication" ToRole="wmfReference" />
-        </EntityType>
-        <Association Name="FK_bmTakeNow_aspnet_Users">
-          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmTakeNow" Role="bmTakeNow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="bmTakeNow">
-              <PropertyRef Name="RegUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_bmTakeNow_aspnet_Users1">
-          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmTakeNow" Role="bmTakeNow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="bmTakeNow">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_bmUserMaBiSettleRecord_aspnet_Users">
-          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmUserMaBiSettleRecord" Role="bmUserMaBiSettleRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="bmUserMaBiSettleRecord">
-              <PropertyRef Name="RegUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_bmUserMaBiSettleRecord_aspnet_Users1">
-          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmUserMaBiSettleRecord" Role="bmUserMaBiSettleRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="bmUserMaBiSettleRecord">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_wmfAuthentication_aspnet_Users">
-          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="1" />
-          <End Type="MorSun.Model.wmfAuthentication" Role="wmfAuthentication" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="wmfAuthentication">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_bmTakeNow_wmfReference">
-          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmTakeNow" Role="bmTakeNow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="wmfReference">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="bmTakeNow">
-              <PropertyRef Name="Effective" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_bmTakeNow_wmfReference1">
-          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmTakeNow" Role="bmTakeNow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="wmfReference">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="bmTakeNow">
-              <PropertyRef Name="TakeRef" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_bmUserMaBiSettleRecord_wmfReference">
-          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmUserMaBiSettleRecord" Role="bmUserMaBiSettleRecord" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="wmfReference">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="bmUserMaBiSettleRecord">
-              <PropertyRef Name="MaBiRef" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_wmfAuthentication_wmfReference">
-          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
-          <End Type="MorSun.Model.wmfAuthentication" Role="wmfAuthentication" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="wmfReference">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="wmfAuthentication">
-              <PropertyRef Name="UserRef" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8163,9 +8204,12 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
                 <ScalarProperty Name="QARef" ColumnName="QARef" />
                 <ScalarProperty Name="QAContent" ColumnName="QAContent" />
-                <ScalarProperty Name="Profile" ColumnName="Profile" />
                 <ScalarProperty Name="MaBiRef" ColumnName="MaBiRef" />
                 <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
+                <ScalarProperty Name="MsgId" ColumnName="MsgId" />
+                <ScalarProperty Name="MsgType" ColumnName="MsgType" />
+                <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="RegUser" ColumnName="RegUser" />
                 <ScalarProperty Name="RegTime" ColumnName="RegTime" />
@@ -8186,6 +8230,26 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="KaMe" ColumnName="KaMe" />
                 <ScalarProperty Name="Effective" ColumnName="Effective" />
                 <ScalarProperty Name="Recharge" ColumnName="Recharge" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmTakeNows">
+            <EntityTypeMapping TypeName="MorSun.Model.bmTakeNow">
+              <MappingFragment StoreEntitySet="bmTakeNow">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
+                <ScalarProperty Name="Effective" ColumnName="Effective" />
+                <ScalarProperty Name="TakeRef" ColumnName="TakeRef" />
+                <ScalarProperty Name="UserRemark" ColumnName="UserRemark" />
+                <ScalarProperty Name="BMExplain" ColumnName="BMExplain" />
+                <ScalarProperty Name="TakeTime" ColumnName="TakeTime" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="RegUser" ColumnName="RegUser" />
                 <ScalarProperty Name="RegTime" ColumnName="RegTime" />
@@ -8221,6 +8285,23 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="MaBiRef" ColumnName="MaBiRef" />
                 <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
                 <ScalarProperty Name="IsSettle" ColumnName="IsSettle" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmUserMaBiSettleRecords">
+            <EntityTypeMapping TypeName="MorSun.Model.bmUserMaBiSettleRecord">
+              <MappingFragment StoreEntitySet="bmUserMaBiSettleRecord">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="MaBiRef" ColumnName="MaBiRef" />
+                <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
+                <ScalarProperty Name="SettleTime" ColumnName="SettleTime" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="RegUser" ColumnName="RegUser" />
                 <ScalarProperty Name="RegTime" ColumnName="RegTime" />
@@ -9362,6 +9443,25 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="wmfAuthentications">
+            <EntityTypeMapping TypeName="MorSun.Model.wmfAuthentication">
+              <MappingFragment StoreEntitySet="wmfAuthentication">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserRef" ColumnName="UserRef" />
+                <ScalarProperty Name="TrueName" ColumnName="TrueName" />
+                <ScalarProperty Name="CardNum" ColumnName="CardNum" />
+                <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+                <ScalarProperty Name="AliPayNum" ColumnName="AliPayNum" />
+                <ScalarProperty Name="BankNum" ColumnName="BankNum" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="wmfCalendars">
             <EntityTypeMapping TypeName="MorSun.Model.wmfCalendar">
               <MappingFragment StoreEntitySet="wmfCalendar">
@@ -10027,62 +10127,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="bmTakeNows">
-            <EntityTypeMapping TypeName="MorSun.Model.bmTakeNow">
-              <MappingFragment StoreEntitySet="bmTakeNow">
-                <ScalarProperty Name="TakeTime" ColumnName="TakeTime" />
-                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
-                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
-                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="BMExplain" ColumnName="BMExplain" />
-                <ScalarProperty Name="UserRemark" ColumnName="UserRemark" />
-                <ScalarProperty Name="TakeRef" ColumnName="TakeRef" />
-                <ScalarProperty Name="Effective" ColumnName="Effective" />
-                <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="bmUserMaBiSettleRecords">
-            <EntityTypeMapping TypeName="MorSun.Model.bmUserMaBiSettleRecord">
-              <MappingFragment StoreEntitySet="bmUserMaBiSettleRecord">
-                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
-                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
-                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="SettleTime" ColumnName="SettleTime" />
-                <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
-                <ScalarProperty Name="MaBiRef" ColumnName="MaBiRef" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="wmfAuthentications">
-            <EntityTypeMapping TypeName="MorSun.Model.wmfAuthentication">
-              <MappingFragment StoreEntitySet="wmfAuthentication">
-                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
-                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
-                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="BankNum" ColumnName="BankNum" />
-                <ScalarProperty Name="AliPayNum" ColumnName="AliPayNum" />
-                <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
-                <ScalarProperty Name="CardNum" ColumnName="CardNum" />
-                <ScalarProperty Name="TrueName" ColumnName="TrueName" />
-                <ScalarProperty Name="UserRef" ColumnName="UserRef" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

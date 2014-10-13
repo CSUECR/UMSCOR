@@ -35,15 +35,20 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmQA_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmQA", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmQA), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmRecharge_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmRecharge", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmRecharge), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmRecharge_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmRecharge", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmRecharge), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBi_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBi", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBi), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBi_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBi", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBi), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiRecord_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBiRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiRecord), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiRecord_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBiRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiRecord), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserWeixin_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserWeixin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserWeixin), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserWeixin_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserWeixin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserWeixin), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_kqClassPlan_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "kqClassPlan", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.kqClassPlan), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_KQDELETESCHEDULE_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "KQDELETESCHEDULE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.KQDELETESCHEDULE), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_kqDeptCPT_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "kqDUCPT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.kqDUCPT), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfAuthentication_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.aspnet_Users), "wmfAuthentication", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfAuthentication), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfMail_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "wmfMail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfMail), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfMail_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "wmfMail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfMail), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfOperationalLogbook_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.aspnet_Users), "wmfOperationalLogbook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfOperationalLogbook), true)]
@@ -54,13 +59,17 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfUserInfo_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.aspnet_Users), "wmfUserInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfUserInfo), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmQA_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmQA", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmQA), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmQA_wmfReference1", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmQA", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmQA), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmQA_wmfReference2", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmQA", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmQA), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmRecharge_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmRecharge", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmRecharge), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmRecharge_wmfReference1", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmRecharge", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmRecharge), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmRecharge_wmfReference2", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmRecharge", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmRecharge), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmRecharge_wmfReference3", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmRecharge", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmRecharge), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference1", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBi_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmUserMaBi", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBi), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiRecord_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmUserMaBiRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiRecord), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiRecord_wmfReference1", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmUserMaBiRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiRecord), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_kqCPTCS_kqCalssPlanTemplate", "kqCalssPlanTemplate", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.kqCalssPlanTemplate), "kqCPTCS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.kqCPTC), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_kqDeptCPT_kqCalssPlanTemplate", "kqCalssPlanTemplate", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.kqCalssPlanTemplate), "kqDUCPT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.kqDUCPT), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_kqClassesRelation_kqClassesRef", "kqClassesRef", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.kqClassesRef), "kqClassesRelation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.kqClassesRelation), true)]
@@ -78,6 +87,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_QRTZ_SIMPROP_TRIGGERS_QRTZ_TRIGGERS", "QRTZ_TRIGGERS", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.QRTZ_TRIGGERS), "QRTZ_SIMPROP_TRIGGERS", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.QRTZ_SIMPROP_TRIGGERS), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfArea_wmfCounty", "wmfCounty", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.wmfCounty), "wmfArea", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfArea), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfDept_wmfArea", "wmfArea", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfArea), "wmfDept", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfDept), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfAuthentication_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfAuthentication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfAuthentication), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfCalendar_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfCalendar", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfCalendar), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfCalendar_wmfReference1", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfCalendar", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfCalendar), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfCalendar_wmfReference2", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfCalendar", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfCalendar), true)]
@@ -112,15 +122,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfResource_wmfResource", "wmfResource", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfResource), "wmfResource1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfResource), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfVillage_wmfTown", "wmfTown", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.wmfTown), "wmfVillage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfVillage), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "aspnet_UsersInRoles", "aspnet_Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Roles), "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Users))]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users1", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.aspnet_Users), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfAuthentication_aspnet_Users", "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.aspnet_Users), "wmfAuthentication", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfAuthentication), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference1", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmTakeNow), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmUserMaBiSettleRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiSettleRecord), true)]
-[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfAuthentication_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "wmfAuthentication", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfAuthentication), true)]
 
 #endregion
 
@@ -415,6 +416,22 @@ namespace MorSun.Model
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
+        public ObjectSet<bmTakeNow> bmTakeNows
+        {
+            get
+            {
+                if ((_bmTakeNows == null))
+                {
+                    _bmTakeNows = base.CreateObjectSet<bmTakeNow>("bmTakeNows");
+                }
+                return _bmTakeNows;
+            }
+        }
+        private ObjectSet<bmTakeNow> _bmTakeNows;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
         public ObjectSet<bmUserMaBi> bmUserMaBis
         {
             get
@@ -443,6 +460,22 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<bmUserMaBiRecord> _bmUserMaBiRecords;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
+        {
+            get
+            {
+                if ((_bmUserMaBiSettleRecords == null))
+                {
+                    _bmUserMaBiSettleRecords = base.CreateObjectSet<bmUserMaBiSettleRecord>("bmUserMaBiSettleRecords");
+                }
+                return _bmUserMaBiSettleRecords;
+            }
+        }
+        private ObjectSet<bmUserMaBiSettleRecord> _bmUserMaBiSettleRecords;
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -1615,6 +1648,22 @@ namespace MorSun.Model
         /// <summary>
         /// 没有元数据文档可用。
         /// </summary>
+        public ObjectSet<wmfAuthentication> wmfAuthentications
+        {
+            get
+            {
+                if ((_wmfAuthentications == null))
+                {
+                    _wmfAuthentications = base.CreateObjectSet<wmfAuthentication>("wmfAuthentications");
+                }
+                return _wmfAuthentications;
+            }
+        }
+        private ObjectSet<wmfAuthentication> _wmfAuthentications;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
         public ObjectSet<wmfCalendar> wmfCalendars
         {
             get
@@ -2155,54 +2204,6 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<wmfRolePrivilegesView> _wmfRolePrivilegesViews;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<bmTakeNow> bmTakeNows
-        {
-            get
-            {
-                if ((_bmTakeNows == null))
-                {
-                    _bmTakeNows = base.CreateObjectSet<bmTakeNow>("bmTakeNows");
-                }
-                return _bmTakeNows;
-            }
-        }
-        private ObjectSet<bmTakeNow> _bmTakeNows;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
-        {
-            get
-            {
-                if ((_bmUserMaBiSettleRecords == null))
-                {
-                    _bmUserMaBiSettleRecords = base.CreateObjectSet<bmUserMaBiSettleRecord>("bmUserMaBiSettleRecords");
-                }
-                return _bmUserMaBiSettleRecords;
-            }
-        }
-        private ObjectSet<bmUserMaBiSettleRecord> _bmUserMaBiSettleRecords;
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        public ObjectSet<wmfAuthentication> wmfAuthentications
-        {
-            get
-            {
-                if ((_wmfAuthentications == null))
-                {
-                    _wmfAuthentications = base.CreateObjectSet<wmfAuthentication>("wmfAuthentications");
-                }
-                return _wmfAuthentications;
-            }
-        }
-        private ObjectSet<wmfAuthentication> _wmfAuthentications;
 
         #endregion
 
@@ -2329,6 +2330,14 @@ namespace MorSun.Model
         }
     
         /// <summary>
+        /// 用于向 bmTakeNows EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTobmTakeNows(bmTakeNow bmTakeNow)
+        {
+            base.AddObject("bmTakeNows", bmTakeNow);
+        }
+    
+        /// <summary>
         /// 用于向 bmUserMaBis EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
         /// </summary>
         public void AddTobmUserMaBis(bmUserMaBi bmUserMaBi)
@@ -2342,6 +2351,14 @@ namespace MorSun.Model
         public void AddTobmUserMaBiRecords(bmUserMaBiRecord bmUserMaBiRecord)
         {
             base.AddObject("bmUserMaBiRecords", bmUserMaBiRecord);
+        }
+    
+        /// <summary>
+        /// 用于向 bmUserMaBiSettleRecords EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTobmUserMaBiSettleRecords(bmUserMaBiSettleRecord bmUserMaBiSettleRecord)
+        {
+            base.AddObject("bmUserMaBiSettleRecords", bmUserMaBiSettleRecord);
         }
     
         /// <summary>
@@ -2929,6 +2946,14 @@ namespace MorSun.Model
         }
     
         /// <summary>
+        /// 用于向 wmfAuthentications EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTowmfAuthentications(wmfAuthentication wmfAuthentication)
+        {
+            base.AddObject("wmfAuthentications", wmfAuthentication);
+        }
+    
+        /// <summary>
         /// 用于向 wmfCalendars EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
         /// </summary>
         public void AddTowmfCalendars(wmfCalendar wmfCalendar)
@@ -3198,30 +3223,6 @@ namespace MorSun.Model
         public void AddTowmfRolePrivilegesViews(wmfRolePrivilegesView wmfRolePrivilegesView)
         {
             base.AddObject("wmfRolePrivilegesViews", wmfRolePrivilegesView);
-        }
-    
-        /// <summary>
-        /// 用于向 bmTakeNows EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddTobmTakeNows(bmTakeNow bmTakeNow)
-        {
-            base.AddObject("bmTakeNows", bmTakeNow);
-        }
-    
-        /// <summary>
-        /// 用于向 bmUserMaBiSettleRecords EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddTobmUserMaBiSettleRecords(bmUserMaBiSettleRecord bmUserMaBiSettleRecord)
-        {
-            base.AddObject("bmUserMaBiSettleRecords", bmUserMaBiSettleRecord);
-        }
-    
-        /// <summary>
-        /// 用于向 wmfAuthentications EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
-        /// </summary>
-        public void AddTowmfAuthentications(wmfAuthentication wmfAuthentication)
-        {
-            base.AddObject("wmfAuthentications", wmfAuthentication);
         }
 
         #endregion
@@ -6379,6 +6380,50 @@ namespace MorSun.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users", "bmTakeNow")]
+        public EntityCollection<bmTakeNow> bmTakeNows
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "bmTakeNow", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users1", "bmTakeNow")]
+        public EntityCollection<bmTakeNow> bmTakeNows1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "bmTakeNow", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBi_aspnet_Users", "bmUserMaBi")]
         public EntityCollection<bmUserMaBi> bmUserMaBis
         {
@@ -6457,6 +6502,50 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiRecord>("MorSun.Model.FK_bmUserMaBiRecord_aspnet_Users1", "bmUserMaBiRecord", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord")]
+        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord")]
+        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord", value);
                 }
             }
         }
@@ -6567,6 +6656,44 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<kqDUCPT>("MorSun.Model.FK_kqDeptCPT_aspnet_Users", "kqDUCPT", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfAuthentication_aspnet_Users", "wmfAuthentication")]
+        public wmfAuthentication wmfAuthentication
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfAuthentication> wmfAuthenticationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication", value);
                 }
             }
         }
@@ -6781,132 +6908,6 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<aspnet_Roles>("MorSun.Model.aspnet_UsersInRoles", "aspnet_Roles", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users", "bmTakeNow")]
-        public EntityCollection<bmTakeNow> bmTakeNows
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "bmTakeNow");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users", "bmTakeNow", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_aspnet_Users1", "bmTakeNow")]
-        public EntityCollection<bmTakeNow> bmTakeNows1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "bmTakeNow");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_aspnet_Users1", "bmTakeNow", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord")]
-        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users", "bmUserMaBiSettleRecord", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord")]
-        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_aspnet_Users1", "bmUserMaBiSettleRecord", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfAuthentication_aspnet_Users", "wmfAuthentication")]
-        public wmfAuthentication wmfAuthentication
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication").Value = value;
-            }
-        }
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<wmfAuthentication> wmfAuthenticationReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_aspnet_Users", "wmfAuthentication", value);
                 }
             }
         }
@@ -7804,30 +7805,6 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String Profile
-        {
-            get
-            {
-                return _Profile;
-            }
-            set
-            {
-                OnProfileChanging(value);
-                ReportPropertyChanging("Profile");
-                _Profile = StructuralObject.SetValidValue(value, true, "Profile");
-                ReportPropertyChanged("Profile");
-                OnProfileChanged();
-            }
-        }
-        private global::System.String _Profile;
-        partial void OnProfileChanging(global::System.String value);
-        partial void OnProfileChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public Nullable<global::System.Guid> MaBiRef
         {
             get
@@ -7870,6 +7847,102 @@ namespace MorSun.Model
         private Nullable<global::System.Decimal> _MaBiNum;
         partial void OnMaBiNumChanging(Nullable<global::System.Decimal> value);
         partial void OnMaBiNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MsgId
+        {
+            get
+            {
+                return _MsgId;
+            }
+            set
+            {
+                OnMsgIdChanging(value);
+                ReportPropertyChanging("MsgId");
+                _MsgId = StructuralObject.SetValidValue(value, true, "MsgId");
+                ReportPropertyChanged("MsgId");
+                OnMsgIdChanged();
+            }
+        }
+        private global::System.String _MsgId;
+        partial void OnMsgIdChanging(global::System.String value);
+        partial void OnMsgIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> MsgType
+        {
+            get
+            {
+                return _MsgType;
+            }
+            set
+            {
+                OnMsgTypeChanging(value);
+                ReportPropertyChanging("MsgType");
+                _MsgType = StructuralObject.SetValidValue(value, "MsgType");
+                ReportPropertyChanged("MsgType");
+                OnMsgTypeChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _MsgType;
+        partial void OnMsgTypeChanging(Nullable<global::System.Guid> value);
+        partial void OnMsgTypeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MediaId
+        {
+            get
+            {
+                return _MediaId;
+            }
+            set
+            {
+                OnMediaIdChanging(value);
+                ReportPropertyChanging("MediaId");
+                _MediaId = StructuralObject.SetValidValue(value, true, "MediaId");
+                ReportPropertyChanged("MediaId");
+                OnMediaIdChanged();
+            }
+        }
+        private global::System.String _MediaId;
+        partial void OnMediaIdChanging(global::System.String value);
+        partial void OnMediaIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PicUrl
+        {
+            get
+            {
+                return _PicUrl;
+            }
+            set
+            {
+                OnPicUrlChanging(value);
+                ReportPropertyChanging("PicUrl");
+                _PicUrl = StructuralObject.SetValidValue(value, true, "PicUrl");
+                ReportPropertyChanged("PicUrl");
+                OnPicUrlChanged();
+            }
+        }
+        private global::System.String _PicUrl;
+        partial void OnPicUrlChanging(global::System.String value);
+        partial void OnPicUrlChanged();
     
         /// <summary>
         /// 没有元数据文档可用。
@@ -8167,6 +8240,44 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_bmQA_wmfReference1", "wmfReference", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmQA_wmfReference2", "wmfReference")]
+        public wmfReference wmfReference2
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmQA_wmfReference2", "wmfReference").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmQA_wmfReference2", "wmfReference").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfReference> wmfReference2Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmQA_wmfReference2", "wmfReference");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_bmQA_wmfReference2", "wmfReference", value);
                 }
             }
         }
@@ -8984,6 +9095,30 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> TakeTime
+        {
+            get
+            {
+                return _TakeTime;
+            }
+            set
+            {
+                OnTakeTimeChanging(value);
+                ReportPropertyChanging("TakeTime");
+                _TakeTime = StructuralObject.SetValidValue(value, "TakeTime");
+                ReportPropertyChanged("TakeTime");
+                OnTakeTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _TakeTime;
+        partial void OnTakeTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnTakeTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
         public Nullable<global::System.Int32> Sort
         {
             get
@@ -9122,30 +9257,6 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> TakeTime
-        {
-            get
-            {
-                return _TakeTime;
-            }
-            set
-            {
-                OnTakeTimeChanging(value);
-                ReportPropertyChanging("TakeTime");
-                _TakeTime = StructuralObject.SetValidValue(value, "TakeTime");
-                ReportPropertyChanged("TakeTime");
-                OnTakeTimeChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _TakeTime;
-        partial void OnTakeTimeChanging(Nullable<global::System.DateTime> value);
-        partial void OnTakeTimeChanged();
 
         #endregion
 
@@ -41035,6 +41146,28 @@ namespace MorSun.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmQA_wmfReference2", "bmQA")]
+        public EntityCollection<bmQA> bmQAs2
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmQA>("MorSun.Model.FK_bmQA_wmfReference2", "bmQA");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmQA>("MorSun.Model.FK_bmQA_wmfReference2", "bmQA", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmRecharge_wmfReference", "bmRecharge")]
         public EntityCollection<bmRecharge> bmRecharges
         {
@@ -41123,6 +41256,50 @@ namespace MorSun.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference", "bmTakeNow")]
+        public EntityCollection<bmTakeNow> bmTakeNows
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference", "bmTakeNow", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference1", "bmTakeNow")]
+        public EntityCollection<bmTakeNow> bmTakeNows1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference1", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference1", "bmTakeNow", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBi_wmfReference", "bmUserMaBi")]
         public EntityCollection<bmUserMaBi> bmUserMaBis
         {
@@ -41189,6 +41366,28 @@ namespace MorSun.Model
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord")]
+        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_kqClassesSequence_wmfReference", "kqClassesSequence")]
         public EntityCollection<kqClassesSequence> kqClassesSequences
         {
@@ -41223,6 +41422,28 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<kqPort>("MorSun.Model.FK_kqPort_wmfReference", "kqPort", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfAuthentication_wmfReference", "wmfAuthentication")]
+        public EntityCollection<wmfAuthentication> wmfAuthentications
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfAuthentication");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfAuthentication", value);
                 }
             }
         }
@@ -41525,94 +41746,6 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfUserInfo>("MorSun.Model.FK_wmfUserInfo_wmfReference", "wmfUserInfo", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference", "bmTakeNow")]
-        public EntityCollection<bmTakeNow> bmTakeNows
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference", "bmTakeNow");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference", "bmTakeNow", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmTakeNow_wmfReference1", "bmTakeNow")]
-        public EntityCollection<bmTakeNow> bmTakeNows1
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference1", "bmTakeNow");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmTakeNow>("MorSun.Model.FK_bmTakeNow_wmfReference1", "bmTakeNow", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord")]
-        public EntityCollection<bmUserMaBiSettleRecord> bmUserMaBiSettleRecords
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiSettleRecord>("MorSun.Model.FK_bmUserMaBiSettleRecord_wmfReference", "bmUserMaBiSettleRecord", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 没有元数据文档可用。
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_wmfAuthentication_wmfReference", "wmfAuthentication")]
-        public EntityCollection<wmfAuthentication> wmfAuthentications
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfAuthentication");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfAuthentication>("MorSun.Model.FK_wmfAuthentication_wmfReference", "wmfAuthentication", value);
                 }
             }
         }
