@@ -216,7 +216,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 Title = "使用",
                 Description = "马币值",
                 PicUrl = "",
-                Url = ""
+                Url = "".GHU() + "/QA/Q/" + model.ID.ToString()
             });
             return responseMessage;
         }

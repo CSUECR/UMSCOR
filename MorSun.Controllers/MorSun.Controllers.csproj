@@ -75,6 +75,7 @@
     <Compile Include="Base\ExportExcel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ControllersWeiXin\QAController.cs" />
     <Compile Include="ControllersWeiXin\WXZYBController.cs" />
     <Compile Include="Filter\ExceptionFilter.cs" />
     <Compile Include="Filter\PrivilegeAttribute.cs" />

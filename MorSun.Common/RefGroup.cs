@@ -184,6 +184,8 @@ namespace MorSun.Common
 
             //微信
             public const string 作业邦微信令牌 = "WXZYBung34fdjs38";
+
+            public const string 看答案指令 = "DA==>";
         }
     }
 }
