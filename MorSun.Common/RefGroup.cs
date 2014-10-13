@@ -87,6 +87,19 @@ namespace MorSun.Common
             public const string 新闻类别_维基 = "9e72c2d3-0659-46fa-8cfc-3a0f392e7192";
             public const string 新闻类别_通知 = "5b0bc466-04d8-4ef4-bf1a-7c113108b41f";
             
+
+            //问答类别
+            public const string 问答类别_问题 = "14a751b6-c23c-463c-8fdd-dff1839210b9";
+            public const string 问答类别_答案 = "0b2f6da1-2f15-424a-9f96-6a43e5927f6d";
+            public const string 问答类别_评论 = "590fcb9e-88b5-4f22-bc1f-be04c0d55c84";
+
+            //微信消息类别
+            public const string 微信消息类别_文本 = "274a7194-7294-4cb5-9f62-3da299390dae";
+            public const string 微信消息类别_图片 = "218e60f3-a822-453d-a829-772307534ded";
+            public const string 微信消息类别_声音 = "b71f4cde-c13a-4dbe-a4ef-2ef99f51b426";
+            public const string 微信消息类别_链接 = "b57b534e-2363-488c-a008-d02aa95b4f3d";
+            public const string 微信消息类别_视频 = "7330de99-74b7-42d3-9f92-04dcd98b25af";
+            
             #endregion
 
         }
@@ -138,7 +151,20 @@ namespace MorSun.Common
             /// </summary>
             public const string 资源类别 = "03cd2760-026a-4bfb-906f-1af92bec5681";
 
+            /// <summary>
+            /// 导航菜单
+            /// </summary>
             public const string 导航菜单 = "93fe60d1-e4d5-413f-939f-1869cb3be726";
+
+            /// <summary>
+            /// 问答类别
+            /// </summary>
+            public const string 问答类别 = "9e74d4b7-eef6-416e-9726-2422e7dd618f";
+
+            /// <summary>
+            /// 微信消息类别
+            /// </summary>
+            public const string 微信消息类别 = "d0774341-fbd0-4f7c-b5af-a72e3e8dabc2";
         }
     }    
 

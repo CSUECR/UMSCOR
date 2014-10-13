@@ -7,6 +7,9 @@ using Senparc.Weixin.Context;
 using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.MessageHandlers;
 using Senparc.Weixin.MP.Helpers;
+using MorSun.Bll;
+using MorSun.Model;
+using MorSun.Common.类别;
 
 namespace MorSun.WX.ZYB.Service.CustomMessageHandler
 {
@@ -179,6 +182,27 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnImageRequest(RequestMessageImage requestMessage)
         {
+            //将图片信息保存进数据库
+            var bll = new BaseBll<bmQA>();
+            var model = new bmQA();
+
+            model.ID = Guid.NewGuid();
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_问题);
+            //判断马币
+
+            model.MsgId = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
+            model.MediaId = requestMessage.MediaId;
+            model.PicUrl = requestMessage.PicUrl;
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+
+            bll.Insert(model);
+
             var responseMessage = CreateResponseMessage<ResponseMessageNews>();
             responseMessage.Articles.Add(new Article()
             {
