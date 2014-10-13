@@ -8,7 +8,7 @@ using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Helpers;
 using Senparc.Weixin.MP.MessageHandlers;
 
-namespace MorSun.WX.Service.CustomMessageHandler
+namespace MorSun.WX.ZYB.Service.CustomMessageHandler
 {
     /// <summary>
     /// 自定义MessageHandler
@@ -17,16 +17,16 @@ namespace MorSun.WX.Service.CustomMessageHandler
     {
         private string GetWelcomeInfo()
         {
-            var returnStr = @"欢迎关注【作业邦】，
-从此问题不会难。
-哪里不会拍哪里，
-老师学霸帮你忙。
-节省无尽脑细胞，
-乐享生活快成长！
-自从有了【作业邦】，
-咔嚓咔嚓无限爽。
+            var returnStr = @"欢迎关注【作业邦】
+从此问题不会难
+哪里不会拍哪里
+老师学霸帮你忙
+节省无尽脑细胞
+乐享生活快成长
+自从有了【作业邦】
+咔嚓咔嚓无限爽
 更多内容
-请上www.bungma.com了解。";
+请上www.bungma.com了解";
             return returnStr;
         }
 

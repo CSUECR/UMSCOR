@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorSun.Bll", "MorSun.Bll\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorSun", "MorSun\MorSun.csproj", "{DC4F36B2-558E-410F-B0C8-F093D5EDDF3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorSun.WX.Service", "MorSun.WX.Service\MorSun.WX.Service.csproj", "{85D316A9-F411-4D50-BC06-0DACDDC78D46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorSun.WX.ZYB.Service", "MorSun.WX.Service\MorSun.WX.ZYB.Service.csproj", "{85D316A9-F411-4D50-BC06-0DACDDC78D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,7 @@ using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Entities.GoogleMap;
 using Senparc.Weixin.MP.Helpers;
 
-namespace MorSun.WX.Service
+namespace MorSun.WX.ZYB.Service
 {
     public class LocationService
     {

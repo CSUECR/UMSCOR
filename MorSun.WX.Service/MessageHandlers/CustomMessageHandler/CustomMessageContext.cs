@@ -6,7 +6,7 @@ using System.Text;
 using Senparc.Weixin.Context;
 using Senparc.Weixin.MP.Entities;
 
-namespace MorSun.WX.Service.CustomMessageHandler
+namespace MorSun.WX.ZYB.Service.CustomMessageHandler
 {
     public class CustomMessageContext : MessageContext<IRequestMessageBase,IResponseMessageBase>
     {

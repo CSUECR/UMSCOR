@@ -10,16 +10,16 @@ using MorSun.Common.类别;
 using MorSun.Common.配置;
 using Senparc.Weixin.MP.MvcExtension;
 using Senparc.Weixin.MP;
-using MorSun.WX.Service.CustomMessageHandler;
+using MorSun.WX.ZYB.Service.CustomMessageHandler;
 using System.IO;
 
 
 
 namespace MorSun.Controllers
 {
-    public class WXController : Controller
+    public class WXZYBController : Controller
     {
-        public WXController() { }
+        public WXZYBController() { }
 
         /// <summary>
         /// 微信后台验证地址（使用Get），微信后台的“接口配置信息”的Url填写如：http://weixin.senparc.com/weixin
@@ -62,11 +62,11 @@ namespace MorSun.Controllers
             try
             {
                 //测试时可开启此记录，帮助跟踪数据，使用前请确保App_Data文件夹存在，且有读写权限。
-                messageHandler.RequestDocument.Save(Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
+                messageHandler.RequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
                 //执行微信处理过程
                 messageHandler.Execute();
                 //测试时可开启，帮助跟踪数据
-                messageHandler.ResponseDocument.Save(Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
+                messageHandler.ResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
 
                 //return Content(messageHandler.ResponseDocument.ToString());//v0.7-
                 return new FixWeixinBugWeixinResult(messageHandler);//为了解决官方微信5.0软件换行bug暂时添加的方法，平时用下面一个方法即可
@@ -74,7 +74,7 @@ namespace MorSun.Controllers
             }
             catch (Exception ex)
             {
-                using (TextWriter tw = new StreamWriter(Server.MapPath("~/App_Data/Error_" + DateTime.Now.Ticks + ".txt")))
+                using (TextWriter tw = new StreamWriter(Server.MapPath("~/UploadFile/WeiXinData/Error_" + DateTime.Now.Ticks + ".txt")))
                 {
                     tw.WriteLine("ExecptionMessage:" + ex.Message);
                     tw.WriteLine(ex.Source);

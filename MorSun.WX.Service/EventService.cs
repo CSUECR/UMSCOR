@@ -5,7 +5,7 @@ using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.Helpers;
 using Senparc.Weixin.MP;
 
-namespace MorSun.WX.Service
+namespace MorSun.WX.ZYB.Service
 {
     /// <summary>
     /// 事件处理程序，此代码的简化MessageHandler方法已由/CustomerMessageHandler/CustomerMessageHandler_Event.cs完成，
