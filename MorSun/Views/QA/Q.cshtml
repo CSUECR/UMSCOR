@@ -1,0 +1,78 @@
+﻿@model BMQAVModel
+@{
+    ViewBag.Title = "查看答案";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";    
+    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";    
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>查看答案</div>                    
+                </div>
+                <div class="portlet-body">
+                    <table id="MoreSunTreeTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>类别组名</th>
+                                <th>序号</th>
+                                <th>操作</th>
+                                @*<th class="hidden-480">Username</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                Action<bmQA> action = (i) =>
+                                        {
+                                            Func<bmQA, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
+                                                <td style="text-align:left;">
+                                                    <span class="treespan folder ui-draggable">
+                                                        @if(item.MsgType == Guid.Parse(MorSun.Common.类别.Reference.微信消息类别_图片))
+                                                        {
+                                                            <img src="@item.PicUrl"/>
+                                                        }
+                                                        else 
+                                                        {
+                                                            @item.QAContent
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    @item.Sort
+                                                </td>                                                
+                                            </tr>;
+                                            Write(fun(i));
+                                        };
+                                    Model.Each(Model.Roots, action);
+                                }
+                                                       
+                            @*<tr>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>Otto</td>
+                            <td class="hidden-480">makr124</td>
+                                <td><span class="label label-success">Approved</span></td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+        @Styles.Render("~/Content/treetableCss")
+        @Scripts.Render("~/bundles/treetable")  
+        <script type="text/javascript">  
+            @if (Model.FlagTrashed == "0")
+            {
+               @:morsunTreeTable('#MoreSunTreeTable', "expanded", true);
+            }
+        </script>
+    }

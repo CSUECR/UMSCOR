@@ -744,6 +744,7 @@
     <Content Include="Views\Shared\_HtmlEditor.cshtml" />
     <Content Include="Views\Member\Take.cshtml" />
     <Content Include="Views\Member\MaBiSettle.cshtml" />
+    <Content Include="Views\QA\Q.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

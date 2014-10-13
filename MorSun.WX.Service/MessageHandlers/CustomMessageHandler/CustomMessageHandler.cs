@@ -206,15 +206,15 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var responseMessage = CreateResponseMessage<ResponseMessageNews>();
             responseMessage.Articles.Add(new Article()
             {
-                Title = "问题ID",
-                Description = "问题ID",
+                Title = "使用",
+                Description = "消耗马币值",
                 PicUrl = requestMessage.PicUrl,
                 Url = requestMessage.PicUrl
             });
             responseMessage.Articles.Add(new Article()
             {
-                Title = "使用",
-                Description = "马币值",
+                Title = "点击此处打开页面看答案",
+                Description = "打开页面看答案",
                 PicUrl = "",
                 Url = "".GHU() + "/QA/Q/" + model.ID.ToString()
             });

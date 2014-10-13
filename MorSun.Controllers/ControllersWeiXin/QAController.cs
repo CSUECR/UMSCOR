@@ -4,16 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using MorSun.Controllers.ViewModel;
 
 namespace MorSun.Controllers
 {    
     [HandleError]
     public class QAController : Controller
     {
-        public String Q(string id)
+        public ActionResult Q(Guid? id)
         {
-            return CFG.看答案指令 + id;
+            var model = new BMQAVModel();
+            if(id != null)
+            { 
+                model.sParentId = id;
+                return View(model);
+            }    
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
         
     }

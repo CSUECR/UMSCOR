@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="ViewModel\BaseVM\BaseVModel.cs" />
     <Compile Include="ViewModel\BM\BMNewVModel.cs" />
+    <Compile Include="ViewModel\BM\BMQAVModel.cs" />
     <Compile Include="ViewModel\PCTD\CityVModel.cs" />
     <Compile Include="ViewModel\PCTD\CountyVModel.cs" />
     <Compile Include="ViewModel\Dept\DeptVModel.cs" />
