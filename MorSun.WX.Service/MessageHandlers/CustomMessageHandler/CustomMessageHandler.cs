@@ -217,7 +217,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 Description = "打开页面看答案",
                 PicUrl = "",
                 Url = "".GHU() + "/QA/Q/" + model.ID.ToString()
-            });
+            });//再增加 加码 求解题思路
             return responseMessage;
         }
 

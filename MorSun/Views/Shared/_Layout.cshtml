@@ -94,15 +94,15 @@
                     viewPos: 'top',
                     viewColor: 'black',
                     viewSize: '16',
-                    viewList: ['qzone', 'tqq', 'weixin', 'tsina', 'huaban', 'renren']
+                    viewList: ['qzone', 'tqq', 'tsina', 'huaban', 'renren']
                 }],
                 selectShare: [{
-                    "bdselectMiniList": ['qzone', 'tqq', 'weixin', 'tsina', 'huaban', 'renren']
+                    "bdselectMiniList": ['qzone', 'tqq', 'tsina', 'huaban', 'renren']
                 }]
             }
             with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
                    
-         </script>        
+         </script>        @*'weixin',*@ 
         @RenderSection("scripts", required: false)
     </body>
 </html>

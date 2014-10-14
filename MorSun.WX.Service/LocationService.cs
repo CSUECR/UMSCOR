@@ -32,13 +32,13 @@ namespace MorSun.WX.ZYB.Service
                 Title = "定位地点周边地图",
                 Url = mapUrl
             });
-            responseMessage.Articles.Add(new Article()
-            {
-                Title = "微信公众平台SDK 官网链接",
-                Description = "Senparc.Weixin.MK SDK地址",
-                PicUrl = "http://weixin.senparc.com/images/logo.jpg",
-                Url = "http://weixin.senparc.com"
-            });
+            //responseMessage.Articles.Add(new Article()
+            //{
+            //    Title = "微信公众平台SDK 官网链接",
+            //    Description = "Senparc.Weixin.MK SDK地址",
+            //    PicUrl = "http://weixin.senparc.com/images/logo.jpg",
+            //    Url = "http://weixin.senparc.com"
+            //});
 
             return responseMessage;
         }
