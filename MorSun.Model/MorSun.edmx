@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -201,6 +201,7 @@
           <Property Name="MsgType" Type="uniqueidentifier" />
           <Property Name="MediaId" Type="nvarchar" MaxLength="512" />
           <Property Name="PicUrl" Type="nvarchar" MaxLength="512" />
+          <Property Name="State" Type="uniqueidentifier" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -3956,8 +3957,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -4209,6 +4209,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmQA_wmfReference" FromRole="bmQA" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmQA_wmfReference1" FromRole="bmQA" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference2" Relationship="Self.FK_bmQA_wmfReference2" FromRole="bmQA" ToRole="wmfReference" />
+          <Property Name="State" Type="Guid" />
         </EntityType>
         <EntityType Name="bmRecharge">
           <Key>
@@ -8198,6 +8199,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmQAs">
             <EntityTypeMapping TypeName="MorSun.Model.bmQA">
               <MappingFragment StoreEntitySet="bmQA">
+                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />

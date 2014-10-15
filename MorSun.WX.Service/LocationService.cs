@@ -34,10 +34,10 @@ namespace MorSun.WX.ZYB.Service
             });
             //responseMessage.Articles.Add(new Article()
             //{
-            //    Title = "微信公众平台SDK 官网链接",
-            //    Description = "Senparc.Weixin.MK SDK地址",
-            //    PicUrl = "http://weixin.senparc.com/images/logo.jpg",
-            //    Url = "http://weixin.senparc.com"
+            //    Title = "邦马网",
+            //    Description = "邦马网",
+            //    PicUrl = "http://www.bungma.com",
+            //    Url = "http://www.bungma.com"
             //});
 
             return responseMessage;

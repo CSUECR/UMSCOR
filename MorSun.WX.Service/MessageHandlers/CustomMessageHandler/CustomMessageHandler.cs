@@ -229,7 +229,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         public override IResponseMessageBase OnVoiceRequest(RequestMessageVoice requestMessage)
         {
             //var responseMessage = CreateResponseMessage<ResponseMessageMusic>();
-            //responseMessage.Music.MusicUrl = "http://weixin.senparc.com/Content/music1.mp3";
+            //responseMessage.Music.MusicUrl = "http://www.bungma.com/Content/music1.mp3";
             //responseMessage.Music.Title = "这里是一条音乐消息";
             //responseMessage.Music.Description = "来自Jeffrey Su的美妙歌声~~";
             //responseMessage.Music.ThumbMediaId = "mediaid";
