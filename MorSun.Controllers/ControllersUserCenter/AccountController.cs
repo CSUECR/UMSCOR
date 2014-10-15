@@ -470,6 +470,12 @@ namespace MorSun.Controllers
             {
                 Cookie_login = new HttpCookie("BIC");
                 Cookie_login["BIC"] = id;                
+            }//为空时直接注册会有问题
+            else if (Cookie_login == null)
+            {
+                //无值时设置为bungma
+                Cookie_login = new HttpCookie("BIC");
+                Cookie_login["BIC"] = "bungma";
             }
             //对修改 及 新创建的cookie进行重新管理
             Cookie_login.Path = "/";
