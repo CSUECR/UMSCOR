@@ -7640,12 +7640,14 @@ namespace MorSun.Model
         /// <param name="id">ID 属性的初始值。</param>
         /// <param name="flagTrashed">FlagTrashed 属性的初始值。</param>
         /// <param name="flagDeleted">FlagDeleted 属性的初始值。</param>
-        public static bmQA CreatebmQA(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted)
+        /// <param name="autoGrenteId">AutoGrenteId 属性的初始值。</param>
+        public static bmQA CreatebmQA(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted, global::System.Int64 autoGrenteId)
         {
             bmQA bmQA = new bmQA();
             bmQA.ID = id;
             bmQA.FlagTrashed = flagTrashed;
             bmQA.FlagDeleted = flagDeleted;
+            bmQA.AutoGrenteId = autoGrenteId;
             return bmQA;
         }
 
@@ -8111,6 +8113,30 @@ namespace MorSun.Model
         private Nullable<global::System.Guid> _State;
         partial void OnStateChanging(Nullable<global::System.Guid> value);
         partial void OnStateChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 AutoGrenteId
+        {
+            get
+            {
+                return _AutoGrenteId;
+            }
+            set
+            {
+                OnAutoGrenteIdChanging(value);
+                ReportPropertyChanging("AutoGrenteId");
+                _AutoGrenteId = StructuralObject.SetValidValue(value, "AutoGrenteId");
+                ReportPropertyChanged("AutoGrenteId");
+                OnAutoGrenteIdChanged();
+            }
+        }
+        private global::System.Int64 _AutoGrenteId;
+        partial void OnAutoGrenteIdChanging(global::System.Int64 value);
+        partial void OnAutoGrenteIdChanged();
 
         #endregion
 
