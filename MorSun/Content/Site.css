@@ -1706,7 +1706,10 @@ ul#menu {
         background-color: #bd0124;        
         color: #1a1011;
         padding: 20px 40px 30px 40px;
-        height:400px;
+        min-height:400px;/*兼容IE6的最小高度*/
+        height:100%;
+        _height:400px;       
+        overflow:auto;
     }
         .featured .content-wrapper .content-login {
             /*border:3px solid #332926;*/
@@ -2546,7 +2549,7 @@ tr.pager td {
     ----------------------------------------------------------*/
     header .float-left,
     header .float-right {
-        float: none;
+        /*float: none;  小屏幕的浏览器页面会乱掉*/
     }
 
     /* logo */
