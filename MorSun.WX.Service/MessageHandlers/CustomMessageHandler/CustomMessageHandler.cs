@@ -151,6 +151,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                                                 : "[非文字类型]"
                             );
                     }
+                    
                     result.AppendLine("\r\n");
                 }
 
