@@ -235,6 +235,15 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfResource_wmfResource" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MorSun.Model.bmOnlineQAUser" Width="1.5" PointX="19.75" PointY="53.75" />
+        <EntityTypeShape EntityType="MorSun.Model.bmQADistribution" Width="1.5" PointX="22.75" PointY="52.75" />
+        <AssociationConnector Association="MorSun.Model.FK_bmOnlineQAUser_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmOnlineQAUser_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmQADistribution_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmQADistribution_aspnet_Users1" />
+        <AssociationConnector Association="MorSun.Model.FK_bmOnlineQAUser_wmfReference" />
+        <AssociationConnector Association="MorSun.Model.FK_bmQADistribution_wmfReference" />
+        <AssociationConnector Association="MorSun.Model.FK_wmfUserInfo_wmfReference1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

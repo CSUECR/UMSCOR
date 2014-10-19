@@ -1,8 +1,8 @@
 ﻿@{
     //用户没登录，取不到值
     //var userinfo = MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
-    HttpCookie Cookie_login = Request.Cookies["BIC"];
-    var bic = Cookie_login["BIC"].ToString();
+    HttpCookie Cookie_login = Request.Cookies["HIC"];
+    var bic = Cookie_login["HIC"].ToString();
     var encodeurl = HttpUtility.UrlEncode(Request.Url.ToString());
 }
 <!DOCTYPE html>
@@ -78,7 +78,7 @@
                 common: {
                     bdText: '自定义分享内容',
                     bdDesc: '自定义分享摘要',
-                    bdUrl: '@("ServiceDomain".GHU())/Home/Index?bic=@(bic)&returnUrl=@(encodeurl)',
+                    bdUrl: '@("ServiceDomain".GHU())/Home/Index?id=@(bic)&returnUrl=@(encodeurl)',
                     bdPic: '@("ServiceDomain".GHU())/images/logo.gif',
                 },
                 share: [{

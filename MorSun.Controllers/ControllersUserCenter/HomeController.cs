@@ -14,38 +14,38 @@ namespace MorSun.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(string bic, string returnUrl)
+        public ActionResult Index(string id, string returnUrl)
         {
-            HttpCookie Cookie_login = Request.Cookies["BIC"];
-            if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["BIC"].ToString()))
+            HttpCookie Cookie_login = Request.Cookies["HIC"];
+            if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["HIC"].ToString()))
             {
-                if(String.IsNullOrEmpty(bic))
-                    bic = Cookie_login["BIC"].ToString();
-                else if(!Cookie_login["BIC"].ToString().Eql(bic))
+                if(String.IsNullOrEmpty(id))
+                    id = Cookie_login["HIC"].ToString();
+                else if(!Cookie_login["HIC"].ToString().Eql(id))
                 {
-                    Cookie_login = new HttpCookie("BIC");
-                    Cookie_login["BIC"] = bic;
+                    Cookie_login = new HttpCookie("HIC");
+                    Cookie_login["HIC"] = id;
                 }
             }
-            else if(!String.IsNullOrEmpty(bic))
+            else if(!String.IsNullOrEmpty(id))
             {
-                Cookie_login = new HttpCookie("BIC");
-                Cookie_login["BIC"] = bic;                
+                Cookie_login = new HttpCookie("HIC");
+                Cookie_login["HIC"] = id;                
             }
             else if(Cookie_login == null)
             {
                 //无值时设置为bungma
-                Cookie_login = new HttpCookie("BIC");
-                Cookie_login["BIC"] = "bungma";
+                Cookie_login = new HttpCookie("HIC");
+                Cookie_login["HIC"] = "bungma";
             }
 
             //如果用户已经登录，则设置cookei为当前用户，防止用户未退出但被人推广
             if(User != null && User.Identity.IsAuthenticated)
             {
                 var uinfo = MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
-                if(!Cookie_login["BIC"].ToString().Eql(uinfo.HamInviteCode))
+                if(!Cookie_login["HIC"].ToString().Eql(uinfo.HamInviteCode))
                 {
-                    Cookie_login["BIC"] = uinfo.HamInviteCode;
+                    Cookie_login["HIC"] = uinfo.HamInviteCode;
                 }
             }
 
@@ -153,9 +153,9 @@ namespace MorSun.Controllers
             if (user.wmfUserInfo != null && !String.IsNullOrEmpty(user.wmfUserInfo.HamInviteCode))
             {
                 //用户登录都更换推广码,否则用之前的推广码。
-                HttpCookie Cookie_login = Request.Cookies["BIC"];
-                Cookie_login = new HttpCookie("BIC");
-                Cookie_login["BIC"] = user.wmfUserInfo.HamInviteCode;
+                HttpCookie Cookie_login = Request.Cookies["HIC"];
+                Cookie_login = new HttpCookie("HIC");
+                Cookie_login["HIC"] = user.wmfUserInfo.HamInviteCode;
                 //对修改 及 新创建的cookie进行重新管理
                 Cookie_login.Path = "/";
                 Cookie_login.Expires = DateTime.Now.AddDays(1);
