@@ -19,7 +19,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         {
             var returnStr = @"欢迎关注【作业邦】
 从此问题不会难
-哪里不会拍哪里
+遇到问题拍一拍
 老师学霸帮你忙
 节省无尽脑细胞
 乐享生活快成长
