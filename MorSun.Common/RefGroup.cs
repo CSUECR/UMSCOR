@@ -186,6 +186,14 @@ namespace MorSun.Common
             public const string 作业邦微信令牌 = "WXZYBung34fdjs38";
 
             public const string 看答案指令 = "DA==>";
+
+
+
+
+
+            //默认微信账号
+            public const string 默认收费问题微信号 = "ocpytjv3hZIxb-GgNB0Q9-l3yWaI";//11
+            public const string 默认免费问题微信号 = "ocpytjqu5aLMNmuSoJPaNfD-O2UE";//12
         }
     }
 }
