@@ -59,7 +59,9 @@
     <Compile Include="AttributeExtensions\LocalizedRequiredAttribute.cs" />
     <Compile Include="AttributeExtensions\RequiredIfAttribute.cs" />
     <Compile Include="BM\bmNew.cs" />
-    <Compile Include="Cache\QACache.cs" />
+    <Compile Include="Cache\QACache.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Cache\UserMaBiCache.cs">
       <SubType>Code</SubType>
     </Compile>
