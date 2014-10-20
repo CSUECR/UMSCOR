@@ -11,12 +11,13 @@ namespace MorSun.Model
     /// <summary>
     /// 考虑到并发问题，这边一个在线答题用户一个缓存。不管用户放弃还是答题，已经处理过的问题都进AlreadyQA
     /// </summary>
-    public partial class QACache 
+    public class QACache 
     {
         /// <summary>
         /// 微信用户ID
         /// </summary>
         public string WeiXinId { get; set; }
+
         /// <summary>
         /// 当前问题ID
         /// </summary>
@@ -32,8 +33,4 @@ namespace MorSun.Model
         /// </summary>
         public IQueryable<bmQA> AlreadyQA { get; set; }
     }
-
-
-    
-
 }
