@@ -10,6 +10,7 @@ using Senparc.Weixin.MP.Helpers;
 using MorSun.Bll;
 using MorSun.Model;
 using MorSun.Common.类别;
+using MorSun.Common.配置;
 
 namespace MorSun.WX.ZYB.Service.CustomMessageHandler
 {
@@ -162,47 +163,28 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 responseMessage.Content = result.ToString();
             }
             return responseMessage;
-        }
+        }        
 
         /// <summary>
-        /// 处理位置请求
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        /// <returns></returns>
-        public override IResponseMessageBase OnLocationRequest(RequestMessageLocation requestMessage)
-        {
-            var locationService = new LocationService();
-            var responseMessage = locationService.GetResponseMessage(requestMessage as RequestMessageLocation);
-            return responseMessage;
-        }
-
-        /// <summary>
-        /// 处理图片请求
+        /// 处理图片请求 用户提交问题与部分图片形式回答问题入口
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
         public override IResponseMessageBase OnImageRequest(RequestMessageImage requestMessage)
         {
-            //将图片信息保存进数据库
-            var bll = new BaseBll<bmQA>();
-            var model = new bmQA();
+            //用户提交问题处理
+            var responseMessage = SubmitQuestionResponse(requestMessage);
+            return responseMessage;
+        }
 
-            model.ID = Guid.NewGuid();
-            model.WeiXinId = requestMessage.FromUserName;
-            model.QARef = Guid.Parse(Reference.问答类别_问题);
-            //判断马币
-
-            model.MsgId = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
-            model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
-            model.MediaId = requestMessage.MediaId;
-            model.PicUrl = requestMessage.PicUrl;
-
-            model.RegTime = DateTime.Now;
-            model.ModTime = DateTime.Now;
-            model.FlagTrashed = false;
-            model.FlagDeleted = false;
-
-            bll.Insert(model);
+        /// <summary>
+        /// 提问返回数据处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        private ResponseMessageNews SubmitQuestionResponse(RequestMessageImage requestMessage)
+        {
+            var model = SubmitQuestion(requestMessage);
 
             var responseMessage = CreateResponseMessage<ResponseMessageNews>();
             responseMessage.Articles.Add(new Article()
@@ -219,6 +201,73 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 PicUrl = "",
                 Url = "".GHU() + "/QA/Q/" + model.ID.ToString()
             });//再增加 加码 求解题思路
+            return responseMessage;
+        }
+
+        /// <summary>
+        /// 用户拍照提交问题
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        private bmQA SubmitQuestion(RequestMessageImage requestMessage)
+        {
+            //将图片信息保存进数据库
+            var bll = new BaseBll<bmQA>();           
+
+            var model = new bmQA();
+
+            model.ID = Guid.NewGuid();
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_问题);   
+            model.MsgId = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
+            model.MediaId = requestMessage.MediaId;
+            model.PicUrl = requestMessage.PicUrl;
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+
+            //问题消耗马币和分配答题用户处理
+            var userMaBi = new UserMaBiService().GetUserCurrentMaBi(requestMessage.FromUserName);
+            //消耗马币
+            if(userMaBi != null)
+            {
+                var defMaBi = Convert.ToDecimal(CFG.提问默认收费马币值);
+                if(userMaBi.UMB.bbi >= defMaBi || userMaBi.UMB.mabi >=defMaBi)
+                {
+                    if(userMaBi.UMB.bbi >= defMaBi)
+                    {
+                        //消耗邦币处理
+                    }
+                    else if(userMaBi.UMB.mabi >= defMaBi)
+                    {
+                        //消耗马币处理
+                    }
+                }
+                else
+                {
+                    //马币与邦币不足时的处理
+                }
+            }
+            else
+            {
+                //分配给免费答题用户
+            }
+
+            bll.Insert(model);
+            return model;
+        }
+
+        /// <summary>
+        /// 处理位置请求
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public override IResponseMessageBase OnLocationRequest(RequestMessageLocation requestMessage)
+        {
+            var locationService = new LocationService();
+            var responseMessage = locationService.GetResponseMessage(requestMessage as RequestMessageLocation);
             return responseMessage;
         }
 
