@@ -208,13 +208,13 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             responseMessage.Articles.Add(new Article()
             {
                 Title = "使用",
-                Description = "消耗马币值",
+                Description = "",
                 PicUrl = requestMessage.PicUrl,
                 Url = requestMessage.PicUrl
             });
             responseMessage.Articles.Add(new Article()
             {
-                Title = "点击此处打开页面看答案",
+                Title = "点击此处看答案",
                 Description = "打开页面看答案",
                 PicUrl = "",
                 Url = "".GHU() + "/QA/Q/" + model.ID.ToString()

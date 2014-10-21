@@ -87,6 +87,11 @@ namespace MorSun.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 邮件通往入口
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult EL(string id)
         {
             var bll = new BaseBll<wmfEncryptRecord>();
@@ -118,6 +123,12 @@ namespace MorSun.Controllers
             if (FormsService == null) { FormsService = new FormsAuthenticationService(); }   
             base.Initialize(requestContext);
         }
+
+        /// <summary>
+        /// 激活用户接口
+        /// </summary>
+        /// <param name="userNameString"></param>
+        /// <returns></returns>
         private ActionResult activeUser(string userNameString)
         {
             var bll = new BaseBll<wmfUserInfo>();

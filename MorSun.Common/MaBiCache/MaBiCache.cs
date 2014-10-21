@@ -10,7 +10,7 @@ namespace MorSun.Common
     /// <summary>
     /// 缓存类，缓存用户的马币数据
     /// </summary>
-    public class MaBiCache
+    public static class MaBiCache
     {
         private static string xmlSystemName = "XmlSystemName".GW();
         /// <summary>
@@ -39,6 +39,11 @@ namespace MorSun.Common
             return model;
         }
 
+        /// <summary>
+        /// 设置用户马币缓存
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="uMaBi"></param>
         public static void SetUserMaBiCache(string uid, UserMaBiCache uMaBi)
         {
             string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
@@ -46,6 +51,6 @@ namespace MorSun.Common
             
             //保存到缓存中
             CacheAccess.SaveToCacheByDependency(uid, uMaBi, fileDependency);
-        }
+        }        
     }
 }

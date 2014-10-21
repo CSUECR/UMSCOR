@@ -304,6 +304,11 @@ namespace MorSun.Controllers
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 取用户最近的5条马币结算记录
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public ActionResult MaBiSettle(string returnUrl)
         {
             var take = new MaBiSettle();

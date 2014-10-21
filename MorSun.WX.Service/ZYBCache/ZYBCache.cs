@@ -10,7 +10,7 @@ namespace MorSun.WX.ZYB.Service
     /// <summary>
     /// 缓存类，缓存在线答题用户的题目(每个用户一个缓存)。用户回答问题时， 系统知道他回答的是哪个问题，以及缓存用户待答题和已答题数据。
     /// </summary>
-    public class ZYBCache
+    public static class ZYBCache
     {
         private static string xmlSystemName = "XmlSystemName".GW();
         /// <summary>
@@ -39,6 +39,11 @@ namespace MorSun.WX.ZYB.Service
             return model;
         }
 
+        /// <summary>
+        /// 设置用户答题缓存
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="qaCache"></param>
         public static void SetUserQACache(string uid, QACache qaCache)
         {
             string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);

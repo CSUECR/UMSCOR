@@ -122,22 +122,32 @@ namespace MorSun.Controllers
         {
             get
             {
-                var umb = new BaseBll<bmUserMaBi>().All.Where(p => p.UserId == UserID);
-                //币种
-                var mabi = Guid.Parse(Reference.马币类别_马币);
-                var bbi = Guid.Parse(Reference.马币类别_邦币);
-                var banbi = Guid.Parse(Reference.马币类别_绑币);
-
-                var mabiO = umb.FirstOrDefault(p => p.MaBiRef == mabi);
-                var bbiO = umb.FirstOrDefault(p => p.MaBiRef == bbi);
-                var banbiO = umb.FirstOrDefault(p => p.MaBiRef == banbi);
-                var userMaBi = new UserMaBi();
-                userMaBi.mabi = mabiO == null ? 0 : mabiO.MaBiNum.Value;
-                userMaBi.bbi = bbiO == null ? 0 : bbiO.MaBiNum.Value;
-                userMaBi.banbi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
-
-                return userMaBi;
+                return GetUserMaBiByUId(UserID);
             }
+        }
+
+        /// <summary>
+        /// 根据用户ID取各种马币值
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        private static UserMaBi GetUserMaBiByUId(Guid userId)
+        {
+            var umb = new BaseBll<bmUserMaBi>().All.Where(p => p.UserId == userId);
+            //币种
+            var mabi = Guid.Parse(Reference.马币类别_马币);
+            var bbi = Guid.Parse(Reference.马币类别_邦币);
+            var banbi = Guid.Parse(Reference.马币类别_绑币);
+
+            var mabiO = umb.FirstOrDefault(p => p.MaBiRef == mabi);
+            var bbiO = umb.FirstOrDefault(p => p.MaBiRef == bbi);
+            var banbiO = umb.FirstOrDefault(p => p.MaBiRef == banbi);
+            var userMaBi = new UserMaBi();
+            userMaBi.mabi = mabiO == null ? 0 : mabiO.MaBiNum.Value;
+            userMaBi.bbi = bbiO == null ? 0 : bbiO.MaBiNum.Value;
+            userMaBi.banbi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
+
+            return userMaBi;
         }
         #endregion
 
@@ -554,11 +564,14 @@ namespace MorSun.Controllers
                 rbll.UpdateChanges();
         }
 
-        protected void SettleMaBe()
+        /// <summary>
+        /// 马币即时统计 更新数据库版
+        /// </summary>
+        protected void SettleMaBi()
         {
             var rbll = new BaseBll<bmUserMaBiRecord>();
             var umbbll = new BaseBll<bmUserMaBi>();
-            //用户币记录
+            //用户币增减记录
             var nonSettleMBR = rbll.All.Where(p => p.IsSettle == false && p.UserId != null);            
             var nonSMGroup = nonSettleMBR.GroupBy(p => p.UserId);
             var userIds = nonSMGroup.Select(p => p.Key);
@@ -577,19 +590,8 @@ namespace MorSun.Controllers
                 {
                     var thisUserMabi = userMabi.Where(p => p.UserId == smg.Key && p.MaBiRef == mabi).FirstOrDefault();
                     if(thisUserMabi == null)
-                    {//系统还没有添加此马币的情况
-                        var model = new bmUserMaBi();
-                        model.ID = Guid.NewGuid();
-                        model.UserId = smg.Key;
-                        model.MaBiRef = mabi;
-                        model.MaBiNum = mabisum;
-                        model.SettleTime = DateTime.Now;
-
-                        model.RegUser = smg.Key;
-                        model.RegTime = DateTime.Now;
-                        model.ModTime = DateTime.Now;
-                        model.FlagTrashed = false;
-                        model.FlagDeleted = false;
+                    {//系统还没有添加此马币的情况                        
+                        var model = GenerateUserMaBi(mabi, mabisum, smg.Key);
                         umbbll.Insert(model, false);
                     }
                     else
@@ -605,19 +607,8 @@ namespace MorSun.Controllers
                 {
                     var thisUserMabi = userMabi.Where(p => p.UserId == smg.Key && p.MaBiRef == bbi).FirstOrDefault();
                     if (thisUserMabi == null)
-                    {//系统还没有添加此马币的情况
-                        var model = new bmUserMaBi();
-                        model.ID = Guid.NewGuid();
-                        model.UserId = smg.Key;
-                        model.MaBiRef = bbi;
-                        model.MaBiNum = bbisum;
-                        model.SettleTime = DateTime.Now;
-
-                        model.RegUser = smg.Key;
-                        model.RegTime = DateTime.Now;
-                        model.ModTime = DateTime.Now;
-                        model.FlagTrashed = false;
-                        model.FlagDeleted = false;
+                    {//系统还没有添加此马币的情况  
+                        var model = GenerateUserMaBi(bbi, bbisum, smg.Key);
                         umbbll.Insert(model, false);
                     }
                     else
@@ -635,19 +626,8 @@ namespace MorSun.Controllers
                 {
                     var thisUserMabi = userMabi.Where(p => p.UserId == smg.Key && p.MaBiRef == banbi).FirstOrDefault();
                     if (thisUserMabi == null)
-                    {//系统还没有添加此马币的情况
-                        var model = new bmUserMaBi();
-                        model.ID = Guid.NewGuid();
-                        model.UserId = smg.Key;
-                        model.MaBiRef = banbi;
-                        model.MaBiNum = banbisum;
-                        model.SettleTime = DateTime.Now;
-
-                        model.RegUser = smg.Key;
-                        model.RegTime = DateTime.Now;
-                        model.ModTime = DateTime.Now;
-                        model.FlagTrashed = false;
-                        model.FlagDeleted = false;
+                    {//系统还没有添加此马币的情况                        
+                        var model = GenerateUserMaBi(banbi, banbisum, smg.Key);
                         umbbll.Insert(model, false);
                     }
                     else
@@ -667,6 +647,29 @@ namespace MorSun.Controllers
             }
 
             rbll.UpdateChanges();
+        }
+        /// <summary>
+        /// 根据传入的参数生成用户马币对象
+        /// </summary>
+        /// <param name="mabi"></param>
+        /// <param name="mabisum"></param>
+        /// <param name="mbUserId"></param>
+        /// <returns></returns>
+        private static bmUserMaBi GenerateUserMaBi(Guid mabi, decimal? mabisum, Guid? mbUserId)
+        {
+            var model = new bmUserMaBi();
+            model.ID = Guid.NewGuid();
+            model.UserId = mbUserId;
+            model.MaBiRef = mabi;
+            model.MaBiNum = mabisum;
+            model.SettleTime = DateTime.Now;
+
+            model.RegUser = mbUserId;
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+            return model;
         }
         #endregion
     }

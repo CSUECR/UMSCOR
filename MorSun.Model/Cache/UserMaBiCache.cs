@@ -16,7 +16,7 @@ namespace MorSun.Model
         /// <summary>
         /// 用户ID
         /// </summary>
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// 微信用户ID
@@ -24,7 +24,7 @@ namespace MorSun.Model
         public string WeiXinId { get; set; }
 
         /// <summary>
-        /// 当前问题ID
+        /// 用户马币值
         /// </summary>
         public UserMaBi UMB { get; set; }        
     }

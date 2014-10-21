@@ -637,9 +637,13 @@ namespace MorSun.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 统计用户马币
+        /// </summary>
+        /// <returns></returns>
         public string UPMaBi()
         {
-            SettleMaBe();
+            SettleMaBi();
             return "true";
         }
 
