@@ -174,6 +174,11 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         {
             //用户提交问题处理
             var responseMessage = SubmitQuestionResponse(requestMessage);
+
+            //用户回答问题处理
+
+
+
             return responseMessage;
         }
 
