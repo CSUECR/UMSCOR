@@ -40,11 +40,11 @@ namespace MorSun.WX.ZYB.Service
             //加绑币
             var banbisum = nonSettleMBR.Where(p => p.MaBiRef == banbi).Sum(p => p.MaBiNum);
             if (mabisum != null && mabisum > 0)
-                userMaBiCache.UMB.mabi += mabisum == null ? 0 : mabisum.Value;
+                userMaBiCache.UMB.MaBi += mabisum == null ? 0 : mabisum.Value;
             if (bbisum != null && bbisum > 0)
-                userMaBiCache.UMB.bbi += bbisum == null ? 0 : bbisum.Value;
+                userMaBiCache.UMB.BBi += bbisum == null ? 0 : bbisum.Value;
             if (banbisum != null && banbisum > 0)
-                userMaBiCache.UMB.banbi += banbisum == null ? 0 : banbisum.Value;
+                userMaBiCache.UMB.BanBi += banbisum == null ? 0 : banbisum.Value;
             return userMaBiCache;
         }
 
@@ -90,9 +90,9 @@ namespace MorSun.WX.ZYB.Service
             var bbiO = umb.FirstOrDefault(p => p.MaBiRef == bbi);
             var banbiO = umb.FirstOrDefault(p => p.MaBiRef == banbi);
             var userMaBi = new UserMaBi();
-            userMaBi.mabi = mabiO == null ? 0 : mabiO.MaBiNum.Value;
-            userMaBi.bbi = bbiO == null ? 0 : bbiO.MaBiNum.Value;
-            userMaBi.banbi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
+            userMaBi.MaBi = mabiO == null ? 0 : mabiO.MaBiNum.Value;
+            userMaBi.BBi = bbiO == null ? 0 : bbiO.MaBiNum.Value;
+            userMaBi.BanBi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
 
             return userMaBi;
         }
@@ -108,6 +108,43 @@ namespace MorSun.WX.ZYB.Service
                 return new BaseBll<bmUserWeixin>().All.Where(p => p.WeiXinId == userWeiXinId).FirstOrDefault();
             else
                 return null;
+        }
+
+        /// <summary>
+        /// 提问扣马币
+        /// </summary>
+        /// <param name="addMBR"></param>
+        /// <param name="updateChange"></param>
+        public void AddUMBRByQA(AddMBRModel addMBR, bool updateChange = true)
+        {
+            var rbll = new BaseBll<bmUserMaBiRecord>();
+            //检测用户是否存在
+            var users = new BaseBll<aspnet_Users>().All.Where(p => addMBR.UIds.Contains(p.UserId));//找得到userId 就添加
+            foreach (var u in users)
+            {
+                var model = new bmUserMaBiRecord();
+                model.SourceRef = addMBR.SR;
+                model.MaBiRef = addMBR.MBR;
+                model.MaBiNum = addMBR.MBN;
+                model.QAId = addMBR.QAId;
+                model.IsSettle = false;
+
+                model.RegTime = DateTime.Now;
+                model.ModTime = DateTime.Now;
+                model.FlagTrashed = false;
+                model.FlagDeleted = false;                
+
+                model.ID = Guid.NewGuid();                
+                model.UserId = u.UserId;
+                model.RegUser = u.UserId;
+                //if (User != null && User.Identity.IsAuthenticated)
+                //    model.RegUser = UserID;
+                //else
+                    
+                rbll.Insert(model, false);
+            }
+            if (updateChange)
+                rbll.UpdateChanges();
         }
     }
 }

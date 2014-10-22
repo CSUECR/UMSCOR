@@ -144,9 +144,9 @@ namespace MorSun.Controllers
             var bbiO = umb.FirstOrDefault(p => p.MaBiRef == bbi);
             var banbiO = umb.FirstOrDefault(p => p.MaBiRef == banbi);
             var userMaBi = new UserMaBi();
-            userMaBi.mabi = mabiO == null ? 0 : mabiO.MaBiNum.Value;
-            userMaBi.bbi = bbiO == null ? 0 : bbiO.MaBiNum.Value;
-            userMaBi.banbi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
+            userMaBi.MaBi = mabiO == null ? 0 : mabiO.MaBiNum.Value;
+            userMaBi.BBi = bbiO == null ? 0 : bbiO.MaBiNum.Value;
+            userMaBi.BanBi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
 
             //减去未结算的马币值
             var rbll = new BaseBll<bmUserMaBiRecord>();
@@ -159,11 +159,11 @@ namespace MorSun.Controllers
             //加绑币
             var banbisum = nonSettleMBR.Where(p => p.MaBiRef == banbi).Sum(p => p.MaBiNum);
             if (mabisum != null && mabisum > 0)
-                userMaBi.mabi += mabisum == null ? 0 : mabisum.Value;
+                userMaBi.MaBi += mabisum == null ? 0 : mabisum.Value;
             if (bbisum != null && bbisum > 0)
-                userMaBi.bbi += bbisum == null ? 0 : bbisum.Value;
+                userMaBi.BBi += bbisum == null ? 0 : bbisum.Value;
             if (banbisum != null && banbisum > 0)
-                userMaBi.banbi += banbisum == null ? 0 : banbisum.Value;
+                userMaBi.BanBi += banbisum == null ? 0 : banbisum.Value;
 
             return userMaBi;
         }
@@ -530,7 +530,7 @@ namespace MorSun.Controllers
 
         #region 用户币记录
         /// <summary>
-        /// 添加用户币记录
+        /// 添加用户币记录  这个方法没有问题ID
         /// </summary>
         /// <param name="uIds">用户ID集，可批量添加。</param>
         /// <param name="sr">来源</param>
@@ -540,13 +540,13 @@ namespace MorSun.Controllers
         {
             var rbll = new BaseBll<bmUserMaBiRecord>();  
             //检测用户是否存在
-            var users = new BaseBll<aspnet_Users>().All.Where(p => addMBR.uIds.Contains(p.UserId));//找得到userId 就添加
+            var users = new BaseBll<aspnet_Users>().All.Where(p => addMBR.UIds.Contains(p.UserId));//找得到userId 就添加
             foreach (var u in users)
             {
                 var model = new bmUserMaBiRecord();
-                model.SourceRef = addMBR.sr;
-                model.MaBiRef = addMBR.mbr;
-                model.MaBiNum = addMBR.mbn;
+                model.SourceRef = addMBR.SR;
+                model.MaBiRef = addMBR.MBR;
+                model.MaBiNum = addMBR.MBN;
                 model.IsSettle = false;
 
                 model.RegTime = DateTime.Now;

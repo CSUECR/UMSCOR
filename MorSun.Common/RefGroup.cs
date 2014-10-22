@@ -197,6 +197,11 @@ namespace MorSun.Common
             //默认微信账号
             public const string 默认收费问题微信号 = "ocpytjv3hZIxb-GgNB0Q9-l3yWaI";//11
             public const string 默认免费问题微信号 = "ocpytjqu5aLMNmuSoJPaNfD-O2UE";//12
+
+
+
+            //网站域名  不是通过域名访问网站的情况，不能
+            public const string 网站域名 = "http://www.bungma.com"; 
         }
     }
 }

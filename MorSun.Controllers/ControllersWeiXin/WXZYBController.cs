@@ -34,8 +34,9 @@ namespace MorSun.Controllers
             }
             else
             {
-                return Content("failed:" + signature + "," + CheckSignature.GetSignature(timestamp, nonce, CFG.作业邦微信令牌) + "。" +
-                    "如果你在浏览器中看到这句话，说明此地址可以被作为微信公众账号后台的Url，请注意保持Token一致。");
+                //return Content("failed:" + signature + "," + CheckSignature.GetSignature(timestamp, nonce, CFG.作业邦微信令牌) + "。" +
+                //    "如果你在浏览器中看到这句话，说明此地址可以被作为微信公众账号后台的Url，请注意保持Token一致。");
+                return RedirectToAction("Index", "Home");
             }
         }
 

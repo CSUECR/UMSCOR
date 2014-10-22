@@ -195,23 +195,25 @@ namespace MorSun.Model
 
     public class UserMaBi
     {
-        public decimal mabi { get; set; }
-        public decimal bbi { get; set; }
-        public decimal banbi { get; set; }
+        public decimal MaBi { get; set; }
+        public decimal BBi { get; set; }
+        public decimal BanBi { get; set; }
     }
 
     public class AddMBRModel
     {
         public AddMBRModel()
         {
-            this.uIds = new List<Guid>();    
+            this.UIds = new List<Guid>();    
         }
-        public List<Guid> uIds { get; set; }
-        public Guid sr { get; set; }
+        public List<Guid> UIds { get; set; }
+        public Guid SR { get; set; }
 
-        public Guid mbr { get; set; }
+        public Guid MBR { get; set; }
 
-        public decimal mbn { get; set; }
+        public decimal MBN { get; set; }
+
+        public Guid QAId { get; set; }
     }
     #endregion
 

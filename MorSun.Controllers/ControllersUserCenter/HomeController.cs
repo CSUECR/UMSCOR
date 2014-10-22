@@ -141,13 +141,13 @@ namespace MorSun.Controllers
                 user.FlagActive = true;
                 //激活后，互相赠送马币
                 var addMBR = new AddMBRModel();
-                addMBR.uIds.Add(user.ID);
+                addMBR.UIds.Add(user.ID);
                 if (user.InviteUser != null)
-                    addMBR.uIds.Add(user.InviteUser.Value);
+                    addMBR.UIds.Add(user.InviteUser.Value);
 
-                addMBR.sr = Guid.Parse(Reference.马币来源_赠送);
-                addMBR.mbr = Guid.Parse(Reference.马币类别_邦币);
-                addMBR.mbn = 1000;
+                addMBR.SR = Guid.Parse(Reference.马币来源_赠送);
+                addMBR.MBR = Guid.Parse(Reference.马币类别_邦币);
+                addMBR.MBN = 1000;
                 new BasisController().AddUMBR(addMBR, false);
                 //互相赠送马币结束
                 bll.Update(user);  

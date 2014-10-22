@@ -204,7 +204,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 Title = "点击此处看答案",
                 Description = "打开页面看答案",
                 PicUrl = "",
-                Url = "".GHU() + "/QA/Q/" + model.ID.ToString()
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
             });//再增加 加码 求解题思路
             return responseMessage;
         }
@@ -239,25 +239,60 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             if(userMaBi != null)
             {
                 var defMaBi = Convert.ToDecimal(CFG.提问默认收费马币值);
-                if(userMaBi.UMB.bbi >= defMaBi || userMaBi.UMB.mabi >=defMaBi)
+                if(userMaBi.UMB.BBi >= defMaBi || userMaBi.UMB.MaBi >=defMaBi)
                 {
-                    if(userMaBi.UMB.bbi >= defMaBi)
+                    if(userMaBi.UMB.BBi >= defMaBi)
                     {
                         //消耗邦币处理
+                        model.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
+                        model.MaBiNum = defMaBi;
+
+                        //添加马币消费记录
+                        var addMBR = new AddMBRModel();
+                        addMBR.UIds.Add(userMaBi.UserId);
+
+                        addMBR.QAId = model.ID;
+                        addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
+                        addMBR.MBR = Guid.Parse(Reference.马币类别_邦币);
+                        addMBR.MBN = defMaBi;
+                        new UserMaBiService().AddUMBRByQA(addMBR, false);
                     }
-                    else if(userMaBi.UMB.mabi >= defMaBi)
+                    else if(userMaBi.UMB.MaBi >= defMaBi)
                     {
                         //消耗马币处理
+                        model.MaBiRef = Guid.Parse(Reference.马币类别_马币);
+                        model.MaBiNum = defMaBi;
+
+                        //添加马币消费记录
+                        var addMBR = new AddMBRModel();
+                        addMBR.UIds.Add(userMaBi.UserId);
+
+                        addMBR.QAId = model.ID;
+                        addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
+                        addMBR.MBR = Guid.Parse(Reference.马币类别_马币);
+                        addMBR.MBN = defMaBi;
+                        new UserMaBiService().AddUMBRByQA(addMBR, false);
                     }
                 }
                 else
                 {
-                    //马币与邦币不足时的处理
+                    //马币与邦币不足时的处理  都不足时不作任何处理
                 }
             }
             else
             {
-                //分配给免费答题用户
+                //未绑定的微信号  也不作任何处理
+            }
+
+            //问题分配处理
+            if(model.MaBiRef == null || model.MaBiNum == null)
+            {
+                //免费问题的分配
+
+            }
+            else
+            {
+                //收费问题的分配
             }
 
             bll.Insert(model);
