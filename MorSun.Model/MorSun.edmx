@@ -217,6 +217,28 @@
           <Property Name="AQEndTime" Type="datetime" />
           <Property Name="State" Type="uniqueidentifier" />
           <Property Name="ActiveTime" Type="datetime" />
+          <Property Name="ActiveNum" Type="int" Nullable="false" />
+          <Property Name="CertificationLevel" Type="uniqueidentifier" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bmOnlineQAUserRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
+          <Property Name="AQStartTime" Type="datetime" />
+          <Property Name="AQEndTime" Type="datetime" />
+          <Property Name="State" Type="uniqueidentifier" />
+          <Property Name="ActiveTime" Type="datetime" />
+          <Property Name="ActiveNum" Type="int" />
+          <Property Name="CertificationLevel" Type="uniqueidentifier" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -2314,6 +2336,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmOnlineQAUser_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUser" Type="Self.bmOnlineQAUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUser">
+              <PropertyRef Name="CertificationLevel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmOnlineQAUserRecord_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUserRecord" Type="Self.bmOnlineQAUserRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUserRecord">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmOnlineQAUserRecord_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUserRecord" Type="Self.bmOnlineQAUserRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUserRecord">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmOnlineQAUserRecord_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUserRecord" Type="Self.bmOnlineQAUserRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUserRecord">
+              <PropertyRef Name="State" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmOnlineQAUserRecord_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUserRecord" Type="Self.bmOnlineQAUserRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUserRecord">
+              <PropertyRef Name="CertificationLevel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmQA_aspnet_Users">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
           <End Role="bmQA" Type="Self.bmQA" Multiplicity="*" />
@@ -3569,6 +3651,7 @@
           <EntitySet Name="bmNew" EntityType="Self.bmNew" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmObjection" EntityType="Self.bmObjection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmOnlineQAUser" EntityType="Self.bmOnlineQAUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bmOnlineQAUserRecord" EntityType="Self.bmOnlineQAUserRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmQA" EntityType="Self.bmQA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmQADistribution" EntityType="Self.bmQADistribution" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bmRecharge" EntityType="Self.bmRecharge" Schema="dbo" store:Type="Tables" />
@@ -3817,6 +3900,26 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_bmOnlineQAUser_wmfReference" Association="Self.FK_bmOnlineQAUser_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReference" />
             <End Role="bmOnlineQAUser" EntitySet="bmOnlineQAUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUser_wmfReference1" Association="Self.FK_bmOnlineQAUser_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmOnlineQAUser" EntitySet="bmOnlineQAUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUserRecord_aspnet_Users" Association="Self.FK_bmOnlineQAUserRecord_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUserRecord_aspnet_Users1" Association="Self.FK_bmOnlineQAUserRecord_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUserRecord_wmfReference" Association="Self.FK_bmOnlineQAUserRecord_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUserRecord_wmfReference1" Association="Self.FK_bmOnlineQAUserRecord_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecord" />
           </AssociationSet>
           <AssociationSet Name="FK_bmQA_aspnet_Users" Association="Self.FK_bmQA_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
@@ -4377,6 +4480,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmObjections1" Relationship="Self.FK_bmObjection_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmObjection" />
           <NavigationProperty Name="bmOnlineQAUsers" Relationship="Self.FK_bmOnlineQAUser_aspnet_Users" FromRole="aspnet_Users" ToRole="bmOnlineQAUser" />
           <NavigationProperty Name="bmOnlineQAUsers1" Relationship="Self.FK_bmOnlineQAUser_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmOnlineQAUser" />
+          <NavigationProperty Name="bmOnlineQAUserRecords" Relationship="Self.FK_bmOnlineQAUserRecord_aspnet_Users" FromRole="aspnet_Users" ToRole="bmOnlineQAUserRecord" />
+          <NavigationProperty Name="bmOnlineQAUserRecords1" Relationship="Self.FK_bmOnlineQAUserRecord_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmOnlineQAUserRecord" />
           <NavigationProperty Name="bmQAs" Relationship="Self.FK_bmQA_aspnet_Users" FromRole="aspnet_Users" ToRole="bmQA" />
           <NavigationProperty Name="bmQAs1" Relationship="Self.FK_bmQA_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmQA" />
           <NavigationProperty Name="bmQADistributions" Relationship="Self.FK_bmQADistribution_aspnet_Users" FromRole="aspnet_Users" ToRole="bmQADistribution" />
@@ -4479,6 +4584,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="AQEndTime" Type="DateTime" Precision="3" />
           <Property Name="State" Type="Guid" />
           <Property Name="ActiveTime" Type="DateTime" Precision="3" />
+          <Property Name="ActiveNum" Type="Int32" Nullable="false" />
+          <Property Name="CertificationLevel" Type="Guid" />
           <Property Name="Sort" Type="Int32" />
           <Property Name="RegUser" Type="Guid" />
           <Property Name="RegTime" Type="DateTime" Precision="3" />
@@ -4488,6 +4595,31 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_bmOnlineQAUser_aspnet_Users" FromRole="bmOnlineQAUser" ToRole="aspnet_Users" />
           <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmOnlineQAUser_aspnet_Users1" FromRole="bmOnlineQAUser" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmOnlineQAUser_wmfReference" FromRole="bmOnlineQAUser" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmOnlineQAUser_wmfReference1" FromRole="bmOnlineQAUser" ToRole="wmfReference" />
+        </EntityType>
+        <EntityType Name="bmOnlineQAUserRecord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AQStartTime" Type="DateTime" Precision="3" />
+          <Property Name="AQEndTime" Type="DateTime" Precision="3" />
+          <Property Name="State" Type="Guid" />
+          <Property Name="ActiveTime" Type="DateTime" Precision="3" />
+          <Property Name="ActiveNum" Type="Int32" />
+          <Property Name="CertificationLevel" Type="Guid" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_bmOnlineQAUserRecord_aspnet_Users" FromRole="bmOnlineQAUserRecord" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmOnlineQAUserRecord_aspnet_Users1" FromRole="bmOnlineQAUserRecord" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmOnlineQAUserRecord_wmfReference" FromRole="bmOnlineQAUserRecord" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmOnlineQAUserRecord_wmfReference1" FromRole="bmOnlineQAUserRecord" ToRole="wmfReference" />
         </EntityType>
         <EntityType Name="bmQA">
           <Key>
@@ -6183,6 +6315,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="bmObjections" Relationship="Self.FK_bmObjection_wmfReference" FromRole="wmfReference" ToRole="bmObjection" />
           <NavigationProperty Name="bmOnlineQAUsers" Relationship="Self.FK_bmOnlineQAUser_wmfReference" FromRole="wmfReference" ToRole="bmOnlineQAUser" />
+          <NavigationProperty Name="bmOnlineQAUsers1" Relationship="Self.FK_bmOnlineQAUser_wmfReference1" FromRole="wmfReference" ToRole="bmOnlineQAUser" />
+          <NavigationProperty Name="bmOnlineQAUserRecords" Relationship="Self.FK_bmOnlineQAUserRecord_wmfReference" FromRole="wmfReference" ToRole="bmOnlineQAUserRecord" />
+          <NavigationProperty Name="bmOnlineQAUserRecords1" Relationship="Self.FK_bmOnlineQAUserRecord_wmfReference1" FromRole="wmfReference" ToRole="bmOnlineQAUserRecord" />
           <NavigationProperty Name="bmQAs" Relationship="Self.FK_bmQA_wmfReference" FromRole="wmfReference" ToRole="bmQA" />
           <NavigationProperty Name="bmQAs1" Relationship="Self.FK_bmQA_wmfReference1" FromRole="wmfReference" ToRole="bmQA" />
           <NavigationProperty Name="bmQAs2" Relationship="Self.FK_bmQA_wmfReference2" FromRole="wmfReference" ToRole="bmQA" />
@@ -6707,6 +6842,30 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmOnlineQAUserRecord_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUserRecord" Type="Self.bmOnlineQAUserRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUserRecord">
+              <PropertyRef Name="RegUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmOnlineQAUserRecord_aspnet_Users1">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUserRecord" Type="Self.bmOnlineQAUserRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUserRecord">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmQA_aspnet_Users">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
           <End Role="bmQA" Type="Self.bmQA" Multiplicity="*" />
@@ -7092,6 +7251,42 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Principal>
             <Dependent Role="bmOnlineQAUser">
               <PropertyRef Name="State" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmOnlineQAUser_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUser" Type="Self.bmOnlineQAUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUser">
+              <PropertyRef Name="CertificationLevel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmOnlineQAUserRecord_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUserRecord" Type="Self.bmOnlineQAUserRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUserRecord">
+              <PropertyRef Name="State" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmOnlineQAUserRecord_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmOnlineQAUserRecord" Type="Self.bmOnlineQAUserRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmOnlineQAUserRecord">
+              <PropertyRef Name="CertificationLevel" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7963,6 +8158,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="bmNews" EntityType="Self.bmNew" />
           <EntitySet Name="bmObjections" EntityType="Self.bmObjection" />
           <EntitySet Name="bmOnlineQAUsers" EntityType="Self.bmOnlineQAUser" />
+          <EntitySet Name="bmOnlineQAUserRecords" EntityType="Self.bmOnlineQAUserRecord" />
           <EntitySet Name="bmQAs" EntityType="Self.bmQA" />
           <EntitySet Name="bmQADistributions" EntityType="Self.bmQADistribution" />
           <EntitySet Name="bmRecharges" EntityType="Self.bmRecharge" />
@@ -8142,6 +8338,14 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmOnlineQAUser" EntitySet="bmOnlineQAUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUserRecord_aspnet_Users" Association="Self.FK_bmOnlineQAUserRecord_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUserRecord_aspnet_Users1" Association="Self.FK_bmOnlineQAUserRecord_aspnet_Users1">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecords" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmQA_aspnet_Users" Association="Self.FK_bmQA_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmQA" EntitySet="bmQAs" />
@@ -8265,6 +8469,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_bmOnlineQAUser_wmfReference" Association="Self.FK_bmOnlineQAUser_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmOnlineQAUser" EntitySet="bmOnlineQAUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUser_wmfReference1" Association="Self.FK_bmOnlineQAUser_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmOnlineQAUser" EntitySet="bmOnlineQAUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUserRecord_wmfReference" Association="Self.FK_bmOnlineQAUserRecord_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmOnlineQAUserRecord_wmfReference1" Association="Self.FK_bmOnlineQAUserRecord_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecords" />
           </AssociationSet>
           <AssociationSet Name="FK_bmQA_wmfReference" Association="Self.FK_bmQA_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReferences" />
@@ -8761,6 +8977,29 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="AQEndTime" ColumnName="AQEndTime" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="ActiveTime" ColumnName="ActiveTime" />
+                <ScalarProperty Name="ActiveNum" ColumnName="ActiveNum" />
+                <ScalarProperty Name="CertificationLevel" ColumnName="CertificationLevel" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmOnlineQAUserRecords">
+            <EntityTypeMapping TypeName="MorSun.Model.bmOnlineQAUserRecord">
+              <MappingFragment StoreEntitySet="bmOnlineQAUserRecord">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
+                <ScalarProperty Name="AQStartTime" ColumnName="AQStartTime" />
+                <ScalarProperty Name="AQEndTime" ColumnName="AQEndTime" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ActiveTime" ColumnName="ActiveTime" />
+                <ScalarProperty Name="ActiveNum" ColumnName="ActiveNum" />
+                <ScalarProperty Name="CertificationLevel" ColumnName="CertificationLevel" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="RegUser" ColumnName="RegUser" />
                 <ScalarProperty Name="RegTime" ColumnName="RegTime" />

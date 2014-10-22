@@ -285,7 +285,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             }
 
             //问题分配处理
-            if(model.MaBiRef == null || model.MaBiNum == null)
+            if(model.MaBiRef == null || model.MaBiNum == null || model.MaBiNum == 0)
             {
                 //免费问题的分配
 
