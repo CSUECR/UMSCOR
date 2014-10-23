@@ -174,6 +174,7 @@ namespace MorSun.Common
     {
         public struct CFG
         {
+            //应用基础信息配置
             public const string 应用邮箱 = "s5kdm@qq.com";
             public const string 邮箱密码 = "4F2CCCEC077614815761B530E9D9164C";
             public const string 邮箱端口 = "587";
@@ -184,9 +185,11 @@ namespace MorSun.Common
             public const string 账号激活路径 = "/Account/ActiveUser";
             public const string 邮件改密路径 = "/Account/ECPW";
 
+            //网站域名  不是通过域名访问网站的情况，不能
+            public const string 网站域名 = "http://www.bungma.com"; 
+
             //微信
             public const string 作业邦微信令牌 = "WXZYBung34fdjs38";
-
             public const string 看答案指令 = "DA==>";
 
 
@@ -199,9 +202,12 @@ namespace MorSun.Common
             public const string 默认免费问题微信号 = "ocpytjqu5aLMNmuSoJPaNfD-O2UE";//12
 
 
-
-            //网站域名  不是通过域名访问网站的情况，不能
-            public const string 网站域名 = "http://www.bungma.com"; 
+            //答题用户配置
+            //在线答题用户缓存更新时间
+            public const string 在线答题用户缓存更新时间 = "5";//单位 分钟
+            public const string 疑似退出时间 = "5"; //单位 分钟   超过这个数值，5分钟内不再分配新答题
+            public const string 强制退出时间 = "10"; //单位 分钟  系统更改该用户状态为退出
+            
         }
     }
 }
