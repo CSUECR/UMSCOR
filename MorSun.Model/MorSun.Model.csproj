@@ -58,6 +58,8 @@
     <Compile Include="AttributeExtensions\LocalizedDisplayNameAttribute.cs" />
     <Compile Include="AttributeExtensions\LocalizedRequiredAttribute.cs" />
     <Compile Include="AttributeExtensions\RequiredIfAttribute.cs" />
+    <Compile Include="BM\bmQADistribution.cs" />
+    <Compile Include="BM\bmOnlineQAUser.cs" />
     <Compile Include="BM\bmNew.cs" />
     <Compile Include="Cache\OlineQAUserCache.cs" />
     <Compile Include="Cache\UserQACache.cs">

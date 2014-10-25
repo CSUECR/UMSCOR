@@ -11,7 +11,7 @@ namespace MorSun.Model
     /// <summary>
     /// 在线用户缓存 每5分钟更新一次，5分钟可配置
     /// </summary>
-    public class OlineQAUserCache 
+    public class OnlineQAUserCache 
     {
         /// <summary>
         /// 缓存刷新时间

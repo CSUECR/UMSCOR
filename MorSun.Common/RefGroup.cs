@@ -102,6 +102,12 @@ namespace MorSun.Common
             public const string 微信消息类别_链接 = "b57b534e-2363-488c-a008-d02aa95b4f3d";
             public const string 微信消息类别_视频 = "7330de99-74b7-42d3-9f92-04dcd98b25af";
             
+            //分配答题操作
+            public const string 分配答题操作_待解答 = "dc2ac6b6-2937-4b04-aab8-07591614b1b3";
+            public const string 分配答题操作_已解答 = "339efab2-f36c-4e7e-bc50-787730bf7959";
+            public const string 分配答题操作_放弃 = "fe38a84c-4fd6-4621-a120-2c69391e4d84";
+            public const string 分配答题操作_不是问题 = "ff801b8b-c3a6-4040-af92-12fb33d48f6c";
+            public const string 分配答题操作_未处理 = "70be26d3-4b72-40bd-94f0-cd2546a871f4";
             #endregion
 
         }
@@ -203,8 +209,13 @@ namespace MorSun.Common
 
 
             //答题用户配置
+
+            //在线答题用户缓存Key
+            public const string 在线答题用户缓存键 = "olineqausers"; //默认小写
+
             //在线答题用户缓存更新时间
             public const string 在线答题用户缓存更新时间 = "5";//单位 分钟
+
             public const string 疑似退出时间 = "5"; //单位 分钟   超过这个数值，5分钟内不再分配新答题
             public const string 强制退出时间 = "10"; //单位 分钟  系统更改该用户状态为退出
             
