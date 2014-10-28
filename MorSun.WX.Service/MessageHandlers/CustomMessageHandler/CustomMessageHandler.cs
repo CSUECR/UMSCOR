@@ -63,6 +63,25 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         }
 
         /// <summary>
+        /// 通过id获取其itemValue
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private string GetReferenceValue(Guid? guid)
+        {
+            var resultValue = string.Empty;
+            if (guid != null && guid != Guid.Empty)
+            {
+                var referenceModel = new BaseBll<wmfReference>().GetModel(guid);
+                if (referenceModel != null)
+                {
+                    resultValue = referenceModel.ItemValue;
+                }
+            }
+            return resultValue;
+        }
+
+        /// <summary>
         /// 处理文字请求
         /// </summary>
         /// <returns></returns>
@@ -194,15 +213,15 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var responseMessage = CreateResponseMessage<ResponseMessageNews>();
             responseMessage.Articles.Add(new Article()
             {
-                Title = "使用",
+                Title = model.MaBiNum > 0 ? ("使用" + model.MaBiNum ==null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)) : "",
                 Description = "",
                 PicUrl = requestMessage.PicUrl,
                 Url = requestMessage.PicUrl
             });
             responseMessage.Articles.Add(new Article()
             {
-                Title = "点击此处看答案",
-                Description = "打开页面看答案",
+                Title = "查看答案",
+                Description = "查看答案",
                 PicUrl = "",
                 Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
             });//再增加 加码 求解题思路
@@ -285,16 +304,26 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             }
 
             //问题分配处理
+            var qadbll = new BaseBll<bmQADistribution>();
+            var qaModel = new bmQADistribution();
+
+            qaModel.ID = Guid.NewGuid();
+            qaModel.QAId = model.ID;
+            qaModel.DistributionTime = DateTime.Now;
+            qaModel.RegTime = DateTime.Now;
             if(model.MaBiRef == null || model.MaBiNum == null || model.MaBiNum == 0)
             {
                 //免费问题的分配
-
+                var bmOU = new UserQADistributionService().GetQADistribution(false);
+                qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
             }
             else
             {
                 //收费问题的分配
+                var bmOU = new UserQADistributionService().GetQADistribution(true);
+                qaModel.WeiXinId = bmOU == null ? CFG.默认收费问题微信号 : bmOU.WeiXinId;
             }
-
+            qadbll.Insert(qaModel, false);
             bll.Insert(model);
             return model;
         }
