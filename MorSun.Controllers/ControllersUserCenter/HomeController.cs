@@ -8,6 +8,7 @@ using MorSun.Model;
 using System.Web.Routing;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
+using HOHO18.Common.SSO;
 
 
 namespace MorSun.Controllers
@@ -63,6 +64,26 @@ namespace MorSun.Controllers
             if (takeCount < 5) takeCount = 5;
             indexModel.nList = new BaseBll<bmNew>().All.Where(p => p.NewRef == newtz).OrderBy(p => p.Sort).Take(takeCount);
             return View(indexModel);
+        }
+
+        /// <summary>
+        /// 根据传入的用户加密微信ID，登录用户并且生成分享链接
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult WXSharLink(string id)
+        {
+            if(!String.IsNullOrEmpty(id))
+            {
+                var DCWeiXinId = SecurityHelper.Decrypt(id);
+                var BMU = GetUserByWeiXinId(DCWeiXinId);
+                if(BMU != null)
+                {
+                    FormsService.SignIn(BMU.aspnet_Users1.UserName, false);
+                    LoginFunction(BMU.aspnet_Users1);
+                }                
+            }            
+            return View();
         }
 
         public ActionResult About()
@@ -172,6 +193,19 @@ namespace MorSun.Controllers
                 Cookie_login.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(Cookie_login);
             }
-        } 
+        }
+ 
+        /// <summary>
+        /// 获取绑定用户
+        /// </summary>
+        /// <param name="userWeiXinId"></param>
+        /// <returns></returns>
+        private bmUserWeixin GetUserByWeiXinId(string userWeiXinId)
+        {
+            if (!String.IsNullOrEmpty(userWeiXinId))
+                return new BaseBll<bmUserWeixin>().All.Where(p => p.WeiXinId == userWeiXinId).FirstOrDefault();
+            else
+                return null;
+        }
     }
 }

@@ -11,6 +11,7 @@ using MorSun.Bll;
 using MorSun.Model;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
+using HOHO18.Common.SSO;
 
 namespace MorSun.WX.ZYB.Service.CustomMessageHandler
 {
@@ -213,18 +214,68 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var responseMessage = CreateResponseMessage<ResponseMessageNews>();
             responseMessage.Articles.Add(new Article()
             {
-                Title = model.MaBiNum > 0 ? ("使用" + model.MaBiNum ==null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)) : "",
+                Title = model.MaBiNum > 0 ? ("使用" + model.MaBiNum ==null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)) + "提问" : "免费提问",
                 Description = "",
                 PicUrl = requestMessage.PicUrl,
                 Url = requestMessage.PicUrl
             });
             responseMessage.Articles.Add(new Article()
-            {
+            {//眼睛图片
                 Title = "查看答案",
                 Description = "查看答案",
                 PicUrl = "",
                 Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
             });//再增加 加码 求解题思路
+            responseMessage.Articles.Add(new Article()
+            {//美元图片
+                Title = "增加马币",
+                Description = "增加马币",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "思路求助",
+                Description = "思路求助",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "思路求助",
+                Description = "思路求助",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "直接看答案发送" + CFG.快速看答案 + " " + model.AutoGrenteId ,
+                Description = "看答案",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });
+            //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
+            var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
+            if(userWeiXin == null)
+            {
+                responseMessage.Articles.Add(new Article()
+                {//问号图片
+                    Title = "注册账号并绑定",
+                    Description = "注册账号并绑定",
+                    PicUrl = "",
+                    Url = CFG.网站域名 + "/Account/Register"
+                });
+            }
+            else
+            {
+                responseMessage.Articles.Add(new Article()
+                {//问号图片
+                    Title = "分享链接",
+                    Description = "分享链接",
+                    PicUrl = "",
+                    Url = CFG.网站域名 + "/Account/Register/" + SecurityHelper.Encrypt(requestMessage.FromUserName)
+                });
+            }
             return responseMessage;
         }
 
@@ -325,6 +376,8 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             }
             qadbll.Insert(qaModel, false);
             bll.Insert(model);
+            //为了取自增长ID
+            model = bll.GetModel(model.ID);
             return model;
         }
 

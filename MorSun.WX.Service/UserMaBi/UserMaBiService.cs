@@ -102,7 +102,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="userWeiXinId"></param>
         /// <returns></returns>
-        private bmUserWeixin GetUserByWeiXinId(string userWeiXinId)
+        public bmUserWeixin GetUserByWeiXinId(string userWeiXinId)
         {
             if (!String.IsNullOrEmpty(userWeiXinId))
                 return new BaseBll<bmUserWeixin>().All.Where(p => p.WeiXinId == userWeiXinId).FirstOrDefault();

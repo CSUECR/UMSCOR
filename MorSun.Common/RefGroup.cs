@@ -219,6 +219,9 @@ namespace MorSun.Common
             public const string 疑似退出时间 = "5"; //单位 分钟   超过这个数值，5分钟内不再分配新答题
             public const string 强制退出时间 = "10"; //单位 分钟  系统更改该用户状态为退出
             
+
+            //微信命令
+            public const string 快速看答案 = "kda";
         }
     }
 }

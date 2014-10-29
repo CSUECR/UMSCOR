@@ -745,6 +745,7 @@
     <Content Include="Views\Member\Take.cshtml" />
     <Content Include="Views\Member\MaBiSettle.cshtml" />
     <Content Include="Views\QA\Q.cshtml" />
+    <Content Include="Views\Home\WXSharLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

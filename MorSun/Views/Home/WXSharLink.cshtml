@@ -1,0 +1,19 @@
+﻿@model IndexModel
+@{
+    ViewBag.Title = "ServiceName".GX();
+    HttpCookie Cookie_login = Request.Cookies["HIC"];
+    var bic = Cookie_login["HIC"].ToString();
+}
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <div class="content-leftExp">
+                
+            </div>
+            
+        </div>
+    </section>
+}
+
+    
