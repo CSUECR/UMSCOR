@@ -213,67 +213,65 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var model = SubmitQuestion(requestMessage);
 
             var responseMessage = CreateResponseMessage<ResponseMessageNews>();
-            if (model != null)
+            responseMessage.Articles.Add(new Article()
+            {
+                Title = ("问题编号：" + model.AutoGrenteId + " ") + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString("f0") + GetReferenceValue(model.MaBiRef)))),
+                Description = ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)))) + (" 问题编号：" + model.AutoGrenteId),
+                PicUrl = requestMessage.PicUrl,
+                Url = requestMessage.PicUrl
+            });
+            responseMessage.Articles.Add(new Article()
+            {//眼睛图片
+                Title = "看答案",
+                Description = "看答案",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });//再增加 加码 求解题思路            
+            responseMessage.Articles.Add(new Article()
+            {//美元图片
+                Title = "加马币",
+                Description = "加马币",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "求思路",
+                Description = "求思路",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "直接看答案请发送:   " + CFG.快速看答案 + " " + model.AutoGrenteId,
+                Description = "直接看答案",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });
+
+            //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
+            var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
+            if (userWeiXin == null)
             {
                 responseMessage.Articles.Add(new Article()
-                {
-                    Title = ("问题编号：" + model.AutoGrenteId + " ") + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "0消耗" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)))),
-                    Description = ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)))) + (" 问题编号：" + model.AutoGrenteId),
-                    PicUrl = requestMessage.PicUrl,
-                    Url = requestMessage.PicUrl
-                });
-                responseMessage.Articles.Add(new Article()
-                {//眼睛图片
-                    Title = "看答案",
-                    Description = "看答案",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-                });//再增加 加码 求解题思路            
-                responseMessage.Articles.Add(new Article()
-                {//美元图片
-                    Title = "加马币",
-                    Description = "加马币",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-                });
-                responseMessage.Articles.Add(new Article()
                 {//问号图片
-                    Title = "求思路",
-                    Description = "求思路",
+                    Title = "注册账号并绑定",
+                    Description = "注册账号并绑定",
                     PicUrl = "",
-                    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                    Url = CFG.网站域名 + "/Account/Register"
                 });
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = "直接看答案请发送:   " + CFG.快速看答案 + " " + model.AutoGrenteId,
-                    Description = "直接看答案",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-                });
-
-                //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-                var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
-                if (userWeiXin == null)
-                {
-                    responseMessage.Articles.Add(new Article()
-                    {//问号图片
-                        Title = "注册账号并绑定",
-                        Description = "注册账号并绑定",
-                        PicUrl = "",
-                        Url = CFG.网站域名 + "/Account/Register"
-                    });
-                }
-                else
-                {
-                    responseMessage.Articles.Add(new Article()
-                    {//问号图片
-                        Title = "分享给朋友",
-                        Description = "分享给朋友",
-                        PicUrl = "",
-                        Url = CFG.网站域名 + "/Account/Register/" + SecurityHelper.Encrypt(requestMessage.FromUserName)
-                    });
-                }
             }
+            else
+            {
+                responseMessage.Articles.Add(new Article()
+                {//问号图片
+                    Title = "分享给朋友",
+                    Description = "分享给朋友",
+                    PicUrl = "",
+                    Url = CFG.网站域名 + "/Account/Register/" + SecurityHelper.Encrypt(requestMessage.FromUserName)
+                });
+            }            
+            
             return responseMessage;
         }
 
@@ -283,16 +281,22 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <param name="requestMessage"></param>
         private bmQA SubmitQuestion(RequestMessageImage requestMessage)
         {
-            //将图片信息保存进数据库
-            var bll = new BaseBll<bmQA>();           
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var qaid = Guid.NewGuid();
+            var bll = new BaseBll<bmQA>();
 
             var model = new bmQA();
-            if (bll.All.Where(p => p.MsgId == model.MsgId).FirstOrDefault() == null)
-            {//已经存在的问题，不再保存进系统
-                model.ID = Guid.NewGuid();
+            Guid mid = UserQAService.GetMsgIdCache(msgid);
+            if (mid == Guid.Empty)
+            {//已经添加的问题答案，不再保存进系统
+                UserQAService.SetMsgIdCache(msgid, qaid);               
+
+                //将图片信息保存进数据库            
+                model.ID = qaid;
+
                 model.WeiXinId = requestMessage.FromUserName;
                 model.QARef = Guid.Parse(Reference.问答类别_问题);
-                model.MsgId = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+                model.MsgId = msgid;
                 model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
                 model.MediaId = requestMessage.MediaId;
                 model.PicUrl = requestMessage.PicUrl;
@@ -373,13 +377,21 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     var bmOU = new UserQADistributionService().GetQADistribution(true);
                     qaModel.WeiXinId = bmOU == null ? CFG.默认收费问题微信号 : bmOU.WeiXinId;
                 }
-                qadbll.Insert(qaModel, false);
-                //判断是否有该条记录，如果没有，则添加 微信会重复改善数据
-                if (bll.All.Where(p => p.MsgId == model.MsgId).FirstOrDefault() == null)
+                //判断缓存里保存的问答ID是否是当前的对象ID    
+                if(UserQAService.GetMsgIdCache(msgid) == model.ID)
+                {
+                    qadbll.Insert(qaModel, false);
                     bll.Insert(model);
+                }                               
             }
+            
             //为了取自增长ID
-            model = bll.All.Where(p => p.MsgId == model.MsgId).FirstOrDefault();
+            do
+            {
+                if (UserQAService.GetMsgIdCache(msgid) != model.ID)
+                    System.Threading.Thread.Sleep(500);
+                model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();
+            } while (model.AutoGrenteId == 0);            
             return model;
         }
 

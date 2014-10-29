@@ -88,5 +88,31 @@ namespace MorSun.WX.ZYB.Service
             //保存到缓存中
             CacheAccess.SaveToCacheByDependency(CFG.在线答题用户缓存键, qaCache, fileDependency);
         }
+
+        /// <summary>
+        /// 根据消息ID获取问答的ID值
+        /// </summary>
+        /// <param name="msgid"></param>
+        /// <returns></returns>
+        public static Guid GetMsgIdCache(string msgid)
+        {
+            Guid gqaid = Guid.Empty;
+            //从缓存中读取
+            var qaid = CacheAccess.GetFromCache(msgid);
+            if (qaid != null)
+                gqaid = Guid.Parse(qaid.ToString());
+            return gqaid;
+        }
+
+        /// <summary>
+        /// 设置消息ID的问答ID
+        /// </summary>
+        /// <param name="msgid"></param>
+        /// <param name="qaid"></param>
+        public static void SetMsgIdCache(string msgid, Guid qaid)
+        {     
+            //保存到缓存中
+            CacheAccess.SaveToCacheByTime(msgid, qaid, 20);
+        }
     }
 }
