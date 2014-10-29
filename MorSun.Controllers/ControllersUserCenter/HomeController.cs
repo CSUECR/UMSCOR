@@ -37,7 +37,7 @@ namespace MorSun.Controllers
             {
                 //无值时设置为bungma
                 Cookie_login = new HttpCookie("HIC");
-                Cookie_login["HIC"] = "bungma";
+                Cookie_login["HIC"] = CFG.默认推广代码;
             }
 
             //如果用户已经登录，则设置cookei为当前用户，防止用户未退出但被人推广
@@ -78,10 +78,13 @@ namespace MorSun.Controllers
                 var DCWeiXinId = SecurityHelper.Decrypt(id);
                 var BMU = GetUserByWeiXinId(DCWeiXinId);
                 if(BMU != null)
-                {
-                    FormsService.SignIn(BMU.aspnet_Users1.UserName, false);
+                {                    
                     LoginFunction(BMU.aspnet_Users1);
-                }                
+                }    
+                else
+                {
+                    LoginFunction(null);
+                }
             }            
             return View();
         }
@@ -182,17 +185,21 @@ namespace MorSun.Controllers
         /// <param name="user"></param>
         private void LoginFunction(aspnet_Users user)
         {
-            if (user.wmfUserInfo != null && !String.IsNullOrEmpty(user.wmfUserInfo.HamInviteCode))
-            {
-                //用户登录都更换推广码,否则用之前的推广码。
-                HttpCookie Cookie_login = Request.Cookies["HIC"];
-                Cookie_login = new HttpCookie("HIC");
-                Cookie_login["HIC"] = user.wmfUserInfo.HamInviteCode;
-                //对修改 及 新创建的cookie进行重新管理
-                Cookie_login.Path = "/";
-                Cookie_login.Expires = DateTime.Now.AddDays(1);
-                Response.Cookies.Add(Cookie_login);
+            //用户登录都更换推广码,否则用之前的推广码。
+            HttpCookie Cookie_login = Request.Cookies["HIC"];
+            Cookie_login = new HttpCookie("HIC");
+            if (user != null && user.wmfUserInfo != null && !String.IsNullOrEmpty(user.wmfUserInfo.HamInviteCode))
+            {                
+                Cookie_login["HIC"] = user.wmfUserInfo.HamInviteCode;                
             }
+            else
+            {
+                Cookie_login["HIC"] = CFG.默认推广代码;
+            }
+            //对修改 及 新创建的cookie进行重新管理
+            Cookie_login.Path = "/";
+            Cookie_login.Expires = DateTime.Now.AddDays(1);
+            Response.Cookies.Add(Cookie_login);
         }
  
         /// <summary>

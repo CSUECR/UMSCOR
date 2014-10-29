@@ -214,46 +214,40 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var responseMessage = CreateResponseMessage<ResponseMessageNews>();
             responseMessage.Articles.Add(new Article()
             {
-                Title = model.MaBiNum > 0 ? ("使用" + model.MaBiNum ==null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)) + "提问" : "免费提问",
-                Description = "",
+                Title = ("问题编号：" + model.AutoGrenteId + " ") + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "0消耗" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)))),
+                Description = ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)))) + (" 问题编号：" + model.AutoGrenteId),
                 PicUrl = requestMessage.PicUrl,
                 Url = requestMessage.PicUrl
             });
             responseMessage.Articles.Add(new Article()
             {//眼睛图片
-                Title = "查看答案",
-                Description = "查看答案",
-                PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-            });//再增加 加码 求解题思路
-            responseMessage.Articles.Add(new Article()
-            {//美元图片
-                Title = "增加马币",
-                Description = "增加马币",
-                PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-            });
-            responseMessage.Articles.Add(new Article()
-            {//问号图片
-                Title = "思路求助",
-                Description = "思路求助",
-                PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-            });
-            responseMessage.Articles.Add(new Article()
-            {//问号图片
-                Title = "思路求助",
-                Description = "思路求助",
-                PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-            });
-            responseMessage.Articles.Add(new Article()
-            {//问号图片
-                Title = "直接看答案发送" + CFG.快速看答案 + " " + model.AutoGrenteId ,
+                Title = "看答案",
                 Description = "看答案",
                 PicUrl = "",
                 Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });//再增加 加码 求解题思路            
+            responseMessage.Articles.Add(new Article()
+            {//美元图片
+                Title = "加马币",
+                Description = "加马币",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
             });
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "求思路",
+                Description = "求思路",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "直接看答案请发送:   " + CFG.快速看答案 + " " + model.AutoGrenteId,
+                Description = "直接看答案",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+            });           
+            
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
             var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
             if(userWeiXin == null)
@@ -270,8 +264,8 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             {
                 responseMessage.Articles.Add(new Article()
                 {//问号图片
-                    Title = "分享链接",
-                    Description = "分享链接",
+                    Title = "分享给朋友",
+                    Description = "分享给朋友",
                     PicUrl = "",
                     Url = CFG.网站域名 + "/Account/Register/" + SecurityHelper.Encrypt(requestMessage.FromUserName)
                 });
@@ -309,7 +303,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             if(userMaBi != null)
             {
                 var defMaBi = Convert.ToDecimal(CFG.提问默认收费马币值);
-                if(userMaBi.UMB.BBi >= defMaBi || userMaBi.UMB.MaBi >=defMaBi)
+                if(userMaBi.UMB.BBi >= defMaBi || userMaBi.UMB.MaBi >= defMaBi)
                 {
                     if(userMaBi.UMB.BBi >= defMaBi)
                     {
@@ -324,7 +318,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                         addMBR.QAId = model.ID;
                         addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
                         addMBR.MBR = Guid.Parse(Reference.马币类别_邦币);
-                        addMBR.MBN = defMaBi;
+                        addMBR.MBN = 0 - defMaBi;
                         new UserMaBiService().AddUMBRByQA(addMBR, false);
                     }
                     else if(userMaBi.UMB.MaBi >= defMaBi)
@@ -340,7 +334,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                         addMBR.QAId = model.ID;
                         addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
                         addMBR.MBR = Guid.Parse(Reference.马币类别_马币);
-                        addMBR.MBN = defMaBi;
+                        addMBR.MBN = 0 - defMaBi;
                         new UserMaBiService().AddUMBRByQA(addMBR, false);
                     }
                 }

@@ -5,15 +5,14 @@
     var bic = Cookie_login["HIC"].ToString();
 }
 
-@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <div class="content-leftExp">
-                
-            </div>
-            
-        </div>
-    </section>
-}
+
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">
+        <p class="logonP">推广链接： <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsEXT".GX())">@Html.Partial("_Lamp")</a></span></p>
+        <span class="logonSpanGreen">@("ServiceDomain".GHU())/Home/Index/</span>
+        <span class="logonSpanGreen">@(bic)</span>
+    </div>
+</section>
+
 
     

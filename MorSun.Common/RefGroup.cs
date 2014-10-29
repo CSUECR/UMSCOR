@@ -192,7 +192,9 @@ namespace MorSun.Common
             public const string 邮件改密路径 = "/Account/ECPW";
 
             //网站域名  不是通过域名访问网站的情况，不能
-            public const string 网站域名 = "http://www.bungma.com"; 
+            public const string 网站域名 = "http://www.bungma.com";
+
+            public const string 默认推广代码 = "bungma";
 
             //微信
             public const string 作业邦微信令牌 = "WXZYBung34fdjs38";
