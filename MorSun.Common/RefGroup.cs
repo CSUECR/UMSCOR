@@ -224,6 +224,8 @@ namespace MorSun.Common
 
             //微信命令
             public const string 快速看答案 = "kda";
+            public const string 开始答题 = "dt";
+            public const string 退出答题 = "tcdt";
         }
     }
 }

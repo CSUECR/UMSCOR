@@ -50,8 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventService.cs" />
-    <Compile Include="LocationService.cs" />
+    <Compile Include="Service\EventService.cs" />
+    <Compile Include="Service\QuestionService.cs" />
+    <Compile Include="Service\LocationService.cs" />
     <Compile Include="MessageHandlers\CustomMessageHandler\CustomMessageContext.cs" />
     <Compile Include="MessageHandlers\CustomMessageHandler\CustomMessageHandler.cs" />
     <Compile Include="MessageHandlers\CustomMessageHandler\CustomMessageHandler_Events.cs" />

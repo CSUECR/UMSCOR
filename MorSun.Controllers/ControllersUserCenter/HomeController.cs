@@ -71,7 +71,7 @@ namespace MorSun.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ActionResult WXSharLink(string id)
+        public ActionResult WXShareLink(string id)
         {
             if(!String.IsNullOrEmpty(id))
             {

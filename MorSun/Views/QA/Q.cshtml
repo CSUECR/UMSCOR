@@ -16,9 +16,7 @@
                     <table id="MoreSunTreeTable" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>类别组名</th>
-                                <th>序号</th>
-                                <th>操作</th>
+                                <th></th>                                
                                 @*<th class="hidden-480">Username</th>*@
                             </tr>
                         </thead>
@@ -31,7 +29,7 @@
                                                     <span class="treespan folder ui-draggable">
                                                         @if(item.MsgType == Guid.Parse(MorSun.Common.类别.Reference.微信消息类别_图片))
                                                         {
-                                                            <img src="@item.PicUrl"/>
+                                                            <img src="@item.PicUrl" width="800"/>
                                                         }
                                                         else 
                                                         {
