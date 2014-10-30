@@ -68,14 +68,16 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnTextRequest(RequestMessageText requestMessage)
         {
-            var tempText = requestMessage.Content.ToLower();
+            //去掉头尾空格以及转化为小写
+            requestMessage.Content = requestMessage.Content.Trim().ToLower();
+            var tempText = requestMessage.Content;
             if(tempText.Contains(" "))
             {
                 var commondText = tempText.Substring(0, tempText.IndexOf(" "));
                 switch (commondText)
                 {
-                    case CFG.开始答题: return base.CreateResponseMessage<ResponseMessageText>();
-                    case CFG.我的提问前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);       
+                    case CFG.开始答题: return new QuestionService().GetQuestionResponseMessage(requestMessage);
+                    case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);       
                 }
             }
             else
@@ -83,13 +85,13 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 switch (tempText.ToLower())
                 {
                     case CFG.开始答题: return base.CreateResponseMessage<ResponseMessageText>();
-                    case CFG.我的提问前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
+                    case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }
             }
             
 
-            var responseMessage = new InvalidCommondService().GetResponseMessage(requestMessage as RequestMessageText);            
+            var responseMessage = new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);            
             return responseMessage;
         }        
 

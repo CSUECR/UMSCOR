@@ -53,6 +53,7 @@
     <Compile Include="Service\EventService.cs" />
     <Compile Include="Service\InvalidCommondService.cs" />
     <Compile Include="Service\CommonService.cs" />
+    <Compile Include="Service\AnswerService.cs" />
     <Compile Include="Service\QuestionService.cs" />
     <Compile Include="Service\LocationService.cs" />
     <Compile Include="MessageHandlers\CustomMessageHandler\CustomMessageContext.cs" />

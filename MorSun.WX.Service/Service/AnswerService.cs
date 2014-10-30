@@ -11,15 +11,15 @@ using HOHO18.Common.SSO;
 
 namespace MorSun.WX.ZYB.Service
 {
-    public class QuestionService
+    public class AnswerService
     {
-        #region 提问返回数据处理
+        #region 答题返回数据处理
         /// <summary>
         /// 提问返回数据处理
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews QuestionResponse<T>(T requestMessage, bmQA model)
+        private ResponseMessageNews AnswerResponse<T>(T requestMessage, bmQA model)
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
@@ -87,16 +87,16 @@ namespace MorSun.WX.ZYB.Service
         } 
         #endregion
 
-        #region 提问处理
+        #region 答题处理
         /// <summary>
         /// 用户提问处理
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews GetSubmitQuestionResponseMessage(RequestMessageImage requestMessage)
+        public ResponseMessageNews GetSubmitAnswerResponseMessage(RequestMessageImage requestMessage)
         {
             //用户提交问题处理
-            return SubmitQuestionResponse(requestMessage);            
+            return SubmitAnswerResponse(requestMessage);            
         }  
         
         /// <summary>
@@ -104,9 +104,9 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews SubmitQuestionResponse(RequestMessageImage requestMessage)
+        private ResponseMessageNews SubmitAnswerResponse(RequestMessageImage requestMessage)
         {
-            return QuestionResponse<RequestMessageImage>(requestMessage, SubmitQuestion(requestMessage));            
+            return AnswerResponse<RequestMessageImage>(requestMessage, SubmitQuestion(requestMessage));            
         }
 
         /// <summary>
@@ -235,32 +235,33 @@ namespace MorSun.WX.ZYB.Service
         }
         #endregion
 
-        #region 用户取问题
+        #region 用户开始答题
         /// <summary>
         /// 按时间逆序获取用户提问的问题
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <param name="skipNum"></param>
         /// <returns></returns>
-        public ResponseMessageNews GetQuestionResponseMessage(RequestMessageText requestMessage)
+        public ResponseMessageNews GetAnswerResponseMessage(RequestMessageText requestMessage)
         {
             //用户提交问题处理
             var skipNum = 1;
-            var text = requestMessage.Content;            
-            if (text.Contains(" "))
+            var text = requestMessage.Content;
+            try
             {
-                try 
-                { 
+                if (text.Contains(" "))
+                {
                     var commond = text.Substring(0, text.IndexOf(" "));
-                    var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ","");
+                    var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ", "");
                     skipNum = Convert.ToInt32(String.IsNullOrEmpty(numValue) ? "1" : numValue);
                 }
-                catch
-                {
-                    return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
-                }
-            }     
-            return GetQuestionResponse(requestMessage, skipNum);
+            }
+            catch
+            {
+                return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+            }
+
+            return GetAnswerResponse(requestMessage, skipNum);
         }
 
         /// <summary>
@@ -268,16 +269,16 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews GetQuestionResponse(RequestMessageText requestMessage, int skipNum)
+        private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage)
         {
-            return QuestionResponse<RequestMessageText>(requestMessage, GetQuestion(requestMessage, skipNum));
+            return AnswerResponse<RequestMessageText>(requestMessage, GetAnswer(requestMessage, skipNum));
         }
 
         /// <summary>
         /// 用户取问题
         /// </summary>
         /// <param name="requestMessage"></param>
-        private bmQA GetQuestion(RequestMessageText requestMessage, int skipNum)
+        private bmQA GetAnswer(RequestMessageText requestMessage, int skipNum)
         {
             if (skipNum < 1)
                 skipNum = 1;

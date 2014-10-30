@@ -14,19 +14,19 @@ namespace MorSun.WX.ZYB.Service
 {
     public class InvalidCommondService
     {
-        public ResponseMessageNews GetResponseMessage(RequestMessageText requestMessage)
+        public ResponseMessageNews GetInvalidCommondResponseMessage(RequestMessageText requestMessage)
         {
-            //用户提交问题处理
-            var responseMessage = SubmitQuestionResponse(requestMessage);
+            //错误指令处理
+            var responseMessage = InvalidCommondResponse(requestMessage);
             return responseMessage;
         }
 
         /// <summary>
-        /// 提问返回数据处理
+        /// 错误指令处理
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews SubmitQuestionResponse(RequestMessageText requestMessage)
+        private ResponseMessageNews InvalidCommondResponse(RequestMessageText requestMessage)
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 
             
