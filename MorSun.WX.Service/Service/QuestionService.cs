@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using Senparc.Weixin.MP.Entities;
-using Senparc.Weixin.MP.Entities.GoogleMap;
 using Senparc.Weixin.MP.Helpers;
 using MorSun.Bll;
 using MorSun.Model;
@@ -31,10 +30,11 @@ namespace MorSun.WX.ZYB.Service
             var model = SubmitQuestion(requestMessage);
 
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
+            var comonservice = new CommonService();
             responseMessage.Articles.Add(new Article()
             {
-                Title = ("问题编号：" + model.AutoGrenteId + " ") + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString("f0") + GetReferenceValue(model.MaBiRef)))),
-                Description = ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + GetReferenceValue(model.MaBiRef)))) + (" 问题编号：" + model.AutoGrenteId),
+                Title = ("问题编号：" + model.AutoGrenteId + " ") + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
+                Description = ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + comonservice.GetReferenceValue(model.MaBiRef)))) + (" 问题编号：" + model.AutoGrenteId),
                 PicUrl = requestMessage.PicUrl,
                 Url = requestMessage.PicUrl
             });
@@ -202,34 +202,20 @@ namespace MorSun.WX.ZYB.Service
                     bll.Insert(model);
                 }
             }
-
+            
+            //增加数据获取限制，如果等了7秒还未取到值，则不再取对象
+            int i = 0;
             //为了取自增长ID
             do
             {
                 if (UserQAService.GetMsgIdCache(msgid) != model.ID)
-                    System.Threading.Thread.Sleep(500);
-                model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();
-            } while (model.AutoGrenteId == 0);
-            return model;
-        }
-
-        /// <summary>
-        /// 通过id获取其itemValue
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        private string GetReferenceValue(Guid? guid)
-        {
-            var resultValue = string.Empty;
-            if (guid != null && guid != Guid.Empty)
-            {
-                var referenceModel = new BaseBll<wmfReference>().GetModel(guid);
-                if (referenceModel != null)
                 {
-                    resultValue = referenceModel.ItemValue;
+                    System.Threading.Thread.Sleep(500);
+                    i++;
                 }
-            }
-            return resultValue;
-        }
+                model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();                
+            } while (model.AutoGrenteId == 0 || i > 14);
+            return model;
+        }       
     }
 }

@@ -225,7 +225,13 @@ namespace MorSun.Common
             //微信命令
             public const string 快速看答案 = "kda";
             public const string 开始答题 = "dt";
+            public const string 放弃本题 = "fqbt";
+            
             public const string 退出答题 = "tcdt";
+
+            //有前缀的处理
+            public const string 文字答题前缀 = "hd";
+            public const string 我的提问 = "wdtw";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问
         }
     }
 }
