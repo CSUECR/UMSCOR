@@ -261,7 +261,7 @@ namespace MorSun.WX.ZYB.Service
                 return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
             }
 
-            return GetAnswerResponse(requestMessage, skipNum);
+            return GetAnswerResponse(requestMessage);
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace MorSun.WX.ZYB.Service
         /// <returns></returns>
         private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage)
         {
-            return AnswerResponse<RequestMessageText>(requestMessage, GetAnswer(requestMessage, skipNum));
+            return AnswerResponse<RequestMessageText>(requestMessage, GetAnswer(requestMessage));
         }
 
         /// <summary>

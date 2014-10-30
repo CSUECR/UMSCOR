@@ -283,10 +283,11 @@ namespace MorSun.WX.ZYB.Service
                 skipNum = 1;
             skipNum = skipNum - 1;
             var bll = new BaseBll<bmQA>();
-            var questionCount = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName).Count();
+            var qaRef = Guid.Parse(Reference.问答类别_问题);
+            var questionCount = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).Count();
             if (skipNum > questionCount)
                 skipNum = questionCount - 1;
-            var model = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName).OrderByDescending(p => p.RegTime).Skip(skipNum).Take(1).FirstOrDefault();
+            var model = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).OrderByDescending(p => p.RegTime).Skip(skipNum).Take(1).FirstOrDefault();
             return model;
         }
 

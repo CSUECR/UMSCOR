@@ -228,7 +228,7 @@ namespace MorSun.Common
             public const string 退出答题 = "tcdt";
 
             //独立或当前缀命令
-            public const string 我的问题前缀 = "wdwt";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问
+            public const string 我的问题前缀 = "wt";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问
 
             //有前缀的处理
             public const string 看答案前缀 = "kda";
