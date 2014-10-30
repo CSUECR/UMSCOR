@@ -68,12 +68,26 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnTextRequest(RequestMessageText requestMessage)
         {
-            //命令类型
-            switch(requestMessage.Content.ToLower())
+            var tempText = requestMessage.Content.ToLower();
+            if(tempText.Contains(" "))
             {
-                case CFG.开始答题 : return  base.CreateResponseMessage<ResponseMessageText>();
-                //default: return base.CreateResponseMessage<ResponseMessageText>();                   
+                var commondText = tempText.Substring(0, tempText.IndexOf(" "));
+                switch (commondText)
+                {
+                    case CFG.开始答题: return base.CreateResponseMessage<ResponseMessageText>();
+                    case CFG.我的提问前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);       
+                }
             }
+            else
+            {//命令类型
+                switch (tempText.ToLower())
+                {
+                    case CFG.开始答题: return base.CreateResponseMessage<ResponseMessageText>();
+                    case CFG.我的提问前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
+                    //default: return base.CreateResponseMessage<ResponseMessageText>();                   
+                }
+            }
+            
 
             var responseMessage = new InvalidCommondService().GetResponseMessage(requestMessage as RequestMessageText);            
             return responseMessage;
@@ -87,7 +101,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         public override IResponseMessageBase OnImageRequest(RequestMessageImage requestMessage)
         {
             //用户提交问题处理 
-            var responseMessage = new QuestionService().GetResponseMessage(requestMessage as RequestMessageImage);
+            var responseMessage = new QuestionService().GetSubmitQuestionResponseMessage(requestMessage as RequestMessageImage);
             //用户回答问题处理
 
             return responseMessage;

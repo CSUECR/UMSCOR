@@ -13,30 +13,23 @@ namespace MorSun.WX.ZYB.Service
 {
     public class QuestionService
     {
-        public ResponseMessageNews GetResponseMessage(RequestMessageImage requestMessage)
-        {
-            //用户提交问题处理
-            var responseMessage = SubmitQuestionResponse(requestMessage);
-            return responseMessage;
-        }
-
+        #region 提问返回数据处理
         /// <summary>
         /// 提问返回数据处理
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews SubmitQuestionResponse(RequestMessageImage requestMessage)
+        private ResponseMessageNews QuestionResponse<T>(T requestMessage, bmQA model)
+            where T : RequestMessageBase
         {
-            var model = SubmitQuestion(requestMessage);
-
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
             var comonservice = new CommonService();
             responseMessage.Articles.Add(new Article()
             {
                 Title = ("问题编号：" + model.AutoGrenteId + " ") + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
                 Description = ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + comonservice.GetReferenceValue(model.MaBiRef)))) + (" 问题编号：" + model.AutoGrenteId),
-                PicUrl = requestMessage.PicUrl,
-                Url = requestMessage.PicUrl
+                PicUrl = model.PicUrl,
+                Url = model.PicUrl
             });
             responseMessage.Articles.Add(new Article()
             {//眼睛图片
@@ -61,7 +54,7 @@ namespace MorSun.WX.ZYB.Service
             });
             responseMessage.Articles.Add(new Article()
             {//问号图片
-                Title = "直接看答案请发送:   " + CFG.快速看答案 + " " + model.AutoGrenteId,
+                Title = "直接看答案请发送:   " + CFG.看答案前缀 + " " + model.AutoGrenteId,
                 Description = "直接看答案",
                 PicUrl = "",
                 Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
@@ -91,6 +84,29 @@ namespace MorSun.WX.ZYB.Service
             }
 
             return responseMessage;
+        } 
+        #endregion
+
+        #region 提问处理
+        /// <summary>
+        /// 用户提问处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public ResponseMessageNews GetSubmitQuestionResponseMessage(RequestMessageImage requestMessage)
+        {
+            //用户提交问题处理
+            return SubmitQuestionResponse(requestMessage);            
+        }  
+        
+        /// <summary>
+        /// 提问返回数据处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        private ResponseMessageNews SubmitQuestionResponse(RequestMessageImage requestMessage)
+        {
+            return QuestionResponse<RequestMessageImage>(requestMessage, SubmitQuestion(requestMessage));            
         }
 
         /// <summary>
@@ -214,8 +230,67 @@ namespace MorSun.WX.ZYB.Service
                     i++;
                 }
                 model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();                
-            } while (model.AutoGrenteId == 0 || i > 14);
+            } while (model.AutoGrenteId == 0 || i > 20);
             return model;
-        }       
+        }
+        #endregion
+
+        #region 用户取问题
+        /// <summary>
+        /// 按时间逆序获取用户提问的问题
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="skipNum"></param>
+        /// <returns></returns>
+        public ResponseMessageNews GetQuestionResponseMessage(RequestMessageText requestMessage)
+        {
+            //用户提交问题处理
+            var skipNum = 1;
+            var text = requestMessage.Content;
+            try 
+            { 
+                if (text.Contains(" "))
+                {
+                    var commond = text.Substring(0, text.IndexOf(" "));
+                    var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ","");
+                    skipNum = Convert.ToInt32(String.IsNullOrEmpty(numValue) ? "1" : numValue);
+                }
+            }
+            catch
+            {
+                return new InvalidCommondService().GetResponseMessage(requestMessage as RequestMessageText); 
+            }
+            
+            return GetQuestionResponse(requestMessage, skipNum);
+        }
+
+        /// <summary>
+        /// 取问题返回数据处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        private ResponseMessageNews GetQuestionResponse(RequestMessageText requestMessage, int skipNum)
+        {
+            return QuestionResponse<RequestMessageText>(requestMessage, GetQuestion(requestMessage, skipNum));
+        }
+
+        /// <summary>
+        /// 用户取问题
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        private bmQA GetQuestion(RequestMessageText requestMessage, int skipNum)
+        {
+            if (skipNum < 1)
+                skipNum = 1;
+            skipNum = skipNum - 1;
+            var bll = new BaseBll<bmQA>();
+            var questionCount = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName).Count();
+            if (skipNum > questionCount)
+                skipNum = questionCount - 1;
+            var model = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName).OrderByDescending(p => p.RegTime).Skip(skipNum).Take(1).FirstOrDefault();
+            return model;
+        }
+
+        #endregion
     }
 }
