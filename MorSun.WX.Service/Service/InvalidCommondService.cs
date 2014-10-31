@@ -17,8 +17,7 @@ namespace MorSun.WX.ZYB.Service
         public ResponseMessageNews GetInvalidCommondResponseMessage(RequestMessageText requestMessage)
         {
             //错误指令处理
-            var responseMessage = InvalidCommondResponse(requestMessage);
-            return responseMessage;
+            return InvalidCommondResponse(requestMessage);            
         }
 
         /// <summary>
@@ -36,21 +35,7 @@ namespace MorSun.WX.ZYB.Service
                 Description = "邦马网无法与您的指令对接",
                 PicUrl = "",
                 Url = CFG.网站域名 + "/QA/Q/"
-            });//再增加 加码 求解题思路            
-            //responseMessage.Articles.Add(new Article()
-            //{//美元图片
-            //    Title = "加马币",
-            //    Description = "加马币",
-            //    PicUrl = "",
-            //    Url = CFG.网站域名 + "/QA/Q/"
-            //});
-            //responseMessage.Articles.Add(new Article()
-            //{//问号图片
-            //    Title = "求思路",
-            //    Description = "求思路",
-            //    PicUrl = "",
-            //    Url = CFG.网站域名 + "/QA/Q/"
-            //});            
+            });  
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
             new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);

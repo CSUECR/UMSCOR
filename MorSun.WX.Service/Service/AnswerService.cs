@@ -61,7 +61,7 @@ namespace MorSun.WX.ZYB.Service
             });
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
+            var userWeiXin = new CommonService().GetUserByWeiXinId(requestMessage.FromUserName);
             if (userWeiXin == null)
             {
                 responseMessage.Articles.Add(new Article()
@@ -120,10 +120,11 @@ namespace MorSun.WX.ZYB.Service
             var bll = new BaseBll<bmQA>();
 
             var model = new bmQA();
-            Guid mid = UserQAService.GetMsgIdCache(msgid);
+            var commonService = new CommonService();
+            Guid mid = commonService.GetMsgIdCache(msgid);
             if (mid == Guid.Empty)
             {//已经添加的问题答案，不再保存进系统
-                UserQAService.SetMsgIdCache(msgid, qaid);
+                commonService.SetMsgIdCache(msgid, qaid);
 
                 //将图片信息保存进数据库            
                 model.ID = qaid;
@@ -212,7 +213,7 @@ namespace MorSun.WX.ZYB.Service
                     qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
                 }
                 //判断缓存里保存的问答ID是否是当前的对象ID    
-                if (UserQAService.GetMsgIdCache(msgid) == model.ID)
+                if (commonService.GetMsgIdCache(msgid) == model.ID)
                 {
                     qadbll.Insert(qaModel, false);
                     bll.Insert(model);
@@ -224,7 +225,7 @@ namespace MorSun.WX.ZYB.Service
             //为了取自增长ID
             do
             {
-                if (UserQAService.GetMsgIdCache(msgid) != model.ID)
+                if (commonService.GetMsgIdCache(msgid) != model.ID)
                 {
                     System.Threading.Thread.Sleep(500);
                     i++;
@@ -244,7 +245,7 @@ namespace MorSun.WX.ZYB.Service
         public ResponseMessageNews GetAnswerResponseMessage(RequestMessageText requestMessage)
         {
             //未绑定的用户录入答题命令的处理
-            var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
+            var userWeiXin = new CommonService().GetUserByWeiXinId(requestMessage.FromUserName);
             if(userWeiXin == null)
             {
                 return new UnboundService().GetUnboundResponseMessage(requestMessage);

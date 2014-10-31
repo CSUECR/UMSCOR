@@ -1,0 +1,130 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using Senparc.Weixin.MP.Entities;
+using Senparc.Weixin.MP.Entities.GoogleMap;
+using Senparc.Weixin.MP.Helpers;
+using MorSun.Bll;
+using MorSun.Model;
+using MorSun.Common.类别;
+using MorSun.Common.配置;
+using HOHO18.Common.SSO;
+using HOHO18.Common;
+
+namespace MorSun.WX.ZYB.Service
+{
+    public class BoundService
+    {
+        public ResponseMessageNews GetBoundResponseMessage(RequestMessageText requestMessage)
+        {
+            //微信并发处理
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var commonService = new CommonService();
+            var rqid = Guid.NewGuid();
+
+            var bll = new BaseBll<bmUserWeixin>();
+            var model = new bmUserWeixin();            
+            Guid mid = commonService.GetMsgIdCache(msgid);
+            if (mid == Guid.Empty)
+            {
+                commonService.SetMsgIdCache(msgid, rqid);
+                //绑定指令处理 以下都是
+                var text = requestMessage.Content;
+                var boundCode = 0;
+                if (text.Contains(" "))
+                {
+                    try
+                    {
+                        var commond = text.Substring(0, text.IndexOf(" "));
+                        var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ", "");
+                        boundCode = Convert.ToInt32(numValue);
+                    }
+                    catch
+                    {
+                        return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+                    }
+                }
+                else
+                {
+                    return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+                }
+
+                var ubcc = GetUserBoundCodeCache(boundCode);
+                if (boundCode == 0 || ubcc == null)
+                    return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+                else
+                {//以上判断的是命令是否出错，和缓存是否有指令
+                    //已经绑定的用户不再操作绑定
+                    var userWeiXin = commonService.GetUserByWeiXinId(requestMessage.FromUserName);
+                    if (userWeiXin != null)
+                    {//用户重复发送绑定的情况
+                        return BoundResponse(requestMessage);
+                    }
+                    else
+                    {
+                        model.ID = rqid;
+                        model.UserId = ubcc.UserId;
+                        model.WeiXinId = requestMessage.FromUserName;
+                        //判断缓存里保存的问答ID是否是当前的对象ID    
+                        if (commonService.GetMsgIdCache(msgid) == model.ID)
+                        {
+                            bll.Insert(model);
+                        }
+                    }
+                }
+            }// mid
+            
+            //增加数据获取限制，如果等了7秒还未取到值，则不再取对象
+
+            int i = 0;
+            //为了取自增长ID
+            do
+            {
+                if (commonService.GetMsgIdCache(msgid) != model.ID)
+                {
+                    System.Threading.Thread.Sleep(500);
+                    i++;
+                }
+                model = commonService.GetUserByWeiXinId(requestMessage.FromUserName);
+            } while (model == null || i > 20);
+            //执行后还是为空
+            if (model == null)
+                return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+            return BoundResponse(requestMessage);
+        }
+
+        /// <summary>
+        /// 绑定指令处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        private ResponseMessageNews BoundResponse(RequestMessageText requestMessage)
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 
+            
+            responseMessage.Articles.Add(new Article()
+            {//眼睛图片
+                Title = "您的账号已经绑定邦马网",
+                Description = "您的账号已经绑定邦马网",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/Account/Register"
+            });    
+
+            //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
+            new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
+
+            return responseMessage;
+        }
+
+        /// <summary>
+        /// 根据绑定代码取要绑定的用户
+        /// </summary>
+        /// <param name="boundCode"></param>
+        /// <returns></returns>
+        private UserBoundCodeCache GetUserBoundCodeCache(int boundCode)
+        {
+            var key = CFG.微信绑定前缀 + boundCode.ToString();
+            return CacheAccess.GetFromCache(key) as UserBoundCodeCache;
+        }
+    }
+}

@@ -102,17 +102,18 @@ namespace MorSun.WX.ZYB.Service
         private bmQA SubmitQuestion(RequestMessageImage requestMessage)
         {
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
-            var qaid = Guid.NewGuid();
+            var rqid = Guid.NewGuid();
             var bll = new BaseBll<bmQA>();
 
             var model = new bmQA();
-            Guid mid = UserQAService.GetMsgIdCache(msgid);
+            var commonService = new CommonService();
+            Guid mid = commonService.GetMsgIdCache(msgid);
             if (mid == Guid.Empty)
             {//已经添加的问题答案，不再保存进系统
-                UserQAService.SetMsgIdCache(msgid, qaid);
+                commonService.SetMsgIdCache(msgid, rqid);
 
                 //将图片信息保存进数据库            
-                model.ID = qaid;
+                model.ID = rqid;
 
                 model.WeiXinId = requestMessage.FromUserName;
                 model.QARef = Guid.Parse(Reference.问答类别_问题);
@@ -198,7 +199,7 @@ namespace MorSun.WX.ZYB.Service
                     qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
                 }
                 //判断缓存里保存的问答ID是否是当前的对象ID    
-                if (UserQAService.GetMsgIdCache(msgid) == model.ID)
+                if (commonService.GetMsgIdCache(msgid) == model.ID)
                 {
                     qadbll.Insert(qaModel, false);
                     bll.Insert(model);
@@ -210,7 +211,7 @@ namespace MorSun.WX.ZYB.Service
             //为了取自增长ID
             do
             {
-                if (UserQAService.GetMsgIdCache(msgid) != model.ID)
+                if (commonService.GetMsgIdCache(msgid) != model.ID)
                 {
                     System.Threading.Thread.Sleep(500);
                     i++;

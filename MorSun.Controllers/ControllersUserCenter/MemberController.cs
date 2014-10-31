@@ -11,6 +11,7 @@ using System.Web.Security;
 using MorSun.Common.类别;
 using HOHO18.Common.WEB;
 using MorSun.Common.Privelege;
+using MorSun.Common.配置;
 
 
 namespace MorSun.Controllers
@@ -31,7 +32,21 @@ namespace MorSun.Controllers
         }
         public ActionResult Index()
         {
-            return View(new UInfo());
+            var cu = CurrentAspNetUser.wmfUserInfo;
+            var UInfo = new UInfo();
+            UInfo.NickName = cu.NickName;
+            var uw = GetUserBound();
+            if(uw == null || String.IsNullOrEmpty(uw.WeiXinId))
+            {
+                UInfo.IsBound = false;
+                //缓存存储
+                UInfo.BoundCode = CFG.微信绑定前缀 + " " + GetUserBoundCache().BoundCode.ToString();
+            }
+            else
+            {
+                UInfo.IsBound = true;
+            }
+            return View(UInfo);
         }
 
         /// <summary>

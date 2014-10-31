@@ -8,6 +8,7 @@ using MorSun.Bll;
 using MorSun.Model;
 using MorSun.Common.配置;
 using HOHO18.Common.SSO;
+using HOHO18.Common;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -40,7 +41,7 @@ namespace MorSun.WX.ZYB.Service
         public void RegOrShare<T>(T requestMessage, ResponseMessageNews responseMessage)
             where T : RequestMessageBase
         {
-            var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
+            var userWeiXin = GetUserByWeiXinId(requestMessage.FromUserName);
             if (userWeiXin == null)
             {
                 responseMessage.Articles.Add(new Article()
@@ -73,6 +74,45 @@ namespace MorSun.WX.ZYB.Service
                 PicUrl = picurl,
                 Url = CFG.网站域名 + url
             });
+        }
+
+        /// <summary>
+        /// 根据消息ID获取问答的ID值
+        /// </summary>
+        /// <param name="msgid"></param>
+        /// <returns></returns>
+        public Guid GetMsgIdCache(string msgid)
+        {
+            Guid gqaid = Guid.Empty;
+            //从缓存中读取
+            var qaid = CacheAccess.GetFromCache(msgid);
+            if (qaid != null)
+                gqaid = Guid.Parse(qaid.ToString());
+            return gqaid;
+        }
+
+        /// <summary>
+        /// 设置消息ID的问答ID
+        /// </summary>
+        /// <param name="msgid"></param>
+        /// <param name="qaid"></param>
+        public void SetMsgIdCache(string msgid, Guid qaid)
+        {
+            //保存到缓存中
+            CacheAccess.SaveToCacheByTime(msgid, qaid, 20);
+        }
+
+        /// <summary>
+        /// 获取绑定用户
+        /// </summary>
+        /// <param name="userWeiXinId"></param>
+        /// <returns></returns>
+        public bmUserWeixin GetUserByWeiXinId(string userWeiXinId)
+        {
+            if (!String.IsNullOrEmpty(userWeiXinId))
+                return new BaseBll<bmUserWeixin>().All.Where(p => p.WeiXinId == userWeiXinId).FirstOrDefault();
+            else
+                return null;
         }
     }
 }

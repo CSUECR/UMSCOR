@@ -76,7 +76,8 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 var commondText = tempText.Substring(0, tempText.IndexOf(" "));
                 switch (commondText)
                 {
-                    case CFG.开始答题: return new UnboundService().GetUnboundResponseMessage(requestMessage);
+                    case CFG.开始答题: return new AnswerService().GetAnswerResponseMessage(requestMessage);
+                    case CFG.微信绑定前缀: return new BoundService().GetBoundResponseMessage(requestMessage);
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);       
                 }
             }
@@ -84,7 +85,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             {//命令类型
                 switch (tempText)
                 {
-                    case CFG.开始答题: return new UnboundService().GetUnboundResponseMessage(requestMessage);
+                    case CFG.开始答题: return new AnswerService().GetAnswerResponseMessage(requestMessage);
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }

@@ -17,8 +17,7 @@ namespace MorSun.WX.ZYB.Service
         public ResponseMessageNews GetUnboundResponseMessage(RequestMessageText requestMessage)
         {
             //错误指令处理
-            var responseMessage = UnboundResponse(requestMessage);
-            return responseMessage;
+            return UnboundResponse(requestMessage);            
         }
 
         /// <summary>

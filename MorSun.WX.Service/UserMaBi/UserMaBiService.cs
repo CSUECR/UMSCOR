@@ -56,7 +56,7 @@ namespace MorSun.WX.ZYB.Service
         public UserMaBiCache GetUserMaBiFromCache(string userWeiXinId)
         {
             //该微信用户是否绑定邦马网账号，未绑定则直接返回空
-            var uwx = GetUserByWeiXinId(userWeiXinId);
+            var uwx = new CommonService().GetUserByWeiXinId(userWeiXinId);
             if (uwx == null)
                 return null;
             //取缓存马币数据
@@ -95,20 +95,7 @@ namespace MorSun.WX.ZYB.Service
             userMaBi.BanBi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
 
             return userMaBi;
-        }
-
-        /// <summary>
-        /// 获取绑定用户
-        /// </summary>
-        /// <param name="userWeiXinId"></param>
-        /// <returns></returns>
-        public bmUserWeixin GetUserByWeiXinId(string userWeiXinId)
-        {
-            if (!String.IsNullOrEmpty(userWeiXinId))
-                return new BaseBll<bmUserWeixin>().All.Where(p => p.WeiXinId == userWeiXinId).FirstOrDefault();
-            else
-                return null;
-        }
+        }        
 
         /// <summary>
         /// 提问扣马币

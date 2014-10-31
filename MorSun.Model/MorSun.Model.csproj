@@ -62,6 +62,8 @@
     <Compile Include="BM\bmOnlineQAUser.cs" />
     <Compile Include="BM\bmNew.cs" />
     <Compile Include="Cache\OlineQAUserCache.cs" />
+    <Compile Include="Cache\UserBoundCodeCache.cs" />
+    <Compile Include="Cache\UserBoundCache.cs" />
     <Compile Include="Cache\UserQACache.cs">
       <SubType>Code</SubType>
     </Compile>

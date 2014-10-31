@@ -233,6 +233,7 @@ namespace MorSun.Common
             //有前缀的处理
             public const string 看答案前缀 = "kda";
             public const string 文字答题前缀 = "hd";
+            public const string 微信绑定前缀 = "bd";
             
         }
     }

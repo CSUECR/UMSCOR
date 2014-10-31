@@ -1,6 +1,6 @@
 ﻿@model UInfo
 @{
-    ViewBag.Title = "修改操作";
+    ViewBag.Title = "会员中心";
     Layout = "~/Views/Shared/_UCLayout.cshtml";    
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/Operation/Index";
@@ -14,9 +14,11 @@
             <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
             @*<button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>*@
             </div>
+        @if(!Model.IsBound)
+        { 
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>修改操作</div>
+                    <div class="caption"><i class="icon-cogs"></i>绑定微信</div>
                 </div>
                 <div class="portlet-body">
                     @using (Html.BeginForm("Info", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
@@ -25,8 +27,9 @@
                         <table class="tableadd table-hover">
                             <thead>
                                 <tr>
-                                    <th>@Html.LabelFor(m => m.NickName)</th>
-                                    <td>@Html.TextBoxFor(m => m.NickName, new { @class = "m-wrap large" })</td>
+                                    <th width="300">@Html.LabelFor(m => m.BoundCode)</th>
+                                    <td><span style="font-size:50px;font-weight:bolder">@Model.BoundCode</span></td>    
+                                    <td><span>(请在两分钟内完成绑定)</span></td>                                  
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,6 +39,7 @@
                     }
                 </div>
             </div>
+        }
         </div>    
 </section>
     @section Scripts {        
