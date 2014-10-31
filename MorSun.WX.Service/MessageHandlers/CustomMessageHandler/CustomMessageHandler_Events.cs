@@ -20,7 +20,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var returnStr = @"欢迎关注【作业邦】
 从此问题不会难
 遇到问题拍一拍
-老师学霸帮你忙
+老师学霸帮您忙
 节省无尽脑细胞
 乐享生活快成长
 自从有了【作业邦】
@@ -162,7 +162,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         {
             //这里是微信客户端（通过微信服务器）自动发送过来的位置信息
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "这里写什么都无所谓，比如：上帝爱你！";
+            responseMessage.Content = "这里写什么都无所谓，比如：上帝爱您！";
             return responseMessage;//这里也可以返回null（需要注意写日志时候null的问题）
         }
 

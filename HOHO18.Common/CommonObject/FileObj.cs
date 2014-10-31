@@ -344,7 +344,7 @@ namespace HOHO18.Common
                 if (!Directory.Exists(aimPath))
                     Directory.CreateDirectory(aimPath);
                 // 得到源目录的文件列表，该里面是包含文件以及目录路径的一个数组
-                //如果你指向copy目标文件下面的文件而不包含目录请使用下面的方法
+                //如果您指向copy目标文件下面的文件而不包含目录请使用下面的方法
                 //string[] fileList = Directory.GetFiles(srcPath);
                 string[] fileList = Directory.GetFileSystemEntries(srcPath);
                 //遍历所有的文件和目录

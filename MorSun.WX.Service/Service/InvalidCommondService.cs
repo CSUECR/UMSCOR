@@ -53,27 +53,7 @@ namespace MorSun.WX.ZYB.Service
             //});            
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
-            if (userWeiXin == null)
-            {
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = "注册账号并绑定",
-                    Description = "注册账号并绑定",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/Account/Register"
-                });
-            }
-            else
-            {
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = "分享给朋友",
-                    Description = "分享给朋友",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/Home/WXShareLink/" + SecurityHelper.Encrypt(requestMessage.FromUserName)
-                });
-            }
+            new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
 
             return responseMessage;
         } 

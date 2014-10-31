@@ -43,7 +43,7 @@ namespace System
         }
 
         /// <summary>
-        /// 添加ModelErroe扩展，全称 AddModelError 变态扩展，你确认这方法能减少写代码的量,已经用了。 
+        /// 添加ModelErroe扩展，全称 AddModelError 变态扩展，您确认这方法能减少写代码的量,已经用了。 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="propertyName"></param>

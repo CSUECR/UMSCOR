@@ -15,7 +15,7 @@
                 <ol>
                     <li>
                         @Html.LabelFor(m => m.UserName)  
-                        @Html.TextBoxFor(m => m.UserName) <span>例如：你的QQ号@qq.com</span>
+                        @Html.TextBoxFor(m => m.UserName) <span>例如：您的QQ号@qq.com</span>
                     </li>                    
                     <li>
                         @Html.LabelFor(m => m.Password)
@@ -39,7 +39,7 @@
                         </li>
                     }
                 </ol>
-                <input type="button" id="submitBtn" value="注册" />
+                <input type="button" id="submitBtn" value="注册" />   <a href="/Account/Login">登录</a>
                 <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
                 <input name="BeInviteCode" type="hidden" value="@Model.BeInviteCode"/>
             </fieldset>

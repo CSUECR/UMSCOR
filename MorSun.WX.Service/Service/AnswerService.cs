@@ -237,28 +237,17 @@ namespace MorSun.WX.ZYB.Service
 
         #region 用户开始答题
         /// <summary>
-        /// 按时间逆序获取用户提问的问题
+        /// 用户输入答题命令处理
         /// </summary>
         /// <param name="requestMessage"></param>
-        /// <param name="skipNum"></param>
         /// <returns></returns>
         public ResponseMessageNews GetAnswerResponseMessage(RequestMessageText requestMessage)
         {
-            //用户提交问题处理
-            var skipNum = 1;
-            var text = requestMessage.Content;
-            try
+            //未绑定的用户录入答题命令的处理
+            var userWeiXin = new UserMaBiService().GetUserByWeiXinId(requestMessage.FromUserName);
+            if(userWeiXin == null)
             {
-                if (text.Contains(" "))
-                {
-                    var commond = text.Substring(0, text.IndexOf(" "));
-                    var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ", "");
-                    skipNum = Convert.ToInt32(String.IsNullOrEmpty(numValue) ? "1" : numValue);
-                }
-            }
-            catch
-            {
-                return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+                return new UnboundService().GetUnboundResponseMessage(requestMessage);
             }
 
             return GetAnswerResponse(requestMessage);
@@ -278,16 +267,10 @@ namespace MorSun.WX.ZYB.Service
         /// 用户取问题
         /// </summary>
         /// <param name="requestMessage"></param>
-        private bmQA GetAnswer(RequestMessageText requestMessage, int skipNum)
+        private bmQA GetAnswer(RequestMessageText requestMessage)
         {
-            if (skipNum < 1)
-                skipNum = 1;
-            skipNum = skipNum - 1;
             var bll = new BaseBll<bmQA>();
-            var questionCount = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName).Count();
-            if (skipNum > questionCount)
-                skipNum = questionCount - 1;
-            var model = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName).OrderByDescending(p => p.RegTime).Skip(skipNum).Take(1).FirstOrDefault();
+            var model = bll.All.FirstOrDefault();
             return model;
         }
 

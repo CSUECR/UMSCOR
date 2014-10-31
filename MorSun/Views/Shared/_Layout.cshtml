@@ -2,7 +2,11 @@
     //用户没登录，取不到值
     //var userinfo = MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
     HttpCookie Cookie_login = Request.Cookies["HIC"];
-    var bic = Cookie_login["HIC"].ToString();
+    var bic = "bungma";
+    if (Cookie_login != null && Cookie_login["HIC"] != null)
+    { 
+        bic = Cookie_login["HIC"].ToString(); 
+    }        
     var encodeurl = HttpUtility.UrlEncode(Request.Url.ToString());
 }
 <!DOCTYPE html>

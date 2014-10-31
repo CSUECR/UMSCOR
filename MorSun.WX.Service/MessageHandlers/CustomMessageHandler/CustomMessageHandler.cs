@@ -76,20 +76,19 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 var commondText = tempText.Substring(0, tempText.IndexOf(" "));
                 switch (commondText)
                 {
-                    case CFG.开始答题: return new QuestionService().GetQuestionResponseMessage(requestMessage);
+                    case CFG.开始答题: return new UnboundService().GetUnboundResponseMessage(requestMessage);
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);       
                 }
             }
             else
             {//命令类型
-                switch (tempText.ToLower())
+                switch (tempText)
                 {
-                    case CFG.开始答题: return base.CreateResponseMessage<ResponseMessageText>();
+                    case CFG.开始答题: return new UnboundService().GetUnboundResponseMessage(requestMessage);
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }
-            }
-            
+            }           
 
             var responseMessage = new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);            
             return responseMessage;
