@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -383,6 +383,7 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
+          <Property Name="WeiXinAPP" Type="uniqueidentifier" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -2768,6 +2769,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmUserWeixin_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmUserWeixin" Type="Self.bmUserWeixin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserWeixin">
+              <PropertyRef Name="WeiXinAPP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_kqClassesRelation_kqClassesRef">
           <End Role="kqClassesRef" Type="Self.kqClassesRef" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -4045,6 +4058,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmUserWeixin" EntitySet="bmUserWeixin" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmUserWeixin_wmfReference" Association="Self.FK_bmUserWeixin_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmUserWeixin" EntitySet="bmUserWeixin" />
+          </AssociationSet>
           <AssociationSet Name="FK_kqClassesRelation_kqClassesRef" Association="Self.FK_kqClassesRelation_kqClassesRef">
             <End Role="kqClassesRef" EntitySet="kqClassesRef" />
             <End Role="kqClassesRelation" EntitySet="kqClassesRelation" />
@@ -4314,8 +4331,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -4797,6 +4813,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_bmUserWeixin_aspnet_Users" FromRole="bmUserWeixin" ToRole="aspnet_Users" />
           <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmUserWeixin_aspnet_Users1" FromRole="bmUserWeixin" ToRole="aspnet_Users" />
+          <Property Name="WeiXinAPP" Type="Guid" />
+          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmUserWeixin_wmfReference" FromRole="bmUserWeixin" ToRole="wmfReference" />
         </EntityType>
         <EntityType Name="HF_AccreditUser">
           <Key>
@@ -6349,6 +6367,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfUploadFiles" Relationship="Self.FK_wmfUploadFile_wmfReference" FromRole="wmfReference" ToRole="wmfUploadFile" />
           <NavigationProperty Name="wmfUserInfoes" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfReference" ToRole="wmfUserInfo" />
           <NavigationProperty Name="wmfUserInfoes1" Relationship="Self.FK_wmfUserInfo_wmfReference1" FromRole="wmfReference" ToRole="wmfUserInfo" />
+          <NavigationProperty Name="bmUserWeixins" Relationship="MorSun.Model.FK_bmUserWeixin_wmfReference" FromRole="wmfReference" ToRole="bmUserWeixin" />
         </EntityType>
         <EntityType Name="wmfRefGroup">
           <Key>
@@ -8754,7 +8773,23 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmUserWeixin_wmfReference" Association="MorSun.Model.FK_bmUserWeixin_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmUserWeixin" EntitySet="bmUserWeixins" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_bmUserWeixin_wmfReference">
+          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserWeixin" Role="bmUserWeixin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserWeixin">
+              <PropertyRef Name="WeiXinAPP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9149,6 +9184,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmUserWeixins">
             <EntityTypeMapping TypeName="MorSun.Model.bmUserWeixin">
               <MappingFragment StoreEntitySet="bmUserWeixin">
+                <ScalarProperty Name="WeiXinAPP" ColumnName="WeiXinAPP" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />

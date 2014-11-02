@@ -52,7 +52,7 @@ namespace HOHO18.Common
         /// <param name="objObject"></param>
         public static void SetCache(string CacheKey, object objObject)
         {
-            System.Web.Caching.Cache objCache = HttpRuntime.Cache;
+            Cache objCache = HttpRuntime.Cache;
             objCache.Insert(CacheKey, objObject);
         }
 
@@ -63,8 +63,18 @@ namespace HOHO18.Common
         /// <param name="objObject"></param>
         public static void SetCache(string CacheKey, object objObject, DateTime absoluteExpiration, TimeSpan slidingExpiration)
         {
-            System.Web.Caching.Cache objCache = HttpRuntime.Cache;
+            Cache objCache = HttpRuntime.Cache;
             objCache.Insert(CacheKey, objObject, null, absoluteExpiration, slidingExpiration);
+        }
+
+        /// <summary>
+        /// 清除某个键的缓存
+        /// </summary>
+        /// <param name="CacheKey"></param>
+        public static void RemoveCache(string CacheKey)
+        {
+            Cache objCache = HttpRuntime.Cache;
+            objCache.Remove(CacheKey);
         }
     }
 }

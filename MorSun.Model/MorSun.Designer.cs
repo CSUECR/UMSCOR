@@ -139,6 +139,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfResource_wmfResource", "wmfResource", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfResource), "wmfResource1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfResource), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfVillage_wmfTown", "wmfTown", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.wmfTown), "wmfVillage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfVillage), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "aspnet_UsersInRoles", "aspnet_Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Roles), "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Users))]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserWeixin_wmfReference", "wmfReference", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfReference), "bmUserWeixin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserWeixin), true)]
 
 #endregion
 
@@ -13550,6 +13551,30 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> WeiXinAPP
+        {
+            get
+            {
+                return _WeiXinAPP;
+            }
+            set
+            {
+                OnWeiXinAPPChanging(value);
+                ReportPropertyChanging("WeiXinAPP");
+                _WeiXinAPP = StructuralObject.SetValidValue(value, "WeiXinAPP");
+                ReportPropertyChanged("WeiXinAPP");
+                OnWeiXinAPPChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _WeiXinAPP;
+        partial void OnWeiXinAPPChanging(Nullable<global::System.Guid> value);
+        partial void OnWeiXinAPPChanged();
 
         #endregion
 
@@ -13627,6 +13652,44 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<aspnet_Users>("MorSun.Model.FK_bmUserWeixin_aspnet_Users1", "aspnet_Users", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserWeixin_wmfReference", "wmfReference")]
+        public wmfReference wmfReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmUserWeixin_wmfReference", "wmfReference").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmUserWeixin_wmfReference", "wmfReference").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<wmfReference> wmfReferenceReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<wmfReference>("MorSun.Model.FK_bmUserWeixin_wmfReference", "wmfReference");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_bmUserWeixin_wmfReference", "wmfReference", value);
                 }
             }
         }
@@ -44469,6 +44532,28 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<wmfUserInfo>("MorSun.Model.FK_wmfUserInfo_wmfReference1", "wmfUserInfo", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserWeixin_wmfReference", "bmUserWeixin")]
+        public EntityCollection<bmUserWeixin> bmUserWeixins
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserWeixin>("MorSun.Model.FK_bmUserWeixin_wmfReference", "bmUserWeixin");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserWeixin>("MorSun.Model.FK_bmUserWeixin_wmfReference", "bmUserWeixin", value);
                 }
             }
         }

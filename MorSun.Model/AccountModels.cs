@@ -146,7 +146,7 @@ namespace MorSun.Model
         [StringLength(25, ErrorMessage = "昵称长度请控制在25个字符内")]
         public string NickName { get; set; }
 
-        public bool IsBound { get; set; }
+        public bool IsBoundZYB { get; set; }
 
         [DisplayName("微信发送绑定代码")]
         public string BoundCode { get; set; }

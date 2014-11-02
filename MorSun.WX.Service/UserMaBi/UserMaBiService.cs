@@ -56,7 +56,7 @@ namespace MorSun.WX.ZYB.Service
         public UserMaBiCache GetUserMaBiFromCache(string userWeiXinId)
         {
             //该微信用户是否绑定邦马网账号，未绑定则直接返回空
-            var uwx = new CommonService().GetUserByWeiXinId(userWeiXinId);
+            var uwx = new CommonService().GetZYBUserByWeiXinId(userWeiXinId);
             if (uwx == null)
                 return null;
             //取缓存马币数据

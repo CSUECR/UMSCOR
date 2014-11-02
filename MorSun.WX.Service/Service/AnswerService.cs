@@ -61,7 +61,7 @@ namespace MorSun.WX.ZYB.Service
             });
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            var userWeiXin = new CommonService().GetUserByWeiXinId(requestMessage.FromUserName);
+            var userWeiXin = new CommonService().GetZYBUserByWeiXinId(requestMessage.FromUserName);
             if (userWeiXin == null)
             {
                 responseMessage.Articles.Add(new Article()
@@ -245,7 +245,7 @@ namespace MorSun.WX.ZYB.Service
         public ResponseMessageNews GetAnswerResponseMessage(RequestMessageText requestMessage)
         {
             //未绑定的用户录入答题命令的处理
-            var userWeiXin = new CommonService().GetUserByWeiXinId(requestMessage.FromUserName);
+            var userWeiXin = new CommonService().GetZYBUserByWeiXinId(requestMessage.FromUserName);
             if(userWeiXin == null)
             {
                 return new UnboundService().GetUnboundResponseMessage(requestMessage);

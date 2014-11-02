@@ -9,6 +9,7 @@ using MorSun.Model;
 using MorSun.Common.配置;
 using HOHO18.Common.SSO;
 using HOHO18.Common;
+using MorSun.Common.类别;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -41,7 +42,7 @@ namespace MorSun.WX.ZYB.Service
         public void RegOrShare<T>(T requestMessage, ResponseMessageNews responseMessage)
             where T : RequestMessageBase
         {
-            var userWeiXin = GetUserByWeiXinId(requestMessage.FromUserName);
+            var userWeiXin = GetZYBUserByWeiXinId(requestMessage.FromUserName);
             if (userWeiXin == null)
             {
                 responseMessage.Articles.Add(new Article()
@@ -103,16 +104,51 @@ namespace MorSun.WX.ZYB.Service
         }
 
         /// <summary>
-        /// 获取绑定用户
+        /// 获取作业邦绑定用户
         /// </summary>
         /// <param name="userWeiXinId"></param>
         /// <returns></returns>
-        public bmUserWeixin GetUserByWeiXinId(string userWeiXinId)
+        public bmUserWeixin GetZYBUserByWeiXinId(string userWeiXinId)
         {
+            var wxyy = Guid.Parse(Reference.微信应用_作业邦);
             if (!String.IsNullOrEmpty(userWeiXinId))
-                return new BaseBll<bmUserWeixin>().All.Where(p => p.WeiXinId == userWeiXinId).FirstOrDefault();
+                return new BaseBll<bmUserWeixin>().All.Where(p => p.WeiXinId == userWeiXinId && p.WeiXinAPP == wxyy).FirstOrDefault();
             else
                 return null;
+        }
+
+        /// <summary>
+        /// 根据用户ID取作业邦绑定用户
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public bmUserWeixin GetZybUserByUserId(Guid userId)
+        {
+            var wxyy = Guid.Parse(Reference.微信应用_作业邦);            
+            return new BaseBll<bmUserWeixin>().All.Where(p => p.UserId == userId && p.WeiXinAPP == wxyy).FirstOrDefault();            
+        }
+
+        /// <summary>
+        /// 返回任务内容
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="title"></param>
+        /// <param name="desc"></param>
+        /// <param name="picurl"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public ResponseMessageNews CustomResponse(RequestMessageText requestMessage,string title,string desc,string picurl,string url)
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
+
+            responseMessage.Articles.Add(new Article()
+            {//眼睛图片
+                Title = title,
+                Description = desc,
+                PicUrl = picurl,
+                Url = url
+            });
+            return responseMessage;
         }
     }
 }

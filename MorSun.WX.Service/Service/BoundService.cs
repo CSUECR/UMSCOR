@@ -55,20 +55,28 @@ namespace MorSun.WX.ZYB.Service
                 else
                 {//以上判断的是命令是否出错，和缓存是否有指令
                     //已经绑定的用户不再操作绑定
-                    var userWeiXin = commonService.GetUserByWeiXinId(requestMessage.FromUserName);
-                    if (userWeiXin != null)
+                    var wxyy = Guid.Parse(Reference.微信应用_作业邦);                     
+                    if (commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName) != null)
                     {//用户重复发送绑定的情况
                         return BoundResponse(requestMessage);
+                    }
+                    else if (commonService.GetZybUserByUserId(ubcc.UserId) != null)
+                    {
+                        return commonService.CustomResponse(requestMessage, "该用户已经被绑定", "该用户已经被绑定", "", CFG.网站域名);
                     }
                     else
                     {
                         model.ID = rqid;
                         model.UserId = ubcc.UserId;
                         model.WeiXinId = requestMessage.FromUserName;
+                        model.WeiXinAPP = wxyy;
                         //判断缓存里保存的问答ID是否是当前的对象ID    
                         if (commonService.GetMsgIdCache(msgid) == model.ID)
                         {
                             bll.Insert(model);
+                            //释放资源
+                            CacheAccess.RemoveCache(CFG.微信绑定前缀 + boundCode);
+                            CacheAccess.RemoveCache(CFG.微信绑定前缀 + model.UserId.ToString());
                         }
                     }
                 }
@@ -85,7 +93,7 @@ namespace MorSun.WX.ZYB.Service
                     System.Threading.Thread.Sleep(500);
                     i++;
                 }
-                model = commonService.GetUserByWeiXinId(requestMessage.FromUserName);
+                model = commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName);
             } while (model == null || i > 20);
             //执行后还是为空
             if (model == null)

@@ -38,13 +38,13 @@ namespace MorSun.Controllers
             var uw = GetUserBound();
             if(uw == null || String.IsNullOrEmpty(uw.WeiXinId))
             {
-                UInfo.IsBound = false;
+                UInfo.IsBoundZYB = false;
                 //缓存存储
                 UInfo.BoundCode = CFG.微信绑定前缀 + " " + GetUserBoundCache().BoundCode.ToString();
             }
             else
             {
-                UInfo.IsBound = true;
+                UInfo.IsBoundZYB = true;
             }
             return View(UInfo);
         }

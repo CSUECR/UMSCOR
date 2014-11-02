@@ -694,12 +694,13 @@ namespace MorSun.Controllers
 
         #region 获取用户的绑定信息
         /// <summary>
-        /// 获取用户的微信绑定信息
+        /// 获取用户的微信绑定作业邦信息
         /// </summary>
         /// <returns></returns>
         protected bmUserWeixin GetUserBound()
-        {            
-            return new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.UserId == UserID);
+        {
+            var wxyy = Guid.Parse(Reference.微信应用_作业邦);
+            return new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.UserId == UserID && p.WeiXinAPP == wxyy);
         }
 
         /// <summary>

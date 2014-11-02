@@ -14,11 +14,11 @@
             <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
             @*<button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>*@
             </div>
-        @if(!Model.IsBound)
+        @if (!Model.IsBoundZYB)
         { 
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>绑定微信</div>
+                    <div class="caption"><i class="icon-cogs"></i>绑定作业邦</div>
                 </div>
                 <div class="portlet-body">
                     @using (Html.BeginForm("Info", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))

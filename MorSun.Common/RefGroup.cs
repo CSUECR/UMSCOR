@@ -108,6 +108,9 @@ namespace MorSun.Common
             public const string 分配答题操作_放弃 = "fe38a84c-4fd6-4621-a120-2c69391e4d84";
             public const string 分配答题操作_不是问题 = "ff801b8b-c3a6-4040-af92-12fb33d48f6c";
             public const string 分配答题操作_未处理 = "70be26d3-4b72-40bd-94f0-cd2546a871f4";
+
+            //微信应用
+            public const string 微信应用_作业邦 = "b61f5cee-676e-4716-9afa-4cdb44080239";
             #endregion
 
         }
