@@ -20,7 +20,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="certification"></param>
         /// <returns></returns>
-        public bmOnlineQAUser GetQADistribution(string certification)
+        public bmOnlineQAUser GetQADistribution(Guid certification)
         {
             //目前先取两种，一种是认证答题用户，一种是未认证答题用户
             var onlineuserCache = UserQAService.GetOlineQAUserCache();
@@ -42,7 +42,7 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="onlineUsers"></param>
         /// <param name="certification"></param>
         /// <returns></returns>
-        private static bmOnlineQAUser GetOnlineUser(IQueryable<bmOnlineQAUser> onlineUsers, string certification)
+        private static bmOnlineQAUser GetOnlineUser(IQueryable<bmOnlineQAUser> onlineUsers, Guid certification)
         {
             if (onlineUsers.Count() > 0)
             {//在线用户数量大于0

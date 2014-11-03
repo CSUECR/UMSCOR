@@ -226,13 +226,13 @@ namespace MorSun.WX.ZYB.Service
                 if (model.MaBiNum > 0)
                 {
                     //收费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(Reference.认证类别_认证邦主);
+                    var bmOU = new UserQADistributionService().GetQADistribution(Guid.Parse(Reference.认证类别_认证邦主));
                     qaModel.WeiXinId = bmOU == null ? CFG.默认收费问题微信号 : bmOU.WeiXinId;
                 }
                 else
                 {
                     //免费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(Reference.认证类别_未认证);
+                    var bmOU = new UserQADistributionService().GetQADistribution(Guid.Parse(Reference.认证类别_未认证));
                     qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
                 }
                 //判断缓存里保存的问答ID是否是当前的对象ID    
@@ -286,7 +286,7 @@ namespace MorSun.WX.ZYB.Service
                     //返回答题资源分配中，稍候再发送答题命令
                     return NonDistributionResponse(requestMessage);
                 }
-                if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && CertificationLevel.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel.ToSecureString()))
+                if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && CertificationLevel.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
                 {//认证用户处理
                     if(onlineuserCache.CertificationUser != null && onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
                     {

@@ -257,12 +257,12 @@ namespace MorSun.Common
 
     namespace 认证级别
     {
-        public struct CertificationLevel
+        public static class CertificationLevel
         {
             /// <summary>
             /// 可答题的认证类别
             /// </summary>
-            public const List<String> DTCertificationLevel = new List<String>() { 类别.Reference.认证类别_认证邦主};
+            public static List<Guid?> DTCertificationLevel = new List<Guid?>() { Guid.Parse(类别.Reference.认证类别_认证邦主) };
         }
     }
 }
