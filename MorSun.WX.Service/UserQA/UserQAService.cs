@@ -123,6 +123,10 @@ namespace MorSun.WX.ZYB.Service
                     model.AQStartTime = DateTime.Now;
                     model.State = state;
                     model.ActiveTime = DateTime.Now;
+                    //认证级别
+                    var uinfo = new BaseBll<wmfUserInfo>().GetModel(uwx.UserId);
+                    model.CertificationLevel = uinfo == null ? null : uinfo.CertificationLevel;
+
                     if(commonService.GetMsgIdCache(msgid) == model.ID)
                     {
                         bll.Insert(model);

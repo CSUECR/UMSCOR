@@ -8,6 +8,7 @@ using MorSun.Model;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
 using HOHO18.Common.SSO;
+using MorSun.Common.认证级别;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -285,13 +286,35 @@ namespace MorSun.WX.ZYB.Service
                     //返回答题资源分配中，稍候再发送答题命令
                     return NonDistributionResponse(requestMessage);
                 }
-                if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel == Guid.Parse(Reference.认证类别_认证邦主))
-                {//这种方式直接写的，不利于以后的扩展。
-
+                if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && CertificationLevel.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel.ToSecureString()))
+                {//认证用户处理
+                    if(onlineuserCache.CertificationUser != null && onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
+                    {
+                        //在线认证用户缓存存在该用户的处理方式
+                    }
+                    else
+                    {
+                        //认证用用户未进缓存
+                        //将用户添加或更新进数据库，由统一方法设置缓存
+                        UserQAService.AddOrUpdateOnlineQAUser(userWeiXin, requestMessage);
+                        //返回答题资源分配中，稍候再发送答题命令
+                        return NonDistributionResponse(requestMessage);
+                    }
                 }
                 else
-                {
-
+                {//不管什么原因的非认证用户处理
+                    if(onlineuserCache.NonCertificationQAUser != null && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
+                    {
+                        //在线未认证用户缓存存在该用户的处理方式
+                    }
+                    else
+                    {
+                        //未认证用用户未进缓存
+                        //将用户添加或更新进数据库，由统一方法设置缓存
+                        UserQAService.AddOrUpdateOnlineQAUser(userWeiXin, requestMessage);
+                        //返回答题资源分配中，稍候再发送答题命令
+                        return NonDistributionResponse(requestMessage);
+                    }
                 }
 
                 return GetAnswerResponse(requestMessage);

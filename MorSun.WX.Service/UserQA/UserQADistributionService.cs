@@ -6,6 +6,7 @@ using MorSun.Model;
 using MorSun.Bll;
 using System.Linq;
 using MorSun.Common.类别;
+using MorSun.Common.认证级别;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -24,16 +25,15 @@ namespace MorSun.WX.ZYB.Service
             //目前先取两种，一种是认证答题用户，一种是未认证答题用户
             var onlineuserCache = UserQAService.GetOlineQAUserCache();
             if (onlineuserCache == null)
-                return null;
-            switch(certification)
+                return null;            
+            if(CertificationLevel.DTCertificationLevel.Contains(certification))
             {
-                case Reference.认证类别_认证邦主:
-                    return GetOnlineUser(onlineuserCache.CertificationUser, certification);
-                case Reference.认证类别_未认证:
-                    return GetOnlineUser(onlineuserCache.NonCertificationQAUser, certification);
-                default:
-                    return GetOnlineUser(onlineuserCache.NonCertificationQAUser, certification);
-            }            
+                return GetOnlineUser(onlineuserCache.CertificationUser, certification);
+            }
+            else
+            {
+                return GetOnlineUser(onlineuserCache.NonCertificationQAUser, certification);
+            }
         }
 
         /// <summary>
@@ -49,15 +49,11 @@ namespace MorSun.WX.ZYB.Service
                 var onlineWeiXinIds = onlineUsers.Select(p => p.WeiXinId);
                 var djdRef = Guid.Parse(Reference.分配答题操作_待解答);
                                 
-                var onlineUD = new BaseBll<bmQADistribution>().All.Where(p => onlineWeiXinIds.Contains(p.WeiXinId) && p.Result == djdRef);            
-                if(certification.Eql(Reference.认证类别_认证邦主))
+                var onlineUD = new BaseBll<bmQADistribution>().All.Where(p => onlineWeiXinIds.Contains(p.WeiXinId) && p.Result == djdRef);
+                if (CertificationLevel.DTCertificationLevel.Contains(certification))
                 {
                     onlineUD = onlineUD.Where(p => p.bmQA.MaBiNum > 0);
-                }
-                else if(certification.Eql(Reference.认证类别_未认证))
-                {
-                    onlineUD = onlineUD.Where(p => p.bmQA.MaBiNum <= 0);  
-                } 
+                }                
                 else
                 {
                     onlineUD = onlineUD.Where(p => p.bmQA.MaBiNum <= 0);  
