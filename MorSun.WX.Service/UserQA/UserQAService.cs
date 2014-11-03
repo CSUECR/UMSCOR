@@ -18,6 +18,8 @@ namespace MorSun.WX.ZYB.Service
     public static class UserQAService
     {
         private static string xmlSystemName = "XmlSystemName".GW();
+
+        #region 用户答题缓存
         /// <summary>
         /// 用户答题缓存
         /// </summary>
@@ -33,19 +35,38 @@ namespace MorSun.WX.ZYB.Service
 
             if (model == null)
             {
-                CacheDependency fileDependency = new CacheDependency(path);
-
-                var qaCache = new UserQACache();
-                qaCache.WeiXinId = uid.Substring(2);
-                //保存到缓存中
-                CacheAccess.SaveToCacheByDependency(uid, qaCache, fileDependency);
-                model = qaCache;
+                model = InitUserQACache(uid);
             }
             return model;
         }
 
         /// <summary>
-        /// 设置用户答题缓存 当缓存的答题都完成时，要再设置缓存。每次答题也会触发设置缓存。
+        /// 初始化用户答题缓存，在用户答题缓存为空，或用户待答题数量为0，或用户待答题数量与已答题数量一致时调用
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public static UserQACache InitUserQACache(string uid)
+        {
+            //获取路径
+            string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
+            CacheDependency fileDependency = new CacheDependency(path);
+
+            var qaCache = new UserQACache();
+            var weixinId = uid.Substring(2);
+            qaCache.WeiXinId = weixinId;
+            //头一次取时，系统自动将待答问题和待处理的分配项放进缓存
+            var djdRef = Guid.Parse(Reference.分配答题操作_待解答);
+            //待回答的问题
+            qaCache.WaitQA = new BaseBll<bmQA>().All.Where(p => p.bmQADistributions.Count(q => q.WeiXinId == weixinId && q.Result == djdRef) > 0);
+            //待处理的分配项
+            qaCache.WaitQADis = new BaseBll<bmQADistribution>().All.Where(p => p.WeiXinId == weixinId && p.Result == djdRef);
+            //保存到缓存中
+            CacheAccess.SaveToCacheByDependency(uid, qaCache, fileDependency);
+            return qaCache;            
+        }
+
+        /// <summary>
+        /// 设置用户答题缓存 每次答题时触发设置缓存。
         /// </summary>
         /// <param name="uid"></param>
         /// <param name="qaCache"></param>
@@ -57,7 +78,9 @@ namespace MorSun.WX.ZYB.Service
             //保存到缓存中
             CacheAccess.SaveToCacheByDependency(uid, qaCache, fileDependency);
         }
+        #endregion
 
+        #region 在线用户缓存
         /// <summary>
         /// 获取在线答题用户缓存，这边只获取，为空时直接返回空。
         /// </summary>
@@ -98,7 +121,8 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="uwx"></param>
         /// <param name="requestMessage"></param>
-        public static void AddOrUpdateOnlineQAUser(bmUserWeixin uwx, RequestMessageText requestMessage)
+        public static void AddOrUpdateOnlineQAUser<T>(T requestMessage, bmUserWeixin uwx)
+            where T : RequestMessageBase
         {
             //判断在线答题用户是否存在该用户
             var bll = new BaseBll<bmOnlineQAUser>();
@@ -143,10 +167,7 @@ namespace MorSun.WX.ZYB.Service
             }
         }
 
-
-
-
-
+        #endregion
 
     }
 }

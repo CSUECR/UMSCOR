@@ -32,5 +32,20 @@ namespace MorSun.Model
         /// 已答问题
         /// </summary>
         public IQueryable<bmQA> AlreadyQA { get; set; }
+
+        /// <summary>
+        /// 当前分配项
+        /// </summary>
+        public bmQADistribution CurrentQADis { get; set; }
+
+        /// <summary>
+        /// 待处理的分配项
+        /// </summary>
+        public IQueryable<bmQADistribution> WaitQADis { get; set; }
+
+        /// <summary>
+        /// 已处理的分配项
+        /// </summary>
+        public IQueryable<bmQADistribution> AlreadyQADis { get; set; }
     }
 }

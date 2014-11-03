@@ -241,7 +241,8 @@ namespace MorSun.Common
 
             //微信命令            
             public const string 开始答题 = "dt";
-            public const string 放弃本题 = "fqbt";            
+            public const string 放弃本题 = "fqbt";
+            public const string 不是问题 = "bswt";
             public const string 退出答题 = "tcdt";
 
             //独立或当前缀命令
@@ -251,6 +252,10 @@ namespace MorSun.Common
             public const string 看答案前缀 = "kda";
             public const string 文字答题前缀 = "hd";
             public const string 微信绑定前缀 = "bd";
+
+
+            public const string 连续答退时间间隔 = "1";//限制一小时内
+            public const string 连续答退次数间隔 = "5";//限制5次以内
             
         }
     }

@@ -34,56 +34,39 @@ namespace MorSun.WX.ZYB.Service
             });
             responseMessage.Articles.Add(new Article()
             {//眼睛图片
-                Title = "看答案",
-                Description = "看答案",
+                Title = "放弃本题请发送:" + " " + CFG.放弃本题,
+                Description = "放弃本题请发送:" + " " + CFG.放弃本题,
                 PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                Url = ""
             });//再增加 加码 求解题思路            
             responseMessage.Articles.Add(new Article()
             {//美元图片
-                Title = "加马币",
-                Description = "加马币",
+                Title = "这不是一个问题请发送：" + " " + CFG.不是问题,
+                Description = "这不是一个问题请发送：" + " " + CFG.不是问题,
                 PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                Url = ""
+            });            
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "本题获取时间:" + DateTime.Now.ToShortTimeString(),
+                Description = "本题获取时间:" + DateTime.Now.ToShortTimeString(),
+                PicUrl = "",
+                Url = ""
             });
             responseMessage.Articles.Add(new Article()
             {//问号图片
-                Title = "求思路",
-                Description = "求思路",
+                Title = "当前未答题数:   " + model.DJDCount,
+                Description = "当前未答题数： " + model.DJDCount,
                 PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                Url = ""
             });
             responseMessage.Articles.Add(new Article()
-            {//问号图片
-                Title = "直接看答案请发送:   " + CFG.看答案前缀 + " " + model.AutoGrenteId,
-                Description = "直接看答案",
+            {//美元图片
+                Title = "退出答题请发送：" + " " + CFG.退出答题,
+                Description = "退出答题请发送：" + " " + CFG.退出答题,
                 PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                Url = ""
             });
-
-            //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            var userWeiXin = new CommonService().GetZYBUserByWeiXinId(requestMessage.FromUserName);
-            if (userWeiXin == null)
-            {
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = "注册账号并绑定",
-                    Description = "注册账号并绑定",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/Account/Register"
-                });
-            }
-            else
-            {
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = "分享给朋友",
-                    Description = "分享给朋友",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/Home/WXShareLink/" + SecurityHelper.Encrypt(requestMessage.FromUserName)
-                });
-            }
-
             return responseMessage;
         }
 
@@ -105,6 +88,28 @@ namespace MorSun.WX.ZYB.Service
                 Description = "查看分配规则",
                 PicUrl = "",
                 Url = CFG.网站域名 + "DistributionRule".GX()
+            });
+            return responseMessage;
+        }
+
+        private ResponseMessageNews RefusedAnswerResponse<T>(T requestMessage)
+            where T : RequestMessageBase
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
+            responseMessage.Articles.Add(new Article()
+            {
+                Title = "系统拒绝了您的答题请求",
+                Description = "系统拒绝了您的答题请求",
+                PicUrl = "",
+                Url = ""
+            });
+
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "查看拒绝答题请求规则",
+                Description = "查看拒绝答题请求规则",
+                PicUrl = "",
+                Url = CFG.网站域名 + "RefusedAnswer".GX()
             });
             return responseMessage;
         } 
@@ -275,6 +280,13 @@ namespace MorSun.WX.ZYB.Service
             }
             else
             { 
+                //连续答退的用户处理
+                var dt = DateTime.Now.AddHours(0 - Convert.ToInt32(CFG.连续答退时间间隔));
+                var userOnlineCount = new BaseBll<bmOnlineQAUser>().All.Where(p => p.AQEndTime >= dt).Count();
+                if (userOnlineCount >= 5)
+                    return RefusedAnswerResponse(requestMessage);
+                //连续答退的用户处理结束
+
                 //已经绑定的用户处理
                 //判断用户是否认证，以及认证与未认证的用户处理
                 var commonService = new CommonService();
@@ -282,42 +294,47 @@ namespace MorSun.WX.ZYB.Service
                 if (onlineuserCache == null)
                 {   //缓存未设置的情况
                     //将用户添加或更新进数据库，由统一方法设置缓存
-                    UserQAService.AddOrUpdateOnlineQAUser(userWeiXin, requestMessage);
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin);
                     //返回答题资源分配中，稍候再发送答题命令
                     return NonDistributionResponse(requestMessage);
                 }
-                if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && CertificationLevel.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
-                {//认证用户处理
-                    if(onlineuserCache.CertificationUser != null && onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
-                    {
-                        //在线认证用户缓存存在该用户的处理方式
-                    }
-                    else
-                    {
-                        //认证用用户未进缓存
-                        //将用户添加或更新进数据库，由统一方法设置缓存
-                        UserQAService.AddOrUpdateOnlineQAUser(userWeiXin, requestMessage);
-                        //返回答题资源分配中，稍候再发送答题命令
-                        return NonDistributionResponse(requestMessage);
-                    }
-                }
                 else
-                {//不管什么原因的非认证用户处理
-                    if(onlineuserCache.NonCertificationQAUser != null && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
-                    {
-                        //在线未认证用户缓存存在该用户的处理方式
+                { 
+                    //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin);
+                
+                    if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && CertificationLevel.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
+                    {//认证用户处理
+                        if(onlineuserCache.CertificationUser != null && onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
+                        {
+                            //在线认证用户缓存存在该用户的处理方式
+                            //不管认证与未认证的用户，答题方法是一样的，只是在分配答题时，系统根据认证与未认证用户进行答题分配，分配好后，都是一样的从数据库中取数据答题
+                        }
+                        else
+                        {
+                            //认证用用户未进缓存
+                        
+                            //返回答题资源分配中，稍候再发送答题命令
+                            return NonDistributionResponse(requestMessage);
+                        }
                     }
                     else
-                    {
-                        //未认证用用户未进缓存
-                        //将用户添加或更新进数据库，由统一方法设置缓存
-                        UserQAService.AddOrUpdateOnlineQAUser(userWeiXin, requestMessage);
-                        //返回答题资源分配中，稍候再发送答题命令
-                        return NonDistributionResponse(requestMessage);
+                    {//不管什么原因的非认证用户处理
+                        if(onlineuserCache.NonCertificationQAUser != null && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
+                        {
+                            //在线未认证用户缓存存在该用户的处理方式
+                        }
+                        else
+                        {
+                            //未认证用用户未进缓存
+                            
+                            //返回答题资源分配中，稍候再发送答题命令
+                            return NonDistributionResponse(requestMessage);
+                        }
                     }
-                }
 
-                return GetAnswerResponse(requestMessage);
+                    return GetAnswerResponse(requestMessage);
+                }
             }
         }
 
@@ -328,11 +345,18 @@ namespace MorSun.WX.ZYB.Service
         /// <returns></returns>
         private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage)
         {
+            //从缓存中获取后，待答题数量为0的处理
+
+            //从缓存中获取后，待答题数量与已答题数量一致时的处理
+
+            //从缓存中获取后，有可答题时的处理
+
+            
             return AnswerResponse<RequestMessageText>(requestMessage, GetAnswer(requestMessage));
         }
 
         /// <summary>
-        /// 用户取问题
+        /// 认证与未认证用户取问题统一方法
         /// </summary>
         /// <param name="requestMessage"></param>
         private bmQA GetAnswer(RequestMessageText requestMessage)
