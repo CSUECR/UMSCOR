@@ -746,6 +746,8 @@
     <Content Include="Views\Member\MaBiSettle.cshtml" />
     <Content Include="Views\QA\Q.cshtml" />
     <Content Include="Views\Home\WXShareLink.cshtml" />
+    <Content Include="Views\MM\Index.cshtml" />
+    <Content Include="Views\MM\CL.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

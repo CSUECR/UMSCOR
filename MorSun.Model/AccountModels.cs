@@ -152,6 +152,23 @@ namespace MorSun.Model
         public string BoundCode { get; set; }
     }
 
+    public class UserCL
+    {
+        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("用户ID")]
+        public Guid UserId { get; set; }
+
+        [DisplayName("昵称")]
+        public string NickName { get; set; }
+
+        [DisplayName("用户名")]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = "{0}必填")]
+        [DisplayName("认证级别")]
+        public Guid? CLevel { get; set; }
+    }
+
     /// <summary>
     /// 充值
     /// </summary>

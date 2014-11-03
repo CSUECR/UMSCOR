@@ -1,0 +1,61 @@
+﻿@model UserCL
+@{
+    ViewBag.Title = "用户认证";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";    
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/MM/Index";
+    var refVModel = new ReferenceVModel();
+    var clList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.用户认证类别).ToList();
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">    
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
+            <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+            </div>
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>用户认证</div>
+                </div>
+                <div class="portlet-body">
+                    @using (Html.BeginForm("CL", "MM", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.UserId)
+                        <table class="tableadd table-hover">
+                            <thead>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.UserName)</th>
+                                    <td>@Model.UserName</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.NickName)</th>
+                                    <td>@Model.NickName</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.CLevel)</th>
+                                    <td>@MvcHtmlString.Create(Html.DropDownList("CLevel", "CLevel", clList, Model.CLevel.ToString(), "class=\"m-wrap large\"", "ID", "ItemValue", "", ""))</td>
+                                </tr>                                                         
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+         
+        <script type="text/javascript">  
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false));            
+        </script>
+    }

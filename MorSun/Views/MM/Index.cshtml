@@ -1,0 +1,93 @@
+﻿@model UserVModel
+@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/MM/Index";
+
+    var refVModel = new ReferenceVModel();    
+    var clList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.用户认证类别).ToList();
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+        @using (Html.BeginForm("Index", "MM", FormMethod.Get))
+        {
+            @Html.TextBoxFor(p => p.UserName)  
+            @MvcHtmlString.Create(Html.DropDownList("CLevel", "CLevel", clList, Model.CLevel.ToString(), "class=\"m-wrap small\"", "ID", "ItemValue", "", "==认证级别=="))          
+            <button class="btn yellow" type="submit">@("查询".GX())</button>    
+            if (Model.FlagTrashed == "0")
+            {                
+                if (rs.HP(操作.回收站))
+                {
+                    <button class="btn" type="button" onclick="jumptourl('/Reference/Index?FlagTrashed=1')">@("回收站".GX())</button>
+                }
+            }
+            else if (Model.FlagTrashed == "1")
+            {
+                <button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>
+            }          
+        }
+        </div>
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>用户管理</div>
+                </div>
+                <div class="portlet-body">
+                    <table id="MoreSunTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>呢称</th>
+                                <th>认证</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.List)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.UserName
+                                    </td>
+                                    <td>
+                                        @(item.wmfUserInfo == null ? "" : item.wmfUserInfo.NickName)
+                                    </td>
+                                    <td>
+                                        @(item.wmfUserInfo == null ? "" : refVModel.GetReferenceValue(item.wmfUserInfo.CertificationLevel))
+                                    </td>
+                                    
+                                    <td>
+                                        @if (Model.FlagTrashed == "0")
+                                        {
+                                            if (rs.HP(操作.修改))
+                                            {
+                                                <button class="btn blue" type="button" onclick="jumptourl('/MM/CL?userid=@item.UserId&returnUrl=@(Url.Encode(Request.RawUrl))')">@("认证".GX())</button>
+                                            }                                            
+                                        }
+                                        else if (Model.FlagTrashed == "1")
+                                        {
+                                           
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+        
+        <script type="text/javascript"> 
+        </script>
+    }

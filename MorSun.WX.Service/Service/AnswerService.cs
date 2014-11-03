@@ -84,6 +84,28 @@ namespace MorSun.WX.ZYB.Service
             }
 
             return responseMessage;
+        }
+
+        private ResponseMessageNews NonDistributionResponse<T>(T requestMessage)
+            where T : RequestMessageBase
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);             
+            responseMessage.Articles.Add(new Article()
+            {
+                Title = "正在为您分配答题资源，请稍候再尝试",
+                Description = "正在为您分配答题资源，请稍候再尝试",
+                PicUrl = "",
+                Url = ""
+            });
+            
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "查看分配规则",
+                Description = "查看分配规则",
+                PicUrl = "",
+                Url = CFG.网站域名 + "DistributionRule".GX()
+            });
+            return responseMessage;
         } 
         #endregion
 
@@ -203,13 +225,13 @@ namespace MorSun.WX.ZYB.Service
                 if (model.MaBiNum > 0)
                 {
                     //收费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(true);
+                    var bmOU = new UserQADistributionService().GetQADistribution(Reference.认证类别_认证邦主);
                     qaModel.WeiXinId = bmOU == null ? CFG.默认收费问题微信号 : bmOU.WeiXinId;
                 }
                 else
                 {
                     //免费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(false);
+                    var bmOU = new UserQADistributionService().GetQADistribution(Reference.认证类别_未认证);
                     qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
                 }
                 //判断缓存里保存的问答ID是否是当前的对象ID    
@@ -250,8 +272,30 @@ namespace MorSun.WX.ZYB.Service
             {
                 return new UnboundService().GetUnboundResponseMessage(requestMessage);
             }
+            else
+            { 
+                //已经绑定的用户处理
+                //判断用户是否认证，以及认证与未认证的用户处理
+                var commonService = new CommonService();
+                var onlineuserCache = UserQAService.GetOlineQAUserCache();
+                if (onlineuserCache == null)
+                {   //缓存未设置的情况
+                    //将用户添加或更新进数据库，由统一方法设置缓存
+                    UserQAService.AddOrUpdateOnlineQAUser(userWeiXin, requestMessage);
+                    //返回答题资源分配中，稍候再发送答题命令
+                    return NonDistributionResponse(requestMessage);
+                }
+                if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel == Guid.Parse(Reference.认证类别_认证邦主))
+                {//这种方式直接写的，不利于以后的扩展。
 
-            return GetAnswerResponse(requestMessage);
+                }
+                else
+                {
+
+                }
+
+                return GetAnswerResponse(requestMessage);
+            }
         }
 
         /// <summary>

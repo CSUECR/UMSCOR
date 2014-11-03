@@ -189,13 +189,13 @@ namespace MorSun.WX.ZYB.Service
                 if (model.MaBiNum > 0)
                 {
                     //收费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(true);
+                    var bmOU = new UserQADistributionService().GetQADistribution(Reference.认证类别_认证邦主);
                     qaModel.WeiXinId = bmOU == null ? CFG.默认收费问题微信号 : bmOU.WeiXinId;
                 }
                 else
                 {
                     //免费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(false);
+                    var bmOU = new UserQADistributionService().GetQADistribution(Reference.认证类别_未认证);
                     qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
                 }
                 //判断缓存里保存的问答ID是否是当前的对象ID    

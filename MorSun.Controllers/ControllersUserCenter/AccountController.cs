@@ -159,12 +159,25 @@ namespace MorSun.Controllers
             validateLockedUser(model);
             //SSO也要用到，所以从if(AccountActive)里取出来。
             var user = new BaseBll<aspnet_Users>().All.FirstOrDefault(p => p.LoweredUserName == model.UserName.ToLower());
-            //判断账号是否激活
+            //判断账号是否激活,时间长未激活的话，系统再发送激活邮件
             if ("AccountActive".GX() == "true")
             {                
                 if (user != null && user.wmfUserInfo.FlagActive == false)
-                {
-                    "UserName".AE("账号未激活", ModelState);
+                { 
+                    //检查该用户的激活邮件发送时间，如果超过48小时，系统自动重新发送一条。
+                    var mrbll = new BaseBll<wmfMailRecord>();
+                    var effectiveHour = 0 - CFG.有效时间.ToAs<int>();
+                    var dt = DateTime.Now.AddHours(effectiveHour);//计算48前的时间
+                    var mr = mrbll.All.FirstOrDefault(p => p.MailTo == user.UserName && p.RegTime >= dt);
+                    if(mr == null)
+                    {
+                        SendActiveMail(mrbll,user.aspnet_Membership.Email,user.wmfUserInfo.NickName,user.wmfUserInfo.UserNameString);
+                        "UserName".AE("系统已经重新发送了激活邮件，请激活后再登录", ModelState);
+                    }
+                    else
+                    {
+                        "UserName".AE("账号未激活,请激活后再登录", ModelState);
+                    }
                 }
             }
             if (ModelState.IsValid)
@@ -203,6 +216,25 @@ namespace MorSun.Controllers
         }
 
         /// <summary>
+        /// 发送激活邮件
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="mrbll"></param>
+        private void SendActiveMail( BaseBll<wmfMailRecord> mrbll,string email,string nickName,string userNameString)
+        {
+            string fromEmail = CFG.应用邮箱;
+            string fromEmailPassword = CFG.邮箱密码.DP();
+            int emailPort = String.IsNullOrEmpty(CFG.邮箱端口) ? 587 : CFG.邮箱端口.ToAs<int>();
+            var code = GenerateEncryptCode(userNameString, CFG.账号激活路径, false);
+            string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", nickName).Replace("[==UserCode==]", code);
+            //创建邮件对象并发送
+            var mail = new SendMail(email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GX(), nickName);
+            var mailRecord = new wmfMailRecord().wmfMailRecord2(email, body, "激活账号", "ServiceMailName".GX(), nickName, Guid.Parse(Reference.电子邮件类别_账号注册));
+            mrbll.Insert(mailRecord);
+            mail.Send("smtp.", emailPort, email + "激活账号邮件发送失败！");
+        }
+
+        /// <summary>
         /// 登录后的通用设置方法
         /// </summary>
         /// <param name="user"></param>
@@ -233,29 +265,29 @@ namespace MorSun.Controllers
             return RedirectToAction("Index", "Home");
         }
         /// <summary>
-        /// 通行证登录
+        /// 通行证登录       先不开启使用，有子系统再说
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
-        public String AppLogin()
-        {
-            string userCode = Request.QueryString[SsoConst.SsoTokenName];
-            string userName = "";
-            if (!string.IsNullOrEmpty(userCode))
-            {
-                userCode = SecurityHelper.Decrypt(userCode);
-                //修改了内容，取用户名要区分开来
-                //取时间戳
-                var ind = userCode.IndexOf(';');
-                DateTime dt = DateTime.Parse(userCode.Substring(0, ind));
-                var uid = Guid.Parse(userCode.Substring(ind + 1, 36));
-                userName = userCode.Substring(ind + 1 + 36, userCode.Length - ind - 36 - 1);
-                //在这个位置增加用户。
+        //[AllowAnonymous]
+        //public String AppLogin()
+        //{
+        //    string userCode = Request.QueryString[SsoConst.SsoTokenName];
+        //    string userName = "";
+        //    if (!string.IsNullOrEmpty(userCode))
+        //    {
+        //        userCode = SecurityHelper.Decrypt(userCode);
+        //        //修改了内容，取用户名要区分开来
+        //        //取时间戳
+        //        var ind = userCode.IndexOf(';');
+        //        DateTime dt = DateTime.Parse(userCode.Substring(0, ind));
+        //        var uid = Guid.Parse(userCode.Substring(ind + 1, 36));
+        //        userName = userCode.Substring(ind + 1 + 36, userCode.Length - ind - 36 - 1);
+        //        //在这个位置增加用户。
 
-                FormsService.SignIn(userName, true);
-            }
-            return ";";
-        }
+        //        FormsService.SignIn(userName, true);
+        //    }
+        //    return ";";
+        //}
 
         /// <summary>
         /// 通行证退出
@@ -603,17 +635,8 @@ namespace MorSun.Controllers
                         }
                         //发送激活邮件
                         if ("AccountActive".GX() == "true")
-                        {
-                            string fromEmail = CFG.应用邮箱;                            
-                            string fromEmailPassword = CFG.邮箱密码.DP();
-                            int emailPort = String.IsNullOrEmpty(CFG.邮箱端口) ? 587 : CFG.邮箱端口.ToAs<int>();
-                            var code = GenerateEncryptCode(userinfoModel.UserNameString,CFG.账号激活路径,false);
-                            string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", userinfoModel.NickName).Replace("[==UserCode==]", code);
-                            //创建邮件对象并发送
-                            var mail = new SendMail(model.Email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GX(), userinfoModel.NickName);
-                            var mailRecord = new wmfMailRecord().wmfMailRecord2(model.Email, body, "激活账号", "ServiceMailName".GX(), userinfoModel.NickName,Guid.Parse(Reference.电子邮件类别_账号注册));
-                            new BaseBll<wmfMailRecord>().Insert(mailRecord);
-                            mail.Send("smtp.", emailPort, model.Email + "激活账号邮件发送失败！");
+                        {                            
+                            SendActiveMail(new BaseBll<wmfMailRecord>(), model.Email, userinfoModel.NickName, userinfoModel.UserNameString);
                         } 
                         else
                         { 

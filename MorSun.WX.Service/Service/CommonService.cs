@@ -65,6 +65,16 @@ namespace MorSun.WX.ZYB.Service
             }
         }
 
+        /// <summary>
+        /// 未找到对象的返回内容
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestMessage"></param>
+        /// <param name="responseMessage"></param>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
+        /// <param name="picurl"></param>
+        /// <param name="url"></param>
         public void NonObject<T>(T requestMessage, ResponseMessageNews responseMessage,string title,string description,string picurl,string url)
             where T : RequestMessageBase
         {
@@ -129,7 +139,7 @@ namespace MorSun.WX.ZYB.Service
         }
 
         /// <summary>
-        /// 返回任务内容
+        /// 返回任意内容
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <param name="title"></param>

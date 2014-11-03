@@ -70,7 +70,7 @@ namespace MorSun.Common.Privelege
         /// <summary>
         /// 员工
         /// </summary>
-        public const string 员工 = "76309187-c594-467e-910b-78d5a6d79403";
+        public const string 用户 = "76309187-c594-467e-910b-78d5a6d79403";
         /// <summary>
         /// 角色配置
         /// </summary>

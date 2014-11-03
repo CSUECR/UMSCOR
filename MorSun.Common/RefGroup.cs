@@ -111,6 +111,15 @@ namespace MorSun.Common
 
             //微信应用
             public const string 微信应用_作业邦 = "b61f5cee-676e-4716-9afa-4cdb44080239";
+
+            //微信认证类别
+            public const string 认证类别_未认证 = "91ce82aa-495e-4f58-952c-35f37343ef25";
+            public const string 认证类别_认证马可 = "7bedb679-8dc6-4928-81f5-ba06ad23ae70";
+            public const string 认证类别_认证邦主 = "61dba173-f4d9-4171-b979-68aa993e786b";
+
+            //在线状态
+            public const string 在线状态_在线 = "da2c77e5-cdf8-413f-a722-f4325a0e2d12";
+            public const string 在线状态_退出 = "963cd36d-d1c3-44d0-9499-9a7d37ef3635";
             #endregion
 
         }
@@ -176,6 +185,11 @@ namespace MorSun.Common
             /// 微信消息类别
             /// </summary>
             public const string 微信消息类别 = "d0774341-fbd0-4f7c-b5af-a72e3e8dabc2";
+
+            /// <summary>
+            /// 用户认证类别
+            /// </summary>
+            public const string 用户认证类别 = "3f348b47-1f4f-4328-b042-e4c3db3f30e2";
         }
     }    
 
