@@ -264,10 +264,10 @@ namespace MorSun.Controllers
             System.Web.HttpContext.Current.Session.Abandon();
             return RedirectToAction("Index", "Home");
         }
-        /// <summary>
-        /// 通行证登录       先不开启使用，有子系统再说
-        /// </summary>
-        /// <returns></returns>
+         ///<summary>
+         ///通行证登录       先不开启使用，有子系统再说
+         ///</summary>
+         ///<returns></returns>
         //[AllowAnonymous]
         //public String AppLogin()
         //{
@@ -275,16 +275,24 @@ namespace MorSun.Controllers
         //    string userName = "";
         //    if (!string.IsNullOrEmpty(userCode))
         //    {
-        //        userCode = SecurityHelper.Decrypt(userCode);
-        //        //修改了内容，取用户名要区分开来
-        //        //取时间戳
-        //        var ind = userCode.IndexOf(';');
-        //        DateTime dt = DateTime.Parse(userCode.Substring(0, ind));
-        //        var uid = Guid.Parse(userCode.Substring(ind + 1, 36));
-        //        userName = userCode.Substring(ind + 1 + 36, userCode.Length - ind - 36 - 1);
-        //        //在这个位置增加用户。
-
-        //        FormsService.SignIn(userName, true);
+        //        try 
+        //        { 
+        //            userCode = SecurityHelper.Decrypt(userCode);
+        //            //修改了内容，取用户名要区分开来
+        //            //取时间戳
+        //            var ind = userCode.IndexOf(';');
+        //            DateTime dt = DateTime.Parse(userCode.Substring(0, ind));
+        //            var uid = Guid.Parse(userCode.Substring(ind + 1, 36));
+        //            userName = userCode.Substring(ind + 1 + 36, userCode.Length - ind - 36 - 1);
+        //            //在这个位置增加用户。
+        //            var user = new BaseBll<aspnet_Users>().All.Where(p => p.UserName == userName).FirstOrDefault();
+        //            if(user != null)
+        //                FormsService.SignIn(userName, true);
+        //        }
+        //        catch(Exception ex)
+        //        {
+        //            return "";
+        //        }
         //    }
         //    return ";";
         //}
@@ -293,13 +301,13 @@ namespace MorSun.Controllers
         /// 通行证退出
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
-        public String AppLogOff()
-        {
-            FormsService.SignOut();
-            System.Web.HttpContext.Current.Session.Abandon();
-            return ";";
-        }
+        //[AllowAnonymous]
+        //public String AppLogOff()
+        //{
+        //    FormsService.SignOut();
+        //    System.Web.HttpContext.Current.Session.Abandon();
+        //    return ";";
+        //}
         #endregion
 
         #region 忘记密码

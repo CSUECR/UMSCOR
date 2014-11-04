@@ -7,6 +7,7 @@ using MorSun.Bll;
 using System.Linq;
 using MorSun.Common.类别;
 using MorSun.Common.认证级别;
+using MorSun.Common.配置;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -25,14 +26,17 @@ namespace MorSun.WX.ZYB.Service
             //目前先取两种，一种是认证答题用户，一种是未认证答题用户
             var onlineuserCache = UserQAService.GetOlineQAUserCache();
             if (onlineuserCache == null)
-                return null;            
+                return null;
+            //这边要过滤掉不活跃的在线用户
+            var mn = 0 - Convert.ToInt32(CFG.疑似退出时间);
+            var dt = DateTime.Now.AddMinutes(mn);
             if(CertificationLevel.DTCertificationLevel.Contains(certification))
-            {
-                return GetOnlineUser(onlineuserCache.CertificationUser, certification);
+            { 
+                return GetOnlineUser(onlineuserCache.CertificationUser.Where(p => p.ActiveTime >= dt), certification);
             }
             else
             {
-                return GetOnlineUser(onlineuserCache.NonCertificationQAUser, certification);
+                return GetOnlineUser(onlineuserCache.NonCertificationQAUser.Where(p => p.ActiveTime >= dt), certification);
             }
         }
 

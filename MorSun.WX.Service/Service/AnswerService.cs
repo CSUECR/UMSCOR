@@ -316,7 +316,7 @@ namespace MorSun.WX.ZYB.Service
                         }
                         else
                         {
-                            //认证用用户未进缓存
+                            //认证用户未进缓存
                         
                             //返回答题资源分配中，稍候再发送答题命令
                             return NonDistributionResponse(requestMessage);

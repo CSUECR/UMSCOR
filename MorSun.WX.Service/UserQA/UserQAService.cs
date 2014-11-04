@@ -152,6 +152,10 @@ namespace MorSun.WX.ZYB.Service
                     var uinfo = new BaseBll<wmfUserInfo>().GetModel(uwx.UserId);
                     model.CertificationLevel = uinfo == null ? null : uinfo.CertificationLevel;
 
+                    model.RegTime = DateTime.Now;
+                    model.ModTime = DateTime.Now;
+                    model.FlagTrashed = false;
+                    model.FlagDeleted = false;
                     if(commonService.GetMsgIdCache(msgid) == model.ID)
                     {
                         bll.Insert(model);
@@ -160,6 +164,7 @@ namespace MorSun.WX.ZYB.Service
                 else
                 {//用户已经在线时,更新活跃时间
                     oqau.ActiveTime = DateTime.Now;
+                    oqau.ModTime = DateTime.Now;
                     if (commonService.GetMsgIdCache(msgid) == rqid)
                     {
                         bll.Update(oqau);

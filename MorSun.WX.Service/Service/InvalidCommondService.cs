@@ -34,11 +34,18 @@ namespace MorSun.WX.ZYB.Service
                 Title = "邦马网无法与您的指令对接",
                 Description = "邦马网无法与您的指令对接",
                 PicUrl = "",
-                Url = CFG.网站域名 + "/QA/Q/"
-            });  
+                Url = ""
+            });
+            responseMessage.Articles.Add(new Article()
+            {//眼睛图片
+                Title = "查看指令帮助文档",
+                Description = "查看指令帮助文档",
+                PicUrl = "",
+                Url = CFG.网站域名 + "CommondHelp".GX()
+            });
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
+            //new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
 
             return responseMessage;
         } 

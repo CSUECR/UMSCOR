@@ -233,7 +233,7 @@ namespace MorSun.Common
             public const string 在线答题用户缓存键 = "olineqausers"; //默认小写
 
             //在线答题用户缓存更新时间
-            public const string 在线答题用户缓存更新时间 = "5";//单位 分钟
+            public const string 在线答题用户缓存更新时间 = "1";//单位 分钟
 
             public const string 疑似退出时间 = "5"; //单位 分钟   超过这个数值，5分钟内不再分配新答题
             public const string 强制退出时间 = "10"; //单位 分钟  系统更改该用户状态为退出
