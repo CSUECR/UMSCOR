@@ -231,6 +231,7 @@ namespace MorSun.Common
 
             //在线答题用户缓存Key
             public const string 在线答题用户缓存键 = "olineqausers"; //默认小写
+            public const string 用户待答题缓存键前缀 = "dt";
 
             //在线答题用户缓存更新时间
             public const string 在线答题用户缓存更新时间 = "1";//单位 分钟

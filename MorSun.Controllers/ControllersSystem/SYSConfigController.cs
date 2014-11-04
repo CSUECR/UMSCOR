@@ -12,6 +12,7 @@ using MorSun.Common.Privelege;
 using MorSun.WX.ZYB.Service;
 using MorSun.Common.认证级别;
 using MorSun.Common.类别;
+using MorSun.Common.配置;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -79,6 +80,31 @@ namespace MorSun.Controllers.SystemController
                 UserQAService.SetOlineQAUserCache(GenerateQAUserCache());
                 fillOperationResult(returnUrl, oper, "修改成功");
                 return Json(oper, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                "".AE("无权限", ModelState);
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return Json(oper, JsonRequestBehavior.AllowGet);
+                //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
+            }
+        }
+
+        /// <summary>
+        /// 用户答题缓存
+        /// </summary>
+        /// <param name="weixinId"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        public ActionResult UserQACache(string id, string returnUrl)
+        {
+            if (ResourceId.HP(操作.查看))
+            {
+                ViewBag.RS = ResourceId;
+                ViewBag.ReturnUrl = returnUrl;
+                var model = UserQAService.GetUserQACache(CFG.用户待答题缓存键前缀 + id);                
+                return View(model);
             }
             else
             {

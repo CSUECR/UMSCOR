@@ -361,7 +361,7 @@ namespace MorSun.WX.ZYB.Service
             }
             // 用户的答题缓存都由用户在答题是设置
             //从缓存中获取后，待答题数量为0的处理
-            var qakey = "dt" + requestMessage.FromUserName;
+            var qakey = CFG.用户待答题缓存键前缀 + requestMessage.FromUserName;
             var model = UserQAService.GetUserQACache(qakey);
             if(model == null || model.WaitQA.Count() == 0)
             {

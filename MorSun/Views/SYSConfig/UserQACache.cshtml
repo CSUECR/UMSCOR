@@ -1,9 +1,9 @@
-﻿@model OnlineQAUserCache
+﻿@model UserQACache
 @{
-    ViewBag.Title = "在线答题用户";
+    ViewBag.Title = "用户当前答题缓存";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/SYSConfig/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/SYSConfig/OnlineQAUser";
 
     var refVModel = new ReferenceVModel();
     var clList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.用户认证类别).ToList();
@@ -13,45 +13,37 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-        缓存更新时间：@Model.RefreshTime   在线认证用户数: @Model.CertificationUser.Count()   在线未认证用户数：@Model.NonCertificationQAUser.Count()
-        @using (Html.BeginForm("SetOnlineQAUser", "SYSConfig", new { ReturnUrl = "/SYSConfig/OnlineQAUser" }, FormMethod.Post, new { id = "fmForm" }))
-        {
-             @Html.AntiForgeryToken()
-            <button class="btn green" type="button" id="submitBtn">更新缓存</button>
-        }
+        当前答题：<a href="@Model.CurrentQA.PicUrl" target="_blank">问题图片</a>  
+        
         </div>
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>认证用户</div>
+                    <div class="caption"><i class="icon-cogs"></i>待答题</div>
                 </div>
                 <div class="portlet-body">
                     <table id="MoreSunTable" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>用户名</th>
-                                <th>呢称</th>
-                                <th>开始答题时间</th>
-                                <th>答题次数</th>
-                                <th>认证</th>                                
+                                <th>ID</th>
+                                <th>币种</th>
+                                <th>币值</th>
+                                <th>问题图片</th>                                                          
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.CertificationUser)
+                            @foreach (var item in Model.WaitQA)
                             {
                                 <tr>
                                     <td>
-                                        <a href="/SYSConfig/UserQACache/@item.WeiXinId">@item.aspnet_Users1.UserName</a>
+                                        @item.ID
                                     </td>
                                     <td>
-                                        @(item.aspnet_Users1.wmfUserInfo == null ? "" : item.aspnet_Users1.wmfUserInfo.NickName)
+                                        @refVModel.GetReferenceValue(item.MaBiRef)
                                     </td>
                                     <td>
-                                        @item.AQStartTime
+                                        @item.MaBiNum
                                     </td>
-                                    <td>@item.ActiveNum</td>
-                                    <td>
-                                        @(item.aspnet_Users1.wmfUserInfo == null ? "" : refVModel.GetReferenceValue(item.aspnet_Users1.wmfUserInfo.CertificationLevel))
-                                    </td>
+                                    <td><a href="@item.PicUrl" target="_blank">问题图片</a></td>                                    
                                 </tr>
                             }
                         </tbody>
@@ -61,32 +53,32 @@
 
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>未认证用户</div>
+                <div class="caption"><i class="icon-cogs"></i>已答题</div>
             </div>
             <div class="portlet-body">
                 <table id="MoreSunTable" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>用户名</th>
-                            <th>呢称</th>
-                            <th>开始答题时间</th>
-                            <th>答题次数</th>                           
+                            <th>ID</th>
+                            <th>币种</th>
+                            <th>币值</th>
+                            <th>问题图片</th>                           
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.NonCertificationQAUser)
+                        @foreach (var item in Model.WaitQA)
                         {
                             <tr>
                                 <td>
-                                    <a href="/SYSConfig/UserQACache/@item.WeiXinId">@item.aspnet_Users1.UserName</a>
+                                    @item.ID
                                 </td>
                                 <td>
-                                    @(item.aspnet_Users1.wmfUserInfo == null ? "" : item.aspnet_Users1.wmfUserInfo.NickName)
+                                    @refVModel.GetReferenceValue(item.MaBiRef)
                                 </td>
                                 <td>
-                                    @item.AQStartTime
+                                    @item.MaBiNum
                                 </td>
-                                <td>@item.ActiveNum</td>                                
+                                <td><a href="@item.PicUrl" target="_blank">问题图片</a></td>
                             </tr>
                         }
                     </tbody>
@@ -104,6 +96,6 @@
         @Scripts.Render("~/bundles/morsuncommon")
         
         <script type="text/javascript"> 
-            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false));
+           
         </script>
     }
