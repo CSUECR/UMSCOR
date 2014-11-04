@@ -9,16 +9,19 @@ using System.Collections;
 using System.Web.Mvc;
 using MorSun.Controllers.ViewModel;
 using MorSun.Common.Privelege;
+using MorSun.WX.ZYB.Service;
+using MorSun.Common.认证级别;
+using MorSun.Common.类别;
 
 namespace MorSun.Controllers.SystemController
 {
     [HandleError]
     [Authorize]
-    public class MMController : BaseController<aspnet_Users>
+    public class SYSConfigController : BaseController<bmOnlineQAUser>
     {
         protected override string ResourceId
         {
-            get { return 资源.用户; }
+            get { return 资源.系统参数配置; }
         }
 
         /// <summary>
@@ -27,19 +30,17 @@ namespace MorSun.Controllers.SystemController
         /// <param name="userId"></param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        public ActionResult CL(Guid userId, string returnUrl)
+        public ActionResult OnlineQAUser(string returnUrl)
         {
-            if (ResourceId.HP(操作.修改))
+            if (ResourceId.HP(操作.查看))
             {
                 ViewBag.RS = ResourceId;
                 ViewBag.ReturnUrl = returnUrl;
-                var bll = new BaseBll<wmfUserInfo>();
-                var uinfo = bll.GetModel(userId);
-                var model = new UserCL();
-                model.UserId = userId;
-                model.UserName = uinfo == null ? "" : uinfo.aspnet_Users.UserName;
-                model.NickName = uinfo == null ? "" : uinfo.NickName;
-                model.CLevel = uinfo == null ? null : uinfo.CertificationLevel;
+                var model = UserQAService.GetOlineQAUserCache();
+                if(model == null)
+                {
+                    model = GenerateQAUserCache();
+                }
                 return View(model);
             }
             else
@@ -52,31 +53,30 @@ namespace MorSun.Controllers.SystemController
             }
         }
 
+        /// <summary>
+        /// 从数据库中取用户，并生成缓存类
+        /// </summary>
+        /// <returns></returns>
+        private static OnlineQAUserCache GenerateQAUserCache()
+        {
+            var bll = new BaseBll<bmOnlineQAUser>();
+            var model = new OnlineQAUserCache();
+            model.RefreshTime = DateTime.Now;
+            var state = Guid.Parse(Reference.在线状态_在线);
+            model.CertificationUser = bll.All.Where(p => p.State == state && CertificationLevel.DTCertificationLevel.Contains(p.CertificationLevel)).OrderByDescending(p => p.ActiveNum);
+            model.CertificationUser = bll.All.Where(p => p.State == state && (p.CertificationLevel == null || !CertificationLevel.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
+            return model;
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CL(UserCL uc, string returnUrl)
+        public ActionResult SetOnlineQAUser(string returnUrl)
         {
             if (ResourceId.HP(操作.修改))
             {
-                var oper = new OperationResult(OperationResultType.Error, "认证失败");    
-                ViewBag.ReturnUrl = returnUrl;
-                var bll = new BaseBll<wmfUserInfo>();
-                var model = bll.GetModel(uc.UserId);
-                if (model == null)
-                {
-                    "UserId".AE("认证失败", ModelState);
-                }
-                model.CertificationLevel = uc.CLevel;
-                if (ModelState.IsValid)
-                {
-                    bll.Update(model);
-                    fillOperationResult(returnUrl, oper, "修改成功");
-                }
-                else
-                {
-                    "".AE("修改失败", ModelState);
-                    oper.AppendData = ModelState.GE();
-                }
+                var oper = new OperationResult(OperationResultType.Error, "设置失败");    
+                //ViewBag.ReturnUrl = returnUrl;
+                UserQAService.SetOlineQAUserCache(GenerateQAUserCache());
                 return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else

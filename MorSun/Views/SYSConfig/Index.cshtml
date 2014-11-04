@@ -1,0 +1,47 @@
+﻿@model UserVModel
+@{
+    ViewBag.Title = "系统配置";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/SYSConfig/Index";
+
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+        
+        </div>
+        @if (rs.HP(操作.查看))
+        {
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>在线答题用户</div>
+                </div>
+                <div class="portlet-body">                
+                    <table class="tableadd table-hover">
+                        <thead>
+                            <tr>
+                                <th width="300">在线用户</th>
+                                <td><button class="btn red" type="button" onclick="jumptourl('/SYSConfig/OnlineQAUser')">查看在线答题用户</button></td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>                
+                </div>
+            </div>
+        }
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+        
+        <script type="text/javascript"> 
+        </script>
+    }

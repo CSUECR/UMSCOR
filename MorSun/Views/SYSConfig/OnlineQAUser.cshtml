@@ -1,0 +1,109 @@
+﻿@model OnlineQAUserCache
+@{
+    ViewBag.Title = "在线答题用户";
+    Layout = "~/Views/Shared/_SysLayout.cshtml";
+    string rs = ViewBag.RS;
+    var backurl = ViewBag.ReturnUrl ?? "/SYSConfig/Index";
+
+    var refVModel = new ReferenceVModel();
+    var clList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.用户认证类别).ToList();
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+        缓存更新时间：@Model.RefreshTime   在线认证用户数: @Model.CertificationUser.Count()   在线未认证用户数：@Model.NonCertificationQAUser.Count()
+        @using (Html.BeginForm("GenerateQAUserCache", "SYSConfig", new { ReturnUrl = "/SYSConfig/SetOnlineQAUser" }, FormMethod.Post, new { id = "fmForm" }))
+        {
+             @Html.AntiForgeryToken()
+            <button class="btn green" type="button" id="submitBtn">更新缓存</button>
+        }
+        </div>
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>认证用户</div>
+                </div>
+                <div class="portlet-body">
+                    <table id="MoreSunTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>呢称</th>
+                                <th>开始答题时间</th>
+                                <th>答题次数</th>
+                                <th>认证</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CertificationUser)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.aspnet_Users1.UserName
+                                    </td>
+                                    <td>
+                                        @(item.aspnet_Users1.wmfUserInfo == null ? "" : item.aspnet_Users1.wmfUserInfo.NickName)
+                                    </td>
+                                    <td>
+                                        @item.AQStartTime
+                                    </td>
+                                    <td>@item.ActiveNum</td>
+                                    <td>
+                                        @(item.aspnet_Users1.wmfUserInfo == null ? "" : refVModel.GetReferenceValue(item.aspnet_Users1.wmfUserInfo.CertificationLevel))
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>未认证用户</div>
+            </div>
+            <div class="portlet-body">
+                <table id="MoreSunTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>用户名</th>
+                            <th>呢称</th>
+                            <th>开始答题时间</th>
+                            <th>答题次数</th>                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.NonCertificationQAUser)
+                        {
+                            <tr>
+                                <td>
+                                    @item.aspnet_Users1.UserName
+                                </td>
+                                <td>
+                                    @(item.aspnet_Users1.wmfUserInfo == null ? "" : item.aspnet_Users1.wmfUserInfo.NickName)
+                                </td>
+                                <td>
+                                    @item.AQStartTime
+                                </td>
+                                <td>@item.ActiveNum</td>                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        </div>    
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")
+        
+        <script type="text/javascript"> 
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false));
+        </script>
+    }
