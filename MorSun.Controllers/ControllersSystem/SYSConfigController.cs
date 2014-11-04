@@ -64,7 +64,7 @@ namespace MorSun.Controllers.SystemController
             model.RefreshTime = DateTime.Now;
             var state = Guid.Parse(Reference.在线状态_在线);
             model.CertificationUser = bll.All.Where(p => p.State == state && CertificationLevel.DTCertificationLevel.Contains(p.CertificationLevel)).OrderByDescending(p => p.ActiveNum);
-            model.CertificationUser = bll.All.Where(p => p.State == state && (p.CertificationLevel == null || !CertificationLevel.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
+            model.NonCertificationQAUser = bll.All.Where(p => p.State == state && (p.CertificationLevel == null || !CertificationLevel.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
             return model;
         }
 
@@ -77,6 +77,7 @@ namespace MorSun.Controllers.SystemController
                 var oper = new OperationResult(OperationResultType.Error, "设置失败");    
                 //ViewBag.ReturnUrl = returnUrl;
                 UserQAService.SetOlineQAUserCache(GenerateQAUserCache());
+                fillOperationResult(returnUrl, oper, "修改成功");
                 return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else

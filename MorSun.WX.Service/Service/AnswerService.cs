@@ -286,7 +286,7 @@ namespace MorSun.WX.ZYB.Service
             { 
                 //连续答退的用户处理
                 var dt = DateTime.Now.AddHours(0 - Convert.ToInt32(CFG.连续答退时间间隔));
-                var userOnlineCount = new BaseBll<bmOnlineQAUser>().All.Where(p => p.AQEndTime >= dt).Count();
+                var userOnlineCount = new BaseBll<bmOnlineQAUser>().All.Where(p => p.AQEndTime >= dt && p.FlagTrashed == false).Count();
                 if (userOnlineCount >= 5)
                     return RefusedAnswerResponse(requestMessage);
                 //连续答退的用户处理结束

@@ -128,7 +128,7 @@ namespace MorSun.WX.ZYB.Service
             //判断在线答题用户是否存在该用户
             var bll = new BaseBll<bmOnlineQAUser>();
             var state = Guid.Parse(Reference.在线状态_在线);
-            var oqau = bll.All.FirstOrDefault(p => p.WeiXinId == uwx.WeiXinId && p.State == state);
+            var oqau = bll.All.Where(p => p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false).OrderByDescending(p => p.AQStartTime).FirstOrDefault();
 
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
             var rqid = Guid.NewGuid();
@@ -165,6 +165,23 @@ namespace MorSun.WX.ZYB.Service
                 {//用户已经在线时,更新活跃时间
                     oqau.ActiveTime = DateTime.Now;
                     oqau.ModTime = DateTime.Now;
+
+                    //各种原因还出现两条记录时，
+                    var allOqau = bll.All.Where(p => p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false);
+                    if(allOqau.Count() > 1)
+                    {
+                        var currentOqau = bll.All.Where(p => p.ID == oqau.ID);
+                        var otherOqau = allOqau.Except(currentOqau);
+                        if (otherOqau.Count() > 0)
+                        {
+                            var tqState = Guid.Parse(Reference.在线状态_退出);
+                            foreach (var item in otherOqau)
+                            {
+                                item.State = tqState;
+                                item.FlagTrashed = true;
+                            }
+                        }
+                    }                    
                     if (commonService.GetMsgIdCache(msgid) == rqid)
                     {
                         bll.Update(oqau);

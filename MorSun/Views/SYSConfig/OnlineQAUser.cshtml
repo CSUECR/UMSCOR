@@ -14,7 +14,7 @@
     <div class="content-wrapper clear-fix">
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
         缓存更新时间：@Model.RefreshTime   在线认证用户数: @Model.CertificationUser.Count()   在线未认证用户数：@Model.NonCertificationQAUser.Count()
-        @using (Html.BeginForm("GenerateQAUserCache", "SYSConfig", new { ReturnUrl = "/SYSConfig/SetOnlineQAUser" }, FormMethod.Post, new { id = "fmForm" }))
+        @using (Html.BeginForm("SetOnlineQAUser", "SYSConfig", new { ReturnUrl = "/SYSConfig/OnlineQAUser" }, FormMethod.Post, new { id = "fmForm" }))
         {
              @Html.AntiForgeryToken()
             <button class="btn green" type="button" id="submitBtn">更新缓存</button>
