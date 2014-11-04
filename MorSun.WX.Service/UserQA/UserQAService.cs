@@ -33,10 +33,11 @@ namespace MorSun.WX.ZYB.Service
             //从缓存中读取
             var model = CacheAccess.GetFromCache(uid) as UserQACache;
 
-            if (model == null)
-            {
-                model = InitUserQACache(uid);
-            }
+            //取缓存就是取缓存，不要再设置了，省的调用时还要再判断，然后再设置
+            //if (model == null)
+            //{
+            //    model = InitUserQACache(uid);
+            //}
             return model;
         }
 
@@ -58,8 +59,8 @@ namespace MorSun.WX.ZYB.Service
             var djdRef = Guid.Parse(Reference.分配答题操作_待解答);
             //待回答的问题
             qaCache.WaitQA = new BaseBll<bmQA>().All.Where(p => p.bmQADistributions.Count(q => q.WeiXinId == weixinId && q.Result == djdRef) > 0);
-            //待处理的分配项
-            qaCache.WaitQADis = new BaseBll<bmQADistribution>().All.Where(p => p.WeiXinId == weixinId && p.Result == djdRef);
+            //待处理的分配项,每次答题都要再去取，还是直接根据问题ID和weixinid取分配项，不然对缓存的操作太麻烦
+            //qaCache.WaitQADis = new BaseBll<bmQADistribution>().All.Where(p => p.WeiXinId == weixinId && p.Result == djdRef);
             //保存到缓存中
             CacheAccess.SaveToCacheByDependency(uid, qaCache, fileDependency);
             return qaCache;            

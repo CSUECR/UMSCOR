@@ -23,6 +23,10 @@ namespace MorSun.WX.ZYB.Service
         private ResponseMessageNews AnswerResponse<T>(T requestMessage, bmQA model)
             where T : RequestMessageBase
         {
+            if(model == null)
+            { //传过来是空值时，返回系统资源分配中
+                return NonDistributionResponse(requestMessage); 
+            }               
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
             var comonservice = new CommonService();
             responseMessage.Articles.Add(new Article()
@@ -345,25 +349,74 @@ namespace MorSun.WX.ZYB.Service
         /// <returns></returns>
         private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage)
         {
+
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var rqid = Guid.NewGuid();
+            var commonService = new CommonService();
+            Guid mid = commonService.GetMsgIdCache(msgid);
+            if(mid == Guid.Empty)
+            {
+                //设置用户消息缓存
+                commonService.SetMsgIdCache(msgid, rqid);
+            }
+            // 用户的答题缓存都由用户在答题是设置
             //从缓存中获取后，待答题数量为0的处理
+            var qakey = "dt" + requestMessage.FromUserName;
+            var model = UserQAService.GetUserQACache(qakey);
+            if(model == null || model.WaitQA.Count() == 0)
+            {
+                //无缓存或待答题数量为0，先取数据，如果数据库还没有待答题，则返回答题资源分配中
+                //设置缓存微信并发时要处理
+                if (commonService.GetMsgIdCache(msgid) == rqid)
+                    model = UserQAService.InitUserQACache(qakey);
+                else
+                    System.Threading.Thread.Sleep(1000);//其他访问等1秒
+
+            }
+            //还是为空，返回答题资源分配中
+            if(model == null || model.WaitQA.Count() == 0)
+            {//返回答题资源分配中
+                return NonDistributionResponse(requestMessage);
+            }
 
             //从缓存中获取后，待答题数量与已答题数量一致时的处理
+            //这种情况下，用户答题后系统要设置，首先，当前答题为空，其次待答题数量与已答题数量一致
+            //经分析，用户输入dt命令时一般不会出现待答题与已答题数量一致的情况，
 
-            //从缓存中获取后，有可答题时的处理
-
-            
-            return AnswerResponse<RequestMessageText>(requestMessage, GetAnswer(requestMessage));
+            //从缓存中获取后，有可答题时的处理            
+            return AnswerResponse(requestMessage, GetAnswer(requestMessage, model, rqid));            
         }
 
         /// <summary>
         /// 认证与未认证用户取问题统一方法
         /// </summary>
         /// <param name="requestMessage"></param>
-        private bmQA GetAnswer(RequestMessageText requestMessage)
+        private bmQA GetAnswer<T>(T requestMessage,UserQACache model,Guid rqid)
+            where T : RequestMessageBase
         {
-            var bll = new BaseBll<bmQA>();
-            var model = bll.All.FirstOrDefault();
-            return model;
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var commonService = new CommonService();
+            //var bll = new BaseBll<bmQA>();
+            //var model = bll.All.FirstOrDefault();
+            //调用说明，这个方法，在用户输入dt命令，或答题后，返回下一答题的方法，
+            //这个方法只返回题目，不做其他处理。当前答题为空时，则去待答题取一条附值
+            if(model.CurrentQA == null)
+            {
+                //当前答题为空
+                if (commonService.GetMsgIdCache(msgid) == rqid)
+                {
+                    if (model.AlreadyQA.Count() == 0)
+                        model.CurrentQA = model.WaitQA.OrderBy(p => p.RegTime).FirstOrDefault();
+                    else
+                    {//已答题有数据时，排除掉已答题后再取值
+                        model.CurrentQA = model.WaitQA.Except(model.AlreadyQA).OrderBy(p => p.RegTime).FirstOrDefault();
+                    }
+                }
+                else
+                    System.Threading.Thread.Sleep(1000);//其他访问等1秒               
+            }
+            //是不是为空由下一步返回的代码再判断
+            return model.CurrentQA;
         }
 
         #endregion
