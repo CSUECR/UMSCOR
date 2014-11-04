@@ -295,17 +295,19 @@ namespace MorSun.WX.ZYB.Service
                 //判断用户是否认证，以及认证与未认证的用户处理
                 var commonService = new CommonService();
                 var onlineuserCache = UserQAService.GetOlineQAUserCache();
+                //处理并发而生成的操作唯一ID
+                var rqid = Guid.NewGuid();
                 if (onlineuserCache == null)
                 {   //缓存未设置的情况
                     //将用户添加或更新进数据库，由统一方法设置缓存
-                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin);
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
                     //返回答题资源分配中，稍候再发送答题命令
                     return NonDistributionResponse(requestMessage);
                 }
                 else
                 { 
                     //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
-                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin);
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
                 
                     if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && CertificationLevel.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
                     {//认证用户处理
@@ -337,7 +339,7 @@ namespace MorSun.WX.ZYB.Service
                         }
                     }
 
-                    return GetAnswerResponse(requestMessage);
+                    return GetAnswerResponse(requestMessage, rqid);
                 }
             }
         }
@@ -347,11 +349,11 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage)
+        private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage, Guid rqid)
         {
 
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
-            var rqid = Guid.NewGuid();
+            //var rqid = Guid.NewGuid();
             var commonService = new CommonService();
             Guid mid = commonService.GetMsgIdCache(msgid);
             if(mid == Guid.Empty)
@@ -376,7 +378,7 @@ namespace MorSun.WX.ZYB.Service
             //还是为空，返回答题资源分配中
             if(model == null || model.WaitQA.Count() == 0)
             {//返回答题资源分配中
-                return RefusedAnswerResponse(requestMessage);//NonDistributionResponse
+                return NonDistributionResponse(requestMessage);//
             }
 
             //从缓存中获取后，待答题数量与已答题数量一致时的处理

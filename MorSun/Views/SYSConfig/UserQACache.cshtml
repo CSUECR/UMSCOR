@@ -15,7 +15,7 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-        当前答题：<a href="@Model.CurrentQA.PicUrl" target="_blank">问题图片</a>  
+        当前答题：@if(Model.CurrentQA != null) {<a href="@Model.CurrentQA.PicUrl" target="_blank">问题图片</a>  }
         
         </div>
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">

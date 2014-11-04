@@ -186,6 +186,7 @@ namespace MorSun.WX.ZYB.Service
                 qaModel.QAId = model.ID;
                 qaModel.DistributionTime = DateTime.Now;
                 qaModel.RegTime = DateTime.Now;
+                qaModel.Result = Guid.Parse(Reference.分配答题操作_待解答);
                 if (model.MaBiNum > 0)
                 {
                     //收费问题的分配

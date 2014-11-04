@@ -122,7 +122,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="uwx"></param>
         /// <param name="requestMessage"></param>
-        public static void AddOrUpdateOnlineQAUser<T>(T requestMessage, bmUserWeixin uwx)
+        public static void AddOrUpdateOnlineQAUser<T>(T requestMessage, bmUserWeixin uwx, Guid rqid)
             where T : RequestMessageBase
         {
             //判断在线答题用户是否存在该用户
@@ -131,7 +131,7 @@ namespace MorSun.WX.ZYB.Service
             var oqau = bll.All.Where(p => p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false).OrderByDescending(p => p.AQStartTime).FirstOrDefault();
 
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
-            var rqid = Guid.NewGuid();
+            //var rqid = Guid.NewGuid();
 
             var commonService = new CommonService();
             Guid mid = commonService.GetMsgIdCache(msgid);
