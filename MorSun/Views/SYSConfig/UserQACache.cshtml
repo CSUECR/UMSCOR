@@ -10,6 +10,8 @@
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
+@if(Model != null)
+{ 
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
@@ -88,6 +90,7 @@
 
         </div>    
 </section>
+}
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        
         @Scripts.Render("~/bundles/validator")

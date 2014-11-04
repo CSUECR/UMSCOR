@@ -376,7 +376,7 @@ namespace MorSun.WX.ZYB.Service
             //还是为空，返回答题资源分配中
             if(model == null || model.WaitQA.Count() == 0)
             {//返回答题资源分配中
-                return NonDistributionResponse(requestMessage);
+                return RefusedAnswerResponse(requestMessage);//NonDistributionResponse
             }
 
             //从缓存中获取后，待答题数量与已答题数量一致时的处理

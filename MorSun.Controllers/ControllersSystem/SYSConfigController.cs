@@ -41,6 +41,7 @@ namespace MorSun.Controllers.SystemController
                 if(model == null)
                 {
                     model = GenerateQAUserCache();
+                    UserQAService.SetOlineQAUserCache(model);
                 }
                 return View(model);
             }
