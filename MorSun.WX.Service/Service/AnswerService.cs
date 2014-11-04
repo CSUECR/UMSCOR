@@ -49,11 +49,18 @@ namespace MorSun.WX.ZYB.Service
                 Description = "这不是一个问题请发送：" + " " + CFG.不是问题,
                 PicUrl = "",
                 Url = ""
-            });            
+            });
             responseMessage.Articles.Add(new Article()
             {//问号图片
-                Title = "本题获取时间:" + DateTime.Now.ToShortTimeString(),
-                Description = "本题获取时间:" + DateTime.Now.ToShortTimeString(),
+                Title = "本题提问时间:" + model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString(),
+                Description = "本题提问时间:" + model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString(),
+                PicUrl = "",
+                Url = ""
+            });
+            responseMessage.Articles.Add(new Article()
+            {//问号图片
+                Title = "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
+                Description = "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
                 PicUrl = "",
                 Url = ""
             });
@@ -378,7 +385,7 @@ namespace MorSun.WX.ZYB.Service
             //还是为空，返回答题资源分配中
             if(model == null || model.WaitQA.Count() == 0)
             {//返回答题资源分配中
-                return NonDistributionResponse(requestMessage);//
+                return NonDistributionResponse(requestMessage);
             }
 
             //从缓存中获取后，待答题数量与已答题数量一致时的处理
@@ -407,15 +414,24 @@ namespace MorSun.WX.ZYB.Service
                 //当前答题为空
                 if (commonService.GetMsgIdCache(msgid) == rqid)
                 {
-                    if (model.AlreadyQA.Count() == 0)
+                    if (model.AlreadyQA == null || model.AlreadyQA.Count() == 0)
                         model.CurrentQA = model.WaitQA.OrderBy(p => p.RegTime).FirstOrDefault();
                     else
                     {//已答题有数据时，排除掉已答题后再取值
                         model.CurrentQA = model.WaitQA.Except(model.AlreadyQA).OrderBy(p => p.RegTime).FirstOrDefault();
                     }
+                    //设置缓存
+                    UserQAService.SetUserQACache(CFG.用户待答题缓存键前缀 + model.WeiXinId, model);
                 }
                 else
                     System.Threading.Thread.Sleep(1000);//其他访问等1秒               
+            }
+            if(model.WaitQA != null)
+            {
+                if(model.AlreadyQA != null)
+                { model.CurrentQA.DJDCount = model.WaitQA.Count() - model.AlreadyQA.Count(); }
+                else
+                {model.CurrentQA.DJDCount = model.WaitQA.Count();}                
             }
             //是不是为空由下一步返回的代码再判断
             return model.CurrentQA;
