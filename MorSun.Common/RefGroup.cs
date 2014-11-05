@@ -203,7 +203,7 @@ namespace MorSun.Common
             public const string 邮箱端口 = "587";
 
 
-            public const string 有效时间 = "48";
+            public const string 有效时间 = "48"; //单位 小时
             public const string 邮件通用入口 = "/Home/EL";
             public const string 账号激活路径 = "/Account/ActiveUser";
             public const string 邮件改密路径 = "/Account/ECPW";
@@ -236,9 +236,10 @@ namespace MorSun.Common
             //在线答题用户缓存更新时间
             public const string 在线答题用户缓存更新时间 = "1";//单位 分钟
 
-            public const string 疑似退出时间 = "5"; //单位 分钟   超过这个数值，5分钟内不再分配新答题
-            public const string 强制退出时间 = "10"; //单位 分钟  系统更改该用户状态为退出
-            
+            public const string 疑似退出时间 = "5"; //单位 分钟  超过这个数值，5分钟内不再分配新答题
+            public const string 强制退出时间 = "7"; //单位 分钟  系统将该用户的答题分配给其他活跃用户，并更改该用户状态为退出
+            public const string 用户待答题保有量 = "7"; //单位 个 系统根据总的待答题数量，除以用户待答题的保有量，等于应该取出的用户量
+            public const string 未处理问题激活时间 = "5"; //单位 分钟 超过配置时间的未处理问题，系统主动激活
 
             //微信命令            
             public const string 开始答题 = "dt";
@@ -255,20 +256,26 @@ namespace MorSun.Common
             public const string 微信绑定前缀 = "bd";
 
 
-            public const string 连续答退时间间隔 = "1";//限制一小时内
+            public const string 连续答退时间间隔 = "1";//单位 小时 限制一小时内
             public const string 连续答退次数间隔 = "5";//限制5次以内
             
         }
     }
 
-    namespace 认证级别
+    namespace 常量集
     {
-        public static class CertificationLevel
+        public static class ConstList
         {
             /// <summary>
             /// 可答题的认证类别
             /// </summary>
             public static List<Guid?> DTCertificationLevel = new List<Guid?>() { Guid.Parse(类别.Reference.认证类别_认证邦主) };
+
+            /// <summary>
+            /// 默认答题分配用户
+            /// </summary>
+            public static List<string> DefaultDISUser = new List<string>() { 配置.CFG.默认收费问题微信号, 配置.CFG.默认免费问题微信号 };
+            
         }
     }
 }

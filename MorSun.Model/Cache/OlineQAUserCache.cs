@@ -16,7 +16,17 @@ namespace MorSun.Model
         /// <summary>
         /// 缓存刷新时间
         /// </summary>
-        public DateTime RefreshTime { get; set; }        
+        public DateTime RefreshTime { get; set; }
+
+        /// <summary>
+        /// 有消费马币的待答题数量
+        /// </summary>
+        public int MaBiQACount { get; set; }
+
+        /// <summary>
+        /// 无消费马币的待答题数量
+        /// </summary>
+        public int NonMaBiQACount { get; set; }
 
         /// <summary>
         /// 认证的答题用户

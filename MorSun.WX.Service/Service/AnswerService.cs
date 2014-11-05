@@ -8,7 +8,7 @@ using MorSun.Model;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
 using HOHO18.Common.SSO;
-using MorSun.Common.认证级别;
+using MorSun.Common.常量集;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -52,8 +52,8 @@ namespace MorSun.WX.ZYB.Service
             });
             responseMessage.Articles.Add(new Article()
             {//问号图片
-                Title = "本题提问时间:" + model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString(),
-                Description = "本题提问时间:" + model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString(),
+                Title = "本题提问时间:" + model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()),
+                Description = "本题提问时间:" + model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()),
                 PicUrl = "",
                 Url = ""
             });
@@ -316,7 +316,7 @@ namespace MorSun.WX.ZYB.Service
                     //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
                     UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
                 
-                    if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && CertificationLevel.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
+                    if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && ConstList.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
                     {//认证用户处理
                         if(onlineuserCache.CertificationUser != null && onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
                         {

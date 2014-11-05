@@ -13,12 +13,17 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-        缓存更新时间：@Model.RefreshTime   在线认证用户数: @Model.CertificationUser.Count()   在线未认证用户数：@Model.NonCertificationQAUser.Count()
-        @using (Html.BeginForm("SetOnlineQAUser", "SYSConfig", new { ReturnUrl = "/SYSConfig/OnlineQAUser" }, FormMethod.Post, new { id = "fmForm" }))
-        {
-             @Html.AntiForgeryToken()
-            <button class="btn green" type="button" id="submitBtn">更新缓存</button>
-        }
+            <p>
+                缓存更新时间：@Model.RefreshTime   在线认证用户数: @Model.CertificationUser.Count()   在线未认证用户数：@Model.NonCertificationQAUser.Count()
+            </p>
+            <p>
+                收费待答题数量：@Model.MaBiQACount  免费待答题数量：@Model.NonMaBiQACount
+            </p>
+            @using (Html.BeginForm("SetOnlineQAUser", "SYSConfig", new { ReturnUrl = "/SYSConfig/OnlineQAUser" }, FormMethod.Post, new { id = "fmForm" }))
+            {
+                    @Html.AntiForgeryToken()
+                <button class="btn green" type="button" id="submitBtn">更新缓存</button>
+            }
         </div>
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">

@@ -6,7 +6,7 @@ using MorSun.Model;
 using MorSun.Bll;
 using System.Linq;
 using MorSun.Common.类别;
-using MorSun.Common.认证级别;
+using MorSun.Common.常量集;
 using MorSun.Common.配置;
 
 namespace MorSun.WX.ZYB.Service
@@ -27,16 +27,39 @@ namespace MorSun.WX.ZYB.Service
             var onlineuserCache = UserQAService.GetOlineQAUserCache();
             if (onlineuserCache == null)
                 return null;
-            //这边要过滤掉不活跃的在线用户
+            //这边要过滤掉不活跃的在线用户,超过5分钟不活跃的，则不分配题目给他
             var mn = 0 - Convert.ToInt32(CFG.疑似退出时间);
             var dt = DateTime.Now.AddMinutes(mn);
-            if(CertificationLevel.DTCertificationLevel.Contains(certification))
-            { 
-                return GetOnlineUser(onlineuserCache.CertificationUser.Where(p => p.ActiveTime >= dt), certification);
+
+            //用户待答题保有量
+            var qaWaitCount = Convert.ToInt32(CFG.用户待答题保有量);
+            if(ConstList.DTCertificationLevel.Contains(certification))
+            {
+                var onlineUsers = onlineuserCache.CertificationUser.Where(p => p.ActiveTime >= dt);
+                //在这边按用户的活跃次数多少取在线用户，活跃次数越多越有优先权
+                //应该取的用户量
+                if (onlineuserCache.MaBiQACount != null && onlineuserCache.MaBiQACount != 0)
+                {                    
+                    int selectCount = onlineuserCache.MaBiQACount / qaWaitCount;
+                    if (selectCount == 0)
+                        selectCount = 1;
+                    onlineUsers = onlineUsers.OrderByDescending(p => p.ActiveNum).Take(selectCount);
+                }
+                return GetOnlineUser(onlineUsers, certification);
             }
             else
             {
-                return GetOnlineUser(onlineuserCache.NonCertificationQAUser.Where(p => p.ActiveTime >= dt), certification);
+                var onlineUsers = onlineuserCache.NonCertificationQAUser.Where(p => p.ActiveTime >= dt);
+                //在这边按用户的活跃次数多少取在线用户，活跃次数越多越有优先权
+                //应该取的用户量
+                if (onlineuserCache.NonMaBiQACount != null && onlineuserCache.NonMaBiQACount != 0)
+                {
+                    int selectCount = onlineuserCache.NonMaBiQACount / qaWaitCount;
+                    if (selectCount == 0)
+                        selectCount = 1;
+                    onlineUsers = onlineUsers.OrderByDescending(p => p.ActiveNum).Take(selectCount);
+                }
+                return GetOnlineUser(onlineUsers, certification);
             }
         }
 
@@ -52,9 +75,10 @@ namespace MorSun.WX.ZYB.Service
             {//在线用户数量大于0
                 var onlineWeiXinIds = onlineUsers.Select(p => p.WeiXinId);
                 var djdRef = Guid.Parse(Reference.分配答题操作_待解答);
-                                
+                
+                //在线用户的答题分配记录
                 var onlineUD = new BaseBll<bmQADistribution>().All.Where(p => onlineWeiXinIds.Contains(p.WeiXinId) && p.Result == djdRef);
-                if (CertificationLevel.DTCertificationLevel.Contains(certification))
+                if (ConstList.DTCertificationLevel.Contains(certification))
                 {
                     onlineUD = onlineUD.Where(p => p.bmQA.MaBiNum > 0);
                 }                
@@ -75,7 +99,6 @@ namespace MorSun.WX.ZYB.Service
                     var oud = qaDis.Where(p => p.WeiXinId == olu.WeiXinId).FirstOrDefault();
                     olu.DJDCount = oud == null ? 0 : oud.DJDCount;
                 }
-
                 return onlineUsers.OrderBy(p => p.DJDCount).ThenByDescending(p => p.ActiveNum).FirstOrDefault();
             }
             else

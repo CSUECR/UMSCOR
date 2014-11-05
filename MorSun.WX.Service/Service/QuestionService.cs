@@ -185,7 +185,12 @@ namespace MorSun.WX.ZYB.Service
                 qaModel.ID = Guid.NewGuid();
                 qaModel.QAId = model.ID;
                 qaModel.DistributionTime = DateTime.Now;
+
                 qaModel.RegTime = DateTime.Now;
+                qaModel.ModTime = DateTime.Now;
+                qaModel.FlagTrashed = false;
+                qaModel.FlagDeleted = false;
+
                 qaModel.Result = Guid.Parse(Reference.分配答题操作_待解答);
                 if (model.MaBiNum > 0)
                 {

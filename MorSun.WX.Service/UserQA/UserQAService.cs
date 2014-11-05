@@ -178,6 +178,7 @@ namespace MorSun.WX.ZYB.Service
                             foreach (var item in otherOqau)
                             {
                                 item.State = tqState;
+                                item.AQEndTime = DateTime.Now;
                                 item.FlagTrashed = true;
                             }
                         }
