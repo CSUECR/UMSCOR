@@ -18,6 +18,8 @@
         当前答题：@if(Model.CurrentQA != null) {<a href="@Model.CurrentQA.PicUrl" target="_blank">问题图片</a>  }
         
         </div>
+        @if (Model.WaitQA != null)
+        { 
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
                     <div class="caption"><i class="icon-cogs"></i>待答题</div>
@@ -52,7 +54,9 @@
                     </table>
                 </div>
             </div>
-
+        }
+        @if (Model.AlreadyQA != null)
+        { 
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
                 <div class="caption"><i class="icon-cogs"></i>已答题</div>
@@ -87,7 +91,7 @@
                 </table>
             </div>
         </div>
-
+        }
         </div>    
 </section>
 }

@@ -168,7 +168,7 @@ namespace MorSun.Controllers.SystemController
             }
             
             //未认证的用户处理
-            var noncertificationUsers = bll.All.Where(p => p.WeiXinId != CFG.默认免费问题微信号 && p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
+            var noncertificationUsers = bll.All.Where(p => p.WeiXinId != CFG.默认免费问题微信号 && p.State == state && p.ActiveTime >= nondisdt && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
             if(nonmabiqaCount > 0)
             {
                 int selectCount = nonmabiqaCount / qaWaitCount;
@@ -253,6 +253,7 @@ namespace MorSun.Controllers.SystemController
                 CacheAccess.RemoveCache(CFG.用户待答题缓存键前缀 + item.WeiXinId);
             }
             //统一更新进数据库
+            qadisbll.UpdateChanges();
             bll.UpdateChanges();
 
             //不活跃用户处理结束
