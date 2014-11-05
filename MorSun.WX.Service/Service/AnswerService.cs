@@ -52,8 +52,8 @@ namespace MorSun.WX.ZYB.Service
             });
             responseMessage.Articles.Add(new Article()
             {//问号图片
-                Title = "本题提问时间:" + model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()),
-                Description = "本题提问时间:" + model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()),
+                Title = "本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString())),
+                Description = "本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString())),
                 PicUrl = "",
                 Url = ""
             });
