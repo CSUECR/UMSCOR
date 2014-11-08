@@ -32,7 +32,7 @@ namespace MorSun.Model
         /// <summary>
         /// 已答问题
         /// </summary>
-        public IQueryable<bmQA> AlreadyQA { get; set; }
+        public List<bmQA> AlreadyQA { get; set; }
 
         ///// <summary>
         ///// 当前分配项

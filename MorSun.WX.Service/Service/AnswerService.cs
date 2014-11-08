@@ -9,11 +9,26 @@ using MorSun.Common.类别;
 using MorSun.Common.配置;
 using HOHO18.Common.SSO;
 using MorSun.Common.常量集;
+using HOHO18.Common;
 
 namespace MorSun.WX.ZYB.Service
 {
     public class AnswerService
     {
+
+        #region 请求开始处理
+        private void RQStart(RequestMessageText requestMessage, Guid rqid, CommonService commonService)
+        {
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();            
+            Guid mid = commonService.GetMsgIdCache(msgid);
+            if (mid == Guid.Empty)
+            {
+                //设置用户消息缓存
+                commonService.SetMsgIdCache(msgid, rqid);
+            }
+        }
+        #endregion
+
         #region 答题返回数据处理
         /// <summary>
         /// 提问返回数据处理
@@ -81,6 +96,12 @@ namespace MorSun.WX.ZYB.Service
             return responseMessage;
         }
 
+        /// <summary>
+        /// 答题资源未分配
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
         private ResponseMessageNews NonDistributionResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
@@ -103,6 +124,12 @@ namespace MorSun.WX.ZYB.Service
             return responseMessage;
         }
 
+        /// <summary>
+        /// 拒绝答题服务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
         private ResponseMessageNews RefusedAnswerResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
@@ -126,7 +153,380 @@ namespace MorSun.WX.ZYB.Service
         } 
         #endregion
 
-        #region 答题处理
+        #region 需要返回的问题
+        /// <summary>
+        /// 包装当前答题 设置待答题数量
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        private bmQA PackCurrentQA<T>(T requestMessage, UserQACache model)
+            where T : RequestMessageBase
+        {            
+            if (model.WaitQA != null)
+            {
+                if (model.AlreadyQA != null)
+                { model.CurrentQA.DJDCount = model.WaitQA.Count() - model.AlreadyQA.Count(); }
+                else
+                { model.CurrentQA.DJDCount = model.WaitQA.Count(); }
+            }
+            //是不是为空由下一步返回的代码再判断
+            return model.CurrentQA;
+        }
+
+        /// <summary>
+        /// 答题缓存更新操作，调用前提是对当前问题操作过了
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestMessage"></param>
+        /// <param name="rqid"></param>
+        /// <param name="model"></param>
+        /// <param name="commonService"></param>
+        private UserQACache RefreshQACache<T>(T requestMessage, Guid rqid, UserQACache model, CommonService commonService)
+            where T : RequestMessageBase
+        {            
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var qakey = CFG.用户待答题缓存键前缀 + model.WeiXinId;
+            var cid = model.CurrentQA == null ? Guid.Empty : model.CurrentQA.ID;
+            //当前答题为空
+            if (commonService.GetMsgIdCache(msgid) == rqid)
+            {
+                if(model.CurrentQA != null)
+                {//将操作前的当前问题加入到已答题列表
+                    model.AlreadyQA.Add(model.CurrentQA);
+                }
+                    
+                if (model.AlreadyQA == null || model.AlreadyQA.Count() == 0)
+                    model.CurrentQA = model.WaitQA.OrderBy(p => p.RegTime).FirstOrDefault();
+                else
+                {
+                    //已答题数量与待答题数量一致时
+                    if (model.WaitQA.Count() == model.AlreadyQA.Count())
+                    {   //再初始化缓存
+                        model = UserQAService.InitUserQACache(qakey, false);
+                        //设置当前答题的代码放到设置缓存方法去
+                    }
+                    else
+                    {
+                        //已答题有数据时，排除掉已答题后再取值
+                        model.CurrentQA = model.WaitQA.Except(model.AlreadyQA).OrderBy(p => p.RegTime).FirstOrDefault();
+                    }
+                }
+                //到这里，不管当前答题是否为空都要重新设置缓存
+                UserQAService.SetUserQACache(qakey, model);
+                return model;
+            }
+            else
+            {
+                int i = 0;
+                //为了取自增长ID
+                do
+                {                    
+                    System.Threading.Thread.Sleep(500);
+                    i++;
+                    model = UserQAService.GetUserQACache(qakey);
+                } while ((model.CurrentQA.ID != cid) || i > 20);
+                return model;
+            }
+        }
+
+        #endregion
+               
+        #region 用户开始答题 输入答题命令
+        /// <summary>
+        /// 用户输入答题命令处理  获取题目前的操作，判断缓存是否存在该用户
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public ResponseMessageNews StartAnswerResponseMessage(RequestMessageText requestMessage)
+        {
+            var commonService = new CommonService();
+            //未绑定的用户录入答题命令的处理
+            var userWeiXin = commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName);
+            if(userWeiXin == null)
+            {
+                return new UnboundService().GetUnboundResponseMessage(requestMessage);
+            }
+            else
+            { 
+                //连续答退的用户处理
+                var dt = DateTime.Now.AddHours(0 - Convert.ToInt32(CFG.连续答退时间间隔));
+                var userOnlineCount = new BaseBll<bmOnlineQAUser>().All.Where(p => p.AQEndTime >= dt && p.FlagTrashed == false).Count();
+                if (userOnlineCount >= 5)
+                    return RefusedAnswerResponse(requestMessage);
+                //连续答退的用户处理结束
+
+                //已经绑定的用户处理       
+                var onlineuserCache = UserQAService.GetOlineQAUserCache();
+                //处理并发而生成的操作唯一ID
+                var rqid = Guid.NewGuid();
+                if (onlineuserCache == null)
+                {   //缓存未设置的情况
+                    //将用户添加或更新进数据库，由统一方法设置缓存
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
+                    //返回答题资源分配中，稍候再发送答题命令
+                    return NonDistributionResponse(requestMessage);
+                }
+                else
+                { 
+                    //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
+                
+                    if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && ConstList.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
+                    {//认证用户处理
+                        if(onlineuserCache.CertificationUser != null && onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
+                        {
+                            //在线认证用户缓存存在该用户的处理方式
+                            //不管认证与未认证的用户，答题方法是一样的，只是在分配答题时，系统根据认证与未认证用户进行答题分配，分配好后，都是一样的从数据库中取数据答题
+                        }
+                        else
+                        {
+                            //认证用户未进缓存
+                        
+                            //返回答题资源分配中，稍候再发送答题命令
+                            return NonDistributionResponse(requestMessage);
+                        }
+                    }
+                    else
+                    {//不管什么原因的非认证用户处理
+                        if(onlineuserCache.NonCertificationQAUser != null && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
+                        {
+                            //在线未认证用户缓存存在该用户的处理方式
+                        }
+                        else
+                        {
+                            //未认证用用户未进缓存
+                            
+                            //返回答题资源分配中，稍候再发送答题命令
+                            return NonDistributionResponse(requestMessage);
+                        }
+                    }
+                    //在线缓存存在当前答题用户，进去下一步获取题目操作
+                    return GetAnswerResponse(requestMessage, rqid);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 在线用户缓存存在当前用户时，取当前用户的答题缓存，为空时设置答题缓存。
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage, Guid rqid)
+        {
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();            
+            var commonService = new CommonService(); 
+            RQStart(requestMessage, rqid, commonService);
+            // 用户的答题缓存都由用户在答题是设置
+            //从缓存中获取后，待答题数量为0的处理
+            var qakey = CFG.用户待答题缓存键前缀 + requestMessage.FromUserName;
+            var model = UserQAService.GetUserQACache(qakey);
+            if(model == null || model.WaitQA.Count() == 0)
+            {
+                //无缓存或待答题数量为0，先取数据，如果数据库还没有待答题，则返回答题资源分配中
+                //设置缓存微信并发时要处理
+                if (commonService.GetMsgIdCache(msgid) == rqid)
+                    model = UserQAService.InitUserQACache(qakey, true);
+                else
+                { 
+                    System.Threading.Thread.Sleep(1000);//其他访问等1秒
+                    //再获取缓存
+                    model = UserQAService.GetUserQACache(qakey);
+                }         
+            }
+            //还是为空，返回答题资源分配中
+            if(model == null || model.WaitQA.Count() == 0)
+            {//返回答题资源分配中
+                return NonDistributionResponse(requestMessage);
+            }
+
+            //从缓存中获取后，待答题数量与已答题数量一致时的处理
+            //这种情况下，用户答题后系统要设置，首先，当前答题为空，其次待答题数量与已答题数量一致
+            //经分析，用户输入dt命令时一般不会出现待答题与已答题数量一致的情况，
+
+            //从缓存中获取后，有可答题时的处理            
+            return AnswerResponse(requestMessage, PackCurrentQA(requestMessage, model));            
+        }        
+        #endregion
+
+        #region 用户操作问题  放弃 不是问题 回答
+        /// <summary>
+        /// 放弃问题
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public ResponseMessageNews OperateQuestionResponseMessage(RequestMessageText requestMessage, string operate)
+        {
+            var commonService = new CommonService();
+            //未绑定的用户录入放弃本题的处理
+            var userWeiXin = commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName);
+            if (userWeiXin == null)
+            {
+                return new UnboundService().GetUnboundResponseMessage(requestMessage);
+            }
+            else
+            {
+                //已经绑定的用户处理      
+                var onlineuserCache = UserQAService.GetOlineQAUserCache();
+                //处理并发而生成的操作唯一ID
+                var rqid = Guid.NewGuid();
+                RQStart(requestMessage, rqid, commonService);
+                var ics = new InvalidCommondService();
+                if (onlineuserCache == null)
+                {   
+                    //不是在线答题用户，直接返回无效命令 
+                    return ics.GetInvalidCommondResponseMessage(requestMessage);
+                }
+                else
+                {
+                    //在线用户是否存在该用户
+                    if (onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null
+                        || onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null)
+                    {
+                        //不是在线答题用户，直接返回无效命令 
+                        return ics.GetInvalidCommondResponseMessage(requestMessage);
+                    }
+
+                    var qakey = CFG.用户待答题缓存键前缀 + requestMessage.FromUserName;
+                    var model = UserQAService.GetUserQACache(qakey);
+                    if (model == null || model.CurrentQA == null)
+                    {
+                        //用户答题缓存为空，
+                        return ics.GetInvalidCommondResponseMessage(requestMessage);
+                    }
+
+                    //自行判断用户是否超期未操作  不用这个的原因是，可能会与定时更新缓存操作冲突
+                    //var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString(); 
+                    //var nondismn = 0 - Convert.ToInt32(CFG.疑似退出时间);
+                    //var nondisdt = DateTime.Now.AddMinutes(nondismn);
+                    //var state = Guid.Parse(Reference.在线状态_在线);
+                    //var bll = new BaseBll<bmOnlineQAUser>();
+                    //var curUserState = bll.All.FirstOrDefault(p => p.WeiXinId ==  requestMessage.FromUserName && p.State == state);
+                    //if(curUserState == null || curUserState.ActiveTime < nondisdt)
+                    //{
+                    //    if (commonService.GetMsgIdCache(msgid) == rqid)
+                    //    {
+                    //        if(curUserState != null && curUserState.ActiveTime < nondisdt)
+                    //        {
+                    //            curUserState.AQEndTime = DateTime.Now;
+                    //            curUserState.State = Guid.Parse(Reference.在线状态_退出);
+                    //            bll.Update(curUserState);
+                    //        }
+                    //        CacheAccess.RemoveCache(CFG.用户待答题缓存键前缀 + requestMessage.FromUserName);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
+                    //    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
+                    //}
+
+                    //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
+
+                    switch(operate)
+                    {
+                        case CFG.放弃本题: return GiveUpQuestionResponse(requestMessage, rqid, model, qakey);
+                    }
+
+                    return ics.GetInvalidCommondResponseMessage(requestMessage);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 放弃问题的处理方法
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="rqid"></param>
+        /// <param name="model"></param>
+        /// <param name="qakey"></param>
+        /// <returns></returns>
+        private ResponseMessageNews GiveUpQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
+        {
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var commonService = new CommonService();
+            RQStart(requestMessage, rqid, commonService);
+            var curentQAId = model.CurrentQA.ID;//为了比较一下，缓存里的当前问题是否已经被替换
+            //经过以上的判断，这边的model必须有值
+            //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
+            if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+            {//随时判断缓存有没有被定时器清空
+                //问题分配记录
+                var dsbll = new BaseBll<bmQADistribution>();
+                var dsmodel = dsbll.All.FirstOrDefault(p => p.QAId == model.CurrentQA.ID && p.WeiXinId == requestMessage.FromUserName);
+                if(dsmodel != null)
+                { 
+                    dsmodel.ModTime = DateTime.Now;
+                    dsmodel.Result = Guid.Parse(Reference.分配答题操作_未处理);
+                    //问题按是否收费区分回收
+                    if (model.CurrentQA.MaBiNum > 0)
+                    {
+                        //收费问题的回收
+                        dsmodel.WeiXinId = CFG.默认收费问题微信号;
+                    }
+                    else
+                    {
+                        //免费问题的回收                  
+                        dsmodel.WeiXinId = CFG.默认免费问题微信号;
+                    }
+                    //放弃问题记录
+                    var bll = new BaseBll<bmQA>();
+                    var qamodel = new bmQA();
+                    GenerateGiveUpAnswerModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
+                    //更新到数据库
+                    if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+                    {//添加前确认缓存是否被清空
+                        bll.Insert(qamodel, false);
+                        dsbll.Update(dsmodel);
+                    }
+                    //更新缓存操作
+                    model = RefreshQACache(requestMessage, rqid, model, commonService);
+                }//dsmodel != null     
+            }//放弃答题业务结束
+            else
+            {
+                int i = 0;
+                //为了取自增长ID
+                do
+                {
+                    System.Threading.Thread.Sleep(500);
+                    i++;
+                    model = UserQAService.GetUserQACache(qakey);
+                } while ((model.CurrentQA.ID != curentQAId) || i > 20);                
+            }
+            return AnswerResponse(requestMessage, PackCurrentQA(requestMessage, model));     
+        }        
+
+        /// <summary>
+        /// 生成放弃本题模型
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="msgid"></param>
+        /// <param name="model"></param>
+        private void GenerateGiveUpAnswerModel(RequestMessageText requestMessage, string msgid, bmQA model, Guid parentId)            
+        {
+            model.ID = Guid.NewGuid();
+
+            model.ParentId = parentId;
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_放弃);
+            model.MsgId = msgid;
+            model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
+            model.QAContent = requestMessage.Content;//将指令保存数据库
+            //model.MediaId = requestMessage.MediaId;
+            //model.PicUrl = requestMessage.PicUrl;
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+        }
+        #endregion
+
+        #region 放弃答题操作 所有操作都是将当前问题的操作结果保存进数据库，完后，当前问题添加到已答题缓存，并清空当前答题缓存
+
+        #endregion
+
+        #region 答题处理 未实现
         /// <summary>
         /// 用户提问处理
         /// </summary>
@@ -135,9 +535,9 @@ namespace MorSun.WX.ZYB.Service
         public ResponseMessageNews GetSubmitAnswerResponseMessage(RequestMessageImage requestMessage)
         {
             //用户提交问题处理
-            return SubmitAnswerResponse(requestMessage);            
-        }  
-        
+            return SubmitAnswerResponse(requestMessage);
+        }
+
         /// <summary>
         /// 提问返回数据处理
         /// </summary>
@@ -145,7 +545,7 @@ namespace MorSun.WX.ZYB.Service
         /// <returns></returns>
         private ResponseMessageNews SubmitAnswerResponse(RequestMessageImage requestMessage)
         {
-            return AnswerResponse<RequestMessageImage>(requestMessage, SubmitQuestion(requestMessage));            
+            return AnswerResponse<RequestMessageImage>(requestMessage, SubmitQuestion(requestMessage));
         }
 
         /// <summary>
@@ -258,7 +658,7 @@ namespace MorSun.WX.ZYB.Service
                     bll.Insert(model);
                 }
             }
-            
+
             //增加数据获取限制，如果等了7秒还未取到值，则不再取对象
             int i = 0;
             //为了取自增长ID
@@ -269,174 +669,10 @@ namespace MorSun.WX.ZYB.Service
                     System.Threading.Thread.Sleep(500);
                     i++;
                 }
-                model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();                
+                model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();
             } while (model.AutoGrenteId == 0 || i > 20);
             return model;
         }
-        #endregion
-
-        #region 用户开始答题
-        /// <summary>
-        /// 用户输入答题命令处理
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        /// <returns></returns>
-        public ResponseMessageNews GetAnswerResponseMessage(RequestMessageText requestMessage)
-        {
-            //未绑定的用户录入答题命令的处理
-            var userWeiXin = new CommonService().GetZYBUserByWeiXinId(requestMessage.FromUserName);
-            if(userWeiXin == null)
-            {
-                return new UnboundService().GetUnboundResponseMessage(requestMessage);
-            }
-            else
-            { 
-                //连续答退的用户处理
-                var dt = DateTime.Now.AddHours(0 - Convert.ToInt32(CFG.连续答退时间间隔));
-                var userOnlineCount = new BaseBll<bmOnlineQAUser>().All.Where(p => p.AQEndTime >= dt && p.FlagTrashed == false).Count();
-                if (userOnlineCount >= 5)
-                    return RefusedAnswerResponse(requestMessage);
-                //连续答退的用户处理结束
-
-                //已经绑定的用户处理
-                //判断用户是否认证，以及认证与未认证的用户处理
-                var commonService = new CommonService();
-                var onlineuserCache = UserQAService.GetOlineQAUserCache();
-                //处理并发而生成的操作唯一ID
-                var rqid = Guid.NewGuid();
-                if (onlineuserCache == null)
-                {   //缓存未设置的情况
-                    //将用户添加或更新进数据库，由统一方法设置缓存
-                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
-                    //返回答题资源分配中，稍候再发送答题命令
-                    return NonDistributionResponse(requestMessage);
-                }
-                else
-                { 
-                    //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
-                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
-                
-                    if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && ConstList.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
-                    {//认证用户处理
-                        if(onlineuserCache.CertificationUser != null && onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
-                        {
-                            //在线认证用户缓存存在该用户的处理方式
-                            //不管认证与未认证的用户，答题方法是一样的，只是在分配答题时，系统根据认证与未认证用户进行答题分配，分配好后，都是一样的从数据库中取数据答题
-                        }
-                        else
-                        {
-                            //认证用户未进缓存
-                        
-                            //返回答题资源分配中，稍候再发送答题命令
-                            return NonDistributionResponse(requestMessage);
-                        }
-                    }
-                    else
-                    {//不管什么原因的非认证用户处理
-                        if(onlineuserCache.NonCertificationQAUser != null && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
-                        {
-                            //在线未认证用户缓存存在该用户的处理方式
-                        }
-                        else
-                        {
-                            //未认证用用户未进缓存
-                            
-                            //返回答题资源分配中，稍候再发送答题命令
-                            return NonDistributionResponse(requestMessage);
-                        }
-                    }
-
-                    return GetAnswerResponse(requestMessage, rqid);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 取问题返回数据处理
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        /// <returns></returns>
-        private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage, Guid rqid)
-        {
-
-            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
-            //var rqid = Guid.NewGuid();
-            var commonService = new CommonService();
-            Guid mid = commonService.GetMsgIdCache(msgid);
-            if(mid == Guid.Empty)
-            {
-                //设置用户消息缓存
-                commonService.SetMsgIdCache(msgid, rqid);
-            }
-            // 用户的答题缓存都由用户在答题是设置
-            //从缓存中获取后，待答题数量为0的处理
-            var qakey = CFG.用户待答题缓存键前缀 + requestMessage.FromUserName;
-            var model = UserQAService.GetUserQACache(qakey);
-            if(model == null || model.WaitQA.Count() == 0)
-            {
-                //无缓存或待答题数量为0，先取数据，如果数据库还没有待答题，则返回答题资源分配中
-                //设置缓存微信并发时要处理
-                if (commonService.GetMsgIdCache(msgid) == rqid)
-                    model = UserQAService.InitUserQACache(qakey);
-                else
-                    System.Threading.Thread.Sleep(1000);//其他访问等1秒
-
-            }
-            //还是为空，返回答题资源分配中
-            if(model == null || model.WaitQA.Count() == 0)
-            {//返回答题资源分配中
-                return NonDistributionResponse(requestMessage);
-            }
-
-            //从缓存中获取后，待答题数量与已答题数量一致时的处理
-            //这种情况下，用户答题后系统要设置，首先，当前答题为空，其次待答题数量与已答题数量一致
-            //经分析，用户输入dt命令时一般不会出现待答题与已答题数量一致的情况，
-
-            //从缓存中获取后，有可答题时的处理            
-            return AnswerResponse(requestMessage, GetAnswer(requestMessage, model, rqid));            
-        }
-
-        /// <summary>
-        /// 认证与未认证用户取问题统一方法
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        private bmQA GetAnswer<T>(T requestMessage,UserQACache model,Guid rqid)
-            where T : RequestMessageBase
-        {
-            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
-            var commonService = new CommonService();
-            //var bll = new BaseBll<bmQA>();
-            //var model = bll.All.FirstOrDefault();
-            //调用说明，这个方法，在用户输入dt命令，或答题后，返回下一答题的方法，
-            //这个方法只返回题目，不做其他处理。当前答题为空时，则去待答题取一条附值
-            if(model.CurrentQA == null)
-            {
-                //当前答题为空
-                if (commonService.GetMsgIdCache(msgid) == rqid)
-                {
-                    if (model.AlreadyQA == null || model.AlreadyQA.Count() == 0)
-                        model.CurrentQA = model.WaitQA.OrderBy(p => p.RegTime).FirstOrDefault();
-                    else
-                    {//已答题有数据时，排除掉已答题后再取值
-                        model.CurrentQA = model.WaitQA.Except(model.AlreadyQA).OrderBy(p => p.RegTime).FirstOrDefault();
-                    }
-                    //设置缓存
-                    UserQAService.SetUserQACache(CFG.用户待答题缓存键前缀 + model.WeiXinId, model);
-                }
-                else
-                    System.Threading.Thread.Sleep(1000);//其他访问等1秒               
-            }
-            if(model.WaitQA != null)
-            {
-                if(model.AlreadyQA != null)
-                { model.CurrentQA.DJDCount = model.WaitQA.Count() - model.AlreadyQA.Count(); }
-                else
-                {model.CurrentQA.DJDCount = model.WaitQA.Count();}                
-            }
-            //是不是为空由下一步返回的代码再判断
-            return model.CurrentQA;
-        }
-
         #endregion
     }
 }

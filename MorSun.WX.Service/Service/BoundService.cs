@@ -15,7 +15,35 @@ namespace MorSun.WX.ZYB.Service
 {
     public class BoundService
     {
-        public ResponseMessageNews GetBoundResponseMessage(RequestMessageText requestMessage)
+        /// <summary>
+        /// 绑定返回指令处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        private ResponseMessageNews BoundResponse(RequestMessageText requestMessage)
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
+
+            responseMessage.Articles.Add(new Article()
+            {//眼睛图片
+                Title = "您的账号已经绑定邦马网",
+                Description = "您的账号已经绑定邦马网",
+                PicUrl = "",
+                Url = CFG.网站域名 + "/Account/Register"
+            });
+
+            //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
+            new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
+
+            return responseMessage;
+        }
+
+        /// <summary>
+        /// 绑定指令处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public ResponseMessageNews UserBoundResponseMessage(RequestMessageText requestMessage)
         {
             //微信并发处理
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
@@ -28,59 +56,60 @@ namespace MorSun.WX.ZYB.Service
             if (mid == Guid.Empty)
             {
                 commonService.SetMsgIdCache(msgid, rqid);
-                //绑定指令处理 以下都是
-                var text = requestMessage.Content;
-                var boundCode = 0;
-                if (text.Contains(" "))
+            }// mid
+            //绑定指令处理 以下都是
+            var text = requestMessage.Content;
+            var boundCode = 0;
+            if (text.Contains(" "))
+            {//取绑定码
+                try
                 {
-                    try
-                    {
-                        var commond = text.Substring(0, text.IndexOf(" "));
-                        var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ", "");
-                        boundCode = Convert.ToInt32(numValue);
-                    }
-                    catch
-                    {
-                        return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
-                    }
+                    var commond = text.Substring(0, text.IndexOf(" "));
+                    var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ", "");
+                    boundCode = Convert.ToInt32(numValue);
                 }
-                else
+                catch
                 {
                     return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
                 }
+            }
+            else
+            {
+                return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+            }
 
-                var ubcc = GetUserBoundCodeCache(boundCode);
-                if (boundCode == 0 || ubcc == null)
-                    return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+            var ubcc = GetUserBoundCodeCache(boundCode);
+            if (boundCode == 0 || ubcc == null)
+                return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+            else
+            {//以上判断的是命令是否出错，和缓存是否有指令
+                //已经绑定的用户不再操作绑定
+                var wxyy = Guid.Parse(Reference.微信应用_作业邦);                     
+                if (commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName) != null)
+                {//用户重复发送绑定的情况
+                    return BoundResponse(requestMessage);
+                }
+                else if (commonService.GetZybUserByUserId(ubcc.UserId) != null)
+                {
+                    return commonService.CustomResponse(requestMessage, "该用户已经被绑定", "该用户已经被绑定", "", CFG.网站域名);
+                }
                 else
-                {//以上判断的是命令是否出错，和缓存是否有指令
-                    //已经绑定的用户不再操作绑定
-                    var wxyy = Guid.Parse(Reference.微信应用_作业邦);                     
-                    if (commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName) != null)
-                    {//用户重复发送绑定的情况
-                        return BoundResponse(requestMessage);
-                    }
-                    else if (commonService.GetZybUserByUserId(ubcc.UserId) != null)
+                {
+                    //判断缓存里保存的问答ID是否是当前的对象ID    
+                    if (commonService.GetMsgIdCache(msgid) == rqid)
                     {
-                        return commonService.CustomResponse(requestMessage, "该用户已经被绑定", "该用户已经被绑定", "", CFG.网站域名);
-                    }
-                    else
-                    {
-                        model.ID = rqid;
+                        model.ID = Guid.NewGuid();
                         model.UserId = ubcc.UserId;
                         model.WeiXinId = requestMessage.FromUserName;
-                        model.WeiXinAPP = wxyy;
-                        //判断缓存里保存的问答ID是否是当前的对象ID    
-                        if (commonService.GetMsgIdCache(msgid) == model.ID)
-                        {
-                            bll.Insert(model);
-                            //释放资源
-                            CacheAccess.RemoveCache(CFG.微信绑定前缀 + boundCode);
-                            CacheAccess.RemoveCache(CFG.微信绑定前缀 + model.UserId.ToString());
-                        }
+                        model.WeiXinAPP = wxyy;                        
+                        bll.Insert(model);
+                        //释放资源
+                        CacheAccess.RemoveCache(CFG.微信绑定前缀 + boundCode);
+                        CacheAccess.RemoveCache(CFG.微信绑定前缀 + model.UserId.ToString());
                     }
                 }
-            }// mid
+            }
+            
             
             //增加数据获取限制，如果等了7秒还未取到值，则不再取对象
 
@@ -88,7 +117,7 @@ namespace MorSun.WX.ZYB.Service
             //为了取自增长ID
             do
             {
-                if (commonService.GetMsgIdCache(msgid) != model.ID)
+                if (commonService.GetMsgIdCache(msgid) != rqid)
                 {
                     System.Threading.Thread.Sleep(500);
                     i++;
@@ -100,29 +129,7 @@ namespace MorSun.WX.ZYB.Service
                 return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
             return BoundResponse(requestMessage);
         }
-
-        /// <summary>
-        /// 绑定指令处理
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        /// <returns></returns>
-        private ResponseMessageNews BoundResponse(RequestMessageText requestMessage)
-        {
-            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 
-            
-            responseMessage.Articles.Add(new Article()
-            {//眼睛图片
-                Title = "您的账号已经绑定邦马网",
-                Description = "您的账号已经绑定邦马网",
-                PicUrl = "",
-                Url = CFG.网站域名 + "/Account/Register"
-            });    
-
-            //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
-
-            return responseMessage;
-        }
+        
 
         /// <summary>
         /// 根据绑定代码取要绑定的用户

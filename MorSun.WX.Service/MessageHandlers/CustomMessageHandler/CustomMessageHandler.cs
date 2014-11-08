@@ -76,17 +76,20 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 var commondText = tempText.Substring(0, tempText.IndexOf(" "));
                 switch (commondText)
                 {
-                    case CFG.开始答题: return new AnswerService().GetAnswerResponseMessage(requestMessage);
-                    case CFG.微信绑定前缀: return new BoundService().GetBoundResponseMessage(requestMessage);
-                    case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);       
+                    case CFG.微信绑定前缀: return new BoundService().UserBoundResponseMessage(requestMessage);   
+                    case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
+
+                    case CFG.开始答题: return new AnswerService().StartAnswerResponseMessage(requestMessage);
+                    case CFG.放弃本题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
                 }
             }
             else
             {//命令类型
                 switch (tempText)
                 {
-                    case CFG.开始答题: return new AnswerService().GetAnswerResponseMessage(requestMessage);
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
+                    case CFG.开始答题: return new AnswerService().StartAnswerResponseMessage(requestMessage);
+                    case CFG.放弃本题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }
             }           
@@ -103,7 +106,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         public override IResponseMessageBase OnImageRequest(RequestMessageImage requestMessage)
         {
             //用户提交问题处理 
-            var responseMessage = new QuestionService().GetSubmitQuestionResponseMessage(requestMessage as RequestMessageImage);
+            var responseMessage = new QuestionService().SubmitQuestionResponseMessage(requestMessage as RequestMessageImage);
             //用户回答问题处理
 
             return responseMessage;

@@ -30,14 +30,9 @@ namespace MorSun.WX.ZYB.Service
             //获取路径
             string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
 
-            //从缓存中读取
+            //从缓存中读取  不在这边设置缓存是为了防止并发
             var model = CacheAccess.GetFromCache(uid) as UserQACache;
-
-            //取缓存就是取缓存，不要再设置了，省的调用时还要再判断，然后再设置
-            //if (model == null)
-            //{
-            //    model = InitUserQACache(uid);
-            //}
+           
             return model;
         }
 
@@ -46,24 +41,26 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public static UserQACache InitUserQACache(string uid)
-        {
-            //获取路径
-            string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
-            CacheDependency fileDependency = new CacheDependency(path);
-
-            var qaCache = new UserQACache();
+        public static UserQACache InitUserQACache(string uid,bool setCache)
+        {     
+            var model = new UserQACache();
             var weixinId = uid.Substring(2);
-            qaCache.WeiXinId = weixinId;
+            model.WeiXinId = weixinId;
             //头一次取时，系统自动将待答问题和待处理的分配项放进缓存
             var djdRef = Guid.Parse(Reference.分配答题操作_待解答);
             //待回答的问题
-            qaCache.WaitQA = new BaseBll<bmQA>().All.Where(p => p.bmQADistributions.Count(q => q.WeiXinId == weixinId && q.Result == djdRef) > 0);
+            model.WaitQA = new BaseBll<bmQA>().All.Where(p => p.bmQADistributions.Count(q => q.WeiXinId == weixinId && q.Result == djdRef) > 0);
             //待处理的分配项,每次答题都要再去取，还是直接根据问题ID和weixinid取分配项，不然对缓存的操作太麻烦
             //qaCache.WaitQADis = new BaseBll<bmQADistribution>().All.Where(p => p.WeiXinId == weixinId && p.Result == djdRef);
+            //待答题有数据时，才设置当前答题，没有就不设置，当前答题是否为空，由返回方法决定返回什么
+            if (model.WaitQA.Count() > 0) 
+                model.CurrentQA = model.WaitQA.FirstOrDefault();//初始化时，取的就是第一个
             //保存到缓存中
-            CacheAccess.SaveToCacheByDependency(uid, qaCache, fileDependency);
-            return qaCache;            
+            if(setCache)
+            {   
+                SetUserQACache(uid, model);
+            }            
+            return model;            
         }
 
         /// <summary>
@@ -124,12 +121,7 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="requestMessage"></param>
         public static void AddOrUpdateOnlineQAUser<T>(T requestMessage, bmUserWeixin uwx, Guid rqid)
             where T : RequestMessageBase
-        {
-            //判断在线答题用户是否存在该用户
-            var bll = new BaseBll<bmOnlineQAUser>();
-            var state = Guid.Parse(Reference.在线状态_在线);
-            var oqau = bll.All.Where(p => p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false).OrderByDescending(p => p.AQStartTime).FirstOrDefault();
-
+        {            
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
             //var rqid = Guid.NewGuid();
 
@@ -139,10 +131,18 @@ namespace MorSun.WX.ZYB.Service
             {
                 //设置用户消息缓存
                 commonService.SetMsgIdCache(msgid, rqid);
-                if(oqau == null)
-                {//用户不在线时                             
-                    var model = new bmOnlineQAUser();                
-                    model.ID = rqid;
+            }
+            if (commonService.GetMsgIdCache(msgid) == rqid)
+            {
+                //判断在线答题用户是否存在该用户
+                var bll = new BaseBll<bmOnlineQAUser>();
+                var state = Guid.Parse(Reference.在线状态_在线);
+                var oqau = bll.All.Where(p => p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false).OrderByDescending(p => p.AQStartTime).FirstOrDefault();
+
+                if (oqau == null)
+                {//用户不在线时 
+                    var model = new bmOnlineQAUser();
+                    model.ID = Guid.NewGuid();
                     model.UserId = uwx.UserId;
                     model.WeiXinId = uwx.WeiXinId;
                     model.AQStartTime = DateTime.Now;
@@ -156,10 +156,8 @@ namespace MorSun.WX.ZYB.Service
                     model.ModTime = DateTime.Now;
                     model.FlagTrashed = false;
                     model.FlagDeleted = false;
-                    if(commonService.GetMsgIdCache(msgid) == model.ID)
-                    {
-                        bll.Insert(model);
-                    }
+
+                    bll.Insert(model);
                 }
                 else
                 {//用户已经在线时,更新活跃时间
@@ -168,7 +166,7 @@ namespace MorSun.WX.ZYB.Service
 
                     //各种原因还出现两条记录时，
                     var allOqau = bll.All.Where(p => p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false);
-                    if(allOqau.Count() > 1)
+                    if (allOqau.Count() > 1)
                     {
                         var currentOqau = bll.All.Where(p => p.ID == oqau.ID);
                         var otherOqau = allOqau.Except(currentOqau);
@@ -182,16 +180,12 @@ namespace MorSun.WX.ZYB.Service
                                 item.FlagTrashed = true;
                             }
                         }
-                    }                    
-                    if (commonService.GetMsgIdCache(msgid) == rqid)
-                    {
-                        bll.Update(oqau);
                     }
+                    
+                    bll.Update(oqau);                    
                 }
             }
         }
-
         #endregion
-
     }
 }

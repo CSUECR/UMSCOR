@@ -79,7 +79,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews GetSubmitQuestionResponseMessage(RequestMessageImage requestMessage)
+        public ResponseMessageNews SubmitQuestionResponseMessage(RequestMessageImage requestMessage)
         {
             //用户提交问题处理
             return SubmitQuestionResponse(requestMessage);            
@@ -113,19 +113,7 @@ namespace MorSun.WX.ZYB.Service
                 commonService.SetMsgIdCache(msgid, rqid);
 
                 //将图片信息保存进数据库            
-                model.ID = rqid;
-
-                model.WeiXinId = requestMessage.FromUserName;
-                model.QARef = Guid.Parse(Reference.问答类别_问题);
-                model.MsgId = msgid;
-                model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
-                model.MediaId = requestMessage.MediaId;
-                model.PicUrl = requestMessage.PicUrl;
-
-                model.RegTime = DateTime.Now;
-                model.ModTime = DateTime.Now;
-                model.FlagTrashed = false;
-                model.FlagDeleted = false;
+                GenerateQuestionModel(requestMessage, msgid, model);
 
                 //问题消耗马币和分配答题用户处理
                 var userMaBi = new UserMaBiService().GetUserCurrentMaBi(requestMessage.FromUserName);
@@ -205,7 +193,7 @@ namespace MorSun.WX.ZYB.Service
                     qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
                 }
                 //判断缓存里保存的问答ID是否是当前的对象ID    
-                if (commonService.GetMsgIdCache(msgid) == model.ID)
+                if (commonService.GetMsgIdCache(msgid) == rqid)
                 {
                     qadbll.Insert(qaModel, false);
                     bll.Insert(model);
@@ -217,7 +205,7 @@ namespace MorSun.WX.ZYB.Service
             //为了取自增长ID
             do
             {
-                if (commonService.GetMsgIdCache(msgid) != model.ID)
+                if (commonService.GetMsgIdCache(msgid) != rqid)
                 {
                     System.Threading.Thread.Sleep(500);
                     i++;
@@ -225,6 +213,29 @@ namespace MorSun.WX.ZYB.Service
                 model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();                
             } while (model.AutoGrenteId == 0 || i > 20);
             return model;
+        }
+
+        /// <summary>
+        /// 生成问题模型
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="msgid"></param>
+        /// <param name="model"></param>
+        private void GenerateQuestionModel(RequestMessageImage requestMessage, string msgid, bmQA model)
+        {
+            model.ID = Guid.NewGuid();
+
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_问题);
+            model.MsgId = msgid;
+            model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
+            model.MediaId = requestMessage.MediaId;
+            model.PicUrl = requestMessage.PicUrl;
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
         }
         #endregion
 

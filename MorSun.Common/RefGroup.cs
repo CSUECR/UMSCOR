@@ -94,6 +94,8 @@ namespace MorSun.Common
             public const string 问答类别_问题 = "14a751b6-c23c-463c-8fdd-dff1839210b9";
             public const string 问答类别_答案 = "0b2f6da1-2f15-424a-9f96-6a43e5927f6d";
             public const string 问答类别_评论 = "590fcb9e-88b5-4f22-bc1f-be04c0d55c84";
+            public const string 问答类别_放弃 = "ab2b3779-0a08-410f-8192-b79a48f28985";
+            public const string 问答类别_不是问题 = "542d7de5-3465-4c25-9953-8ab0fbc096ba";
 
             //微信消息类别
             public const string 微信消息类别_文本 = "274a7194-7294-4cb5-9f62-3da299390dae";
@@ -243,9 +245,9 @@ namespace MorSun.Common
 
             //微信命令            
             public const string 开始答题 = "dt";
-            public const string 放弃本题 = "fqbt";
-            public const string 不是问题 = "bswt";
-            public const string 退出答题 = "tcdt";
+            public const string 放弃本题 = "fq";
+            public const string 不是问题 = "bs";
+            public const string 退出答题 = "tc";
 
             //独立或当前缀命令
             public const string 我的问题前缀 = "wt";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问

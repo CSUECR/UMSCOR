@@ -57,8 +57,8 @@ namespace MorSun.WX.ZYB.Service
             {
                 responseMessage.Articles.Add(new Article()
                 {//问号图片
-                    Title = "分享给朋友",
-                    Description = "分享给朋友",
+                    Title = "分享给小伙伴们",
+                    Description = "分享给小伙伴们",
                     PicUrl = "",
                     Url = CFG.网站域名 + "/Home/WXShareLink/" + SecurityHelper.Encrypt(requestMessage.FromUserName)
                 });
