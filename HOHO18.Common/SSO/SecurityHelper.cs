@@ -8,10 +8,10 @@ namespace HOHO18.Common.SSO
     public static class SecurityHelper
     {
         //加密时的SALT值(撒盐值)
-        public static readonly string SALT = "ein{ie^&%iMk34D)jeiwq>{jfe3FJ87Hjn/\"jf#";
+        public static readonly string SALT = "AKW#*#IN2f#fhch38&#*74J32FAJD*#yhvn86*&&#*#^$*&y$^&fh";
 
         //加解密时的KEY(密钥)
-        public static readonly string KEY = "93JIEj}k*&jen>kf!jfei.;wnqiWIDKkn";
+        public static readonly string KEY = "HFFHHJEK*(^$WQhf389uHH4wfbj#&@qk17438924&*(^$&@#&@&";
 
 
         /// <summary>

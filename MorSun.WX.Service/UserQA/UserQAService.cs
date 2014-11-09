@@ -9,6 +9,7 @@ using HOHO18.Common;
 using MorSun.Common.配置;
 using Senparc.Weixin.MP.Entities;
 using MorSun.Common.类别;
+using HOHO18.Common.WEB;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -26,13 +27,27 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="uid">传入的参数是 dt + uid uid是微信ID</param>
         /// <returns></returns>
         public static UserQACache GetUserQACache(string uid)
-        {            
+        {
+            LogHelper.Write(("获取用户答题缓存方法的uid " + uid), LogHelper.LogMessageType.Debug);
             //获取路径
             string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
-
-            //从缓存中读取  不在这边设置缓存是为了防止并发
-            var model = CacheAccess.GetFromCache(uid) as UserQACache;
-           
+            var model = new UserQACache();
+            try { 
+                //从缓存中读取  不在这边设置缓存是为了防止并发
+                model = CacheAccess.GetFromCache(uid) as UserQACache;
+            }
+            catch
+            {
+                LogHelper.Write(("获取用户答题缓存方法异常"), LogHelper.LogMessageType.Debug);
+            }
+            LogHelper.Write(("完成获取用户答题缓存方法的uid " + uid), LogHelper.LogMessageType.Debug);
+            if (model == null)
+            {
+                //这边只获取缓存，不设置，设置缓存手动去设置，防止并发情况发生
+                LogHelper.Write(("用户答题缓存返回空"), LogHelper.LogMessageType.Debug);
+                return null;
+            }
+            LogHelper.Write(("存在用户答题缓存并返回"), LogHelper.LogMessageType.Debug);
             return model;
         }
 
@@ -49,15 +64,17 @@ namespace MorSun.WX.ZYB.Service
             //头一次取时，系统自动将待答问题和待处理的分配项放进缓存
             var djdRef = Guid.Parse(Reference.分配答题操作_待解答);
             //待回答的问题
-            model.WaitQA = new BaseBll<bmQA>().All.Where(p => p.bmQADistributions.Count(q => q.WeiXinId == weixinId && q.Result == djdRef) > 0);
+            model.WaitQA = new BaseBll<bmQA>().All.Where(p => p.bmQADistributions.Count(q => q.WeiXinId == weixinId && q.Result == djdRef) > 0).ToList();
+            LogHelper.Write("用户待答问题获取", LogHelper.LogMessageType.Debug);
             //待处理的分配项,每次答题都要再去取，还是直接根据问题ID和weixinid取分配项，不然对缓存的操作太麻烦
             //qaCache.WaitQADis = new BaseBll<bmQADistribution>().All.Where(p => p.WeiXinId == weixinId && p.Result == djdRef);
             //待答题有数据时，才设置当前答题，没有就不设置，当前答题是否为空，由返回方法决定返回什么
-            if (model.WaitQA.Count() > 0) 
+            if (model.WaitQA != null && model.WaitQA.Count() > 0) 
                 model.CurrentQA = model.WaitQA.FirstOrDefault();//初始化时，取的就是第一个
             //保存到缓存中
             if(setCache)
-            {   
+            {
+                LogHelper.Write("用户答题缓存设置", LogHelper.LogMessageType.Debug);
                 SetUserQACache(uid, model);
             }            
             return model;            
@@ -126,12 +143,12 @@ namespace MorSun.WX.ZYB.Service
             //var rqid = Guid.NewGuid();
 
             var commonService = new CommonService();
-            Guid mid = commonService.GetMsgIdCache(msgid);
-            if (mid == Guid.Empty)
-            {
-                //设置用户消息缓存
-                commonService.SetMsgIdCache(msgid, rqid);
-            }
+            //Guid mid = commonService.GetMsgIdCache(msgid);
+            //if (mid == Guid.Empty)
+            //{
+            //    //设置用户消息缓存
+            //    commonService.SetMsgIdCache(msgid, rqid);
+            //}
             if (commonService.GetMsgIdCache(msgid) == rqid)
             {
                 //判断在线答题用户是否存在该用户
@@ -141,6 +158,7 @@ namespace MorSun.WX.ZYB.Service
 
                 if (oqau == null)
                 {//用户不在线时 
+                    LogHelper.Write("添加用户到在线答题方法", LogHelper.LogMessageType.Debug);
                     var model = new bmOnlineQAUser();
                     model.ID = Guid.NewGuid();
                     model.UserId = uwx.UserId;
@@ -161,6 +179,7 @@ namespace MorSun.WX.ZYB.Service
                 }
                 else
                 {//用户已经在线时,更新活跃时间
+                    LogHelper.Write("更新用户活跃时间方法", LogHelper.LogMessageType.Debug);
                     oqau.ActiveTime = DateTime.Now;
                     oqau.ModTime = DateTime.Now;
 
@@ -184,6 +203,10 @@ namespace MorSun.WX.ZYB.Service
                     
                     bll.Update(oqau);                    
                 }
+            }//commonService.GetMsgIdCache(msgid) == rqid
+            else
+            {
+                System.Threading.Thread.Sleep(1000);//其他访问等1秒
             }
         }
         #endregion

@@ -27,12 +27,12 @@ namespace MorSun.Model
         /// <summary>
         /// 待答问题
         /// </summary>
-        public IQueryable<bmQA> WaitQA { get; set; }
+        public List<bmQA> WaitQA { get; set; }
 
         /// <summary>
         /// 已答问题
         /// </summary>
-        public List<bmQA> AlreadyQA { get; set; }
+        //public List<bmQA> AlreadyQA { get; set; }
 
         ///// <summary>
         ///// 当前分配项

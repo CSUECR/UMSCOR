@@ -189,20 +189,21 @@ namespace MorSun.Controllers
                     LoginFunction(user);        
 
                     //生成登录子应用链接
-                    var apps = "AppsUrl".GX().Split(',');
-                    string SSOLink = "";
-                    var dt = DateTime.Now;
-                    var dts = dt.ToShortDateString() + " " + dt.ToShortTimeString();
-                    var tok = HttpUtility.UrlEncode(SecurityHelper.Encrypt(dts + ";" + user.UserId + model.UserName));
-                    foreach (var item in apps)
-                    {
+                    //var apps = "AppsUrl".GX().Split(',');
+                    //string SSOLink = "";
+                    //var dt = DateTime.Now;
+                    //var dts = dt.ToShortDateString() + " " + dt.ToShortTimeString();
+                    //var tok = HttpUtility.UrlEncode(SecurityHelper.Encrypt(dts + ";" + user.UserId + model.UserName));
+                    //foreach (var item in apps)
+                    //{
 
-                        SSOLink += item + SsoConst.AppLoginPageName + "?" +
-                                 SsoConst.SsoTokenName + "=" + tok;//只传ID和用户名到子站吧，其他的子站ajax从主站获取
-                        SSOLink += ",";
-                    }
-                    //封装返回的数据
-                    fillOperationResult(returnUrl, SSOLink, oper, "登录成功");                    
+                    //    SSOLink += item + SsoConst.AppLoginPageName + "?" +
+                    //             SsoConst.SsoTokenName + "=" + tok;//只传ID和用户名到子站吧，其他的子站ajax从主站获取
+                    //    SSOLink += ",";
+                    //}
+                    ////封装返回的数据
+                    //fillOperationResult(returnUrl, SSOLink, oper, "登录成功");
+                    fillOperationResult(returnUrl, oper, "登录成功");  
                     return Json(oper, JsonRequestBehavior.AllowGet);
                 }
                 else

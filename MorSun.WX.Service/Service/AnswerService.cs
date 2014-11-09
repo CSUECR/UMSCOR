@@ -24,6 +24,7 @@ namespace MorSun.WX.ZYB.Service
             Guid mid = commonService.GetMsgIdCache(msgid);
             if (mid == Guid.Empty)
             {
+                LogHelper.Write((msgid + " 设置消息缓存，防止操作并发 " + rqid), LogHelper.LogMessageType.Debug);
                 //设置用户消息缓存
                 commonService.SetMsgIdCache(msgid, rqid);
             }
@@ -165,10 +166,14 @@ namespace MorSun.WX.ZYB.Service
         {            
             if (model.WaitQA != null)
             {
-                if (model.AlreadyQA != null)
-                { model.CurrentQA.DJDCount = model.WaitQA.Count() - model.AlreadyQA.Count(); }
-                else
-                { model.CurrentQA.DJDCount = model.WaitQA.Count(); }
+                //有已回答列表的方法
+                //if (model.AlreadyQA != null)
+                //{ model.CurrentQA.DJDCount = model.WaitQA.Count() - model.AlreadyQA.Count(); }
+                //else
+                //{
+                //model.CurrentQA.DJDCount = model.WaitQA.Count(); 
+                //} 
+                model.CurrentQA.DJDCount = model.WaitQA.Count(); 
             }
             //是不是为空由下一步返回的代码再判断
             return model.CurrentQA;
@@ -190,35 +195,64 @@ namespace MorSun.WX.ZYB.Service
             var cid = model.CurrentQA == null ? Guid.Empty : model.CurrentQA.ID;
             //当前答题为空
             LogHelper.Write((rqid + "刷新缓存操作开始" + cid), LogHelper.LogMessageType.Debug);
+            //有已回答列表的处理
+            //if (commonService.GetMsgIdCache(msgid) == rqid)
+            //{
+            //    if(model.CurrentQA != null)
+            //    {//将操作前的当前问题加入到已答题列表
+            //        LogHelper.Write("问题添加进已答问题", LogHelper.LogMessageType.Debug);
+            //        if (model.AlreadyQA == null)
+            //            model.AlreadyQA = new List<bmQA>();
+            //        model.AlreadyQA.Add(model.CurrentQA);
+            //        LogHelper.Write("已答问题添加了已处理的问题", LogHelper.LogMessageType.Debug);
+            //    }
+            //    LogHelper.Write(("已答题是否为空" + (model.AlreadyQA == null).ToString() + " " + (model.AlreadyQA.Count() == 0).ToString()), LogHelper.LogMessageType.Debug);    
+            //    if (model.AlreadyQA == null || model.AlreadyQA.Count() == 0)
+            //    {
+            //        LogHelper.Write("已答题为空时，设置当前答题", LogHelper.LogMessageType.Debug);
+            //        model.CurrentQA = model.WaitQA.OrderBy(p => p.RegTime).FirstOrDefault(); 
+            //    }                   
+            //    else
+            //    {
+            //        //已答题数量与待答题数量一致时
+            //        if (model.WaitQA.Count() == model.AlreadyQA.Count())
+            //        {   //再初始化缓存
+            //            LogHelper.Write("待答题都回答完后，初始化答题缓存", LogHelper.LogMessageType.Debug);
+            //            model = UserQAService.InitUserQACache(qakey, false);
+            //            //设置当前答题的代码放到设置缓存方法去
+            //        }
+            //        else
+            //        {
+            //            LogHelper.Write("待答题未回答完时，设置当前答题", LogHelper.LogMessageType.Debug);
+            //            //已答题有数据时，排除掉已答题后再取值                        
+            //            model.CurrentQA = model.WaitQA.Except(model.AlreadyQA).OrderBy(p => p.RegTime).FirstOrDefault();
+            //            LogHelper.Write("完成设置当前答题", LogHelper.LogMessageType.Debug);
+            //        }
+            //    }
             if (commonService.GetMsgIdCache(msgid) == rqid)
             {
-                if(model.CurrentQA != null)
+                if (model.CurrentQA != null)
                 {//将操作前的当前问题加入到已答题列表
-                    LogHelper.Write("问题添加进已答问题", LogHelper.LogMessageType.Debug);
-                    model.AlreadyQA.Add(model.CurrentQA);
+                    LogHelper.Write("待答问题移除当前答题", LogHelper.LogMessageType.Debug);                    
+                    model.WaitQA.Remove(model.CurrentQA);
+                    LogHelper.Write("完成待答问题移除当前答题", LogHelper.LogMessageType.Debug);
+                }                
+                
+                //已答题数量与待答题数量一致时
+                if (model.WaitQA.Count() == 0)
+                {   //再初始化缓存
+                    LogHelper.Write("待答题都回答完后，初始化答题缓存", LogHelper.LogMessageType.Debug);
+                    model = UserQAService.InitUserQACache(qakey, false);
+                    //设置当前答题的代码放到设置缓存方法去
                 }
-                LogHelper.Write(("已答题是否为空" + (model.AlreadyQA == null).ToString() + " " + (model.AlreadyQA.Count() == 0).ToString()), LogHelper.LogMessageType.Debug);    
-                if (model.AlreadyQA == null || model.AlreadyQA.Count() == 0)
-                {
-                    LogHelper.Write("已答题为空时，设置当前答题", LogHelper.LogMessageType.Debug);
-                    model.CurrentQA = model.WaitQA.OrderBy(p => p.RegTime).FirstOrDefault(); 
-                }                   
                 else
                 {
-                    //已答题数量与待答题数量一致时
-                    if (model.WaitQA.Count() == model.AlreadyQA.Count())
-                    {   //再初始化缓存
-                        LogHelper.Write("待答题都回答完后，初始化答题缓存", LogHelper.LogMessageType.Debug);
-                        model = UserQAService.InitUserQACache(qakey, false);
-                        //设置当前答题的代码放到设置缓存方法去
-                    }
-                    else
-                    {
-                        LogHelper.Write("待答题未回答完时，设置当前答题", LogHelper.LogMessageType.Debug);
-                        //已答题有数据时，排除掉已答题后再取值
-                        model.CurrentQA = model.WaitQA.Except(model.AlreadyQA).OrderBy(p => p.RegTime).FirstOrDefault();
-                    }
+                    LogHelper.Write("待答题未回答完时，设置当前答题", LogHelper.LogMessageType.Debug);
+                    //已答题有数据时，排除掉已答题后再取值                        
+                    model.CurrentQA = model.WaitQA.FirstOrDefault();
+                    LogHelper.Write("完成设置当前答题", LogHelper.LogMessageType.Debug);
                 }
+                
                 //到这里，不管当前答题是否为空都要重新设置缓存
                 LogHelper.Write("设置当前答题缓存", LogHelper.LogMessageType.Debug);
                 UserQAService.SetUserQACache(qakey, model);
@@ -269,9 +303,11 @@ namespace MorSun.WX.ZYB.Service
                 var onlineuserCache = UserQAService.GetOlineQAUserCache();
                 //处理并发而生成的操作唯一ID
                 var rqid = Guid.NewGuid();
+                RQStart(requestMessage, rqid, commonService);
                 if (onlineuserCache == null)
                 {   //缓存未设置的情况
                     //将用户添加或更新进数据库，由统一方法设置缓存
+                    LogHelper.Write("添加用户到在线答题", LogHelper.LogMessageType.Debug);
                     UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
                     //返回答题资源分配中，稍候再发送答题命令
                     return NonDistributionResponse(requestMessage);
@@ -287,6 +323,9 @@ namespace MorSun.WX.ZYB.Service
                         {
                             //在线认证用户缓存存在该用户的处理方式
                             //不管认证与未认证的用户，答题方法是一样的，只是在分配答题时，系统根据认证与未认证用户进行答题分配，分配好后，都是一样的从数据库中取数据答题
+                            LogHelper.Write("进入认证答题", LogHelper.LogMessageType.Debug);
+                            //在线缓存存在当前答题用户，进去下一步获取题目操作
+                            return GetAnswerResponse(requestMessage, rqid);
                         }
                         else
                         {
@@ -301,6 +340,9 @@ namespace MorSun.WX.ZYB.Service
                         if(onlineuserCache.NonCertificationQAUser != null && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
                         {
                             //在线未认证用户缓存存在该用户的处理方式
+                            LogHelper.Write("进入非认证答题", LogHelper.LogMessageType.Debug);
+                            //在线缓存存在当前答题用户，进去下一步获取题目操作
+                            return GetAnswerResponse(requestMessage, rqid);
                         }
                         else
                         {
@@ -310,8 +352,7 @@ namespace MorSun.WX.ZYB.Service
                             return NonDistributionResponse(requestMessage);
                         }
                     }
-                    //在线缓存存在当前答题用户，进去下一步获取题目操作
-                    return GetAnswerResponse(requestMessage, rqid);
+                    
                 }
             }
         }
@@ -323,37 +364,67 @@ namespace MorSun.WX.ZYB.Service
         /// <returns></returns>
         private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage, Guid rqid)
         {
+            LogHelper.Write("进入GetAnswerResponse方法", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();            
             var commonService = new CommonService(); 
-            RQStart(requestMessage, rqid, commonService);
+            //RQStart(requestMessage, rqid, commonService);
             // 用户的答题缓存都由用户在答题是设置
             //从缓存中获取后，待答题数量为0的处理
             var qakey = CFG.用户待答题缓存键前缀 + requestMessage.FromUserName;
-            var model = UserQAService.GetUserQACache(qakey);
-            if(model == null || model.WaitQA.Count() == 0)
+            LogHelper.Write(("答题KEY " + qakey), LogHelper.LogMessageType.Debug);
+            var model = new UserQACache();
+            try
             {
-                LogHelper.Write("开始设置答题缓存", LogHelper.LogMessageType.Debug);
+                LogHelper.Write(("答题KEY " + qakey + " 准备获取缓存"), LogHelper.LogMessageType.Debug);
+                model = UserQAService.GetUserQACache(qakey);
+            }
+            catch
+            {
+                LogHelper.Write(("答题KEY " + qakey + " 获取缓存异常"), LogHelper.LogMessageType.Debug);
+            }
+            
+            if(model == null)
+            {
+                LogHelper.Write("答题缓存为空时初始化答题缓存", LogHelper.LogMessageType.Debug);
                 //无缓存或待答题数量为0，先取数据，如果数据库还没有待答题，则返回答题资源分配中
                 //设置缓存微信并发时要处理
                 if (commonService.GetMsgIdCache(msgid) == rqid)
-                    model = UserQAService.InitUserQACache(qakey, true);
-                else
-                { 
-                    System.Threading.Thread.Sleep(1000);//其他访问等1秒
-                    //再获取缓存
+                    model = UserQAService.InitUserQACache(qakey, true);                    
+            }
+            else if(model != null && (model.WaitQA == null || model.WaitQA.Count() == 0))
+            {
+                LogHelper.Write("待答题数量为0或为空时初始化缓存", LogHelper.LogMessageType.Debug);
+                if (commonService.GetMsgIdCache(msgid) == rqid)
+                    model = UserQAService.InitUserQACache(qakey, true);                
+            }
+
+            if (commonService.GetMsgIdCache(msgid) != rqid)
+            {
+                int i = 0;
+                LogHelper.Write("答题缓存为空时非主线程等待获取缓存", LogHelper.LogMessageType.Debug);
+                do
+                {
+                    System.Threading.Thread.Sleep(500);//其他访问等1秒
+                    i++;
                     model = UserQAService.GetUserQACache(qakey);
-                }         
+                } while (model == null || i > 6);                
             }
             //还是为空，返回答题资源分配中
-            if(model == null || model.WaitQA.Count() == 0)
+            if (model == null)
             {//返回答题资源分配中
+                LogHelper.Write("答题缓存初始化后还是为空", LogHelper.LogMessageType.Debug);
+                return NonDistributionResponse(requestMessage);
+            }
+            else if (model != null && (model.WaitQA == null || model.WaitQA.Count() == 0))
+            {
+                LogHelper.Write("答题缓存的待答题初始化后还是为空", LogHelper.LogMessageType.Debug);
                 return NonDistributionResponse(requestMessage);
             }
 
             //从缓存中获取后，待答题数量与已答题数量一致时的处理
             //这种情况下，用户答题后系统要设置，首先，当前答题为空，其次待答题数量与已答题数量一致
             //经分析，用户输入dt命令时一般不会出现待答题与已答题数量一致的情况，
-
+            LogHelper.Write("取到缓存，准备返回答题", LogHelper.LogMessageType.Debug);
             //从缓存中获取后，有可答题时的处理            
             return AnswerResponse(requestMessage, PackCurrentQA(requestMessage, model));            
         }        
@@ -460,7 +531,7 @@ namespace MorSun.WX.ZYB.Service
             LogHelper.Write("放弃问题，进入放弃业务", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
             var commonService = new CommonService();
-            RQStart(requestMessage, rqid, commonService);
+            //RQStart(requestMessage, rqid, commonService);
             var curentQAId = model.CurrentQA.ID;//为了比较一下，缓存里的当前问题是否已经被替换
             //经过以上的判断，这边的model必须有值
             //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
