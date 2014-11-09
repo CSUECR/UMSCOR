@@ -71,6 +71,7 @@ namespace MorSun.Controllers.SystemController
             var acQADdt = DateTime.Now.AddMinutes(acQADmn);
             var nonHandleRef = Guid.Parse(Reference.分配答题操作_未处理);
             var nonACQAD = qadisbll.All.Where(p => p.ModTime < acQADdt && ConstList.DefaultDISUser.Contains(p.WeiXinId) && p.Result == nonHandleRef);
+            LogHelper.Write((acQADdt.ToShortTimeString() + "手动更新用户缓存时未处理的问题数量" + nonACQAD.Count().ToString()), LogHelper.LogMessageType.Debug);
             foreach(var item in nonACQAD)
             {
                 item.Result = qastate;
@@ -271,7 +272,7 @@ namespace MorSun.Controllers.SystemController
             model.CertificationUser = bll.All.Where(p => p.State == state && ConstList.DTCertificationLevel.Contains(p.CertificationLevel)).OrderByDescending(p => p.ActiveNum);
             model.NonCertificationQAUser = bll.All.Where(p => p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
 
-            LogHelper.Write("手动更新用户缓存", LogHelper.LogMessageType.Debug);
+            LogHelper.Write("手动更新用户缓存结束", LogHelper.LogMessageType.Debug);
 
             return model;
         }

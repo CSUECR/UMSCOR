@@ -111,8 +111,8 @@ namespace MorSun.WX.ZYB.Service
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);             
             responseMessage.Articles.Add(new Article()
             {
-                Title = "正在为您分配答题资源，请稍候再尝试",
-                Description = "正在为您分配答题资源，请稍候再尝试",
+                Title = "正在为您分配答题资源，请稍候再尝试发送： " + CFG.开始答题 + " 开始答题",
+                Description = "正在为您分配答题资源，请稍候再尝试发送： " + CFG.开始答题 + " 开始答题",
                 PicUrl = "",
                 Url = ""
             });
@@ -124,6 +124,27 @@ namespace MorSun.WX.ZYB.Service
                 PicUrl = "",
                 Url = CFG.网站域名 + "DistributionRule".GX()
             });
+
+            //当前答题缓存数据
+            var model = UserQAService.GetOlineQAUserCache();
+            if(model != null)
+            {
+                responseMessage.Articles.Add(new Article()
+                {//问号图片
+                    Title = ("当前未答数(收费：" + model.MaBiQACount + " 免费：" + model.NonMaBiQACount + ")"),
+                    Description = "查看分配规则",
+                    PicUrl = "",
+                    Url = CFG.网站域名 + "DistributionRule".GX()
+                });
+                responseMessage.Articles.Add(new Article()
+                {//问号图片
+                    Title = ("当前在线人数(认证：" + model.CertificationUser.Count() + " 未认证：" + model.NonCertificationQAUser.Count() + ")"),
+                    Description = ("当前在线人数"),
+                    PicUrl = "",
+                    Url = CFG.网站域名 + "DistributionRule".GX()
+                });                
+            }
+
             return responseMessage;
         }
 
@@ -163,20 +184,30 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="requestMessage"></param>
         private bmQA PackCurrentQA<T>(T requestMessage, UserQACache model)
             where T : RequestMessageBase
-        {            
-            if (model.WaitQA != null)
+        {
+            LogHelper.Write("包装当前答题开始", LogHelper.LogMessageType.Debug);
+            if (model == null)
+                return null;
+            else
             {
-                //有已回答列表的方法
-                //if (model.AlreadyQA != null)
-                //{ model.CurrentQA.DJDCount = model.WaitQA.Count() - model.AlreadyQA.Count(); }
-                //else
-                //{
-                //model.CurrentQA.DJDCount = model.WaitQA.Count(); 
-                //} 
-                model.CurrentQA.DJDCount = model.WaitQA.Count(); 
+                LogHelper.Write("答题缓存不为空时的包装当前答题", LogHelper.LogMessageType.Debug);
+                if (model.CurrentQA == null)
+                    return null;
+                else if (model.CurrentQA != null && model.WaitQA != null)
+                {
+                    //有已回答列表的方法
+                    //if (model.AlreadyQA != null)
+                    //{ model.CurrentQA.DJDCount = model.WaitQA.Count() - model.AlreadyQA.Count(); }
+                    //else
+                    //{
+                    //model.CurrentQA.DJDCount = model.WaitQA.Count(); 
+                    //} 
+                    model.CurrentQA.DJDCount = model.WaitQA.Count(); 
+                }
+                LogHelper.Write("准备返回", LogHelper.LogMessageType.Debug);
+                //是不是为空由下一步返回的代码再判断
+                return model.CurrentQA;
             }
-            //是不是为空由下一步返回的代码再判断
-            return model.CurrentQA;
         }
 
         /// <summary>
