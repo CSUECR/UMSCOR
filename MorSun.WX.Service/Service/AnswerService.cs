@@ -542,6 +542,7 @@ namespace MorSun.WX.ZYB.Service
                     switch(operate)
                     {
                         case CFG.放弃本题: return GiveUpQuestionResponse(requestMessage, rqid, model, qakey);
+                        case CFG.不是问题: return NotQuestionResponse(requestMessage, rqid, model, qakey);
                     }
                     LogHelper.Write("操作问题，非答题操作命令", LogHelper.LogMessageType.Debug);
                     return ics.GetInvalidCommondResponseMessage(requestMessage);
@@ -591,7 +592,7 @@ namespace MorSun.WX.ZYB.Service
                     //放弃问题记录
                     var bll = new BaseBll<bmQA>();
                     var qamodel = new bmQA();
-                    GenerateGiveUpAnswerModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
+                    GenerateGiveUpQuestionModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
                     LogHelper.Write("放弃问题，主线程更新数据库前", LogHelper.LogMessageType.Debug);
                     LogHelper.Write((rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
                     //更新到数据库
@@ -627,7 +628,7 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="requestMessage"></param>
         /// <param name="msgid"></param>
         /// <param name="model"></param>
-        private void GenerateGiveUpAnswerModel(RequestMessageText requestMessage, string msgid, bmQA model, Guid parentId)            
+        private void GenerateGiveUpQuestionModel(RequestMessageText requestMessage, string msgid, bmQA model, Guid parentId)            
         {
             model.ID = Guid.NewGuid();
 
@@ -645,11 +646,112 @@ namespace MorSun.WX.ZYB.Service
             model.FlagTrashed = false;
             model.FlagDeleted = false;
         }
+
+        /// <summary>
+        /// 不是问题
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="rqid"></param>
+        /// <param name="model"></param>
+        /// <param name="qakey"></param>
+        /// <returns></returns>
+        private ResponseMessageNews NotQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
+        {
+            LogHelper.Write("不是问题，进入不是问题业务", LogHelper.LogMessageType.Debug);
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var commonService = new CommonService();
+            //RQStart(requestMessage, rqid, commonService);
+            var curentQAId = model.CurrentQA.ID;//为了比较一下，缓存里的当前问题是否已经被替换
+            //经过以上的判断，这边的model必须有值
+            //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
+            LogHelper.Write((commonService.GetMsgIdCache(msgid) + " " + rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+            if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+            {//随时判断缓存有没有被定时器清空                
+                //放弃问题记录
+                //var bll = new BaseBll<bmQA>();
+                //var qamodel = new bmQA();
+                //GenerateNotQuestionModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
+                //LogHelper.Write("放弃问题，主线程更新数据库前", LogHelper.LogMessageType.Debug);
+                //LogHelper.Write((rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+                ////更新到数据库
+                //if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+                //{//添加前确认缓存是否被清空
+                //    bll.Insert(qamodel);                        
+                //    //更新缓存操作
+                //    model = RefreshQACache(requestMessage, rqid, model, commonService);
+                //    LogHelper.Write("放弃问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
+                //}
+
+                var dsbll = new BaseBll<bmQADistribution>();
+                var dsmodel = dsbll.All.FirstOrDefault(p => p.QAId == model.CurrentQA.ID && p.WeiXinId == requestMessage.FromUserName);
+                LogHelper.Write(("取当前分配记录" + (dsmodel != null).ToString()), LogHelper.LogMessageType.Debug);
+                if (dsmodel != null)
+                {
+                    dsmodel.ModTime = DateTime.Now;
+                    dsmodel.Result = Guid.Parse(Reference.分配答题操作_不是问题);
+                    dsmodel.OperateTime = DateTime.Now;
+                    //放弃问题记录
+                    var bll = new BaseBll<bmQA>();
+                    var qamodel = new bmQA();
+                    GenerateNotQuestionModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
+                    LogHelper.Write("不是问题，主线程更新数据库前", LogHelper.LogMessageType.Debug);
+                    LogHelper.Write((rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+                    //更新到数据库
+                    if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+                    {//添加前确认缓存是否被清空
+                        bll.Insert(qamodel, false);
+                        dsbll.Update(dsmodel);
+                        //更新缓存操作
+                        model = RefreshQACache(requestMessage, rqid, model, commonService);
+                        LogHelper.Write("放弃问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
+                    }
+                }//dsmodel != null  
+            }//放弃答题业务结束
+            else
+            {
+                LogHelper.Write("放弃问题，非主线程取缓存问题", LogHelper.LogMessageType.Debug);
+                int i = 0;
+                //为了取自增长ID
+                do
+                {
+                    System.Threading.Thread.Sleep(500);
+                    i++;
+                    model = UserQAService.GetUserQACache(qakey);
+                } while ((model.CurrentQA.ID != curentQAId) || i > 20);
+            }
+            LogHelper.Write("答题缓存刷新了后，准备返回答题", LogHelper.LogMessageType.Debug);
+            return AnswerResponse(requestMessage, PackCurrentQA(requestMessage, model));
+        }
+
+        /// <summary>
+        /// 生成不是问题对象
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="msgid"></param>
+        /// <param name="model"></param>
+        /// <param name="parentId"></param>
+        private void GenerateNotQuestionModel(RequestMessageText requestMessage, string msgid, bmQA model, Guid parentId)
+        {
+            model.ID = Guid.NewGuid();
+
+            model.ParentId = parentId;
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_不是问题);
+            model.MsgId = msgid;
+            model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
+            model.QAContent = requestMessage.Content;//将指令保存数据库
+            //model.MediaId = requestMessage.MediaId;
+            //model.PicUrl = requestMessage.PicUrl;
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+        }
+
         #endregion
 
-        #region 放弃答题操作 所有操作都是将当前问题的操作结果保存进数据库，完后，当前问题添加到已答题缓存，并清空当前答题缓存
-
-        #endregion
+        
 
         #region 答题处理 未实现
         /// <summary>
