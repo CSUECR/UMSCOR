@@ -248,6 +248,7 @@ namespace MorSun.Common
             public const string 放弃本题 = "fq";
             public const string 不是问题 = "bs";
             public const string 退出答题 = "tc";
+            public const string 回答问题 = "hd";//文字回答问题
 
             //独立或当前缀命令
             public const string 我的问题前缀 = "wt";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问

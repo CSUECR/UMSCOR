@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Configuration;
 using System.IO;
 using System.Text;
@@ -8,6 +9,7 @@ using Senparc.Weixin.MP.Entities;
 using Senparc.Weixin.MP.MessageHandlers;
 using Senparc.Weixin.MP.Helpers;
 using MorSun.Common.配置;
+using HOHO18.Common.WEB;
 
 
 namespace MorSun.WX.ZYB.Service.CustomMessageHandler
@@ -82,6 +84,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.开始答题: return new AnswerService().StartAnswerResponseMessage(requestMessage);
                     case CFG.放弃本题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
                     case CFG.不是问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
+                    case CFG.回答问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.回答问题);
                 }
             }
             else
@@ -107,11 +110,29 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnImageRequest(RequestMessageImage requestMessage)
         {
-            //用户提交问题处理 
-            var responseMessage = new QuestionService().SubmitQuestionResponseMessage(requestMessage as RequestMessageImage);
             //用户回答问题处理
-
-            return responseMessage;
+            var onlineUser = UserQAService.GetOlineQAUserCache();
+            if(onlineUser != null)
+            {
+                if((onlineUser.CertificationUser != null && onlineUser.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null)
+                    ||(onlineUser.NonCertificationQAUser != null && onlineUser.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null))
+                {//回答问题方法
+                    LogHelper.Write("图片回答问题", LogHelper.LogMessageType.Debug);
+                    return new AnswerService().AnswerQuestionResponseMessage(requestMessage);
+                }
+                else
+                {
+                    //用户提交问题处理 
+                    LogHelper.Write("在线用户缓存不包括当前用户时的提问", LogHelper.LogMessageType.Debug);
+                    return new QuestionService().SubmitQuestionResponseMessage(requestMessage);
+                }
+            }
+            else
+            {
+                LogHelper.Write("在线用户缓存为空时的提问", LogHelper.LogMessageType.Debug);
+                //用户提交问题处理 
+                return new QuestionService().SubmitQuestionResponseMessage(requestMessage);
+            }            
         }
 
         

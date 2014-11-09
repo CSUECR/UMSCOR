@@ -14,7 +14,8 @@ namespace MorSun.WX.ZYB.Service
 {
     public class UnboundService
     {
-        public ResponseMessageNews GetUnboundResponseMessage(RequestMessageText requestMessage)
+        public ResponseMessageNews GetUnboundResponseMessage<T>(T requestMessage)
+            where T : RequestMessageBase
         {
             //错误指令处理
             return UnboundResponse(requestMessage);            
@@ -25,7 +26,8 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews UnboundResponse(RequestMessageText requestMessage)
+        private ResponseMessageNews UnboundResponse<T>(T requestMessage)
+            where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 
             
@@ -38,7 +40,7 @@ namespace MorSun.WX.ZYB.Service
             });    
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
+            new CommonService().RegOrShare(requestMessage, responseMessage);
 
             return responseMessage;
         }

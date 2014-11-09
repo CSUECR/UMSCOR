@@ -14,7 +14,8 @@ namespace MorSun.WX.ZYB.Service
 {
     public class InvalidCommondService
     {
-        public ResponseMessageNews GetInvalidCommondResponseMessage(RequestMessageText requestMessage)
+        public ResponseMessageNews GetInvalidCommondResponseMessage<T>(T requestMessage)
+            where T : RequestMessageBase
         {
             //错误指令处理
             return InvalidCommondResponse(requestMessage);            
@@ -25,7 +26,8 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews InvalidCommondResponse(RequestMessageText requestMessage)
+        private ResponseMessageNews InvalidCommondResponse<T>(T requestMessage)
+            where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 
             

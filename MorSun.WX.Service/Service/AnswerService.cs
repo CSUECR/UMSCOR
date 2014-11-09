@@ -18,7 +18,8 @@ namespace MorSun.WX.ZYB.Service
     {
 
         #region 请求开始处理
-        private void RQStart(RequestMessageText requestMessage, Guid rqid, CommonService commonService)
+        private void RQStart<T>(T requestMessage, Guid rqid, CommonService commonService)
+            where T : RequestMessageBase
         {
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();            
             Guid mid = commonService.GetMsgIdCache(msgid);
@@ -461,7 +462,7 @@ namespace MorSun.WX.ZYB.Service
         }        
         #endregion
 
-        #region 用户操作问题  放弃 不是问题 回答
+        #region 用户操作问题  放弃 不是问题 
         /// <summary>
         /// 放弃问题
         /// </summary>
@@ -543,6 +544,7 @@ namespace MorSun.WX.ZYB.Service
                     {
                         case CFG.放弃本题: return GiveUpQuestionResponse(requestMessage, rqid, model, qakey);
                         case CFG.不是问题: return NotQuestionResponse(requestMessage, rqid, model, qakey);
+                        case CFG.回答问题: return TextAnswerQuestionResponse(requestMessage, rqid, model, qakey);
                     }
                     LogHelper.Write("操作问题，非答题操作命令", LogHelper.LogMessageType.Debug);
                     return ics.GetInvalidCommondResponseMessage(requestMessage);
@@ -666,22 +668,7 @@ namespace MorSun.WX.ZYB.Service
             //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
             LogHelper.Write((commonService.GetMsgIdCache(msgid) + " " + rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
             if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
-            {//随时判断缓存有没有被定时器清空                
-                //放弃问题记录
-                //var bll = new BaseBll<bmQA>();
-                //var qamodel = new bmQA();
-                //GenerateNotQuestionModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
-                //LogHelper.Write("放弃问题，主线程更新数据库前", LogHelper.LogMessageType.Debug);
-                //LogHelper.Write((rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
-                ////更新到数据库
-                //if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
-                //{//添加前确认缓存是否被清空
-                //    bll.Insert(qamodel);                        
-                //    //更新缓存操作
-                //    model = RefreshQACache(requestMessage, rqid, model, commonService);
-                //    LogHelper.Write("放弃问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
-                //}
-
+            {//随时判断缓存有没有被定时器清空
                 var dsbll = new BaseBll<bmQADistribution>();
                 var dsmodel = dsbll.All.FirstOrDefault(p => p.QAId == model.CurrentQA.ID && p.WeiXinId == requestMessage.FromUserName);
                 LogHelper.Write(("取当前分配记录" + (dsmodel != null).ToString()), LogHelper.LogMessageType.Debug);
@@ -703,13 +690,13 @@ namespace MorSun.WX.ZYB.Service
                         dsbll.Update(dsmodel);
                         //更新缓存操作
                         model = RefreshQACache(requestMessage, rqid, model, commonService);
-                        LogHelper.Write("放弃问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
+                        LogHelper.Write("不是问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
                     }
                 }//dsmodel != null  
             }//放弃答题业务结束
             else
             {
-                LogHelper.Write("放弃问题，非主线程取缓存问题", LogHelper.LogMessageType.Debug);
+                LogHelper.Write("不是问题，非主线程取缓存问题", LogHelper.LogMessageType.Debug);
                 int i = 0;
                 //为了取自增长ID
                 do
@@ -749,157 +736,231 @@ namespace MorSun.WX.ZYB.Service
             model.FlagDeleted = false;
         }
 
+        /// <summary>
+        /// 文字回答问题
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="rqid"></param>
+        /// <param name="model"></param>
+        /// <param name="qakey"></param>
+        /// <returns></returns>
+        private ResponseMessageNews TextAnswerQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
+        {
+            LogHelper.Write("文字回答问题，进入文字回答问题业务", LogHelper.LogMessageType.Debug);
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var commonService = new CommonService();
+            //RQStart(requestMessage, rqid, commonService);
+            var curentQAId = model.CurrentQA.ID;//为了比较一下，缓存里的当前问题是否已经被替换
+            //经过以上的判断，这边的model必须有值
+            //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
+            LogHelper.Write((commonService.GetMsgIdCache(msgid) + " " + rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+            if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+            {//随时判断缓存有没有被定时器清空
+                var dsbll = new BaseBll<bmQADistribution>();
+                var dsmodel = dsbll.All.FirstOrDefault(p => p.QAId == model.CurrentQA.ID && p.WeiXinId == requestMessage.FromUserName);
+                LogHelper.Write(("取当前分配记录" + (dsmodel != null).ToString()), LogHelper.LogMessageType.Debug);
+                if (dsmodel != null)
+                {
+                    dsmodel.ModTime = DateTime.Now;
+                    dsmodel.Result = Guid.Parse(Reference.分配答题操作_已解答);
+                    dsmodel.OperateTime = DateTime.Now;
+                    //放弃问题记录
+                    var bll = new BaseBll<bmQA>();
+                    var qamodel = new bmQA();
+                    GenerateTextAnswerQuestionModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
+                    LogHelper.Write("文字回答问题，主线程更新数据库前", LogHelper.LogMessageType.Debug);
+                    LogHelper.Write((rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+                    //更新到数据库
+                    if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+                    {//添加前确认缓存是否被清空
+                        bll.Insert(qamodel, false);
+                        dsbll.Update(dsmodel);
+                        //更新缓存操作
+                        model = RefreshQACache(requestMessage, rqid, model, commonService);
+                        LogHelper.Write("文字回答问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
+                    }
+                }//dsmodel != null  
+            }//放弃答题业务结束
+            else
+            {
+                LogHelper.Write("文字回答问题，非主线程取缓存问题", LogHelper.LogMessageType.Debug);
+                int i = 0;
+                //为了取自增长ID
+                do
+                {
+                    System.Threading.Thread.Sleep(500);
+                    i++;
+                    model = UserQAService.GetUserQACache(qakey);
+                } while ((model.CurrentQA.ID != curentQAId) || i > 20);
+            }
+            LogHelper.Write("答题缓存刷新了后，准备返回答题", LogHelper.LogMessageType.Debug);
+            return AnswerResponse(requestMessage, PackCurrentQA(requestMessage, model));
+        }
+
+        /// <summary>
+        /// 生成不是问题对象
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="msgid"></param>
+        /// <param name="model"></param>
+        /// <param name="parentId"></param>
+        private void GenerateTextAnswerQuestionModel(RequestMessageText requestMessage, string msgid, bmQA model, Guid parentId)
+        {
+            model.ID = Guid.NewGuid();
+
+            model.ParentId = parentId;
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_答案);
+            model.MsgId = msgid;
+            model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
+            model.QAContent = requestMessage.Content.Substring(2);//将指令保存数据库
+            //model.MediaId = requestMessage.MediaId;
+            //model.PicUrl = requestMessage.PicUrl;
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+        }
         #endregion
 
         
 
-        #region 答题处理 未实现
+        #region 答题处理        
         /// <summary>
-        /// 用户提问处理
+        /// 回答问题处理
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews GetSubmitAnswerResponseMessage(RequestMessageImage requestMessage)
+        public ResponseMessageNews AnswerQuestionResponseMessage(RequestMessageImage requestMessage)
         {
-            //用户提交问题处理
-            return SubmitAnswerResponse(requestMessage);
-        }
-
-        /// <summary>
-        /// 提问返回数据处理
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        /// <returns></returns>
-        private ResponseMessageNews SubmitAnswerResponse(RequestMessageImage requestMessage)
-        {
-            return AnswerResponse<RequestMessageImage>(requestMessage, SubmitQuestion(requestMessage));
-        }
-
-        /// <summary>
-        /// 用户拍照提交问题
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        private bmQA SubmitQuestion(RequestMessageImage requestMessage)
-        {
-            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
-            var qaid = Guid.NewGuid();
-            var bll = new BaseBll<bmQA>();
-
-            var model = new bmQA();
             var commonService = new CommonService();
-            Guid mid = commonService.GetMsgIdCache(msgid);
-            if (mid == Guid.Empty)
-            {//已经添加的问题答案，不再保存进系统
-                commonService.SetMsgIdCache(msgid, qaid);
-
-                //将图片信息保存进数据库            
-                model.ID = qaid;
-
-                model.WeiXinId = requestMessage.FromUserName;
-                model.QARef = Guid.Parse(Reference.问答类别_问题);
-                model.MsgId = msgid;
-                model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
-                model.MediaId = requestMessage.MediaId;
-                model.PicUrl = requestMessage.PicUrl;
-
-                model.RegTime = DateTime.Now;
-                model.ModTime = DateTime.Now;
-                model.FlagTrashed = false;
-                model.FlagDeleted = false;
-
-                //问题消耗马币和分配答题用户处理
-                var userMaBi = new UserMaBiService().GetUserCurrentMaBi(requestMessage.FromUserName);
-                //消耗马币
-                if (userMaBi != null)
+            //未绑定的用户录入放弃本题的处理
+            var userWeiXin = commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName);
+            if (userWeiXin == null)
+            {
+                return new UnboundService().GetUnboundResponseMessage(requestMessage);
+            }
+            else
+            {
+                //已经绑定的用户处理      
+                var onlineuserCache = UserQAService.GetOlineQAUserCache();
+                //处理并发而生成的操作唯一ID
+                var rqid = Guid.NewGuid();
+                RQStart(requestMessage, rqid, commonService);
+                var ics = new InvalidCommondService();
+                if (onlineuserCache == null)
                 {
-                    var defMaBi = Convert.ToDecimal(CFG.提问默认收费马币值);
-                    if (userMaBi.UMB.BBi >= defMaBi || userMaBi.UMB.MaBi >= defMaBi)
-                    {
-                        if (userMaBi.UMB.BBi >= defMaBi)
-                        {
-                            //消耗邦币处理
-                            model.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
-                            model.MaBiNum = defMaBi;
-
-                            //添加马币消费记录
-                            var addMBR = new AddMBRModel();
-                            addMBR.UIds.Add(userMaBi.UserId);
-
-                            addMBR.QAId = model.ID;
-                            addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
-                            addMBR.MBR = Guid.Parse(Reference.马币类别_邦币);
-                            addMBR.MBN = 0 - defMaBi;
-                            new UserMaBiService().AddUMBRByQA(addMBR, false);
-                        }
-                        else if (userMaBi.UMB.MaBi >= defMaBi)
-                        {
-                            //消耗马币处理
-                            model.MaBiRef = Guid.Parse(Reference.马币类别_马币);
-                            model.MaBiNum = defMaBi;
-
-                            //添加马币消费记录
-                            var addMBR = new AddMBRModel();
-                            addMBR.UIds.Add(userMaBi.UserId);
-
-                            addMBR.QAId = model.ID;
-                            addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
-                            addMBR.MBR = Guid.Parse(Reference.马币类别_马币);
-                            addMBR.MBN = 0 - defMaBi;
-                            new UserMaBiService().AddUMBRByQA(addMBR, false);
-                        }
-                    }
-                    else
-                    {
-                        //马币与邦币不足时的处理  都不足时不作任何处理
-                    }
+                    LogHelper.Write("图片回答问题，无在线用户缓存", LogHelper.LogMessageType.Debug);
+                    //不是在线答题用户，直接返回无效命令 
+                    return ics.GetInvalidCommondResponseMessage(requestMessage);
                 }
                 else
                 {
-                    //未绑定的微信号  也不作任何处理
-                }
+                    //在线用户是否存在该用户
+                    if (onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null
+                        && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null)
+                    {
+                        LogHelper.Write("图片回答问题，当前用户不在缓存里", LogHelper.LogMessageType.Debug);
+                        //不是在线答题用户，直接返回无效命令 
+                        return ics.GetInvalidCommondResponseMessage(requestMessage);
+                    }
 
-                //问题分配处理
-                var qadbll = new BaseBll<bmQADistribution>();
-                var qaModel = new bmQADistribution();
+                    var qakey = CFG.用户待答题缓存键前缀 + requestMessage.FromUserName;
+                    var model = UserQAService.GetUserQACache(qakey);
+                    if (model == null || model.CurrentQA == null)
+                    {
+                        LogHelper.Write("图片回答问题，当前用户答题缓存为空或无当前答题", LogHelper.LogMessageType.Debug);
+                        //用户答题缓存为空，
+                        return ics.GetInvalidCommondResponseMessage(requestMessage);
+                    }
 
-                qaModel.ID = Guid.NewGuid();
-                qaModel.QAId = model.ID;
-                qaModel.DistributionTime = DateTime.Now;
-                qaModel.RegTime = DateTime.Now;
-                if (model.MaBiNum > 0)
-                {
-                    //收费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(Guid.Parse(Reference.认证类别_认证邦主));
-                    qaModel.WeiXinId = bmOU == null ? CFG.默认收费问题微信号 : bmOU.WeiXinId;
-                }
-                else
-                {
-                    //免费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(Guid.Parse(Reference.认证类别_未认证));
-                    qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
-                }
-                //判断缓存里保存的问答ID是否是当前的对象ID    
-                if (commonService.GetMsgIdCache(msgid) == model.ID)
-                {
-                    qadbll.Insert(qaModel, false);
-                    bll.Insert(model);
+                    //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
+                    LogHelper.Write("图片回答问题，更新用户活跃时间", LogHelper.LogMessageType.Debug);
+                    return AnswerQuestionResponse(requestMessage, rqid, model, qakey);                                         
                 }
             }
+        }
 
-            //增加数据获取限制，如果等了7秒还未取到值，则不再取对象
-            int i = 0;
-            //为了取自增长ID
-            do
+        private ResponseMessageNews AnswerQuestionResponse(RequestMessageImage requestMessage, Guid rqid, UserQACache model, string qakey)
+        {
+            LogHelper.Write("图片回答问题，进入图片回答问题业务", LogHelper.LogMessageType.Debug);
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var commonService = new CommonService();
+            //RQStart(requestMessage, rqid, commonService);
+            var curentQAId = model.CurrentQA.ID;//为了比较一下，缓存里的当前问题是否已经被替换
+            //经过以上的判断，这边的model必须有值
+            //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
+            LogHelper.Write((commonService.GetMsgIdCache(msgid) + " " + rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+            if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+            {//随时判断缓存有没有被定时器清空
+                var dsbll = new BaseBll<bmQADistribution>();
+                var dsmodel = dsbll.All.FirstOrDefault(p => p.QAId == model.CurrentQA.ID && p.WeiXinId == requestMessage.FromUserName);
+                LogHelper.Write(("取当前分配记录" + (dsmodel != null).ToString()), LogHelper.LogMessageType.Debug);
+                if (dsmodel != null)
+                {
+                    dsmodel.ModTime = DateTime.Now;
+                    dsmodel.Result = Guid.Parse(Reference.分配答题操作_已解答);
+                    dsmodel.OperateTime = DateTime.Now;
+                    //放弃问题记录
+                    var bll = new BaseBll<bmQA>();
+                    var qamodel = new bmQA();
+                    GenerateAnswerQuestionModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
+                    LogHelper.Write("图片回答问题，主线程更新数据库前", LogHelper.LogMessageType.Debug);
+                    LogHelper.Write((rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+                    //更新到数据库
+                    if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+                    {//添加前确认缓存是否被清空
+                        bll.Insert(qamodel, false);
+                        dsbll.Update(dsmodel);
+                        //更新缓存操作
+                        model = RefreshQACache(requestMessage, rqid, model, commonService);
+                        LogHelper.Write("图片回答问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
+                    }
+                }//dsmodel != null  
+            }//放弃答题业务结束
+            else
             {
-                if (commonService.GetMsgIdCache(msgid) != model.ID)
+                LogHelper.Write("图片回答问题，非主线程取缓存问题", LogHelper.LogMessageType.Debug);
+                int i = 0;
+                //为了取自增长ID
+                do
                 {
                     System.Threading.Thread.Sleep(500);
                     i++;
-                }
-                model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();
-            } while (model.AutoGrenteId == 0 || i > 20);
-            return model;
+                    model = UserQAService.GetUserQACache(qakey);
+                } while ((model.CurrentQA.ID != curentQAId) || i > 20);
+            }
+            LogHelper.Write("答题缓存刷新了后，准备返回答题", LogHelper.LogMessageType.Debug);
+            return AnswerResponse(requestMessage, PackCurrentQA(requestMessage, model));
         }
+
+        /// <summary>
+        /// 生成不是问题对象
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="msgid"></param>
+        /// <param name="model"></param>
+        /// <param name="parentId"></param>
+        private void GenerateAnswerQuestionModel(RequestMessageImage requestMessage, string msgid, bmQA model, Guid parentId)
+        {
+            model.ID = Guid.NewGuid();
+
+            model.ParentId = parentId;
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_答案);
+            model.MsgId = msgid;
+            model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
+            model.MediaId = requestMessage.MediaId;
+            model.PicUrl = requestMessage.PicUrl;
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+        }
+       
         #endregion
     }
 }
