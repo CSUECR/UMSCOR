@@ -185,7 +185,7 @@ namespace MorSun.Controllers
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
                     FormsService.SignIn(model.UserName, model.RememberMe);
-
+                    LogHelper.Write(model.UserName + "登录", LogHelper.LogMessageType.Debug);
                     LoginFunction(user);        
 
                     //生成登录子应用链接

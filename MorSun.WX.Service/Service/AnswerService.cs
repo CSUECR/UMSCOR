@@ -10,6 +10,7 @@ using MorSun.Common.配置;
 using HOHO18.Common.SSO;
 using MorSun.Common.常量集;
 using HOHO18.Common;
+using HOHO18.Common.WEB;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -38,6 +39,7 @@ namespace MorSun.WX.ZYB.Service
         private ResponseMessageNews AnswerResponse<T>(T requestMessage, bmQA model)
             where T : RequestMessageBase
         {
+            LogHelper.Write("返回待答问题", LogHelper.LogMessageType.Debug);
             if(model == null)
             { //传过来是空值时，返回系统资源分配中
                 return NonDistributionResponse(requestMessage); 
@@ -187,35 +189,44 @@ namespace MorSun.WX.ZYB.Service
             var qakey = CFG.用户待答题缓存键前缀 + model.WeiXinId;
             var cid = model.CurrentQA == null ? Guid.Empty : model.CurrentQA.ID;
             //当前答题为空
+            LogHelper.Write((rqid + "刷新缓存操作开始" + cid), LogHelper.LogMessageType.Debug);
             if (commonService.GetMsgIdCache(msgid) == rqid)
             {
                 if(model.CurrentQA != null)
                 {//将操作前的当前问题加入到已答题列表
+                    LogHelper.Write("问题添加进已答问题", LogHelper.LogMessageType.Debug);
                     model.AlreadyQA.Add(model.CurrentQA);
                 }
-                    
+                LogHelper.Write(("已答题是否为空" + (model.AlreadyQA == null).ToString() + " " + (model.AlreadyQA.Count() == 0).ToString()), LogHelper.LogMessageType.Debug);    
                 if (model.AlreadyQA == null || model.AlreadyQA.Count() == 0)
-                    model.CurrentQA = model.WaitQA.OrderBy(p => p.RegTime).FirstOrDefault();
+                {
+                    LogHelper.Write("已答题为空时，设置当前答题", LogHelper.LogMessageType.Debug);
+                    model.CurrentQA = model.WaitQA.OrderBy(p => p.RegTime).FirstOrDefault(); 
+                }                   
                 else
                 {
                     //已答题数量与待答题数量一致时
                     if (model.WaitQA.Count() == model.AlreadyQA.Count())
                     {   //再初始化缓存
+                        LogHelper.Write("待答题都回答完后，初始化答题缓存", LogHelper.LogMessageType.Debug);
                         model = UserQAService.InitUserQACache(qakey, false);
                         //设置当前答题的代码放到设置缓存方法去
                     }
                     else
                     {
+                        LogHelper.Write("待答题未回答完时，设置当前答题", LogHelper.LogMessageType.Debug);
                         //已答题有数据时，排除掉已答题后再取值
                         model.CurrentQA = model.WaitQA.Except(model.AlreadyQA).OrderBy(p => p.RegTime).FirstOrDefault();
                     }
                 }
                 //到这里，不管当前答题是否为空都要重新设置缓存
+                LogHelper.Write("设置当前答题缓存", LogHelper.LogMessageType.Debug);
                 UserQAService.SetUserQACache(qakey, model);
                 return model;
             }
             else
             {
+                LogHelper.Write("刷新缓存中非主线程直接取答题", LogHelper.LogMessageType.Debug);
                 int i = 0;
                 //为了取自增长ID
                 do
@@ -269,7 +280,7 @@ namespace MorSun.WX.ZYB.Service
                 { 
                     //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
                     UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
-                
+                    LogHelper.Write("更新用户活跃时间", LogHelper.LogMessageType.Debug);
                     if (userWeiXin.aspnet_Users1.wmfUserInfo != null && userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel != null && ConstList.DTCertificationLevel.Contains(userWeiXin.aspnet_Users1.wmfUserInfo.CertificationLevel))
                     {//认证用户处理
                         if(onlineuserCache.CertificationUser != null && onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == userWeiXin.WeiXinId) != null)
@@ -321,6 +332,7 @@ namespace MorSun.WX.ZYB.Service
             var model = UserQAService.GetUserQACache(qakey);
             if(model == null || model.WaitQA.Count() == 0)
             {
+                LogHelper.Write("开始设置答题缓存", LogHelper.LogMessageType.Debug);
                 //无缓存或待答题数量为0，先取数据，如果数据库还没有待答题，则返回答题资源分配中
                 //设置缓存微信并发时要处理
                 if (commonService.GetMsgIdCache(msgid) == rqid)
@@ -371,7 +383,8 @@ namespace MorSun.WX.ZYB.Service
                 RQStart(requestMessage, rqid, commonService);
                 var ics = new InvalidCommondService();
                 if (onlineuserCache == null)
-                {   
+                {
+                    LogHelper.Write("操作问题，无在线用户缓存", LogHelper.LogMessageType.Debug);
                     //不是在线答题用户，直接返回无效命令 
                     return ics.GetInvalidCommondResponseMessage(requestMessage);
                 }
@@ -379,8 +392,9 @@ namespace MorSun.WX.ZYB.Service
                 {
                     //在线用户是否存在该用户
                     if (onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null
-                        || onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null)
+                        && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null)
                     {
+                        LogHelper.Write("操作问题，当前用户不在缓存里", LogHelper.LogMessageType.Debug);
                         //不是在线答题用户，直接返回无效命令 
                         return ics.GetInvalidCommondResponseMessage(requestMessage);
                     }
@@ -389,6 +403,7 @@ namespace MorSun.WX.ZYB.Service
                     var model = UserQAService.GetUserQACache(qakey);
                     if (model == null || model.CurrentQA == null)
                     {
+                        LogHelper.Write("操作问题，当前用户答题缓存为空或无当前答题", LogHelper.LogMessageType.Debug);
                         //用户答题缓存为空，
                         return ics.GetInvalidCommondResponseMessage(requestMessage);
                     }
@@ -421,12 +436,12 @@ namespace MorSun.WX.ZYB.Service
 
                     //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
                     UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
-
+                    LogHelper.Write("操作问题，更新用户活跃时间", LogHelper.LogMessageType.Debug);
                     switch(operate)
                     {
                         case CFG.放弃本题: return GiveUpQuestionResponse(requestMessage, rqid, model, qakey);
                     }
-
+                    LogHelper.Write("操作问题，非答题操作命令", LogHelper.LogMessageType.Debug);
                     return ics.GetInvalidCommondResponseMessage(requestMessage);
                 }
             }
@@ -442,17 +457,20 @@ namespace MorSun.WX.ZYB.Service
         /// <returns></returns>
         private ResponseMessageNews GiveUpQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
         {
+            LogHelper.Write("放弃问题，进入放弃业务", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
             var commonService = new CommonService();
             RQStart(requestMessage, rqid, commonService);
             var curentQAId = model.CurrentQA.ID;//为了比较一下，缓存里的当前问题是否已经被替换
             //经过以上的判断，这边的model必须有值
             //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
+            LogHelper.Write((commonService.GetMsgIdCache(msgid) + " " + rqid + " " + (UserQAService.GetUserQACache(qakey) != null ).ToString()), LogHelper.LogMessageType.Debug);
             if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
             {//随时判断缓存有没有被定时器清空
                 //问题分配记录
                 var dsbll = new BaseBll<bmQADistribution>();
                 var dsmodel = dsbll.All.FirstOrDefault(p => p.QAId == model.CurrentQA.ID && p.WeiXinId == requestMessage.FromUserName);
+                LogHelper.Write(("取当前分配记录" + (dsmodel != null).ToString()), LogHelper.LogMessageType.Debug);
                 if(dsmodel != null)
                 { 
                     dsmodel.ModTime = DateTime.Now;
@@ -472,18 +490,22 @@ namespace MorSun.WX.ZYB.Service
                     var bll = new BaseBll<bmQA>();
                     var qamodel = new bmQA();
                     GenerateGiveUpAnswerModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
+                    LogHelper.Write("放弃问题，主线程更新数据库前", LogHelper.LogMessageType.Debug);
+                    LogHelper.Write((rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
                     //更新到数据库
                     if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
                     {//添加前确认缓存是否被清空
                         bll.Insert(qamodel, false);
                         dsbll.Update(dsmodel);
-                    }
-                    //更新缓存操作
-                    model = RefreshQACache(requestMessage, rqid, model, commonService);
+                        //更新缓存操作
+                        model = RefreshQACache(requestMessage, rqid, model, commonService);
+                        LogHelper.Write("放弃问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
+                    }                    
                 }//dsmodel != null     
             }//放弃答题业务结束
             else
             {
+                LogHelper.Write("放弃问题，非主线程取缓存问题", LogHelper.LogMessageType.Debug);
                 int i = 0;
                 //为了取自增长ID
                 do
@@ -493,6 +515,7 @@ namespace MorSun.WX.ZYB.Service
                     model = UserQAService.GetUserQACache(qakey);
                 } while ((model.CurrentQA.ID != curentQAId) || i > 20);                
             }
+            LogHelper.Write("答题缓存刷新了后，准备返回答题", LogHelper.LogMessageType.Debug);
             return AnswerResponse(requestMessage, PackCurrentQA(requestMessage, model));     
         }        
 

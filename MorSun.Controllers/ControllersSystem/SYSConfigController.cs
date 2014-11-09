@@ -13,6 +13,7 @@ using MorSun.WX.ZYB.Service;
 using MorSun.Common.常量集;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
+using HOHO18.Common.WEB;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -42,6 +43,7 @@ namespace MorSun.Controllers.SystemController
                 {
                     model = GenerateQAUserCache();
                     UserQAService.SetOlineQAUserCache(model);
+                    LogHelper.Write("完成手动更新用户缓存", LogHelper.LogMessageType.Debug);
                 }
                 return View(model);
             }
@@ -268,6 +270,9 @@ namespace MorSun.Controllers.SystemController
             model.NonMaBiQACount = nonmabiqaCount;            
             model.CertificationUser = bll.All.Where(p => p.State == state && ConstList.DTCertificationLevel.Contains(p.CertificationLevel)).OrderByDescending(p => p.ActiveNum);
             model.NonCertificationQAUser = bll.All.Where(p => p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
+
+            LogHelper.Write("手动更新用户缓存", LogHelper.LogMessageType.Debug);
+
             return model;
         }
 
