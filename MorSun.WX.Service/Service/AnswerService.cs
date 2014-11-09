@@ -813,7 +813,7 @@ namespace MorSun.WX.ZYB.Service
             model.QARef = Guid.Parse(Reference.问答类别_答案);
             model.MsgId = msgid;
             model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
-            model.QAContent = requestMessage.Content.Substring(2);//将指令保存数据库
+            model.QAContent = requestMessage.Content.Substring(2).Trim();//将指令保存数据库
             //model.MediaId = requestMessage.MediaId;
             //model.PicUrl = requestMessage.PicUrl;
 
