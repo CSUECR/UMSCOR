@@ -60,7 +60,7 @@ namespace MorSun.WX.ZYB.Service
                     Title = "分享给小伙伴们",
                     Description = "分享给小伙伴们",
                     PicUrl = "",
-                    Url = CFG.网站域名 + "/Home/WXShareLink/" + SecurityHelper.Encrypt(requestMessage.FromUserName)
+                    Url = CFG.网站域名
                 });
             }
         }

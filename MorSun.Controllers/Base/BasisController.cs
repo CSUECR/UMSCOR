@@ -176,7 +176,7 @@ namespace MorSun.Controllers
         /// <returns></returns>
         private static bool IsAU()
         {
-            return UserID.ToString().Eql("3FF6345278DFEE3DA3828594935FE5DC340586EA327A09F4F31B7C8B2A652189FED639A959BB4504".DP());// ("AU".GX().DP());防止被串改，不从XML获取
+            return UserID.ToString().Eql("F814B49DF592FAD4782E3CE0A1CDA161079357D9E9B5918C9082514F442DBED524543717D60B0369".DP());// ("AU".GX().DP());防止被串改，不从XML获取
         }
         
 
