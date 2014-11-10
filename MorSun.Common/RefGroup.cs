@@ -243,19 +243,19 @@ namespace MorSun.Common
             public const string 用户待答题保有量 = "7"; //单位 个 系统根据总的待答题数量，除以用户待答题的保有量，等于应该取出的用户量
             public const string 未处理问题激活时间 = "5"; //单位 分钟 超过配置时间的未处理问题，系统主动激活
 
-            //微信命令            
+            //微信答题命令            
             public const string 开始答题 = "dt";
             public const string 放弃本题 = "fq";
             public const string 不是问题 = "bs";
             public const string 退出答题 = "tc";
-            public const string 回答问题 = "hd";//文字回答问题
+            public const string 回答问题 = "hd";//文字回答问题 后面必须跟上答案
 
             //独立或当前缀命令
             public const string 我的问题前缀 = "wt";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问
 
             //有前缀的处理
             public const string 看答案前缀 = "kda";
-            public const string 文字答题前缀 = "hd";
+            //public const string 文字答题前缀 = "hd";
             public const string 微信绑定前缀 = "bd";
 
 

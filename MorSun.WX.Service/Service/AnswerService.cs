@@ -175,7 +175,48 @@ namespace MorSun.WX.ZYB.Service
                 Url = CFG.网站域名 + "RefusedAnswer".GX()
             });
             return responseMessage;
-        } 
+        }
+
+        /// <summary>
+        /// 退出答题返回内容
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        private ResponseMessageNews LogOutAnswerResponse<T>(T requestMessage)
+            where T : RequestMessageBase
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
+            responseMessage.Articles.Add(new Article()
+            {
+                Title = "您已退出答题，系统正在回收答题资源。。。",
+                Description = "您已退出答题，系统正在回收答题资源。。。",
+                PicUrl = "",
+                Url = ""
+            });
+
+            //当前答题缓存数据
+            var model = UserQAService.GetOlineQAUserCache();
+            if (model != null)
+            {
+                responseMessage.Articles.Add(new Article()
+                {//问号图片
+                    Title = ("当前未答数(收费：" + model.MaBiQACount + " 免费：" + model.NonMaBiQACount + ")"),
+                    Description = "查看分配规则",
+                    PicUrl = "",
+                    Url = CFG.网站域名
+                });
+                responseMessage.Articles.Add(new Article()
+                {//问号图片
+                    Title = ("当前在线人数(认证：" + model.CertificationUser.Count() + " 未认证：" + model.NonCertificationQAUser.Count() + ")"),
+                    Description = ("当前在线人数"),
+                    PicUrl = "",
+                    Url = CFG.网站域名
+                });
+            }
+
+            return responseMessage;
+        }
         #endregion
 
         #region 需要返回的问题
@@ -462,13 +503,13 @@ namespace MorSun.WX.ZYB.Service
         }        
         #endregion
 
-        #region 用户操作问题  放弃 不是问题 
+        #region 用户操作问题  放弃 不是问题 文本答题 退出答题
         /// <summary>
         /// 放弃问题
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews OperateQuestionResponseMessage(RequestMessageText requestMessage, string operate)
+        public ResponseMessageNews OperateQuestionResponseMessage(RequestMessageText requestMessage, string operate, bool ignoreJudgeCurUQAC = false)
         {
             var commonService = new CommonService();
             //未绑定的用户录入放弃本题的处理
@@ -502,13 +543,18 @@ namespace MorSun.WX.ZYB.Service
                         return ics.GetInvalidCommondResponseMessage(requestMessage);
                     }
 
+                    
+                    //退出答题不用判断用户当前答题是否为空
                     var qakey = CFG.用户待答题缓存键前缀 + requestMessage.FromUserName;
                     var model = UserQAService.GetUserQACache(qakey);
-                    if (model == null || model.CurrentQA == null)
-                    {
-                        LogHelper.Write("操作问题，当前用户答题缓存为空或无当前答题", LogHelper.LogMessageType.Debug);
-                        //用户答题缓存为空，
-                        return ics.GetInvalidCommondResponseMessage(requestMessage);
+                    if (!ignoreJudgeCurUQAC)
+                    { 
+                        if (model == null || model.CurrentQA == null)
+                        {
+                            LogHelper.Write("操作问题，当前用户答题缓存为空或无当前答题", LogHelper.LogMessageType.Debug);
+                            //用户答题缓存为空，
+                            return ics.GetInvalidCommondResponseMessage(requestMessage);
+                        }
                     }
 
                     //自行判断用户是否超期未操作  不用这个的原因是，可能会与定时更新缓存操作冲突
@@ -538,13 +584,17 @@ namespace MorSun.WX.ZYB.Service
                     //}
 
                     //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
-                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
-                    LogHelper.Write("操作问题，更新用户活跃时间", LogHelper.LogMessageType.Debug);
+                    if (!ignoreJudgeCurUQAC)
+                    {//退出答题不需要更新当前用户活跃时间，他需要的操作是，将当前用户的活跃时间提前到让缓存足以回收。
+                        UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
+                        LogHelper.Write("操作问题，更新用户活跃时间", LogHelper.LogMessageType.Debug);
+                    }
                     switch(operate)
                     {
                         case CFG.放弃本题: return GiveUpQuestionResponse(requestMessage, rqid, model, qakey);
                         case CFG.不是问题: return NotQuestionResponse(requestMessage, rqid, model, qakey);
                         case CFG.回答问题: return TextAnswerQuestionResponse(requestMessage, rqid, model, qakey);
+                        case CFG.退出答题: return ExitQuestionResponse(requestMessage, rqid);
                     }
                     LogHelper.Write("操作问题，非答题操作命令", LogHelper.LogMessageType.Debug);
                     return ics.GetInvalidCommondResponseMessage(requestMessage);
@@ -735,6 +785,50 @@ namespace MorSun.WX.ZYB.Service
             model.FlagTrashed = false;
             model.FlagDeleted = false;
         }
+
+        /// <summary>
+        /// 退出答题
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="rqid"></param>
+        /// <param name="model"></param>
+        /// <param name="qakey"></param>
+        /// <returns></returns>
+        private ResponseMessageNews ExitQuestionResponse(RequestMessageText requestMessage, Guid rqid)
+        {
+            LogHelper.Write("退出答题，进入退出答题业务", LogHelper.LogMessageType.Debug);
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var commonService = new CommonService();
+            //RQStart(requestMessage, rqid, commonService);
+            //var curentQAId = model.CurrentQA.ID;//为了比较一下，缓存里的当前问题是否已经被替换
+            //经过以上的判断，这边的model必须有值
+            //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
+            LogHelper.Write((commonService.GetMsgIdCache(msgid) + " " + rqid), LogHelper.LogMessageType.Debug);
+            if (commonService.GetMsgIdCache(msgid) == rqid)
+            {  
+                var state = Guid.Parse(Reference.在线状态_在线);
+                var bll = new BaseBll<bmOnlineQAUser>();
+                var curUserOnlineState = bll.All.Where(p => p.State == state && p.WeiXinId == requestMessage.FromUserName);                  
+                if(curUserOnlineState.Count() > 0)
+                {
+                    LogHelper.Write("用户在线答题表存在当前用户", LogHelper.LogMessageType.Debug);  
+                    var logoutMN = 0 - Convert.ToInt32(CFG.强制退出时间);
+                    var dt = DateTime.Now.AddMinutes(2 * logoutMN);
+                    foreach(var item in curUserOnlineState)
+                    {
+                        item.ActiveTime = dt;
+                    }
+                    bll.UpdateChanges();
+                    LogHelper.Write("完成更新用户在线答题记录", LogHelper.LogMessageType.Debug);  
+                }
+            }//放弃答题业务结束
+            else
+            {                
+                System.Threading.Thread.Sleep(1000);                   
+            }
+            LogHelper.Write("当前用户退出答题的活跃时间理新后，返回退出答题信息", LogHelper.LogMessageType.Debug);
+            return LogOutAnswerResponse(requestMessage);
+        }        
 
         /// <summary>
         /// 文字回答问题

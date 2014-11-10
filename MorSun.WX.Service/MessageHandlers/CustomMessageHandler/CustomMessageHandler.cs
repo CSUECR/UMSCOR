@@ -85,6 +85,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.放弃本题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
                     case CFG.不是问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
                     case CFG.回答问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.回答问题);
+                    case CFG.退出答题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);//退出答题不需要判断是否有当前答题
                 }
             }
             else
@@ -95,6 +96,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.开始答题: return new AnswerService().StartAnswerResponseMessage(requestMessage);
                     case CFG.放弃本题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
                     case CFG.不是问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
+                    case CFG.退出答题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }
             }           
