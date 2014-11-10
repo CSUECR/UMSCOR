@@ -4,109 +4,106 @@
     HttpCookie Cookie_login = Request.Cookies["HIC"];
     var bic = "bungma";
     if (Cookie_login != null && Cookie_login["HIC"] != null)
-    { 
-        bic = Cookie_login["HIC"].ToString(); 
-    }        
+    {
+        bic = Cookie_login["HIC"].ToString();
+    }
     var encodeurl = HttpUtility.UrlEncode(Request.Url.ToString());
 }
 <!DOCTYPE html>
 <html lang="zh">
-    <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - 验证码识别 远程答题服务 代答平台 验证码识别软件下载 @("ServiceName".GX())</title>
-        <link href="~/Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />        
-        <meta name="keywords" content="@ViewBag.Title - 验证码,验证码识别,验证码代答,验证码云服务中心,验证码服务,远程答题,远程代答,@("ServiceName".GX()),@("ServiceName".GX())官网,悟空答题" />
-        <meta name="description" content="@ViewBag.Title - @("ServiceName".GX())是全球最先进的验证码识别平台,充分学习并具备了前辈微锐、微速答题、自游答题、打码兔、冷雨夜答题挂的高速答题、准确识别一切验证码的优点，为广大软件开发商，网民，盲人，和所有乐享生活的高大上人士提供周到、准确、快速的验证码识别远程代答题服务" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <header>
-            <div id="top" class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title"><a href="@("ServiceDomain".GHU())"><img src="/images/logo.gif" width="68" class="float-left" /><span class="logohspan">@("ServiceName".GX())</span></a><span class="logoyspan">5kdm</span></p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")<span class="telStringSpan">Tel.</span> <span class="telSpan">133 137 88387</span>
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("首页", "Index", "Home")</li>
-                            <li>@Html.ActionLink("API接口", "Index", "Home")</li>
-                            <li>@Html.ActionLink("接入向导", "Index", "Home")</li>
-                            <li>@Html.ActionLink("开发者分成", "Index", "Home")</li>
-                            <li>@Html.ActionLink("答题价格表", "Index", "Home")</li>
-                            <li>@Html.ActionLink("自助排错", "Index", "Home")</li>                            
-                            <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - 您身边的问题解决专家 作业 作业神器 拍题神器 作业帮 作业邦  @("ServiceName".GX())</title>
+    <link href="~/Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="keywords" content="@ViewBag.Title - 作业,作业神器,拍题神器,作业帮,作业邦,课外辅导,远程答题,远程代答,@("ServiceName".GX()),@("ServiceName".GX())官网" />
+    <meta name="description" content="@ViewBag.Title - @("ServiceName".GX())是全球最先进的课外辅导平台、最常用的中小学生学习社区,专注于中小学生的课外辅导，快速解答问题。充分学习并具备了前辈作业帮、作业神器、魔方格、拍题神器、问他作业、作业 的高速答题、准确答题的优点，为广大中小学生，网民，和所有乐享生活的高大上人士提供周到、准确、快速的答题服务" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header>
+        <div id="top" class="content-wrapper">
+            <div class="float-left">
+                <p class="site-title"><a href="@("ServiceDomain".GHU())"><img src="/images/logo.gif" width="68" class="float-left" /><span class="logohspan">@("ServiceName".GX())</span></a><span class="logoyspan">bungma</span></p>
             </div>
-        </header>
-        <div id="body">
-            <div id="Loading" class="Loading" style="display: none;">
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")<span class="telStringSpan">Tel.</span> <span class="telSpan">133 137 88387</span>
+                </section>
+                <nav>
+                    <ul id="menu">
+                        <li>@Html.ActionLink("首页", "Index", "Home")</li>
+                        <li>@Html.ActionLink("公告通知", "Index", "Home")</li>
+                        <li>@Html.ActionLink("帮助说明", "Index", "Home")</li>
+                        <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                    </ul>
+                </nav>
             </div>
-            <div id="divInfo" style="margin-top: 10px;">
+        </div>
+    </header>
+    <div id="body">
+        <div id="Loading" class="Loading" style="display: none;">
+        </div>
+        <div id="divInfo" style="margin-top: 10px;">
+        </div>
+        <div id="back-to-top" style="display: block;">
+            <a href="#top"></a>
+        </div>
+        <div id="zt_pf">
+            <a class="pf1" target="_blank" href="@("ServiceDomain".GHU())"></a>
+            <a class="pf2" target="_blank" href="@("ServiceDomain".GHU())/Account/Register"></a>
+            <a class="pf3" target="_blank" href="@("ServiceDomain".GHU())"></a>
+        </div>
+        @RenderSection("featured", required: false)
+        @RenderBody()
+    </div>
+    <footer>
+        <div>
+            <div class="float-none"><span class="flink">友情链接：<a href="@("ServiceDomain".GHU())">作业</a>|<a href="@("ServiceDomain".GHU())">作业帮</a>|<a href="@("ServiceDomain".GHU())">作业神器</a>|<a href="@("ServiceDomain".GHU())">问他作业</a>|<a href="@("ServiceDomain".GHU())">作业辅导</a>|<a href="@("ServiceDomain".GHU())">拍题神器</a></span></div>
+            <div class="float-none"><span class="fExplan">@("ServiceName".GX())是全球最先进的课外辅导平台、最常用的中小学生学习社区,专注于中小学生的课外辅导，快速解答问题。是您身边的问题解决专家。</span></div>
+
+            <div class="float-none"><span class="fExplan">地址：福州市台江区世纪百联大厦 电话：13313788387		<a href="http://www.miitbeian.gov.cn/">闽ICP备14017527号</a></span></div>
+            <div class="float-none">
+                <p><span class="fExplan">&copy; @DateTime.Now.Year - All rights reserved</span></p>
             </div>
-            <div id="back-to-top" style="display: block;">
-                <a href="#top"></a>
-            </div>
-            <div id="zt_pf">
-                <a class="pf1" target="_blank" href="@("ServiceDomain".GHU())"></a>
-                <a class="pf2" target="_blank" href="@("ServiceDomain".GHU())/Account/Register"></a>
-                <a class="pf3" target="_blank" href="@("ServiceDomain".GHU())"></a>
-            </div>
-                @RenderSection("featured", required: false)
-                @RenderBody()
-            </div>
-        <footer>
-            <div>
-                <div class="float-none"><span class="flink">友情链接：<a href="@("ServiceDomain".GHU())">验证码识别</a>|<a href="@("ServiceDomain".GHU())">远程代答</a>|<a href="@("ServiceDomain".GHU())">人工代答</a>|<a href="@("ServiceDomain".GHU())">远程答题</a></span></div>
-                <div class="float-none"><span class="fExplan">@("ServiceName".GX())是全球最先进的验证码识别平台，旨在为广大开发商，网民，盲人，和所有乐享生活的高大上人士提供周到、准确、快速的验证码识别远程代答题服务</span></div>   
-                <div class="float-none"><span class="fExplan">免责声明：@("ServiceName".GX())仅为验证码输入困难人士提供验证码识别服务，并不针对任何网站或个人。所有验证码图片，均由用户或软件商上传。如有不妥，请联系客服，@("ServiceName".GX())对此不承担任何保证责任</span></div>     
-                <div class="float-none"><span class="fExplan">地址：福州市台江区世纪百联大厦 电话：13313788387        <a href="http://www.miitbeian.gov.cn/" target="_blank">闽ICP备14017527号</a></span></div>   
-                <div class="float-none">
-                    <p><span class="fExplan">&copy; @DateTime.Now.Year - All rights reserved</span></p>                   
-                </div>
-            </div>
-        </footer>
-        @Scripts.Render("~/bundles/hoho18")       
-        @Scripts.Render("~/bundles/jquery")       
-        <script>
-            $(backtop());
-            $($('#Verifycode').keydown(function (e) { var curKey = e.which; if (curKey == 13) { $('#submitBtn').click(); return false; } }));
-            //百度分享
-            window._bd_share_config = {
-                common: {
-                    bdText: '自定义分享内容',
-                    bdDesc: '自定义分享摘要',
-                    bdUrl: '@("ServiceDomain".GHU())/Home/Index?id=@(bic)&returnUrl=@(encodeurl)',
-                    bdPic: '@("ServiceDomain".GHU())/images/logo.gif',
-                },
-                share: [{
-                    "bdSize": 16
-                }],
-                slide: [{
-                    bdImg: 1,
-                    bdPos: "left",
-                    bdTop: 180,                    
-                }],
-                image: [{
-                    viewType: 'list',
-                    viewPos: 'top',
-                    viewColor: 'black',
-                    viewSize: '16',
-                    viewList: ['qzone', 'tqq', 'tsina', 'huaban', 'renren']
-                }],
-                selectShare: [{
-                    "bdselectMiniList": ['qzone', 'tqq', 'tsina', 'huaban', 'renren']
-                }]
-            }
-            with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
-                   
-         </script>        @*'weixin',*@ 
-        @RenderSection("scripts", required: false)
-    </body>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/hoho18")
+    @Scripts.Render("~/bundles/jquery")
+    <script>
+        $(backtop());
+        $($('#Verifycode').keydown(function (e) { var curKey = e.which; if (curKey == 13) { $('#submitBtn').click(); return false; } }));
+        //百度分享
+        window._bd_share_config = {
+            common: {
+                bdText: '邦马网 您身边的问题解决专家 作业神器 拍题神器',
+                bdDesc: '作业神器 拍题神器 作业帮 课外辅导 中小学生学习社区',
+                bdUrl: '@("ServiceDomain".GHU())/Home/Index?bic=@(bic)&returnUrl=@(encodeurl)',
+                bdPic: '@("ServiceDomain".GHU())/images/logo.gif',
+            },
+            share: [{
+                "bdSize": 16
+            }],
+            slide: [{
+                bdImg: 1,
+                bdPos: "left",
+                bdTop: 180,
+            }],
+            image: [{
+                viewType: 'list',
+                viewPos: 'top',
+                viewColor: 'black',
+                viewSize: '16',
+                viewList: ['qzone', 'tqq', 'tsina', 'huaban', 'renren']
+            }],
+            selectShare: [{
+                "bdselectMiniList": ['qzone', 'tqq', 'tsina', 'huaban', 'renren']
+            }]
+        }
+        with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+
+    </script>        @*'weixin',*@
+    @RenderSection("scripts", required: false)
+</body>
 </html>

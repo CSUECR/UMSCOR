@@ -223,6 +223,7 @@ namespace MorSun.Controllers
         /// <param name="mrbll"></param>
         private void SendActiveMail( BaseBll<wmfMailRecord> mrbll,string email,string nickName,string userNameString)
         {
+            LogHelper.Write(email + "发送邮件", LogHelper.LogMessageType.Debug);
             string fromEmail = CFG.应用邮箱;
             string fromEmailPassword = CFG.邮箱密码.DP();
             int emailPort = String.IsNullOrEmpty(CFG.邮箱端口) ? 587 : CFG.邮箱端口.ToAs<int>();
@@ -565,8 +566,10 @@ namespace MorSun.Controllers
                     if (model.Uid == null)
                         model.Uid = Guid.NewGuid();
                     var createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email, model.Uid);
+                    LogHelper.Write(model.UserName + "Membership添加用户成功", LogHelper.LogMessageType.Debug);
                     if (createStatus == MembershipCreateStatus.Success)
                     {
+                        LogHelper.Write(model.UserName + "准备添加UserInfo", LogHelper.LogMessageType.Debug);
                         //查询出新注册的用户信息
                         var user = Membership.GetUser(model.UserName);
                         var userinfobll = new BaseBll<wmfUserInfo>();
@@ -575,6 +578,7 @@ namespace MorSun.Controllers
                         userinfoModel.ID = user.ProviderUserKey.ToAs<Guid>();
                         userinfoModel.UserPassword = model.Password.EP(userinfoModel.ID.ToString());
                         userinfoModel.OperatePassword = model.Password.EP(userinfoModel.ID.ToString());
+                        LogHelper.Write(model.UserName + "用户密码和操作密码加密", LogHelper.LogMessageType.Debug);
                         //密码串 不用
                         //userinfoModel.ValidateCode = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
                         userinfoModel.NickName = String.IsNullOrEmpty(model.NickName) ? "DefaultNickName".GX() : model.NickName;
@@ -595,6 +599,7 @@ namespace MorSun.Controllers
                             //else
                             //{
                             var inviteUser = userinfobll.All.Where(p => p.HamInviteCode == model.BeInviteCode).FirstOrDefault();
+                            LogHelper.Write(model.UserName + "取邀请人" + model.BeInviteCode, LogHelper.LogMessageType.Debug);
                             //如果邀请人为空，从cookie里取邀请人
                             if(inviteUser == null)
                             {
@@ -602,18 +607,23 @@ namespace MorSun.Controllers
                                 if (Cookie_login != null)
                                 {
                                     var bic = Cookie_login["HIC"].ToString();
+                                    LogHelper.Write("bic " + bic, LogHelper.LogMessageType.Debug);
                                     inviteUser = userinfobll.All.FirstOrDefault(p => p.HamInviteCode == bic);
                                 }
                             }                            
                             if (inviteUser != null)
                                 userinfoModel.InviteUser = inviteUser.ID;
                             else
-                            { 
-                                var bc = model.BeInviteCode.Substring(model.BeInviteCode.LastIndexOf("|"), model.BeInviteCode.Length - model.BeInviteCode.LastIndexOf("|")).Replace("|", ".");
-                                model.BeInviteCode = model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc;
-                                var aspnetUser = Membership.GetUser(model.BeInviteCode);
-                                if (aspnetUser != null)
-                                    userinfoModel.InviteUser = aspnetUser.ProviderUserKey.ToAs<Guid>();
+                            {
+                                if (model.BeInviteCode.Contains("|"))
+                                {
+                                    var bc = model.BeInviteCode.Substring(model.BeInviteCode.LastIndexOf("|"), model.BeInviteCode.Length - model.BeInviteCode.LastIndexOf("|")).Replace("|", ".");
+                                    model.BeInviteCode = model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc;
+                                    LogHelper.Write(model.UserName + model.BeInviteCode, LogHelper.LogMessageType.Debug);
+                                    var aspnetUser = Membership.GetUser(model.BeInviteCode);
+                                    if (aspnetUser != null)
+                                        userinfoModel.InviteUser = aspnetUser.ProviderUserKey.ToAs<Guid>();
+                                }
                             }
                             //}
                         }
@@ -641,10 +651,12 @@ namespace MorSun.Controllers
                             //dotNetRoles.AddUserToRole(model.UserName, RoleName);
                             var constr = @"Insert Into aspnet_UsersInRoles ([UserId],[RoleId])  VALUES ('" + userinfoModel.ID + "','" + RoleName + "')";                            
                             userinfobll.Db.ExecuteStoreCommand(constr);
+                            LogHelper.Write(model.UserName + "用户基本信息和角色添加成功", LogHelper.LogMessageType.Debug);
                         }
                         //发送激活邮件
                         if ("AccountActive".GX() == "true")
-                        {                            
+                        {
+                            LogHelper.Write(model.UserName + "准备发送邮件", LogHelper.LogMessageType.Debug);
                             SendActiveMail(new BaseBll<wmfMailRecord>(), model.Email, userinfoModel.NickName, userinfoModel.UserNameString);
                         } 
                         else
