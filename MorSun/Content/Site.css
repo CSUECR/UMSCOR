@@ -1540,15 +1540,14 @@ footer .flink a, .flink {
     text-decoration: none;
 }
 
-header .logohspan {
-         margin-top:15px;
+header .logohspan {         
          margin-left:10px; 
          float:left;
     }
 
 header .logoyspan {
-         margin-top:10px; 
-         margin-left:-35px; 
+         margin-top:45px; 
+         margin-left:-110px; 
          float:left; 
          font-size:12px;
     }

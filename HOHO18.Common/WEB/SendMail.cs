@@ -123,7 +123,8 @@ namespace HOHO18.Common.Web
                 smtpClient = new SmtpClient();
                 if (string.IsNullOrEmpty(host))
                     host = "smtp.";
-                smtpClient.Host = host + mailMessage.From.Host;
+                var thost = mailMessage.From.Host == "bungma.com" ? "qq.com" : mailMessage.From.Host;
+                smtpClient.Host = host + thost;
                 //smtpClient.Host = "mxdomain.qq.com.";//"aspmx.l.google.com.";//
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new System.Net.NetworkCredential(mailMessage.From.Address, password);//设置发件人身份的票据  

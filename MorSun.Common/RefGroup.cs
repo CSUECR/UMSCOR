@@ -200,8 +200,8 @@ namespace MorSun.Common
         public struct CFG
         {
             //应用基础信息配置
-            public const string 应用邮箱 = "s5kdm@qq.com";
-            public const string 邮箱密码 = "4F2CCCEC077614815761B530E9D9164C";
+            public const string 应用邮箱 = "bungma@bungma.com";
+            public const string 邮箱密码 = "9E2F34192E8311E739064CA878056955";
             public const string 邮箱端口 = "587";
 
 
