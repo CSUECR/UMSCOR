@@ -70,6 +70,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnTextRequest(RequestMessageText requestMessage)
         {
+            //做并发限制
             //去掉头尾空格以及转化为小写
             requestMessage.Content = requestMessage.Content.Trim().ToLower();
             var tempText = requestMessage.Content;
@@ -112,29 +113,36 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnImageRequest(RequestMessageImage requestMessage)
         {
-            //用户回答问题处理
-            var onlineUser = UserQAService.GetOlineQAUserCache();
-            if(onlineUser != null)
-            {
-                if((onlineUser.CertificationUser != null && onlineUser.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null)
-                    ||(onlineUser.NonCertificationQAUser != null && onlineUser.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null))
-                {//回答问题方法
-                    LogHelper.Write("图片回答问题", LogHelper.LogMessageType.Debug);
-                    return new AnswerService().AnswerQuestionResponseMessage(requestMessage);
+            //做并发限制
+            var answerService = new AnswerService();
+            if(answerService.nonConcurrentRQ(requestMessage))
+            { 
+                //用户回答问题处理
+                var onlineUser = UserQAService.GetOlineQAUserCache();
+                if(onlineUser != null)
+                {
+                    if((onlineUser.CertificationUser != null && onlineUser.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null)
+                        ||(onlineUser.NonCertificationQAUser != null && onlineUser.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null))
+                    {//回答问题方法
+                        LogHelper.Write("图片回答问题", LogHelper.LogMessageType.Debug);
+                        return new AnswerService().AnswerQuestionResponseMessage(requestMessage);
+                    }
+                    else
+                    {
+                        //用户提交问题处理 
+                        LogHelper.Write("在线用户缓存不包括当前用户时的提问", LogHelper.LogMessageType.Debug);
+                        return new QuestionService().SubmitQuestionResponseMessage(requestMessage);
+                    }
                 }
                 else
                 {
+                    LogHelper.Write("在线用户缓存为空时的提问", LogHelper.LogMessageType.Debug);
                     //用户提交问题处理 
-                    LogHelper.Write("在线用户缓存不包括当前用户时的提问", LogHelper.LogMessageType.Debug);
                     return new QuestionService().SubmitQuestionResponseMessage(requestMessage);
                 }
             }
             else
-            {
-                LogHelper.Write("在线用户缓存为空时的提问", LogHelper.LogMessageType.Debug);
-                //用户提交问题处理 
-                return new QuestionService().SubmitQuestionResponseMessage(requestMessage);
-            }            
+                return new QuestionService().ConcurrentResponse(requestMessage);
         }
 
         

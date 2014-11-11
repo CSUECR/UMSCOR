@@ -7,6 +7,7 @@ using MorSun.Common;
 using MorSun.Bll;
 using System.Linq;
 using MorSun.Common.类别;
+using MorSun.Common.配置;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -60,7 +61,7 @@ namespace MorSun.WX.ZYB.Service
             if (uwx == null)
                 return null;
             //取缓存马币数据
-            var cacheWeiXinId = "mb" + userWeiXinId;
+            var cacheWeiXinId = CFG.用户马币缓存键前缀 + userWeiXinId;
             var userMaBiCache = MaBiCache.GetUserMaBiCache(cacheWeiXinId);
             if(userMaBiCache.UMB == null)
             {

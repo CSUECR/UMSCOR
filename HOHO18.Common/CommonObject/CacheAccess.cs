@@ -10,15 +10,27 @@ namespace HOHO18.Common
     public sealed class CacheAccess
     {
         /// <summary>
-        /// 设置有过期时间的缓存
+        /// 设置有过期时间的缓存 会覆盖
         /// </summary>
         /// <param name="cacheKey"></param>
         /// <param name="cacheObject"></param>
         /// <param name="seconds"></param>
-        public static void SaveToCacheByTime(string cacheKey,object cacheObject, int seconds)
+        public static void InsertToCacheByTime(string cacheKey,object cacheObject, int seconds)
         {
             Cache cache = HttpRuntime.Cache;
             cache.Insert(cacheKey, cacheObject, null,DateTime.Now.AddSeconds(seconds),TimeSpan.Zero);
+        }
+
+        /// <summary>
+        /// 添加缓存，不可覆盖
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <param name="cacheObject"></param>
+        /// <param name="seconds"></param>
+        public static void AddToCacheByTime(string cacheKey, object cacheObject, int seconds)
+        {
+            Cache cache = HttpRuntime.Cache;
+            cache.Add(cacheKey, cacheObject, null, DateTime.Now.AddSeconds(seconds), TimeSpan.Zero, CacheItemPriority.Normal, null);
         }
 
         /// <summary>

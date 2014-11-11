@@ -728,9 +728,9 @@ namespace MorSun.Controllers
                 var ubcc = new UserBoundCodeCache();
                 ubcc.UserId = UserID;
                 ubcc.BoundCode = iRdm;
-                CacheAccess.SaveToCacheByTime(codeKey, ubcc, 120);//两分钟内过期
+                CacheAccess.InsertToCacheByTime(codeKey, ubcc, 120);//两分钟内过期
                 ubc.BoundCode = iRdm;
-                CacheAccess.SaveToCacheByTime(key, ubc, 120);
+                CacheAccess.InsertToCacheByTime(key, ubc, 120);
             }
             return ubc;
         }

@@ -10,6 +10,7 @@ using MorSun.Common.配置;
 using HOHO18.Common.SSO;
 using HOHO18.Common;
 using MorSun.Common.类别;
+using HOHO18.Common.WEB;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -103,14 +104,35 @@ namespace MorSun.WX.ZYB.Service
         }
 
         /// <summary>
-        /// 设置消息ID的问答ID
+        /// 设置消息ID的头一次请求ID
         /// </summary>
         /// <param name="msgid"></param>
         /// <param name="qaid"></param>
         public void SetMsgIdCache(string msgid, Guid qaid)
         {
             //保存到缓存中
-            CacheAccess.SaveToCacheByTime(msgid, qaid, 20);
+            CacheAccess.AddToCacheByTime(msgid, qaid, 10);
+        }
+
+        public string GetUserRQLimCache(string userRQKey)
+        {
+            var ms = CacheAccess.GetFromCache(userRQKey);
+            if (ms == null)
+                return "";
+            return ms.ToString();
+        }
+
+        /// <summary>
+        /// 设置用户并发请求时间 间隔缓存
+        /// </summary>
+        /// <param name="userRQKey"></param>
+        /// <param name="msgid"></param>
+        public void SetUserRQLimCache(string userRQKey, string msgid)
+        {
+            var t = Convert.ToInt32(CFG.用户连续请求时间间隔);
+            //保存到缓存中
+            CacheAccess.AddToCacheByTime(userRQKey, msgid, t);
+            LogHelper.Write((msgid + " 添加缓存到 " + userRQKey), LogHelper.LogMessageType.Debug);
         }
 
         /// <summary>

@@ -25,10 +25,45 @@ namespace MorSun.WX.ZYB.Service
             Guid mid = commonService.GetMsgIdCache(msgid);
             if (mid == Guid.Empty)
             {
-                LogHelper.Write((msgid + " 设置消息缓存，防止操作并发 " + rqid), LogHelper.LogMessageType.Debug);
+                LogHelper.Write((msgid + " 设置用户单个请求消息缓存，防止微信发送单请求并发 " + rqid), LogHelper.LogMessageType.Debug);
                 //设置用户消息缓存
                 commonService.SetMsgIdCache(msgid, rqid);
             }
+        }
+
+        private void RQLimit<T>(T requestMessage, CommonService commonService)
+            where T : RequestMessageBase
+        {                        
+            var rqLimKey = CFG.限制用户并发缓存键前缀 + requestMessage.FromUserName;
+            
+            if (String.IsNullOrEmpty(commonService.GetUserRQLimCache(rqLimKey)))
+            {
+                var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+                LogHelper.Write((msgid + " 设置用户请求缓存，防止用户并发操作"), LogHelper.LogMessageType.Debug);
+                //设置用户消息缓存
+                commonService.SetUserRQLimCache(rqLimKey, msgid);
+            }
+        }
+
+        /// <summary>
+        /// 判断是否为5秒内限制的请求
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public bool nonConcurrentRQ<T>(T requestMessage)
+            where T : RequestMessageBase
+        {
+            var commonService = new CommonService();
+            RQLimit(requestMessage, commonService);
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var rqLimKey = CFG.限制用户并发缓存键前缀 + requestMessage.FromUserName;
+            LogHelper.Write((commonService.GetUserRQLimCache(rqLimKey) + " 取当前用户的防并发请求缓存"), LogHelper.LogMessageType.Debug);
+            if (msgid == commonService.GetUserRQLimCache(rqLimKey))
+                return true;
+            else
+                return false;
+
         }
         #endregion
 

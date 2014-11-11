@@ -234,6 +234,8 @@ namespace MorSun.Common
             //在线答题用户缓存Key
             public const string 在线答题用户缓存键 = "olineqausers"; //默认小写
             public const string 用户待答题缓存键前缀 = "dt";
+            public const string 用户马币缓存键前缀 = "mb";
+            public const string 限制用户并发缓存键前缀 = "lrq";
 
             //在线答题用户缓存更新时间
             public const string 在线答题用户缓存更新时间 = "1";//单位 分钟
@@ -242,6 +244,8 @@ namespace MorSun.Common
             public const string 强制退出时间 = "7"; //单位 分钟  系统将该用户的答题分配给其他活跃用户，并更改该用户状态为退出
             public const string 用户待答题保有量 = "7"; //单位 个 系统根据总的待答题数量，除以用户待答题的保有量，等于应该取出的用户量
             public const string 未处理问题激活时间 = "5"; //单位 分钟 超过配置时间的未处理问题，系统主动激活
+            
+            public const string 用户连续请求时间间隔 = "10"; //单位秒 指发送多条信息，走通道。
 
             //微信答题命令            
             public const string 开始答题 = "dt";

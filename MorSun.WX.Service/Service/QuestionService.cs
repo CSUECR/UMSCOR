@@ -13,6 +13,41 @@ namespace MorSun.WX.ZYB.Service
 {
     public class QuestionService
     {
+        #region 用户并发访问限制处理
+        /// <summary>
+        /// 限制并发请求返回内容
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public ResponseMessageNews ConcurrentResponse<T>(T requestMessage)
+            where T : RequestMessageBase
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);          
+
+            responseMessage.Articles.Add(new Article()
+            {//眼睛图片
+                Title = "系统拒绝了您的部分请求，请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发，",
+                Description = "系统拒绝了您的部分请求，请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发",
+                PicUrl = "",
+                Url = ""
+            });
+
+            responseMessage.Articles.Add(new Article()
+            {//眼睛图片
+                Title = "您可以选择专享通道批量提交，现在专享通道正在开发中...",
+                Description = "您可以选择专享通道批量提交，现在专享通道正在开发中...",
+                PicUrl = "",
+                Url = ""
+            });
+
+            var comonservice = new CommonService();
+            comonservice.RegOrShare(requestMessage, responseMessage);
+
+            return responseMessage;
+        }
+        #endregion
+
         #region 提问返回数据处理
         /// <summary>
         /// 提问返回数据处理
