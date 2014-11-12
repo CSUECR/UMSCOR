@@ -245,7 +245,7 @@ namespace MorSun.Common
             public const string 用户待答题保有量 = "7"; //单位 个 系统根据总的待答题数量，除以用户待答题的保有量，等于应该取出的用户量
             public const string 未处理问题激活时间 = "5"; //单位 分钟 超过配置时间的未处理问题，系统主动激活
             
-            public const string 用户连续请求时间间隔 = "10"; //单位秒 指发送多条信息，走通道。
+            public const string 用户连续请求时间间隔 = "15"; //单位秒 。
 
             //微信答题命令            
             public const string 开始答题 = "dt";

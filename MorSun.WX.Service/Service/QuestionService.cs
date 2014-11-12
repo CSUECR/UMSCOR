@@ -12,41 +12,7 @@ using HOHO18.Common.SSO;
 namespace MorSun.WX.ZYB.Service
 {
     public class QuestionService
-    {
-        #region 用户并发访问限制处理
-        /// <summary>
-        /// 限制并发请求返回内容
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="requestMessage"></param>
-        /// <returns></returns>
-        public ResponseMessageNews ConcurrentResponse<T>(T requestMessage)
-            where T : RequestMessageBase
-        {
-            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);          
-
-            responseMessage.Articles.Add(new Article()
-            {//眼睛图片
-                Title = "系统拒绝了您的部分请求，请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发，",
-                Description = "系统拒绝了您的部分请求，请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发",
-                PicUrl = "",
-                Url = ""
-            });
-
-            responseMessage.Articles.Add(new Article()
-            {//眼睛图片
-                Title = "您可以选择专享通道批量提交，现在专享通道正在开发中...",
-                Description = "您可以选择专享通道批量提交，现在专享通道正在开发中...",
-                PicUrl = "",
-                Url = ""
-            });
-
-            var comonservice = new CommonService();
-            comonservice.RegOrShare(requestMessage, responseMessage);
-
-            return responseMessage;
-        }
-        #endregion
+    {        
 
         #region 提问返回数据处理
         /// <summary>
@@ -67,8 +33,8 @@ namespace MorSun.WX.ZYB.Service
             { 
                 responseMessage.Articles.Add(new Article()
                 {
-                    Title = ("问题编号：" + model.AutoGrenteId + " ") + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
-                    Description = ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + comonservice.GetReferenceValue(model.MaBiRef)))) + (" 问题编号：" + model.AutoGrenteId),
+                    Title = ("问题编号：" + model.AutoGrenteId + " "),// + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "" : (model.MaBiNum == null ? "" : ("消耗" + model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
+                    Description = "",
                     PicUrl = model.PicUrl,
                     Url = model.PicUrl
                 });
@@ -131,7 +97,7 @@ namespace MorSun.WX.ZYB.Service
         }
 
         /// <summary>
-        /// 用户拍照提交问题
+        /// 用户拍照提交问题 这边只做问题保存，快速，可并发，不做其他任何数据处理。
         /// </summary>
         /// <param name="requestMessage"></param>
         private bmQA SubmitQuestion(RequestMessageImage requestMessage)
@@ -149,88 +115,11 @@ namespace MorSun.WX.ZYB.Service
 
                 //将图片信息保存进数据库            
                 GenerateQuestionModel(requestMessage, msgid, model);
-
-                //问题消耗马币和分配答题用户处理
-                var userMaBi = new UserMaBiService().GetUserCurrentMaBi(requestMessage.FromUserName);
-                //消耗马币
-                if (userMaBi != null)
-                {
-                    var defMaBi = Convert.ToDecimal(CFG.提问默认收费马币值);
-                    if (userMaBi.UMB.BBi >= defMaBi || userMaBi.UMB.MaBi >= defMaBi)
-                    {
-                        if (userMaBi.UMB.BBi >= defMaBi)
-                        {
-                            //消耗邦币处理
-                            model.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
-                            model.MaBiNum = defMaBi;
-
-                            //添加马币消费记录
-                            var addMBR = new AddMBRModel();
-                            addMBR.UIds.Add(userMaBi.UserId);
-
-                            addMBR.QAId = model.ID;
-                            addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
-                            addMBR.MBR = Guid.Parse(Reference.马币类别_邦币);
-                            addMBR.MBN = 0 - defMaBi;
-                            new UserMaBiService().AddUMBRByQA(addMBR, false);
-                        }
-                        else if (userMaBi.UMB.MaBi >= defMaBi)
-                        {
-                            //消耗马币处理
-                            model.MaBiRef = Guid.Parse(Reference.马币类别_马币);
-                            model.MaBiNum = defMaBi;
-
-                            //添加马币消费记录
-                            var addMBR = new AddMBRModel();
-                            addMBR.UIds.Add(userMaBi.UserId);
-
-                            addMBR.QAId = model.ID;
-                            addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
-                            addMBR.MBR = Guid.Parse(Reference.马币类别_马币);
-                            addMBR.MBN = 0 - defMaBi;
-                            new UserMaBiService().AddUMBRByQA(addMBR, false);
-                        }
-                    }
-                    else
-                    {
-                        //马币与邦币不足时的处理  都不足时不作任何处理
-                    }
-                }
-                else
-                {
-                    //未绑定的微信号  也不作任何处理
-                }
-
-                //问题分配处理
-                var qadbll = new BaseBll<bmQADistribution>();
-                var qaModel = new bmQADistribution();
-
-                qaModel.ID = Guid.NewGuid();
-                qaModel.QAId = model.ID;
-                qaModel.DistributionTime = DateTime.Now;
-
-                qaModel.RegTime = DateTime.Now;
-                qaModel.ModTime = DateTime.Now;
-                qaModel.FlagTrashed = false;
-                qaModel.FlagDeleted = false;
-
-                qaModel.Result = Guid.Parse(Reference.分配答题操作_待解答);
-                if (model.MaBiNum > 0)
-                {
-                    //收费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(Guid.Parse(Reference.认证类别_认证邦主));
-                    qaModel.WeiXinId = bmOU == null ? CFG.默认收费问题微信号 : bmOU.WeiXinId;
-                }
-                else
-                {
-                    //免费问题的分配
-                    var bmOU = new UserQADistributionService().GetQADistribution(Guid.Parse(Reference.认证类别_未认证));
-                    qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
-                }
+                
                 //判断缓存里保存的问答ID是否是当前的对象ID    
                 if (commonService.GetMsgIdCache(msgid) == rqid)
                 {
-                    qadbll.Insert(qaModel, false);
+                    //qadbll.Insert(qaModel, false);
                     bll.Insert(model);
                 }
             }
@@ -249,6 +138,8 @@ namespace MorSun.WX.ZYB.Service
             } while (model.AutoGrenteId == 0 || i > 20);
             return model;
         }
+
+
 
         /// <summary>
         /// 生成问题模型
@@ -330,6 +221,87 @@ namespace MorSun.WX.ZYB.Service
             return model;
         }
 
+        #endregion
+
+
+        #region 去掉的提问业务代码
+        //问题消耗马币和分配答题用户处理
+                //var userMaBi = new UserMaBiService().GetUserCurrentMaBi(requestMessage.FromUserName);
+                ////消耗马币
+                //if (userMaBi != null)
+                //{
+                //    var defMaBi = Convert.ToDecimal(CFG.提问默认收费马币值);
+                //    if (userMaBi.UMB.BBi >= defMaBi || userMaBi.UMB.MaBi >= defMaBi)
+                //    {
+                //        if (userMaBi.UMB.BBi >= defMaBi)
+                //        {
+                //            //消耗邦币处理
+                //            model.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
+                //            model.MaBiNum = defMaBi;
+
+                //            //添加马币消费记录
+                //            var addMBR = new AddMBRModel();
+                //            addMBR.UIds.Add(userMaBi.UserId);
+
+                //            addMBR.QAId = model.ID;
+                //            addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
+                //            addMBR.MBR = Guid.Parse(Reference.马币类别_邦币);
+                //            addMBR.MBN = 0 - defMaBi;
+                //            new UserMaBiService().AddUMBRByQA(addMBR, false);
+                //        }
+                //        else if (userMaBi.UMB.MaBi >= defMaBi)
+                //        {
+                //            //消耗马币处理
+                //            model.MaBiRef = Guid.Parse(Reference.马币类别_马币);
+                //            model.MaBiNum = defMaBi;
+
+                //            //添加马币消费记录
+                //            var addMBR = new AddMBRModel();
+                //            addMBR.UIds.Add(userMaBi.UserId);
+
+                //            addMBR.QAId = model.ID;
+                //            addMBR.SR = Guid.Parse(Reference.马币来源_扣取);
+                //            addMBR.MBR = Guid.Parse(Reference.马币类别_马币);
+                //            addMBR.MBN = 0 - defMaBi;
+                //            new UserMaBiService().AddUMBRByQA(addMBR, false);
+                //        }
+                //    }
+                //    else
+                //    {
+                //        //马币与邦币不足时的处理  都不足时不作任何处理
+                //    }
+                //}
+                //else
+                //{
+                //    //未绑定的微信号  也不作任何处理
+                //}
+
+                ////问题分配处理
+                //var qadbll = new BaseBll<bmQADistribution>();
+                //var qaModel = new bmQADistribution();
+
+                //qaModel.ID = Guid.NewGuid();
+                //qaModel.QAId = model.ID;
+                //qaModel.DistributionTime = DateTime.Now;
+
+                //qaModel.RegTime = DateTime.Now;
+                //qaModel.ModTime = DateTime.Now;
+                //qaModel.FlagTrashed = false;
+                //qaModel.FlagDeleted = false;
+
+                //qaModel.Result = Guid.Parse(Reference.分配答题操作_待解答);
+                //if (model.MaBiNum > 0)
+                //{
+                //    //收费问题的分配
+                //    var bmOU = new UserQADistributionService().GetQADistribution(Guid.Parse(Reference.认证类别_认证邦主));
+                //    qaModel.WeiXinId = bmOU == null ? CFG.默认收费问题微信号 : bmOU.WeiXinId;
+                //}
+                //else
+                //{
+                //    //免费问题的分配
+                //    var bmOU = new UserQADistributionService().GetQADistribution(Guid.Parse(Reference.认证类别_未认证));
+                //    qaModel.WeiXinId = bmOU == null ? CFG.默认免费问题微信号 : bmOU.WeiXinId;
+                //}
         #endregion
     }
 }

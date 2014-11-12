@@ -16,6 +16,29 @@ namespace MorSun.WX.ZYB.Service
 {
     public class AnswerService
     {
+        #region 用户并发访问限制处理
+        /// <summary>
+        /// 限制并发请求返回内容
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public ResponseMessageNews ConcurrentResponse<T>(T requestMessage)
+            where T : RequestMessageBase
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
+
+            responseMessage.Articles.Add(new Article()
+            {//眼睛图片
+                Title = "系统拒绝响应您的胡乱答题请求，请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发，",
+                Description = "系统拒绝响应您的胡乱答题请求，请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发",
+                PicUrl = "",
+                Url = ""
+            });
+
+            return responseMessage;
+        }
+        #endregion
 
         #region 请求开始处理
         private void RQStart<T>(T requestMessage, Guid rqid, CommonService commonService)
@@ -46,7 +69,7 @@ namespace MorSun.WX.ZYB.Service
         }
 
         /// <summary>
-        /// 判断是否为5秒内限制的请求
+        /// 判断是否为限制时间内的请求
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="requestMessage"></param>
@@ -85,8 +108,8 @@ namespace MorSun.WX.ZYB.Service
             var comonservice = new CommonService();
             responseMessage.Articles.Add(new Article()
             {
-                Title = ("问题编号：" + model.AutoGrenteId + " ") + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
-                Description = ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString() + comonservice.GetReferenceValue(model.MaBiRef)))) + (" 问题编号：" + model.AutoGrenteId),
+                Title = ("问题编号：" + model.AutoGrenteId + " "),// + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
+                Description = "",
                 PicUrl = model.PicUrl,
                 Url = model.PicUrl
             });
@@ -1024,6 +1047,7 @@ namespace MorSun.WX.ZYB.Service
             LogHelper.Write((commonService.GetMsgIdCache(msgid) + " " + rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
             if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
             {//随时判断缓存有没有被定时器清空
+                //以下代码是将答案保存进数据库，并刷新缓存操作 也就是回答一次就添加一条记录进数据库
                 var dsbll = new BaseBll<bmQADistribution>();
                 var dsmodel = dsbll.All.FirstOrDefault(p => p.QAId == model.CurrentQA.ID && p.WeiXinId == requestMessage.FromUserName);
                 LogHelper.Write(("取当前分配记录" + (dsmodel != null).ToString()), LogHelper.LogMessageType.Debug);
