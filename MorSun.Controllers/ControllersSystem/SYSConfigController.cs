@@ -65,7 +65,12 @@ namespace MorSun.Controllers.SystemController
         {
             var bll = new BaseBll<bmOnlineQAUser>();
             var qadisbll = new BaseBll<bmQADistribution>();
+
+            #region 刚提的问题生成马币消费记录与分配记录
+            #endregion
+
             var qastate = Guid.Parse(Reference.分配答题操作_待解答);
+            #region 未解决的问题重新分配
             //默认用户未解决的问题修改为待解答，以超过配置的时间为准
             var acQADmn = 0 - Convert.ToInt32(CFG.未处理问题激活时间);
             var acQADdt = DateTime.Now.AddMinutes(acQADmn);
@@ -77,16 +82,15 @@ namespace MorSun.Controllers.SystemController
                 item.Result = qastate;
                 item.ModTime = DateTime.Now;
             }
+            #endregion
             //测试看这边不更新数据库，以下代码能执行不。
-            //未解决的问题修改为待解答 结束
-            //不活跃用户处理
-            var logoutMN = 0 - Convert.ToInt32(CFG.强制退出时间);
-            var dt = DateTime.Now.AddMinutes(logoutMN);
+            //未解决的问题修改为待解答 结束            
 
             //待解答的问题数量
             var djdqadis = qadisbll.All.Where(p => p.Result == qastate);
-            var mabiqaCount = djdqadis.Where(p => p.bmQA.MaBiNum > 0).Count();
-            var nonmabiqaCount = djdqadis.Where(p => p.bmQA.MaBiNum == null || p.bmQA.MaBiNum <= 0).Count();
+            ///////////////////////取数量的方式要修改，提问的方式变了，不直接生成马币//////////////////////////
+            var mabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) > 0).Count();
+            var nonmabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) == 0).Count();
 
             var state = Guid.Parse(Reference.在线状态_在线);
             //用户待答题保有量
@@ -96,9 +100,17 @@ namespace MorSun.Controllers.SystemController
             var nondismn = 0 - Convert.ToInt32(CFG.疑似退出时间);
             var nondisdt = DateTime.Now.AddMinutes(nondismn);
 
+            //需要强制退出的配置
+            var logoutMN = 0 - Convert.ToInt32(CFG.强制退出时间);
+            var logoutdt = DateTime.Now.AddMinutes(logoutMN);
+
+            var cu = bll.All.Where(p => p.State == state && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
+            var noncu = bll.All.Where(p => p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
+
+            #region 重新分配开始
             //认证在线用户处理
-            //活跃在线的认证答题用户,排除掉默认分配用户，省的多余操作
-            var certificationUsers = bll.All.Where(p => p.WeiXinId !=  CFG.默认收费问题微信号 && p.State == state && p.ActiveTime >= nondisdt && ConstList.DTCertificationLevel.Contains(p.CertificationLevel)).OrderByDescending(p => p.ActiveNum);
+            //取活跃在线的认证答题用户,排除掉默认分配用户，省的多余操作
+            var certificationUsers = cu.Where(p => p.WeiXinId != CFG.默认收费问题微信号 && p.ActiveTime >= nondisdt).OrderByDescending(p => p.ActiveNum);                
             if(mabiqaCount > 0)
             {
                 int selectCount = mabiqaCount / qaWaitCount;
@@ -107,15 +119,16 @@ namespace MorSun.Controllers.SystemController
                 certificationUsers = certificationUsers.Take(selectCount).OrderByDescending(p => p.ActiveNum);
             }
 
-            //取不活跃用户
-            var noActiveCU = bll.All.Where(p => p.State == state && p.ActiveTime < nondisdt && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
+            //取不活跃用户 '超过7分钟未活跃'
+            var noActiveCU = bll.All.Where(p => p.State == state && p.ActiveTime < logoutdt && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
 
             if(certificationUsers.Count() > 0)
             {//存在在线用户时                
                 if(noActiveCU.Count() > 0)
                 {//存在不活跃的用户，将不活跃用户的答题分配记录标识为放弃，并将答题分配给活跃用户
                     var noActiveCUWIDS = noActiveCU.Select(p => p.WeiXinId);
-                    var noActiveQAD = qadisbll.All.Where(p => p.Result == qastate && noActiveCUWIDS.Contains(p.WeiXinId)).OrderBy(p => p.bmQA.RegTime);
+                    //取不活跃用户与默认收费用户的待答题列表
+                    var noActiveQAD = qadisbll.All.Where(p => p.Result == qastate && (noActiveCUWIDS.Contains(p.WeiXinId) || p.WeiXinId == CFG.默认收费问题微信号)).OrderBy(p => p.bmQA.RegTime);
                     if(noActiveQAD.Count() > 0)
                     {//待答题数据重新分配
                         var ouCount = certificationUsers.Count();
@@ -132,25 +145,7 @@ namespace MorSun.Controllers.SystemController
                             item.ModTime = DateTime.Now;
                         }
                     }
-                }
-                //默认用户的待答题记录分配                
-                var defCUQAD = qadisbll.All.Where(p => p.Result == qastate && p.WeiXinId == CFG.默认收费问题微信号).OrderBy(p => p.bmQA.RegTime);
-                if(defCUQAD.Count() > 0)
-                {//系统默认接收用户的待答题数据分配给当前在线答题人员
-                    var ouCount = certificationUsers.Count();
-                    var i = 0;
-                    foreach (var item in defCUQAD)
-                    {
-                        //对答题进行分配
-                        i++;
-                        var j = i % ouCount;
-                        if (j == 0)
-                            j = ouCount;
-                        var disOU = certificationUsers.Skip(j - 1).Take(1).FirstOrDefault();
-                        item.WeiXinId = disOU.WeiXinId;
-                        item.ModTime = DateTime.Now;
-                    }
-                }
+                }                
             }
             else
             {//无在线活跃用户，系统将答题回收给默认用户
@@ -171,7 +166,7 @@ namespace MorSun.Controllers.SystemController
             }
             
             //未认证的用户处理
-            var noncertificationUsers = bll.All.Where(p => p.WeiXinId != CFG.默认免费问题微信号 && p.State == state && p.ActiveTime >= nondisdt && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
+            var noncertificationUsers = noncu.Where(p => p.WeiXinId != CFG.默认免费问题微信号 && p.ActiveTime >= nondisdt).OrderByDescending(p => p.ActiveNum);
             if(nonmabiqaCount > 0)
             {
                 int selectCount = nonmabiqaCount / qaWaitCount;
@@ -180,13 +175,13 @@ namespace MorSun.Controllers.SystemController
                 noncertificationUsers = noncertificationUsers.Take(selectCount).OrderByDescending(p => p.ActiveNum);
             }
             //取不活跃用户
-            var noActiveU = bll.All.Where(p => p.State == state && p.ActiveTime < nondisdt && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
+            var noActiveU = bll.All.Where(p => p.State == state && p.ActiveTime < logoutdt && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
             if(noncertificationUsers.Count() >0)
             {                
                 if (noActiveU.Count() > 0)
                 {//存在不活跃的用户，将不活跃用户的答题分配记录标识为放弃，并将答题分配给活跃用户
                     var noActiveUWIDS = noActiveU.Select(p => p.WeiXinId);
-                    var noActiveQAD = qadisbll.All.Where(p => p.Result == qastate && noActiveUWIDS.Contains(p.WeiXinId)).OrderBy(p => p.bmQA.RegTime);
+                    var noActiveQAD = qadisbll.All.Where(p => p.Result == qastate && (noActiveUWIDS.Contains(p.WeiXinId) || p.WeiXinId == CFG.默认免费问题微信号)).OrderBy(p => p.bmQA.RegTime);
                     if (noActiveQAD.Count() > 0)
                     {//待答题数据重新分配
                         var ouCount = noncertificationUsers.Count();
@@ -203,25 +198,7 @@ namespace MorSun.Controllers.SystemController
                             item.ModTime = DateTime.Now;
                         }
                     }
-                }
-                //默认用户的待答题记录分配                
-                var defUQAD = qadisbll.All.Where(p => p.Result == qastate && p.WeiXinId == CFG.默认免费问题微信号).OrderBy(p => p.bmQA.RegTime);
-                if (defUQAD.Count() > 0)
-                {//系统默认接收用户的待答题数据分配给当前在线答题人员
-                    var ouCount = noncertificationUsers.Count();
-                    var i = 0;
-                    foreach (var item in defUQAD)
-                    {
-                        //对答题进行分配
-                        i++;
-                        var j = i % ouCount;
-                        if (j == 0)
-                            j = ouCount;
-                        var disOU = noncertificationUsers.Skip(j - 1).Take(1).FirstOrDefault();
-                        item.WeiXinId = disOU.WeiXinId;
-                        item.ModTime = DateTime.Now;
-                    }
-                }
+                }                
             }
             else
             {
@@ -240,6 +217,9 @@ namespace MorSun.Controllers.SystemController
                     }
                 }
             }
+            #endregion 重新分配结束
+
+            #region 移除用户和他的答题缓存，数据库更新
             //强制退出不活跃用户  并将不活跃用户的答题缓存清空  
             var tqState = Guid.Parse(Reference.在线状态_退出);
             foreach(var item in noActiveCU)
@@ -258,8 +238,8 @@ namespace MorSun.Controllers.SystemController
             //统一更新进数据库
             qadisbll.UpdateChanges();
             bll.UpdateChanges();
-
             //不活跃用户处理结束
+            #endregion            
 
             //生成缓存对象
             var model = new OnlineQAUserCache();
@@ -269,8 +249,8 @@ namespace MorSun.Controllers.SystemController
             model.MaBiQACount = mabiqaCount;
             //免费待答题数量
             model.NonMaBiQACount = nonmabiqaCount;            
-            model.CertificationUser = bll.All.Where(p => p.State == state && ConstList.DTCertificationLevel.Contains(p.CertificationLevel)).OrderByDescending(p => p.ActiveNum);
-            model.NonCertificationQAUser = bll.All.Where(p => p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel))).OrderByDescending(p => p.ActiveNum);
+            model.CertificationUser = cu.OrderByDescending(p => p.ActiveNum);
+            model.NonCertificationQAUser = noncu.OrderByDescending(p => p.ActiveNum);
 
             LogHelper.Write("手动更新用户缓存结束", LogHelper.LogMessageType.Debug);
 
