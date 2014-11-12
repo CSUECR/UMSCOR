@@ -46,6 +46,9 @@ namespace MorSun
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            //开启任务调度器
+            //MorSunScheduler.Instance.Start();
         }
 
         protected void Application_End(object sender, EventArgs e)

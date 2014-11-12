@@ -105,6 +105,15 @@
     <Compile Include="ControllersUserCenter\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Quartz\CheckingIn2\CheckingJob2.cs" />
+    <Compile Include="Quartz\CheckingIn2\CheckingTrigger2.cs" />
+    <Compile Include="Quartz\CheckingIn3\CheckingJob3.cs" />
+    <Compile Include="Quartz\CheckingIn3\CheckingTrigger3.cs" />
+    <Compile Include="Quartz\CheckingIn\CheckingJob.cs" />
+    <Compile Include="Quartz\CheckingIn\CheckingTrigger.cs" />
+    <Compile Include="Quartz\example2\SimpleJob.cs" />
+    <Compile Include="Quartz\example2\SimpleTriggerExample.cs" />
+    <Compile Include="Quartz\MorSunScheduler.cs" />
     <Compile Include="ViewModel\BaseVM\BaseVModel.cs" />
     <Compile Include="ViewModel\BM\BMNewVModel.cs" />
     <Compile Include="ViewModel\BM\BMQAVModel.cs" />
