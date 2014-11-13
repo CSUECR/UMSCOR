@@ -67,6 +67,8 @@ namespace MorSun.Controllers.SystemController
             var qadisbll = new BaseBll<bmQADistribution>();
             var qabll = new BaseBll<bmQA>();
             var bmumbBll = new BaseBll<bmUserMaBiRecord>();
+            var uwbll = new BaseBll<bmUserWeixin>();
+            var umbbll = new BaseBll<bmUserMaBi>();
 
             #region 刚提的问题生成马币消费记录与分配记录
             //取出所有未分配记录的问题      "提问都不一定绑定用户"
@@ -75,10 +77,24 @@ namespace MorSun.Controllers.SystemController
             var nonmbUid = nonmbbm.Select(p => p.WeiXinId).Distinct();
             LogHelper.Write("新提问的用户数" + nonmbUid.Count().ToString(), LogHelper.LogMessageType.Debug);
             //区分出已绑定与未绑定的用户ID
-            
+            var zyapp = Guid.Parse(Reference.微信应用_作业邦);
+            //绑定的用户ID
+            var uwU = uwbll.All.Where(p => nonmbUid.Contains(p.WeiXinId) && p.WeiXinAPP == zyapp);
+            var uwUid = uwU.Select(p => p.WeiXinId);
+            //非绑定的用户ID
+            var nonuwUID = nonmbUid.Where(p => !uwUid.Contains(p));
+
+            //已绑定的用户取邦马币值
+            var uwUSid = uwU.Select(p => p.UserId);
+            var UserBMB = umbbll.All.Where(p => uwUSid.Contains(p.UserId));
+
             //生成马币记录
 
-            //生成问题分配记录
+
+
+            //生成问题分配记录，收费的到收费的默认账号，免费的到免费的默认账号
+
+
 
             #endregion
 
@@ -182,7 +198,7 @@ namespace MorSun.Controllers.SystemController
                  
             }
             //收费问题分配结束
-            //免费问题分配  免费问题只取出当天的问题进行分配，过去就过去了，节省点服务器资源  在分配时控制，当天的分配给活跃未认证用户，非当天的分配给默认用户
+            //免费问题分配  当天的分配给活跃未认证用户，非当天的分配给默认用户
             var noActiveNMQAD = noActiveUCUQAD.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) == 0).OrderBy(p => p.bmQA.RegTime);
             
             //未认证的用户处理

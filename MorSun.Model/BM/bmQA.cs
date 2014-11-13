@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MorSun.Model
 {
-    [MetadataType(typeof(bmQAMetadata))]
-    public partial class bmQA : IModel
+    [MetadataType(typeof(bmUserMaBiMetadata))]
+    public partial class bmUserMaBi : IModel
     {
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -25,11 +25,18 @@ namespace MorSun.Model
             get { return (GetRuleViolations().Count() == 0); }
         }
 
-        public int DJDCount { get; set; }
+        /// <summary>
+        /// 马币值     批量操作时需要
+        /// </summary>
+        public decimal MBNum { get; set; }
+        /// <summary>
+        /// 邦币值     指操作时需要
+        /// </summary>
+        public decimal BBNum { get; set; }
 
         public IEnumerable<RuleViolation> GetRuleViolations()
         {
-            ParameterProcess.TrimParameter<bmQA>(this);            
+            ParameterProcess.TrimParameter<bmUserMaBi>(this);            
             yield break;
         }
 
@@ -41,7 +48,7 @@ namespace MorSun.Model
     }
 
 
-    public class bmQAMetadata
+    public class bmUserMaBiMetadata
     {
              
     }
