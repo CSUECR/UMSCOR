@@ -98,14 +98,13 @@ namespace MorSun.Controllers.SystemController
             #endregion
             //测试看这边不更新数据库，以下代码能执行不。
             //未解决的问题修改为待解答 结束            
-            var todayST = DateTime.Now.Date;
-            var todayET = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
+            var todayST = DateTime.Now.AddHours(-24);            
             //取所有的待解答的问题数量
             var djdqadis = qadisbll.All.Where(p => p.Result == qastate);
             ///////////////////////取数量的方式要修改，提问的方式变了，不直接生成马币//////////////////////////
             var mabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) > 0).Count();
-            //免费的只取当天的记录，节省服务器资源
-            var nonmabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) == 0 && p.bmQA.RegTime >= todayST && p.bmQA.RegTime <= todayET).Count();
+            //免费的只取24小时内的提问记录，节省服务器资源
+            var nonmabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) == 0 && p.bmQA.RegTime >= todayST).Count();
 
             var state = Guid.Parse(Reference.在线状态_在线);
             //用户待答题保有量
@@ -205,7 +204,7 @@ namespace MorSun.Controllers.SystemController
                     foreach (var item in noActiveNMQAD)
                     {
                         //判断是否是当天的问题
-                        if (item.bmQA.RegTime >= todayST && item.bmQA.RegTime <= todayET)
+                        if (item.bmQA.RegTime >= todayST)
                         { 
                             //对答题进行分配
                             i++;
