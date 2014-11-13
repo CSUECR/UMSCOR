@@ -73,6 +73,7 @@ namespace MorSun.Controllers.SystemController
             var nonmbbm = qabll.All.Where(p => p.bmQADistributions.Count() == 0);            
             //取出所有未生成马币记录的提问用户
             var nonmbUid = nonmbbm.Select(p => p.WeiXinId).Distinct();
+            LogHelper.Write("新提问的用户数" + nonmbUid.Count().ToString(), LogHelper.LogMessageType.Debug);
             //区分出已绑定与未绑定的用户ID
             
             //生成马币记录
