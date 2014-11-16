@@ -22,12 +22,12 @@ namespace MorSun.Model
         /// <summary>
         /// 当前回答问题
         /// </summary>
-        public bmQA CurrentQA { get; set; }
+        public bmQAView CurrentQA { get; set; }
 
         /// <summary>
         /// 待答问题
         /// </summary>
-        public List<bmQA> WaitQA { get; set; }
+        public List<bmQAView> WaitQA { get; set; }
 
         /// <summary>
         /// 已答问题

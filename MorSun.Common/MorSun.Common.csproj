@@ -54,9 +54,6 @@
     <Compile Include="ExHelp\NollCaller.cs" />
     <Compile Include="ExHelp\NollHelp.cs" />
     <Compile Include="ExHelp\PageList.cs" />
-    <Compile Include="MaBiCache\MaBiCache.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Privilege.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefGroup.cs" />
@@ -73,6 +70,9 @@
       <Project>{d335634f-20b7-464a-87a0-6d4718cf264e}</Project>
       <Name>MorSun.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MaBiCache\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

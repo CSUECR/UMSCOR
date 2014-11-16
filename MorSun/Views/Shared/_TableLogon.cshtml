@@ -65,9 +65,9 @@
             <p class="logonP">欢迎您：@(user.wmfUserInfo == null ? user.UserName:user.wmfUserInfo.NickName) <span class="logonSpanReight"><a href="/Member/Index">进入会员中心</a></span></p>
             <p class="logonP"><input type="button" value="充值" class="logonBtn green" onclick="jumptourl('/Member/Recharge')" /></p>
 
-            <p class="logonP">马币:<span class="logonSpanRed">@umb.MaBi.ToString("f2")</span>   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsMB".GX())">@Html.Partial("_Lamp")</a></span></p>
-            <p class="logonP">邦币:<span class="logonSpanGreenMabi">@umb.BBi.ToString("f2")</span>    <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBB".GX())">@Html.Partial("_Lamp")</a></span></p>
-            <p class="logonP">绑币:<span class="logonSpanYellow">@umb.BanBi.ToString("f2")</span>    <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBDB".GX())">@Html.Partial("_Lamp")</a></span></p>
+            <p class="logonP">马币:<span class="logonSpanRed">@umb.NMB.ToString("f2")</span>   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsMB".GX())">@Html.Partial("_Lamp")</a></span></p>
+            <p class="logonP">邦币:<span class="logonSpanGreenMabi">@umb.NBB.ToString("f2")</span>    <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBB".GX())">@Html.Partial("_Lamp")</a></span></p>
+            <p class="logonP">绑币:<span class="logonSpanYellow">@umb.NBANB.ToString("f2")</span>    <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBDB".GX())">@Html.Partial("_Lamp")</a></span></p>
             <p class="logonP">推广链接： <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsEXT".GX())">@Html.Partial("_Lamp")</a></span></p>
             <span class="logonSpanGreen">@("ServiceDomain".GHU())/Home/Index/</span>
             <span class="logonSpanGreen">@(bic)</span>

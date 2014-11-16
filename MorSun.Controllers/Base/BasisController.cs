@@ -119,7 +119,7 @@ namespace MorSun.Controllers
             }
         }
 
-        public static UserMaBi CurrentUserMabi
+        public static bmNewUserMB CurrentUserMabi
         {
             get
             {
@@ -132,41 +132,10 @@ namespace MorSun.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        private static UserMaBi GetUserMaBiByUId(Guid userId)
+        private static bmNewUserMB GetUserMaBiByUId(Guid userId)
         {
             //取出当前用户已结算的马币值
-            var umb = new BaseBll<bmUserMaBi>().All.Where(p => p.UserId == userId);
-            //币种
-            var mabi = Guid.Parse(Reference.马币类别_马币);
-            var bbi = Guid.Parse(Reference.马币类别_邦币);
-            var banbi = Guid.Parse(Reference.马币类别_绑币);
-
-            var mabiO = umb.FirstOrDefault(p => p.MaBiRef == mabi);
-            var bbiO = umb.FirstOrDefault(p => p.MaBiRef == bbi);
-            var banbiO = umb.FirstOrDefault(p => p.MaBiRef == banbi);
-            var userMaBi = new UserMaBi();
-            userMaBi.MaBi = mabiO == null ? 0 : mabiO.MaBiNum.Value;
-            userMaBi.BBi = bbiO == null ? 0 : bbiO.MaBiNum.Value;
-            userMaBi.BanBi = banbiO == null ? 0 : banbiO.MaBiNum.Value;
-
-            //减去未结算的马币值
-            var rbll = new BaseBll<bmUserMaBiRecord>();
-            var nonSettleMBR = rbll.All.Where(p => p.IsSettle == false && p.UserId == userId);
-            
-            //加马币
-            var mabisum = nonSettleMBR.Where(p => p.MaBiRef == mabi).Sum(p => p.MaBiNum);
-            //加邦币
-            var bbisum = nonSettleMBR.Where(p => p.MaBiRef == bbi).Sum(p => p.MaBiNum);
-            //加绑币
-            var banbisum = nonSettleMBR.Where(p => p.MaBiRef == banbi).Sum(p => p.MaBiNum);
-            if (mabisum != null && mabisum > 0)
-                userMaBi.MaBi += mabisum == null ? 0 : mabisum.Value;
-            if (bbisum != null && bbisum > 0)
-                userMaBi.BBi += bbisum == null ? 0 : bbisum.Value;
-            if (banbisum != null && banbisum > 0)
-                userMaBi.BanBi += banbisum == null ? 0 : banbisum.Value;
-
-            return userMaBi;
+            return new BaseBll<bmNewUserMB>().All.FirstOrDefault(p => p.UserId == userId);            
         }
         #endregion
 

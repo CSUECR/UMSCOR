@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="326dd419ca9a4f45865a9e9483498be3" Name="Diagram1">
+      <Diagram DiagramId="8c019a90953e47ac8bbd6fe576b20e7b" Name="Diagram1">
         <EntityTypeShape EntityType="MorSun.Model.Aduit" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.AskForLeave" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.aspnet_Applications" Width="1.5" PointX="0.75" PointY="71.25" IsExpanded="true" />
@@ -135,7 +135,8 @@
         <EntityTypeShape EntityType="MorSun.Model.HF_WorkTaskPower" Width="1.5" PointX="25.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.QRTZ_BLOB_TRIGGERS" Width="1.5" PointX="25.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.wmfLog" Width="1.5" PointX="25.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfRolePrivilegesView" Width="1.5" PointX="25.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmNewUserMB" Width="1.5" PointX="25.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfRolePrivilegesView" Width="1.5" PointX="16.75" PointY="25.75" IsExpanded="true" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Me__Appli__145C0A3F" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Pa__Appli__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Ro__Appli__32E0915F" ManuallyRouted="false" />
@@ -257,6 +258,7 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfResource_wmfResource" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MorSun.Model.bmQAView" Width="1.5" PointX="0.75" PointY="26.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

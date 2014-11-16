@@ -64,7 +64,7 @@ namespace MorSun.WX.ZYB.Service
             //头一次取时，系统自动将待答问题和待处理的分配项放进缓存
             var djdRef = Guid.Parse(Reference.分配答题操作_待解答);
             //待回答的问题
-            model.WaitQA = new BaseBll<bmQA>().All.Where(p => p.bmQADistributions.Count(q => q.WeiXinId == weixinId && q.Result == djdRef) > 0).ToList();
+            model.WaitQA = new BaseBll<bmQAView>().All.Where(p => p.DisWeiXinId == weixinId && p.Result == djdRef).ToList();
             LogHelper.Write("用户待答问题获取", LogHelper.LogMessageType.Debug);
             //待处理的分配项,每次答题都要再去取，还是直接根据问题ID和weixinid取分配项，不然对缓存的操作太麻烦
             //qaCache.WaitQADis = new BaseBll<bmQADistribution>().All.Where(p => p.WeiXinId == weixinId && p.Result == djdRef);

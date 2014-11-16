@@ -277,7 +277,7 @@ namespace MorSun.Controllers
             var oper = new OperationResult(OperationResultType.Error, "提交失败");
             var tbll = new BaseBll<bmTakeNow>();
             var curUser = CurrentAspNetUser;
-            var curUserMB = CurrentUserMabi.MaBi;
+            var curUserMB = CurrentUserMabi.NMB;
             
             var curUserTake = tbll.All.Where(p => p.UserId == curUser.UserId && p.Effective == null).Sum(p => p.MaBiNum);
             if (curUserTake == null) curUserTake = 0;

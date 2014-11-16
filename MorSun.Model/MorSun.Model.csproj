@@ -58,8 +58,9 @@
     <Compile Include="AttributeExtensions\LocalizedDisplayNameAttribute.cs" />
     <Compile Include="AttributeExtensions\LocalizedRequiredAttribute.cs" />
     <Compile Include="AttributeExtensions\RequiredIfAttribute.cs" />
-    <Compile Include="BM\bmUserMaBi.cs" />
+    <Compile Include="BM\bmQAView.cs" />
     <Compile Include="BM\bmQA.cs" />
+    <Compile Include="BM\bmUserMaBi.cs" />
     <Compile Include="BM\bmQADistribution.cs" />
     <Compile Include="BM\bmOnlineQAUser.cs" />
     <Compile Include="BM\bmNew.cs" />
@@ -67,9 +68,6 @@
     <Compile Include="Cache\UserBoundCodeCache.cs" />
     <Compile Include="Cache\UserBoundCache.cs" />
     <Compile Include="Cache\UserQACache.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Cache\UserMaBiCache.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\aspnet_Roles.cs" />

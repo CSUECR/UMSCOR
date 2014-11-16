@@ -96,7 +96,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews AnswerResponse<T>(T requestMessage, bmQA model)
+        private ResponseMessageNews AnswerResponse<T>(T requestMessage, bmQAView model)
             where T : RequestMessageBase
         {
             LogHelper.Write("返回待答问题", LogHelper.LogMessageType.Debug);
@@ -282,7 +282,7 @@ namespace MorSun.WX.ZYB.Service
         /// 包装当前答题 设置待答题数量
         /// </summary>
         /// <param name="requestMessage"></param>
-        private bmQA PackCurrentQA<T>(T requestMessage, UserQACache model)
+        private bmQAView PackCurrentQA<T>(T requestMessage, UserQACache model)
             where T : RequestMessageBase
         {
             LogHelper.Write("包装当前答题开始", LogHelper.LogMessageType.Debug);
@@ -689,7 +689,7 @@ namespace MorSun.WX.ZYB.Service
                     dsmodel.ModTime = DateTime.Now;
                     dsmodel.Result = Guid.Parse(Reference.分配答题操作_未处理);
                     //问题按是否收费区分回收
-                    if (model.CurrentQA.MaBiNum > 0)
+                    if (model.CurrentQA.MBNum > 0 || model.CurrentQA.BBNum > 0)
                     {
                         //收费问题的回收
                         dsmodel.WeiXinId = CFG.默认收费问题微信号;

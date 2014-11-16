@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -2097,6 +2097,65 @@
           <Property Name="FlagDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“UserCenter.dbo.bmNewUserMB”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="bmNewUserMB">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="MB" />
+            <PropertyRef Name="MNum" />
+            <PropertyRef Name="BB" />
+            <PropertyRef Name="BNum" />
+            <PropertyRef Name="BanB" />
+            <PropertyRef Name="BANNum" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MB" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="BB" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="BNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="BanB" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="BANNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="NMB" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="NBB" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="NBANB" Type="decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“UserCenter.dbo.bmQAView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="bmQAView">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="AutoGrenteId" />
+            <PropertyRef Name="FlagTrashed" />
+            <PropertyRef Name="FlagDeleted" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AutoGrenteId" Type="bigint" Nullable="false" />
+          <Property Name="ParentId" Type="uniqueidentifier" />
+          <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
+          <Property Name="QARef" Type="uniqueidentifier" />
+          <Property Name="QAContent" Type="nvarchar" MaxLength="4000" />
+          <Property Name="MsgId" Type="nvarchar" MaxLength="128" />
+          <Property Name="MsgType" Type="uniqueidentifier" />
+          <Property Name="MediaId" Type="nvarchar" MaxLength="512" />
+          <Property Name="PicUrl" Type="nvarchar" MaxLength="512" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="DisWeiXinId" Type="nvarchar" MaxLength="128" />
+          <Property Name="DistributionTime" Type="datetime" />
+          <Property Name="OperateTime" Type="datetime" />
+          <Property Name="Result" Type="uniqueidentifier" />
+          <Property Name="DisRegTime" Type="datetime" />
+          <Property Name="DisFlagTrashed" Type="bit" />
+          <Property Name="DisFlagDeleted" Type="bit" />
+          <Property Name="MBNum" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="BBNum" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="BanBNum" Type="decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.wmfRolePrivilegesView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -3835,6 +3894,50 @@ FROM [dbo].[QRTZ_BLOB_TRIGGERS] AS [QRTZ_BLOB_TRIGGERS]</DefiningQuery>
 [wmfLog].[Message] AS [Message]
 FROM [dbo].[wmfLog] AS [wmfLog]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="bmNewUserMB" EntityType="Self.bmNewUserMB" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[bmNewUserMB].[UserId] AS [UserId], 
+[bmNewUserMB].[MB] AS [MB], 
+[bmNewUserMB].[MNum] AS [MNum], 
+[bmNewUserMB].[BB] AS [BB], 
+[bmNewUserMB].[BNum] AS [BNum], 
+[bmNewUserMB].[BanB] AS [BanB], 
+[bmNewUserMB].[BANNum] AS [BANNum], 
+[bmNewUserMB].[NMB] AS [NMB], 
+[bmNewUserMB].[NBB] AS [NBB], 
+[bmNewUserMB].[NBANB] AS [NBANB]
+FROM [dbo].[bmNewUserMB] AS [bmNewUserMB]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="bmQAView" EntityType="Self.bmQAView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[bmQAView].[ID] AS [ID], 
+[bmQAView].[AutoGrenteId] AS [AutoGrenteId], 
+[bmQAView].[ParentId] AS [ParentId], 
+[bmQAView].[WeiXinId] AS [WeiXinId], 
+[bmQAView].[QARef] AS [QARef], 
+[bmQAView].[QAContent] AS [QAContent], 
+[bmQAView].[MsgId] AS [MsgId], 
+[bmQAView].[MsgType] AS [MsgType], 
+[bmQAView].[MediaId] AS [MediaId], 
+[bmQAView].[PicUrl] AS [PicUrl], 
+[bmQAView].[RegTime] AS [RegTime], 
+[bmQAView].[FlagTrashed] AS [FlagTrashed], 
+[bmQAView].[FlagDeleted] AS [FlagDeleted], 
+[bmQAView].[ModTime] AS [ModTime], 
+[bmQAView].[RegUser] AS [RegUser], 
+[bmQAView].[Sort] AS [Sort], 
+[bmQAView].[DisWeiXinId] AS [DisWeiXinId], 
+[bmQAView].[DistributionTime] AS [DistributionTime], 
+[bmQAView].[OperateTime] AS [OperateTime], 
+[bmQAView].[Result] AS [Result], 
+[bmQAView].[DisRegTime] AS [DisRegTime], 
+[bmQAView].[DisFlagTrashed] AS [DisFlagTrashed], 
+[bmQAView].[DisFlagDeleted] AS [DisFlagDeleted], 
+[bmQAView].[MBNum] AS [MBNum], 
+[bmQAView].[BBNum] AS [BBNum], 
+[bmQAView].[BanBNum] AS [BanBNum]
+FROM [dbo].[bmQAView] AS [bmQAView]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="wmfRolePrivilegesView" EntityType="Self.wmfRolePrivilegesView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [wmfRolePrivilegesView].[OperationCNName] AS [OperationCNName], 
@@ -4337,8 +4440,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -6655,6 +6757,27 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="Logger" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Message" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
+        <EntityType Name="bmNewUserMB">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="MB" />
+            <PropertyRef Name="MNum" />
+            <PropertyRef Name="BB" />
+            <PropertyRef Name="BNum" />
+            <PropertyRef Name="BanB" />
+            <PropertyRef Name="BANNum" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="MB" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="MNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="BB" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="BNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="BanB" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="BANNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="NMB" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="NBB" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="NBANB" Type="Decimal" Precision="38" Scale="6" />
+        </EntityType>
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
             <PropertyRef Name="RoleId" />
@@ -8317,6 +8440,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="HF_WorkTaskPower" EntityType="Self.HF_WorkTaskPower" />
           <EntitySet Name="QRTZ_BLOB_TRIGGERS" EntityType="Self.QRTZ_BLOB_TRIGGERS" />
           <EntitySet Name="wmfLogs" EntityType="Self.wmfLog" />
+          <EntitySet Name="bmNewUserMBs" EntityType="Self.bmNewUserMB" />
           <EntitySet Name="wmfRolePrivilegesViews" EntityType="Self.wmfRolePrivilegesView" />
           <AssociationSet Name="FK__aspnet_Me__Appli__145C0A3F" Association="Self.FK__aspnet_Me__Appli__145C0A3F">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
@@ -8802,7 +8926,42 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <EntitySet Name="bmQAViews" EntityType="MorSun.Model.bmQAView" />
         </EntityContainer>
+        <EntityType Name="bmQAView">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="AutoGrenteId" />
+            <PropertyRef Name="FlagTrashed" />
+            <PropertyRef Name="FlagDeleted" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="AutoGrenteId" Type="Int64" Nullable="false" />
+          <Property Name="ParentId" Type="Guid" />
+          <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="QARef" Type="Guid" />
+          <Property Name="QAContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="MsgId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="MsgType" Type="Guid" />
+          <Property Name="MediaId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PicUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="DisWeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DistributionTime" Type="DateTime" Precision="3" />
+          <Property Name="OperateTime" Type="DateTime" Precision="3" />
+          <Property Name="Result" Type="Guid" />
+          <Property Name="DisRegTime" Type="DateTime" Precision="3" />
+          <Property Name="DisFlagTrashed" Type="Boolean" />
+          <Property Name="DisFlagDeleted" Type="Boolean" />
+          <Property Name="MBNum" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="BBNum" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="BanBNum" Type="Decimal" Precision="38" Scale="6" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10987,6 +11146,22 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="bmNewUserMBs">
+            <EntityTypeMapping TypeName="MorSun.Model.bmNewUserMB">
+              <MappingFragment StoreEntitySet="bmNewUserMB">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="MB" ColumnName="MB" />
+                <ScalarProperty Name="MNum" ColumnName="MNum" />
+                <ScalarProperty Name="BB" ColumnName="BB" />
+                <ScalarProperty Name="BNum" ColumnName="BNum" />
+                <ScalarProperty Name="BanB" ColumnName="BanB" />
+                <ScalarProperty Name="BANNum" ColumnName="BANNum" />
+                <ScalarProperty Name="NMB" ColumnName="NMB" />
+                <ScalarProperty Name="NBB" ColumnName="NBB" />
+                <ScalarProperty Name="NBANB" ColumnName="NBANB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="wmfRolePrivilegesViews">
             <EntityTypeMapping TypeName="MorSun.Model.wmfRolePrivilegesView">
               <MappingFragment StoreEntitySet="wmfRolePrivilegesView">
@@ -11010,6 +11185,38 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="bmQAViews">
+            <EntityTypeMapping TypeName="MorSun.Model.bmQAView">
+              <MappingFragment StoreEntitySet="bmQAView">
+                <ScalarProperty Name="BanBNum" ColumnName="BanBNum" />
+                <ScalarProperty Name="BBNum" ColumnName="BBNum" />
+                <ScalarProperty Name="MBNum" ColumnName="MBNum" />
+                <ScalarProperty Name="DisFlagDeleted" ColumnName="DisFlagDeleted" />
+                <ScalarProperty Name="DisFlagTrashed" ColumnName="DisFlagTrashed" />
+                <ScalarProperty Name="DisRegTime" ColumnName="DisRegTime" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="OperateTime" ColumnName="OperateTime" />
+                <ScalarProperty Name="DistributionTime" ColumnName="DistributionTime" />
+                <ScalarProperty Name="DisWeiXinId" ColumnName="DisWeiXinId" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
+                <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+                <ScalarProperty Name="MsgType" ColumnName="MsgType" />
+                <ScalarProperty Name="MsgId" ColumnName="MsgId" />
+                <ScalarProperty Name="QAContent" ColumnName="QAContent" />
+                <ScalarProperty Name="QARef" ColumnName="QARef" />
+                <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="AutoGrenteId" ColumnName="AutoGrenteId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -80,11 +80,11 @@ namespace MorSun.WX.ZYB.Service
                 var onlineUD = new BaseBll<bmQADistribution>().All.Where(p => onlineWeiXinIds.Contains(p.WeiXinId) && p.Result == djdRef);
                 if (ConstList.DTCertificationLevel.Contains(certification))
                 {
-                    onlineUD = onlineUD.Where(p => p.bmQA.MaBiNum > 0);
+                    onlineUD = onlineUD.Where(p => p.bmQA.bmUserMaBiRecords.Sum(q => q.MaBiNum) > 0);
                 }                
                 else
                 {
-                    onlineUD = onlineUD.Where(p => p.bmQA.MaBiNum <= 0);  
+                    onlineUD = onlineUD.Where(p => p.bmQA.bmUserMaBiRecords.Sum(q => q.MaBiNum) <= 0);  
                 }
 
                 var qaDis = onlineUD.GroupBy(p => p.WeiXinId)

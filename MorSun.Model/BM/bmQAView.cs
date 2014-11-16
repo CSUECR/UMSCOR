@@ -8,8 +8,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MorSun.Model
 {
-    [MetadataType(typeof(bmQAMetadata))]
-    public partial class bmQA : IModel
+    [MetadataType(typeof(bmQAViewMetadata))]
+    public partial class bmQAView : IModel
     {
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -29,7 +29,7 @@ namespace MorSun.Model
 
         public IEnumerable<RuleViolation> GetRuleViolations()
         {
-            ParameterProcess.TrimParameter<bmQA>(this);            
+            ParameterProcess.TrimParameter<bmQAView>(this);            
             yield break;
         }
 
@@ -41,7 +41,7 @@ namespace MorSun.Model
     }
 
 
-    public class bmQAMetadata
+    public class bmQAViewMetadata
     {
              
     }

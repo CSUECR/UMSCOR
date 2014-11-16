@@ -215,12 +215,12 @@ namespace MorSun.Model
         public IQueryable<bmNew> nList { get; set; }
     }
 
-    public class UserMaBi
-    {
-        public decimal MaBi { get; set; }
-        public decimal BBi { get; set; }
-        public decimal BanBi { get; set; }
-    }
+    //public class UserMaBi
+    //{
+    //    public decimal MaBi { get; set; }
+    //    public decimal BBi { get; set; }
+    //    public decimal BanBi { get; set; }
+    //}
 
     public class AddMBRModel
     {
