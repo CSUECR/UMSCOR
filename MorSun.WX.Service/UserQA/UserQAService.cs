@@ -126,7 +126,7 @@ namespace MorSun.WX.ZYB.Service
         {
             string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
             CacheDependency fileDependency = new CacheDependency(path);
-
+            LogHelper.Write("设置缓存" + path, LogHelper.LogMessageType.Debug);
             //保存到缓存中
             CacheAccess.SaveToCacheByDependency(CFG.在线答题用户缓存键, qaCache, fileDependency);
         }       

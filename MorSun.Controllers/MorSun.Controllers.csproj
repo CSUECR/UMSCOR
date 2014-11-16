@@ -39,6 +39,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\HOHO18.Common\Lib\NPOI.dll</HintPath>
     </Reference>
+    <Reference Include="Quartz, Version=2.0.1.100, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Quartz\Quartz.dll</HintPath>
+    </Reference>
     <Reference Include="Senparc.Weixin">
       <HintPath>..\packages\Senparc\Senparc.Weixin.dll</HintPath>
     </Reference>
@@ -105,6 +109,9 @@
     <Compile Include="ControllersUserCenter\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Quartz\CheckingIn4\CheckingJob4.cs" />
+    <Compile Include="Quartz\CheckingIn4\CheckingTrigger4.cs" />
+    <Compile Include="Quartz\MorSunScheduler.cs" />
     <Compile Include="ViewModel\BaseVM\BaseVModel.cs" />
     <Compile Include="ViewModel\BM\BMNewVModel.cs" />
     <Compile Include="ViewModel\BM\BMQAVModel.cs" />
@@ -164,7 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AttendanceController\" />
-    <Folder Include="Quartz\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

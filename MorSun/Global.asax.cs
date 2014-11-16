@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using MorSun.Controllers;
 using HOHO18.Common.WEB;
+using MorSun.Controllers.Quartz;
 
 
 namespace MorSun
@@ -48,13 +49,13 @@ namespace MorSun
             AuthConfig.RegisterAuth();
 
             //开启任务调度器
-            //MorSunScheduler.Instance.Start();
+            MorSunScheduler.Instance.Start();
         }
 
         protected void Application_End(object sender, EventArgs e)
         {
             //关闭任务调度器
-            //MorSunScheduler.Instance.Stop(true);
+            MorSunScheduler.Instance.Stop(true);
             //记录日志
             LogHelper.Write("应用关闭", LogHelper.LogMessageType.Info);
             //解决应用池回收问题 

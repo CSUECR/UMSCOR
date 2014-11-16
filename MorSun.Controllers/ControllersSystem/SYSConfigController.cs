@@ -14,6 +14,9 @@ using MorSun.Common.常量集;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
 using HOHO18.Common.WEB;
+using System.Configuration;
+using System.Web.Configuration;
+using MorSun.Controllers.Quartz;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -68,33 +71,107 @@ namespace MorSun.Controllers.SystemController
             var qabll = new BaseBll<bmQA>();
             var bmumbBll = new BaseBll<bmUserMaBiRecord>();
             var uwbll = new BaseBll<bmUserWeixin>();
-            var umbbll = new BaseBll<bmUserMaBi>();
+            var numbbll = new BaseBll<bmNewUserMB>();
 
             #region 刚提的问题生成马币消费记录与分配记录
             //取出所有未分配记录的问题      "提问都不一定绑定用户"
-            var nonmbbm = qabll.All.Where(p => p.bmQADistributions.Count() == 0);            
+            var qaRef = Guid.Parse(Reference.问答类别_问题);
+            var nonmbQA = qabll.All.Where(p => p.QARef == qaRef && p.bmQADistributions.Count() == 0);    //必须是提问才分配。
+        
             //取出所有未生成马币记录的提问用户
-            var nonmbUid = nonmbbm.Select(p => p.WeiXinId).Distinct();
+            var nonmbUid = nonmbQA.Select(p => p.WeiXinId).Distinct();
             LogHelper.Write("新提问的用户数" + nonmbUid.Count().ToString(), LogHelper.LogMessageType.Debug);
             //区分出已绑定与未绑定的用户ID
             var zyapp = Guid.Parse(Reference.微信应用_作业邦);
             //绑定的用户ID
             var uwU = uwbll.All.Where(p => nonmbUid.Contains(p.WeiXinId) && p.WeiXinAPP == zyapp);
+            //绑定的用户微信ID
             var uwUid = uwU.Select(p => p.WeiXinId);
-            //非绑定的用户ID
+
+            //未绑定的用户ID
             var nonuwUID = nonmbUid.Where(p => !uwUid.Contains(p));
 
-            //已绑定的用户取邦马币值
+            //已绑定的用户取邦马币值，邦马币值大于0的取出来
             var uwUSid = uwU.Select(p => p.UserId);
-            var UserBMB = umbbll.All.Where(p => uwUSid.Contains(p.UserId));
-
+            var defXFMB = Convert.ToDecimal(CFG.提问默认收费马币值);
+            var UserBMB = numbbll.All.Where(p => uwUSid.Contains(p.UserId) && (p.NMB > defXFMB || p.NBB > defXFMB));
+            LogHelper.Write("花邦马币提问的用户数" + UserBMB.Count().ToString(), LogHelper.LogMessageType.Debug);
             //生成马币记录
+            //先生成收费的马币记录，收费问题分配给默认收费答题用户。未生成收费的马币记录，直接分配给默认免费答题用户
+            var mbQAIds = new List<Guid>();
+            var tempMB = Convert.ToDecimal(0);
+            var tempBB = Convert.ToDecimal(0);
+            var tempQACount = 0;
+            foreach(var u in UserBMB)
+            {
+                tempMB = u.NMB.Value;
+                tempBB = u.NBB.Value;
+                //能取出的当前用户问题数
+                tempQACount = Convert.ToInt32(((tempMB + tempBB) / defXFMB));
+                var uwxid = uwU.FirstOrDefault(p => p.UserId == u.UserId).WeiXinId;
+                //当前用户提问数
+                var uqa = nonmbQA.Where(p => p.WeiXinId == uwxid).Take(tempQACount);
+                foreach(var q in uqa)
+                {
+                    //有消费的问题记录做标记
+                    mbQAIds.Add(q.ID);
+                    var umbrModel = new bmUserMaBiRecord();
+                    umbrModel.SourceRef = Guid.Parse(Reference.马币来源_消费);
+                    if(tempBB >= defXFMB)
+                    {
+                        umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
+                        tempBB -= defXFMB;
+                    }
+                    else if(tempMB >= defXFMB)
+                    {
+                        umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_马币);
+                        tempMB -= defXFMB;
+                    }
+                    umbrModel.MaBiNum = 0 - defXFMB;
+                    umbrModel.QAId = q.ID;
 
+                    umbrModel.IsSettle = false;
+                    umbrModel.RegTime = DateTime.Now;
+                    umbrModel.ModTime = DateTime.Now;
+                    umbrModel.FlagTrashed = false;
+                    umbrModel.FlagDeleted = false;
 
+                    umbrModel.ID = Guid.NewGuid();
+                    umbrModel.UserId = u.UserId;
+                    umbrModel.RegUser = u.UserId;
 
+                    bmumbBll.Insert(umbrModel, false);
+                }
+            }
+            LogHelper.Write("花邦马币提问的问题数" + mbQAIds.Count().ToString(), LogHelper.LogMessageType.Debug);
             //生成问题分配记录，收费的到收费的默认账号，免费的到免费的默认账号
+            foreach(var q in nonmbQA)
+            {
+                //问题分配处理                
+                var qaModel = new bmQADistribution();
 
+                qaModel.ID = Guid.NewGuid();
+                qaModel.QAId = q.ID;
+                qaModel.DistributionTime = DateTime.Now;
 
+                qaModel.RegTime = DateTime.Now;
+                qaModel.ModTime = DateTime.Now;
+                qaModel.FlagTrashed = false;
+                qaModel.FlagDeleted = false;
+
+                qaModel.Result = Guid.Parse(Reference.分配答题操作_待解答);
+                if (mbQAIds.Contains(q.ID))
+                {                    
+                    qaModel.WeiXinId = CFG.默认收费问题微信号;
+                }
+                else
+                {                    
+                    qaModel.WeiXinId = CFG.默认免费问题微信号;
+                }
+                qadisbll.Insert(qaModel, false);
+            }
+            //bmumbBll.UpdateChanges();
+            //qadisbll.UpdateChanges();
 
             #endregion
 
@@ -117,10 +194,13 @@ namespace MorSun.Controllers.SystemController
             var todayST = DateTime.Now.AddHours(-24);            
             //取所有的待解答的问题数量
             var djdqadis = qadisbll.All.Where(p => p.Result == qastate);
+            LogHelper.Write("待解答的总问题数" + djdqadis.Count().ToString(), LogHelper.LogMessageType.Debug);
             ///////////////////////取数量的方式要修改，提问的方式变了，不直接生成马币//////////////////////////
-            var mabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) > 0).Count();
+            var mabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) < 0).Count();//提问是负数
+            LogHelper.Write("待解答的收费问题数" + mabiqaCount.ToString(), LogHelper.LogMessageType.Debug);
             //免费的只取24小时内的提问记录，节省服务器资源
-            var nonmabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) == 0 && p.bmQA.RegTime >= todayST).Count();
+            var nonmabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Count() == 0 && p.bmQA.RegTime >= todayST).Count();
+            LogHelper.Write("待解答的免费问题数" + nonmabiqaCount.ToString(), LogHelper.LogMessageType.Debug);
 
             var state = Guid.Parse(Reference.在线状态_在线);
             //用户待答题保有量
@@ -141,8 +221,10 @@ namespace MorSun.Controllers.SystemController
 
             //取要强退的认证用户 '超过7分钟未活跃'
             var noActiveCU = bll.All.Where(p => p.State == state && p.ActiveTime < logoutdt && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
+            LogHelper.Write("需要强退的认证用户数" + noActiveCU.Count().ToString(), LogHelper.LogMessageType.Debug);
             //取要强退未认证用户
             var noActiveU = bll.All.Where(p => p.State == state && p.ActiveTime < logoutdt && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
+            LogHelper.Write("需要强退的未认证用户数" + noActiveU.Count().ToString(), LogHelper.LogMessageType.Debug);
 
             //取强退用户ID
             //存在不活跃的认证用户，将不活跃用户的答题分配记录标识为放弃，并将答题分配给活跃用户
@@ -152,8 +234,9 @@ namespace MorSun.Controllers.SystemController
 
             //取所有不活跃的答题用户，然后再区分出收费问题与免费问题
             var noActiveUCUQAD = qadisbll.All.Where(p => p.Result == qastate && (noActiveCUWIDS.Contains(p.WeiXinId) || p.WeiXinId == CFG.默认收费问题微信号 || noActiveUWIDS.Contains(p.WeiXinId) || p.WeiXinId == CFG.默认免费问题微信号));
-
-            var noActiveMQAD = noActiveUCUQAD.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) > 0).OrderBy(p => p.bmQA.RegTime);
+            LogHelper.Write("总的未答题数" + noActiveUCUQAD.Count().ToString(), LogHelper.LogMessageType.Debug);
+            var noActiveMQAD = noActiveUCUQAD.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) < 0).OrderBy(p => p.bmQA.RegTime);
+            LogHelper.Write("收费的未答题数" + noActiveMQAD.Count().ToString(), LogHelper.LogMessageType.Debug);
 
             //收费问题分配
             //取活跃在线的认证答题用户,排除掉默认分配用户，省的多余操作
@@ -165,6 +248,7 @@ namespace MorSun.Controllers.SystemController
                     selectCount = 1;
                 certificationUsers = certificationUsers.Take(selectCount).OrderByDescending(p => p.ActiveNum);
             }
+            LogHelper.Write("待分配答题的认证用户数" + certificationUsers.Count().ToString(), LogHelper.LogMessageType.Debug);
 
             if(certificationUsers.Count() > 0)
             {//存在在线用户时   
@@ -199,8 +283,9 @@ namespace MorSun.Controllers.SystemController
             }
             //收费问题分配结束
             //免费问题分配  当天的分配给活跃未认证用户，非当天的分配给默认用户
-            var noActiveNMQAD = noActiveUCUQAD.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) == 0).OrderBy(p => p.bmQA.RegTime);
-            
+            var noActiveNMQAD = noActiveUCUQAD.Where(p => p.bmQA.bmUserMaBiRecords.Count() == 0).OrderBy(p => p.bmQA.RegTime);
+            LogHelper.Write("免费的未答题数" + noActiveNMQAD.Count().ToString(), LogHelper.LogMessageType.Debug);
+
             //未认证的用户处理
             var noncertificationUsers = noncu.Where(p => p.WeiXinId != CFG.默认免费问题微信号 && p.ActiveTime >= nondisdt).OrderByDescending(p => p.ActiveNum);
             if(nonmabiqaCount > 0)
@@ -210,7 +295,8 @@ namespace MorSun.Controllers.SystemController
                     selectCount = 1;
                 noncertificationUsers = noncertificationUsers.Take(selectCount).OrderByDescending(p => p.ActiveNum);
             }
-           
+            LogHelper.Write("待分配答题的未认证用户数" + noncertificationUsers.Count().ToString(), LogHelper.LogMessageType.Debug);
+
             if(noncertificationUsers.Count() >0)
             {
                 if (noActiveNMQAD.Count() > 0)
@@ -337,5 +423,162 @@ namespace MorSun.Controllers.SystemController
                 //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
+
+        #region 矿石代码
+        /// <summary>
+        /// 定时读取
+        /// </summary>
+        /// <returns></returns>
+        public string dsdq()
+        {
+            //MorSunScheduler.Instance.Clear();
+            //CheckingTrigger t = new CheckingTrigger();
+            //t.Run();
+            //CheckingTrigger2 t2 = new CheckingTrigger2();
+            //t2.Run();
+            //SimpleTriggerExample t3 = new SimpleTriggerExample();
+            //t3.Run();
+            CheckingTrigger4 t4 = new CheckingTrigger4();
+            t4.Run();
+            return "true";
+        }
+
+        /// <summary>
+        /// 是否开启状态
+        /// </summary>
+        /// <returns></returns>
+        public string IsStart()
+        {
+            return MorSunScheduler.Instance.IsStart().ToString();
+        }
+
+        /// <summary>
+        /// 清除矿石任务
+        /// </summary>
+        /// <returns></returns>
+        public string Clear()
+        {
+            MorSunScheduler.Instance.Clear();
+            return "true";
+        }
+
+        /// <summary>
+        /// 停止矿石
+        /// </summary>
+        /// <returns></returns>
+        public string Stop()
+        {
+            MorSunScheduler.Instance.Stop(false);
+            return "true";
+        }
+
+        /// <summary>
+        /// 开启矿石
+        /// </summary>
+        /// <returns></returns>
+        public string Start()
+        {
+            MorSunScheduler.Instance.Start();
+            return "true";
+        }
+
+        /// <summary>
+        /// 全部继续
+        /// </summary>
+        /// <returns></returns>
+        public string ResumeAll()
+        {
+            MorSunScheduler.Instance.ResumeAll();
+            return "true";
+        }
+
+        /// <summary>
+        /// 停止某项工作
+        /// </summary>
+        /// <returns></returns>
+        public string StopJob(string name, string group)
+        {
+            MorSunScheduler.Instance.StopJob(name, group);
+            return "true";
+        }
+        #endregion
+
+        #region webconfig加解密
+        /// <summary>
+        /// webconfig加密解密
+        /// </summary>
+        /// <returns></returns>
+        public string ENCWeb()
+        {
+            if (!ResourceId.HP(操作.修改))
+            {                
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return "无权限";
+            }
+            var provider = "RSAProtectedConfigurationProvider";
+            var section = "connectionStrings";
+            var section1 = "quartz";
+            var section2 = "log4net";
+            Configuration confg = WebConfigurationManager.OpenWebConfiguration(Request.ApplicationPath);
+            ConfigurationSection configSect = confg.GetSection(section);
+            if (configSect != null)
+            {
+                configSect.SectionInformation.ProtectSection(provider);
+                confg.Save();
+            }
+
+            ConfigurationSection configSect1 = confg.GetSection(section1);
+            if (configSect1 != null)
+            {
+                configSect1.SectionInformation.ProtectSection(provider);
+                confg.Save();
+            }
+
+            ConfigurationSection configSect2 = confg.GetSection(section2);
+            if (configSect2 != null)
+            {
+                configSect2.SectionInformation.ProtectSection(provider);
+                confg.Save();
+            }
+            return "";
+        }
+
+        public string DECWeb()
+        {
+            if (!ResourceId.HP(操作.修改))
+            {
+                var oper = new OperationResult(OperationResultType.Error, "无权限");
+                oper.AppendData = ModelState.GE();
+                return "无权限";
+            }
+            var provider = "RSAProtectedConfigurationProvider";
+            var section = "connectionStrings";
+            var section1 = "quartz";
+            var section2 = "log4net";
+            Configuration config = WebConfigurationManager.OpenWebConfiguration(Request.ApplicationPath);
+            ConfigurationSection configSect = config.GetSection(section);
+            if (configSect.SectionInformation.IsProtected)
+            {
+                configSect.SectionInformation.UnprotectSection();
+                config.Save();
+            }
+
+            ConfigurationSection configSect1 = config.GetSection(section1);
+            if (configSect1.SectionInformation.IsProtected)
+            {
+                configSect1.SectionInformation.UnprotectSection();
+                config.Save();
+            }
+
+            ConfigurationSection configSect2 = config.GetSection(section2);
+            if (configSect2.SectionInformation.IsProtected)
+            {
+                configSect2.SectionInformation.UnprotectSection();
+                config.Save();
+            }
+            return "";
+        }
+        #endregion
     }
 }
