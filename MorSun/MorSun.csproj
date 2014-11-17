@@ -752,6 +752,7 @@
     <Content Include="Views\SYSConfig\Index.cshtml" />
     <Content Include="Views\SYSConfig\OnlineQAUser.cshtml" />
     <Content Include="Views\SYSConfig\UserQACache.cshtml" />
+    <Content Include="Views\CS\C.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

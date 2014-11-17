@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="ControllersSystem\SYSConfigController.cs" />
     <Compile Include="ControllersSystem\MMController.cs" />
+    <Compile Include="ControllersUserCenter\CSController.cs" />
     <Compile Include="ControllersWeiXin\QAController.cs" />
     <Compile Include="ControllersWeiXin\WXZYBController.cs" />
     <Compile Include="Filter\ExceptionFilter.cs" />
