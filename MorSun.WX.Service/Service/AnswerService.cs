@@ -108,7 +108,7 @@ namespace MorSun.WX.ZYB.Service
             var comonservice = new CommonService();
             responseMessage.Articles.Add(new Article()
             {
-                Title = ("问题编号：" + model.AutoGrenteId + " "),// + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "免费提问" : ("消耗" + (model.MaBiNum == null ? "0" : model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
+                Title = ("问题编号：" + model.AutoGrenteId + (model.MBNum == 0 && model.BBNum == 0 ? "免费提问" : ("消耗" + (model.MBNum == 0 ? "" : (model.MBNum + "马币")) + (model.BBNum == 0 ? "" : (model.BBNum + "邦币")) ))),
                 Description = "",
                 PicUrl = model.PicUrl,
                 Url = model.PicUrl
