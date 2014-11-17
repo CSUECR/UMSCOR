@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MorSun.Model;
 using MorSun.Bll;
+using MorSun.Common.类别;
 
 namespace MorSun.Controllers.ViewModel
 {
@@ -39,6 +40,39 @@ namespace MorSun.Controllers.ViewModel
                 }
 
                 return l.OrderBy(p => p.RegTime);
+            }
+        }
+
+        public virtual IQueryable<bmQA> Others
+        {
+            get
+            {
+                var refAId = Guid.Parse(Reference.问答类别_答案);
+                var l = base.All.Where(p => p.ParentId == sParentId && p.QARef != refAId);
+                return l.OrderBy(p => p.RegTime);
+            }
+        }
+
+        /// <summary>
+        /// 答案
+        /// </summary>
+        public virtual bmQA A
+        {
+            get
+            {
+                var refAId = Guid.Parse(Reference.问答类别_答案);
+                return base.All.FirstOrDefault(p => p.ParentId == sParentId && p.QARef == refAId);
+            }
+        }
+
+        /// <summary>
+        /// 问题
+        /// </summary>
+        public virtual bmQA Q
+        {
+            get
+            {
+                return base.All.FirstOrDefault(p => p.ID == sParentId);
             }
         }
 

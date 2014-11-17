@@ -1,8 +1,8 @@
 ﻿@model BMQAVModel
 @{
-    ViewBag.Title = "查看答案";
-    Layout = "~/Views/Shared/_SysLayout.cshtml";    
-    var backurl = ViewBag.ReturnUrl ?? "/RefGroup/Index";    
+    ViewBag.Title = "查看答案";    
+    var backurl = ViewBag.ReturnUrl ?? "/Home/Index";  
+        
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -16,43 +16,48 @@
                     <table id="MoreSunTreeTable" class="table table-hover">
                         <thead>
                             <tr>
-                                <th></th>                                
-                                @*<th class="hidden-480">Username</th>*@
+                                <th>问题</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @{
-                                Action<bmQA> action = (i) =>
+                            <tr>
+                                <td><img src="@Model.Q.PicUrl" width="800" /></td>
+                            </tr>
+                            @if(Model.A != null)
+                            { 
+                                <tr><td>答案</td></tr>
+                                <tr>
+                                    <td>                                    
+                                        @if(Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+                                        { 
+                                            @Model.A.QAContent
+                                        }
+                                        else if(Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
                                         {
-                                            Func<bmQA, HelperResult> fun = @<tr id="TR_@item.ID" data-tt-id="@item.ID" data-tt-parent-id="@item.ParentId">
-                                                <td style="text-align:left;">
-                                                    <span class="treespan folder ui-draggable">
-                                                        @if(item.MsgType == Guid.Parse(MorSun.Common.类别.Reference.微信消息类别_图片))
-                                                        {
-                                                            <img src="@item.PicUrl" width="800"/>
-                                                        }
-                                                        else 
-                                                        {
-                                                            @item.QAContent
-                                                        }
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    @item.Sort
-                                                </td>                                                
-                                            </tr>;
-                                            Write(fun(i));
-                                        };
-                                    Model.Each(Model.Roots, action);
+                                            <img src="@Model.A.PicUrl" width="800" />
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            @if(Model.Others.Count() > 0)
+                            { 
+                                <tr><td>其他</td></tr>
+                                foreach(var item in Model.Others)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if(item.QARef == Guid.Parse(Reference.问答类别_放弃))
+                                            {
+                                                @:被答题用户放弃
+                                            }
+                                            @if (item.QARef == Guid.Parse(Reference.问答类别_不是问题))
+                                            {
+                                                @:被答题用户标识为不是问题
+                                            }
+                                        </td>
+                                    </tr>
                                 }
-                                                       
-                            @*<tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td class="hidden-480">makr124</td>
-                                <td><span class="label label-success">Approved</span></td>
-                            </tr>*@
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -68,9 +73,9 @@
         @Styles.Render("~/Content/treetableCss")
         @Scripts.Render("~/bundles/treetable")  
         <script type="text/javascript">  
-            @if (Model.FlagTrashed == "0")
+            @*@if (Model.FlagTrashed == "0")
             {
                @:morsunTreeTable('#MoreSunTreeTable', "expanded", true);
-            }
+            }*@
         </script>
     }
