@@ -9,7 +9,6 @@ using Quartz;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using HOHO18.Common;
 using MorSun.Common.常量集;
