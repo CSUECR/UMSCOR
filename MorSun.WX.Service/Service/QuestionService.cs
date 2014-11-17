@@ -59,13 +59,13 @@ namespace MorSun.WX.ZYB.Service
                     PicUrl = "",
                     Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
                 });
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = "直接看答案请发送:   " + CFG.看答案前缀 + " " + model.AutoGrenteId,
-                    Description = "直接看答案",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-                });
+                //responseMessage.Articles.Add(new Article()
+                //{//问号图片
+                //    Title = "直接看答案请发送:   " + CFG.看答案前缀 + " " + model.AutoGrenteId,
+                //    Description = "直接看答案",
+                //    PicUrl = "",
+                //    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                //});
             }
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
             comonservice.RegOrShare(requestMessage, responseMessage);
