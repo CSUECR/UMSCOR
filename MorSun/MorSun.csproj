@@ -579,6 +579,7 @@
     <Content Include="Content\UEditor\third-party\video-js\font\vjs.woff" />
     <None Include="Properties\PublishProfiles\kdm.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Images\bm\tbmobile.png" />
     <Content Include="Images\bungmalogo.gif" />
     <Content Include="Images\iconVoiceWhite.png" />
     <Content Include="Images\lamp.png" />
