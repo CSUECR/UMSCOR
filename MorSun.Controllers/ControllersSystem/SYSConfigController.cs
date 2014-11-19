@@ -198,7 +198,7 @@ namespace MorSun.Controllers.SystemController
             ///////////////////////取数量的方式要修改，提问的方式变了，不直接生成马币//////////////////////////
             var mabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) < 0).Count();//提问是负数
             LogHelper.Write("待解答的收费问题数" + mabiqaCount.ToString(), LogHelper.LogMessageType.Debug);
-            //免费的只取24小时内的提问记录，节省服务器资源
+            //免费的只取24小时内的提问记录，节省服务器资源 看到未解决的问题，不必奇怪，超过24小时了
             var nonmabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Count() == 0 && p.bmQA.RegTime >= todayST).Count();
             LogHelper.Write("待解答的免费问题数" + nonmabiqaCount.ToString(), LogHelper.LogMessageType.Debug);
 

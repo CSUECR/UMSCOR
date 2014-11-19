@@ -259,6 +259,9 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MorSun.Model.bmQAView" Width="1.5" PointX="0.75" PointY="26.75" />
+        <EntityTypeShape EntityType="MorSun.Model.bmSellKaMe" Width="1.5" PointX="13.5" PointY="59.125" />
+        <AssociationConnector Association="MorSun.Model.FK_bmSellKaMe_aspnet_Users" />
+        <AssociationConnector Association="MorSun.Model.FK_bmSellKaMe_wmfReference" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
