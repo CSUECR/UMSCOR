@@ -183,6 +183,23 @@ namespace MorSun.Model
     }
 
     /// <summary>
+    /// 提取卡密
+    /// </summary>
+    public class TKM
+    {
+        [Display(Name = "订单编号")]
+        [Required(ErrorMessage = "{0}必选")]
+        public System.String OrderNum;
+
+        [Display(Name = "卡密")]        
+        public System.String KaMe;
+
+        [Display(Name = "买家旺旺名")]
+        [Required(ErrorMessage = "{0}必填")]
+        public System.String Buyer;
+    }
+
+    /// <summary>
     /// 取现
     /// </summary>
     public class Take
