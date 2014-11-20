@@ -26,7 +26,7 @@ namespace MorSun.Controllers.SystemController
     {
         protected override string ResourceId
         {
-            get { return 资源.取现; }
+            get { return 资源.卡密; }
         }
 
         /// <summary>
