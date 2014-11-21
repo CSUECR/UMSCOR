@@ -8,7 +8,7 @@
 <div class="divLogon" style="height:86px;">
     @if (!Request.IsAuthenticated)
     {
-        using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = "/Home/I" }, FormMethod.Post, new { id = "logonForm" }))
+        using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = "/H/I" }, FormMethod.Post, new { id = "logonForm" }))
         {
             @Html.AntiForgeryToken()
         <hgroup class="title">
@@ -69,7 +69,7 @@
             <p class="logonP">邦币:<span class="logonSpanGreenMabi">@umb.NBB.ToString("f2")</span>    <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBB".GX())">@Html.Partial("_Lamp")</a></span></p>
             <p class="logonP">绑币:<span class="logonSpanYellow">@umb.NBANB.ToString("f2")</span>    <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBDB".GX())">@Html.Partial("_Lamp")</a></span></p>
             <p class="logonP">推广链接： <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsEXT".GX())">@Html.Partial("_Lamp")</a></span></p>
-            <span class="logonSpanGreen">@("ServiceDomain".GHU())/Home/I/</span>
+            <span class="logonSpanGreen">@("ServiceDomain".GHU())/H/I/</span>
             <span class="logonSpanGreen">@(bic)</span>
             }
 </div>

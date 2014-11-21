@@ -228,7 +228,7 @@ namespace MorSun.Controllers
             string fromEmailPassword = CFG.邮箱密码.DP();
             int emailPort = String.IsNullOrEmpty(CFG.邮箱端口) ? 587 : CFG.邮箱端口.ToAs<int>();
             var code = GenerateEncryptCode(userNameString, CFG.账号激活路径, false);
-            string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/Home/ActiveAccountEmail").Replace("[==NickName==]", nickName).Replace("[==UserCode==]", code);
+            string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/H/ActiveAccountEmail").Replace("[==NickName==]", nickName).Replace("[==UserCode==]", code);
             //创建邮件对象并发送
             var mail = new SendMail(email, fromEmail, body, "激活账号", fromEmailPassword, "ServiceMailName".GX(), nickName);
             var mailRecord = new wmfMailRecord().wmfMailRecord2(email, body, "激活账号", "ServiceMailName".GX(), nickName, Guid.Parse(Reference.电子邮件类别_账号注册));
@@ -409,7 +409,7 @@ namespace MorSun.Controllers
                     string fromEmailPassword = CFG.邮箱密码.DP();
                     int emailPort = String.IsNullOrEmpty(CFG.邮箱端口) ? 587 : CFG.邮箱端口.ToAs<int>();
                     var code = GenerateEncryptCode(user.wmfUserInfo.UserNameString, CFG.邮件改密路径, false);
-                    string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/Home/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
+                    string body = new WebClient().GetHtml("ServiceDomain".GHU() + "/H/AccountChangePassword").Replace("[==NickName==]", user.wmfUserInfo.NickName).Replace("[==UserCode==]", code);
                     //创建邮件对象并发送
                     var mail = new SendMail(user.UserName, fromEmail, body, "找回密码", fromEmailPassword, "ServiceMailName".GX(), user.wmfUserInfo.NickName);
                     var mailRecord = new wmfMailRecord().wmfMailRecord2(user.UserName, body, "找回密码", "ServiceMailName".GX(), user.wmfUserInfo.NickName, Guid.Parse(Reference.电子邮件类别_找回密码));
