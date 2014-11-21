@@ -22,59 +22,53 @@ namespace MorSun.Controllers.SystemController
     /// 操作
     /// </summary>
     [HandleError]
-    public class KMController : BaseController<bmSellKaMe>
+    public class KrniMxwaiController : BaseController<bmSellKaMe>
     {
         protected override string ResourceId
         {
             get { return 资源.卡密; }
         }
 
-        
-
         /// <summary>
-        /// 提取卡密
-        /// </summary>
-        /// <param name="returnUrl"></param>
-        /// <returns></returns>
-        public ActionResult T(string returnUrl)
-        {
-            var model = new TKM();
-            return View(model);
-        }
-
-        /// <summary>
-        /// 查询要提取的卡密
+        /// 已售卡密保存
         /// </summary>
         /// <param name="t"></param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult T(TKM t, string returnUrl)
-        {
-            var oper = new OperationResult(OperationResultType.Error, "提取失败");
+        [HttpGet]        
+        public ActionResult S(bmSellKaMe t, string returnUrl)
+        {            
+            var oper = new OperationResult(OperationResultType.Error, "添加失败");
+            
             if (ModelState.IsValid)
-            {   
+            {
+                CreateInitObject(t);
+                t.ID = Guid.NewGuid();
+                t.Recharge = Guid.Parse(Reference.卡密充值_未充值);
                 fillOperationResult(returnUrl, oper, "添加成功");
-                var model = Bll.All.FirstOrDefault(p => p.OrderNum == t.OrderNum && p.Buyer == t.OrderNum);
-                if(model == null)
-                {
-                    oper.AppendData = ModelState.GE();
-                    return Json(oper, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    t.KaMe = model.KaMe;
-                    return View(t);
-                }                
+                Bll.Insert(t);
+                return Json(oper, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 oper.AppendData = ModelState.GE();
                 return Json(oper, JsonRequestBehavior.AllowGet);
-            }         
+            }            
+        }
+        /// <summary>
+        /// 不让查询
+        /// </summary>
+        /// <returns></returns>
+        public override ActionResult I()
+        {
+            return RedirectToAction("I", "H");
         }
 
+        public override ActionResult Sort(string returnUrl)
+        {
+            return RedirectToAction("I", "H");
+        }
+        
         //编辑前验证
         protected override string OnEditCK(bmSellKaMe t)
         {            
