@@ -141,10 +141,10 @@ namespace MorSun.Controllers
                 {
                     case "/account/activeuser": return activeUser(model.UserNameString);
                     case "/account/ecpw": return RedirectToAction("ECPW", "Account", new { id = id});
-                    default: return RedirectToAction("Index", "Home");
+                    default: return RedirectToAction("I", "H");
                 }
             }
-            return RedirectToAction("Index", "Home");            
+            return RedirectToAction("I", "H");            
         }
         public IFormsAuthenticationService FormsService { get; set; }
         protected override void Initialize(RequestContext requestContext)
@@ -181,7 +181,7 @@ namespace MorSun.Controllers
                 //互相赠送马币结束
                 bll.Update(user);  
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("I", "H");
         }
 
         /// <summary>

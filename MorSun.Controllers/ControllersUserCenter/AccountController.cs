@@ -264,7 +264,7 @@ namespace MorSun.Controllers
         {
             FormsService.SignOut();            
             System.Web.HttpContext.Current.Session.Abandon();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("I", "H");
         }
          ///<summary>
          ///通行证登录       先不开启使用，有子系统再说
@@ -436,7 +436,7 @@ namespace MorSun.Controllers
         public ActionResult ECPW(string id, string returnUrl)
         {
             if (string.IsNullOrEmpty(id))
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("I", "H");
             var model = new ECPWModel();
             model.id = id;
             return View(model);
@@ -479,7 +479,7 @@ namespace MorSun.Controllers
                                 user.UserPassword = model.NewPassword.EP(user.ID.ToString());
                                 ubll.Update(user);
                                 //封装返回的数据
-                                fillOperationResult(Url.Action("Index", "Home"), oper, "密码修改成功");
+                                fillOperationResult(Url.Action("I", "H"), oper, "密码修改成功");
                                 return Json(oper, JsonRequestBehavior.AllowGet);
                             }
                         }
@@ -704,7 +704,7 @@ namespace MorSun.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("I", "H");
             }
         }
 

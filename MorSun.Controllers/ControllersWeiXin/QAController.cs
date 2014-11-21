@@ -21,7 +21,7 @@ namespace MorSun.Controllers
             }    
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("I", "H");
             }
             
         }
