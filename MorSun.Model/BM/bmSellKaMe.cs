@@ -50,6 +50,7 @@ namespace MorSun.Model
         [Display(Name = "买家旺旺名")]
         [Required(ErrorMessage = "{0}必填")]
         public System.String Buyer;
+
         [Display(Name = "宝贝名称")]
         public System.String GoodsName;
         [Display(Name = "宝贝数量")]

@@ -20,8 +20,9 @@ namespace MorSun.Controllers
         {
             LogHelper.Write("跳转URL" + returnUrl, LogHelper.LogMessageType.Debug);
             var refuseUrl = "RefuseUrl".GX().Split(',');
+            LogHelper.Write("ServiceDomain".GHU(), LogHelper.LogMessageType.Info);
             if (refuseUrl.Contains("ServiceDomain".GHU()))
-                return Redirect("ServiceDomain".GX());
+                return Redirect("http://" + "ServiceDomain".GX());
             HttpCookie Cookie_login = Request.Cookies["HIC"];
             if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["HIC"].ToString()))
             {

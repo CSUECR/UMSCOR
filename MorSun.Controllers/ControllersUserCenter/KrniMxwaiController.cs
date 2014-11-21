@@ -15,6 +15,7 @@ using MorSun.Controllers.ViewModel;
 using System.Collections;
 using MorSun.Common.Privelege;
 using MorSun.Common.类别;
+using HOHO18.Common.WEB;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -39,9 +40,10 @@ namespace MorSun.Controllers.SystemController
         public ActionResult S(bmSellKaMe t, string returnUrl)
         {            
             var oper = new OperationResult(OperationResultType.Error, "添加失败");
-            
+            LogHelper.Write(t.OrderNum + "|" + t.KaMe + "|" + t.Buyer + "|" + t.GoodsName + "|" + t.GoodsNum, LogHelper.LogMessageType.Info);
             if (ModelState.IsValid)
             {
+                LogHelper.Write("卡密验证成功", LogHelper.LogMessageType.Info);
                 CreateInitObject(t);
                 t.ID = Guid.NewGuid();
                 t.Recharge = Guid.Parse(Reference.卡密充值_未充值);
@@ -51,6 +53,7 @@ namespace MorSun.Controllers.SystemController
             }
             else
             {
+                LogHelper.Write("卡密验证失败", LogHelper.LogMessageType.Info);
                 oper.AppendData = ModelState.GE();
                 return Json(oper, JsonRequestBehavior.AllowGet);
             }            
