@@ -3,7 +3,7 @@
     ViewBag.Title = "在线答题用户";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/SYSConfig/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/SYSConfig/I";
 
     var refVModel = new ReferenceVModel();
     var clList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.用户认证类别).ToList();

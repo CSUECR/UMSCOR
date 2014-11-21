@@ -16,7 +16,7 @@ namespace MorSun
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "H", action = "I", id = UrlParameter.Optional }
             );
         }
     }

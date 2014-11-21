@@ -3,7 +3,7 @@
     ViewBag.Title = "用户认证";
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/MM/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/MM/I";
     var refVModel = new ReferenceVModel();
     var clList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.用户认证类别).ToList();
 }

@@ -3,7 +3,7 @@
     ViewBag.Title = "个人信息";
     Layout = "~/Views/Shared/_UCLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/Member/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/Member/I";
     var user = MorSun.Controllers.BasisController.CurrentAspNetUser.wmfUserInfo;
 }
 @Styles.Render("~/Content/themes/base/css")

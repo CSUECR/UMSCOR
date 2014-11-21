@@ -3,7 +3,7 @@
     ViewBag.Title = "操作配置";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/Operation/Index";   
+    var backurl = ViewBag.ReturnUrl ?? "/Operation/I";   
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -22,7 +22,7 @@
                 }
                 if (rs.HP(操作.回收站))
                 {
-                    <button class="btn" type="button" onclick="jumptourl('/Operation/Index?FlagTrashed=1')">@("回收站".GX())</button>
+                    <button class="btn" type="button" onclick="jumptourl('/Operation/I?FlagTrashed=1')">@("回收站".GX())</button>
                 }
             }
             else if (Model.FlagTrashed == "1")

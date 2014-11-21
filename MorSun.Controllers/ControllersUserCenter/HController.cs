@@ -14,11 +14,14 @@ using HOHO18.Common.WEB;
 
 namespace MorSun.Controllers
 {
-    public class HomeController : Controller
+    public class HController : Controller
     {
-        public ActionResult Index(string id, string returnUrl)
+        public ActionResult I(string id, string returnUrl)
         {
             LogHelper.Write("跳转URL" + returnUrl, LogHelper.LogMessageType.Debug);
+            var refuseUrl = "RefuseUrl".GX().Split(',');
+            if (refuseUrl.Contains("ServiceDomain".GHU()))
+                return Redirect("ServiceDomain".GX());
             HttpCookie Cookie_login = Request.Cookies["HIC"];
             if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["HIC"].ToString()))
             {

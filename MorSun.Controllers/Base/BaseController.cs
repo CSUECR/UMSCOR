@@ -656,7 +656,7 @@ namespace MorSun.Controllers
         /// <returns></returns>
         [Authorize]
         [ExceptionFilter()]
-        public virtual ActionResult Index()
+        public virtual ActionResult I()
         {
             if (ResourceId.HP(²Ù×÷.²é¿´))
             {

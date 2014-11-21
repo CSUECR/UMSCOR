@@ -3,7 +3,7 @@
     ViewBag.Title = "新闻";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/BMNew/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/BMNew/I";
 
     var refVModel = new ReferenceVModel();
     var NavList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.新闻类别);
@@ -32,7 +32,7 @@
                     }
                     if (rs.HP(操作.回收站))
                     {
-                        <button class="btn" type="button" onclick="jumptourl('/BMNew/Index?FlagTrashed=1&returnUrl=@(Url.Encode(Request.RawUrl))')">@("回收站".GX())</button>
+                        <button class="btn" type="button" onclick="jumptourl('/BMNew/I?FlagTrashed=1&returnUrl=@(Url.Encode(Request.RawUrl))')">@("回收站".GX())</button>
                     }
                 }
                 else if (Model.FlagTrashed == "1")

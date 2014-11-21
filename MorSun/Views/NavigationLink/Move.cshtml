@@ -3,7 +3,7 @@
     ViewBag.Title = "移动导航";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/NavigationLink/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/NavigationLink/I";
 
     var refVModel = new ReferenceVModel();
     var NavList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.导航菜单);

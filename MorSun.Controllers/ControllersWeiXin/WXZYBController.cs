@@ -25,7 +25,7 @@ namespace MorSun.Controllers
         /// 微信后台验证地址（使用Get），微信后台的“接口配置信息”的Url填写如：http://weixin.senparc.com/weixin
         /// </summary>
         [HttpGet]
-        [ActionName("Index")]
+        [ActionName("I")]
         public ActionResult Get(string signature, string timestamp, string nonce, string echostr)
         {
             if (CheckSignature.Check(signature, timestamp, nonce, CFG.作业邦微信令牌))
@@ -46,7 +46,7 @@ namespace MorSun.Controllers
         /// v0.8之后的版本可以结合Senparc.Weixin.MP.MvcExtension扩展包，使用WeixinResult，见MiniPost方法。
         /// </summary>
         [HttpPost]
-        [ActionName("Index")]
+        [ActionName("I")]
         public ActionResult Post(string signature, string timestamp, string nonce, string echostr)
         {
             if (!CheckSignature.Check(signature, timestamp, nonce, CFG.作业邦微信令牌))

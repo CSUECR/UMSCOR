@@ -3,7 +3,7 @@
     ViewBag.Title = "角色配置";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/Role/Index";       
+    var backurl = ViewBag.ReturnUrl ?? "/Role/I";       
     var roleList = new RoleVModel().List.ToList();    
     var RPVList = new BaseBll<wmfRolePrivilegesView>().All.Where(p => p.RoleId == Model.RoleId).Select(p => p.ID);
     

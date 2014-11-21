@@ -3,7 +3,7 @@
     ViewBag.Title = "添加权限";
     Layout = "~/Views/Shared/_SysLayout.cshtml";    
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/Privilege/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/Privilege/I";
 
     var resList = new ResourceVModel().List.ToList();
     var operList = new OperationVModel().List.ToList();

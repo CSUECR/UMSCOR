@@ -3,7 +3,7 @@
     ViewBag.Title = "用户管理";
     Layout = "~/Views/Shared/_SysLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/MM/Index";
+    var backurl = ViewBag.ReturnUrl ?? "/MM/I";
 
     var refVModel = new ReferenceVModel();    
     var clList = refVModel.GetReferencesByRefGroupId(MorSun.Common.类别组.RefGroup.用户认证类别).ToList();
@@ -22,7 +22,7 @@
             {                
                 if (rs.HP(操作.回收站))
                 {
-                    <button class="btn" type="button" onclick="jumptourl('/Reference/Index?FlagTrashed=1')">@("回收站".GX())</button>
+                    <button class="btn" type="button" onclick="jumptourl('/Reference/I?FlagTrashed=1')">@("回收站".GX())</button>
                 }
             }
             else if (Model.FlagTrashed == "1")

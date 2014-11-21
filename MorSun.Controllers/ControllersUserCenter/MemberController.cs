@@ -30,7 +30,7 @@ namespace MorSun.Controllers
 
             base.Initialize(requestContext);
         }
-        public ActionResult Index()
+        public ActionResult I()
         {
             var cu = CurrentAspNetUser.wmfUserInfo;
             var UInfo = new UInfo();

@@ -101,20 +101,20 @@ namespace MorSun.Controllers.SystemController
         }
 
         //编辑前验证
-        protected override string OnEditCK(wmfOperation t)
+        protected override string OnEditCK(bmSellKaMe t)
         {            
             return "";
         }
 
         //创建前验证
-        protected override string OnAddCK(wmfOperation t)
+        protected override string OnAddCK(bmSellKaMe t)
         {            
             return "true";
         }
         
 
         //删除前验证
-        protected override string OnDelCk(wmfOperation t)
+        protected override string OnDelCk(bmSellKaMe t)
         {            
             return "";
         }        

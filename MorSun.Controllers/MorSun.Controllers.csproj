@@ -108,7 +108,7 @@
     </Compile>
     <Compile Include="ControllersUserCenter\NController.cs" />
     <Compile Include="ControllersUserCenter\MemberController.cs" />
-    <Compile Include="ControllersUserCenter\HomeController.cs">
+    <Compile Include="ControllersUserCenter\HController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Quartz\CheckingIn4\CheckingJob4.cs" />
