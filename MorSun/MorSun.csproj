@@ -663,9 +663,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\I.cshtml" />
+    <Content Include="Views\H\About.cshtml" />
+    <Content Include="Views\H\Contact.cshtml" />
+    <Content Include="Views\H\I.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -681,9 +681,9 @@
     <Content Include="XmlConfig\zh_TW\Web.config" />
     <Content Include="Views\Shared\_TableLogon.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Home\ActiveAccountEmail.cshtml" />
+    <Content Include="Views\H\ActiveAccountEmail.cshtml" />
     <Content Include="Views\Shared\_SysLayout.cshtml" />
-    <Content Include="Views\Home\AccountChangePassword.cshtml" />
+    <Content Include="Views\H\AccountChangePassword.cshtml" />
     <Content Include="Views\Account\ForgetPass.cshtml" />
     <Content Include="Views\Account\ConfirmQuestion.cshtml" />
     <Content Include="Views\Account\SendPassEmail.cshtml" />
@@ -747,7 +747,7 @@
     <Content Include="Views\Member\Take.cshtml" />
     <Content Include="Views\Member\MaBiSettle.cshtml" />
     <Content Include="Views\QA\Q.cshtml" />
-    <Content Include="Views\Home\WXShareLink.cshtml" />
+    <Content Include="Views\H\WXShareLink.cshtml" />
     <Content Include="Views\MM\I.cshtml" />
     <Content Include="Views\MM\CL.cshtml" />
     <Content Include="Views\SYSConfig\I.cshtml" />
@@ -807,7 +807,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>37836</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:37836/</IISUrl>
+          <IISUrl>http://localhost:27836/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
