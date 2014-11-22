@@ -65,7 +65,7 @@ namespace MorSun.Controllers
         /// <param name="oper"></param>
         /// <param name="defAction"></param>
         /// <param name="defController"></param>
-        protected void fillOperationResult(string returnUrl, OperationResult oper, string message = "操作成功", string defAction = "index", string defController = "home")
+        protected void fillOperationResult(string returnUrl, OperationResult oper, string message = "操作成功", string defAction = "I", string defController = "H")
         {
             oper.ResultType = OperationResultType.Success;
             oper.Message = message;
@@ -80,7 +80,7 @@ namespace MorSun.Controllers
         /// <param name="message"></param>
         /// <param name="defAction"></param>
         /// <param name="defController"></param>
-        protected void fillOperationResult(string returnUrl, string SSOLink, OperationResult oper, string message = "操作成功", string defAction = "index", string defController = "home")
+        protected void fillOperationResult(string returnUrl, string SSOLink, OperationResult oper, string message = "操作成功", string defAction = "I", string defController = "H")
         {
             oper.ResultType = OperationResultType.Success;
             oper.Message = message;

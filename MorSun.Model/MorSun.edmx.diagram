@@ -4,31 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8c019a90953e47ac8bbd6fe576b20e7b" Name="Diagram1">
+      <Diagram DiagramId="0e82cdfdc92f4b0b8681a5978ff6793d" Name="Diagram1">
         <EntityTypeShape EntityType="MorSun.Model.Aduit" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.AskForLeave" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.aspnet_Applications" Width="1.5" PointX="0.75" PointY="71.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.aspnet_Membership" Width="1.5" PointX="6" PointY="72.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.aspnet_Paths" Width="1.5" PointX="3" PointY="69.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.aspnet_PersonalizationAllUsers" Width="1.5" PointX="5.25" PointY="69.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.aspnet_PersonalizationPerUser" Width="1.5" PointX="5.25" PointY="66.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.aspnet_Profile" Width="1.5" PointX="10.5" PointY="73.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.aspnet_Roles" Width="1.5" PointX="3" PointY="78.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.aspnet_Applications" Width="1.5" PointX="0.75" PointY="73.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.aspnet_Membership" Width="1.5" PointX="6" PointY="75.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.aspnet_Paths" Width="1.5" PointX="3" PointY="72" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.aspnet_PersonalizationAllUsers" Width="1.5" PointX="5.25" PointY="72.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.aspnet_PersonalizationPerUser" Width="1.5" PointX="5.25" PointY="69" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.aspnet_Profile" Width="1.5" PointX="10.5" PointY="76.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.aspnet_Roles" Width="1.5" PointX="3" PointY="81.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.aspnet_SchemaVersions" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.aspnet_Users" Width="1.5" PointX="8.25" PointY="71.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.aspnet_Users" Width="1.5" PointX="8.25" PointY="74.125" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.aspnet_WebEvent_Events" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.bmNew" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmObjection" Width="1.5" PointX="10.5" PointY="77.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmOnlineQAUser" Width="1.5" PointX="13.5" PointY="74.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmOnlineQAUserRecord" Width="1.5" PointX="10.5" PointY="68.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmQA" Width="1.5" PointX="16.5" PointY="73.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmQADistribution" Width="1.5" PointX="24.75" PointY="74.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmRecharge" Width="1.5" PointX="13.5" PointY="68.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmTakeNow" Width="1.5" PointX="13.5" PointY="80.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBi" Width="1.5" PointX="16.5" PointY="68.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBiRecord" Width="1.5" PointX="24.75" PointY="68.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBiSettleRecord" Width="1.5" PointX="16.5" PointY="80.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.bmUserWeixin" Width="1.5" PointX="10.5" PointY="82.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmObjection" Width="1.5" PointX="10.5" PointY="79.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmOnlineQAUser" Width="1.5" PointX="13.5" PointY="76.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmOnlineQAUserRecord" Width="1.5" PointX="10.5" PointY="70.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmQA" Width="1.5" PointX="16.5" PointY="76.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmQADistribution" Width="1.5" PointX="24.75" PointY="77" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmRecharge" Width="1.5" PointX="13.5" PointY="70.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmSellKaMe" Width="1.5" PointX="13.5" PointY="83.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmTakeNow" Width="1.5" PointX="16.5" PointY="70.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBi" Width="1.5" PointX="16.5" PointY="83.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBiRecord" Width="1.5" PointX="24.75" PointY="70.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmUserMaBiSettleRecord" Width="1.5" PointX="10.5" PointY="86.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmUserWeixin" Width="1.5" PointX="19.5" PointY="77.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_AccreditUser" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_AppLeftMenu" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_AppMenuTree" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
@@ -78,17 +79,17 @@
         <EntityTypeShape EntityType="MorSun.Model.HF_WorkTaskInstance" Width="1.5" PointX="21.75" PointY="17.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_WorkTaskInstanceNextOper" Width="1.5" PointX="17.75" PointY="21.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_WorkTaskVar" Width="1.5" PointX="12.75" PointY="22.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqCalssPlanTemplate" Width="1.5" PointX="17.25" PointY="91" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqClassesRef" Width="1.5" PointX="17.25" PointY="53.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqClassesRelation" Width="1.5" PointX="19.5" PointY="58.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqClassesSequence" Width="1.5" PointX="17.25" PointY="58.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqClassPlan" Width="1.5" PointX="19.5" PointY="74.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqCPTC" Width="1.5" PointX="25.5" PointY="79.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.KQDELETESCHEDULE" Width="1.5" PointX="19.5" PointY="70" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqDUCPT" Width="1.5" PointX="19.5" PointY="79.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqCalssPlanTemplate" Width="1.5" PointX="17.25" PointY="62.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqClassesRef" Width="1.5" PointX="17.25" PointY="52.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqClassesRelation" Width="1.5" PointX="19.5" PointY="57.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqClassesSequence" Width="1.5" PointX="17.25" PointY="57.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqClassPlan" Width="1.5" PointX="19.5" PointY="72.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqCPTC" Width="1.5" PointX="19.5" PointY="62" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.KQDELETESCHEDULE" Width="1.5" PointX="19.5" PointY="82.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqDUCPT" Width="1.5" PointX="19.5" PointY="67.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.kqHoliday" Width="1.5" PointX="19.75" PointY="22.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqPort" Width="1.5" PointX="10.5" PointY="42.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.kqRecord" Width="1.5" PointX="12.75" PointY="43.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqPort" Width="1.5" PointX="10.5" PointY="44.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.kqRecord" Width="1.5" PointX="12.75" PointY="44.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.QRTZ_CALENDARS" Width="1.5" PointX="21.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.QRTZ_CRON_TRIGGERS" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.QRTZ_FIRED_TRIGGERS" Width="1.5" PointX="23.75" PointY="0.75" IsExpanded="true" />
@@ -100,35 +101,35 @@
         <EntityTypeShape EntityType="MorSun.Model.QRTZ_SIMPROP_TRIGGERS" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.QRTZ_TRIGGERS" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.sysdiagram" Width="1.5" PointX="23.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfArea" Width="1.5" PointX="9" PointY="47.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfAuthentication" Width="1.5" PointX="19.5" PointY="64.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfCalendar" Width="1.5" PointX="10.5" PointY="36.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfCity" Width="1.5" PointX="4.5" PointY="47.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfArea" Width="1.5" PointX="12" PointY="50" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfAuthentication" Width="1.5" PointX="19.5" PointY="87.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfCalendar" Width="1.5" PointX="10.5" PointY="57.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfCity" Width="1.5" PointX="7.5" PointY="49.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.wmfCityDistrictNumber" Width="1.5" PointX="23.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfCounty" Width="1.5" PointX="6.75" PointY="47.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfDept" Width="1.5" PointX="11.25" PointY="47.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfCounty" Width="1.5" PointX="9.75" PointY="49.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfDept" Width="1.5" PointX="14.25" PointY="50" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.wmfEncryptRecord" Width="1.5" PointX="23.75" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.wmfIPData" Width="1.5" PointX="23.75" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfMail" Width="1.5" PointX="19.5" PointY="84.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfMailRecord" Width="1.5" PointX="10.5" PointY="87.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfNavigationLink" Width="1.5" PointX="1.5" PointY="93.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfOperation" Width="1.5" PointX="0.75" PointY="83" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfOperationalLogbook" Width="1.5" PointX="16.5" PointY="63.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfPageBrowse" Width="1.5" PointX="16.5" PointY="85.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfPersonnelTo" Width="1.5" PointX="10.5" PointY="157.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfPosition" Width="1.5" PointX="11.25" PointY="57.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfPrivilege" Width="1.5" PointX="3" PointY="85.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfPrivilegeInRole" Width="1.5" PointX="5.25" PointY="79.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfProvince" Width="1.5" PointX="2.25" PointY="47.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfReference" Width="1.5" PointX="8.25" PointY="54.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfRefGroup" Width="1.5" PointX="6" PointY="58" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfResource" Width="1.5" PointX="0.75" PointY="86.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfRoleOperateRole" Width="1.5" PointX="5.25" PointY="93.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfTown" Width="1.5" PointX="9" PointY="29.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfUploadFile" Width="1.5" PointX="10.5" PointY="62.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfUserDeptPosition" Width="1.5" PointX="13.5" PointY="63.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfUserInfo" Width="1.5" PointX="22.5" PointY="71.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfVillage" Width="1.5" PointX="11.25" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfMail" Width="1.5" PointX="10.5" PointY="64.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfMailRecord" Width="1.5" PointX="10.5" PointY="91.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfNavigationLink" Width="1.5" PointX="1.5" PointY="95.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfOperation" Width="1.5" PointX="0.75" PointY="85.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfOperationalLogbook" Width="1.5" PointX="13.5" PointY="88.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfPageBrowse" Width="1.5" PointX="16.5" PointY="88.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfPersonnelTo" Width="1.5" PointX="10.5" PointY="164.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfPosition" Width="1.5" PointX="14.25" PointY="59.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfPrivilege" Width="1.5" PointX="3" PointY="88" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfPrivilegeInRole" Width="1.5" PointX="5.25" PointY="82.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfProvince" Width="1.5" PointX="5.25" PointY="50" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfReference" Width="1.5" PointX="8.25" PointY="57" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfRefGroup" Width="1.5" PointX="6" PointY="60.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfResource" Width="1.5" PointX="0.75" PointY="89.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfRoleOperateRole" Width="1.5" PointX="5.25" PointY="96" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfTown" Width="1.5" PointX="12" PointY="36.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfUploadFile" Width="1.5" PointX="13.5" PointY="64.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfUserDeptPosition" Width="1.5" PointX="16.5" PointY="66.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfUserInfo" Width="1.5" PointX="22.5" PointY="73.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfVillage" Width="1.5" PointX="14.25" PointY="37" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_AppServerLog" Width="1.5" PointX="14.75" PointY="24.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_ArchitUserRelation" Width="1.5" PointX="23.75" PointY="24.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.HF_CommAffixFiles" Width="1.5" PointX="25.75" PointY="0.75" IsExpanded="true" />
@@ -136,7 +137,8 @@
         <EntityTypeShape EntityType="MorSun.Model.QRTZ_BLOB_TRIGGERS" Width="1.5" PointX="25.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.wmfLog" Width="1.5" PointX="25.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MorSun.Model.bmNewUserMB" Width="1.5" PointX="25.75" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MorSun.Model.wmfRolePrivilegesView" Width="1.5" PointX="16.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.bmQAView" Width="1.5" PointX="16.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MorSun.Model.wmfRolePrivilegesView" Width="1.5" PointX="25.75" PointY="17.75" IsExpanded="true" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Me__Appli__145C0A3F" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Pa__Appli__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK__aspnet_Ro__Appli__32E0915F" ManuallyRouted="false" />
@@ -161,6 +163,7 @@
         <AssociationConnector Association="MorSun.Model.FK_bmQADistribution_aspnet_Users1" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmRecharge_aspnet_Users" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmRecharge_aspnet_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="MorSun.Model.FK_bmSellKaMe_aspnet_Users" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmTakeNow_aspnet_Users" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmTakeNow_aspnet_Users1" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBi_aspnet_Users" ManuallyRouted="false" />
@@ -198,6 +201,7 @@
         <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference1" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference2" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmRecharge_wmfReference3" ManuallyRouted="false" />
+        <AssociationConnector Association="MorSun.Model.FK_bmSellKaMe_wmfReference" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmTakeNow_wmfReference" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmTakeNow_wmfReference1" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBi_wmfReference" ManuallyRouted="false" />
@@ -258,10 +262,6 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfResource_wmfResource" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="MorSun.Model.bmQAView" Width="1.5" PointX="0.75" PointY="26.75" />
-        <EntityTypeShape EntityType="MorSun.Model.bmSellKaMe" Width="1.5" PointX="13.5" PointY="59.125" />
-        <AssociationConnector Association="MorSun.Model.FK_bmSellKaMe_aspnet_Users" />
-        <AssociationConnector Association="MorSun.Model.FK_bmSellKaMe_wmfReference" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -314,7 +314,7 @@
           <Property Name="KaMe" Type="nvarchar" MaxLength="256" />
           <Property Name="Buyer" Type="nvarchar" MaxLength="50" />
           <Property Name="GoodsName" Type="nvarchar" MaxLength="50" />
-          <Property Name="GoodsNum" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="GoodsNum" Type="nvarchar" MaxLength="50" />
           <Property Name="Recharge" Type="uniqueidentifier" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
@@ -2145,9 +2145,9 @@
             <PropertyRef Name="AutoGrenteId" />
             <PropertyRef Name="FlagTrashed" />
             <PropertyRef Name="FlagDeleted" />
-            
-            
-            
+            <PropertyRef Name="MBNum" />
+            <PropertyRef Name="BBNum" />
+            <PropertyRef Name="BanBNum" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AutoGrenteId" Type="bigint" Nullable="false" />
@@ -4498,7 +4498,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -4671,6 +4672,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmQADistributions1" Relationship="Self.FK_bmQADistribution_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmQADistribution" />
           <NavigationProperty Name="bmRecharges" Relationship="Self.FK_bmRecharge_aspnet_Users" FromRole="aspnet_Users" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges1" Relationship="Self.FK_bmRecharge_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmSellKaMes" Relationship="Self.FK_bmSellKaMe_aspnet_Users" FromRole="aspnet_Users" ToRole="bmSellKaMe" />
           <NavigationProperty Name="bmTakeNows" Relationship="Self.FK_bmTakeNow_aspnet_Users" FromRole="aspnet_Users" ToRole="bmTakeNow" />
           <NavigationProperty Name="bmTakeNows1" Relationship="Self.FK_bmTakeNow_aspnet_Users1" FromRole="aspnet_Users" ToRole="bmTakeNow" />
           <NavigationProperty Name="bmUserMaBis" Relationship="Self.FK_bmUserMaBi_aspnet_Users" FromRole="aspnet_Users" ToRole="bmUserMaBi" />
@@ -4694,7 +4696,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfUserDeptPositions" Relationship="Self.FK_wmfUserDeptPosition_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserDeptPosition" />
           <NavigationProperty Name="wmfUserInfo" Relationship="Self.FK_wmfUserInfo_aspnet_Users" FromRole="aspnet_Users" ToRole="wmfUserInfo" />
           <NavigationProperty Name="aspnet_Roles" Relationship="Self.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
-          <NavigationProperty Name="bmSellKaMes" Relationship="MorSun.Model.FK_bmSellKaMe_aspnet_Users" FromRole="aspnet_Users" ToRole="bmSellKaMe" />
         </EntityType>
         <EntityType Name="aspnet_WebEvent_Events">
           <Key>
@@ -4880,6 +4881,26 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmRecharge_wmfReference1" FromRole="bmRecharge" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference2" Relationship="Self.FK_bmRecharge_wmfReference2" FromRole="bmRecharge" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference3" Relationship="Self.FK_bmRecharge_wmfReference3" FromRole="bmRecharge" ToRole="wmfReference" />
+        </EntityType>
+        <EntityType Name="bmSellKaMe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="OrderNum" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="KaMe" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Buyer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GoodsName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GoodsNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Recharge" Type="Guid" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_bmSellKaMe_aspnet_Users" FromRole="bmSellKaMe" ToRole="aspnet_Users" />
+          <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmSellKaMe_wmfReference" FromRole="bmSellKaMe" ToRole="wmfReference" />
         </EntityType>
         <EntityType Name="bmTakeNow">
           <Key>
@@ -6510,6 +6531,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmRecharges1" Relationship="Self.FK_bmRecharge_wmfReference1" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges2" Relationship="Self.FK_bmRecharge_wmfReference2" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges3" Relationship="Self.FK_bmRecharge_wmfReference3" FromRole="wmfReference" ToRole="bmRecharge" />
+          <NavigationProperty Name="bmSellKaMes" Relationship="Self.FK_bmSellKaMe_wmfReference" FromRole="wmfReference" ToRole="bmSellKaMe" />
           <NavigationProperty Name="bmTakeNows" Relationship="Self.FK_bmTakeNow_wmfReference" FromRole="wmfReference" ToRole="bmTakeNow" />
           <NavigationProperty Name="bmTakeNows1" Relationship="Self.FK_bmTakeNow_wmfReference1" FromRole="wmfReference" ToRole="bmTakeNow" />
           <NavigationProperty Name="bmUserMaBis" Relationship="Self.FK_bmUserMaBi_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBi" />
@@ -6534,7 +6556,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfUploadFiles" Relationship="Self.FK_wmfUploadFile_wmfReference" FromRole="wmfReference" ToRole="wmfUploadFile" />
           <NavigationProperty Name="wmfUserInfoes" Relationship="Self.FK_wmfUserInfo_wmfReference" FromRole="wmfReference" ToRole="wmfUserInfo" />
           <NavigationProperty Name="wmfUserInfoes1" Relationship="Self.FK_wmfUserInfo_wmfReference1" FromRole="wmfReference" ToRole="wmfUserInfo" />
-          <NavigationProperty Name="bmSellKaMes" Relationship="MorSun.Model.FK_bmSellKaMe_wmfReference" FromRole="wmfReference" ToRole="bmSellKaMe" />
         </EntityType>
         <EntityType Name="wmfRefGroup">
           <Key>
@@ -6837,6 +6858,43 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="NMB" Type="Decimal" Precision="38" Scale="6" />
           <Property Name="NBB" Type="Decimal" Precision="38" Scale="6" />
           <Property Name="NBANB" Type="Decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <EntityType Name="bmQAView">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="AutoGrenteId" />
+            <PropertyRef Name="FlagTrashed" />
+            <PropertyRef Name="FlagDeleted" />
+            <PropertyRef Name="MBNum" />
+            <PropertyRef Name="BBNum" />
+            <PropertyRef Name="BanBNum" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="AutoGrenteId" Type="Int64" Nullable="false" />
+          <Property Name="ParentId" Type="Guid" />
+          <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="QARef" Type="Guid" />
+          <Property Name="QAContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="MsgId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="MsgType" Type="Guid" />
+          <Property Name="MediaId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PicUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="DisWeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DistributionTime" Type="DateTime" Precision="3" />
+          <Property Name="OperateTime" Type="DateTime" Precision="3" />
+          <Property Name="Result" Type="Guid" />
+          <Property Name="DisRegTime" Type="DateTime" Precision="3" />
+          <Property Name="DisFlagTrashed" Type="Boolean" />
+          <Property Name="DisFlagDeleted" Type="Boolean" />
+          <Property Name="MBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="BBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="BanBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
         </EntityType>
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -7144,6 +7202,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Principal>
             <Dependent Role="bmRecharge">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmSellKaMe_aspnet_Users">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
+          <End Role="bmSellKaMe" Type="Self.bmSellKaMe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="bmSellKaMe">
+              <PropertyRef Name="RegUser" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7530,7 +7600,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_bmQADistribution_bmQA">
-          <End Role="bmQA" Type="Self.bmQA" Multiplicity="0..1" />
+          <End Role="bmQA" Type="Self.bmQA" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="bmQADistribution" Type="Self.bmQADistribution" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="bmQA">
@@ -7542,7 +7614,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_bmUserMaBiRecord_bmQA">
-          <End Role="bmQA" Type="Self.bmQA" Multiplicity="0..1" />
+          <End Role="bmQA" Type="Self.bmQA" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="bmQA">
@@ -7609,6 +7683,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="bmRecharge">
+              <PropertyRef Name="Recharge" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmSellKaMe_wmfReference">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmSellKaMe" Type="Self.bmSellKaMe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmSellKaMe">
               <PropertyRef Name="Recharge" />
             </Dependent>
           </ReferentialConstraint>
@@ -8389,6 +8475,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="bmQAs" EntityType="Self.bmQA" />
           <EntitySet Name="bmQADistributions" EntityType="Self.bmQADistribution" />
           <EntitySet Name="bmRecharges" EntityType="Self.bmRecharge" />
+          <EntitySet Name="bmSellKaMes" EntityType="Self.bmSellKaMe" />
           <EntitySet Name="bmTakeNows" EntityType="Self.bmTakeNow" />
           <EntitySet Name="bmUserMaBis" EntityType="Self.bmUserMaBi" />
           <EntitySet Name="bmUserMaBiRecords" EntityType="Self.bmUserMaBiRecord" />
@@ -8501,6 +8588,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySet Name="QRTZ_BLOB_TRIGGERS" EntityType="Self.QRTZ_BLOB_TRIGGERS" />
           <EntitySet Name="wmfLogs" EntityType="Self.wmfLog" />
           <EntitySet Name="bmNewUserMBs" EntityType="Self.bmNewUserMB" />
+          <EntitySet Name="bmQAViews" EntityType="Self.bmQAView" />
           <EntitySet Name="wmfRolePrivilegesViews" EntityType="Self.wmfRolePrivilegesView" />
           <AssociationSet Name="FK__aspnet_Me__Appli__145C0A3F" Association="Self.FK__aspnet_Me__Appli__145C0A3F">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
@@ -8597,6 +8685,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_bmRecharge_aspnet_Users1" Association="Self.FK_bmRecharge_aspnet_Users1">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmRecharge" EntitySet="bmRecharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmSellKaMe_aspnet_Users" Association="Self.FK_bmSellKaMe_aspnet_Users">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="bmSellKaMe" EntitySet="bmSellKaMes" />
           </AssociationSet>
           <AssociationSet Name="FK_bmTakeNow_aspnet_Users" Association="Self.FK_bmTakeNow_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
@@ -8745,6 +8837,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <AssociationSet Name="FK_bmRecharge_wmfReference3" Association="Self.FK_bmRecharge_wmfReference3">
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmRecharge" EntitySet="bmRecharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_bmSellKaMe_wmfReference" Association="Self.FK_bmSellKaMe_wmfReference">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmSellKaMe" EntitySet="bmSellKaMes" />
           </AssociationSet>
           <AssociationSet Name="FK_bmTakeNow_wmfReference" Association="Self.FK_bmTakeNow_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReferences" />
@@ -8986,95 +9082,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <EntitySet Name="bmQAViews" EntityType="MorSun.Model.bmQAView" />
-          <EntitySet Name="bmSellKaMes" EntityType="MorSun.Model.bmSellKaMe" />
-          <AssociationSet Name="FK_bmSellKaMe_aspnet_Users" Association="MorSun.Model.FK_bmSellKaMe_aspnet_Users">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="bmSellKaMe" EntitySet="bmSellKaMes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_bmSellKaMe_wmfReference" Association="MorSun.Model.FK_bmSellKaMe_wmfReference">
-            <End Role="wmfReference" EntitySet="wmfReferences" />
-            <End Role="bmSellKaMe" EntitySet="bmSellKaMes" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="bmQAView">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="AutoGrenteId" />
-            <PropertyRef Name="FlagTrashed" />
-            <PropertyRef Name="FlagDeleted" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="AutoGrenteId" Type="Int64" Nullable="false" />
-          <Property Name="ParentId" Type="Guid" />
-          <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="QARef" Type="Guid" />
-          <Property Name="QAContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="MsgId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="MsgType" Type="Guid" />
-          <Property Name="MediaId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="PicUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Name="RegTime" Type="DateTime" Precision="3" />
-          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
-          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="ModTime" Type="DateTime" Precision="3" />
-          <Property Name="RegUser" Type="Guid" />
-          <Property Name="Sort" Type="Int32" />
-          <Property Name="DisWeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="DistributionTime" Type="DateTime" Precision="3" />
-          <Property Name="OperateTime" Type="DateTime" Precision="3" />
-          <Property Name="Result" Type="Guid" />
-          <Property Name="DisRegTime" Type="DateTime" Precision="3" />
-          <Property Name="DisFlagTrashed" Type="Boolean" />
-          <Property Name="DisFlagDeleted" Type="Boolean" />
-          <Property Name="MBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
-          <Property Name="BBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
-          <Property Name="BanBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
-        </EntityType>
-        <EntityType Name="bmSellKaMe">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="OrderNum" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="KaMe" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Buyer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GoodsName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GoodsNum" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="Recharge" Type="Guid" />
-          <Property Name="Sort" Type="Int32" />
-          <Property Name="RegUser" Type="Guid" />
-          <Property Name="RegTime" Type="DateTime" Precision="3" />
-          <Property Name="ModTime" Type="DateTime" Precision="3" />
-          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
-          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="aspnet_Users" Relationship="MorSun.Model.FK_bmSellKaMe_aspnet_Users" FromRole="bmSellKaMe" ToRole="aspnet_Users" />
-          <NavigationProperty Name="wmfReference" Relationship="MorSun.Model.FK_bmSellKaMe_wmfReference" FromRole="bmSellKaMe" ToRole="wmfReference" />
-        </EntityType>
-        <Association Name="FK_bmSellKaMe_aspnet_Users">
-          <End Type="MorSun.Model.aspnet_Users" Role="aspnet_Users" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmSellKaMe" Role="bmSellKaMe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Users">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="bmSellKaMe">
-              <PropertyRef Name="RegUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_bmSellKaMe_wmfReference">
-          <End Type="MorSun.Model.wmfReference" Role="wmfReference" Multiplicity="0..1" />
-          <End Type="MorSun.Model.bmSellKaMe" Role="bmSellKaMe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="wmfReference">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="bmSellKaMe">
-              <PropertyRef Name="Recharge" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9381,6 +9389,25 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="KaMe" ColumnName="KaMe" />
                 <ScalarProperty Name="Effective" ColumnName="Effective" />
+                <ScalarProperty Name="Recharge" ColumnName="Recharge" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmSellKaMes">
+            <EntityTypeMapping TypeName="MorSun.Model.bmSellKaMe">
+              <MappingFragment StoreEntitySet="bmSellKaMe">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="KaMe" ColumnName="KaMe" />
+                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
+                <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />
+                <ScalarProperty Name="GoodsNum" ColumnName="GoodsNum" />
                 <ScalarProperty Name="Recharge" ColumnName="Recharge" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="RegUser" ColumnName="RegUser" />
@@ -11275,6 +11302,38 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="bmQAViews">
+            <EntityTypeMapping TypeName="MorSun.Model.bmQAView">
+              <MappingFragment StoreEntitySet="bmQAView">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AutoGrenteId" ColumnName="AutoGrenteId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
+                <ScalarProperty Name="QARef" ColumnName="QARef" />
+                <ScalarProperty Name="QAContent" ColumnName="QAContent" />
+                <ScalarProperty Name="MsgId" ColumnName="MsgId" />
+                <ScalarProperty Name="MsgType" ColumnName="MsgType" />
+                <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="DisWeiXinId" ColumnName="DisWeiXinId" />
+                <ScalarProperty Name="DistributionTime" ColumnName="DistributionTime" />
+                <ScalarProperty Name="OperateTime" ColumnName="OperateTime" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="DisRegTime" ColumnName="DisRegTime" />
+                <ScalarProperty Name="DisFlagTrashed" ColumnName="DisFlagTrashed" />
+                <ScalarProperty Name="DisFlagDeleted" ColumnName="DisFlagDeleted" />
+                <ScalarProperty Name="MBNum" ColumnName="MBNum" />
+                <ScalarProperty Name="BBNum" ColumnName="BBNum" />
+                <ScalarProperty Name="BanBNum" ColumnName="BanBNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="wmfRolePrivilegesViews">
             <EntityTypeMapping TypeName="MorSun.Model.wmfRolePrivilegesView">
               <MappingFragment StoreEntitySet="wmfRolePrivilegesView">
@@ -11298,57 +11357,6 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="bmQAViews">
-            <EntityTypeMapping TypeName="MorSun.Model.bmQAView">
-              <MappingFragment StoreEntitySet="bmQAView">
-                <ScalarProperty Name="BanBNum" ColumnName="BanBNum" />
-                <ScalarProperty Name="BBNum" ColumnName="BBNum" />
-                <ScalarProperty Name="MBNum" ColumnName="MBNum" />
-                <ScalarProperty Name="DisFlagDeleted" ColumnName="DisFlagDeleted" />
-                <ScalarProperty Name="DisFlagTrashed" ColumnName="DisFlagTrashed" />
-                <ScalarProperty Name="DisRegTime" ColumnName="DisRegTime" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="OperateTime" ColumnName="OperateTime" />
-                <ScalarProperty Name="DistributionTime" ColumnName="DistributionTime" />
-                <ScalarProperty Name="DisWeiXinId" ColumnName="DisWeiXinId" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
-                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
-                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
-                <ScalarProperty Name="MediaId" ColumnName="MediaId" />
-                <ScalarProperty Name="MsgType" ColumnName="MsgType" />
-                <ScalarProperty Name="MsgId" ColumnName="MsgId" />
-                <ScalarProperty Name="QAContent" ColumnName="QAContent" />
-                <ScalarProperty Name="QARef" ColumnName="QARef" />
-                <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="AutoGrenteId" ColumnName="AutoGrenteId" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="bmSellKaMes">
-            <EntityTypeMapping TypeName="MorSun.Model.bmSellKaMe">
-              <MappingFragment StoreEntitySet="bmSellKaMe">
-                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
-                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
-                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
-                <ScalarProperty Name="Sort" ColumnName="Sort" />
-                <ScalarProperty Name="Recharge" ColumnName="Recharge" />
-                <ScalarProperty Name="GoodsNum" ColumnName="GoodsNum" />
-                <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />
-                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
-                <ScalarProperty Name="KaMe" ColumnName="KaMe" />
-                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

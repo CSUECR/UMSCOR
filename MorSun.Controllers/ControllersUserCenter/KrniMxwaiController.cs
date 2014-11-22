@@ -37,25 +37,25 @@ namespace MorSun.Controllers.SystemController
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpGet]        
-        public ActionResult S(bmSellKaMe t, string returnUrl)
+        public string S(bmSellKaMe t, string returnUrl)
         {            
-            var oper = new OperationResult(OperationResultType.Error, "添加失败");
+            var oper = "添加失败";
             LogHelper.Write(t.OrderNum + "|" + t.KaMe + "|" + t.Buyer + "|" + t.GoodsName + "|" + t.GoodsNum, LogHelper.LogMessageType.Info);
             if (ModelState.IsValid)
             {
                 LogHelper.Write("卡密验证成功", LogHelper.LogMessageType.Info);
-                CreateInitObject(t);
-                t.ID = Guid.NewGuid();
-                t.Recharge = Guid.Parse(Reference.卡密充值_未充值);
-                fillOperationResult(returnUrl, oper, "添加成功");
+                t.ID = Guid.NewGuid();                
+                t.RegTime = DateTime.Now;
+                t.ModTime = DateTime.Now;
+                t.FlagTrashed = false;
+                t.FlagDeleted = false;
+                t.Recharge = Guid.Parse(Reference.卡密充值_未充值);                
                 Bll.Insert(t);
-                return Json(oper, JsonRequestBehavior.AllowGet);
+                return "添加成功";
             }
             else
-            {
-                LogHelper.Write("卡密验证失败", LogHelper.LogMessageType.Info);
-                oper.AppendData = ModelState.GE();
-                return Json(oper, JsonRequestBehavior.AllowGet);
+            {                
+                return oper;
             }            
         }
         /// <summary>
