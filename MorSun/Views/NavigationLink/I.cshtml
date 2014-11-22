@@ -13,7 +13,7 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">        
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-            @using (Html.BeginForm("Index", "NavigationLink", FormMethod.Get))
+            @using (Html.BeginForm("I", "NavigationLink", FormMethod.Get))
             {
                 @MvcHtmlString.Create(Html.DropDownList("RefId", "RefId", NavList, Model.RefId.ToString(), "class=\"m-wrap small\"", "ID", "ItemValue", "", ""))
                 <button class="btn yellow" type="submit">@("查询".GX())</button>

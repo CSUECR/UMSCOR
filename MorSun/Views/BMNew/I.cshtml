@@ -13,7 +13,7 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">        
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-            @using (Html.BeginForm("Index", "BMNew", FormMethod.Get))
+            @using (Html.BeginForm("I", "BMNew", FormMethod.Get))
             {
                 @MvcHtmlString.Create(Html.DropDownList("NewRef", "NewRef", NavList, Model.NewRef.ToString(), "class=\"m-wrap small\"", "ID", "ItemValue", "", ""))
                 @Html.TextBoxFor(m => m.NewTitle, new { @class = "m-wrap small" })

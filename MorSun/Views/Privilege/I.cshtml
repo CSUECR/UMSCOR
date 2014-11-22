@@ -12,7 +12,7 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">   
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-        @using (Html.BeginForm("Index", "Privilege", FormMethod.Get))
+        @using (Html.BeginForm("I", "Privilege", FormMethod.Get))
         {
             @MvcHtmlString.Create(Html.DropDownList(resList, "ID", "ResourceCNName", "ResourceTree", "ParentId", "ResourceID", "ResourceID", Model.ResourceID.ToSecureString(), "class=\"m-wrap medium\"", "", "==资源=="))
             @MvcHtmlString.Create(Html.DropDownList("OperationID", "OperationID", operList, Model.OperationID.ToSecureString(), "class=\"m-wrap small\"", "ID", "OperationCNName", "", "==操作=="))
