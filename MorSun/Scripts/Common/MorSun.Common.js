@@ -49,7 +49,7 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                         {
                             if (data.SSOLink != null)
                             {//子网站登录要跳转的
-                                console.log(data.SSOLink);
+                                if (window.console) console.log(data.SSOLink);
                                 var s = data.SSOLink.split(',');
                                 $.each(s, function (i, val) {
                                     if (val != "") {
@@ -67,7 +67,7 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                             setTimeout(function () { $(topErrDiv).qtip('destroy');}, 2000);
                         }
                         if (callBack) {
-                            //console.log(callBack + args);
+                            //if (window.console) console.log(callBack + args);
                             if (typeof (callBack) == "function")
                                 callBack.apply(this, args ? args : []);
                             else {
@@ -100,13 +100,13 @@ function ajaxSubmitFormHandle(btn, formId, errMessage, topErrDiv, jumpUrl, callB
                             }
                              , hide: false
                         });
-                        //console.log("data" + data);
-                        //console.log("data.AppendData" + data.AppendData);
+                        //if (window.console) console.log("data" + data);
+                        //if (window.console) console.log("data.AppendData" + data.AppendData);
                         $.each(data.AppendData, function (index, valOfElement) {
                             var inputElem = "#" + valOfElement.Key;
                             var errorText = valOfElement.ErrorMessages.join(',');
-                            //console.log("inputElem" + inputElem + ',' + errorText);
-                            //console.log("qtip" + inputElem);
+                            //if (window.console) console.log("inputElem" + inputElem + ',' + errorText);
+                            //if (window.console) console.log("qtip" + inputElem);
                             $(inputElem).qtip({
                                 content: { text: errorText },
                                 position: {
@@ -174,7 +174,7 @@ function confirmSubmitFormHandle(confirmStr, btn, formId, errMessage, topErrDiv,
                             });
                             if (jumpUrl) {
                                 if (data.SSOLink != null) {//子网站登录要跳转的
-                                    console.log(data.SSOLink);
+                                    if (window.console) console.log(data.SSOLink);
                                     var s = data.SSOLink.split(',');
                                     $.each(s, function (i, val) {
                                         if (val != "") {
@@ -191,7 +191,7 @@ function confirmSubmitFormHandle(confirmStr, btn, formId, errMessage, topErrDiv,
                                 setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
                             }
                             if (callBack) {
-                                //console.log(callBack + args);
+                                //if (window.console) console.log(callBack + args);
                                 if (typeof (callBack) == "function")
                                     callBack.apply(this, args ? args : []);
                                 else {
@@ -224,13 +224,13 @@ function confirmSubmitFormHandle(confirmStr, btn, formId, errMessage, topErrDiv,
                                 }
                                  , hide: false
                             });
-                            //console.log("data" + data);
-                            //console.log("data.AppendData" + data.AppendData);
+                            //if (window.console) console.log("data" + data);
+                            //if (window.console) console.log("data.AppendData" + data.AppendData);
                             $.each(data.AppendData, function (index, valOfElement) {
                                 var inputElem = "#" + valOfElement.Key;
                                 var errorText = valOfElement.ErrorMessages.join(',');
-                                //console.log("inputElem" + inputElem + ',' + errorText);
-                                //console.log("qtip" + inputElem);
+                                //if (window.console) console.log("inputElem" + inputElem + ',' + errorText);
+                                //if (window.console) console.log("qtip" + inputElem);
                                 $(inputElem).qtip({
                                     content: { text: errorText },
                                     position: {
@@ -298,7 +298,7 @@ function ajaxHandle(u, d, errMessage, topErrDiv, jumpUrl, callBack, args)
                     setTimeout(function () { $(topErrDiv).qtip('destroy'); }, 2000);
                 }
                 if (callBack) {
-                    console.log(args);
+                    if (window.console) console.log(args);
                     if (typeof (callBack) == "function")
                         callBack.apply(this, args ? args : []);
                     else {
@@ -381,7 +381,7 @@ function ajaxLink(url, data, callBack, args) {
         "success": function (data) {
             $('.qtip').qtip('destroy');
             if (callBack) {
-                console.log(args);
+                if (window.console) console.log(args);
                 if (typeof (callBack) == "function")
                     callBack.apply(this, args ? args : []);
                 else {
@@ -469,7 +469,7 @@ function ajaxLink(url, data, callBack, args) {
 //            var inputElem = "#" + valOfElement.Key;
 
 //            var errorText = valOfElement.ErrorMessages.join(',');
-//            console.log(inputElem + ',' + errorText);
+//            if (window.console) console.log(inputElem + ',' + errorText);
 //            $(inputElem).qtip({
 //                content: { text: errorText },
 //                position: {
@@ -721,7 +721,7 @@ function morsunSortable(contentId)
         update: function (event, ui) { //更新排序之后
             //alert($(this).sortable("toArray"));
             var ids = $(this).sortable("toArray");
-            console.log(ids.toString());
+            if (window.console) console.log(ids.toString());
             ajaxHandle("SortList", { CheckedId: ids.toString() }); 
         }
     });

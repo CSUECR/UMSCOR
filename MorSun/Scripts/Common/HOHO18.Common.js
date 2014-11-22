@@ -235,7 +235,7 @@ function getVerifyCode(text, imgControl) {
     var imgSrc = $(imgControl).attr("src");    
     if ($(text).val() != '') {        
         imgSrc += '&';        
-        //console.log(imgSrc);
+        //if (window.console) console.log(imgSrc);
         $(imgControl).attr("src", imgSrc);
     }
 }
