@@ -12,7 +12,7 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-        @using (Html.BeginForm("Index", "Reference", FormMethod.Get))
+        @using (Html.BeginForm("I", "Reference", FormMethod.Get))
         {
             @MvcHtmlString.Create(Html.DropDownList(refGroupList, "ID", "RefGroupName", "RefGroupNameTree", "ParentId", "RefGroupId", "RefGroupId", Model.RefGroupId.ToSecureString(), "class=\"m-wrap large\"", "", "==类别组=="))
             <button class="btn yellow" type="submit">@("查询".GX())</button>
