@@ -18,6 +18,8 @@ namespace MorSun.Controllers
     {
         public ActionResult I(string id, string returnUrl)
         {
+            if (!String.IsNullOrEmpty(id))
+                id = id.ToLower().Trim();
             LogHelper.Write("跳转URL" + returnUrl, LogHelper.LogMessageType.Debug);
             var refuseUrl = "RefuseUrl".GX().Split(',');
             LogHelper.Write("ServiceDomain".GHU(), LogHelper.LogMessageType.Info);

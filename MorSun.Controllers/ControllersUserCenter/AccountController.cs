@@ -501,6 +501,8 @@ namespace MorSun.Controllers
         [AllowAnonymous]
         public ActionResult Register(string id)
         {
+            if (!String.IsNullOrEmpty(id))
+                id = id.ToLower().Trim();
             HttpCookie Cookie_login = Request.Cookies["HIC"];
             if (Cookie_login != null && !String.IsNullOrEmpty(Cookie_login["HIC"].ToString()))
             {
@@ -586,9 +588,9 @@ namespace MorSun.Controllers
                         userinfoModel.InviteCode = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
                         //邀请码明码
                         var hbc = model.UserName.Substring(model.UserName.LastIndexOf("."), model.UserName.Length - model.UserName.LastIndexOf(".")).Replace(".", "|");
-                        userinfoModel.HamInviteCode = model.UserName.Substring(0, model.UserName.LastIndexOf(".")) + hbc;
+                        userinfoModel.HamInviteCode = (model.UserName.Substring(0, model.UserName.LastIndexOf(".")) + hbc).ToLower().Trim();
                         //被邀请码
-                        userinfoModel.BeInviteCode = model.BeInviteCode;
+                        userinfoModel.BeInviteCode = model.BeInviteCode.ToLower().Trim();
                         //被邀请人
                         if (!string.IsNullOrEmpty(model.BeInviteCode))
                         {
@@ -606,7 +608,7 @@ namespace MorSun.Controllers
                                 HttpCookie Cookie_login = Request.Cookies["HIC"];//创建Cookie
                                 if (Cookie_login != null)
                                 {
-                                    var bic = Cookie_login["HIC"].ToString();
+                                    var bic = Cookie_login["HIC"].ToString().ToLower().Trim();
                                     LogHelper.Write("bic " + bic, LogHelper.LogMessageType.Debug);
                                     inviteUser = userinfobll.All.FirstOrDefault(p => p.HamInviteCode == bic);
                                 }
@@ -618,7 +620,7 @@ namespace MorSun.Controllers
                                 if (model.BeInviteCode.Contains("|"))
                                 {
                                     var bc = model.BeInviteCode.Substring(model.BeInviteCode.LastIndexOf("|"), model.BeInviteCode.Length - model.BeInviteCode.LastIndexOf("|")).Replace("|", ".");
-                                    model.BeInviteCode = model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc;
+                                    model.BeInviteCode = (model.BeInviteCode.Substring(0, model.BeInviteCode.LastIndexOf("|")) + bc).ToLower().Trim();
                                     LogHelper.Write(model.UserName + model.BeInviteCode, LogHelper.LogMessageType.Debug);
                                     var aspnetUser = Membership.GetUser(model.BeInviteCode);
                                     if (aspnetUser != null)
