@@ -231,7 +231,7 @@ namespace HOHO18.Common.Web
             respHtml = encoding.GetString(GetData(request));
             return respHtml;
         }
-        
+
         /// <summary>    
         /// 读取请求返回的数据    
         /// </summary>    
@@ -337,7 +337,7 @@ namespace HOHO18.Common.Web
             request.AllowAutoRedirect = false;
             request.AllowWriteStreamBuffering = false;
             request.Method = method;
-            if (proxy != null) 
+            if (proxy != null)
                 request.Proxy = proxy;
             request.CookieContainer = cc;
             foreach (string key in requestHeaders.Keys)
@@ -534,7 +534,7 @@ namespace HOHO18.Common.Web
     }
 
 
-    public class LogingHelper
+    public static class GetHtmlHelper
     {
         public static CookieContainer theCC = new CookieContainer();
         /// <summary>   
@@ -614,7 +614,7 @@ namespace HOHO18.Common.Web
                 StreamReader sr = new StreamReader(responseStream, encode);
                 strResult = sr.ReadToEnd();
             }
-            catch (Exception )
+            catch (Exception)
             {
                 //writeLog   
             }
@@ -629,7 +629,7 @@ namespace HOHO18.Common.Web
         /// <PARAM name="url"></PARAM>   
         /// <PARAM name="paramList"></PARAM>   
         /// <RETURNS></RETURNS>   
-        public static string getPage(String url, string referer)
+        public static string GetPage(String url, string referer)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             string strResult = string.Empty;
@@ -733,6 +733,6 @@ namespace HOHO18.Common.Web
             }
             return strResult;
         }
-    }  
+    }
 
 }

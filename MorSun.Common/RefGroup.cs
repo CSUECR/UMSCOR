@@ -281,6 +281,12 @@ namespace MorSun.Common
             //卡密检测
             public const string 卡密检测结果_已充值 = "已充值";
             public const string 卡密检测结果_未充值 = "未充值";
+
+            //卡密退款
+            public const string 卡密退款_退款操作失败 = "退款操作失败";
+            public const string 卡密退款_请录入卡密 = "请录入卡密";
+            public const string 卡密退款_该卡密已退款 = "该卡密已退款";
+            public const string 卡密退款_卡密退款操作成功 = "卡密退款操作成功";
             
         }
     }

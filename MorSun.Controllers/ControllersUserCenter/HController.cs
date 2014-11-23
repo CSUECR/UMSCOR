@@ -233,7 +233,7 @@ namespace MorSun.Controllers
             var rs = "";
             if (!String.IsNullOrEmpty(id))
             {
-                LogHelper.Write("检测卡密：" + id, LogHelper.LogMessageType.Info);
+                LogHelper.Write("检测卡密：" + id.Substring(0,30), LogHelper.LogMessageType.Info);
                 var rcKaMe = new BaseBll<bmRecharge>().All.Where(p => p.KaMe == id).FirstOrDefault();
                 if (rcKaMe == null)
                     rs = CFG.卡密检测结果_未充值;

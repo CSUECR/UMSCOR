@@ -54,8 +54,8 @@ namespace MorSun
 
         protected void Application_End(object sender, EventArgs e)
         {
-            MorSunScheduler.Instance.Stop(true);
-            LogHelper.Write("应用关闭前先关闭任务调度器", LogHelper.LogMessageType.Info);
+            //MorSunScheduler.Instance.Stop(true);
+            //LogHelper.Write("应用关闭前先关闭任务调度器", LogHelper.LogMessageType.Info);
             //记录日志
             LogHelper.Write("应用关闭", LogHelper.LogMessageType.Info);
             //解决应用池回收问题 
@@ -69,10 +69,10 @@ namespace MorSun
             _HttpWebResponse.Dispose();
             _Stream.Dispose();
             LogHelper.Write("释放资源", LogHelper.LogMessageType.Info);
-            LogHelper.Write("重新访问系统结束", LogHelper.LogMessageType.Info);
+            LogHelper.Write("不关闭任务调度器时重新访问系统结束", LogHelper.LogMessageType.Info);
             
-            MorSunScheduler.Instance.Start();
-            LogHelper.Write("应用想关闭后重新开启任务调度器", LogHelper.LogMessageType.Info);
+            //MorSunScheduler.Instance.Start();
+            //LogHelper.Write("应用想关闭后重新开启任务调度器", LogHelper.LogMessageType.Info);
         }
 
         protected void Application_Error(Object sender, EventArgs e)

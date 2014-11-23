@@ -16,6 +16,8 @@ using System.Collections;
 using MorSun.Common.Privelege;
 using MorSun.Common.类别;
 using HOHO18.Common.WEB;
+using HOHO18.Common.SSO;
+using MorSun.Common.配置;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -37,7 +39,7 @@ namespace MorSun.Controllers.SystemController
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpGet]        
-        public string S(bmSellKaMe t, string returnUrl)
+        public string S(bmSellKaMe t)
         {            
             var oper = "添加失败";
             LogHelper.Write(t.OrderNum + "|" + t.KaMe + "|" + t.Buyer + "|" + t.GoodsName + "|" + t.GoodsNum, LogHelper.LogMessageType.Info);
@@ -58,6 +60,58 @@ namespace MorSun.Controllers.SystemController
                 return oper;
             }            
         }
+
+        /// <summary>
+        /// 卡密退款
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="tok"></param>
+        /// <returns></returns>
+        [HttpGet]    
+        public string TK(string id, string tok)
+        {
+            var oper = CFG.卡密退款_退款操作失败;
+            if (String.IsNullOrEmpty(id))
+                oper = CFG.卡密退款_请录入卡密;
+            LogHelper.Write("退款卡密：" + id.Substring(0,30), LogHelper.LogMessageType.Info);
+
+            var rcKaMe = new BaseBll<bmRecharge>().All.Where(p => p.KaMe == id).FirstOrDefault();
+            if (rcKaMe != null)
+            {
+                return CFG.卡密检测结果_已充值;
+            }
+
+            var rc = Guid.Parse(Reference.卡密充值_已退款);
+            var kame = Bll.All.FirstOrDefault(p => p.KaMe == id && p.Recharge == rc);
+            if (kame != null)
+                return CFG.卡密退款_该卡密已退款;
+            try
+            {
+                var ts = SecurityHelper.Decrypt(tok);
+                //取时间戳
+                var ind = ts.IndexOf(';');
+                DateTime dt = DateTime.Parse(ts.Substring(0, ind));
+                LogHelper.Write("退款时间：" + ts.Substring(0, ind), LogHelper.LogMessageType.Info);
+
+                var model = new bmSellKaMe();
+                model.ID = Guid.NewGuid();
+                model.KaMe = id;
+                model.RegTime = DateTime.Now;
+                model.ModTime = DateTime.Now;
+                model.FlagTrashed = false;
+                model.FlagDeleted = false;
+                model.Recharge = rc;
+                Bll.Insert(model);
+                LogHelper.Write("退款成功", LogHelper.LogMessageType.Info);
+                return CFG.卡密退款_卡密退款操作成功;
+            }
+            catch
+            {
+                return oper;
+            }
+             
+        }
+
         /// <summary>
         /// 不让查询
         /// </summary>
