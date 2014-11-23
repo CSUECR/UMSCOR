@@ -48,9 +48,11 @@ namespace MorSun
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
+            MorSunScheduler.Instance.Stop(true);
+            LogHelper.Write("应用开启前先关闭任务调度器", LogHelper.LogMessageType.Info);
             //开启任务调度器
             MorSunScheduler.Instance.Start();
-            LogHelper.Write("开启任务调度器", LogHelper.LogMessageType.Info);
+            LogHelper.Write("应用开启后开启任务调度器", LogHelper.LogMessageType.Info);
         }
 
         protected void Application_End(object sender, EventArgs e)
@@ -64,10 +66,13 @@ namespace MorSun
             System.Net.HttpWebRequest _HttpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(strUrl);
             System.Net.HttpWebResponse _HttpWebResponse = (System.Net.HttpWebResponse)_HttpWebRequest.GetResponse();
             System.IO.Stream _Stream = _HttpWebResponse.GetResponseStream();//得到回写的字节流 
+            //释放资源
+            _HttpWebResponse.Dispose();
+            _Stream.Dispose();
             LogHelper.Write("重新访问系统结束", LogHelper.LogMessageType.Info);
             //关闭任务调度器
-            MorSunScheduler.Instance.Stop(true);
-            LogHelper.Write("关闭任务调度器", LogHelper.LogMessageType.Info);
+            //MorSunScheduler.Instance.Stop(true);
+            LogHelper.Write("不关闭任务调度器", LogHelper.LogMessageType.Info);
         }
 
         protected void Application_Error(Object sender, EventArgs e)

@@ -127,7 +127,7 @@ namespace MorSun.Controllers.ViewModel
             return resultBuilder.ToString().TrimEnd(splitChar);
         }
         /// <summary>
-        /// 通过id获取其itemValue
+        /// 通过id获取其itemValue ，效率没有item.wmfreference来的高
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
