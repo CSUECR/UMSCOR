@@ -277,6 +277,10 @@ namespace MorSun.Common
 
             public const string 连续答退时间间隔 = "1";//单位 小时 限制一小时内
             public const string 连续答退次数间隔 = "5";//限制5次以内
+
+            //卡密检测
+            public const string 卡密检测结果_已充值 = "已充值";
+            public const string 卡密检测结果_未充值 = "未充值";
             
         }
     }

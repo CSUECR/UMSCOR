@@ -226,10 +226,15 @@ namespace MorSun.Controllers
                 "KaMe".AE("五分钟内最多只能输入5次卡密", ModelState);
             }
             //重复输入判断
-            var repeatKaMe = rbll.All.Where(p => p.KaMe == recharge.KaMe).FirstOrDefault();
+            var repeatKaMe = rbll.All.FirstOrDefault(p => p.KaMe == recharge.KaMe);
             if(repeatKaMe != null)
             {
                 "KaMe".AE("该卡密已经被使用", ModelState);
+            }
+            var sellKaMe = new BaseBll<bmSellKaMe>().All.FirstOrDefault(p => p.KaMe == recharge.KaMe);
+            if(sellKaMe != null && sellKaMe.Recharge == Guid.Parse(Reference.卡密充值_已退款))
+            {
+                "KaMe".AE("该卡密已退款", ModelState);
             }
             if (ModelState.IsValid)
             {     
