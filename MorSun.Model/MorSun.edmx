@@ -315,6 +315,7 @@
           <Property Name="Buyer" Type="nvarchar" MaxLength="50" />
           <Property Name="GoodsName" Type="nvarchar" MaxLength="50" />
           <Property Name="GoodsNum" Type="nvarchar" MaxLength="50" />
+          <Property Name="KaMeRef" Type="uniqueidentifier" />
           <Property Name="Recharge" Type="uniqueidentifier" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
@@ -2667,6 +2668,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="bmSellKaMe">
+              <PropertyRef Name="KaMeRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmSellKaMe_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmSellKaMe" Type="Self.bmSellKaMe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmSellKaMe">
               <PropertyRef Name="Recharge" />
             </Dependent>
           </ReferentialConstraint>
@@ -4157,6 +4170,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReference" />
             <End Role="bmSellKaMe" EntitySet="bmSellKaMe" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmSellKaMe_wmfReference1" Association="Self.FK_bmSellKaMe_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReference" />
+            <End Role="bmSellKaMe" EntitySet="bmSellKaMe" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmTakeNow_aspnet_Users" Association="Self.FK_bmTakeNow_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="bmTakeNow" EntitySet="bmTakeNow" />
@@ -4892,6 +4909,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="Buyer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GoodsName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GoodsNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KaMeRef" Type="Guid" />
           <Property Name="Recharge" Type="Guid" />
           <Property Name="Sort" Type="Int32" />
           <Property Name="RegUser" Type="Guid" />
@@ -4901,6 +4919,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="aspnet_Users" Relationship="Self.FK_bmSellKaMe_aspnet_Users" FromRole="bmSellKaMe" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmSellKaMe_wmfReference" FromRole="bmSellKaMe" ToRole="wmfReference" />
+          <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmSellKaMe_wmfReference1" FromRole="bmSellKaMe" ToRole="wmfReference" />
         </EntityType>
         <EntityType Name="bmTakeNow">
           <Key>
@@ -6532,6 +6551,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmRecharges2" Relationship="Self.FK_bmRecharge_wmfReference2" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmRecharges3" Relationship="Self.FK_bmRecharge_wmfReference3" FromRole="wmfReference" ToRole="bmRecharge" />
           <NavigationProperty Name="bmSellKaMes" Relationship="Self.FK_bmSellKaMe_wmfReference" FromRole="wmfReference" ToRole="bmSellKaMe" />
+          <NavigationProperty Name="bmSellKaMes1" Relationship="Self.FK_bmSellKaMe_wmfReference1" FromRole="wmfReference" ToRole="bmSellKaMe" />
           <NavigationProperty Name="bmTakeNows" Relationship="Self.FK_bmTakeNow_wmfReference" FromRole="wmfReference" ToRole="bmTakeNow" />
           <NavigationProperty Name="bmTakeNows1" Relationship="Self.FK_bmTakeNow_wmfReference1" FromRole="wmfReference" ToRole="bmTakeNow" />
           <NavigationProperty Name="bmUserMaBis" Relationship="Self.FK_bmUserMaBi_wmfReference" FromRole="wmfReference" ToRole="bmUserMaBi" />
@@ -7695,6 +7715,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="bmSellKaMe">
+              <PropertyRef Name="KaMeRef" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmSellKaMe_wmfReference1">
+          <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
+          <End Role="bmSellKaMe" Type="Self.bmSellKaMe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wmfReference">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmSellKaMe">
               <PropertyRef Name="Recharge" />
             </Dependent>
           </ReferentialConstraint>
@@ -8842,6 +8874,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmSellKaMe" EntitySet="bmSellKaMes" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmSellKaMe_wmfReference1" Association="Self.FK_bmSellKaMe_wmfReference1">
+            <End Role="wmfReference" EntitySet="wmfReferences" />
+            <End Role="bmSellKaMe" EntitySet="bmSellKaMes" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmTakeNow_wmfReference" Association="Self.FK_bmTakeNow_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmTakeNow" EntitySet="bmTakeNows" />
@@ -9408,6 +9444,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="Buyer" ColumnName="Buyer" />
                 <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />
                 <ScalarProperty Name="GoodsNum" ColumnName="GoodsNum" />
+                <ScalarProperty Name="KaMeRef" ColumnName="KaMeRef" />
                 <ScalarProperty Name="Recharge" ColumnName="Recharge" />
                 <ScalarProperty Name="Sort" ColumnName="Sort" />
                 <ScalarProperty Name="RegUser" ColumnName="RegUser" />

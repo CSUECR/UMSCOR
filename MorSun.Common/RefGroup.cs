@@ -84,6 +84,17 @@ namespace MorSun.Common
             public const string 卡密有效性_有效 = "97afe305-a2b1-44c4-a6d4-e7df1289e13e";
             public const string 卡密有效性_失效 = "7e5b5100-723b-430c-9690-92402d2caedd";
 
+            //卡密类别
+            public const string 卡密类别_认证50 = "767a26ea-58ae-4afa-b8a2-eadaf61c8ee4";
+            public const string 卡密类别_10 = "87e2e67a-a120-4003-851e-194ff75032bb";
+            public const string 卡密类别_20 = "7f3154f2-63e4-4b47-be81-9810746f6bf0";
+            public const string 卡密类别_50 = "27271639-0454-4d05-82f7-4a4ef2c62c55";
+
+            public const string 卡密类别_100 = "32c11f96-b154-4357-9231-f8ebcbadcc18";
+            public const string 卡密类别_200 = "464d72d7-8895-41a8-8be9-6f721912fbbf";
+            public const string 卡密类别_500 = "216f0480-4699-42d6-a355-e83a5e512c7b";
+            public const string 卡密类别_1000 = "574fc8e7-e186-4200-b1a3-a0bddd5cce34";
+
             //新闻类别
             public const string 新闻类别_新闻 = "78fba6d7-ade7-46eb-9662-a9f75ea26b69";
             public const string 新闻类别_维基 = "9e72c2d3-0659-46fa-8cfc-3a0f392e7192";
