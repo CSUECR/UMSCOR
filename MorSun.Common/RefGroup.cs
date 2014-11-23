@@ -77,8 +77,9 @@ namespace MorSun.Common
             public const string 卡密用途_对照 = "6229237a-c0f7-4c16-b527-b50318245388";
 
             //卡密充值
-            public const string 卡密充值_已充值 = "183cb93d-4b41-46ce-a1ff-8c12141660e4";
             public const string 卡密充值_未充值 = "3799d19f-db33-41f4-87f8-ffac87e68cf8";
+            public const string 卡密充值_已充值 = "183cb93d-4b41-46ce-a1ff-8c12141660e4";
+            public const string 卡密充值_已退款 = "7f0b1356-a4a5-4871-be72-325abc5ebd17";
 
             //卡密有效性
             public const string 卡密有效性_有效 = "97afe305-a2b1-44c4-a6d4-e7df1289e13e";

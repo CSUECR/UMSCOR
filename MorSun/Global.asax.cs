@@ -50,20 +50,24 @@ namespace MorSun
 
             //开启任务调度器
             MorSunScheduler.Instance.Start();
+            LogHelper.Write("开启任务调度器", LogHelper.LogMessageType.Info);
         }
 
         protected void Application_End(object sender, EventArgs e)
-        {
-            //关闭任务调度器
-            MorSunScheduler.Instance.Stop(true);
+        {            
             //记录日志
             LogHelper.Write("应用关闭", LogHelper.LogMessageType.Info);
             //解决应用池回收问题 
             System.Threading.Thread.Sleep(5000);
-            string strUrl = "ServiceDomain".GHU(); //"http://" + 
+            string strUrl = "http://www.bungma.com";//"GBServiceDomain".GX(); //"http://" + 
+            LogHelper.Write("应用关闭前访问" + strUrl, LogHelper.LogMessageType.Info);
             System.Net.HttpWebRequest _HttpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(strUrl);
             System.Net.HttpWebResponse _HttpWebResponse = (System.Net.HttpWebResponse)_HttpWebRequest.GetResponse();
             System.IO.Stream _Stream = _HttpWebResponse.GetResponseStream();//得到回写的字节流 
+            LogHelper.Write("重新访问系统结束", LogHelper.LogMessageType.Info);
+            //关闭任务调度器
+            MorSunScheduler.Instance.Stop(true);
+            LogHelper.Write("关闭任务调度器", LogHelper.LogMessageType.Info);
         }
 
         protected void Application_Error(Object sender, EventArgs e)
