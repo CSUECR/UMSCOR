@@ -86,7 +86,7 @@ namespace MorSun.Common
             public const string 卡密有效性_失效 = "7e5b5100-723b-430c-9690-92402d2caedd";
 
             //卡密类别
-            public const string 卡密类别_认证50 = "767a26ea-58ae-4afa-b8a2-eadaf61c8ee4";
+            public const string 卡密类别_认证66 = "767a26ea-58ae-4afa-b8a2-eadaf61c8ee4";
             public const string 卡密类别_10 = "87e2e67a-a120-4003-851e-194ff75032bb";
             public const string 卡密类别_20 = "7f3154f2-63e4-4b47-be81-9810746f6bf0";
             public const string 卡密类别_50 = "27271639-0454-4d05-82f7-4a4ef2c62c55";
@@ -287,7 +287,9 @@ namespace MorSun.Common
             public const string 卡密退款_请录入卡密 = "请录入卡密";
             public const string 卡密退款_该卡密已退款 = "该卡密已退款";
             public const string 卡密退款_卡密退款操作成功 = "卡密退款操作成功";
-            
+
+            //邦马网对接
+            public const string 邦马网_对接统一码 = "F1W%I^v2&n^eJiw3";
         }
     }
 
