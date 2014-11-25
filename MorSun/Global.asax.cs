@@ -78,7 +78,7 @@ namespace MorSun
         protected void Application_Error(Object sender, EventArgs e)
         {
             Exception objExp = HttpContext.Current.Server.GetLastError();
-            LogHelper.Write("\r\n客户机IP:" + Request.UserHostAddress + "\r\n错误地址:" + Request.Url + "\r\n异常信息:" + Server.GetLastError().Message, LogHelper.LogMessageType.Error);
+            LogHelper.Write("\r\n客户机IP:" + Request.UserHostAddress + "\r\n原始URL:" + Request.RawUrl + "\r\n浏览器:" + Request.Browser + "\r\n错误地址:" + Request.Url + "\r\n异常信息:" + Server.GetLastError().Message, LogHelper.LogMessageType.Error);
         }
     }
 
