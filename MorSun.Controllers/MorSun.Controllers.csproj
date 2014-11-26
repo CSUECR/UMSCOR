@@ -35,6 +35,7 @@
       <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="NPOI, Version=1.2.3.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\HOHO18.Common\Lib\NPOI.dll</HintPath>
@@ -79,6 +80,7 @@
     <Compile Include="Base\ExportExcel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ControllersSystem\DivniTxiuenController.cs" />
     <Compile Include="ControllersSystem\SYSConfigController.cs" />
     <Compile Include="ControllersSystem\MMController.cs" />
     <Compile Include="ControllersUserCenter\CSController.cs" />
