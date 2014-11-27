@@ -174,7 +174,7 @@ namespace MorSun.Controllers
                 else
                 {
                     rz = true;
-                    LogHelper.Write("退款时间：" + ts.Substring(0, ind), LogHelper.LogMessageType.Info);
+                    LogHelper.Write("时间：" + ts.Substring(0, ind), LogHelper.LogMessageType.Info);
                 }
             }
             catch
