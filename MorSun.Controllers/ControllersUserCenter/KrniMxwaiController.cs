@@ -71,28 +71,20 @@ namespace MorSun.Controllers.SystemController
         public string TK(string id, string tok)
         {
             var oper = CFG.卡密退款_退款操作失败;
-            var ts = "";
-            var ind = 0;
 
-            try
-            {
-                //判断是否是正常渠道访问
-                ts = SecurityHelper.Decrypt(tok);
-                //取时间戳
-                ind = ts.IndexOf(';');
-                DateTime dt = DateTime.Parse(ts.Substring(0, ind));
-                if(dt.AddMinutes(2) < DateTime.Now || !ts.Contains(CFG.邦马网_对接统一码))
-                {
-                    return "";
-                }
-            }
-            catch
-            {
+            //是否认证
+            var rz = false;
+            rz = IsRZ(tok, rz);
+
+            if (!rz)
                 return "";
-            }
+
 
             if (String.IsNullOrEmpty(id))
+            { 
                 oper = CFG.卡密退款_请录入卡密;
+                return oper;
+            }                
             LogHelper.Write("退款卡密：" + id.Substring(0,30), LogHelper.LogMessageType.Info);
 
             var rcKaMe = new BaseBll<bmRecharge>().All.Where(p => p.KaMe == id).FirstOrDefault();
@@ -104,9 +96,7 @@ namespace MorSun.Controllers.SystemController
             var rc = Guid.Parse(Reference.卡密充值_已退款);
             var kame = Bll.All.FirstOrDefault(p => p.KaMe == id && p.Recharge == rc);
             if (kame != null)
-                return CFG.卡密退款_该卡密已退款;
-                            
-            LogHelper.Write("退款时间：" + ts.Substring(0, ind), LogHelper.LogMessageType.Info);
+                return CFG.卡密退款_该卡密已退款;  
 
             var model = new bmSellKaMe();
             model.ID = Guid.NewGuid();
@@ -121,6 +111,7 @@ namespace MorSun.Controllers.SystemController
             return CFG.卡密退款_卡密退款操作成功;            
              
         }
+                
 
         /// <summary>
         /// 不让查询

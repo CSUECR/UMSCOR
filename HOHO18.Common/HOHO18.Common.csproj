@@ -83,6 +83,7 @@
     <Compile Include="CommonObject\StringPlus.cs" />
     <Compile Include="DEncrypt\Base64Decoder.cs" />
     <Compile Include="DEncrypt\Base64Encoder.cs" />
+    <Compile Include="DEncrypt\Compression.cs" />
     <Compile Include="DEncrypt\DESEncrypt.cs" />
     <Compile Include="DEncrypt\SSOUtil.cs" />
     <Compile Include="ExHelp\ActionD.cs" />

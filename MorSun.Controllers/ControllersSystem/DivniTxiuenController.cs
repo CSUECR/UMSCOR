@@ -20,7 +20,6 @@ using HOHO18.Common.SSO;
 using MorSun.Common.配置;
 using Newtonsoft.Json;
 
-
 namespace MorSun.Controllers.SystemController
 {
     /// <summary>
@@ -33,7 +32,7 @@ namespace MorSun.Controllers.SystemController
         {
             get { return 资源.系统参数配置; }
         }
-
+                
         /// <summary>
         /// 卡密退款
         /// </summary>
@@ -41,7 +40,7 @@ namespace MorSun.Controllers.SystemController
         /// <param name="tok"></param>
         /// <returns></returns>
         [HttpGet]
-        public string TK(string id, string tok)
+        public string UJS(string tok)
         {
             var newAuList = new List<aspnet_UsersJson>();
             var _auList = new BaseBll<aspnet_Users>().All;
@@ -65,17 +64,21 @@ namespace MorSun.Controllers.SystemController
                 };
                 newAuList.Add(t);
             }
-            //var us = Json(_auList, JsonRequestBehavior.AllowGet);
-            return Url.Encode(JsonConvert.SerializeObject(newAuList));
-        }
+            var s = JsonConvert.SerializeObject(newAuList);
+            var eys = EncodeJson(s);
+            return eys;
+        }        
 
-        public string dc(string id)
-        {
-            //var jsonu = @"[{"ApplicationId":"4533934f-60ba-4f9f-ae8f-5fb1ed167e58","UserId":"4087ca79-826b-4507-82e7-479a20d3b53e","UserName":"youhong@bungma.com","LoweredUserName":"youhong@bungma.com","MobileAlias":null,"IsAnonymous":false,"LastActivityDate":"2014-11-24T23:51:23.263"},{"ApplicationId":"4533934f-60ba-4f9f-ae8f-5fb1ed167e58","UserId":"2826ce77-44f5-437c-abc5-b8ce8f8e6bdb","UserName":"youhong@hoho18.net","LoweredUserName":"youhong@hoho18.net","MobileAlias":null,"IsAnonymous":false,"LastActivityDate":"2014-11-10T05:38:10"},{"ApplicationId":"4533934f-60ba-4f9f-ae8f-5fb1ed167e58","UserId":"12fb4bf9-28ab-4a61-9ad7-cd03974688cc","UserName":"zsfyou@qq.com","LoweredUserName":"zsfyou@qq.com","MobileAlias":null,"IsAnonymous":false,"LastActivityDate":"2014-11-21T18:06:42.487"}]"
+        public string dc()
+        {            
             //http://www.cnblogs.com/jams742003/archive/2009/12/25/1631829.html
-            var _list = JsonConvert.DeserializeObject<List<aspnet_Users>>(id);
+            var id = UJS("");
+            var s = DecodeJson(id);          
+            var _list = JsonConvert.DeserializeObject<List<aspnet_Users>>(s);
             return "";
         }
+
+        
 
         /// <summary>
         /// 不让查询

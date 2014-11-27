@@ -20,6 +20,9 @@ using MorSun.Controllers;
 using HOHO18.Common.Web;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
+using HOHO18.Common.SSO;
+using HOHO18.Common.WEB;
+using HOHO18.Common.DEncrypt;
 
 namespace System
 {
@@ -147,7 +150,65 @@ namespace MorSun.Controllers
         {
             return UserID.ToString().Eql("F814B49DF592FAD4782E3CE0A1CDA161079357D9E9B5918C9082514F442DBED524543717D60B0369".DP());// ("AU".GX().DP());防止被串改，不从XML获取
         }
-        
+
+        #region 认证访问操作
+        /// <summary>
+        /// 是否为认证访问
+        /// </summary>
+        /// <param name="tok"></param>
+        /// <param name="rz"></param>
+        /// <returns></returns>
+        protected static bool IsRZ(string tok, bool rz)
+        {
+            try
+            {
+                //判断是否是正常渠道访问
+                var ts = SecurityHelper.Decrypt(tok);
+                //取时间戳
+                var ind = ts.IndexOf(';');
+                DateTime dt = DateTime.Parse(ts.Substring(0, ind));
+                if (dt.AddSeconds(5) < DateTime.Now || !ts.Contains(CFG.邦马网_对接统一码))
+                {//限制15秒内
+                    rz = false;
+                }
+                else
+                {
+                    rz = true;
+                    LogHelper.Write("退款时间：" + ts.Substring(0, ind), LogHelper.LogMessageType.Info);
+                }
+            }
+            catch
+            {
+                rz = false;
+            }
+            return rz;
+        }
+
+        /// <summary>
+        /// 对JSON进行压缩加密
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        protected static string EncodeJson(string s)
+        {
+            var ys = Compression.CompressString(s);
+            var dts = DateTime.Now.ToString();
+            var eys = SecurityHelper.Encrypt(dts + ";" + ys);
+            return eys;
+        }
+        /// <summary>
+        /// 对JSON进行解密解压
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected static string DecodeJson(string id)
+        {
+            var eys = SecurityHelper.Decrypt(id);
+            var ys = eys.Substring(eys.IndexOf(';') + 1);
+            var s = Compression.DecompressString(ys);
+            return s;
+        }
+        #endregion
 
         #region 权限
         public static List<wmfRolePrivilegesView> getSessionPrivileges()
