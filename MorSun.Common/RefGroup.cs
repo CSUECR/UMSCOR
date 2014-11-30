@@ -218,7 +218,7 @@ namespace MorSun.Common
 
 
             public const string 有效时间 = "48"; //单位 小时
-            public const string 邮件通用入口 = "/Home/EL";
+            public const string 邮件通用入口 = "/H/EL";
             public const string 账号激活路径 = "/Account/ActiveUser";
             public const string 邮件改密路径 = "/Account/ECPW";
 
