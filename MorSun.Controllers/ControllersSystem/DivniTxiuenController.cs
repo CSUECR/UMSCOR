@@ -40,10 +40,35 @@ namespace MorSun.Controllers.SystemController
         /// <param name="tok"></param>
         /// <returns></returns>
         [HttpGet]
-        public string UJS(string tok)
+        public string UJS(string Tok,bool? Auto, List<Guid> UIds)
         {
-            var newAuList = new List<aspnet_UsersJson>();
-            var _auList = new BaseBll<aspnet_Users>().All;
+            var rz = false;
+            rz = IsRZ(Tok, rz);
+            if (!rz)
+                return "";
+            var newAuList = new List<aspnet_UsersJson>();   
+            var _auList = new BaseBll<aspnet_Users>().All.Skip(0);
+            if(Auto.Value)
+            {
+                var hours = 0 - Convert.ToDouble(CFG.邦马网_用户数据同步时间范围);
+                var dt = DateTime.Now.AddHours(hours);
+                _auList = _auList.Where(p => p.wmfUserInfo.RegTime > dt);
+            }
+            if(UIds.Count() > 0)
+            {
+                _auList = _auList.Where(p => UIds.Contains(p.UserId));
+            }
+            
+            if (_auList.Count() == 0)
+                return "";           
+
+            //MembershipJson List
+            var newMbList = new List<aspnet_MembershipJson>();
+            //UserInfoJson List
+            var newUIList = new List<wmfUserInfoJson>();
+
+
+            var s = "";
             foreach(var u in _auList)
             {
                 var t = new aspnet_UsersJson
@@ -64,15 +89,17 @@ namespace MorSun.Controllers.SystemController
                 };
                 newAuList.Add(t);
             }
-            var s = JsonConvert.SerializeObject(newAuList);
+            s += JsonConvert.SerializeObject(newAuList);
+
+
+
             var eys = EncodeJson(s);
             return eys;
         }        
 
-        public string dc()
-        {            
-            //http://www.cnblogs.com/jams742003/archive/2009/12/25/1631829.html
-            var id = UJS("");
+        public string DC()
+        {                        
+            var id = UJS("",true,null);
             var s = DecodeJson(id);          
             var _list = JsonConvert.DeserializeObject<List<aspnet_Users>>(s);
             return "";

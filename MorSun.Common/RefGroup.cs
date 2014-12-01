@@ -290,6 +290,9 @@ namespace MorSun.Common
 
             //邦马网对接
             public const string 邦马网_对接统一码 = "F1W%I^v2&n^eJiw3";
+
+            //用户表数据同步时间
+            public const string 邦马网_用户数据同步时间范围 = "1.1"; //单位 小时
         }
     }
 
