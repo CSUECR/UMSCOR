@@ -96,7 +96,10 @@
     <Compile Include="Common\wmfUserInfo.cs" />
     <Compile Include="Common\wmfVillage.cs" />
     <Compile Include="Extension\EntityObjectExtension.cs" />
-    <Compile Include="JsonObj\aspnet_UsersJson.cs" />
+    <Compile Include="JsonObj\Basic\aspnet_MembershipJson.cs" />
+    <Compile Include="JsonObj\Basic\bmUserWeixinJson.cs" />
+    <Compile Include="JsonObj\Basic\wmfUserInfoJson.cs" />
+    <Compile Include="JsonObj\Basic\aspnet_UsersJson.cs" />
     <Compile Include="MenuModels\ChildNode.cs" />
     <Compile Include="MorSun.Designer.cs">
       <AutoGen>True</AutoGen>
