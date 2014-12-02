@@ -34,7 +34,7 @@ namespace MorSun.Controllers.SystemController
         }
                 
         /// <summary>
-        /// 卡密退款
+        /// 用户JSON数据
         /// </summary>
         /// <param name="id"></param>
         /// <param name="tok"></param>
