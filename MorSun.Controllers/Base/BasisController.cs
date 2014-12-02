@@ -23,6 +23,7 @@ using MorSun.Common.配置;
 using HOHO18.Common.SSO;
 using HOHO18.Common.WEB;
 using HOHO18.Common.DEncrypt;
+using Newtonsoft.Json;
 
 namespace System
 {
@@ -185,15 +186,26 @@ namespace MorSun.Controllers
         }
 
         /// <summary>
+        /// 对象序列化为JSON并压缩
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        protected static string ToJsonAndCompress(object v)
+        {
+            var jsonV = JsonConvert.SerializeObject(v);
+            return Compression.CompressString(jsonV);
+        }
+
+        /// <summary>
         /// 对JSON进行压缩加密
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
         protected static string EncodeJson(string s)
         {
-            var ys = Compression.CompressString(s);
+            //var ys = Compression.CompressString(s);
             var dts = DateTime.Now.ToString();
-            var eys = SecurityHelper.Encrypt(dts + ";" + ys);
+            var eys = SecurityHelper.Encrypt(dts + ";" + s);
             return eys;
         }
         /// <summary>
@@ -205,8 +217,8 @@ namespace MorSun.Controllers
         {
             var eys = SecurityHelper.Decrypt(id);
             var ys = eys.Substring(eys.IndexOf(';') + 1);
-            var s = Compression.DecompressString(ys);
-            return s;
+            //var s = Compression.DecompressString(ys);
+            return ys;
         }
         #endregion
 

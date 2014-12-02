@@ -49,7 +49,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid UserType
+        public Guid? UserType
         { get; set; }
         /// <summary>
         /// 
@@ -104,17 +104,17 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid ProvinceId
+        public Guid? ProvinceId
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid CityId
+        public Guid? CityId
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid CountyId
+        public Guid? CountyId
         { get; set; }
         /// <summary>
         /// 
@@ -124,7 +124,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid RollMachine
+        public Guid? RollMachine
         { get; set; }
         /// <summary>
         /// 
@@ -139,12 +139,12 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public bool FlagWorker
+        public bool? FlagWorker
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public bool FlagActive
+        public bool? FlagActive
         { get; set; }
         /// <summary>
         /// 
@@ -164,7 +164,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid InviteUser
+        public Guid? InviteUser
         { get; set; }
         /// <summary>
         /// 
@@ -214,7 +214,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid CertificationLevel
+        public Guid? CertificationLevel
         { get; set; }
         /// <summary>
         /// 
