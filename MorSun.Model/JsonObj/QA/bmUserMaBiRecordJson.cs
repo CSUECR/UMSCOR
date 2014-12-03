@@ -17,22 +17,22 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid UserId
+        public Guid? UserId
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid QAId
+        public Guid? QAId
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid SourceRef
+        public Guid? SourceRef
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid MaBiRef
+        public Guid? MaBiRef
         { get; set; }
         /// <summary>
         /// 
@@ -42,7 +42,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public bool IsSettle
+        public bool? IsSettle
         { get; set; }
         /// <summary>
         /// 
@@ -52,7 +52,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid RegUser
+        public Guid? RegUser
         { get; set; }
         /// <summary>
         /// 

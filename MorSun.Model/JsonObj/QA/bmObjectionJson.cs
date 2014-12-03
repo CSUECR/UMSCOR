@@ -7,7 +7,7 @@ using HOHO18.Common;
 
 namespace MorSun.Model
 {
-    public class bmObjectionJsonJson
+    public class bmObjectionJson
     {
         /// <summary>
         /// 
@@ -17,17 +17,17 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid QAId
+        public Guid? QAId
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid UserId
+        public Guid? UserId
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid WeiXinId
+        public string WeiXinId
         { get; set; }
         /// <summary>
         /// 
@@ -42,12 +42,12 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid HandleUser
+        public Guid? HandleUser
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid Result
+        public Guid? Result
         { get; set; }
         /// <summary>
         /// 
@@ -67,7 +67,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid RegUser
+        public Guid? RegUser
         { get; set; }
         /// <summary>
         /// 

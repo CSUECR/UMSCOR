@@ -192,7 +192,7 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="QAId" Type="uniqueidentifier" />
           <Property Name="UserId" Type="uniqueidentifier" />
-          <Property Name="WeiXinId" Type="uniqueidentifier" />
+          <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
           <Property Name="SubmitTime" Type="datetime" />
           <Property Name="ObjectionExplain" Type="nvarchar" MaxLength="4000" />
           <Property Name="HandleUser" Type="uniqueidentifier" />
@@ -4757,7 +4757,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="ID" Type="Guid" Nullable="false" />
           <Property Name="QAId" Type="Guid" />
           <Property Name="UserId" Type="Guid" />
-          <Property Name="WeiXinId" Type="Guid" />
+          <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="SubmitTime" Type="DateTime" Precision="3" />
           <Property Name="ObjectionExplain" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="HandleUser" Type="Guid" />

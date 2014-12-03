@@ -36,12 +36,14 @@ namespace MorSun.Controllers.SystemController
         /// <summary>
         /// 用户JSON数据
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="tok"></param>
+        /// <param name="Tok"></param>
+        /// <param name="SyncDT"></param>
+        /// <param name="UIds"></param>
         /// <returns></returns>
         [HttpGet]
         public string UJS(string Tok,DateTime? SyncDT, List<Guid> UIds)
         {
+            LogHelper.Write(Request.UserHostAddress + "\r\n同步User", LogHelper.LogMessageType.Info);
             var rz = false;
             rz = IsRZ(Tok, rz);
             if (!rz)
@@ -189,11 +191,249 @@ namespace MorSun.Controllers.SystemController
 
             var eys = EncodeJson(s);
             return eys;
-        }        
+        }
+
+
+
+        public string QAJS(string Tok, DateTime? SyncDT)
+        {
+            LogHelper.Write(Request.UserHostAddress + "\r\n同步QA", LogHelper.LogMessageType.Info);
+            var rz = false;
+            rz = IsRZ(Tok, rz);
+            if (!rz)
+                return "";
+
+            var s = "";
+            //自动获取时的时间处理
+            var dt = DateTime.Now;
+            if (!SyncDT.HasValue)
+            {
+                var hours = 0 - Convert.ToDouble(CFG.邦马网_问题数据同步时间范围);
+                dt = DateTime.Now.AddHours(hours);
+            }
+
+            #region QA数据获取
+            var newQAList = new List<bmQAJson>();
+            var _qaList = new BaseBll<bmQA>().All.Where(p => p.ID != null);
+            //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
+
+            if (!SyncDT.HasValue)
+            {                
+                _qaList = _qaList.Where(p => p.RegTime > dt);
+            }
+            else
+            {
+                _qaList = _qaList.Where(p => p.RegTime > SyncDT);
+            }
+
+            if (_qaList.Count() == 0)
+                s += " ";
+            else
+            {
+                foreach (var u in _qaList)
+                {
+                    var t = new bmQAJson
+                    {
+                        ID=u.ID,
+                        AutoGrenteId = u.AutoGrenteId,
+                        ParentId=u.ParentId,
+                        UserId=u.UserId,
+                        WeiXinId=u.WeiXinId,
+                        QARef=u.QARef,
+                        QAContent=u.QAContent,
+                        MsgId=u.MsgId,
+                        MsgType=u.MsgType,
+                        MediaId=u.MediaId,
+                        PicUrl=u.PicUrl,
+                        Sort=u.Sort,
+                        RegUser=u.RegUser,
+                        RegTime=u.RegTime,
+                        ModTime=u.ModTime,
+                        FlagTrashed=u.FlagTrashed,
+                        FlagDeleted = u.FlagDeleted        
+                    };
+                    newQAList.Add(t);
+                }
+                s += ToJsonAndCompress(newQAList);                
+            }
+            s += CFG.邦马网_JSON数据间隔;
+            #endregion
+            #region 用户马币数据获取
+            var newUMBList = new List<bmUserMaBiRecordJson>();
+            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.ID != null);
+            //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
+
+            if (!SyncDT.HasValue)
+            {
+                _umbList = _umbList.Where(p => p.RegTime > dt);
+            }
+            else
+            {
+                _umbList = _umbList.Where(p => p.RegTime > SyncDT);
+            }
+
+            if (_umbList.Count() == 0)
+                s += " ";
+            else
+            {
+                foreach (var u in _umbList)
+                {
+                    var t = new bmUserMaBiRecordJson
+                    {
+                        ID = u.ID,                        
+                        UserId = u.UserId,        
+                        QAId = u.QAId,        
+                        SourceRef = u.SourceRef,        
+                        MaBiRef = u.MaBiRef,        
+                        MaBiNum = u.MaBiNum,        
+                        IsSettle = u.IsSettle,        
+                        Sort = u.Sort,
+                        RegUser = u.RegUser,
+                        RegTime = u.RegTime,
+                        ModTime = u.ModTime,
+                        FlagTrashed = u.FlagTrashed,
+                        FlagDeleted = u.FlagDeleted
+                    };
+                    newUMBList.Add(t);
+                }
+                s += ToJsonAndCompress(newUMBList);
+            }
+            s += CFG.邦马网_JSON数据间隔;
+            #endregion
+            #region QA问题分配记录获取
+            var newQADisList = new List<bmQADistributionJson>();
+            var _qaDisList = new BaseBll<bmQADistribution>().All.Where(p => p.ID != null);
+            //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
+
+            if (!SyncDT.HasValue)
+            {
+                _qaDisList = _qaDisList.Where(p => p.RegTime > dt);
+            }
+            else
+            {
+                _qaDisList = _qaDisList.Where(p => p.RegTime > SyncDT);
+            }
+
+            if (_qaDisList.Count() == 0)
+                s += " ";
+            else
+            {
+                foreach (var u in _qaDisList)
+                {
+                    var t = new bmQADistributionJson
+                    {
+                        ID = u.ID,
+                        QAId=u.QAId,
+                        UserId=u.UserId,
+                        WeiXinId=u.WeiXinId,
+                        DistributionTime=u.DistributionTime,
+                        OperateTime=u.OperateTime,
+                        Result=u.Result,        
+                        Sort = u.Sort,
+                        RegUser = u.RegUser,
+                        RegTime = u.RegTime,
+                        ModTime = u.ModTime,
+                        FlagTrashed = u.FlagTrashed,
+                        FlagDeleted = u.FlagDeleted
+                    };
+                    newQADisList.Add(t);
+                }
+                s += ToJsonAndCompress(newQADisList);
+            }
+            s += CFG.邦马网_JSON数据间隔;
+            #endregion
+            #region 异议数据获取
+            var newOBList = new List<bmObjectionJson>();
+            var _obList = new BaseBll<bmObjection>().All.Where(p => p.ID != null);
+            //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
+
+            if (!SyncDT.HasValue)
+            {
+                _obList = _obList.Where(p => p.RegTime > dt);
+            }
+            else
+            {
+                _obList = _obList.Where(p => p.RegTime > SyncDT);
+            }
+
+            if (_obList.Count() == 0)
+                s += " ";
+            else
+            {
+                foreach (var u in _obList)
+                {
+                    var t = new bmObjectionJson
+                    {
+                        ID = u.ID,
+                        QAId = u.QAId,
+                        UserId = u.UserId,
+                        WeiXinId = u.WeiXinId,
+                        SubmitTime = u.SubmitTime,
+                        ObjectionExplain = u.ObjectionExplain,
+                        HandleUser = u.HandleUser,
+                        Result = u.Result,
+                        HandleTime = u.HandleTime,
+                        HandleExplain = u.HandleExplain,
+                        Sort = u.Sort,
+                        RegUser = u.RegUser,
+                        RegTime = u.RegTime,
+                        ModTime = u.ModTime,
+                        FlagTrashed = u.FlagTrashed,
+                        FlagDeleted = u.FlagDeleted
+                    };
+                    newOBList.Add(t);
+                }
+                s += ToJsonAndCompress(newOBList);
+            }
+            s += CFG.邦马网_JSON数据间隔;
+            #endregion
+            #region 用户微信绑定数据获取
+            var newUWList = new List<bmUserWeixinJson>();
+            var _uwList = new BaseBll<bmUserWeixin>().All.Where(p => p.ID != null);
+            //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
+
+            if (!SyncDT.HasValue)
+            {
+                _uwList = _uwList.Where(p => p.RegTime > dt);
+            }
+            else
+            {
+                _uwList = _uwList.Where(p => p.RegTime > SyncDT);
+            }
+
+            if (_qaList.Count() == 0)
+                s += " ";
+            else
+            {
+                foreach (var u in _uwList)
+                {
+                    var t = new bmUserWeixinJson
+                    {
+                        ID = u.ID,
+                        UserId = u.UserId,
+                        WeiXinId = u.WeiXinId,
+                        WeiXinAPP = u.WeiXinAPP,
+                        Sort = u.Sort,
+                        RegUser = u.RegUser,
+                        RegTime = u.RegTime,
+                        ModTime = u.ModTime,
+                        FlagTrashed = u.FlagTrashed,
+                        FlagDeleted = u.FlagDeleted
+                    };
+                    newUWList.Add(t);
+                }
+                s += ToJsonAndCompress(newUWList);
+            }            
+            #endregion
+
+            var eys = EncodeJson(s);
+            return eys;
+        }
+
 
         public string DC()
         {                        
-            var id = UJS("",true,null);
+            var id = UJS("",null,null);
             var s = DecodeJson(id);          
             var _list = JsonConvert.DeserializeObject<List<aspnet_Users>>(s);
             return "";

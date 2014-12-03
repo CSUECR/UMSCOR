@@ -8422,7 +8422,7 @@ namespace MorSun.Model
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Guid> WeiXinId
+        public global::System.String WeiXinId
         {
             get
             {
@@ -8432,13 +8432,13 @@ namespace MorSun.Model
             {
                 OnWeiXinIdChanging(value);
                 ReportPropertyChanging("WeiXinId");
-                _WeiXinId = StructuralObject.SetValidValue(value, "WeiXinId");
+                _WeiXinId = StructuralObject.SetValidValue(value, true, "WeiXinId");
                 ReportPropertyChanged("WeiXinId");
                 OnWeiXinIdChanged();
             }
         }
-        private Nullable<global::System.Guid> _WeiXinId;
-        partial void OnWeiXinIdChanging(Nullable<global::System.Guid> value);
+        private global::System.String _WeiXinId;
+        partial void OnWeiXinIdChanging(global::System.String value);
         partial void OnWeiXinIdChanged();
     
         /// <summary>

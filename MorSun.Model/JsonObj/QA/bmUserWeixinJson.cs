@@ -14,7 +14,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid UserId
+        public Guid? UserId
         { get; set; }
         /// <summary>
         /// 
@@ -24,7 +24,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid WeiXinAPP
+        public Guid? WeiXinAPP
         { get; set; }
         /// <summary>
         /// 
@@ -34,7 +34,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid RegUser
+        public Guid? RegUser
         { get; set; }
         /// <summary>
         /// 

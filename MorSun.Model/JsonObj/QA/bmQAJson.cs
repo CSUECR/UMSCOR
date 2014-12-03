@@ -22,12 +22,12 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid ParentId
+        public Guid? ParentId
         { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public Guid UserId
+        public Guid? UserId
         { get; set; }
         /// <summary>
         /// 
@@ -37,7 +37,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid QARef
+        public Guid? QARef
         { get; set; }
         /// <summary>
         /// 
@@ -52,7 +52,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid MsgType
+        public Guid? MsgType
         { get; set; }
         /// <summary>
         /// 
@@ -72,7 +72,7 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public Guid RegUser
+        public Guid? RegUser
         { get; set; }
         /// <summary>
         /// 

@@ -293,6 +293,7 @@ namespace MorSun.Common
 
             //用户表数据同步时间
             public const string 邦马网_用户数据同步时间范围 = "1.1"; //单位 小时
+            public const string 邦马网_问题数据同步时间范围 = "1.1"; //单位 小时
             public const string 邦马网_JSON数据间隔 = "||====||";
         }
     }
