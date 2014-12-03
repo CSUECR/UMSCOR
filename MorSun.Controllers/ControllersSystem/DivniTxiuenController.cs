@@ -40,7 +40,7 @@ namespace MorSun.Controllers.SystemController
         /// <param name="tok"></param>
         /// <returns></returns>
         [HttpGet]
-        public string UJS(string Tok,bool? Auto, List<Guid> UIds)
+        public string UJS(string Tok,DateTime? SyncDT, List<Guid> UIds)
         {
             var rz = false;
             rz = IsRZ(Tok, rz);
@@ -48,13 +48,21 @@ namespace MorSun.Controllers.SystemController
                 return "";
             var newAuList = new List<aspnet_UsersJson>();   
             var _auList = new BaseBll<aspnet_Users>().All.Where(p => p.UserId != null);
-            if(Auto.Value)
+            //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
+            if (UIds == null)
             {
-                var hours = 0 - Convert.ToDouble(CFG.邦马网_用户数据同步时间范围);
-                var dt = DateTime.Now.AddHours(hours);
-                _auList = _auList.Where(p => p.wmfUserInfo.RegTime > dt);
+                if (!SyncDT.HasValue)
+                {
+                    var hours = 0 - Convert.ToDouble(CFG.邦马网_用户数据同步时间范围);
+                    var dt = DateTime.Now.AddHours(hours);
+                    _auList = _auList.Where(p => p.wmfUserInfo.RegTime > dt);
+                }
+                else
+                {
+                    _auList = _auList.Where(p => p.wmfUserInfo.RegTime > SyncDT);
+                }
             }
-            if(UIds != null && UIds.Count() > 0)
+            if (UIds != null && UIds.Count() > 0)
             {
                 _auList = _auList.Where(p => UIds.Contains(p.UserId));
             }
