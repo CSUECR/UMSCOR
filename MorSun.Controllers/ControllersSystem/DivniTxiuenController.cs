@@ -194,7 +194,12 @@ namespace MorSun.Controllers.SystemController
         }
 
 
-
+        /// <summary>
+        /// 问题JSON数据
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="SyncDT"></param>
+        /// <returns></returns>
         public string QAJS(string Tok, DateTime? SyncDT)
         {
             LogHelper.Write(Request.UserHostAddress + "\r\n同步QA", LogHelper.LogMessageType.Info);
@@ -430,7 +435,57 @@ namespace MorSun.Controllers.SystemController
             return eys;
         }
 
+        /// <summary>
+        /// 充值JSON获取
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <returns></returns>
+        public string RCJS(string Tok)
+        {
+            LogHelper.Write(Request.UserHostAddress + "\r\n同步QA", LogHelper.LogMessageType.Info);
+            var rz = false;
+            rz = IsRZ(Tok, rz);
+            if (!rz)
+                return "";
 
+            var s = "";
+
+            #region RC数据获取
+            var newRCList = new List<bmRechargeJson>();
+            var _rcList = new BaseBll<bmRecharge>().All.Where(p => p.Effective == null && p.Recharge == null);
+
+            if (_rcList.Count() == 0)
+                return "";
+            else
+            {
+                foreach (var u in _rcList)
+                {
+                    var t = new bmRechargeJson
+                    {
+                        ID = u.ID,
+                        KaMeRef = u.KaMeRef,
+                        MaBiNum = u.MaBiNum,
+                        KaMeUse = u.KaMeUse,
+                        UserId = u.UserId,
+                        KaMe = u.KaMe,
+                        Effective = u.Effective,
+                        Recharge = u.Recharge,
+                        Sort = u.Sort,
+                        RegUser = u.RegUser,
+                        RegTime = u.RegTime,
+                        ModTime = u.ModTime,
+                        FlagTrashed = u.FlagTrashed,
+                        FlagDeleted = u.FlagDeleted
+                    };
+                    newRCList.Add(t);
+                }
+                s += ToJsonAndCompress(newRCList);
+            }
+            #endregion
+
+            var eys = EncodeJson(s);
+            return eys;
+        }
         public string DC()
         {                        
             var id = UJS("",null,null);

@@ -104,6 +104,7 @@
     <Compile Include="JsonObj\QA\bmObjectionJson.cs" />
     <Compile Include="JsonObj\QA\bmUserMaBiRecordJson.cs" />
     <Compile Include="JsonObj\QA\bmQAJson.cs" />
+    <Compile Include="JsonObj\RC\bmRechargeJson.cs" />
     <Compile Include="MenuModels\ChildNode.cs" />
     <Compile Include="MorSun.Designer.cs">
       <AutoGen>True</AutoGen>
