@@ -668,7 +668,12 @@ namespace MorSun.Controllers
                             FormsService.SignIn(model.UserName, false);
                         }  
                         //封装返回的数据
-                        fillOperationResult(returnUrl, oper, "注册成功");
+                        var rs = "注册成功";
+                        if ("AccountActive".GX() == "true")
+                        {
+                            rs += ",请登录您的邮箱激活账号";
+                        }
+                        fillOperationResult(returnUrl, oper, rs);
                         return Json(oper, JsonRequestBehavior.AllowGet);
                     }
                 }

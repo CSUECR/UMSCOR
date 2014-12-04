@@ -62,6 +62,33 @@ namespace MorSun.Controllers.SystemController
         }
 
         /// <summary>
+        /// 卡密检测
+        /// </summary>
+        /// <param name="km"></param>
+        /// <returns></returns>
+        public string JCKM(string id, string tok)
+        {
+            //是否认证
+            var rz = false;
+            rz = IsRZ(tok, rz);
+
+            if (!rz)
+                return "非法请求";
+            var rs = "";
+            if (!String.IsNullOrEmpty(id))
+            {
+                LogHelper.Write("检测卡密：" + id.Substring(0, 30), LogHelper.LogMessageType.Info);
+                id = SecurityHelper.Decrypt(id);
+                var rcKaMe = new BaseBll<bmRecharge>().All.Where(p => p.KaMe == id).FirstOrDefault();
+                if (rcKaMe == null)
+                    rs = CFG.卡密检测结果_未充值;
+                else
+                    rs = CFG.卡密检测结果_已充值;
+            }
+            return rs;
+        }
+
+        /// <summary>
         /// 卡密退款
         /// </summary>
         /// <param name="id"></param>
@@ -86,7 +113,7 @@ namespace MorSun.Controllers.SystemController
                 return oper;
             }                
             LogHelper.Write("退款卡密：" + id.Substring(0,30), LogHelper.LogMessageType.Info);
-
+            id = SecurityHelper.Decrypt(id);
             var rcKaMe = new BaseBll<bmRecharge>().All.Where(p => p.KaMe == id).FirstOrDefault();
             if (rcKaMe != null)
             {

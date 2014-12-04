@@ -186,8 +186,8 @@ namespace MorSun.Controllers.SystemController
                 };
                 newUIList.Add(t);
             }
-
             s += ToJsonAndCompress(newUIList);
+            s += CFG.邦马网_JSON数据间隔;
 
             var eys = EncodeJson(s);
             return eys;
@@ -427,8 +427,9 @@ namespace MorSun.Controllers.SystemController
                     };
                     newUWList.Add(t);
                 }
-                s += ToJsonAndCompress(newUWList);
-            }            
+                s += ToJsonAndCompress(newUWList);                
+            }
+            s += CFG.邦马网_JSON数据间隔;
             #endregion
 
             var eys = EncodeJson(s);
@@ -442,7 +443,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         public string RCJS(string Tok)
         {
-            LogHelper.Write(Request.UserHostAddress + "\r\n同步QA", LogHelper.LogMessageType.Info);
+            LogHelper.Write(Request.UserHostAddress + "\r\n同步RC", LogHelper.LogMessageType.Info);
             var rz = false;
             rz = IsRZ(Tok, rz);
             if (!rz)
