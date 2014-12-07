@@ -1,8 +1,10 @@
 ﻿@if (Request.IsAuthenticated)
 {
     var user = MorSun.Controllers.BasisController.CurrentAspNetUser;
+    var rz = Guid.Parse(Reference.认证类别_认证邦主);
     <text>
         您好，@Html.ActionLink(user.wmfUserInfo == null ? user.UserName : user.wmfUserInfo.NickName, "Info", "Member", routeValues: null, htmlAttributes: new { @class = "username", title = "管理" })!
+        @(user.wmfUserInfo == null ? "" : user.wmfUserInfo.CertificationLevel == rz ? "(认证)" : "")
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
             <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>

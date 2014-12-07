@@ -7,42 +7,18 @@ using HOHO18.Common;
 
 namespace MorSun.Model
 {
-    public class bmUserMaBiRecordJson
+    public class bmTakeNowJson
     {
         /// <summary>
         /// 
         /// </summary>
         public Guid ID
         { get; set; }
+       
         /// <summary>
         /// 
         /// </summary>
         public Guid? UserId
-        { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Guid? QAId
-        { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Guid? RCId
-        { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Guid? TkId
-        { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Guid? SourceRef
-        { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Guid? MaBiRef
         { get; set; }
         /// <summary>
         /// 
@@ -52,7 +28,27 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
-        public bool? IsSettle
+        public Guid? Effective
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Guid? TakeRef
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string UserRemark
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string BMExplain
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime? TakeTime
         { get; set; }
         /// <summary>
         /// 

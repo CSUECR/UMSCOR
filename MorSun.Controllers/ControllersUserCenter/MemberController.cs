@@ -284,7 +284,7 @@ namespace MorSun.Controllers
             var curUser = CurrentAspNetUser;
             var curUserMB = CurrentUserMabi.NMB;
             
-            var curUserTake = tbll.All.Where(p => p.UserId == curUser.UserId && p.Effective == null).Sum(p => p.MaBiNum);
+            var curUserTake = tbll.All.Where(p => p.UserId == curUser.UserId && p.Effective == null && p.TakeRef == null).Sum(p => p.MaBiNum);
             if (curUserTake == null) curUserTake = 0;
             if((curUserTake + take.MaBiNum) >= curUserMB)
             {

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MorSun.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Aduit">
           <Key>
             <PropertyRef Name="ID" />
@@ -366,6 +366,7 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="QAId" Type="uniqueidentifier" />
+          <Property Name="RCId" Type="uniqueidentifier" />
           <Property Name="SourceRef" Type="uniqueidentifier" />
           <Property Name="MaBiRef" Type="uniqueidentifier" />
           <Property Name="MaBiNum" Type="decimal" Precision="18" Scale="6" />
@@ -2812,6 +2813,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmUserMaBiRecord_bmRecharge">
+          <End Role="bmRecharge" Type="Self.bmRecharge" Multiplicity="0..1" />
+          <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bmRecharge">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="RCId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmUserMaBiRecord_wmfReference">
           <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
           <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
@@ -4214,6 +4227,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="bmQA" EntitySet="bmQA" />
             <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_bmRecharge" Association="Self.FK_bmUserMaBiRecord_bmRecharge">
+            <End Role="bmRecharge" EntitySet="bmRecharge" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmUserMaBiRecord_wmfReference" Association="Self.FK_bmUserMaBiRecord_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReference" />
             <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
@@ -4515,8 +4532,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfVillage" EntitySet="wmfVillage" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MorSun.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -4898,6 +4914,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmRecharge_wmfReference1" FromRole="bmRecharge" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference2" Relationship="Self.FK_bmRecharge_wmfReference2" FromRole="bmRecharge" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference3" Relationship="Self.FK_bmRecharge_wmfReference3" FromRole="bmRecharge" ToRole="wmfReference" />
+          <NavigationProperty Name="bmUserMaBiRecords" Relationship="MorSun.Model.FK_bmUserMaBiRecord_bmRecharge" FromRole="bmRecharge" ToRole="bmUserMaBiRecord" />
         </EntityType>
         <EntityType Name="bmSellKaMe">
           <Key>
@@ -4985,6 +5002,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmQA" Relationship="Self.FK_bmUserMaBiRecord_bmQA" FromRole="bmUserMaBiRecord" ToRole="bmQA" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmUserMaBiRecord_wmfReference" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmUserMaBiRecord_wmfReference1" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
+          <Property Name="RCId" Type="Guid" />
+          <NavigationProperty Name="bmRecharge" Relationship="MorSun.Model.FK_bmUserMaBiRecord_bmRecharge" FromRole="bmUserMaBiRecord" ToRole="bmRecharge" />
         </EntityType>
         <EntityType Name="bmUserMaBiSettleRecord">
           <Key>
@@ -9118,7 +9137,23 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_bmRecharge" Association="MorSun.Model.FK_bmUserMaBiRecord_bmRecharge">
+            <End Role="bmRecharge" EntitySet="bmRecharges" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_bmUserMaBiRecord_bmRecharge">
+          <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBiRecord" Role="bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bmRecharge">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="RCId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9495,6 +9530,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmUserMaBiRecords">
             <EntityTypeMapping TypeName="MorSun.Model.bmUserMaBiRecord">
               <MappingFragment StoreEntitySet="bmUserMaBiRecord">
+                <ScalarProperty Name="RCId" ColumnName="RCId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="QAId" ColumnName="QAId" />

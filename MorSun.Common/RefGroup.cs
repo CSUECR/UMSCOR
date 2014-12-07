@@ -60,12 +60,14 @@ namespace MorSun.Common
 
             #region 邦马
             //马币来源
-            public const string 马币来源_充值 = "f4b37e62-b338-46e5-a263-6826cc70d17b";
-            public const string 马币来源_消费 = "fdb05cbe-1fd7-4485-a72c-eccfb17ac92a";
+            public const string 马币来源_充值 = "f4b37e62-b338-46e5-a263-6826cc70d17b";            
             public const string 马币来源_赚取 = "38e43d82-7447-4e4e-8b5a-f183f459d5b1";
             public const string 马币来源_赠送 = "40db0500-1be2-44d3-bb9a-adf146033934";
             public const string 马币来源_归还 = "ee24483b-4f0e-41ef-bf29-b9f63d670a86";
+            //以上是正数 以下是添加负数
+            public const string 马币来源_消费 = "fdb05cbe-1fd7-4485-a72c-eccfb17ac92a";
             public const string 马币来源_扣取 = "2e898bfe-bd58-4012-9b5b-9d69101adff4";
+            public const string 马币来源_取现 = "a190a815-5553-4024-8b39-ecea3798e882";
 
             //马币类别
             public const string 马币类别_马币 = "b6dda7ba-9cca-4b37-bfe8-5b080161a4b9";

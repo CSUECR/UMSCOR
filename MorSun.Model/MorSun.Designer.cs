@@ -143,6 +143,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfResource_wmfResource", "wmfResource", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.wmfResource), "wmfResource1", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfResource), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfVillage_wmfTown", "wmfTown", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.wmfTown), "wmfVillage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfVillage), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "aspnet_UsersInRoles", "aspnet_Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Roles), "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Users))]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiRecord_bmRecharge", "bmRecharge", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.bmRecharge), "bmUserMaBiRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiRecord), true)]
 
 #endregion
 
@@ -12452,6 +12453,28 @@ namespace MorSun.Model
                 }
             }
         }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiRecord_bmRecharge", "bmUserMaBiRecord")]
+        public EntityCollection<bmUserMaBiRecord> bmUserMaBiRecords
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiRecord>("MorSun.Model.FK_bmUserMaBiRecord_bmRecharge", "bmUserMaBiRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiRecord>("MorSun.Model.FK_bmUserMaBiRecord_bmRecharge", "bmUserMaBiRecord", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -14236,6 +14259,30 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> RCId
+        {
+            get
+            {
+                return _RCId;
+            }
+            set
+            {
+                OnRCIdChanging(value);
+                ReportPropertyChanging("RCId");
+                _RCId = StructuralObject.SetValidValue(value, "RCId");
+                ReportPropertyChanged("RCId");
+                OnRCIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _RCId;
+        partial void OnRCIdChanging(Nullable<global::System.Guid> value);
+        partial void OnRCIdChanged();
 
         #endregion
 
@@ -14427,6 +14474,44 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<wmfReference>("MorSun.Model.FK_bmUserMaBiRecord_wmfReference1", "wmfReference", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiRecord_bmRecharge", "bmRecharge")]
+        public bmRecharge bmRecharge
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<bmRecharge>("MorSun.Model.FK_bmUserMaBiRecord_bmRecharge", "bmRecharge").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<bmRecharge>("MorSun.Model.FK_bmUserMaBiRecord_bmRecharge", "bmRecharge").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<bmRecharge> bmRechargeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<bmRecharge>("MorSun.Model.FK_bmUserMaBiRecord_bmRecharge", "bmRecharge");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<bmRecharge>("MorSun.Model.FK_bmUserMaBiRecord_bmRecharge", "bmRecharge", value);
                 }
             }
         }
