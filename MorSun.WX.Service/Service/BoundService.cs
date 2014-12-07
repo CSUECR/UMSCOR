@@ -101,7 +101,12 @@ namespace MorSun.WX.ZYB.Service
                         model.ID = Guid.NewGuid();
                         model.UserId = ubcc.UserId;
                         model.WeiXinId = requestMessage.FromUserName;
-                        model.WeiXinAPP = wxyy;                        
+                        model.WeiXinAPP = wxyy;
+
+                        model.RegTime = DateTime.Now;
+                        model.ModTime = DateTime.Now;
+                        model.FlagTrashed = false;
+                        model.FlagDeleted = false;
                         bll.Insert(model);
                         //释放资源
                         CacheAccess.RemoveCache(CFG.微信绑定前缀 + boundCode);

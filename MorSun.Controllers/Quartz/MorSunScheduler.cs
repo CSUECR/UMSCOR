@@ -100,5 +100,16 @@ namespace MorSun.Controllers.Quartz
             JobKey job = new JobKey(name, group);
             _sched.Interrupt(job);
         }
+
+        /// <summary>
+        /// 触发某项工作 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="group"></param>
+        public void TrggerJob(string name, string group)
+        {
+            JobKey job = new JobKey(name, group);
+            _sched.TriggerJob(job);
+        }
     }
 }

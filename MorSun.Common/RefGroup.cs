@@ -227,6 +227,7 @@ namespace MorSun.Common
 
             public const string 默认推广代码 = "bungma";
 
+            public const string 注册默认角色 = "98dcfbe9-fa44-4832-8a1b-5a82de8d1abf";
             //微信
             public const string 作业邦微信令牌 = "WXZYBung34fdjs38";
             public const string 看答案指令 = "DA==>";
@@ -290,6 +291,7 @@ namespace MorSun.Common
 
             //邦马网对接
             public const string 邦马网_对接统一码 = "F1W%I^v2&n^eJiw3";
+            public const string 邦马网_字符串分隔符 = ",";
 
             //用户表数据同步时间
             public const string 邦马网_用户数据同步时间范围 = "1.1"; //单位 小时

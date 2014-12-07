@@ -40,18 +40,21 @@ namespace MorSun.Controllers.SystemController
         /// <param name="SyncDT"></param>
         /// <param name="UIds"></param>
         /// <returns></returns>
-        [HttpGet]
-        public string UJS(string Tok,DateTime? SyncDT, List<Guid> UIds)
+        
+        public string UJS(string Tok,DateTime? SyncDT, string UIds)
         {
-            LogHelper.Write(Request.UserHostAddress + "\r\n同步User", LogHelper.LogMessageType.Info);
+            LogHelper.Write("同步User", LogHelper.LogMessageType.Info);
             var rz = false;
             rz = IsRZ(Tok, rz);
             if (!rz)
+            {
+                LogHelper.Write("未认证", LogHelper.LogMessageType.Info);
                 return "";
+            }
             var newAuList = new List<aspnet_UsersJson>();   
             var _auList = new BaseBll<aspnet_Users>().All.Where(p => p.UserId != null);
             //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
-            if (UIds == null)
+            if (String.IsNullOrEmpty(UIds))
             {
                 if (!SyncDT.HasValue)
                 {
@@ -64,9 +67,19 @@ namespace MorSun.Controllers.SystemController
                     _auList = _auList.Where(p => p.wmfUserInfo.RegTime > SyncDT);
                 }
             }
-            if (UIds != null && UIds.Count() > 0)
+            if (!String.IsNullOrEmpty(UIds))
             {
-                _auList = _auList.Where(p => UIds.Contains(p.UserId));
+                try
+                {
+                    var dcUids = SecurityHelper.Decrypt(UIds);
+                    var uidArr = dcUids.ToGuidList(CFG.邦马网_字符串分隔符);
+                    _auList = _auList.Where(p => uidArr.Contains(p.UserId));
+                }
+                catch
+                {
+                    LogHelper.Write("无法解密", LogHelper.LogMessageType.Info);
+                    return "";
+                }
             }
             
             if (_auList.Count() == 0)
@@ -202,7 +215,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         public string QAJS(string Tok, DateTime? SyncDT)
         {
-            LogHelper.Write(Request.UserHostAddress + "\r\n同步QA", LogHelper.LogMessageType.Info);
+            LogHelper.Write("同步QA", LogHelper.LogMessageType.Info);
             var rz = false;
             rz = IsRZ(Tok, rz);
             if (!rz)
@@ -263,9 +276,12 @@ namespace MorSun.Controllers.SystemController
             }
             s += CFG.邦马网_JSON数据间隔;
             #endregion
+
             #region 用户马币数据获取
             var newUMBList = new List<bmUserMaBiRecordJson>();
-            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.ID != null);
+            var mbSourceZS = Guid.Parse(Reference.马币来源_赠送);
+            var mbSourceXF = Guid.Parse(Reference.马币来源_消费);
+            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.SourceRef == mbSourceZS || p.SourceRef == mbSourceXF);
             //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
 
             if (!SyncDT.HasValue)
@@ -305,18 +321,21 @@ namespace MorSun.Controllers.SystemController
             }
             s += CFG.邦马网_JSON数据间隔;
             #endregion
+
             #region QA问题分配记录获取
             var newQADisList = new List<bmQADistributionJson>();
-            var _qaDisList = new BaseBll<bmQADistribution>().All.Where(p => p.ID != null);
+            var resultBS = Guid.Parse(Reference.分配答题操作_不是问题);
+            var resultJD = Guid.Parse(Reference.分配答题操作_已解答);
+            var _qaDisList = new BaseBll<bmQADistribution>().All.Where(p => p.Result == resultBS || p.Result == resultJD);
             //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
 
             if (!SyncDT.HasValue)
             {
-                _qaDisList = _qaDisList.Where(p => p.RegTime > dt);
+                _qaDisList = _qaDisList.Where(p => p.OperateTime > dt);
             }
             else
             {
-                _qaDisList = _qaDisList.Where(p => p.RegTime > SyncDT);
+                _qaDisList = _qaDisList.Where(p => p.OperateTime > SyncDT);
             }
 
             if (_qaDisList.Count() == 0)
@@ -347,6 +366,7 @@ namespace MorSun.Controllers.SystemController
             }
             s += CFG.邦马网_JSON数据间隔;
             #endregion
+
             #region 异议数据获取
             var newOBList = new List<bmObjectionJson>();
             var _obList = new BaseBll<bmObjection>().All.Where(p => p.ID != null);
@@ -392,6 +412,7 @@ namespace MorSun.Controllers.SystemController
             }
             s += CFG.邦马网_JSON数据间隔;
             #endregion
+
             #region 用户微信绑定数据获取
             var newUWList = new List<bmUserWeixinJson>();
             var _uwList = new BaseBll<bmUserWeixin>().All.Where(p => p.ID != null);
@@ -443,7 +464,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         public string RCJS(string Tok)
         {
-            LogHelper.Write(Request.UserHostAddress + "\r\n同步RC", LogHelper.LogMessageType.Info);
+            LogHelper.Write("同步RC", LogHelper.LogMessageType.Info);
             var rz = false;
             rz = IsRZ(Tok, rz);
             if (!rz)
@@ -487,13 +508,13 @@ namespace MorSun.Controllers.SystemController
             var eys = EncodeJson(s);
             return eys;
         }
-        public string DC()
-        {                        
-            var id = UJS("",null,null);
-            var s = DecodeJson(id);          
-            var _list = JsonConvert.DeserializeObject<List<aspnet_Users>>(s);
-            return "";
-        }
+        //public string DC()
+        //{                        
+        //    var id = UJS("",null,null);
+        //    var s = DecodeJson(id);          
+        //    var _list = JsonConvert.DeserializeObject<List<aspnet_Users>>(s);
+        //    return "";
+        //}
 
         
 

@@ -115,8 +115,8 @@ namespace MorSun.Controllers
                     {
                         var ubll = new BaseBll<wmfUserInfo>();
                         var user = ubll.All.Where(p => p.ID == CurrentAspNetUser.UserId).FirstOrDefault();                        
-                        user.UserPassword = model.NewPassword.EP(user.ID.ToString());
-                        ubll.Update(user);
+                        //user.UserPassword = model.NewPassword.EP(user.ID.ToString());
+                        //ubll.Update(user);
                         LogHelper.Write(user.aspnet_Users.UserName + "IP;" + Request.UserHostAddress + "修改密码", LogHelper.LogMessageType.Info);
                     }
                 }

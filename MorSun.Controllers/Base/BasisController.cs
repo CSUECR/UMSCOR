@@ -168,9 +168,11 @@ namespace MorSun.Controllers
                 //取时间戳
                 var ind = ts.IndexOf(';');
                 DateTime dt = DateTime.Parse(ts.Substring(0, ind));
-                if (dt.AddSeconds(5) < DateTime.Now || !ts.Contains(CFG.邦马网_对接统一码))
-                {//限制15秒内
+                //用定时器执行时会延迟，5秒不够
+                if (dt.AddSeconds(12) < DateTime.Now || !ts.Contains(CFG.邦马网_对接统一码))
+                {//限制8秒内
                     rz = false;
+                    LogHelper.Write("访问未认证", LogHelper.LogMessageType.Info);
                 }
                 else
                 {
@@ -181,6 +183,7 @@ namespace MorSun.Controllers
             catch
             {
                 rz = false;
+                LogHelper.Write("访问各种原因认证出错", LogHelper.LogMessageType.Info);
             }
             return rz;
         }

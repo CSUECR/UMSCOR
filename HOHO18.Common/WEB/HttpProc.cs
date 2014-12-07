@@ -544,7 +544,7 @@ namespace HOHO18.Common.Web
         /// <PARAM name="paramList">参数列表 例如 name=zhangsan&pass=lisi</PARAM>   
         /// <PARAM name="referer">来源地址</PARAM>   
         /// <RETURNS></RETURNS>   
-        public static string Login(String url, String paramList, string referer)
+        public static string PostGetPage(String url, String paramList, string referer)
         {
             HttpWebResponse res = null;
             HttpWebRequest req = null;
@@ -620,7 +620,8 @@ namespace HOHO18.Common.Web
             }
             finally
             {
-                res.Close();
+                if (res != null)
+                    res.Close();
             }
             return strResult;
         }
@@ -649,7 +650,8 @@ namespace HOHO18.Common.Web
             }
             finally
             {
-                sr.Close();
+                if (sr != null)
+                    sr.Close();
             }
             return strResult;
         }
@@ -729,7 +731,8 @@ namespace HOHO18.Common.Web
             }
             finally
             {
-                response.Close();
+                if (response != null)
+                    response.Close();
             }
             return strResult;
         }

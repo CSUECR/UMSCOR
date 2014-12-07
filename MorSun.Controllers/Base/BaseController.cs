@@ -176,10 +176,11 @@ namespace MorSun.Controllers
             }
             else
             {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper, JsonRequestBehavior.AllowGet);
+                //"".AE("无权限", ModelState);
+                //var oper = new OperationResult(OperationResultType.Error, "无权限");
+                //oper.AppendData = ModelState.GE();
+                //return Json(oper, JsonRequestBehavior.AllowGet);
+                return Redirect("http://bungma.taobao.com"); 
             }
         }
 
@@ -255,10 +256,11 @@ namespace MorSun.Controllers
             }
             else
             {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper, JsonRequestBehavior.AllowGet);
+                //"".AE("无权限", ModelState);
+                //var oper = new OperationResult(OperationResultType.Error, "无权限");
+                //oper.AppendData = ModelState.GE();
+                //return Json(oper, JsonRequestBehavior.AllowGet);
+                return Redirect("http://bungma.taobao.com"); 
             }
 
         }
@@ -587,10 +589,11 @@ namespace MorSun.Controllers
             }
             else
             {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper, JsonRequestBehavior.AllowGet);
+                //"".AE("无权限", ModelState);
+                //var oper = new OperationResult(OperationResultType.Error, "无权限");
+                //oper.AppendData = ModelState.GE();
+                //return Json(oper, JsonRequestBehavior.AllowGet);
+                return Redirect("http://bungma.taobao.com"); 
             }
         }
 
@@ -612,10 +615,11 @@ namespace MorSun.Controllers
             }
             else
             {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper, JsonRequestBehavior.AllowGet);
+                //"".AE("无权限", ModelState);
+                //var oper = new OperationResult(OperationResultType.Error, "无权限");
+                //oper.AppendData = ModelState.GE();
+                //return Json(oper, JsonRequestBehavior.AllowGet);
+                return Redirect("http://bungma.taobao.com"); 
             }
         } 
        
@@ -672,10 +676,11 @@ namespace MorSun.Controllers
             }
             else
             {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper, JsonRequestBehavior.AllowGet);
+                //"".AE("无权限", ModelState);
+                //var oper = new OperationResult(OperationResultType.Error, "无权限");
+                //oper.AppendData = ModelState.GE();
+                //return Json(oper, JsonRequestBehavior.AllowGet);
+                return Redirect("http://bungma.taobao.com"); 
                 //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }
@@ -703,10 +708,11 @@ namespace MorSun.Controllers
             }
             else
             {
-                "".AE("无权限", ModelState);
-                var oper = new OperationResult(OperationResultType.Error, "无权限");
-                oper.AppendData = ModelState.GE();
-                return Json(oper, JsonRequestBehavior.AllowGet);
+                //"".AE("无权限", ModelState);
+                //var oper = new OperationResult(OperationResultType.Error, "无权限");
+                //oper.AppendData = ModelState.GE();
+                //return Json(oper, JsonRequestBehavior.AllowGet);
+                return Redirect("http://bungma.taobao.com"); 
                 //return Content(XmlHelper.GetKeyNameValidation("项目提示", "无权限操作"));
             }
         }

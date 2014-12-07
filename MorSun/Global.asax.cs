@@ -79,6 +79,18 @@ namespace MorSun
         {
             Exception objExp = HttpContext.Current.Server.GetLastError();
             LogHelper.Write("\r\n客户机IP:" + Request.UserHostAddress + "\r\n原始URL:" + Request.RawUrl + "\r\n浏览器:" + Request.Browser + "\r\n错误地址:" + Request.Url + "\r\n异常信息:" + Server.GetLastError().Message, LogHelper.LogMessageType.Error);
+            //Response.Redirect("http://www.baidu.com");
+        }
+
+        protected void Application_EndRequest(Object sender, EventArgs e)
+        {
+            var statusCode = Context.Response.StatusCode;
+            var routingData = Context.Request.RequestContext.RouteData;
+            if (statusCode == 404 || statusCode == 500)
+            {
+                Response.Clear();                
+                Response.Redirect("http://bungma.taobao.com"); 
+            }
         }
     }
 

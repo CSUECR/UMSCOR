@@ -477,8 +477,8 @@ namespace MorSun.Controllers
                             MembershipUser muser = Membership.GetUser(user.aspnet_Users.UserName);
                             if (MembershipService.ChangePassword(user.aspnet_Users.UserName, muser.ResetPassword(), model.NewPassword))
                             {
-                                user.UserPassword = model.NewPassword.EP(user.ID.ToString());
-                                ubll.Update(user);
+                                //user.UserPassword = "";// model.NewPassword.EP(user.ID.ToString());
+                                //ubll.Update(user);
                                 //封装返回的数据
                                 fillOperationResult(Url.Action("I", "H"), oper, "密码修改成功");
                                 return Json(oper, JsonRequestBehavior.AllowGet);
@@ -579,8 +579,8 @@ namespace MorSun.Controllers
                         wmfUserInfo userinfoModel = new wmfUserInfo();
 
                         userinfoModel.ID = user.ProviderUserKey.ToAs<Guid>();
-                        userinfoModel.UserPassword = model.Password.EP(userinfoModel.ID.ToString());
-                        userinfoModel.OperatePassword = model.Password.EP(userinfoModel.ID.ToString());
+                        userinfoModel.UserPassword = ""; //model.Password.EP(userinfoModel.ID.ToString());
+                        userinfoModel.OperatePassword = "";// model.Password.EP(userinfoModel.ID.ToString());
                         LogHelper.Write(model.UserName + "用户密码和操作密码加密", LogHelper.LogMessageType.Debug);
                         //密码串 不用
                         //userinfoModel.ValidateCode = Guid.NewGuid().ToString().EP(userinfoModel.ID.ToString());
@@ -647,7 +647,7 @@ namespace MorSun.Controllers
                         //保存用户信息到 wmfuserinfo 表中
                         userinfobll.Insert(userinfoModel);
                         //设置默认角色
-                        var RoleName = "RoleName".GX();
+                        var RoleName = CFG.注册默认角色;//"RoleName".GX();
                         if (!string.IsNullOrEmpty(RoleName))
                         {
                             //添加角色  被注释的无效

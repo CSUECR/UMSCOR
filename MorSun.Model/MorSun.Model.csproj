@@ -97,6 +97,8 @@
     <Compile Include="Common\wmfVillage.cs" />
     <Compile Include="Extension\EntityObjectExtension.cs" />
     <Compile Include="JsonObj\Basic\aspnet_MembershipJson.cs" />
+    <Compile Include="JsonObj\Basic\aspnet_RolesJson.cs" />
+    <Compile Include="JsonObj\Basic\aspnet_UsersInRolesJson.cs" />
     <Compile Include="JsonObj\QA\bmUserWeixinJson.cs" />
     <Compile Include="JsonObj\Basic\wmfUserInfoJson.cs" />
     <Compile Include="JsonObj\Basic\aspnet_UsersJson.cs" />
