@@ -36,6 +36,7 @@
                         <li>@Html.ActionLink("首页", "I", "H")</li>
                         <li>@Html.ActionLink("公告通知", "I", "H")</li>
                         <li>@Html.ActionLink("帮助说明", "I", "H")</li>
+                        <li><a href="http://wpa.qq.com/msgrd?v=3&uin=2059028001&site=qq&menu=yes">在线客服</a></li>
                         @*<li>@Html.ActionLink("联系方式", "Contact", "Home")</li>*@
                     </ul>
                 </nav>
@@ -47,10 +48,10 @@
         </div>
         <div id="divInfo" style="margin-top: 10px;">
         </div>
-        <div id="back-to-top" style="display: block;">
+        <div id="back-to-top" style="display: none;">
             <a href="#top"></a>
         </div>
-        <div id="zt_pf">
+        <div id="zt_pf" style="display: none;">
             <a class="pf1" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2059028001&site=qq&menu=yes"></a>
             <a class="pf2" target="_blank" href="@("ServiceDomain".GHU())/Account/Register"></a>
             <a class="pf3" target="_blank" href="@("ServiceDomain".GHU())"></a>

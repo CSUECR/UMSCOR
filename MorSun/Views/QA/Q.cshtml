@@ -16,16 +16,25 @@
                     <table id="MoreSunTreeTable" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>问题</th>
+                                <th><div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                                    <div class="portlet-title">
+                                        <div class="caption"><i class="icon-cogs"></i>问题</div>
+                                    </div>
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><img src="@Model.Q.PicUrl" width="800" /></td>
                             </tr>
-                            @if(Model.A != null)
-                            { 
-                                <tr><td>答案</td></tr>
+                                                        @if (Model.A != null)
+                            {
+                                <tr><td><div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                                    <div class="portlet-title">
+                                        <div class="caption"><i class="icon-cogs"></i>答案</div>
+                                    </div>
+                                </div></td></tr>
                                 <tr>
                                     <td>                                    
                                         @if(Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
@@ -41,7 +50,11 @@
                             }
                             @if(Model.Others.Count() > 0)
                             { 
-                                <tr><td>其他</td></tr>
+                                <tr><td><div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                                        <div class="portlet-title">
+                                            <div class="caption"><i class="icon-cogs"></i>其他</div>
+                                        </div>
+                                    </div></td></tr>
                                 foreach(var item in Model.Others)
                                 {
                                     <tr>
