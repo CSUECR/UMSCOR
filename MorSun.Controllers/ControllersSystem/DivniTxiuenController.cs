@@ -605,6 +605,7 @@ namespace MorSun.Controllers.SystemController
                                 var dblist = bll.All.Where(p => aids.Contains(p.ID)); 
                                 foreach (var l in dblist)
                                 {
+                                    //更新充值记录只要三个字段
                                     var jsl = _list.FirstOrDefault(p => p.ID == l.ID);
                                     l.Recharge = jsl.Recharge;
                                     l.Effective = jsl.Effective;                                    
