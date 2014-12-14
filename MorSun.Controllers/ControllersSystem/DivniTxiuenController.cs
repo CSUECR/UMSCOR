@@ -19,6 +19,7 @@ using HOHO18.Common.WEB;
 using HOHO18.Common.SSO;
 using MorSun.Common.配置;
 using Newtonsoft.Json;
+using HOHO18.Common.DEncrypt;
 
 namespace MorSun.Controllers.SystemController
 {
@@ -544,6 +545,137 @@ namespace MorSun.Controllers.SystemController
             var eys = EncodeJson(s);
             return eys;
         }
+
+        /// <summary>
+        /// 判断服务器是否可用
+        /// </summary>
+        /// <returns></returns>
+        public string ServerIsOk()
+        {
+            return "true";
+        }
+
+        /// <summary>
+        /// 用户卡密充值及认证
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string AncyRCMB(string Tok, string AncyData)
+        {            
+            var rz = false;
+            rz = IsRZ(Tok, rz);
+            if (!rz)
+                return "";
+            
+            if(!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("开始同步充值记录与马币", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {                    
+                    //用户有三张表，要先分开
+                    var bmRC = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    var bmMB = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    var rzUId = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);   
+                    
+                    try
+                    {
+                        //用户充值记录
+                        if (!String.IsNullOrEmpty(bmRC))
+                        {
+                            bmRC = Compression.DecompressString(bmRC);
+                            var _list = JsonConvert.DeserializeObject<List<bmRecharge>>(bmRC);
+                            if (_list.Count() > 0)
+                            {
+                                var aids = new List<Guid>();
+                                aids = _list.Select(p => p.ID).ToList();
+                                var bll = new BaseBll<bmRecharge>();
+                                //取出待修改的充值记录
+                                var dblist = bll.All.Where(p => aids.Contains(p.ID)); 
+                                foreach (var l in dblist)
+                                {
+                                    var jsl = _list.FirstOrDefault(p => p.ID == l.ID);
+                                    l.Recharge = jsl.Recharge;
+                                    l.Effective = jsl.Effective;                                    
+                                }
+                                bll.UpdateChanges();
+                            }
+                        }
+                        //马币记录
+                        if (!String.IsNullOrEmpty(bmMB))
+                        {
+                            bmMB = Compression.DecompressString(bmMB);
+                            var _list = JsonConvert.DeserializeObject<List<bmUserMaBiRecord>>(bmMB);
+                            if (_list.Count() > 0)
+                            {
+                                var aids = new List<Guid>();
+                                aids = _list.Select(p => p.ID).ToList();
+                                var bll = new BaseBll<bmUserMaBiRecord>();
+                                //过滤掉已经添加的数据                    
+                                var alreadyQIds = bll.All.Where(p => aids.Contains(p.ID)).Select(p => p.ID);
+                                aids = aids.Except(alreadyQIds).ToList();
+                                _list = _list.Where(p => aids.Contains(p.ID)).ToList();
+                                foreach (var l in _list)
+                                {
+                                    bll.Insert(l, false);
+                                }
+                                bll.UpdateChanges();
+                            }
+                        }                        
+                        //用户认证
+                        if (!String.IsNullOrEmpty(rzUId))
+                        {
+                            rzUId = Compression.DecompressString(rzUId);
+                            var _list = JsonConvert.DeserializeObject<List<Guid>>(rzUId);
+                            if (_list.Count() > 0)
+                            {
+                                //var aids = new List<Guid>();
+                                //aids = _list.Select(p => p.ID).ToList();
+                                var bll = new BaseBll<wmfUserInfo>();
+                                //过滤掉已经添加的数据  
+                                var rzUsers = bll.All.Where(p => _list.Contains(p.ID));
+                                
+                                if(rzUsers.Count() > 0)
+                                {
+                                    var rzUR = Guid.Parse(Reference.认证类别_认证邦主);
+                                    foreach (var l in rzUsers)
+                                    {
+                                        l.CertificationLevel = rzUR;
+                                    }
+                                    bll.UpdateChanges();
+                                }
+                            }
+                        }                        
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致同步不成功", LogHelper.LogMessageType.Info);
+                        return ex.Message + "异常导致同步不成功";
+                    }
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);
+                    return "未传递同步数据";
+                } 
+            }
+            return "true";
+        }
+
+
+
+
         //public string DC()
         //{                        
         //    var id = UJS("",null,null);
@@ -551,7 +683,6 @@ namespace MorSun.Controllers.SystemController
         //    var _list = JsonConvert.DeserializeObject<List<aspnet_Users>>(s);
         //    return "";
         //}
-
         
 
         /// <summary>

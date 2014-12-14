@@ -248,9 +248,11 @@ function backtop() {
         $(window).scroll(function () {
             if ($(window).scrollTop() > 200) {
                 $("#back-to-top").fadeIn(1500);
+                $("#zt_pf").fadeIn(1500);
             }
             else {
                 $("#back-to-top").fadeOut(1500);
+                $("#zt_pf").fadeOut(1500);
             }
         });
         //当点击跳转链接后，回到页面顶部位置
@@ -260,6 +262,8 @@ function backtop() {
         });
     });
 }
+
+
 
 /*********************************一些操作********************************************************/
 //跳转页面

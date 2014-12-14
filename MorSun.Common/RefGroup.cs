@@ -85,7 +85,7 @@ namespace MorSun.Common
 
             //卡密有效性
             public const string 卡密有效性_有效 = "97afe305-a2b1-44c4-a6d4-e7df1289e13e";
-            public const string 卡密有效性_失效 = "7e5b5100-723b-430c-9690-92402d2caedd";
+            public const string 卡密有效性_无效 = "7e5b5100-723b-430c-9690-92402d2caedd";
 
             //卡密类别
             public const string 卡密类别_认证66 = "767a26ea-58ae-4afa-b8a2-eadaf61c8ee4";

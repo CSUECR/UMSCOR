@@ -109,52 +109,55 @@ namespace MorSun.WX.ZYB.Service
             responseMessage.Articles.Add(new Article()
             {
                 Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
-                Description = "",
+                Description = @"本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
+                + "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
+                + "当前未答题数： " + model.DJDCount
+                ,
                 PicUrl = model.PicUrl,
                 Url = model.PicUrl
             });
-            responseMessage.Articles.Add(new Article()
-            {//眼睛图片
-                Title = "放弃本题请发送:" + " " + CFG.放弃本题,
-                Description = "放弃本题请发送:" + " " + CFG.放弃本题,
-                PicUrl = "",
-                Url = ""
-            });//再增加 加码 求解题思路            
-            responseMessage.Articles.Add(new Article()
-            {//美元图片
-                Title = "这不是一个问题请发送：" + " " + CFG.不是问题,
-                Description = "这不是一个问题请发送：" + " " + CFG.不是问题,
-                PicUrl = "",
-                Url = ""
-            });
-            responseMessage.Articles.Add(new Article()
-            {//问号图片
-                Title = "本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString())),
-                Description = "本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString())),
-                PicUrl = "",
-                Url = ""
-            });
-            responseMessage.Articles.Add(new Article()
-            {//问号图片
-                Title = "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
-                Description = "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
-                PicUrl = "",
-                Url = ""
-            });
-            responseMessage.Articles.Add(new Article()
-            {//问号图片
-                Title = "当前未答题数:   " + model.DJDCount,
-                Description = "当前未答题数： " + model.DJDCount,
-                PicUrl = "",
-                Url = ""
-            });
-            responseMessage.Articles.Add(new Article()
-            {//美元图片
-                Title = "退出答题请发送：" + " " + CFG.退出答题,
-                Description = "退出答题请发送：" + " " + CFG.退出答题,
-                PicUrl = "",
-                Url = ""
-            });
+            //responseMessage.Articles.Add(new Article()
+            //{//眼睛图片
+            //    Title = "放弃本题请发送:" + " " + CFG.放弃本题,
+            //    Description = "放弃本题请发送:" + " " + CFG.放弃本题,
+            //    PicUrl = "",
+            //    Url = ""
+            //});//再增加 加码 求解题思路            
+            //responseMessage.Articles.Add(new Article()
+            //{//美元图片
+            //    Title = "这不是一个问题请发送：" + " " + CFG.不是问题,
+            //    Description = "这不是一个问题请发送：" + " " + CFG.不是问题,
+            //    PicUrl = "",
+            //    Url = ""
+            //});
+            //responseMessage.Articles.Add(new Article()
+            //{//问号图片
+            //    Title = "本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString())),
+            //    Description = "本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString())),
+            //    PicUrl = "",
+            //    Url = ""
+            //});
+            //responseMessage.Articles.Add(new Article()
+            //{//问号图片
+            //    Title = "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
+            //    Description = "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
+            //    PicUrl = "",
+            //    Url = ""
+            //});
+            //responseMessage.Articles.Add(new Article()
+            //{//问号图片
+            //    Title = "当前未答题数:   " + model.DJDCount,
+            //    Description = "当前未答题数： " + model.DJDCount,
+            //    PicUrl = "",
+            //    Url = ""
+            //});
+            //responseMessage.Articles.Add(new Article()
+            //{//美元图片
+            //    Title = "退出答题请发送：" + " " + CFG.退出答题,
+            //    Description = "退出答题请发送：" + " " + CFG.退出答题,
+            //    PicUrl = "",
+            //    Url = ""
+            //});
             return responseMessage;
         }
 
