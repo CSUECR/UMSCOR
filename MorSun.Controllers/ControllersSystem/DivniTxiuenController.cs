@@ -511,7 +511,8 @@ namespace MorSun.Controllers.SystemController
 
             #region RC数据获取
             var newRCList = new List<bmRechargeJson>();
-            var _rcList = new BaseBll<bmRecharge>().All.Where(p => p.Effective == null && p.Recharge == null);
+            var wcz = Guid.Parse(Reference.卡密充值_未充值);
+            var _rcList = new BaseBll<bmRecharge>().All.Where(p => p.Effective == null && (p.Recharge == null || p.Recharge == wcz));
 
             if (_rcList.Count() == 0)
                 return "";
@@ -540,6 +541,7 @@ namespace MorSun.Controllers.SystemController
                 }
                 s += ToJsonAndCompress(newRCList);
             }
+            s += CFG.邦马网_JSON数据间隔;
             #endregion
 
             var eys = EncodeJson(s);
@@ -580,8 +582,7 @@ namespace MorSun.Controllers.SystemController
                 }
 
                 if (!String.IsNullOrEmpty(s))
-                {                    
-                    //用户有三张表，要先分开
+                {       
                     var bmRC = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
                     s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
                     var bmMB = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
