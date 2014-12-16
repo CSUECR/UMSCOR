@@ -46,7 +46,7 @@ namespace MorSun.Controllers.SystemController
         {
             LogHelper.Write("同步User", LogHelper.LogMessageType.Info);
             var rz = false;
-            rz = IsRZ(Tok, rz);
+            rz = IsRZ(Tok, rz, Request);
             if (!rz)
             {
                 LogHelper.Write("未认证", LogHelper.LogMessageType.Info);
@@ -218,7 +218,7 @@ namespace MorSun.Controllers.SystemController
         {
             LogHelper.Write("同步QA", LogHelper.LogMessageType.Info);
             var rz = false;
-            rz = IsRZ(Tok, rz);
+            rz = IsRZ(Tok, rz, Request);
             if (!rz)
                 return "";
 
@@ -503,7 +503,7 @@ namespace MorSun.Controllers.SystemController
         {
             LogHelper.Write("同步RC", LogHelper.LogMessageType.Debug);
             var rz = false;
-            rz = IsRZ(Tok, rz);
+            rz = IsRZ(Tok, rz, Request);
             if (!rz)
                 return "";
 
@@ -566,7 +566,7 @@ namespace MorSun.Controllers.SystemController
         public string AncyRCMB(string Tok, string AncyData)
         {            
             var rz = false;
-            rz = IsRZ(Tok, rz);
+            rz = IsRZ(Tok, rz, Request);
             if (!rz)
                 return "";
             
@@ -609,7 +609,9 @@ namespace MorSun.Controllers.SystemController
                                     //更新充值记录只要三个字段
                                     var jsl = _list.FirstOrDefault(p => p.ID == l.ID);
                                     l.Recharge = jsl.Recharge;
-                                    l.Effective = jsl.Effective;                                    
+                                    l.Effective = jsl.Effective;
+                                    l.KaMeRef = jsl.KaMeRef;
+                                    l.MaBiNum = jsl.MaBiNum;
                                 }
                                 bll.UpdateChanges();
                             }

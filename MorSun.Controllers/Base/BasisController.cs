@@ -159,7 +159,7 @@ namespace MorSun.Controllers
         /// <param name="tok"></param>
         /// <param name="rz"></param>
         /// <returns></returns>
-        protected static bool IsRZ(string tok, bool rz)
+        protected static bool IsRZ(string tok, bool rz, HttpRequestBase rq)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace MorSun.Controllers
                 if (dt.AddSeconds(12) < DateTime.Now || !ts.Contains(CFG.邦马网_对接统一码))
                 {//限制8秒内
                     rz = false;
-                    LogHelper.Write("访问未认证", LogHelper.LogMessageType.Info);
+                    LogHelper.Write("访问未认证" + rq.RawUrl, LogHelper.LogMessageType.Info);
                 }
                 else
                 {
@@ -183,7 +183,7 @@ namespace MorSun.Controllers
             catch
             {
                 rz = false;
-                LogHelper.Write("访问各种原因认证出错", LogHelper.LogMessageType.Info);
+                LogHelper.Write("访问各种原因认证出错" + rq.RawUrl, LogHelper.LogMessageType.Error);
             }
             return rz;
         }

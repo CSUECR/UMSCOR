@@ -70,7 +70,7 @@ namespace MorSun.Controllers.SystemController
         {
             //是否认证
             var rz = false;
-            rz = IsRZ(tok, rz);
+            rz = IsRZ(tok, rz, Request);
 
             if (!rz)
                 return "非法请求";
@@ -101,7 +101,7 @@ namespace MorSun.Controllers.SystemController
 
             //是否认证
             var rz = false;
-            rz = IsRZ(tok, rz);
+            rz = IsRZ(tok, rz, Request);
 
             if (!rz)
                 return "";

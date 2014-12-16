@@ -713,7 +713,7 @@ tableadd {
     vertical-align: top;
 }
 .tableadd th{
-    text-align: right;
+    text-align: center;
 }
 .tableadd td{
     text-align: left;
