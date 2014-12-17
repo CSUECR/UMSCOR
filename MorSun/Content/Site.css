@@ -1776,7 +1776,7 @@ ul#menu {
 
 /*voiced*/
 .voicedRedPewterR {
-    background-color:#303030;
+    background-color:#303030;    
 }
 
     .voicedRedPewterR .content-wrapper {
@@ -1796,6 +1796,21 @@ ul#menu {
         color: #fff;
     }
 
+.voicedRedPewterR .divContet{
+    width: 500px;
+    text-align:center;
+    margin-top: 10px;   
+}
+
+.voicedRedPewterR .divContet h1{
+    color:#fff;
+    font-size:50px;
+}
+
+.voicedRedPewterR .divContet h2{
+    color:#fff;
+}
+/*voicedRedPewterL*/
 .voicedRedPewterL {
     background-color:#303030;
 }
@@ -1805,7 +1820,7 @@ ul#menu {
         background: url("../Images/RedLineLeftWhiteLogo.png") no-repeat 800px 0px;      
         color: #1a1011;
         padding: 20px 40px 30px 40px;
-        height:600px;
+        height:550px;
     }
 
     .voicedRedPewterL a {    
@@ -1817,18 +1832,50 @@ ul#menu {
         color: #fff;
     }
 
+.voicedRedPewterL .divContet{
+    width: 500px;
+    text-align:center;
+    margin-top: 10px;   
+}
+
+.voicedRedPewterL .divContet h1{
+    color:#fff;
+    font-size:40px;
+}
+
+.voicedRedPewterL .divContet h2{
+    margin-top: 50px;
+    color:#fff;
+}
+/*voicedPewterWhiteR*/
 .voicedPewterWhiteR {
     background-color:#fff;
 }
 
     .voicedPewterWhiteR .content-wrapper {
         background-color: #fff;  
-        background: url("../Images/PewterLineRightRedLogo.png") no-repeat 800px -200px;      
+        background: url("../Images/PewterLineRightRedLogo.png") no-repeat 800px -100px;      
         color: #1a1011;
         padding: 20px 40px 30px 40px;
         height:600px;
     }
 
+.voicedPewterWhiteR .divContet{
+    width: 500px;
+    text-align:center;
+    margin-top: 10px;   
+}
+
+.voicedPewterWhiteR .divContet h2{
+    color:#000;
+    font-size:35px;    
+}
+
+.voicedPewterWhiteR .divContet h3{
+    margin-top: 40px;
+    color:#000;
+}
+/*voicedPewterWhiteL*/
 .voicedPewterWhiteL {
     background-color:#fff;
 }
@@ -1841,6 +1888,22 @@ ul#menu {
         height:600px;
     }
 
+.voicedPewterWhiteL .divContet{
+    width: 500px;
+    text-align:center;
+    margin-top: 10px;   
+}
+
+.voicedPewterWhiteL .divContet h1{
+    color:#000;
+    font-size:50px;
+}
+
+.voicedPewterWhiteL .divContet h3{
+    margin-top: 60px;
+    color:#000;
+}
+/*voicedWhiteRedR*/
 .voicedWhiteRedR {
     background-color:#bd0124;
 }
@@ -1853,6 +1916,22 @@ ul#menu {
         height:600px;
     }
 
+.voicedWhiteRedR .divContet{
+    width: 500px;
+    text-align:center;
+    margin-top: 10px;   
+}
+
+.voicedWhiteRedR .divContet h1{
+    color:#fff;
+    font-size:50px;
+}
+
+.voicedWhiteRedR .divContet h2{
+    margin-top: 50px;
+    color:#fff;
+}
+/*voicedWhiteRedL*/
 .voicedWhiteRedL {
     background-color:#bd0124;
 }

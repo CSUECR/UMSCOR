@@ -54,6 +54,23 @@
     <Content Include="LogoDesign\28f09d8b509978af7dab933d0f8bfdbc6605054519596-RmHukB_fw658.jpg" />
     <Content Include="LogoDesign\8a206633808a0fedb6f48d23cd1503495b796a821af6-9mDOc8_fw658.jpg" />
     <Content Include="LogoDesign\logoBackground副本.png" />
+    <Content Include="OtherDesign\邦马网图标\屏幕 白.png" />
+    <Content Include="OtherDesign\邦马网图标\屏幕桔色.png" />
+    <Content Include="OtherDesign\邦马网图标\屏幕绿色.png" />
+    <Content Include="OtherDesign\邦马网图标\屏幕蓝色.png" />
+    <Content Include="OtherDesign\邦马网图标\屏幕黑色.png" />
+    <Content Include="OtherDesign\邦马网图标\微笑.png" />
+    <Content Include="OtherDesign\邦马网图标\心.png" />
+    <Content Include="OtherDesign\邦马网图标\挑逗笑.png" />
+    <Content Include="OtherDesign\邦马网图标\灯.png" />
+    <Content Include="OtherDesign\邦马网图标\白M.png" />
+    <Content Include="OtherDesign\邦马网图标\红鸟.png" />
+    <Content Include="OtherDesign\邦马网图标\钥匙 白.png" />
+    <Content Include="OtherDesign\邦马网图标\钥匙 黄.png" />
+    <Content Include="OtherDesign\邦马网图标\鸟 白.png" />
+    <Content Include="OtherDesign\邦马网图标\鸟 蓝色.png" />
+    <Content Include="OtherDesign\邦马网图标\鸟.png" />
+    <Content Include="OtherDesign\邦马网图标\黄鸟.png" />
     <Content Include="笔记\SQL.txt" />
   </ItemGroup>
   <ItemGroup>
