@@ -48,7 +48,8 @@ namespace MorSun.Controllers.ViewModel
             get
             {
                 var refAId = Guid.Parse(Reference.问答类别_答案);
-                var l = base.All.Where(p => p.ParentId == sParentId && p.QARef != refAId);
+                var refBSId = Guid.Parse(Reference.问答类别_不是问题);
+                var l = base.All.Where(p => p.ParentId == sParentId && p.QARef != refAId && p.QARef != refBSId);
                 return l.OrderBy(p => p.RegTime);
             }
         }
@@ -61,7 +62,8 @@ namespace MorSun.Controllers.ViewModel
             get
             {
                 var refAId = Guid.Parse(Reference.问答类别_答案);
-                return base.All.FirstOrDefault(p => p.ParentId == sParentId && p.QARef == refAId);
+                var refBSId = Guid.Parse(Reference.问答类别_不是问题);
+                return base.All.FirstOrDefault(p => p.ParentId == sParentId && (p.QARef == refAId || p.QARef == refBSId));
             }
         }
 

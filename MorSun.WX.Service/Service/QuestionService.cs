@@ -52,13 +52,13 @@ namespace MorSun.WX.ZYB.Service
                     PicUrl = "",
                     Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
                 });
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = "求思路",
-                    Description = "求思路",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-                });
+                //responseMessage.Articles.Add(new Article()
+                //{//问号图片
+                //    Title = "求思路",
+                //    Description = "求思路",
+                //    PicUrl = "",
+                //    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                //});
                 //responseMessage.Articles.Add(new Article()
                 //{//问号图片
                 //    Title = "直接看答案请发送:   " + CFG.看答案前缀 + " " + model.AutoGrenteId,
