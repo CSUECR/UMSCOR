@@ -107,6 +107,7 @@ h5, h6 {
 
 .spanLeft{float:left;}
 .spanRight{float:right;}
+.textCenter{text-align:center;}
 
 /*btn*/
 .btn {

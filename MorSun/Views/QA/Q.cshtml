@@ -7,99 +7,81 @@
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
-    <div class="content-wrapper clear-fix">
-            @*<div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>查看答案</div>                    
-                </div>*@
+    <div class="content-wrapper clear-fix">           
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
             <button class="btn yellow" type="submit">@("增加马币".GX())</button>
             <button class="btn red" type="submit">@("提交异议".GX())</button>
         </div>
-                <div class="portlet-body">
-                    <table id="MoreSunTreeTable" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <td>
-                                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                                        <div class="portlet-title">
-                                            <div class="caption"><i class="icon-cogs"></i>问题</div>
-                                        </div>
-                                        <img src="@Model.Q.PicUrl" width="99%" />
-                                    </div>
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            @if (Model.A != null)
-                            {                                
-                                <tr>
-                                    <td>  
-                                        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                                            <div class="portlet-title">
-                                                <div class="caption"><i class="icon-cogs"></i>答案</div>
-                                            </div>
+                <div class="portlet-body">                   
+                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-cogs"></i>问题</div>
+                        </div>
+                        <div class="textCenter">
+                            <img src="@Model.Q.PicUrl" width="99%" />
+                        </div>
+                    </div>
+                    @if (Model.A != null)
+                    {    
+                        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                            <div class="portlet-title">
+                                <div class="caption"><i class="icon-cogs"></i>答案</div>
+                            </div>
 
-                                            @if (Model.A.QARef == Guid.Parse(Reference.问答类别_不是问题))
-                                            {
-                                                @:这不是一个问题
-                                            }
-                                            @if (Model.A.QARef == Guid.Parse(Reference.问答类别_答案))
-                                            {
-                                                if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
-                                                {
-                                                    @Model.A.QAContent
-                                                }
-                                                else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
-                                                {
-                                                    <img src="@Model.A.PicUrl" width="99%" />
-                                                }
-                                            }
-                                        </div>      
-                                    </td>
-                                </tr>
+                            @if (Model.A.QARef == Guid.Parse(Reference.问答类别_不是问题))
+                            {
+                                <div class="textCenter">
+                                    <h1>这不是一个问题</h1>
+                                </div>
                             }
-                            @if(Model.Others.Count() > 0)
-                            {                                 
-                                foreach(var item in Model.Others)
+                            @if (Model.A.QARef == Guid.Parse(Reference.问答类别_答案))
                                 {
-                                    <tr>
-                                        <td>
-                                            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                                                <div class="portlet-title">
-                                                    <div class="caption"><i class="icon-cogs"></i>其他</div>
-                                                </div>
-                                                    @if (item.QARef == Guid.Parse(Reference.问答类别_放弃))
-                                                    {
-                                                        @:被答题用户放弃
-                                            }
-                                                
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+                                    {
+                                        <div class="textCenter">
+                                            <h1>@Model.A.QAContent</h1>
+                                        </div>
+                                    }
+                                    else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+                                    {
+                                        <div class="textCenter">
+                                            <img src="@Model.A.PicUrl" width="99%" />
+                                        </div>
                                 }
                             }
-                            
-                            <tr><td>
-                                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                                        <div class="portlet-title">
-                                            <div class="caption"><i class="icon-cogs"></i>作业邦</div>
+                        </div>   
+                    }
+                    @if(Model.Others.Count() > 0)
+                    {                                 
+                        foreach(var item in Model.Others)
+                        {                                    
+                            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                                <div class="portlet-title">
+                                    <div class="caption"><i class="icon-cogs"></i>其他</div>
+                                </div>
+                                    @if (item.QARef == Guid.Parse(Reference.问答类别_放弃))
+                                    {
+                                        <div class="textCenter">
+                                            <h1>被答题用户放弃</h1>
                                         </div>
+                                    }                                                
+                            </div>                                        
+                        }
+                    }  
+                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-cogs"></i>作业邦</div>
+                        </div>
+                        <div class="textCenter">
+                            <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
 
-                                        <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
-
-                                        <div><span class="weixinText"><h2>微信扫一扫</h2></span></div>
-                                        <div><span class="weixinText"><h2>老师学霸跟着走</h2></span></div>
-                                        <p></p>
-                                    </div>
-                                </td></tr>
-                           
-                        </tbody>
-                    </table>
+                            <div><span class="weixinText"><h2>微信扫一扫</h2></span></div>
+                            <div><span class="weixinText"><h2>老师学霸跟着走</h2></span></div>
+                            <p></p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        @*</div>*@    
+            </div>         
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        
