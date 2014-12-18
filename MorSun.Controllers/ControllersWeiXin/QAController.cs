@@ -5,11 +5,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MorSun.Controllers.ViewModel;
+using HOHO18.Common;
+using MorSun.Bll;
+using MorSun.Model;
+using HOHO18.Common.WEB;
+using MorSun.Common.类别;
 
 namespace MorSun.Controllers
 {    
     [HandleError]
-    public class QAController : Controller
+    public class QAController : BasisController
     {
         public ActionResult Q(Guid? id)
         {
@@ -25,6 +30,102 @@ namespace MorSun.Controllers
             }
             
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MB(Guid? id, string returnUrl)
+        {
+            var s = "";
+            var tempMB = Convert.ToDecimal(0);
+            var tempBB = Convert.ToDecimal(0);
+            var defXFMB = Convert.ToDecimal(CFG.提问默认收费马币值);
+            if(!id.HasValue || id==Guid.Empty)
+            {
+                "id".AE("参数错误", ModelState);
+                s += "参数错误";
+            }
+            else 
+            { 
+                var qa = new BaseBll<bmQA>().GetModel(id);
+                if(qa == null)
+                {
+                    "id".AE("参数错误", ModelState);
+                    s += "参数错误";
+                }
+                var qauser = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.WeiXinId == qa.WeiXinId);
+                if(qauser == null)
+                {
+                    "id".AE("提问用户未绑定邦马网", ModelState);
+                    s += " 提问用户未绑定邦马网";
+                }
+                else if(qauser.UserId != UserID)
+                {
+                    "id".AE("不是您的问题你别动", ModelState);
+                    s += " 不是您的问题你别动";
+                }
+                var bmqaBll = new BaseBll<bmQAView>();
+                var qaView = bmqaBll.GetModel(id);
+                if (Math.Abs(qaView.MBNum + qaView.BanBNum) >= 2000)
+                {//超过2000马币就不让再增加
+                    "id".AE("消费的邦马币已超过2000", ModelState);
+                    s += " 消费的邦马币已超过2000";
+                }
+                //已经被回答了则不再增加马币
+                var refAId = Guid.Parse(Reference.问答类别_答案);
+                var refBSId = Guid.Parse(Reference.问答类别_不是问题);
+                var qada = bmqaBll.All.FirstOrDefault(p => p.ParentId == id && (p.QARef == refAId || p.QARef == refBSId));
+                if(qada != null)
+                {
+                    "id".AE("该问题已经被解答", ModelState);
+                    s += " 该问题已经被解答";
+                }
+                //邦马币余额不足
+                var numbbll = new BaseBll<bmNewUserMB>();                
+                var UserBMB = numbbll.All.FirstOrDefault(p => p.UserId == UserID);
+                tempMB = UserBMB.NMB.Value;
+                tempBB = UserBMB.NBB.Value;
+                if((tempMB + tempBB) < defXFMB)
+                {
+                    "id".AE("您的邦马币余额不足", ModelState);
+                    s += " 您的邦马币余额不足";
+                }
+            }
+            var oper = new OperationResult(OperationResultType.Error, "提交失败：" + s);
+            if (ModelState.IsValid)
+            {
+                var bmumbBll = new BaseBll<bmUserMaBiRecord>();
+                var umbrModel = new bmUserMaBiRecord();
+                umbrModel.SourceRef = Guid.Parse(Reference.马币来源_消费);
+                if (tempBB >= defXFMB)
+                {
+                    umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
+                    tempBB -= defXFMB;
+                }
+                else if (tempMB >= defXFMB)
+                {
+                    umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_马币);
+                    tempMB -= defXFMB;
+                }
+                umbrModel.MaBiNum = 0 - defXFMB;
+                umbrModel.QAId = id;
+
+                umbrModel.IsSettle = false;
+                umbrModel.RegTime = DateTime.Now;
+                umbrModel.ModTime = DateTime.Now;
+                umbrModel.FlagTrashed = false;
+                umbrModel.FlagDeleted = false;
+
+                umbrModel.ID = Guid.NewGuid();
+                umbrModel.UserId = UserID;
+                umbrModel.RegUser = UserID;
+
+                bmumbBll.Insert(umbrModel);
+                //封装返回的数据
+                fillOperationResult(returnUrl, oper, "马币增加成功");
+                return Json(oper, JsonRequestBehavior.AllowGet);
+            }
+            oper.AppendData = ModelState.GE();
+            return Json(oper, JsonRequestBehavior.AllowGet);
+        }
     }
 }

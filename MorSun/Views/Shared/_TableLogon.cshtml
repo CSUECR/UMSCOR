@@ -3,12 +3,13 @@
     int yzmR = new Random().Next(100000);
     HttpCookie Cookie_login = Request.Cookies["HIC"];
     var bic = Cookie_login["HIC"].ToString();
+    var rUrl = Model.ReturnUrl ?? "/H/I";
 }
 
 <div class="divLogon" style="height:86px;">
     @if (!Request.IsAuthenticated)
     {
-        using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = "/H/I" }, FormMethod.Post, new { id = "logonForm" }))
+        using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = rUrl }, FormMethod.Post, new { id = "logonForm" }))
         {
             @Html.AntiForgeryToken()
         <hgroup class="title">

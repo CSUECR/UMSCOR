@@ -88,6 +88,8 @@ namespace MorSun.Model
 
         [DisplayName("记住我?")]
         public bool RememberMe { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 
     [PropertiesMustMatch("Password", "ConfirmPassword", ErrorMessage = "密码和确认密码不匹配")]

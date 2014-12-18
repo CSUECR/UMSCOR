@@ -9,106 +9,162 @@
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">           
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-            <button class="btn yellow" type="submit">@("增加马币".GX())</button>
-            <button class="btn red" type="submit">@("提交异议".GX())</button>
+            @using (Html.BeginForm("MB", "QA", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "addMBForm" }))
+            {
+            @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Q.ID" />
+            <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
+            <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
+            }
+            
         </div>
-                <div class="portlet-body">                   
-                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                        <div class="portlet-title">
-                            <div class="caption"><i class="icon-cogs"></i>问题  @((Model.Q.MBNum == 0 || Model.Q.MBNum == null) && (Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "免费提问" : ("消耗" + ((Model.Q.MBNum == 0 || Model.Q.MBNum == null) ? "" : (Math.Abs(Model.Q.MBNum).ToString("f0") + "马币")) + ((Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "" : (Math.Abs(Model.Q.BBNum).ToString("f0") + "邦币"))))</div>
-                        </div>
-                        <div class="textCenter">
-                            <img src="@Model.Q.PicUrl" width="99%" />
-                        </div>
+        <div class="portlet-body">            
+            @if (!Request.IsAuthenticated)
+            {  <!--登录开始-->
+                <div id="DivLoginPort" class="portlet box @("red".getBC("BootStrapCssTable"))" style="display:none">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-cogs"></i>登录</div>
                     </div>
-                    @if (Model.A != null)
-                    {    
-                        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                            <div class="portlet-title">
-                                <div class="caption"><i class="icon-cogs"></i>答案</div>
+                    <section class="featured">
+                        <div class="content-wrapper">
+                            <div class="content-login" style="float:left;">
+                                @Html.Partial("_TableLogon", new LoginModel() { ReturnUrl = Request.RawUrl })
                             </div>
+                            <div style="display:none" id="DIVSL"></div>
+                        </div>
+                    </section>
+                </div>
+                <!--登录结束-->
+            }
+            else {             
+            <!--提交异议-->
+            <div id="DivSYY" class="portlet box @("red".getBC("BootStrapCssTable"))" style="display:none">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>提交异议</div>
+                </div>
+                <div class="textCenter">
+                    异议表单
+                </div>
+            </div>  
+            <!--异议结束-->    
+            }            
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>问题  @((Model.Q.MBNum == 0 || Model.Q.MBNum == null) && (Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "免费提问" : ("消耗" + ((Model.Q.MBNum == 0 || Model.Q.MBNum == null) ? "" : (Math.Abs(Model.Q.MBNum).ToString("f0") + "马币")) + ((Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "" : (Math.Abs(Model.Q.BBNum).ToString("f0") + "邦币"))))</div>
+                </div>
+                <div class="textCenter">
+                    <img src="@Model.Q.PicUrl" width="99%" />
+                </div>
+            </div>
+            @if (Model.A != null)
+            {    
+                <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-cogs"></i>答案</div>
+                    </div>
 
-                            @if (Model.A.QARef == Guid.Parse(Reference.问答类别_不是问题))
+                    @if (Model.A.QARef == Guid.Parse(Reference.问答类别_不是问题))
+                    {
+                        <div class="textCenter">
+                            <h1>这不是一个问题</h1>
+                        </div>
+                    }
+                    @if (Model.A.QARef == Guid.Parse(Reference.问答类别_答案))
+                        {
+                            if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
                             {
                                 <div class="textCenter">
-                                    <h1>这不是一个问题</h1>
+                                    <h1>@Model.A.QAContent</h1>
                                 </div>
                             }
-                            @if (Model.A.QARef == Guid.Parse(Reference.问答类别_答案))
-                                {
-                                    if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
-                                    {
-                                        <div class="textCenter">
-                                            <h1>@Model.A.QAContent</h1>
-                                        </div>
-                                    }
-                                    else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
-                                    {
-                                        <div class="textCenter">
-                                            <img src="@Model.A.PicUrl" width="99%" />
-                                        </div>
-                                }
-                            }
-                        </div>   
-                    }
-                    
-                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                        <div class="portlet-title">
-                            <div class="caption"><i class="icon-cogs"></i>操作</div>
-                        </div>
-                            <div class="textCenter">
-                                <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
-                            </div>
-                    </div>
-                    
-
-                    @if(Model.Others.Count() > 0)
-                    {                                 
-                        foreach(var item in Model.Others)
-                        {                                    
-                            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                                <div class="portlet-title">
-                                    <div class="caption"><i class="icon-cogs"></i>其他</div>
+                            else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+                            {
+                                <div class="textCenter">
+                                    <img src="@Model.A.PicUrl" width="99%" />
                                 </div>
-                                    @if (item.QARef == Guid.Parse(Reference.问答类别_放弃))
-                                    {
-                                        <div class="textCenter">
-                                            <h1>被答题用户放弃</h1>
-                                        </div>
-                                    }                                                
-                            </div>                                        
                         }
-                    }  
+                    }
+                </div>   
+            }
+                    
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>操作</div>
+                </div>
+                    <div class="textCenter">
+                        <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
+                    </div>
+            </div>
+                    
+
+            @if(Model.Others.Count() > 0)
+            {                                 
+                foreach(var item in Model.Others)
+                {                                    
                     <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                         <div class="portlet-title">
-                            <div class="caption"><i class="icon-cogs"></i>作业邦</div>
+                            <div class="caption"><i class="icon-cogs"></i>其他</div>
                         </div>
-                        <div class="textCenter">
-                            <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
-
-                            <div><span class="weixinText"><h2>微信扫一扫</h2></span></div>
-                            <div><span class="weixinText"><h2>老师学霸跟着走</h2></span></div>
-                            <p></p>
-                        </div>
-                    </div>
+                            @if (item.QARef == Guid.Parse(Reference.问答类别_放弃))
+                            {
+                                <div class="textCenter">
+                                    <h1>被答题用户放弃</h1>
+                                </div>
+                            }                                                
+                    </div>                                        
+                }
+            }  
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>作业邦</div>
                 </div>
-            </div>         
+                <div class="textCenter">
+                    <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
+
+                    <div><span class="weixinText"><h2>微信扫一扫</h2></span></div>
+                    <div><span class="weixinText"><h2>老师学霸跟着走</h2></span></div>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>         
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        
         @Scripts.Render("~/bundles/validator")
         @Styles.Render("~/Content/JQueryQtipCss")
         @Scripts.Render("~/bundles/jqueryqtip")
-        @Scripts.Render("~/bundles/morsuncommon")
-        @Styles.Render("~/Content/treetableCss")
-        @Scripts.Render("~/bundles/treetable")  
+        @Scripts.Render("~/bundles/morsuncommon")        
         @Scripts.Render("~/bundles/waypoint")
  
-        <script type="text/javascript">  
-            @*@if (Model.FlagTrashed == "0")
-            {
-               @:morsunTreeTable('#MoreSunTreeTable', "expanded", true);
-            }*@
+        @if (!Request.IsAuthenticated)
+        {
+            <script type="text/javascript"> 
+                $(ajaxSubmitFormHandle('#submitBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo', true));
+                function addMaBi() {
+                    $('#DivLoginPort').toggle();
+                }
+                function syy() {
+                    addMaBi()
+                }
+            </script>
+        }
+        else
+        {
+            <script type="text/javascript"> 
+                $(ajaxSubmitFormHandle('#BtnAddMaBi', '#addMBForm', '马币增加失败，请联系管理员', '#divInfo', true));
+                function addMaBi() {
+                    //$('#DivLoginPort').toggle();
+                }
+                function syy() {
+                    $('#DivSYY').toggle();
+                }
+            </script>
+        }
+
+
+
+        <script type="text/javascript">             
             $(function () {                
                 //waypoint 
                 $('.topmenu').waypoint(function (event, direction) {
