@@ -13,7 +13,7 @@ namespace MorSun.Controllers
     {
         public ActionResult Q(Guid? id)
         {
-            var model = new BMQAVModel();
+            var model = new BMQAViewVModel();
             if(id != null)
             { 
                 model.sParentId = id;

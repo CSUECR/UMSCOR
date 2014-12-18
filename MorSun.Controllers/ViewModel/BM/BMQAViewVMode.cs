@@ -8,7 +8,7 @@ using MorSun.Common.类别;
 
 namespace MorSun.Controllers.ViewModel
 {
-    public class BMQAVModel:BaseVModel<bmQA>
+    public class BMQAViewVModel:BaseVModel<bmQAView>
     {
         /// <summary>
         /// 被选中的编号
@@ -18,7 +18,7 @@ namespace MorSun.Controllers.ViewModel
         /// <summary>
         /// 获取跟目录
         /// </summary>
-        public virtual IQueryable<bmQA> Roots
+        public virtual IQueryable<bmQAView> Roots
         {
             get
             {
@@ -43,7 +43,7 @@ namespace MorSun.Controllers.ViewModel
             }
         }
 
-        public virtual IQueryable<bmQA> Others
+        public virtual IQueryable<bmQAView> Others
         {
             get
             {
@@ -57,7 +57,7 @@ namespace MorSun.Controllers.ViewModel
         /// <summary>
         /// 答案
         /// </summary>
-        public virtual bmQA A
+        public virtual bmQAView A
         {
             get
             {
@@ -71,7 +71,7 @@ namespace MorSun.Controllers.ViewModel
         /// <summary>
         /// 问题
         /// </summary>
-        public virtual bmQA Q
+        public virtual bmQAView Q
         {
             get
             {
@@ -79,7 +79,7 @@ namespace MorSun.Controllers.ViewModel
             }
         }
 
-        public override IQueryable<bmQA> List
+        public override IQueryable<bmQAView> List
         {
             get
             {

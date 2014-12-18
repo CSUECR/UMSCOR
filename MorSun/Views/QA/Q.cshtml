@@ -1,4 +1,4 @@
-﻿@model BMQAVModel
+﻿@model BMQAViewVModel
 @{
     ViewBag.Title = "查看答案";    
     var backurl = ViewBag.ReturnUrl ?? "/H/I";  
@@ -15,7 +15,7 @@
                 <div class="portlet-body">                   
                     <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                         <div class="portlet-title">
-                            <div class="caption"><i class="icon-cogs"></i>问题</div>
+                            <div class="caption"><i class="icon-cogs"></i>问题  @((Model.Q.MBNum == 0 || Model.Q.MBNum == null) && (Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "免费提问" : ("消耗" + ((Model.Q.MBNum == 0 || Model.Q.MBNum == null) ? "" : (Math.Abs(Model.Q.MBNum).ToString("f0") + "马币")) + ((Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "" : (Math.Abs(Model.Q.BBNum).ToString("f0") + "邦币"))))</div>
                         </div>
                         <div class="textCenter">
                             <img src="@Model.Q.PicUrl" width="99%" />
