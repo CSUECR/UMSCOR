@@ -2058,11 +2058,21 @@ aside {
 }
 
 /* login page */
-#loginForm {
-    border-right: solid 2px #c8c8c8;
+#loginLeft {    
     float: left;
-    width: 55%;
-    margin-bottom:15px;
+    width: 45%;    
+    padding-left: 20px;
+    padding-top: 120px;
+}
+#loginForm {
+    background-image:url(/Images/zyb/right.jpg);
+    background-repeat:no-repeat;
+    background-position:500px 80px;
+    float: left;
+    width: 95%;
+    margin-top:50px;
+    margin-bottom:50px;
+    padding-left: 20px;
 }
 
     #loginForm .validation-error {
@@ -2098,6 +2108,10 @@ aside {
     margin-right: 95px;  
     }
 
+#logoutForm {
+    display: inline;
+}
+
 #socialLoginForm {
     margin-left: 40px;
     float: left;
@@ -2112,9 +2126,55 @@ aside {
     margin-bottom: 12px;
 }
 
-#logoutForm {
+/*regform*/
+#regform {
+    background-image:url(/Images/zyb/reg.jpg);
+    background-repeat:no-repeat;
+    background-position:600px 80px;
+    float: left;
+    width: 95%;
+    margin-top:50px;
+    margin-bottom:50px;
+    padding-left: 20px;
+}
+
+    #regform .validation-error {
+        display: block;
+        margin-left: 15px;
+    }
+
+    #regform .validation-summary-errors ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    #regform .validation-summary-errors li {
+        display: inline;
+        list-style: none;
+        margin: 0;
+    }
+
+    #regform input {
+        width: 250px;
+    }
+
+    #regform input[type="checkbox"],
+    #regform input[type="submit"],
+    #regform input[type="button"],
+    #regform button {
+        width: auto;
+    }
+
+    #regform .loginYZMText
+    { 
+    width: 65px;  
+    margin-right: 95px;  
+    }
+
+#regform {
     display: inline;
 }
+
 /* 找回密码 */
 /* formwizard */
 #formWizard {    

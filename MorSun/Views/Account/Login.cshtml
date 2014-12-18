@@ -5,8 +5,10 @@
     //Layout = null;
 }
 <div class="content-wrapper clear-fix">
-    <section id="loginForm">
-
+    @*<div id="loginLeft">
+        <img src="~/Images/zyb/right.jpg" />
+    </div>*@
+    <div id="loginForm">
         <h2>@ViewBag.Title</h2>
         @using (Html.BeginForm("AjaxLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
@@ -39,9 +41,8 @@
             </p>
             <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
         }
-
-    </section>
-    <div style="display:none" id="DIVSL"></div>
+    </div>
+    
 </div>
 @section Scripts {    
     @Scripts.Render("~/bundles/jqueryval")

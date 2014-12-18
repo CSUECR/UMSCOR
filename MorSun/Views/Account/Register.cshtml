@@ -5,7 +5,7 @@
 }
 
 <div class="content-wrapper clear-fix">
-    <section id="loginForm">
+    <section id="regform">
         <h2>@ViewBag.Title</h2>
         @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
@@ -14,9 +14,9 @@
                 <legend>注册表单</legend>
                 <ol>
                     <li>
-                        @Html.LabelFor(m => m.UserName)  
+                        @Html.LabelFor(m => m.UserName)
                         @Html.TextBoxFor(m => m.UserName) <span>例如：您的QQ号@qq.com</span>
-                    </li>                    
+                    </li>
                     <li>
                         @Html.LabelFor(m => m.Password)
                         @Html.PasswordFor(m => m.Password)
@@ -41,7 +41,7 @@
                 </ol>
                 <input type="button" id="submitBtn" value="注册" />   <a href="/Account/Login">登录</a>
                 <input name="VerifycodeRandom" type="hidden" value="@yzmR" />
-                <input name="BeInviteCode" type="hidden" value="@Model.BeInviteCode"/>
+                <input name="BeInviteCode" type="hidden" value="@Model.BeInviteCode" />
             </fieldset>
         }
     </section>
