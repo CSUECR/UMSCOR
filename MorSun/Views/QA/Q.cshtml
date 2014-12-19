@@ -8,7 +8,7 @@
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">           
-        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+        @*<div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
             @using (Html.BeginForm("MB", "QA", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "addMBForm" }))
             {
             @Html.AntiForgeryToken()
@@ -17,9 +17,9 @@
             <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
             }
             
-        </div>
+        </div>*@
         <div class="portlet-body">            
-            @if (!Request.IsAuthenticated)
+            @*@if (!Request.IsAuthenticated)
             {  <!--登录开始-->
                 <div id="DivLoginPort" class="portlet box @("red".getBC("BootStrapCssTable"))" style="display:none">
                     <div class="portlet-title">
@@ -47,13 +47,16 @@
                 </div>
             </div>  
             <!--异议结束-->    
-            }            
+            }*@            
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
                     <div class="caption"><i class="icon-cogs"></i>问题  @((Model.Q.MBNum == 0 || Model.Q.MBNum == null) && (Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "免费提问" : ("消耗" + ((Model.Q.MBNum == 0 || Model.Q.MBNum == null) ? "" : (Math.Abs(Model.Q.MBNum).ToString("f0") + "马币")) + ((Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "" : (Math.Abs(Model.Q.BBNum).ToString("f0") + "邦币"))))</div>
                 </div>
                 <div class="textCenter">
-                    <img src="@Model.Q.PicUrl" width="99%" />
+                    <img id="ImgQA" src="@Model.Q.PicUrl" width="99%" />
+                    @*<script type="text/javascript">
+                        $(function () { $('#ImgQA').src = "@Model.Q.PicUrl"; });
+                    </script>*@
                 </div>
             </div>
             @if (Model.A != null)
@@ -80,7 +83,10 @@
                             else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
                             {
                                 <div class="textCenter">
-                                    <img src="@Model.A.PicUrl" width="99%" />
+                                    <img id="ImgDA" src="@Model.A.PicUrl" width="99%" />
+                                    @*<script type="text/javascript">
+                                        $(function () { $('#ImgDA').src = "@Model.A.PicUrl"; });
+                                    </script>*@
                                 </div>
                         }
                     }
@@ -137,7 +143,7 @@
         @Scripts.Render("~/bundles/morsuncommon")        
         @Scripts.Render("~/bundles/waypoint")
  
-        @if (!Request.IsAuthenticated)
+        @*@if (!Request.IsAuthenticated)
         {
             <script type="text/javascript"> 
                 $(ajaxSubmitFormHandle('#submitBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo', true));
@@ -178,5 +184,5 @@
                     event.stopPropagation();
                 });
             });
-        </script>
+        </script>*@
     }
