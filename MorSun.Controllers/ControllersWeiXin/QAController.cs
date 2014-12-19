@@ -18,6 +18,7 @@ namespace MorSun.Controllers
     {
         public ActionResult Q(Guid? id)
         {
+            LogHelper.Write(Request.RawUrl, LogHelper.LogMessageType.Info);
             var model = new BMQAViewVModel();
             if(id != null)
             { 
@@ -46,13 +47,15 @@ namespace MorSun.Controllers
             }
             else 
             { 
-                var qa = new BaseBll<bmQA>().GetModel(id);
-                if(qa == null)
+                //var qa = new BaseBll<bmQA>().GetModel(id);
+                var bmqaBll = new BaseBll<bmQAView>();
+                var qaView = bmqaBll.GetModel(id);
+                if (qaView == null)
                 {
                     "id".AE("参数错误", ModelState);
                     s += "参数错误";
                 }
-                var qauser = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.WeiXinId == qa.WeiXinId);
+                var qauser = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.WeiXinId == qaView.WeiXinId);
                 if(qauser == null)
                 {
                     "id".AE("提问用户未绑定邦马网", ModelState);
@@ -63,9 +66,8 @@ namespace MorSun.Controllers
                     "id".AE("不是您的问题你别动", ModelState);
                     s += " 不是您的问题你别动";
                 }
-                var bmqaBll = new BaseBll<bmQAView>();
-                var qaView = bmqaBll.GetModel(id);
-                if (Math.Abs(qaView.MBNum + qaView.BanBNum) >= 2000)
+                LogHelper.Write(qaView.MBNum.ToString() + qaView.BBNum.ToString(), LogHelper.LogMessageType.Debug);
+                if ((Math.Abs(qaView.MBNum) + Math.Abs(qaView.BBNum)) >= 2000)
                 {//超过2000马币就不让再增加
                     "id".AE("消费的邦马币已超过2000", ModelState);
                     s += " 消费的邦马币已超过2000";
