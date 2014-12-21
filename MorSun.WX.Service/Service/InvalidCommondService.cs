@@ -33,18 +33,18 @@ namespace MorSun.WX.ZYB.Service
             
             responseMessage.Articles.Add(new Article()
             {//眼睛图片
-                Title = "邦马网无法与您的指令对接",
-                Description = "邦马网无法与您的指令对接",
-                PicUrl = "",
-                Url = ""
+                Title = "邦马网无法识别您发送的指令",
+                Description = "提问请直接发送拍照的问题图片\r\n答题可发送答题命令：dt\r\n微信绑定邦马网，请登录邦马网后在会员中心获取绑定代码",
+                PicUrl = CFG.网站域名 + "/images/zyb/bigsmile.png",
+                Url = CFG.网站域名 + "/h/i"
             });
-            responseMessage.Articles.Add(new Article()
-            {//眼睛图片
-                Title = "查看指令帮助文档",
-                Description = "查看指令帮助文档",
-                PicUrl = "",
-                Url = CFG.网站域名 + "CommondHelp".GX()
-            });
+            //responseMessage.Articles.Add(new Article()
+            //{//眼睛图片
+            //    Title = "查看指令帮助文档",
+            //    Description = "查看指令帮助文档",
+            //    PicUrl = "",
+            //    Url = CFG.网站域名 + "CommondHelp".GX()
+            //});
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
             //new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);

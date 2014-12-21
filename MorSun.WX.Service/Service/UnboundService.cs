@@ -33,14 +33,14 @@ namespace MorSun.WX.ZYB.Service
             
             responseMessage.Articles.Add(new Article()
             {//眼睛图片
-                Title = "您的账号未绑定邦马网，无法进行下一步操作",
-                Description = "您的账号未绑定邦马网，无法进行下一步操作",
-                PicUrl = "",
-                Url = CFG.网站域名 + "/Account/Register"
+                Title = "您的账号未绑定邦马网，系统无法处理您的请求",
+                Description = "微信绑定邦马网，请登录邦马网后在会员中心获取绑定代码",
+                PicUrl = CFG.网站域名 + "/images/zyb/reg.jpg",
+                Url = CFG.网站域名 + "/h/i"
             });    
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            new CommonService().RegOrShare(requestMessage, responseMessage);
+            //new CommonService().RegOrShare(requestMessage, responseMessage);
 
             return responseMessage;
         }

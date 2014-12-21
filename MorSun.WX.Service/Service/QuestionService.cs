@@ -34,24 +34,24 @@ namespace MorSun.WX.ZYB.Service
                 responseMessage.Articles.Add(new Article()
                 {
                     Title = ("问题编号：" + model.AutoGrenteId + " "),// + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "" : (model.MaBiNum == null ? "" : ("消耗" + model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
-                    Description = "",
+                    Description = "提问时间:" + DateTime.Now,
                     PicUrl = model.PicUrl,
-                    Url = model.PicUrl
+                    Url = CFG.网站域名 + CFG.问题查看路径 + model.ID.ToString()
                 });
-                responseMessage.Articles.Add(new Article()
-                {//眼睛图片
-                    Title = "看答案",
-                    Description = "看答案",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-                });//再增加 加码 求解题思路            
-                responseMessage.Articles.Add(new Article()
-                {//美元图片
-                    Title = "加马币",
-                    Description = "加马币",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
-                });
+                //responseMessage.Articles.Add(new Article()
+                //{//眼睛图片
+                //    Title = "看答案",
+                //    Description = "看答案",
+                //    PicUrl = "",
+                //    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                //});//再增加 加码 求解题思路            
+                //responseMessage.Articles.Add(new Article()
+                //{//美元图片
+                //    Title = "加马币",
+                //    Description = "加马币",
+                //    PicUrl = "",
+                //    Url = CFG.网站域名 + "/QA/Q/" + model.ID.ToString()
+                //});
                 //responseMessage.Articles.Add(new Article()
                 //{//问号图片
                 //    Title = "求思路",
@@ -68,7 +68,7 @@ namespace MorSun.WX.ZYB.Service
                 //});
             }
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            comonservice.RegOrShare(requestMessage, responseMessage);
+            //comonservice.RegOrShare(requestMessage, responseMessage);
             
             return responseMessage;
         } 

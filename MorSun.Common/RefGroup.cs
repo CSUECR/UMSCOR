@@ -223,6 +223,7 @@ namespace MorSun.Common
             public const string 邮件通用入口 = "/H/EL";
             public const string 账号激活路径 = "/Account/ActiveUser";
             public const string 邮件改密路径 = "/Account/ECPW";
+            public const string 问题查看路径 = "/qa/q";
 
             //网站域名  不是通过域名访问网站的情况，不能
             public const string 网站域名 = "http://www.bungma.com";

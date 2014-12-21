@@ -27,13 +27,13 @@ namespace MorSun.WX.ZYB.Service
             responseMessage.Articles.Add(new Article()
             {//眼睛图片
                 Title = "您的账号已经绑定邦马网",
-                Description = "您的账号已经绑定邦马网",
-                PicUrl = "",
-                Url = CFG.网站域名 + "/Account/Register"
+                Description = "绑定时间" + DateTime.Now + "\r\n提问请直接发送拍照的问题图片\r\n答题可发送答题命令：dt",
+                PicUrl = CFG.网站域名 + "/images/zyb/reg.jpg",
+                Url = CFG.网站域名 + "/h/i"
             });
 
             //判断用户是否绑定，未绑定显示注册账号并绑定，已经绑定显示分享链接
-            new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
+            //new CommonService().RegOrShare<RequestMessageText>(requestMessage, responseMessage);
 
             return responseMessage;
         }
