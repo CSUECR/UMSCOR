@@ -617,13 +617,13 @@
     <Content Include="Images\zyb\bigsmile.png" />
     <Content Include="Images\zyb\bird.png" />
     <Content Include="Images\zyb\cancel.png" />
-    <Content Include="Images\zyb\dilou.png" />
     <Content Include="Images\zyb\home.png" />
     <Content Include="Images\zyb\key.png" />
     <Content Include="Images\zyb\lamp.png" />
     <Content Include="Images\zyb\reg.jpg" />
     <Content Include="Images\zyb\right.jpg" />
     <Content Include="Images\zyb\screen.png" />
+    <Content Include="Images\zyb\traffic.png" />
     <Content Include="Images\zyb\zyb258.jpg" />
     <Content Include="Images\zyb\zyb430.jpg" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />

@@ -4,16 +4,17 @@
     Layout = "~/Views/Shared/_UCLayout.cshtml";    
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/Operation/I";
-
+    
+    HttpCookie Cookie_login = Request.Cookies["HIC"];
+    var bic = Cookie_login["HIC"].ToString();
+    var user = MorSun.Controllers.BasisController.CurrentAspNetUser;
+    var umb = MorSun.Controllers.BasisController.CurrentUserMabi;
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">   
-        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
-            @*<button class="btn" type="button" onclick="jumptourl('@backurl')">@("返回".GX())</button>*@
-            </div>
+        
         @if (!Model.IsBoundZYB)
         { 
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
@@ -21,25 +22,28 @@
                     <div class="caption"><i class="icon-cogs"></i>绑定作业邦</div>
                 </div>
                 <div class="portlet-body">
-                    @using (Html.BeginForm("Info", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
-                    {
-                        @Html.AntiForgeryToken()                       
-                        <table class="tableadd table-hover">
-                            <thead>
-                                <tr>
-                                    <th width="300">@Html.LabelFor(m => m.BoundCode)</th>
-                                    <td><span style="font-size:50px;font-weight:bolder">@Model.BoundCode</span></td>    
-                                    <td><span>(请在两分钟内完成绑定)</span></td>                                  
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
-                    }
-                </div>
+                    <span style="font-size: 25px; font-weight: bolder; margin-right: 50px;">
+                        微信发送绑定代码</span>
+                    <span style="font-size:50px;font-weight:bolder;padding-top:15px;">@Model.BoundCode</span>
+                    <span style="vertical-align:central;margin-left:50px;">&nbsp;&nbsp;&nbsp;&nbsp;(请在两分钟内完成绑定)</span>
+</div>
             </div>
         }
+        
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>邦马币</div>
+            </div>
+            <div class="portlet-body">
+                <p class="logonP">马币:<span class="logonSpanRed">@umb.NMB.ToString("f2")</span>   <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsMB".GX())">@Html.Partial("_Lamp")</a></span></p>
+                <p class="logonP">邦币:<span class="logonSpanGreenMabi">@umb.NBB.ToString("f2")</span>    <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBB".GX())">@Html.Partial("_Lamp")</a></span></p>
+                <p class="logonP">绑币:<span class="logonSpanYellow">@umb.NBANB.ToString("f2")</span>    <span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsBDB".GX())">@Html.Partial("_Lamp")</a></span></p>
+                <p class="logonP">推广链接： <span class="logonSpanGreen">@("ServiceDomain".GHU())/H/I/</span><span class="logonSpanGreen">@(bic)</span><span class="logonSpanReight"><a href="@("ServiceDomain".GHU() + "TipsEXT".GX())">@Html.Partial("_Lamp")</a></span></p>
+            </div>
+        </div>
+
+
+
         </div>    
 </section>
     @section Scripts {        

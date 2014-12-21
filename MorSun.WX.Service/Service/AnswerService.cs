@@ -180,14 +180,14 @@ namespace MorSun.WX.ZYB.Service
             }
             responseMessage.Articles.Add(new Article()
             {
-                Title = "正在为您分配答题资源，请稍候再尝试发送： " + CFG.开始答题 + " 开始答题",
+                Title = "正在为您分配答题资源，请稍候再尝试发送： " + CFG.开始答题,
                 Description = "放弃本题请发送:" + " " + CFG.放弃本题 +
                 "\r\n" + "这不是一个问题请发送：" + " " + CFG.不是问题 +
                 "\r\n" + "文字答题请发送：" + " " + CFG.回答问题 + " 答案" +
                 "\r\n" + "图片答题请直接发送图片" +
                 "\r\n" + "退出答题请发送：" + " " + CFG.退出答题 +
                 s,
-                PicUrl = CFG.网站域名 + "/images/zyb/dilou.png",
+                PicUrl = CFG.网站域名 + "/images/zyb/traffic.png",
                 Url = ""
             });
             
@@ -268,7 +268,7 @@ namespace MorSun.WX.ZYB.Service
             responseMessage.Articles.Add(new Article()
             {
                 Title = "系统拒绝了您的答题请求",
-                Description = "一小时内答退次数超过5次后，邦马网就不会分配新题目给您",
+                Description = "一小时内答退次数超过5次，邦马网就不会分配新题目给您",
                 PicUrl = CFG.网站域名 + "/images/zyb/cancel.png",
                 Url = CFG.网站域名
             });

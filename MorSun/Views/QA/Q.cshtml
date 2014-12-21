@@ -11,13 +11,20 @@
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
             @using (Html.BeginForm("MB", "QA", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "addMBForm" }))
             {
-            @Html.AntiForgeryToken()
+                @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@Model.Q.ID" />
-            <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
-            <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
+                <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
+                <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
                 if (!isLogin)
-                { <button id="BtnLogin" class="btn yellow" type="button" onclick="addMaBi()">@("登录".GX())</button>}            
-            }            
+                {
+                    <button id="BtnLogin" class="btn green" type="button" onclick="addMaBi()">@("登录".GX())</button> 
+                } 
+                else
+                {
+                    <button id="BtnMember" class="btn green" type="button" onclick="jumptourl('/Member/I')">会员中心</button>
+                    <button id="BtnRecharge" class="btn purple" type="button" onclick="jumptourl('/Member/Recharge')">充值</button>
+                }
+            }      
         </div>
         <div class="portlet-body">            
             @if (!isLogin)
@@ -87,16 +94,6 @@
                     }
                 </div>   
             }
-                    
-            @*<div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>操作</div>
-                </div>
-                    <div class="textCenter">
-                        <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
-                    </div>
-            </div>*@
-                    
 
             @if(Model.Others.Count() > 0)
             {                                 
@@ -114,17 +111,8 @@
                             }                                                
                     </div>                                        
                 }
-            }  
-
-            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>邦马币</div>
-                </div>
-                <div class="textCenter">
-                    <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
-                </div>
-            </div>
-
+            } 
+           
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
                     <div class="caption"><i class="icon-cogs"></i>作业邦</div>
