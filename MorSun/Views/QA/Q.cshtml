@@ -1,25 +1,26 @@
 ﻿@model BMQAViewVModel
 @{
     ViewBag.Title = "查看答案";    
-    var backurl = ViewBag.ReturnUrl ?? "/H/I";  
-        
+    var backurl = ViewBag.ReturnUrl ?? "/H/I";
+    var isLogin = MorSun.Controllers.BasisController.IsLogin;
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">           
-        @*<div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
             @using (Html.BeginForm("MB", "QA", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "addMBForm" }))
             {
             @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@Model.Q.ID" />
             <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
             <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
-            }
-            
-        </div>*@
+                if (!isLogin)
+                { <button id="BtnLogin" class="btn yellow" type="button" onclick="addMaBi()">@("登录".GX())</button>}            
+            }            
+        </div>
         <div class="portlet-body">            
-            @*@if (!Request.IsAuthenticated)
+            @if (!isLogin)
             {  <!--登录开始-->
                 <div id="DivLoginPort" class="portlet box @("red".getBC("BootStrapCssTable"))" style="display:none">
                     <div class="portlet-title">
@@ -47,16 +48,13 @@
                 </div>
             </div>  
             <!--异议结束-->    
-            }*@            
+            }            
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>问题  @((Model.Q.MBNum == 0 || Model.Q.MBNum == null) && (Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "免费提问" : ("消耗" + ((Model.Q.MBNum == 0 || Model.Q.MBNum == null) ? "" : (Math.Abs(Model.Q.MBNum).ToString("f0") + "马币")) + ((Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "" : (Math.Abs(Model.Q.BBNum).ToString("f0") + "邦币"))))</div>
+                    <div class="caption"><i class="icon-cogs"></i>问题 &nbsp;&nbsp;&nbsp;&nbsp; @((Model.Q.MBNum == 0 || Model.Q.MBNum == null) && (Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "免费提问" : ("消耗" + ((Model.Q.MBNum == 0 || Model.Q.MBNum == null) ? "" : (Math.Abs(Model.Q.MBNum).ToString("f0") + "马币")) + ((Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "" : (Math.Abs(Model.Q.BBNum).ToString("f0") + "邦币")))) &nbsp;&nbsp;&nbsp;&nbsp; 提问时间：@(HOHO18.Common.ChangeDateTime.DateStringFromNow(Model.Q.RegTime == null ? DateTime.Now : Model.Q.RegTime.Value))</div>
                 </div>
                 <div class="textCenter">
-                    <img id="ImgQA" src="@Model.Q.PicUrl" width="99%" />
-                    @*<script type="text/javascript">
-                        $(function () { $('#ImgQA').src = "@Model.Q.PicUrl"; });
-                    </script>*@
+                    <img id="ImgQA" src="@Model.Q.PicUrl" width="99%" />                    
                 </div>
             </div>
             @if (Model.A != null)
@@ -83,24 +81,21 @@
                             else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
                             {
                                 <div class="textCenter">
-                                    <img id="ImgDA" src="@Model.A.PicUrl" width="99%" />
-                                    @*<script type="text/javascript">
-                                        $(function () { $('#ImgDA').src = "@Model.A.PicUrl"; });
-                                    </script>*@
+                                    <img id="ImgDA" src="@Model.A.PicUrl" width="99%" />                                    
                                 </div>
                         }
                     }
                 </div>   
             }
                     
-            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            @*<div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
                     <div class="caption"><i class="icon-cogs"></i>操作</div>
                 </div>
                     <div class="textCenter">
                         <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
                     </div>
-            </div>
+            </div>*@
                     
 
             @if(Model.Others.Count() > 0)
@@ -120,6 +115,16 @@
                     </div>                                        
                 }
             }  
+
+            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-cogs"></i>邦马币</div>
+                </div>
+                <div class="textCenter">
+                    <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
+                </div>
+            </div>
+
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
                     <div class="caption"><i class="icon-cogs"></i>作业邦</div>
@@ -143,7 +148,7 @@
         @Scripts.Render("~/bundles/morsuncommon")        
         @Scripts.Render("~/bundles/waypoint")
  
-        @*@if (!Request.IsAuthenticated)
+        @if (!isLogin)
         {
             <script type="text/javascript"> 
                 $(ajaxSubmitFormHandle('#submitBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo', true));
@@ -184,5 +189,5 @@
                     event.stopPropagation();
                 });
             });
-        </script>*@
+        </script>
     }

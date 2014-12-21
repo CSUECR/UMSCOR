@@ -88,7 +88,7 @@ namespace MorSun
             var routingData = Context.Request.RequestContext.RouteData;
             if (statusCode == 404 || statusCode == 500)
             {                
-                if (!Request.RawUrl.ToLower().StartsWith("/qa/q/"))
+                if (!Request.RawUrl.ToLower().StartsWith("/qa/q"))
                 {
                     Response.Clear();
                     Response.Redirect("http://bungma.taobao.com");

@@ -95,6 +95,23 @@ namespace MorSun.Controllers
 
         #region 基本信息
         /// <summary>
+        /// 判断用户是否登录
+        /// </summary>
+        public static bool IsLogin
+        {
+            get
+            {
+                string name = System.Web.HttpContext.Current.User.Identity.Name;
+                if (string.IsNullOrEmpty(name))
+                    return false;
+                MembershipUser user = Membership.GetUser();
+                if (user == null)
+                    return false;
+                return true;
+            }
+        }
+
+        /// <summary>
         /// 用户ID
         /// </summary>        
         protected static Guid UserID

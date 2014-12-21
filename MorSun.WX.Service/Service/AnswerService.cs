@@ -30,10 +30,10 @@ namespace MorSun.WX.ZYB.Service
 
             responseMessage.Articles.Add(new Article()
             {//眼睛图片
-                Title = "系统拒绝响应您的胡乱答题请求，请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发，",
-                Description = "系统拒绝响应您的胡乱答题请求，请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发",
-                PicUrl = "",
-                Url = ""
+                Title = "系统拒绝响应您的胡乱答题请求",
+                Description = "请您间隔" + CFG.用户连续请求时间间隔 + "秒来一发\r\n答题时连续发送多张图片，邦马网就判定您在乱答题",
+                PicUrl = CFG.网站域名 + "/images/zyb/cancel.png",
+                Url = CFG.网站域名
             });
 
             return responseMessage;
@@ -170,12 +170,24 @@ namespace MorSun.WX.ZYB.Service
         private ResponseMessageNews NonDistributionResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
-            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);             
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 
+            var s = "";
+            var model = UserQAService.GetOlineQAUserCache();
+            if(model != null)
+            {
+                s += "\r\n" + ("当前未答数(收费：" + model.MaBiQACount + " 免费：" + model.NonMaBiQACount + ")");
+                s += "\r\n" + ("当前在线人数(认证：" + model.CertificationUser.Count() + " 未认证：" + model.NonCertificationQAUser.Count() + ")");
+            }
             responseMessage.Articles.Add(new Article()
             {
                 Title = "正在为您分配答题资源，请稍候再尝试发送： " + CFG.开始答题 + " 开始答题",
-                Description = "正在为您分配答题资源，请稍候再尝试发送： " + CFG.开始答题 + " 开始答题",
-                PicUrl = "",
+                Description = "放弃本题请发送:" + " " + CFG.放弃本题 +
+                "\r\n" + "这不是一个问题请发送：" + " " + CFG.不是问题 +
+                "\r\n" + "文字答题请发送：" + " " + CFG.回答问题 + " 答案" +
+                "\r\n" + "图片答题请直接发送图片" +
+                "\r\n" + "退出答题请发送：" + " " + CFG.退出答题 +
+                s,
+                PicUrl = CFG.网站域名 + "/images/zyb/dilou.png",
                 Url = ""
             });
             
@@ -186,61 +198,60 @@ namespace MorSun.WX.ZYB.Service
             //    PicUrl = "",
             //    Url = CFG.网站域名 + "DistributionRule".GX()
             //});
-            responseMessage.Articles.Add(new Article()
-            {//眼睛图片
-                Title = "放弃本题请发送:" + " " + CFG.放弃本题,
-                Description = "放弃本题请发送:" + " " + CFG.放弃本题,
-                PicUrl = "",
-                Url = ""
-            });//再增加 加码 求解题思路            
-            responseMessage.Articles.Add(new Article()
-            {//美元图片
-                Title = "这不是一个问题请发送：" + " " + CFG.不是问题,
-                Description = "这不是一个问题请发送：" + " " + CFG.不是问题,
-                PicUrl = "",
-                Url = ""
-            });
-            responseMessage.Articles.Add(new Article()
-            {//美元图片
-                Title = "文字答题请发送：" + " " + CFG.回答问题 + " 答案",
-                Description = "文字答题请发送：" + " " + CFG.回答问题 + " 答案",
-                PicUrl = "",
-                Url = ""
-            });
-            responseMessage.Articles.Add(new Article()
-            {//美元图片
-                Title = "图片答题请直接发送图片",
-                Description = "图片答题请直接发送图片",
-                PicUrl = "",
-                Url = ""
-            });
-            responseMessage.Articles.Add(new Article()
-            {//美元图片
-                Title = "退出答题请发送：" + " " + CFG.退出答题,
-                Description = "退出答题请发送：" + " " + CFG.退出答题,
-                PicUrl = "",
-                Url = ""
-            });
-            //当前答题缓存数据
-            var model = UserQAService.GetOlineQAUserCache();
-            if(model != null)
-            {
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = ("当前未答数(收费：" + model.MaBiQACount + " 免费：" + model.NonMaBiQACount + ")"),
-                    Description = "查看分配规则",
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "DistributionRule".GX()
-                });
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = ("当前在线人数(认证：" + model.CertificationUser.Count() + " 未认证：" + model.NonCertificationQAUser.Count() + ")"),
-                    Description = ("当前在线人数"),
-                    PicUrl = "",
-                    Url = CFG.网站域名 + "DistributionRule".GX()
-                });                
-            }
-
+            //responseMessage.Articles.Add(new Article()
+            //{//眼睛图片
+            //    Title = "放弃本题请发送:" + " " + CFG.放弃本题,
+            //    Description = "放弃本题请发送:" + " " + CFG.放弃本题,
+            //    PicUrl = "",
+            //    Url = ""
+            //});//再增加 加码 求解题思路            
+            //responseMessage.Articles.Add(new Article()
+            //{//美元图片
+            //    Title = "这不是一个问题请发送：" + " " + CFG.不是问题,
+            //    Description = "这不是一个问题请发送：" + " " + CFG.不是问题,
+            //    PicUrl = "",
+            //    Url = ""
+            //});
+            //responseMessage.Articles.Add(new Article()
+            //{//美元图片
+            //    Title = "文字答题请发送：" + " " + CFG.回答问题 + " 答案",
+            //    Description = "文字答题请发送：" + " " + CFG.回答问题 + " 答案",
+            //    PicUrl = "",
+            //    Url = ""
+            //});
+            //responseMessage.Articles.Add(new Article()
+            //{//美元图片
+            //    Title = "图片答题请直接发送图片",
+            //    Description = "图片答题请直接发送图片",
+            //    PicUrl = "",
+            //    Url = ""
+            //});
+            //responseMessage.Articles.Add(new Article()
+            //{//美元图片
+            //    Title = "退出答题请发送：" + " " + CFG.退出答题,
+            //    Description = "退出答题请发送：" + " " + CFG.退出答题,
+            //    PicUrl = "",
+            //    Url = ""
+            //});
+            ////当前答题缓存数据
+            //var model = UserQAService.GetOlineQAUserCache();
+            //if(model != null)
+            //{
+            //    responseMessage.Articles.Add(new Article()
+            //    {//问号图片
+            //        Title = ("当前未答数(收费：" + model.MaBiQACount + " 免费：" + model.NonMaBiQACount + ")"),
+            //        Description = "查看分配规则",
+            //        PicUrl = "",
+            //        Url = CFG.网站域名 + "DistributionRule".GX()
+            //    });
+            //    responseMessage.Articles.Add(new Article()
+            //    {//问号图片
+            //        Title = ("当前在线人数(认证：" + model.CertificationUser.Count() + " 未认证：" + model.NonCertificationQAUser.Count() + ")"),
+            //        Description = ("当前在线人数"),
+            //        PicUrl = "",
+            //        Url = CFG.网站域名 + "DistributionRule".GX()
+            //    });                
+            //}
             return responseMessage;
         }
 
@@ -257,18 +268,18 @@ namespace MorSun.WX.ZYB.Service
             responseMessage.Articles.Add(new Article()
             {
                 Title = "系统拒绝了您的答题请求",
-                Description = "系统拒绝了您的答题请求",
-                PicUrl = "",
-                Url = ""
+                Description = "一小时内答退次数超过5次后，邦马网就不会分配新题目给您",
+                PicUrl = CFG.网站域名 + "/images/zyb/cancel.png",
+                Url = CFG.网站域名
             });
 
-            responseMessage.Articles.Add(new Article()
-            {//问号图片
-                Title = "查看拒绝答题请求规则",
-                Description = "查看拒绝答题请求规则",
-                PicUrl = "",
-                Url = CFG.网站域名 + "RefusedAnswer".GX()
-            });
+            //responseMessage.Articles.Add(new Article()
+            //{//问号图片
+            //    Title = "查看拒绝答题请求规则",
+            //    Description = "查看拒绝答题请求规则",
+            //    PicUrl = "",
+            //    Url = CFG.网站域名 + "RefusedAnswer".GX()
+            //});
             return responseMessage;
         }
 
@@ -282,33 +293,40 @@ namespace MorSun.WX.ZYB.Service
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
-            responseMessage.Articles.Add(new Article()
-            {
-                Title = "您已退出答题，系统正在回收答题资源。。。",
-                Description = "您已退出答题，系统正在回收答题资源。。。",
-                PicUrl = "",
-                Url = ""
-            });
-
-            //当前答题缓存数据
+            var s = "";
             var model = UserQAService.GetOlineQAUserCache();
             if (model != null)
             {
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = ("当前未答数(收费：" + model.MaBiQACount + " 免费：" + model.NonMaBiQACount + ")"),
-                    Description = "查看分配规则",
-                    PicUrl = "",
-                    Url = CFG.网站域名
-                });
-                responseMessage.Articles.Add(new Article()
-                {//问号图片
-                    Title = ("当前在线人数(认证：" + model.CertificationUser.Count() + " 未认证：" + model.NonCertificationQAUser.Count() + ")"),
-                    Description = ("当前在线人数"),
-                    PicUrl = "",
-                    Url = CFG.网站域名
-                });
+                s += "\r\n" + ("当前未答数(收费：" + model.MaBiQACount + " 免费：" + model.NonMaBiQACount + ")");
+                s += "\r\n" + ("当前在线人数(认证：" + model.CertificationUser.Count() + " 未认证：" + model.NonCertificationQAUser.Count() + ")");
             }
+            responseMessage.Articles.Add(new Article()
+            {
+                Title = "您已退出答题",
+                Description = "系统正在回收答题资源" + s,
+                PicUrl = CFG.网站域名 + "/images/zyb/home.png",
+                Url = CFG.网站域名
+            });
+
+            ////当前答题缓存数据
+            //var model = UserQAService.GetOlineQAUserCache();
+            //if (model != null)
+            //{
+            //    responseMessage.Articles.Add(new Article()
+            //    {//问号图片
+            //        Title = ("当前未答数(收费：" + model.MaBiQACount + " 免费：" + model.NonMaBiQACount + ")"),
+            //        Description = "查看分配规则",
+            //        PicUrl = "",
+            //        Url = CFG.网站域名
+            //    });
+            //    responseMessage.Articles.Add(new Article()
+            //    {//问号图片
+            //        Title = ("当前在线人数(认证：" + model.CertificationUser.Count() + " 未认证：" + model.NonCertificationQAUser.Count() + ")"),
+            //        Description = ("当前在线人数"),
+            //        PicUrl = "",
+            //        Url = CFG.网站域名
+            //    });
+            //}
 
             return responseMessage;
         }

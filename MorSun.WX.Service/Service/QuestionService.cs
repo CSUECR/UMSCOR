@@ -36,7 +36,7 @@ namespace MorSun.WX.ZYB.Service
                     Title = ("问题编号：" + model.AutoGrenteId + " "),// + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "" : (model.MaBiNum == null ? "" : ("消耗" + model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
                     Description = "提问时间:" + DateTime.Now,
                     PicUrl = model.PicUrl,
-                    Url = CFG.网站域名 + CFG.问题查看路径 + model.ID.ToString()
+                    Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString()
                 });
                 //responseMessage.Articles.Add(new Article()
                 //{//眼睛图片

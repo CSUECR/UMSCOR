@@ -616,6 +616,9 @@
     <Content Include="Images\yelloaccent.png" />
     <Content Include="Images\zyb\bigsmile.png" />
     <Content Include="Images\zyb\bird.png" />
+    <Content Include="Images\zyb\cancel.png" />
+    <Content Include="Images\zyb\dilou.png" />
+    <Content Include="Images\zyb\home.png" />
     <Content Include="Images\zyb\key.png" />
     <Content Include="Images\zyb\lamp.png" />
     <Content Include="Images\zyb\reg.jpg" />
