@@ -40,26 +40,26 @@
             <div class="bar" style="width: 100%;"></div>
         </div>
     </section>
-    <section id="loginForm">        
+    <section id="loginForm" style="background-image:none;">
         @using (Html.BeginForm("ECPW", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
             @Html.AntiForgeryToken()
             <fieldset>
                 <legend>账号验证</legend>
-                <ol>                    
+                <ol>
                     <li>
                         @Html.LabelFor(m => m.NewPassword)
                         @Html.PasswordFor(m => m.NewPassword)
-                    </li> 
+                    </li>
                     <li>
                         @Html.LabelFor(m => m.ConfirmPassword)
                         @Html.PasswordFor(m => m.ConfirmPassword)
-                    </li> 
+                    </li>
                 </ol>
                 <input type="button" id="submitBtn" value="提交" />
-                <input name="id" type="hidden" value="@Model.id" /> 
-            </fieldset> 
-        }       
+                <input name="id" type="hidden" value="@Model.id" />
+            </fieldset>
+        }
     </section>
 </div>
     @section Scripts {        
