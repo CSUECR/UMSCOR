@@ -40,7 +40,7 @@
             <div class="bar" style="width: 50%;"></div>
         </div>
     </section>
-    <section id="loginForm">        
+    <section id="loginForm" style="background-image:none;">
         @using (Html.BeginForm("ConfirmQuestion", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
         {
             @Html.AntiForgeryToken()
@@ -71,9 +71,9 @@
                         @Html.LabelFor(m => m.Answer3)
                         @Html.TextBoxFor(m => m.Answer3)
                     </li>
-                    
+
                 </ol>
-                <input type="button" id="submitBtn" value="下一步" />   
+                <input type="button" id="submitBtn" value="下一步" />
                 <input type="hidden" name="uName" value="@Model.uName" />
             </fieldset>
         }
