@@ -34,12 +34,18 @@ namespace MorSun.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult MB(Guid? id, string returnUrl)
+        public ActionResult MB(Guid? id, int? qCount,string returnUrl)
         {
             var s = "";
             var tempMB = Convert.ToDecimal(0);
             var tempBB = Convert.ToDecimal(0);
             var defXFMB = Convert.ToDecimal(CFG.提问默认收费马币值);
+            if (!qCount.HasValue)
+                qCount = 1;
+            else
+            {
+                qCount = Math.Abs(qCount.Value);
+            }
             if(!id.HasValue || id==Guid.Empty)
             {
                 "id".AE("参数错误", ModelState);
@@ -66,11 +72,12 @@ namespace MorSun.Controllers
                     "id".AE("不是您的问题你别动", ModelState);
                     s += " 不是您的问题你别动";
                 }
+
                 LogHelper.Write(qaView.MBNum.ToString() + qaView.BBNum.ToString(), LogHelper.LogMessageType.Debug);
-                if ((Math.Abs(qaView.MBNum) + Math.Abs(qaView.BBNum)) >= 2000)
-                {//超过2000马币就不让再增加
-                    "id".AE("消费的邦马币已超过2000", ModelState);
-                    s += " 消费的邦马币已超过2000";
+                if ((Math.Abs(qaView.MBNum) + Math.Abs(qaView.BBNum) + qCount * defXFMB)  >= 25000)
+                {//超过25000马币就不让再增加
+                    "qCount".AE("超过50", ModelState);
+                    s += "问题总数量不能超过50";
                 }
                 //已经被回答了则不再增加马币
                 var refAId = Guid.Parse(Reference.问答类别_答案);
@@ -96,32 +103,37 @@ namespace MorSun.Controllers
             if (ModelState.IsValid)
             {
                 var bmumbBll = new BaseBll<bmUserMaBiRecord>();
-                var umbrModel = new bmUserMaBiRecord();
-                umbrModel.SourceRef = Guid.Parse(Reference.马币来源_消费);
-                if (tempBB >= defXFMB)
-                {
-                    umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
-                    tempBB -= defXFMB;
+                for(var i = 0; i<qCount; i++)
+                { 
+                    var umbrModel = new bmUserMaBiRecord();
+                    umbrModel.SourceRef = Guid.Parse(Reference.马币来源_消费);
+                
+                    if (tempBB >= defXFMB)
+                    {
+                        umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
+                        tempBB -= defXFMB;
+                    }
+                    else if (tempMB >= defXFMB)
+                    {
+                        umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_马币);
+                        tempMB -= defXFMB;
+                    }
+                    umbrModel.MaBiNum = 0 - defXFMB;
+                    umbrModel.QAId = id;
+
+                    umbrModel.IsSettle = false;
+                    umbrModel.RegTime = DateTime.Now;
+                    umbrModel.ModTime = DateTime.Now;
+                    umbrModel.FlagTrashed = false;
+                    umbrModel.FlagDeleted = false;
+
+                    umbrModel.ID = Guid.NewGuid();
+                    umbrModel.UserId = UserID;
+                    umbrModel.RegUser = UserID;
+
+                    bmumbBll.Insert(umbrModel,false);
                 }
-                else if (tempMB >= defXFMB)
-                {
-                    umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_马币);
-                    tempMB -= defXFMB;
-                }
-                umbrModel.MaBiNum = 0 - defXFMB;
-                umbrModel.QAId = id;
-
-                umbrModel.IsSettle = false;
-                umbrModel.RegTime = DateTime.Now;
-                umbrModel.ModTime = DateTime.Now;
-                umbrModel.FlagTrashed = false;
-                umbrModel.FlagDeleted = false;
-
-                umbrModel.ID = Guid.NewGuid();
-                umbrModel.UserId = UserID;
-                umbrModel.RegUser = UserID;
-
-                bmumbBll.Insert(umbrModel);
+                bmumbBll.UpdateChanges();
                 //封装返回的数据
                 fillOperationResult(returnUrl, oper, "马币增加成功");
                 return Json(oper, JsonRequestBehavior.AllowGet);

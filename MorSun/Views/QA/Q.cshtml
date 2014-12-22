@@ -3,6 +3,9 @@
     ViewBag.Title = "查看答案";    
     var backurl = ViewBag.ReturnUrl ?? "/H/I";
     var isLogin = MorSun.Controllers.BasisController.IsLogin;
+
+    int yzmR = new Random().Next(100000);    
+    var rUrl = Request.RawUrl ?? "/h/i"; 
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
@@ -13,6 +16,9 @@
             {
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@Model.Q.ID" />
+                
+                @:问题数量：<input type="text" id="qCount" name="qCount" value="1" class="m-wrap xsmall" style="background-color:#fff;margin-right:60px;" />
+                
                 <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
                 <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
                 if (!isLogin)
@@ -36,7 +42,59 @@
                     <section class="featured">
                         <div class="content-wrapper">
                             <div class="content-login" style="float:left;">
-                                @Html.Partial("_TableLogon", new LoginModel() { ReturnUrl = Request.RawUrl })
+                                <div class="divLogon" style="height:86px;">                                    
+                                        @using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = rUrl }, FormMethod.Post, new { id = "logonForm" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <hgroup class="title">
+                                                <h2>登录@("ServiceName".GX())</h2>
+                                            </hgroup>
+                                            <table class="tableLogon">
+                                                <tr>
+                                                    <th>
+                                                        <input type="text" name="UserName" class="logonText iconUser" />
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        <input type="password" name="Password" class="logonText iconPwd" />
+                                                    </th>
+                                                </tr>
+                                                @if ("LoginVerificationCode".GX().ToAs<bool>())
+                                                {
+                                                    <tr>
+                                                        <th>
+                                                            <input type="text" name="Verifycode" class="logonYZMText iconMa" onfocus="getVerifyCode('#Verifycode', '#VerifyCodeImg')"/>
+                                                                   <img id="VerifyCodeImg" height="35px" src="/images/VerifyCode.aspx?type=@yzmR"
+                                                                 title="看不清?点击换张图片!" style="vertical-align: middle; cursor: pointer; " onclick="this.src=this.src+'&';" />
+                                                        </th>
+                                                    </tr>
+                                                }
+                                                <tr>
+                                                    <th>
+                                                        <input type="button" id="submitBtn" value="登录" class="logonBtn green" />
+                                                    </th>
+                                                </tr>
+                                                <tr><td></td></tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="/Account/ForgetPass">忘记密码？</a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr><td class="tdHR"></td></tr>
+                                                <tr><td><input name="VerifycodeRandom" type="hidden" value="@yzmR" /></td></tr>
+                                                <tr>
+                                                    <td>
+                                                        @if ("Register".GX() == "true")
+                                                        {
+                                                            @:没有账号？   <a href="/Account/Register">注册新账号</a>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        }
+                                </div>
                             </div>
                             <div style="display:none" id="DIVSL"></div>
                         </div>
