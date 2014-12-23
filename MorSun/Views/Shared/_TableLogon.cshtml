@@ -2,7 +2,9 @@
 @{
     int yzmR = new Random().Next(100000);
     HttpCookie Cookie_login = Request.Cookies["HIC"];
-    var bic = Cookie_login["HIC"].ToString();
+    var bic = "bungma";
+    if (Cookie_login != null)
+    { bic = Cookie_login["HIC"].ToString(); }    
     var rUrl = Model.ReturnUrl ?? "/H/I";
 }
 
