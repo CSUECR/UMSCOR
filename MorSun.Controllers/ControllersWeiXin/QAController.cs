@@ -45,6 +45,8 @@ namespace MorSun.Controllers
             else
             {
                 qCount = Math.Abs(qCount.Value);
+                if (qCount == 0)
+                    qCount = 1;
             }
             if(!id.HasValue || id==Guid.Empty)
             {
