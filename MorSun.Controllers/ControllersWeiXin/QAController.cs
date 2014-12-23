@@ -50,7 +50,7 @@ namespace MorSun.Controllers
             }
             if(!id.HasValue || id==Guid.Empty)
             {
-                "id".AE("参数错误", ModelState);
+                "qCount".AE("参数错误", ModelState);
                 s += "参数错误";
             }
             else 
@@ -60,18 +60,18 @@ namespace MorSun.Controllers
                 var qaView = bmqaBll.GetModel(id);
                 if (qaView == null)
                 {
-                    "id".AE("参数错误", ModelState);
+                    "qCount".AE("参数错误", ModelState);
                     s += "参数错误";
                 }
                 var qauser = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.WeiXinId == qaView.WeiXinId);
                 if(qauser == null)
                 {
-                    "id".AE("提问用户未绑定邦马网", ModelState);
+                    "qCount".AE("未绑定", ModelState);
                     s += " 提问用户未绑定邦马网";
                 }
                 else if(qauser.UserId != UserID)
                 {
-                    "id".AE("不是您的问题你别动", ModelState);
+                    "qCount".AE("不是您的", ModelState);
                     s += " 不是您的问题你别动";
                 }
 
@@ -87,7 +87,7 @@ namespace MorSun.Controllers
                 var qada = bmqaBll.All.FirstOrDefault(p => p.ParentId == id && (p.QARef == refAId || p.QARef == refBSId));
                 if(qada != null)
                 {
-                    "id".AE("该问题已经被解答", ModelState);
+                    "qCount".AE("已被解答", ModelState);
                     s += " 该问题已经被解答";
                 }
                 //邦马币余额不足
@@ -97,7 +97,7 @@ namespace MorSun.Controllers
                 tempBB = UserBMB.NBB.Value;
                 if((tempMB + tempBB) < defXFMB)
                 {
-                    "id".AE("您的邦马币余额不足", ModelState);
+                    "qCount".AE("余额不足", ModelState);
                     s += " 您的邦马币余额不足";
                 }
             }
