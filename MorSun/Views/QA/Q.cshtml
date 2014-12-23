@@ -15,7 +15,7 @@
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@Model.Q.ID" />
                 
-                @:问题数量：<input type="text" id="qCount" name="qCount" value="1" class="m-wrap xsmall" style="background-color:#fff;margin-right:60px;" />
+                @:问题数量：<input type="text" id="qCount" name="qCount" value="1" onkeydown="return InputInteger(event)" class="m-wrap xsmall" style="background-color:#fff;margin-right:60px;" />
                 
                 <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
                 <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
