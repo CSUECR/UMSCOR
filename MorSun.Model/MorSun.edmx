@@ -194,11 +194,14 @@
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
           <Property Name="SubmitTime" Type="datetime" />
+          <Property Name="ErrorNum" Type="int" />
           <Property Name="ObjectionExplain" Type="nvarchar" MaxLength="4000" />
           <Property Name="HandleUser" Type="uniqueidentifier" />
           <Property Name="Result" Type="uniqueidentifier" />
           <Property Name="HandleTime" Type="datetime" />
+          <Property Name="ConfirmErrorNum" Type="int" />
           <Property Name="HandleExplain" Type="nvarchar" MaxLength="4000" />
+          <Property Name="IsSettle" Type="bit" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -279,6 +282,7 @@
           <Property Name="DistributionTime" Type="datetime" />
           <Property Name="OperateTime" Type="datetime" />
           <Property Name="Result" Type="uniqueidentifier" />
+          <Property Name="IsSettle" Type="bit" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -367,6 +371,7 @@
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="QAId" Type="uniqueidentifier" />
           <Property Name="RCId" Type="uniqueidentifier" />
+          <Property Name="TkId" Type="uniqueidentifier" />
           <Property Name="SourceRef" Type="uniqueidentifier" />
           <Property Name="MaBiRef" Type="uniqueidentifier" />
           <Property Name="MaBiNum" Type="decimal" Precision="18" Scale="6" />
@@ -2825,6 +2830,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_bmUserMaBiRecord_bmTakeNow">
+          <End Role="bmTakeNow" Type="Self.bmTakeNow" Multiplicity="0..1" />
+          <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bmTakeNow">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="TkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bmUserMaBiRecord_wmfReference">
           <End Role="wmfReference" Type="Self.wmfReference" Multiplicity="0..1" />
           <End Role="bmUserMaBiRecord" Type="Self.bmUserMaBiRecord" Multiplicity="*" />
@@ -4231,6 +4248,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="bmRecharge" EntitySet="bmRecharge" />
             <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_bmTakeNow" Association="Self.FK_bmUserMaBiRecord_bmTakeNow">
+            <End Role="bmTakeNow" EntitySet="bmTakeNow" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
+          </AssociationSet>
           <AssociationSet Name="FK_bmUserMaBiRecord_wmfReference" Association="Self.FK_bmUserMaBiRecord_wmfReference">
             <End Role="wmfReference" EntitySet="wmfReference" />
             <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecord" />
@@ -4790,6 +4811,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmObjection_aspnet_Users1" FromRole="bmObjection" ToRole="aspnet_Users" />
           <NavigationProperty Name="bmQA" Relationship="Self.FK_bmObjection_bmQA" FromRole="bmObjection" ToRole="bmQA" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmObjection_wmfReference" FromRole="bmObjection" ToRole="wmfReference" />
+          <Property Name="ErrorNum" Type="Int32" />
+          <Property Name="ConfirmErrorNum" Type="Int32" />
+          <Property Name="IsSettle" Type="Boolean" />
         </EntityType>
         <EntityType Name="bmOnlineQAUser">
           <Key>
@@ -4889,6 +4913,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmQADistribution_aspnet_Users1" FromRole="bmQADistribution" ToRole="aspnet_Users" />
           <NavigationProperty Name="bmQA" Relationship="Self.FK_bmQADistribution_bmQA" FromRole="bmQADistribution" ToRole="bmQA" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmQADistribution_wmfReference" FromRole="bmQADistribution" ToRole="wmfReference" />
+          <Property Name="IsSettle" Type="Boolean" />
         </EntityType>
         <EntityType Name="bmRecharge">
           <Key>
@@ -4960,6 +4985,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="aspnet_Users1" Relationship="Self.FK_bmTakeNow_aspnet_Users1" FromRole="bmTakeNow" ToRole="aspnet_Users" />
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmTakeNow_wmfReference" FromRole="bmTakeNow" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmTakeNow_wmfReference1" FromRole="bmTakeNow" ToRole="wmfReference" />
+          <NavigationProperty Name="bmUserMaBiRecords" Relationship="MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow" FromRole="bmTakeNow" ToRole="bmUserMaBiRecord" />
         </EntityType>
         <EntityType Name="bmUserMaBi">
           <Key>
@@ -5004,6 +5030,8 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmUserMaBiRecord_wmfReference1" FromRole="bmUserMaBiRecord" ToRole="wmfReference" />
           <Property Name="RCId" Type="Guid" />
           <NavigationProperty Name="bmRecharge" Relationship="MorSun.Model.FK_bmUserMaBiRecord_bmRecharge" FromRole="bmUserMaBiRecord" ToRole="bmRecharge" />
+          <Property Name="TkId" Type="Guid" />
+          <NavigationProperty Name="bmTakeNow" Relationship="MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow" FromRole="bmUserMaBiRecord" ToRole="bmTakeNow" />
         </EntityType>
         <EntityType Name="bmUserMaBiSettleRecord">
           <Key>
@@ -9141,6 +9169,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="bmRecharge" EntitySet="bmRecharges" />
             <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
           </AssociationSet>
+          <AssociationSet Name="FK_bmUserMaBiRecord_bmTakeNow" Association="MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow">
+            <End Role="bmTakeNow" EntitySet="bmTakeNows" />
+            <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_bmUserMaBiRecord_bmRecharge">
           <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="0..1" />
@@ -9151,6 +9183,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Principal>
             <Dependent Role="bmUserMaBiRecord">
               <PropertyRef Name="RCId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_bmUserMaBiRecord_bmTakeNow">
+          <End Type="MorSun.Model.bmTakeNow" Role="bmTakeNow" Multiplicity="0..1" />
+          <End Type="MorSun.Model.bmUserMaBiRecord" Role="bmUserMaBiRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bmTakeNow">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="bmUserMaBiRecord">
+              <PropertyRef Name="TkId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9347,6 +9391,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmObjections">
             <EntityTypeMapping TypeName="MorSun.Model.bmObjection">
               <MappingFragment StoreEntitySet="bmObjection">
+                <ScalarProperty Name="IsSettle" ColumnName="IsSettle" />
+                <ScalarProperty Name="ConfirmErrorNum" ColumnName="ConfirmErrorNum" />
+                <ScalarProperty Name="ErrorNum" ColumnName="ErrorNum" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="QAId" ColumnName="QAId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -9434,6 +9481,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmQADistributions">
             <EntityTypeMapping TypeName="MorSun.Model.bmQADistribution">
               <MappingFragment StoreEntitySet="bmQADistribution">
+                <ScalarProperty Name="IsSettle" ColumnName="IsSettle" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="QAId" ColumnName="QAId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -9530,6 +9578,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmUserMaBiRecords">
             <EntityTypeMapping TypeName="MorSun.Model.bmUserMaBiRecord">
               <MappingFragment StoreEntitySet="bmUserMaBiRecord">
+                <ScalarProperty Name="TkId" ColumnName="TkId" />
                 <ScalarProperty Name="RCId" ColumnName="RCId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />

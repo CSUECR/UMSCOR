@@ -47,6 +47,11 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
+        public bool? IsSettle
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int? Sort
         { get; set; }
         /// <summary>

@@ -144,6 +144,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_wmfVillage_wmfTown", "wmfTown", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(MorSun.Model.wmfTown), "wmfVillage", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.wmfVillage), true)]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "aspnet_UsersInRoles", "aspnet_Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Roles), "aspnet_Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.aspnet_Users))]
 [assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiRecord_bmRecharge", "bmRecharge", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.bmRecharge), "bmUserMaBiRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiRecord), true)]
+[assembly: EdmRelationshipAttribute("MorSun.Model", "FK_bmUserMaBiRecord_bmTakeNow", "bmTakeNow", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(MorSun.Model.bmTakeNow), "bmUserMaBiRecord", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(MorSun.Model.bmUserMaBiRecord), true)]
 
 #endregion
 
@@ -8729,6 +8730,78 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ErrorNum
+        {
+            get
+            {
+                return _ErrorNum;
+            }
+            set
+            {
+                OnErrorNumChanging(value);
+                ReportPropertyChanging("ErrorNum");
+                _ErrorNum = StructuralObject.SetValidValue(value, "ErrorNum");
+                ReportPropertyChanged("ErrorNum");
+                OnErrorNumChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ErrorNum;
+        partial void OnErrorNumChanging(Nullable<global::System.Int32> value);
+        partial void OnErrorNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ConfirmErrorNum
+        {
+            get
+            {
+                return _ConfirmErrorNum;
+            }
+            set
+            {
+                OnConfirmErrorNumChanging(value);
+                ReportPropertyChanging("ConfirmErrorNum");
+                _ConfirmErrorNum = StructuralObject.SetValidValue(value, "ConfirmErrorNum");
+                ReportPropertyChanged("ConfirmErrorNum");
+                OnConfirmErrorNumChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ConfirmErrorNum;
+        partial void OnConfirmErrorNumChanging(Nullable<global::System.Int32> value);
+        partial void OnConfirmErrorNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> IsSettle
+        {
+            get
+            {
+                return _IsSettle;
+            }
+            set
+            {
+                OnIsSettleChanging(value);
+                ReportPropertyChanging("IsSettle");
+                _IsSettle = StructuralObject.SetValidValue(value, "IsSettle");
+                ReportPropertyChanged("IsSettle");
+                OnIsSettleChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _IsSettle;
+        partial void OnIsSettleChanging(Nullable<global::System.Boolean> value);
+        partial void OnIsSettleChanged();
 
         #endregion
 
@@ -11007,6 +11080,30 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> IsSettle
+        {
+            get
+            {
+                return _IsSettle;
+            }
+            set
+            {
+                OnIsSettleChanging(value);
+                ReportPropertyChanging("IsSettle");
+                _IsSettle = StructuralObject.SetValidValue(value, "IsSettle");
+                ReportPropertyChanged("IsSettle");
+                OnIsSettleChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _IsSettle;
+        partial void OnIsSettleChanging(Nullable<global::System.Boolean> value);
+        partial void OnIsSettleChanged();
 
         #endregion
 
@@ -13493,6 +13590,28 @@ namespace MorSun.Model
                 }
             }
         }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiRecord_bmTakeNow", "bmUserMaBiRecord")]
+        public EntityCollection<bmUserMaBiRecord> bmUserMaBiRecords
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<bmUserMaBiRecord>("MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow", "bmUserMaBiRecord");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<bmUserMaBiRecord>("MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow", "bmUserMaBiRecord", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -14283,6 +14402,30 @@ namespace MorSun.Model
         private Nullable<global::System.Guid> _RCId;
         partial void OnRCIdChanging(Nullable<global::System.Guid> value);
         partial void OnRCIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> TkId
+        {
+            get
+            {
+                return _TkId;
+            }
+            set
+            {
+                OnTkIdChanging(value);
+                ReportPropertyChanging("TkId");
+                _TkId = StructuralObject.SetValidValue(value, "TkId");
+                ReportPropertyChanged("TkId");
+                OnTkIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _TkId;
+        partial void OnTkIdChanging(Nullable<global::System.Guid> value);
+        partial void OnTkIdChanged();
 
         #endregion
 
@@ -14512,6 +14655,44 @@ namespace MorSun.Model
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<bmRecharge>("MorSun.Model.FK_bmUserMaBiRecord_bmRecharge", "bmRecharge", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("MorSun.Model", "FK_bmUserMaBiRecord_bmTakeNow", "bmTakeNow")]
+        public bmTakeNow bmTakeNow
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<bmTakeNow>("MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow", "bmTakeNow").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<bmTakeNow>("MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow", "bmTakeNow").Value = value;
+            }
+        }
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<bmTakeNow> bmTakeNowReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<bmTakeNow>("MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow", "bmTakeNow");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<bmTakeNow>("MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow", "bmTakeNow", value);
                 }
             }
         }

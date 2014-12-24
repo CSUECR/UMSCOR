@@ -37,6 +37,11 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
+        public int? ErrorNum
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string ObjectionExplain
         { get; set; }
         /// <summary>
@@ -57,7 +62,17 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
+        public int? ConfirmErrorNum
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string HandleExplain
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool? IsSettle
         { get; set; }
         /// <summary>
         /// 

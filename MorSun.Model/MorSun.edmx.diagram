@@ -264,6 +264,7 @@
         <AssociationConnector Association="MorSun.Model.FK_wmfVillage_wmfTown" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmRecharge" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
