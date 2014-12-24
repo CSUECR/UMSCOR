@@ -677,7 +677,76 @@ namespace MorSun.Controllers.SystemController
             return "true";
         }
 
+        /// <summary>
+        /// 用户的认证邦主修改角色,使之可以充值
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string AncyCU(string Tok, string AncyData)
+        {
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+                return "";
 
+            if (!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("开始认证用户并修改角色", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {
+                    var rzUId = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    var boolRZ = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+
+                    try
+                    {
+                        //用户认证
+                        if (!String.IsNullOrEmpty(rzUId))
+                        {
+                            rzUId = Compression.DecompressString(rzUId);
+                            var _list = JsonConvert.DeserializeObject<List<Guid>>(rzUId);
+                            if (_list.Count() > 0)
+                            {
+                                //根据传过来的数据来修改角色
+                                var roleId = CFG.注册默认角色;
+                                if (boolRZ.Trim().ToLower().Eql("true"))
+                                    roleId = CFG.作业邦认证默认角色;
+                                //先删除用户的角色，再添加
+                                var constr = "";
+                                var roleBll = new BaseBll<aspnet_Roles>();
+                                foreach(var u in _list)
+                                {
+                                    constr += @"DELETE FROM [aspnet_UsersInRoles] WHERE [UserId] = '" + u + "'";
+                                    constr = @"Insert Into aspnet_UsersInRoles ([UserId],[RoleId])  VALUES ('" + u + "','" + roleId + "')";
+                                }
+                                roleBll.Db.ExecuteStoreCommand(constr);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致同步不成功", LogHelper.LogMessageType.Info);
+                        return ex.Message + "异常导致同步不成功";
+                    }
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);
+                    return "未传递同步数据";
+                }
+            }
+            return "true";
+        }
 
 
         //public string DC()

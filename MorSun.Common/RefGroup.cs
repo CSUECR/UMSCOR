@@ -231,6 +231,7 @@ namespace MorSun.Common
             public const string 默认推广代码 = "bungma";
 
             public const string 注册默认角色 = "98dcfbe9-fa44-4832-8a1b-5a82de8d1abf";
+            public const string 作业邦认证默认角色 = "776231d4-d89a-4c1f-99c9-9c0977cc76d3";
             //微信
             public const string 作业邦微信令牌 = "WXZYBung34fdjs38";
             public const string 看答案指令 = "DA==>";
