@@ -719,16 +719,37 @@ namespace MorSun.Controllers.SystemController
                             {
                                 //根据传过来的数据来修改角色
                                 var roleId = CFG.注册默认角色;
+                                //解压
+                                boolRZ = Compression.DecompressString(boolRZ);
+                                boolRZ = JsonConvert.DeserializeObject<string>(boolRZ);
+                                //LogHelper.Write("认证boolRZ" + boolRZ, LogHelper.LogMessageType.Info);
                                 if (boolRZ.Trim().ToLower().Eql("true"))
                                     roleId = CFG.作业邦认证默认角色;
                                 //先删除用户的角色，再添加
                                 var constr = "";
                                 var roleBll = new BaseBll<aspnet_Roles>();
+                                var bll = new BaseBll<wmfUserInfo>();
+                                var rzUR = Guid.Parse(Reference.认证类别_认证邦主);
+                                var nonrzUR = Guid.Parse(Reference.认证类别_未认证);
                                 foreach(var u in _list)
                                 {
+                                    //LogHelper.Write("认证" + u, LogHelper.LogMessageType.Info);
                                     constr += @"DELETE FROM [aspnet_UsersInRoles] WHERE [UserId] = '" + u + "'";
-                                    constr = @"Insert Into aspnet_UsersInRoles ([UserId],[RoleId])  VALUES ('" + u + "','" + roleId + "')";
+                                    constr += @"Insert Into aspnet_UsersInRoles ([UserId],[RoleId])  VALUES ('" + u + "','" + roleId + "')";
+
+                                    //修改用户信息表                                    
+                                    //过滤掉已经添加的数据  
+                                    var uinfo = bll.GetModel(u);
+
+                                    if (uinfo != null)
+                                    {
+                                        if (boolRZ.Trim().ToLower().Eql("true"))
+                                            uinfo.CertificationLevel = rzUR;
+                                        else
+                                            uinfo.CertificationLevel = nonrzUR;
+                                    }
                                 }
+                                bll.UpdateChanges();
                                 roleBll.Db.ExecuteStoreCommand(constr);
                             }
                         }
