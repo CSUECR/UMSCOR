@@ -149,6 +149,73 @@ namespace MorSun.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult OB(AddObjection t, string returnUrl)
         {
+            //var s = "";
+            //var tempMB = Convert.ToDecimal(0);
+            //var tempBB = Convert.ToDecimal(0);
+            //var defXFMB = Convert.ToDecimal(CFG.提问默认收费马币值);
+            //if (!qCount.HasValue)
+            //    qCount = 1;
+            //else
+            //{
+            //    qCount = Math.Abs(qCount.Value);
+            //    if (qCount == 0)
+            //        qCount = 1;
+            //}
+            //if (!id.HasValue || id == Guid.Empty)
+            //{
+            //    "qCount".AE("参数错误", ModelState);
+            //    s += "参数错误";
+            //}
+            //else
+            //{
+            //    //var qa = new BaseBll<bmQA>().GetModel(id);
+            //    var bmqaBll = new BaseBll<bmQAView>();
+            //    var qaView = bmqaBll.GetModel(id);
+            //    if (qaView == null)
+            //    {
+            //        "qCount".AE("参数错误", ModelState);
+            //        s += "参数错误";
+            //    }
+            //    var qauser = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.WeiXinId == qaView.WeiXinId);
+            //    if (qauser == null)
+            //    {
+            //        "qCount".AE("未绑定", ModelState);
+            //        s += " 提问用户未绑定邦马网";
+            //    }
+            //    else if (qauser.UserId != UserID)
+            //    {
+            //        "qCount".AE("不是您的", ModelState);
+            //        s += " 不是您的问题你别动";
+            //    }
+
+            //    LogHelper.Write(qaView.MBNum.ToString() + qaView.BBNum.ToString(), LogHelper.LogMessageType.Debug);
+            //    if ((Math.Abs(qaView.MBNum) + Math.Abs(qaView.BBNum) + qCount * defXFMB) >= 25000)
+            //    {//超过25000马币就不让再增加
+            //        "qCount".AE("超过50", ModelState);
+            //        s += "问题总数量不能超过50";
+            //    }
+            //    //已经被回答了则不再增加马币
+            //    var refAId = Guid.Parse(Reference.问答类别_答案);
+            //    var refBSId = Guid.Parse(Reference.问答类别_不是问题);
+            //    var qada = bmqaBll.All.FirstOrDefault(p => p.ParentId == id && (p.QARef == refAId || p.QARef == refBSId));
+            //    if (qada != null)
+            //    {
+            //        "qCount".AE("已被解答", ModelState);
+            //        s += " 该问题已经被解答";
+            //    }
+            //    //邦马币余额不足
+            //    var numbbll = new BaseBll<bmNewUserMB>();
+            //    var UserBMB = numbbll.All.FirstOrDefault(p => p.UserId == UserID);
+            //    tempMB = UserBMB.NMB.Value;
+            //    tempBB = UserBMB.NBB.Value;
+            //    if ((tempMB + tempBB) < defXFMB)
+            //    {
+            //        "qCount".AE("余额不足", ModelState);
+            //        s += " 您的邦马币余额不足";
+            //    }
+            //}
+
+
             var s = "";
             var oper = new OperationResult(OperationResultType.Error, "提交失败：" + s);
 

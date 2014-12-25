@@ -114,6 +114,38 @@
                     </div>                                        
                 }
             } 
+
+            @if (Model.Objecs.Count() > 0)
+            {                
+                <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-cogs"></i>异议</div>
+                    </div>
+                    @foreach (var item in Model.Objecs)
+                    {
+                        <div class="portlet-body">
+                            <table class="tableadd table-hover">
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            <p>用户在 @(HOHO18.Common.ChangeDateTime.DateStringFromNow(item.SubmitTime == null ? DateTime.Now : item.SubmitTime.Value)) 提交异议说错了 @item.ErrorNum 道题</p>
+                                            <p>@item.ObjectionExplain</p>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>                                   
+                                    <tr>
+                                        <td>
+                                            <p>马子在 @(HOHO18.Common.ChangeDateTime.DateStringFromNow(item.HandleTime == null ? DateTime.Now : item.HandleTime.Value)) 检查结果说错了 @item.ConfirmErrorNum 道题</p>
+                                            <p>@item.HandleExplain</p>
+                                        </td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>                
+            } 
            
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">

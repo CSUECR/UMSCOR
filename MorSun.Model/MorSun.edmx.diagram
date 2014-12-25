@@ -265,6 +265,8 @@
         <AssociationConnector Association="MorSun.Model.aspnet_UsersInRoles" ManuallyRouted="false" />
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmRecharge" />
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmObjection" />
+        <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmQADistribution" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

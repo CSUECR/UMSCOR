@@ -44,6 +44,9 @@ img{border:none;}
  padding:5px 5px 5px 10px;
 }
 
+p{
+text-indent: 2em; /*em是相对单位，2em即现在一个字大小的两倍*/
+}
 header, footer, hgroup,
 nav, section {
     display: block;
