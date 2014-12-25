@@ -256,6 +256,21 @@ namespace MorSun.Model
 
         public Guid QAId { get; set; }
     }
+
+    public class AddObjection
+    {
+        public System.Guid QAId { get; set; }
+
+        [Display(Name = "错题数量")]
+        [Required(ErrorMessage = "{0}必填")]
+        public System.Int32 ErrorNum { get; set; }
+
+        [Display(Name = "异议说明")]
+        [Required(ErrorMessage = "{0}必填")]
+        public System.String ObjectionExplain { get; set; }
+
+        public string ReturnUrl { get; set; }
+    }
     #endregion
 
     #region Services

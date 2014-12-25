@@ -143,5 +143,18 @@ namespace MorSun.Controllers
             oper.AppendData = ModelState.GE();
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OB(AddObjection t, string returnUrl)
+        {
+            var s = "";
+            var oper = new OperationResult(OperationResultType.Error, "提交失败：" + s);
+
+            oper.AppendData = ModelState.GE();
+            return Json(oper, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

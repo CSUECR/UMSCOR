@@ -39,10 +39,8 @@
                     </div>
                     <section class="featured">
                         <div class="content-wrapper">
-                            <div class="content-login" style="float:left;">
-                                <div class="divLogon" style="height:86px;">                                    
-                                        @Html.Partial("_TableLogon", new LoginModel() { ReturnUrl = rUrl })
-                                </div>
+                            <div class="content-login" style="float:left;">                                                              
+                                @Html.Partial("_TableLogon", new LoginModel() { ReturnUrl = rUrl })                                
                             </div>
                             <div style="display:none" id="DIVSL"></div>
                         </div>
@@ -55,10 +53,8 @@
             <div id="DivSYY" class="portlet box @("red".getBC("BootStrapCssTable"))" style="display:none">
                 <div class="portlet-title">
                     <div class="caption"><i class="icon-cogs"></i>提交异议</div>
-                </div>
-                <div class="textCenter">
-                    异议表单
-                </div>
+                </div>                
+                @Html.Partial("_Objection", new AddObjection() { ReturnUrl = rUrl,QAId = Model.Q.ID })                
             </div>  
             <!--异议结束-->    
             }            
@@ -146,6 +142,7 @@
         {
             <script type="text/javascript"> 
                 $(ajaxSubmitFormHandle('#submitBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo', true));
+                $(ajaxSubmitFormHandle('#obSubmitBtn', '#obForm', '提交失败，请联系管理员', '#divInfo', true));
                 function addMaBi() {
                     $('#DivLoginPort').toggle();
                     if ($('#DivLoginPort').is(':hidden')) {

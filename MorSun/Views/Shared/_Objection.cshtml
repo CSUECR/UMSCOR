@@ -1,0 +1,45 @@
+﻿@model MorSun.Model.AddObjection
+@{       
+    var rUrl = Model.ReturnUrl ?? "/H/I";
+}
+
+<div class="portlet-body">
+    @using (Html.BeginForm("OB", "QA", new { returnUrl = rUrl }, FormMethod.Post, new { id = "obForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.QAId)        
+        <table class="tableadd table-hover">
+            <thead>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.ErrorNum)
+                    </td>                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.TextBoxFor(m => m.ErrorNum, new { @class = "m-wrap large",@Value = "1" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(m => m.ObjectionExplain)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.TextAreaFor(m => m.ObjectionExplain, new { @class = "m-wrap large", style = "height:300px;" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <button id="obSubmitBtn" class="btn green" type="button">@("提交".GX())</button>
+                    </td>                    
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>
+
