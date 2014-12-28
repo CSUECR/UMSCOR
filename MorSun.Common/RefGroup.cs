@@ -264,6 +264,8 @@ namespace MorSun.Common
             
             public const string 用户连续请求时间间隔 = "15"; //单位秒 。
 
+            public const string 用户提交异议有效时间间隔 = "72"; //
+
             //微信答题命令            
             public const string 开始答题 = "dt";
             public const string 放弃本题 = "fq";

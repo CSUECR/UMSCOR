@@ -259,6 +259,8 @@ namespace MorSun.Model
 
     public class AddObjection
     {
+        [Display(Name = "问题")]
+        [Required(ErrorMessage = "{0}必选")]
         public System.Guid QAId { get; set; }
 
         [Display(Name = "错题数量")]

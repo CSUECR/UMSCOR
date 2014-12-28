@@ -173,8 +173,7 @@
         @if (!Request.IsAuthenticated)
         {
             <script type="text/javascript"> 
-                $(ajaxSubmitFormHandle('#submitBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo', true));
-                $(ajaxSubmitFormHandle('#obSubmitBtn', '#obForm', '提交失败，请联系管理员', '#divInfo', true));
+                $(ajaxSubmitFormHandle('#submitBtn', '#logonForm', '登录失败，请联系管理员', '#divInfo', true));                
                 function addMaBi() {
                     $('#DivLoginPort').toggle();
                     if ($('#DivLoginPort').is(':hidden')) {
@@ -193,6 +192,7 @@
         {
             <script type="text/javascript"> 
                 $(confirmSubmitFormHandle('确认要增加吗', '#BtnAddMaBi', '#addMBForm', '马币增加失败，请联系管理员', '#divInfo', true));
+                $(confirmSubmitFormHandle('确认要提交异议吗', '#obSubmitBtn', '#obForm', '提交失败，请联系管理员', '#divInfo', true));
                 function addMaBi() {
                     //$('#DivLoginPort').toggle();
                 }
