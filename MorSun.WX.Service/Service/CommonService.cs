@@ -182,5 +182,40 @@ namespace MorSun.WX.ZYB.Service
             });
             return responseMessage;
         }
+
+        /// <summary>
+        /// 赠送邦马币
+        /// </summary>
+        /// <param name="addMBR"></param>
+        /// <param name="updateChange"></param>
+        public void AddUMBR(AddMBRModel addMBR, Guid? uid, bool updateChange = true)
+        {
+            var rbll = new BaseBll<bmUserMaBiRecord>();
+            //检测用户是否存在
+            var users = new BaseBll<aspnet_Users>().All.Where(p => addMBR.UIds.Contains(p.UserId));//找得到userId 就添加
+            foreach (var u in users)
+            {
+                var model = new bmUserMaBiRecord();
+                model.SourceRef = addMBR.SR;
+                model.MaBiRef = addMBR.MBR;
+                model.MaBiNum = addMBR.MBN;
+                model.IsSettle = false;
+
+                model.RegTime = DateTime.Now;
+                model.ModTime = DateTime.Now;
+                model.FlagTrashed = false;
+                model.FlagDeleted = false;
+
+                model.ID = Guid.NewGuid();
+                model.UserId = u.UserId;
+                if (uid != null)
+                    model.RegUser = uid;
+                else
+                    model.RegUser = u.UserId;
+                rbll.Insert(model, false);
+            }
+            if (updateChange)
+                rbll.UpdateChanges();
+        }
     }
 }

@@ -111,6 +111,18 @@ namespace MorSun.WX.ZYB.Service
                         //释放资源
                         CacheAccess.RemoveCache(CFG.微信绑定前缀 + boundCode);
                         CacheAccess.RemoveCache(CFG.微信绑定前缀 + model.UserId.ToString());
+
+                        //绑定微信互相赠送邦马币                        
+                        var addMBR = new AddMBRModel();
+                        var user = new BaseBll<wmfUserInfo>().All.Where(p => p.ID == ubcc.UserId).FirstOrDefault();
+                        addMBR.UIds.Add(user.ID);
+                        if (user.InviteUser != null)
+                            addMBR.UIds.Add(user.InviteUser.Value);
+
+                        addMBR.SR = Guid.Parse(Reference.马币来源_赠送);
+                        addMBR.MBR = Guid.Parse(Reference.马币类别_邦币);
+                        addMBR.MBN = 1000;
+                        commonService.AddUMBR(addMBR,ubcc.UserId, true);
                     }
                 }
             }
