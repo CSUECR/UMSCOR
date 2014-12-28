@@ -3,7 +3,7 @@
     ViewBag.Title = "取现";
     Layout = "~/Views/Shared/_UCLayout.cshtml";
     string rs = ViewBag.RS;
-    var backurl = ViewBag.ReturnUrl ?? "/Member/I";   
+    var backurl = ViewBag.ReturnUrl ?? "/Member/Take";   
     var refVM = new ReferenceVModel(); 
 }
 @Styles.Render("~/Content/themes/base/css")
@@ -84,7 +84,7 @@
         @Scripts.Render("~/bundles/morsuncommon")
          
         <script type="text/javascript">  
-            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false, morsunInitform, []));
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', true, morsunInitform, []));
             function morsunInitform() {
                 $('#MaBiNum').val('');
                 $('#UserRemark').val('');

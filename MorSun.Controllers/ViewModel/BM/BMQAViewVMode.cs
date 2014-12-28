@@ -79,11 +79,11 @@ namespace MorSun.Controllers.ViewModel
             }
         }
 
-        public virtual IQueryable<bmObjection> Objecs
+        public virtual IQueryable<bmOBView> Objecs
         {
             get
             {
-                return new BaseBll<bmObjection>().All.Where(p => p.QAId == sParentId);
+                return new BaseBll<bmOBView>().All.Where(p => p.QAId == sParentId);
             }
         }
 

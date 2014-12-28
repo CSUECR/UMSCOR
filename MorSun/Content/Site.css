@@ -110,6 +110,8 @@ h5, h6 {
 
 .spanLeft{float:left;}
 .spanRight{float:right;}
+.spanRed{color:red}
+.spanBold{font-weight:bold}                   
 .textCenter{text-align:center;}
 
 /*btn*/
@@ -1722,7 +1724,7 @@ ul#menu {
             width:330px;
             height:380px;
             padding:10px 20px;
-            margin-right:60px;
+            margin-right:20px;
         }
             .featured .content-wrapper .content-login hgroup.title h2 {
                 color:#333;

@@ -2341,6 +2341,22 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<wmfRolePrivilegesView> _wmfRolePrivilegesViews;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<bmOBView> bmOBViews
+        {
+            get
+            {
+                if ((_bmOBViews == null))
+                {
+                    _bmOBViews = base.CreateObjectSet<bmOBView>("bmOBViews");
+                }
+                return _bmOBViews;
+            }
+        }
+        private ObjectSet<bmOBView> _bmOBViews;
 
         #endregion
 
@@ -3416,6 +3432,14 @@ namespace MorSun.Model
         public void AddTowmfRolePrivilegesViews(wmfRolePrivilegesView wmfRolePrivilegesView)
         {
             base.AddObject("wmfRolePrivilegesViews", wmfRolePrivilegesView);
+        }
+    
+        /// <summary>
+        /// 用于向 bmOBViews EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTobmOBViews(bmOBView bmOBView)
+        {
+            base.AddObject("bmOBViews", bmOBView);
         }
 
         #endregion
@@ -8982,6 +9006,707 @@ namespace MorSun.Model
                 }
             }
         }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="bmOBView")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class bmOBView : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 bmOBView 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        /// <param name="flagTrashed">FlagTrashed 属性的初始值。</param>
+        /// <param name="flagDeleted">FlagDeleted 属性的初始值。</param>
+        /// <param name="kQBanBNum">KQBanBNum 属性的初始值。</param>
+        /// <param name="kQBBNum">KQBBNum 属性的初始值。</param>
+        /// <param name="kQMBNUM">KQMBNUM 属性的初始值。</param>
+        /// <param name="gHBanBNum">GHBanBNum 属性的初始值。</param>
+        /// <param name="gHBBNum">GHBBNum 属性的初始值。</param>
+        /// <param name="gHMBNUM">GHMBNUM 属性的初始值。</param>
+        /// <param name="itemValue">ItemValue 属性的初始值。</param>
+        public static bmOBView CreatebmOBView(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted, global::System.Decimal kQBanBNum, global::System.Decimal kQBBNum, global::System.Decimal kQMBNUM, global::System.Decimal gHBanBNum, global::System.Decimal gHBBNum, global::System.Decimal gHMBNUM, global::System.String itemValue)
+        {
+            bmOBView bmOBView = new bmOBView();
+            bmOBView.ID = id;
+            bmOBView.FlagTrashed = flagTrashed;
+            bmOBView.FlagDeleted = flagDeleted;
+            bmOBView.KQBanBNum = kQBanBNum;
+            bmOBView.KQBBNum = kQBBNum;
+            bmOBView.KQMBNUM = kQMBNUM;
+            bmOBView.GHBanBNum = gHBanBNum;
+            bmOBView.GHBBNum = gHBBNum;
+            bmOBView.GHMBNUM = gHMBNUM;
+            bmOBView.ItemValue = itemValue;
+            return bmOBView;
+        }
+
+        #endregion
+
+        #region 简单属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value, "ID");
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> QAId
+        {
+            get
+            {
+                return _QAId;
+            }
+            set
+            {
+                OnQAIdChanging(value);
+                ReportPropertyChanging("QAId");
+                _QAId = StructuralObject.SetValidValue(value, "QAId");
+                ReportPropertyChanged("QAId");
+                OnQAIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _QAId;
+        partial void OnQAIdChanging(Nullable<global::System.Guid> value);
+        partial void OnQAIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value, "UserId");
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _UserId;
+        partial void OnUserIdChanging(Nullable<global::System.Guid> value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String WeiXinId
+        {
+            get
+            {
+                return _WeiXinId;
+            }
+            set
+            {
+                OnWeiXinIdChanging(value);
+                ReportPropertyChanging("WeiXinId");
+                _WeiXinId = StructuralObject.SetValidValue(value, true, "WeiXinId");
+                ReportPropertyChanged("WeiXinId");
+                OnWeiXinIdChanged();
+            }
+        }
+        private global::System.String _WeiXinId;
+        partial void OnWeiXinIdChanging(global::System.String value);
+        partial void OnWeiXinIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> SubmitTime
+        {
+            get
+            {
+                return _SubmitTime;
+            }
+            set
+            {
+                OnSubmitTimeChanging(value);
+                ReportPropertyChanging("SubmitTime");
+                _SubmitTime = StructuralObject.SetValidValue(value, "SubmitTime");
+                ReportPropertyChanged("SubmitTime");
+                OnSubmitTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _SubmitTime;
+        partial void OnSubmitTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnSubmitTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ErrorNum
+        {
+            get
+            {
+                return _ErrorNum;
+            }
+            set
+            {
+                OnErrorNumChanging(value);
+                ReportPropertyChanging("ErrorNum");
+                _ErrorNum = StructuralObject.SetValidValue(value, "ErrorNum");
+                ReportPropertyChanged("ErrorNum");
+                OnErrorNumChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ErrorNum;
+        partial void OnErrorNumChanging(Nullable<global::System.Int32> value);
+        partial void OnErrorNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ObjectionExplain
+        {
+            get
+            {
+                return _ObjectionExplain;
+            }
+            set
+            {
+                OnObjectionExplainChanging(value);
+                ReportPropertyChanging("ObjectionExplain");
+                _ObjectionExplain = StructuralObject.SetValidValue(value, true, "ObjectionExplain");
+                ReportPropertyChanged("ObjectionExplain");
+                OnObjectionExplainChanged();
+            }
+        }
+        private global::System.String _ObjectionExplain;
+        partial void OnObjectionExplainChanging(global::System.String value);
+        partial void OnObjectionExplainChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> HandleUser
+        {
+            get
+            {
+                return _HandleUser;
+            }
+            set
+            {
+                OnHandleUserChanging(value);
+                ReportPropertyChanging("HandleUser");
+                _HandleUser = StructuralObject.SetValidValue(value, "HandleUser");
+                ReportPropertyChanged("HandleUser");
+                OnHandleUserChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _HandleUser;
+        partial void OnHandleUserChanging(Nullable<global::System.Guid> value);
+        partial void OnHandleUserChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> Result
+        {
+            get
+            {
+                return _Result;
+            }
+            set
+            {
+                OnResultChanging(value);
+                ReportPropertyChanging("Result");
+                _Result = StructuralObject.SetValidValue(value, "Result");
+                ReportPropertyChanged("Result");
+                OnResultChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _Result;
+        partial void OnResultChanging(Nullable<global::System.Guid> value);
+        partial void OnResultChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> HandleTime
+        {
+            get
+            {
+                return _HandleTime;
+            }
+            set
+            {
+                OnHandleTimeChanging(value);
+                ReportPropertyChanging("HandleTime");
+                _HandleTime = StructuralObject.SetValidValue(value, "HandleTime");
+                ReportPropertyChanged("HandleTime");
+                OnHandleTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _HandleTime;
+        partial void OnHandleTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnHandleTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ConfirmErrorNum
+        {
+            get
+            {
+                return _ConfirmErrorNum;
+            }
+            set
+            {
+                OnConfirmErrorNumChanging(value);
+                ReportPropertyChanging("ConfirmErrorNum");
+                _ConfirmErrorNum = StructuralObject.SetValidValue(value, "ConfirmErrorNum");
+                ReportPropertyChanged("ConfirmErrorNum");
+                OnConfirmErrorNumChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ConfirmErrorNum;
+        partial void OnConfirmErrorNumChanging(Nullable<global::System.Int32> value);
+        partial void OnConfirmErrorNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String HandleExplain
+        {
+            get
+            {
+                return _HandleExplain;
+            }
+            set
+            {
+                OnHandleExplainChanging(value);
+                ReportPropertyChanging("HandleExplain");
+                _HandleExplain = StructuralObject.SetValidValue(value, true, "HandleExplain");
+                ReportPropertyChanged("HandleExplain");
+                OnHandleExplainChanged();
+            }
+        }
+        private global::System.String _HandleExplain;
+        partial void OnHandleExplainChanging(global::System.String value);
+        partial void OnHandleExplainChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> IsSettle
+        {
+            get
+            {
+                return _IsSettle;
+            }
+            set
+            {
+                OnIsSettleChanging(value);
+                ReportPropertyChanging("IsSettle");
+                _IsSettle = StructuralObject.SetValidValue(value, "IsSettle");
+                ReportPropertyChanged("IsSettle");
+                OnIsSettleChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _IsSettle;
+        partial void OnIsSettleChanging(Nullable<global::System.Boolean> value);
+        partial void OnIsSettleChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Sort
+        {
+            get
+            {
+                return _Sort;
+            }
+            set
+            {
+                OnSortChanging(value);
+                ReportPropertyChanging("Sort");
+                _Sort = StructuralObject.SetValidValue(value, "Sort");
+                ReportPropertyChanged("Sort");
+                OnSortChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Sort;
+        partial void OnSortChanging(Nullable<global::System.Int32> value);
+        partial void OnSortChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> RegUser
+        {
+            get
+            {
+                return _RegUser;
+            }
+            set
+            {
+                OnRegUserChanging(value);
+                ReportPropertyChanging("RegUser");
+                _RegUser = StructuralObject.SetValidValue(value, "RegUser");
+                ReportPropertyChanged("RegUser");
+                OnRegUserChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _RegUser;
+        partial void OnRegUserChanging(Nullable<global::System.Guid> value);
+        partial void OnRegUserChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> RegTime
+        {
+            get
+            {
+                return _RegTime;
+            }
+            set
+            {
+                OnRegTimeChanging(value);
+                ReportPropertyChanging("RegTime");
+                _RegTime = StructuralObject.SetValidValue(value, "RegTime");
+                ReportPropertyChanged("RegTime");
+                OnRegTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _RegTime;
+        partial void OnRegTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnRegTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> ModTime
+        {
+            get
+            {
+                return _ModTime;
+            }
+            set
+            {
+                OnModTimeChanging(value);
+                ReportPropertyChanging("ModTime");
+                _ModTime = StructuralObject.SetValidValue(value, "ModTime");
+                ReportPropertyChanged("ModTime");
+                OnModTimeChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _ModTime;
+        partial void OnModTimeChanging(Nullable<global::System.DateTime> value);
+        partial void OnModTimeChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagTrashed
+        {
+            get
+            {
+                return _FlagTrashed;
+            }
+            set
+            {
+                if (_FlagTrashed != value)
+                {
+                    OnFlagTrashedChanging(value);
+                    ReportPropertyChanging("FlagTrashed");
+                    _FlagTrashed = StructuralObject.SetValidValue(value, "FlagTrashed");
+                    ReportPropertyChanged("FlagTrashed");
+                    OnFlagTrashedChanged();
+                }
+            }
+        }
+        private global::System.Boolean _FlagTrashed;
+        partial void OnFlagTrashedChanging(global::System.Boolean value);
+        partial void OnFlagTrashedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean FlagDeleted
+        {
+            get
+            {
+                return _FlagDeleted;
+            }
+            set
+            {
+                if (_FlagDeleted != value)
+                {
+                    OnFlagDeletedChanging(value);
+                    ReportPropertyChanging("FlagDeleted");
+                    _FlagDeleted = StructuralObject.SetValidValue(value, "FlagDeleted");
+                    ReportPropertyChanged("FlagDeleted");
+                    OnFlagDeletedChanged();
+                }
+            }
+        }
+        private global::System.Boolean _FlagDeleted;
+        partial void OnFlagDeletedChanging(global::System.Boolean value);
+        partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal KQBanBNum
+        {
+            get
+            {
+                return _KQBanBNum;
+            }
+            set
+            {
+                if (_KQBanBNum != value)
+                {
+                    OnKQBanBNumChanging(value);
+                    ReportPropertyChanging("KQBanBNum");
+                    _KQBanBNum = StructuralObject.SetValidValue(value, "KQBanBNum");
+                    ReportPropertyChanged("KQBanBNum");
+                    OnKQBanBNumChanged();
+                }
+            }
+        }
+        private global::System.Decimal _KQBanBNum;
+        partial void OnKQBanBNumChanging(global::System.Decimal value);
+        partial void OnKQBanBNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal KQBBNum
+        {
+            get
+            {
+                return _KQBBNum;
+            }
+            set
+            {
+                if (_KQBBNum != value)
+                {
+                    OnKQBBNumChanging(value);
+                    ReportPropertyChanging("KQBBNum");
+                    _KQBBNum = StructuralObject.SetValidValue(value, "KQBBNum");
+                    ReportPropertyChanged("KQBBNum");
+                    OnKQBBNumChanged();
+                }
+            }
+        }
+        private global::System.Decimal _KQBBNum;
+        partial void OnKQBBNumChanging(global::System.Decimal value);
+        partial void OnKQBBNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal KQMBNUM
+        {
+            get
+            {
+                return _KQMBNUM;
+            }
+            set
+            {
+                if (_KQMBNUM != value)
+                {
+                    OnKQMBNUMChanging(value);
+                    ReportPropertyChanging("KQMBNUM");
+                    _KQMBNUM = StructuralObject.SetValidValue(value, "KQMBNUM");
+                    ReportPropertyChanged("KQMBNUM");
+                    OnKQMBNUMChanged();
+                }
+            }
+        }
+        private global::System.Decimal _KQMBNUM;
+        partial void OnKQMBNUMChanging(global::System.Decimal value);
+        partial void OnKQMBNUMChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal GHBanBNum
+        {
+            get
+            {
+                return _GHBanBNum;
+            }
+            set
+            {
+                if (_GHBanBNum != value)
+                {
+                    OnGHBanBNumChanging(value);
+                    ReportPropertyChanging("GHBanBNum");
+                    _GHBanBNum = StructuralObject.SetValidValue(value, "GHBanBNum");
+                    ReportPropertyChanged("GHBanBNum");
+                    OnGHBanBNumChanged();
+                }
+            }
+        }
+        private global::System.Decimal _GHBanBNum;
+        partial void OnGHBanBNumChanging(global::System.Decimal value);
+        partial void OnGHBanBNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal GHBBNum
+        {
+            get
+            {
+                return _GHBBNum;
+            }
+            set
+            {
+                if (_GHBBNum != value)
+                {
+                    OnGHBBNumChanging(value);
+                    ReportPropertyChanging("GHBBNum");
+                    _GHBBNum = StructuralObject.SetValidValue(value, "GHBBNum");
+                    ReportPropertyChanged("GHBBNum");
+                    OnGHBBNumChanged();
+                }
+            }
+        }
+        private global::System.Decimal _GHBBNum;
+        partial void OnGHBBNumChanging(global::System.Decimal value);
+        partial void OnGHBBNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal GHMBNUM
+        {
+            get
+            {
+                return _GHMBNUM;
+            }
+            set
+            {
+                if (_GHMBNUM != value)
+                {
+                    OnGHMBNUMChanging(value);
+                    ReportPropertyChanging("GHMBNUM");
+                    _GHMBNUM = StructuralObject.SetValidValue(value, "GHMBNUM");
+                    ReportPropertyChanged("GHMBNUM");
+                    OnGHMBNUMChanged();
+                }
+            }
+        }
+        private global::System.Decimal _GHMBNUM;
+        partial void OnGHMBNUMChanging(global::System.Decimal value);
+        partial void OnGHMBNUMChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ItemValue
+        {
+            get
+            {
+                return _ItemValue;
+            }
+            set
+            {
+                if (_ItemValue != value)
+                {
+                    OnItemValueChanging(value);
+                    ReportPropertyChanging("ItemValue");
+                    _ItemValue = StructuralObject.SetValidValue(value, false, "ItemValue");
+                    ReportPropertyChanged("ItemValue");
+                    OnItemValueChanged();
+                }
+            }
+        }
+        private global::System.String _ItemValue;
+        partial void OnItemValueChanging(global::System.String value);
+        partial void OnItemValueChanged();
 
         #endregion
 

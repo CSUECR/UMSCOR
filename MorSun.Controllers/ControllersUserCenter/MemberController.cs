@@ -286,7 +286,7 @@ namespace MorSun.Controllers
             
             var curUserTake = tbll.All.Where(p => p.UserId == curUser.UserId && p.Effective == null && p.TakeRef == null).Sum(p => p.MaBiNum);
             if (curUserTake == null) curUserTake = 0;
-            if((curUserTake + take.MaBiNum) >= curUserMB)
+            if((curUserTake + take.MaBiNum) > curUserMB)
             {
                 "MaBiNum".AE("已经超出取现范围", ModelState);
             }

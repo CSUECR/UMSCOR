@@ -195,12 +195,12 @@
           <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
           <Property Name="SubmitTime" Type="datetime" />
           <Property Name="ErrorNum" Type="int" />
-          <Property Name="ObjectionExplain" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ObjectionExplain" Type="nvarchar(max)" />
           <Property Name="HandleUser" Type="uniqueidentifier" />
           <Property Name="Result" Type="uniqueidentifier" />
           <Property Name="HandleTime" Type="datetime" />
           <Property Name="ConfirmErrorNum" Type="int" />
-          <Property Name="HandleExplain" Type="nvarchar" MaxLength="4000" />
+          <Property Name="HandleExplain" Type="nvarchar(max)" />
           <Property Name="IsSettle" Type="bit" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
@@ -259,7 +259,7 @@
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
           <Property Name="QARef" Type="uniqueidentifier" />
-          <Property Name="QAContent" Type="nvarchar" MaxLength="4000" />
+          <Property Name="QAContent" Type="nvarchar(max)" />
           <Property Name="MsgId" Type="nvarchar" MaxLength="128" />
           <Property Name="MsgType" Type="uniqueidentifier" />
           <Property Name="MediaId" Type="nvarchar" MaxLength="512" />
@@ -2147,6 +2147,48 @@
           <Property Name="NBANB" Type="decimal" Precision="38" Scale="6" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“UserCenter.dbo.bmOBView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="bmOBView">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FlagTrashed" />
+            <PropertyRef Name="FlagDeleted" />
+            <PropertyRef Name="KQBanBNum" />
+            <PropertyRef Name="KQBBNum" />
+            <PropertyRef Name="KQMBNUM" />
+            <PropertyRef Name="GHBanBNum" />
+            <PropertyRef Name="GHBBNum" />
+            <PropertyRef Name="GHMBNUM" />
+            <PropertyRef Name="ItemValue" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QAId" Type="uniqueidentifier" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
+          <Property Name="SubmitTime" Type="datetime" />
+          <Property Name="ErrorNum" Type="int" />
+          <Property Name="ObjectionExplain" Type="nvarchar(max)" />
+          <Property Name="HandleUser" Type="uniqueidentifier" />
+          <Property Name="Result" Type="uniqueidentifier" />
+          <Property Name="HandleTime" Type="datetime" />
+          <Property Name="ConfirmErrorNum" Type="int" />
+          <Property Name="HandleExplain" Type="nvarchar(max)" />
+          <Property Name="IsSettle" Type="bit" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="RegUser" Type="uniqueidentifier" />
+          <Property Name="RegTime" Type="datetime" />
+          <Property Name="ModTime" Type="datetime" />
+          <Property Name="FlagTrashed" Type="bit" Nullable="false" />
+          <Property Name="FlagDeleted" Type="bit" Nullable="false" />
+          <Property Name="KQBanBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="KQBBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="KQMBNUM" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="GHBanBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="GHBBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="GHMBNUM" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="ItemValue" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.bmQAView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="bmQAView">
           <Key>
@@ -4027,6 +4069,36 @@ FROM [dbo].[wmfLog] AS [wmfLog]</DefiningQuery>
 [bmNewUserMB].[NBANB] AS [NBANB]
 FROM [dbo].[bmNewUserMB] AS [bmNewUserMB]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="bmOBView" EntityType="Self.bmOBView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[bmOBView].[ID] AS [ID], 
+[bmOBView].[QAId] AS [QAId], 
+[bmOBView].[UserId] AS [UserId], 
+[bmOBView].[WeiXinId] AS [WeiXinId], 
+[bmOBView].[SubmitTime] AS [SubmitTime], 
+[bmOBView].[ErrorNum] AS [ErrorNum], 
+[bmOBView].[ObjectionExplain] AS [ObjectionExplain], 
+[bmOBView].[HandleUser] AS [HandleUser], 
+[bmOBView].[Result] AS [Result], 
+[bmOBView].[HandleTime] AS [HandleTime], 
+[bmOBView].[ConfirmErrorNum] AS [ConfirmErrorNum], 
+[bmOBView].[HandleExplain] AS [HandleExplain], 
+[bmOBView].[IsSettle] AS [IsSettle], 
+[bmOBView].[Sort] AS [Sort], 
+[bmOBView].[RegUser] AS [RegUser], 
+[bmOBView].[RegTime] AS [RegTime], 
+[bmOBView].[ModTime] AS [ModTime], 
+[bmOBView].[FlagTrashed] AS [FlagTrashed], 
+[bmOBView].[FlagDeleted] AS [FlagDeleted], 
+[bmOBView].[KQBanBNum] AS [KQBanBNum], 
+[bmOBView].[KQBBNum] AS [KQBBNum], 
+[bmOBView].[KQMBNUM] AS [KQMBNUM], 
+[bmOBView].[GHBanBNum] AS [GHBanBNum], 
+[bmOBView].[GHBBNum] AS [GHBBNum], 
+[bmOBView].[GHMBNUM] AS [GHMBNUM], 
+[bmOBView].[ItemValue] AS [ItemValue]
+FROM [dbo].[bmOBView] AS [bmOBView]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="bmQAView" EntityType="Self.bmQAView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [bmQAView].[ID] AS [ID], 
@@ -4830,11 +4902,11 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="UserId" Type="Guid" />
           <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="SubmitTime" Type="DateTime" Precision="3" />
-          <Property Name="ObjectionExplain" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ObjectionExplain" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HandleUser" Type="Guid" />
           <Property Name="Result" Type="Guid" />
           <Property Name="HandleTime" Type="DateTime" Precision="3" />
-          <Property Name="HandleExplain" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="HandleExplain" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Sort" Type="Int32" />
           <Property Name="RegUser" Type="Guid" />
           <Property Name="RegTime" Type="DateTime" Precision="3" />
@@ -4908,7 +4980,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="UserId" Type="Guid" />
           <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="QARef" Type="Guid" />
-          <Property Name="QAContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="QAContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MsgId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="MsgType" Type="Guid" />
           <Property Name="MediaId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
@@ -9221,6 +9293,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="bmQADistribution" EntitySet="bmQADistributions" />
             <End Role="bmUserMaBiRecord" EntitySet="bmUserMaBiRecords" />
           </AssociationSet>
+          <EntitySet Name="bmOBViews" EntityType="MorSun.Model.bmOBView" />
         </EntityContainer>
         <Association Name="FK_bmUserMaBiRecord_bmRecharge">
           <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="0..1" />
@@ -9270,6 +9343,46 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="bmOBView">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="FlagTrashed" />
+            <PropertyRef Name="FlagDeleted" />
+            <PropertyRef Name="KQBanBNum" />
+            <PropertyRef Name="KQBBNum" />
+            <PropertyRef Name="KQMBNUM" />
+            <PropertyRef Name="GHBanBNum" />
+            <PropertyRef Name="GHBBNum" />
+            <PropertyRef Name="GHMBNUM" />
+            <PropertyRef Name="ItemValue" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="QAId" Type="Guid" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SubmitTime" Type="DateTime" Precision="3" />
+          <Property Name="ErrorNum" Type="Int32" />
+          <Property Name="ObjectionExplain" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HandleUser" Type="Guid" />
+          <Property Name="Result" Type="Guid" />
+          <Property Name="HandleTime" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmErrorNum" Type="Int32" />
+          <Property Name="HandleExplain" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsSettle" Type="Boolean" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="RegUser" Type="Guid" />
+          <Property Name="RegTime" Type="DateTime" Precision="3" />
+          <Property Name="ModTime" Type="DateTime" Precision="3" />
+          <Property Name="FlagTrashed" Type="Boolean" Nullable="false" />
+          <Property Name="FlagDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="KQBanBNum" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="KQBBNum" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="KQMBNUM" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="GHBanBNum" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="GHBBNum" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="GHMBNUM" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="ItemValue" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11553,6 +11666,38 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="bmOBViews">
+            <EntityTypeMapping TypeName="MorSun.Model.bmOBView">
+              <MappingFragment StoreEntitySet="bmOBView">
+                <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
+                <ScalarProperty Name="GHMBNUM" ColumnName="GHMBNUM" />
+                <ScalarProperty Name="GHBBNum" ColumnName="GHBBNum" />
+                <ScalarProperty Name="GHBanBNum" ColumnName="GHBanBNum" />
+                <ScalarProperty Name="KQMBNUM" ColumnName="KQMBNUM" />
+                <ScalarProperty Name="KQBBNum" ColumnName="KQBBNum" />
+                <ScalarProperty Name="KQBanBNum" ColumnName="KQBanBNum" />
+                <ScalarProperty Name="FlagDeleted" ColumnName="FlagDeleted" />
+                <ScalarProperty Name="FlagTrashed" ColumnName="FlagTrashed" />
+                <ScalarProperty Name="ModTime" ColumnName="ModTime" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="RegUser" ColumnName="RegUser" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="IsSettle" ColumnName="IsSettle" />
+                <ScalarProperty Name="HandleExplain" ColumnName="HandleExplain" />
+                <ScalarProperty Name="ConfirmErrorNum" ColumnName="ConfirmErrorNum" />
+                <ScalarProperty Name="HandleTime" ColumnName="HandleTime" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="HandleUser" ColumnName="HandleUser" />
+                <ScalarProperty Name="ObjectionExplain" ColumnName="ObjectionExplain" />
+                <ScalarProperty Name="ErrorNum" ColumnName="ErrorNum" />
+                <ScalarProperty Name="SubmitTime" ColumnName="SubmitTime" />
+                <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="QAId" ColumnName="QAId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -267,6 +267,7 @@
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow" />
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmObjection" />
         <AssociationConnector Association="MorSun.Model.FK_bmUserMaBiRecord_bmQADistribution" />
+        <EntityTypeShape EntityType="MorSun.Model.bmOBView" Width="1.5" PointX="0.75" PointY="26.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

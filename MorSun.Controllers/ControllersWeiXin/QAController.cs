@@ -172,22 +172,30 @@ namespace MorSun.Controllers
                     "ErrorNum".AE("参数错误", ModelState);
                     s += "参数错误";
                 }
+                else
+                {
+                    if(Math.Abs(qaView.MBNum) + Math.Abs(qaView.BBNum) == 0)
+                    {
+                        "ErrorNum".AE("该问题是免费提问，您不能提交异议", ModelState);
+                        s += "该问题是免费提问，您不能提交异议";
+                    }
+                }
                 var qauser = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.WeiXinId == qaView.WeiXinId);
                 if (qauser == null)
                 {
-                    "ErrorNum".AE("未绑定", ModelState);
-                    s += " 提问用户未绑定邦马网";
+                    "ErrorNum".AE("提问用户未绑定邦马网", ModelState);
+                    s += "提问用户未绑定邦马网";
                 }
                 else if (qauser.UserId != UserID)
                 {
-                    "ErrorNum".AE("不是您的", ModelState);
+                    "ErrorNum".AE("不是您的问题你别动", ModelState);
                     s += " 不是您的问题你别动";
                 }
 
                 LogHelper.Write(qaView.MBNum.ToString() + qaView.BBNum.ToString(), LogHelper.LogMessageType.Debug);
                 if (t.ErrorNum > 50)
                 {//超过25000马币就不让再增加
-                    "ErrorNum".AE("超过50", ModelState);
+                    "ErrorNum".AE("问题总数量不能超过50", ModelState);
                     s += "问题总数量不能超过50";
                 }
                 //已经被回答了则不再增加马币
@@ -196,17 +204,25 @@ namespace MorSun.Controllers
                 var qada = bmqaBll.All.FirstOrDefault(p => p.ParentId == t.QAId && (p.QARef == refAId || p.QARef == refBSId));
                 if (qada == null)
                 {
-                    "ErrorNum".AE("未解答", ModelState);
+                    "ErrorNum".AE("该问题未解答", ModelState);
                     s += " 该问题未解答";
                 }
-                //从问题解答开始到现在已经超过72个小时
-                var yyjg = Convert.ToInt32(CFG.用户提交异议有效时间间隔);
-                if(qada.RegTime.Value.AddHours(yyjg) > DateTime.Now)
-                {
-                    "ErrorNum".AE("超期提交无效", ModelState);
-                    s += "该问题解答时间到现在已超过" + yyjg + "小时，不能再提交异议";
+                else
+                { 
+                    //从问题解答开始到现在已经超过72个小时
+                    var yyjg = Convert.ToInt32(CFG.用户提交异议有效时间间隔);                    
+                    if (qada.RegTime.Value.AddHours(yyjg) < DateTime.Now)
+                    {
+                        "ErrorNum".AE("超期提交无效", ModelState);
+                        s += "该问题解答时间到现在已超过" + yyjg + "小时，不能再提交异议";
+                    }
                 }
-
+                var ob = new BaseBll<bmObjection>().All.FirstOrDefault(p => p.QAId == t.QAId);
+                if(ob != null)
+                {
+                    "ErrorNum".AE("该问题已经提交了一次异议", ModelState);
+                    s += " 该问题已经提交了一次异议";
+                }
                 //邦马币余额不足
                 var numbbll = new BaseBll<bmNewUserMB>();
                 var UserBMB = numbbll.All.FirstOrDefault(p => p.UserId == UserID);
@@ -214,7 +230,7 @@ namespace MorSun.Controllers
                 tempBB = UserBMB.NBB.Value;
                 if ((tempMB + tempBB) < t.ErrorNum * defXFMB)
                 {
-                    "ErrorNum".AE("余额不足", ModelState);
+                    "ErrorNum".AE("您的邦马币余额不足", ModelState);
                     s += " 您的邦马币余额不足";
                 }
             }

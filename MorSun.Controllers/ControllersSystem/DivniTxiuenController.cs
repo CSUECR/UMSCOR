@@ -282,7 +282,9 @@ namespace MorSun.Controllers.SystemController
             var newUMBList = new List<bmUserMaBiRecordJson>();
             var mbSourceZS = Guid.Parse(Reference.马币来源_赠送);
             var mbSourceXF = Guid.Parse(Reference.马币来源_消费);
-            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.SourceRef == mbSourceZS || p.SourceRef == mbSourceXF);
+            //扣取的邦马币也要同步过来,有可能会取到本地同步过来的扣取答题用户的马币，本地作过滤就行
+            var mbSourceKQ = Guid.Parse(Reference.马币来源_扣取);
+            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.SourceRef == mbSourceZS || p.SourceRef == mbSourceXF || p.SourceRef == mbSourceKQ);
             //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
 
             if (!SyncDT.HasValue)

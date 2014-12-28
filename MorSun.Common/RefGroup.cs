@@ -136,6 +136,11 @@ namespace MorSun.Common
             //在线状态
             public const string 在线状态_在线 = "da2c77e5-cdf8-413f-a722-f4325a0e2d12";
             public const string 在线状态_退出 = "963cd36d-d1c3-44d0-9499-9a7d37ef3635";
+
+            //异议处理结果
+            public const string 异议处理结果_答错 = "d22154ed-40a9-415d-b1eb-36afbb27bd31";
+            public const string 异议处理结果_答对 = "4079fb81-952d-4903-9576-2cc5c18f81d9";
+            public const string 异议处理结果_无标准答案 = "7f4b016a-c42d-4926-859e-a1774abda418";
             #endregion
 
         }
