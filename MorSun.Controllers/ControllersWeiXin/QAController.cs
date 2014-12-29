@@ -18,7 +18,7 @@ namespace MorSun.Controllers
     {
         public ActionResult Q(Guid? id)
         {
-            LogHelper.Write(Request.RawUrl, LogHelper.LogMessageType.Info);
+            LogHelper.Write(Request.RawUrl, LogHelper.LogMessageType.Debug);
             var model = new BMQAViewVModel();
             if(id != null)
             { 

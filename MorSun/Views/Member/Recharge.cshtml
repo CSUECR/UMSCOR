@@ -72,9 +72,9 @@
                         @foreach (var m in Model.rList)
                         {
                             <tr>
-                                <td>@refVM.GetReferenceValue(m.KaMeRef)</td>
-                                <td>@m.MaBiNum</td>
-                                <td>@m.RegTime</td>
+                                <td style="text-align:center">@refVM.GetReferenceValue(m.KaMeRef)</td>
+                                <td style="text-align:center">@(m.MaBiNum == null ? "" : m.MaBiNum.ToString("f0"))</td>
+                                <td style="text-align:center">@m.RegTime</td>
                             </tr>
                         }
                     </tbody>

@@ -1,0 +1,60 @@
+﻿@model UserQACache
+@{
+    ViewBag.Title = "当前答题";
+    Layout = "~/Views/Shared/_UCLayout.cshtml";     
+    var backurl = ViewBag.ReturnUrl ?? "/H/I";  
+}
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+<section class="featuredwhite">
+    <div class="content-wrapper clear-fix">  
+        @if(Model != null && Model.CurrentQA != null)
+        { 
+            <div class="portlet-body">  
+                <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-cogs"></i>问题 &nbsp;&nbsp;&nbsp;&nbsp; @((Model.CurrentQA.MBNum == 0 || Model.CurrentQA.MBNum == null) && (Model.CurrentQA.BBNum == 0 || Model.CurrentQA.BBNum == null) ? "免费提问" : ("消耗" + ((Model.CurrentQA.MBNum == 0 || Model.CurrentQA.MBNum == null) ? "" : (Math.Abs(Model.CurrentQA.MBNum).ToString("f0") + "马币")) + ((Model.CurrentQA.BBNum == 0 || Model.CurrentQA.BBNum == null) ? "" : (Math.Abs(Model.CurrentQA.BBNum).ToString("f0") + "邦币")))) &nbsp;&nbsp;&nbsp;&nbsp; 提问时间：@(HOHO18.Common.ChangeDateTime.DateStringFromNow(Model.CurrentQA.RegTime == null ? DateTime.Now : Model.CurrentQA.RegTime.Value))</div>
+                    </div>
+                    <div class="textCenter">
+                        <img id="ImgQA" src="@Model.CurrentQA.PicUrl" onclick="jumptourl('@Model.CurrentQA.PicUrl')" width="99%" />                    
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="portlet-body">  
+                <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-cogs"></i>您还未开始答题</div>
+                    </div>
+                    <div class="textCenter">
+                        <h1>请您用微信向作业邦发送答题命令: @CFG.开始答题  开始答题</h1>                    
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>作业邦</div>
+            </div>
+            <div class="textCenter">
+                <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
+
+                <div><span class="weixinText"><h2>微信扫一扫</h2></span></div>
+                <div><span class="weixinText"><h2>老师学霸跟着走</h2></span></div>
+                <p></p>
+            </div>
+        </div>
+    </div>         
+</section>
+    @section Scripts {        
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/validator")
+        @Styles.Render("~/Content/JQueryQtipCss")
+        @Scripts.Render("~/bundles/jqueryqtip")
+        @Scripts.Render("~/bundles/morsuncommon")  
+
+        <script type="text/javascript">    
+        </script>
+    }

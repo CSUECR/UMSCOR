@@ -646,6 +646,9 @@
     <Content Include="Scripts\slides.min.jquery.js" />
     <Content Include="Scripts\jquery.validator.ex.js" />
     <Content Include="Scripts\waypoints.js" />
+    <Content Include="Views\Member\CQ.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web加密版.config">
       <SubType>Designer</SubType>
     </Content>

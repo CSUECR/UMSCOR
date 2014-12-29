@@ -343,5 +343,24 @@ namespace MorSun.Controllers
             take.banbiList = new BaseBll<bmUserMaBiSettleRecord>().All.Where(p => p.UserId == curUser.UserId).OrderByDescending(p => p.RegTime).Take(5);
             return View(take);
         }
+
+        /// <summary>
+        /// 显示用户的答题缓存
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CQ()
+        {
+            var uw = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.UserId == UserID);
+            var model = new UserQACache();
+            if(uw != null)
+            {
+                try { 
+                    //从缓存中读取  不在这边设置缓存是为了防止并发
+                    model = CacheAccess.GetFromCache(CFG.用户待答题缓存键前缀 + uw.WeiXinId) as UserQACache;
+                }
+                catch { }
+            }
+            return View(model);
+        }
     }
 }
