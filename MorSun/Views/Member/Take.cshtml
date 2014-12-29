@@ -56,6 +56,7 @@
                             <th>添加时间</th>
                             <th>取现</th>
                             <th>取现时间</th>
+                            <th>取现金额</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,6 +68,7 @@
                                 <td>@m.RegTime.ToShortDateString()</td>
                                 <td>@refVM.GetReferenceValue(m.TakeRef)</td>
                                 <td>@m.TakeTime.ToShortDateString()</td>
+                                <td>@(m.TakeMoney == null ? "" : m.TakeMoney.ToString("f2") + "元")</td>
                             </tr>
                         }
                     </tbody>

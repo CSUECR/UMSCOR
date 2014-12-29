@@ -267,7 +267,7 @@ namespace MorSun.Controllers
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         public ActionResult Take(string returnUrl)
-        {
+        {            
             var take = new Take();
             var curUser = CurrentAspNetUser;
             take.tList = new BaseBll<bmTakeNow>().All.Where(p => p.UserId == curUser.UserId).OrderByDescending(p => p.RegTime).Take(5);

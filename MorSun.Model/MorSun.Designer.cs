@@ -14205,6 +14205,30 @@ namespace MorSun.Model
         private global::System.Boolean _FlagDeleted;
         partial void OnFlagDeletedChanging(global::System.Boolean value);
         partial void OnFlagDeletedChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> TakeMoney
+        {
+            get
+            {
+                return _TakeMoney;
+            }
+            set
+            {
+                OnTakeMoneyChanging(value);
+                ReportPropertyChanging("TakeMoney");
+                _TakeMoney = StructuralObject.SetValidValue(value, "TakeMoney");
+                ReportPropertyChanged("TakeMoney");
+                OnTakeMoneyChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _TakeMoney;
+        partial void OnTakeMoneyChanging(Nullable<global::System.Decimal> value);
+        partial void OnTakeMoneyChanged();
 
         #endregion
 

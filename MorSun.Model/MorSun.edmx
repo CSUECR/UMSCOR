@@ -338,6 +338,7 @@
           <Property Name="Effective" Type="uniqueidentifier" />
           <Property Name="TakeRef" Type="uniqueidentifier" />
           <Property Name="UserRemark" Type="nvarchar" MaxLength="256" />
+          <Property Name="TakeMoney" Type="decimal" Precision="18" Scale="6" />
           <Property Name="BMExplain" Type="nvarchar" MaxLength="512" />
           <Property Name="TakeTime" Type="datetime" />
           <Property Name="Sort" Type="int" />
@@ -5094,6 +5095,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="wmfReference" Relationship="Self.FK_bmTakeNow_wmfReference" FromRole="bmTakeNow" ToRole="wmfReference" />
           <NavigationProperty Name="wmfReference1" Relationship="Self.FK_bmTakeNow_wmfReference1" FromRole="bmTakeNow" ToRole="wmfReference" />
           <NavigationProperty Name="bmUserMaBiRecords" Relationship="MorSun.Model.FK_bmUserMaBiRecord_bmTakeNow" FromRole="bmTakeNow" ToRole="bmUserMaBiRecord" />
+          <Property Name="TakeMoney" Type="Decimal" Precision="18" Scale="6" />
         </EntityType>
         <EntityType Name="bmUserMaBi">
           <Key>
@@ -9726,6 +9728,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmTakeNows">
             <EntityTypeMapping TypeName="MorSun.Model.bmTakeNow">
               <MappingFragment StoreEntitySet="bmTakeNow">
+                <ScalarProperty Name="TakeMoney" ColumnName="TakeMoney" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="MaBiNum" ColumnName="MaBiNum" />
