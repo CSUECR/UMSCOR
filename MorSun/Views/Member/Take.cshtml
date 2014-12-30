@@ -9,45 +9,54 @@
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
-    <div class="content-wrapper clear-fix">   
+    <div class="content-wrapper clear-fix">
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>            
+            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
+        </div>
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>取现</div>
             </div>
-            <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>取现</div>
-                </div>
-                <div class="portlet-body">
-                    @using (Html.BeginForm("Take", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
-                    {
-                        @Html.AntiForgeryToken()                       
-                        <table class="tableadd table-hover">
-                            <thead>
-                                <tr>
-                                    <th>马币余额</th>
-                                    <td>@MorSun.Controllers.BasisController.CurrentUserMabi.NMB.ToString("f2")</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>@Html.LabelFor(m => m.MaBiNum)</th>
-                                    <td>@Html.TextBoxFor(m => m.MaBiNum, new { @class = "m-wrap large" })</td>
-                                </tr>
-                                <tr>
-                                    <th>@Html.LabelFor(m => m.UserRemark)</th>
-                                    <td>@Html.TextAreaFor(m => m.UserRemark, new { @class = "m-wrap large" })</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    }
-                </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("Take", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <table class="tableadd table-hover">
+                        <thead>
+                            <tr>
+                                <th>马币余额</th>
+                                <td>@MorSun.Controllers.BasisController.CurrentUserMabi.NMB.ToString("f2")</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.MaBiNum)</th>
+                                <td>@Html.TextBoxFor(m => m.MaBiNum, new { @class = "m-wrap large" })</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.LabelFor(m => m.UserRemark)</th>
+                                <td>@Html.TextAreaFor(m => m.UserRemark, new { @class = "m-wrap large" })</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
             </div>
+        </div>
+
+        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-cogs"></i>取现说明</div>
+            </div>
+            <div class="portlet-body">
+                声明：每周都有一次免费的取现机会，如果一周内的取现次数超过一次，邦马网将收取 取现金额的1%当手续费。您点击取现代表您明白并同意这项声明。
+            </div>
+        </div>
 
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
                 <div class="caption"><i class="icon-cogs"></i>取现记录</div>
             </div>
-            <div class="portlet-body">                
+            <div class="portlet-body">
                 <table class="tableadd table-hover">
                     <thead>
                         <tr>
@@ -72,11 +81,11 @@
                             </tr>
                         }
                     </tbody>
-                </table>                
+                </table>
             </div>
         </div>
 
-        </div>    
+    </div>
 </section>
     @section Scripts {        
         @Scripts.Render("~/bundles/jqueryval")        
