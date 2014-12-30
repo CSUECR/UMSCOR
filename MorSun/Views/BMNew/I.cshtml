@@ -15,8 +15,8 @@
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
             @using (Html.BeginForm("I", "BMNew", FormMethod.Get))
             {
-                @MvcHtmlString.Create(Html.DropDownList("NewRef", "NewRef", NavList, Model.NewRef.ToString(), "class=\"m-wrap small\"", "ID", "ItemValue", "", ""))
-                @Html.TextBoxFor(m => m.NewTitle, new { @class = "m-wrap small" })
+                @MvcHtmlString.Create(Html.DropDownList("sNewRef", "sNewRef", NavList, Model.sNewRef.ToString(), "class=\"m-wrap small\"", "ID", "ItemValue", "", ""))
+                @Html.TextBoxFor(m => m.sNewTitle, new { @class = "m-wrap small",style="background-color:#fff;" })
                 <button class="btn yellow" type="submit">@("查询".GX())</button>
                 @Html.HiddenFor(m => m.FlagTrashed)
             

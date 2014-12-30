@@ -23,17 +23,17 @@ namespace MorSun.Controllers.ViewModel
                 {
                     l = l.Where(p => p.FlagTrashed == false);
                 }
-                if (!String.IsNullOrEmpty(NewTitle))
+                if (!String.IsNullOrEmpty(sNewTitle))
                 {
-                    l = l.Where(p => p.NewTitle == NewTitle);
+                    l = l.Where(p => p.NewTitle.Contains(sNewTitle));
                 }
-                if (NewRef != null && NewRef != Guid.Empty)
+                if (sNewRef != null && sNewRef != Guid.Empty)
                 {
-                    l = l.Where(p => p.NewRef == NewRef);
+                    l = l.Where(p => p.NewRef == sNewRef);
                 }
-                if(!String.IsNullOrEmpty(NewKeyWord))
+                if(!String.IsNullOrEmpty(sNewKeyWord))
                 {
-                    l = l.Where(p => p.NewKeyWord.Contains(NewKeyWord));
+                    l = l.Where(p => p.NewKeyWord.Contains(sNewKeyWord));
                 }
                 return l.OrderBy(p => p.Sort).ThenBy(p => p.RegTime);
             }
@@ -41,17 +41,17 @@ namespace MorSun.Controllers.ViewModel
 
 
 
-        public virtual Guid? NewRef { get; set; }
+        public virtual Guid? sNewRef { get; set; }
         /// <summary>
         /// 被选中的编号
         /// </summary>
         public virtual string CheckedId { get; set; }
 
-        public virtual string NewTitle { get; set; }
+        public virtual string sNewTitle { get; set; }
 
         public virtual string FlagTrashed { get; set; }
 
-        public virtual string NewKeyWord { get; set; }
+        public virtual string sNewKeyWord { get; set; }
         
     }
 }
