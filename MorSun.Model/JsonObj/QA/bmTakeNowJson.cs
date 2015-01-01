@@ -43,6 +43,11 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
+        public decimal? TakeMoney
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string BMExplain
         { get; set; }
         /// <summary>

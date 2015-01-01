@@ -4,21 +4,22 @@
     Layout = "~/Views/Shared/_UCLayout.cshtml";
     string rs = ViewBag.RS;
     var backurl = ViewBag.ReturnUrl ?? "/Member/Take";   
-    var refVM = new ReferenceVModel(); 
+    var refVM = new ReferenceVModel();
+    var haveTakeThisWeak = Model.thisWeakTake.Count() > 0;    
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-            <button class="btn green" type="button" id="submitBtn">@("提交".GX())</button>
+            <button class="btn green" type="button" id="tknBtn">@("提交".GX())</button>
         </div>
         <div class="portlet box @("red".getBC("BootStrapCssTable"))">
             <div class="portlet-title">
                 <div class="caption"><i class="icon-cogs"></i>取现</div>
             </div>
             <div class="portlet-body">
-                @using (Html.BeginForm("Take", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "fmForm" }))
+                @using (Html.BeginForm("Take", "Member", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "tknForm" }))
                 {
                     @Html.AntiForgeryToken()
                     <table class="tableadd table-hover">
@@ -97,12 +98,27 @@
         @Styles.Render("~/Content/JQueryQtipCss")
         @Scripts.Render("~/bundles/jqueryqtip")
         @Scripts.Render("~/bundles/morsuncommon")
-         
-        <script type="text/javascript">  
-            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', true, morsunInitform, []));
-            function morsunInitform() {
-                $('#MaBiNum').val('');
-                $('#UserRemark').val('');
-            }
+         @if (haveTakeThisWeak)
+        {
+            <script type="text/javascript">
+                $(confirmSubmitFormHandle('本次取现将收取1%的手续费', '#tknBtn', '#tknForm', '提交失败，请联系管理员', '#divInfo', true, morsunInitform, []));
+                function morsunInitform() {
+                    $('#MaBiNum').val('');
+                    $('#UserRemark').val('');
+                }
+            </script>
+        }
+        else
+        {
+            <script type="text/javascript">
+                $(ajaxSubmitFormHandle('#tknBtn', '#tknForm', '提交失败，请联系管理员', '#divInfo', true, morsunInitform, []));
+                function morsunInitform() {
+                    $('#MaBiNum').val('');
+                    $('#UserRemark').val('');
+                }
+            </script>
+         }
+        <script type="text/javascript">
+            $($('#tknForm').keydown(function (e) { var curKey = e.which; if (curKey == 13) { return false; } }));
         </script>
     }

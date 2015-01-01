@@ -44,14 +44,14 @@
         </div>
         <div id="divInfo" style="margin-top: 10px;">
         </div>
-        <div id="back-to-top" style="display: block;">
+        @*<div id="back-to-top" style="display: block;">
             <a href="#top"></a>
         </div>
         <div id="zt_pf">
             <a class="pf1" target="_blank" href="@("ServiceDomain".GHU())"></a>
             <a class="pf2" target="_blank" href="@("ServiceDomain".GHU())/Account/Register"></a>
             <a class="pf3" target="_blank" href="@("ServiceDomain".GHU())"></a>
-        </div>
+        </div>*@
         @RenderSection("featured", required: false)
         @RenderBody()
     </div>
@@ -67,7 +67,7 @@
         </div>
     </footer>     
     <script>
-        $(backtop());
+        //$(backtop());
         $($('#fmForm').keydown(function (e) { var curKey = e.which; if (curKey == 13) { $('#submitBtn').click(); return false; } }));
         $(function () {
             $uniformed = $(".styleThese").find("input:checkbox").not(".skipThese");

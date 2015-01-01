@@ -254,6 +254,9 @@ function confirmSubmitFormHandle(confirmStr, btn, formId, errMessage, topErrDiv,
                 });
             }
         }
+        else {
+            return false;
+        }
     });
 }
 

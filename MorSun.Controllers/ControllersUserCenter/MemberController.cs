@@ -12,6 +12,7 @@ using MorSun.Common.类别;
 using HOHO18.Common.WEB;
 using MorSun.Common.Privelege;
 using MorSun.Common.配置;
+using HOHO18.Common.Helper;
 
 
 namespace MorSun.Controllers
@@ -271,6 +272,9 @@ namespace MorSun.Controllers
             var take = new Take();
             var curUser = CurrentAspNetUser;
             take.tList = new BaseBll<bmTakeNow>().All.Where(p => p.UserId == curUser.UserId).OrderByDescending(p => p.RegTime).Take(5);
+            var TWStartT = Convert.ToDateTime(TimeFormatHelper.ChinaWeekFirstDay());
+            var TWEndT = Convert.ToDateTime(TimeFormatHelper.ChinaWeekLastDay()).AddDays(1).AddSeconds(-1);
+            take.thisWeakTake = new BaseBll<bmTakeNow>().All.Where(p => p.UserId == curUser.UserId && p.RegTime >= TWStartT && p.RegTime <= TWEndT);
             ViewBag.RS = 资源.取现;
             return View(take);
         }

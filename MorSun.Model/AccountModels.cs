@@ -216,6 +216,8 @@ namespace MorSun.Model
         public string UserRemark { get; set; }
 
         public IQueryable<bmTakeNow> tList { get; set; }
+
+        public IQueryable<bmTakeNow> thisWeakTake { get; set; }
     }
 
     public class MaBiSettle

@@ -177,6 +177,17 @@ namespace HOHO18.Common.Helper
         ///明天,同理,加一  
         /// </summary>
         public static string Tomorrow() { return DateTime.Now.AddDays(1).ToShortDateString(); }
+
+        /// <summary>
+        /// 本周日(要知道本周第一天就得先知道今天是星期几,从而得知本周第一天就是几天前的那一天;每一周是从周日始至周六止[0-6])
+        /// </summary>  
+        public static string ChinaWeekFirstDay() { return DateTime.Now.AddDays(Convert.ToDouble((0 - Convert.ToInt16(DateTime.Now.DayOfWeek) + 1))).ToShortDateString(); }
+        /// <summary>
+        /// 本周六(要知道本周最后一天就得先知道今天是星期几,从而得知本周最后一天就是几天前的那一天;每一周是从周日始至周六止[0-6])
+        /// </summary>   
+        public static string ChinaWeekLastDay() { return DateTime.Now.AddDays(Convert.ToDouble((6 - Convert.ToInt16(DateTime.Now.DayOfWeek) + 1))).ToShortDateString(); }
+
+
         /// <summary>
         /// 本周日(要知道本周第一天就得先知道今天是星期几,从而得知本周第一天就是几天前的那一天;每一周是从周日始至周六止[0-6])
         /// </summary>  

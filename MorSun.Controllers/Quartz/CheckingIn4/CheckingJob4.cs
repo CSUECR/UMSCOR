@@ -185,7 +185,7 @@ namespace MorSun.Controllers.Quartz
             //取强退用户ID
             //存在不活跃的认证用户，将不活跃用户的答题分配记录标识为放弃，并将答题分配给活跃用户
             var noActiveCUWIDS = noActiveCU.Select(p => p.WeiXinId);
-            //存在不活跃的认证用户，将不活跃用户的答题分配记录标识为放弃，并将答题分配给活跃用户
+            //存在不活跃的未认证用户，将不活跃用户的答题分配记录标识为放弃，并将答题分配给活跃用户
             var noActiveUWIDS = noActiveU.Select(p => p.WeiXinId);
 
             //取所有不活跃的答题用户，然后再区分出收费问题与免费问题
@@ -202,7 +202,7 @@ namespace MorSun.Controllers.Quartz
                 int selectCount = mabiqaCount / qaWaitCount;
                 if (selectCount == 0)
                     selectCount = 1;
-                certificationUsers = certificationUsers.Take(selectCount).OrderByDescending(p => p.ActiveNum);
+                certificationUsers = certificationUsers.Take(selectCount).OrderByDescending(p => p.ActiveNum);//提问数多的时间没有问题，提问数少的时候，问题都会到第一个人手上，到时候再看看要不要调整
             }
             LogHelper.Write("待分配答题的认证用户数" + certificationUsers.Count().ToString(), LogHelper.LogMessageType.Debug);
 

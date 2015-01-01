@@ -479,6 +479,7 @@ namespace MorSun.Controllers.SystemController
                         Effective = u.Effective,
                         TakeRef = u.TakeRef,
                         UserRemark = u.UserRemark,
+                        TakeMoney = u.TakeMoney,
                         BMExplain = u.BMExplain,
                         TakeTime = u.TakeTime,
 
