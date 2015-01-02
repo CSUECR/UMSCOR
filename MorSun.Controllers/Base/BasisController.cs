@@ -153,10 +153,29 @@ namespace MorSun.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        private static bmNewUserMB GetUserMaBiByUId(Guid userId)
+        protected static bmNewUserMB GetUserMaBiByUId(Guid userId)
         {
-            //取出当前用户已结算的马币值
-            return new BaseBll<bmNewUserMB>().All.FirstOrDefault(p => p.UserId == userId);            
+            //取出当前用户剩余的马币值(包括未结算)
+            return new BaseBll<bmNewUserMB>().All.FirstOrDefault(p => p.UserId == userId);
+        }
+
+        /// <summary>
+        /// 传入用户ID集，检测是否能取现
+        /// </summary>
+        /// <param name="userIds"></param>
+        /// <returns></returns>
+        protected static IQueryable<bmNewUserMB> GetUserMaBiByUIds(List<Guid?> userIds)
+        {
+            var uids = new List<Guid>();
+            foreach (var l in userIds)
+            {
+                if (l != null)
+                {
+                    uids.Add(l.Value);
+                }
+            }
+            //取出当前用户剩余的马币值(包括未结算)
+            return new BaseBll<bmNewUserMB>().All.Where(p => uids.Contains(p.UserId));
         }
         #endregion
 

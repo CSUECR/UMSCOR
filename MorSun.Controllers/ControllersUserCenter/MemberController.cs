@@ -300,6 +300,11 @@ namespace MorSun.Controllers
                 "MaBiNum".AE("币值必须为5000的整数倍", ModelState);
             }
 
+            if(take.MaBiNum <= 0)
+            {
+                "MaBiNum".AE("币值必须大于0", ModelState);
+            }
+
             if(!资源.取现.HP(操作.添加))
             {
                 "MaBiNum".AE("您还未认证，无权限操作", ModelState);
@@ -310,7 +315,8 @@ namespace MorSun.Controllers
                 var model = new bmTakeNow();
                 model.ID = Guid.NewGuid();                
                 model.UserId = curUser.UserId;
-                model.MaBiNum = take.MaBiNum;
+                //要取绝对值，不能让用户填写负数
+                model.MaBiNum = Math.Abs(take.MaBiNum);
                 model.UserRemark = take.UserRemark;
 
                 model.RegTime = DateTime.Now;

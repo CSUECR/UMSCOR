@@ -685,7 +685,7 @@ namespace MorSun.Controllers.SystemController
         }
 
         /// <summary>
-        /// 用户的认证邦主修改角色,使之可以充值
+        /// 用户的认证邦主修改角色,使之可以取现
         /// </summary>
         /// <param name="Tok"></param>
         /// <param name="AncyData"></param>
@@ -774,6 +774,127 @@ namespace MorSun.Controllers.SystemController
                 }
             }
             return "true";
+        }
+
+
+        /// <summary>
+        /// 判断取现记录是否能取现
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string CanTakeNow(string Tok, string AncyData)
+        {
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+                return "";
+
+            if (!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("开始判断用户的取现记录，在服务器里是否能取现", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {
+                    var bmCTs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);                    
+
+                    try
+                    {
+                        //用户认证
+                        if (!String.IsNullOrEmpty(bmCTs))
+                        {
+                            bmCTs = Compression.DecompressString(bmCTs);
+                            var _list = JsonConvert.DeserializeObject<List<bmCanTakeNowJson>>(bmCTs);
+                            if (_list.Count() > 0)
+                            {
+                                var wxtkList = _list.Where(p => p.LocalCanTake == false);
+                                var yxqxIds = _list.Where(p => p.LocalCanTake == true).Select(p => p.ID).ToList();
+
+                                var _canTakeList = new List<bmCanTakeNowJson>();
+                                if(yxqxIds.Count() >0)
+                                { 
+                                    var tkList = new BaseBll<bmTakeNow>().All.Where(p => yxqxIds.Contains(p.ID));
+                                    var userids = tkList.Select(p => p.UserId).ToList();
+                                    //取出所有用户马币值
+                                    var userMB = GetUserMaBiByUIds(userids);
+                                    //将用户马币放进List 可增减
+                                    var userMBList = new List<bmUserMBJson>();
+                                    foreach (var m in userMB)
+                                    {
+                                        userMBList.Add(new bmUserMBJson { UserId = m.UserId, UserMB = m.NMB });
+                                    }
+                                    //设置取现记录是否可取现
+                                
+                                    foreach (var tk in tkList)
+                                    {//本地的用户马币充足
+                                        var serverCanTake = false;
+                                        if (tk.UserId == null || tk.MaBiNum <= 0)
+                                        {
+                                            serverCanTake = false;
+                                        }
+                                        else
+                                        {
+                                            var thisUMB = userMBList.FirstOrDefault(p => p.UserId == tk.UserId);
+                                            if (thisUMB.UserMB >= tk.MaBiNum)
+                                            {
+                                                thisUMB.UserMB -= tk.MaBiNum;
+                                                serverCanTake = true;
+                                            }
+                                            else
+                                            {
+                                                serverCanTake = false;
+                                            }
+                                        }
+                                        //判断服务器的该用户马币是否充足                
+                                        _canTakeList.Add(new bmCanTakeNowJson { ID = tk.ID, LocalCanTake = true, ServerCanTake = serverCanTake });
+                                    }
+                                }
+                                if(wxtkList.Count() > 0)
+                                {
+                                    foreach(var wxtk in wxtkList)
+                                    {
+                                        _canTakeList.Add(new bmCanTakeNowJson { ID = wxtk.ID, LocalCanTake = false, ServerCanTake = false });
+                                    }
+                                }
+
+                                //开始返回验证后的取现数据
+                                var rs = "";
+                                if(_canTakeList.Count() == 0)
+                                {
+                                    LogHelper.Write("无验证后的取现数据", LogHelper.LogMessageType.Info);
+                                    return "";
+                                }
+                                else
+                                {
+                                    rs += ToJsonAndCompress(_canTakeList);
+                                    rs += CFG.邦马网_JSON数据间隔;
+                                    var eys = EncodeJson(rs);
+                                    return eys;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致同步不成功", LogHelper.LogMessageType.Info);
+                        return "";// ex.Message + "异常导致同步不成功";
+                    }
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);
+                    return "";// "未传递同步数据";
+                }
+            }
+            return "";
         }
 
 
