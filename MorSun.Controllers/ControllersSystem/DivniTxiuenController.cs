@@ -897,6 +897,133 @@ namespace MorSun.Controllers.SystemController
             return "";
         }
 
+        /// <summary>
+        /// 对取现记录进行有效与无效的操作
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string YXXTakeNow(string Tok, string AncyData)
+        {
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+                return "";
+
+            if (!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("设置取现记录有效或无效，有效的取现记录生成取现马币记录", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {
+                    var yxbmCTs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+
+                    var qxMBRs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+
+                    var wxbmCTs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+
+                    try
+                    {
+                        var tnBll = new BaseBll<bmTakeNow>();
+                        var umrBll = new BaseBll<bmUserMaBiRecord>();
+                        var yx = Guid.Parse(Reference.卡密有效性_有效);
+                        var qxwx = Guid.Parse(Reference.卡密有效性_无效);
+                        var wqx = Guid.Parse(Reference.取现情况_未取);
+                        //有效的取现记录
+                        if (!String.IsNullOrEmpty(yxbmCTs))
+                        {
+                            yxbmCTs = Compression.DecompressString(yxbmCTs);
+                            var _list = JsonConvert.DeserializeObject<List<bmCanTakeNowJson>>(yxbmCTs);
+                            if (_list.Count() > 0)
+                            {                                
+                                var yxqxIds = _list.Select(p => p.ID).ToList();
+                                
+                                if (yxqxIds.Count() > 0)
+                                {
+                                    var tkList = new BaseBll<bmTakeNow>().All.Where(p => yxqxIds.Contains(p.ID));
+                                    
+                                    foreach (var tk in tkList)
+                                    {//本地的用户马币充足
+                                        tk.Effective = yx;
+                                        tk.TakeRef = wqx;
+                                    }
+                                    tnBll.UpdateChanges();
+                                }   
+                            }
+                        }
+
+                        //同步过来的取现马币记录
+                        if (!String.IsNullOrEmpty(qxMBRs))
+                        {
+                            qxMBRs = Compression.DecompressString(qxMBRs);
+                            var _list = JsonConvert.DeserializeObject<List<bmUserMaBiRecord>>(qxMBRs);
+                            if (_list.Count() > 0)
+                            {
+                                var aids = new List<Guid>();
+                                aids = _list.Select(p => p.ID).ToList();                                
+                                //过滤掉已经添加的数据                    
+                                var alreadyMB = umrBll.All.Where(p => aids.Contains(p.ID));
+                                foreach(var d in alreadyMB)
+                                {
+                                    umrBll.Delete(d, false);
+                                }
+                                umrBll.UpdateChanges();
+
+                                foreach (var l in _list)
+                                {
+                                    umrBll.Insert(l, false);
+                                }
+                                umrBll.UpdateChanges();
+                            }
+                        }
+
+                        //无效的取现记录
+                        if (!String.IsNullOrEmpty(wxbmCTs))
+                        {
+                            wxbmCTs = Compression.DecompressString(wxbmCTs);
+                            var _list = JsonConvert.DeserializeObject<List<bmCanTakeNowJson>>(wxbmCTs);
+                            if (_list.Count() > 0)
+                            {
+                                var wxqxIds = _list.Select(p => p.ID).ToList();
+
+                                if (wxqxIds.Count() > 0)
+                                {
+                                    var tkList = new BaseBll<bmTakeNow>().All.Where(p => wxqxIds.Contains(p.ID));
+
+                                    foreach (var tk in tkList)
+                                    {//本地的用户马币充足
+                                        tk.Effective = qxwx;                                        
+                                    }
+                                    tnBll.UpdateChanges();
+                                }
+                            }
+                            return "true";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致同步不成功", LogHelper.LogMessageType.Info);
+                        return "";// ex.Message + "异常导致同步不成功";
+                    }
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);
+                    return "";// "未传递同步数据";
+                }
+            }
+            return "";
+        }
 
         //public string DC()
         //{                        
