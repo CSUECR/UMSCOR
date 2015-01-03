@@ -970,9 +970,9 @@ namespace MorSun.Controllers.SystemController
                             if (_list.Count() > 0)
                             {
                                 var aids = new List<Guid>();
-                                aids = _list.Select(p => p.ID).ToList();                                
+                                aids = _list.Select(p => p.TkId.Value).ToList();                                
                                 //过滤掉已经添加的数据                    
-                                var alreadyMB = umrBll.All.Where(p => aids.Contains(p.ID));
+                                var alreadyMB = umrBll.All.Where(p => p.TkId != null && aids.Contains(p.TkId.Value));
                                 foreach(var d in alreadyMB)
                                 {
                                     umrBll.Delete(d, false);
@@ -1006,9 +1006,9 @@ namespace MorSun.Controllers.SystemController
                                     }
                                     tnBll.UpdateChanges();
                                 }
-                            }
-                            return "true";
+                            }                            
                         }
+                        return "true";
                     }
                     catch (Exception ex)
                     {
@@ -1022,6 +1022,7 @@ namespace MorSun.Controllers.SystemController
                     return "";// "未传递同步数据";
                 }
             }
+            LogHelper.Write("生成取现记录出现其他原因错误", LogHelper.LogMessageType.Info);
             return "";
         }
 
