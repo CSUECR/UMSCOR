@@ -1026,6 +1026,78 @@ namespace MorSun.Controllers.SystemController
             return "";
         }
 
+        /// <summary>
+        /// 取现数据同步
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string TakeMoney(string Tok, string AncyData)
+        {
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+                return "";
+
+            if (!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("开始对取现数据进行标识为取现", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {
+                    var bmTKJs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+
+                    try
+                    {
+                        //用户认证
+                        if (!String.IsNullOrEmpty(bmTKJs))
+                        {
+                            bmTKJs = Compression.DecompressString(bmTKJs);
+                            var bmTKJson = JsonConvert.DeserializeObject<bmTakeNowJson>(bmTKJs);
+                            if (bmTKJson != null)
+                            {
+                                var tnBll = new BaseBll<bmTakeNow>();
+                                var model = tnBll.GetModel(bmTKJson.ID);
+                                if(model != null)
+                                {
+                                    model.TakeRef = bmTKJson.TakeRef;
+                                    model.TakeTime = bmTKJson.TakeTime;
+                                    model.BMExplain = bmTKJson.BMExplain;
+                                    tnBll.Update(model);
+                                    return "true";
+                                }                               
+                            }
+                            else
+                            {
+                                LogHelper.Write("服务器未取到该条取现数据", LogHelper.LogMessageType.Info);
+                            }
+                        }
+                        else
+                        {
+                            LogHelper.Write("解密后检查到未传递取现数据", LogHelper.LogMessageType.Info);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致取现同步不成功", LogHelper.LogMessageType.Info);                        
+                    }
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);                   
+                }
+            }
+            return "";
+        }
+
         //public string DC()
         //{                        
         //    var id = UJS("",null,null);
