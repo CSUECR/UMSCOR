@@ -247,6 +247,7 @@ namespace MorSun.Controllers
                 model.SubmitTime = DateTime.Now;
 
                 model.IsSettle = false;
+                model.RegUser = UserID;
                 model.RegTime = DateTime.Now;
                 model.ModTime = DateTime.Now;
                 model.FlagTrashed = false;

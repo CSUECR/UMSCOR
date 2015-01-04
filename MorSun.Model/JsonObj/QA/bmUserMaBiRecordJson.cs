@@ -27,6 +27,16 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
+        public Guid? DisId
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Guid? OBId
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public Guid? RCId
         { get; set; }
         /// <summary>

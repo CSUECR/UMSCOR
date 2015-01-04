@@ -306,7 +306,11 @@ namespace MorSun.Controllers.SystemController
                     {
                         ID = u.ID,                        
                         UserId = u.UserId,        
-                        QAId = u.QAId,        
+                        QAId = u.QAId,   
+                        DisId = u.DisId,
+                        OBId = u.OBId,
+                        RCId = u.RCId,
+                        TkId = u.TkId,
                         SourceRef = u.SourceRef,        
                         MaBiRef = u.MaBiRef,        
                         MaBiNum = u.MaBiNum,        
