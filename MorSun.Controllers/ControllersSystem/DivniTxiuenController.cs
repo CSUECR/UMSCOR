@@ -456,7 +456,7 @@ namespace MorSun.Controllers.SystemController
             var mbSourceXF = Guid.Parse(Reference.马币来源_消费);
             //扣取的邦马币也要同步过来,有可能会取到本地同步过来的扣取答题用户的马币，本地作过滤就行
             var mbSourceKQ = Guid.Parse(Reference.马币来源_扣取);
-            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.SourceRef == mbSourceZS || p.SourceRef == mbSourceXF || p.SourceRef == mbSourceKQ);
+            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.SourceRef == mbSourceZS || p.SourceRef == mbSourceXF || (p.SourceRef == mbSourceKQ && p.QAId != null && p.DisId == null && p.OBId != null));//扣取只获取提交异议的扣取邦马币
             //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
 
             if (!SyncDT.HasValue)
@@ -1101,6 +1101,121 @@ namespace MorSun.Controllers.SystemController
             }
             return "";
         }
+
+
+        /// <summary>
+        /// 异议处理同步
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string HandelOB(string Tok, string AncyData)
+        {//需要修改异议数据与添加邦马币、绑币等操作。异议一条条处理
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+                return "";
+
+            if (!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("开始同步异议处理结果", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {
+                    var bmOBJs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    var bmUMBRs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+
+                    try
+                    {
+                        //异议数据修改
+                        if (!String.IsNullOrEmpty(bmOBJs))
+                        {
+                            bmOBJs = Compression.DecompressString(bmOBJs);
+                            var bmOBJson = JsonConvert.DeserializeObject<bmObjectionJson>(bmOBJs);
+                            if (bmOBJson != null)
+                            {
+                                var obBll = new BaseBll<bmObjection>();
+                                var model = obBll.GetModel(bmOBJson.ID);
+                                if(model != null)
+                                {
+                                    model.HandleUser = bmOBJson.HandleUser;
+                                    model.ConfirmErrorNum = bmOBJson.ConfirmErrorNum;
+                                    model.HandleTime = bmOBJson.HandleTime;
+                                    model.Result = bmOBJson.Result;
+                                    model.HandleExplain = bmOBJson.HandleExplain;
+                                    model.ModTime = bmOBJson.ModTime;
+                                    obBll.Update(model);
+                                    //return "true";
+                                }                               
+                            }
+                            else
+                            {
+                                LogHelper.Write("服务器未取到该条取现数据", LogHelper.LogMessageType.Info);
+                                return "";
+                            }
+                        }
+                        else
+                        {
+                            LogHelper.Write("解密后检查到未传递取现数据", LogHelper.LogMessageType.Info);
+                            return "";
+                        }
+
+                        //异议处理生成的马币记录添加
+
+                        //同步过来的取现马币记录
+                        if (!String.IsNullOrEmpty(bmUMBRs))
+                        {
+                            var umrBll = new BaseBll<bmUserMaBiRecord>();
+                            bmUMBRs = Compression.DecompressString(bmUMBRs);
+                            var _list = JsonConvert.DeserializeObject<List<bmUserMaBiRecord>>(bmUMBRs);
+                            if (_list.Count() > 0)
+                            {
+                                var aids = new List<Guid>();
+                                aids = _list.Select(p => p.OBId.Value).ToList();
+                                //过滤掉已经添加的数据                    
+                                var alreadyMB = umrBll.All.Where(p => p.QAId != null && p.DisId != null && p.OBId != null && aids.Contains(p.OBId.Value));
+                                foreach (var d in alreadyMB)
+                                {
+                                    umrBll.Delete(d, false);
+                                }
+                                umrBll.UpdateChanges();
+
+                                foreach (var l in _list)
+                                {
+                                    umrBll.Insert(l, false);
+                                }
+                                umrBll.UpdateChanges();
+                            }
+                        }
+
+                        return "true";
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致取现同步不成功", LogHelper.LogMessageType.Info);                        
+                    }
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);                   
+                }
+            }
+            return "";
+        }
+
+
+
+
+
 
         //public string DC()
         //{                        
