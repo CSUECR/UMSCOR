@@ -123,7 +123,7 @@
     <Compile Include="Quartz\MorSunScheduler.cs" />
     <Compile Include="ViewModel\BaseVM\BaseVModel.cs" />
     <Compile Include="ViewModel\BM\BMNewVModel.cs" />
-    <Compile Include="ViewModel\BM\BMQAViewVMode.cs" />
+    <Compile Include="ViewModel\BM\BMQAViewVModel.cs" />
     <Compile Include="ViewModel\BM\BMQAVModel.cs" />
     <Compile Include="ViewModel\BM\BMSellKaMeVModel.cs" />
     <Compile Include="ViewModel\PCTD\CityVModel.cs" />
