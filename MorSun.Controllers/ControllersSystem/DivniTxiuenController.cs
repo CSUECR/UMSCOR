@@ -276,58 +276,7 @@ namespace MorSun.Controllers.SystemController
                 s += ToJsonAndCompress(newQAList);                
             }
             s += CFG.邦马网_JSON数据间隔;
-            #endregion
-
-            #region 用户马币数据获取
-            var newUMBList = new List<bmUserMaBiRecordJson>();
-            var mbSourceZS = Guid.Parse(Reference.马币来源_赠送);
-            var mbSourceXF = Guid.Parse(Reference.马币来源_消费);
-            //扣取的邦马币也要同步过来,有可能会取到本地同步过来的扣取答题用户的马币，本地作过滤就行
-            var mbSourceKQ = Guid.Parse(Reference.马币来源_扣取);
-            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.SourceRef == mbSourceZS || p.SourceRef == mbSourceXF || p.SourceRef == mbSourceKQ);
-            //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
-
-            if (!SyncDT.HasValue)
-            {
-                _umbList = _umbList.Where(p => p.RegTime > dt);
-            }
-            else
-            {
-                _umbList = _umbList.Where(p => p.RegTime > SyncDT);
-            }
-
-            if (_umbList.Count() == 0)
-                s += " ";
-            else
-            {
-                foreach (var u in _umbList)
-                {
-                    var t = new bmUserMaBiRecordJson
-                    {
-                        ID = u.ID,                        
-                        UserId = u.UserId,        
-                        QAId = u.QAId,   
-                        DisId = u.DisId,
-                        OBId = u.OBId,
-                        RCId = u.RCId,
-                        TkId = u.TkId,
-                        SourceRef = u.SourceRef,        
-                        MaBiRef = u.MaBiRef,        
-                        MaBiNum = u.MaBiNum,        
-                        IsSettle = u.IsSettle,        
-                        Sort = u.Sort,
-                        RegUser = u.RegUser,
-                        RegTime = u.RegTime,
-                        ModTime = u.ModTime,
-                        FlagTrashed = u.FlagTrashed,
-                        FlagDeleted = u.FlagDeleted
-                    };
-                    newUMBList.Add(t);
-                }
-                s += ToJsonAndCompress(newUMBList);
-            }
-            s += CFG.邦马网_JSON数据间隔;
-            #endregion
+            #endregion            
 
             #region QA问题分配记录获取
             var newQADisList = new List<bmQADistributionJson>();
@@ -497,6 +446,57 @@ namespace MorSun.Controllers.SystemController
                     newTNList.Add(t);
                 }
                 s += ToJsonAndCompress(newTNList);
+            }
+            s += CFG.邦马网_JSON数据间隔;
+            #endregion
+
+            #region 用户马币数据获取
+            var newUMBList = new List<bmUserMaBiRecordJson>();
+            var mbSourceZS = Guid.Parse(Reference.马币来源_赠送);
+            var mbSourceXF = Guid.Parse(Reference.马币来源_消费);
+            //扣取的邦马币也要同步过来,有可能会取到本地同步过来的扣取答题用户的马币，本地作过滤就行
+            var mbSourceKQ = Guid.Parse(Reference.马币来源_扣取);
+            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.SourceRef == mbSourceZS || p.SourceRef == mbSourceXF || p.SourceRef == mbSourceKQ);
+            //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
+
+            if (!SyncDT.HasValue)
+            {
+                _umbList = _umbList.Where(p => p.RegTime > dt);
+            }
+            else
+            {
+                _umbList = _umbList.Where(p => p.RegTime > SyncDT);
+            }
+
+            if (_umbList.Count() == 0)
+                s += " ";
+            else
+            {
+                foreach (var u in _umbList)
+                {
+                    var t = new bmUserMaBiRecordJson
+                    {
+                        ID = u.ID,
+                        UserId = u.UserId,
+                        QAId = u.QAId,
+                        DisId = u.DisId,
+                        OBId = u.OBId,
+                        RCId = u.RCId,
+                        TkId = u.TkId,
+                        SourceRef = u.SourceRef,
+                        MaBiRef = u.MaBiRef,
+                        MaBiNum = u.MaBiNum,
+                        IsSettle = u.IsSettle,
+                        Sort = u.Sort,
+                        RegUser = u.RegUser,
+                        RegTime = u.RegTime,
+                        ModTime = u.ModTime,
+                        FlagTrashed = u.FlagTrashed,
+                        FlagDeleted = u.FlagDeleted
+                    };
+                    newUMBList.Add(t);
+                }
+                s += ToJsonAndCompress(newUMBList);
             }
             s += CFG.邦马网_JSON数据间隔;
             #endregion
