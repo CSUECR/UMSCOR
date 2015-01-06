@@ -191,14 +191,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Content\Edeiqnvi39Fwifn\net\App_Code\Config.cs" />
-    <Compile Include="Content\Edeiqnvi39Fwifn\net\App_Code\ConfigHandler.cs" />
-    <Compile Include="Content\Edeiqnvi39Fwifn\net\App_Code\CrawlerHandler.cs" />
-    <Compile Include="Content\Edeiqnvi39Fwifn\net\App_Code\Handler.cs" />
-    <Compile Include="Content\Edeiqnvi39Fwifn\net\App_Code\ListFileHandler.cs" />
-    <Compile Include="Content\Edeiqnvi39Fwifn\net\App_Code\NotSupportedHandler.cs" />
-    <Compile Include="Content\Edeiqnvi39Fwifn\net\App_Code\PathFormater.cs" />
-    <Compile Include="Content\Edeiqnvi39Fwifn\net\App_Code\UploadHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -431,7 +423,6 @@
     <Content Include="Content\Edeiqnvi39Fwifn\lang\zh-cn\images\music.png" />
     <Content Include="Content\Edeiqnvi39Fwifn\lang\zh-cn\images\upload.png" />
     <Content Include="Content\Edeiqnvi39Fwifn\lang\zh-cn\zh-cn.js" />
-    <Content Include="Content\Edeiqnvi39Fwifn\net\net.sln" />
     <Content Include="Content\Edeiqnvi39Fwifn\themes\default\css\ueditor.css" />
     <Content Include="Content\Edeiqnvi39Fwifn\themes\default\css\ueditor.min.css" />
     <Content Include="Content\Edeiqnvi39Fwifn\themes\default\dialogbase.css" />
@@ -569,10 +560,6 @@
     <Content Include="Content\uniform\aristo\css\uniform.aristo.scss" />
     <Content Include="Content\uniform\jeans\css\uniform.jeans.scss" />
     <Content Include="Content\uniform\metro\css\uniform.metro.scss" />
-    <Content Include="Content\Edeiqnvi39Fwifn\net\config.json" />
-    <Content Include="Content\Edeiqnvi39Fwifn\net\controller.ashx" />
-    <Content Include="Content\Edeiqnvi39Fwifn\net\README.md" />
-    <Content Include="Content\Edeiqnvi39Fwifn\net\Web.config" />
     <Content Include="Content\Edeiqnvi39Fwifn\third-party\jquery-1.10.2.min.map" />
     <Content Include="Content\Edeiqnvi39Fwifn\third-party\video-js\font\vjs.eot" />
     <Content Include="Content\Edeiqnvi39Fwifn\third-party\video-js\font\vjs.ttf" />
@@ -771,7 +758,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Edeiqnvi39Fwifn\net\Bin\" />
     <Folder Include="Scripts\del\" />
   </ItemGroup>
   <ItemGroup>
