@@ -179,6 +179,12 @@ namespace MorSun.Controllers
                         "ErrorNum".AE("该问题是免费提问，您不能提交异议", ModelState);
                         s += "该问题是免费提问，您不能提交异议";
                     }
+
+                    if (Math.Abs(qaView.MBNum) + Math.Abs(qaView.BBNum) < t.ErrorNum * defXFMB)
+                    {
+                        "ErrorNum".AE("您提交异议所扣取的压金已经超过提问时消费的金额，请您减少错题数量，否则多扣的压金不会归还到您账户", ModelState);
+                        s += "您提交异议所扣取的压金已经超过提问时消费的金额，请您减少错题数量，否则多扣的压金不会归还到您账户";
+                    }
                 }
                 var qauser = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.WeiXinId == qaView.WeiXinId);
                 if (qauser == null)

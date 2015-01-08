@@ -274,7 +274,7 @@ namespace MorSun.Model
         public System.String ObjectionExplain { get; set; }
 
         public string ReturnUrl { get; set; }
-    }
+    }    
     #endregion
 
     #region Services

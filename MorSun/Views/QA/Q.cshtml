@@ -161,7 +161,7 @@
                                                 else
                                                 {
                                                     <p>马子在 @(HOHO18.Common.ChangeDateTime.DateStringFromNow(item.HandleTime == null ? DateTime.Now : item.HandleTime.Value)) 检查结果说该问题 @item.ItemValue</p>
-                                                    <p>@item.HandleExplain</p>
+                                                    <p>@Html.Raw(item.HandleExplain)</p>
                                                 }
                                         </td>
                                     </tr>  
