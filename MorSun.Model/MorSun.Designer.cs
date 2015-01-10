@@ -8828,6 +8828,30 @@ namespace MorSun.Model
         private Nullable<global::System.Boolean> _IsSettle;
         partial void OnIsSettleChanging(Nullable<global::System.Boolean> value);
         partial void OnIsSettleChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> AllQANum
+        {
+            get
+            {
+                return _AllQANum;
+            }
+            set
+            {
+                OnAllQANumChanging(value);
+                ReportPropertyChanging("AllQANum");
+                _AllQANum = StructuralObject.SetValidValue(value, "AllQANum");
+                ReportPropertyChanged("AllQANum");
+                OnAllQANumChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _AllQANum;
+        partial void OnAllQANumChanging(Nullable<global::System.Int32> value);
+        partial void OnAllQANumChanged();
 
         #endregion
 
@@ -9034,7 +9058,10 @@ namespace MorSun.Model
         /// <param name="gHBBNum">GHBBNum 属性的初始值。</param>
         /// <param name="gHMBNUM">GHMBNUM 属性的初始值。</param>
         /// <param name="itemValue">ItemValue 属性的初始值。</param>
-        public static bmOBView CreatebmOBView(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted, global::System.Decimal kQBanBNum, global::System.Decimal kQBBNum, global::System.Decimal kQMBNUM, global::System.Decimal gHBanBNum, global::System.Decimal gHBBNum, global::System.Decimal gHMBNUM, global::System.String itemValue)
+        /// <param name="kQdtBanBNum">KQdtBanBNum 属性的初始值。</param>
+        /// <param name="kQdtBBNum">KQdtBBNum 属性的初始值。</param>
+        /// <param name="kQdtMBNUM">KQdtMBNUM 属性的初始值。</param>
+        public static bmOBView CreatebmOBView(global::System.Guid id, global::System.Boolean flagTrashed, global::System.Boolean flagDeleted, global::System.Decimal kQBanBNum, global::System.Decimal kQBBNum, global::System.Decimal kQMBNUM, global::System.Decimal gHBanBNum, global::System.Decimal gHBBNum, global::System.Decimal gHMBNUM, global::System.String itemValue, global::System.Decimal kQdtBanBNum, global::System.Decimal kQdtBBNum, global::System.Decimal kQdtMBNUM)
         {
             bmOBView bmOBView = new bmOBView();
             bmOBView.ID = id;
@@ -9047,6 +9074,9 @@ namespace MorSun.Model
             bmOBView.GHBBNum = gHBBNum;
             bmOBView.GHMBNUM = gHMBNUM;
             bmOBView.ItemValue = itemValue;
+            bmOBView.KQdtBanBNum = kQdtBanBNum;
+            bmOBView.KQdtBBNum = kQdtBBNum;
+            bmOBView.KQdtMBNUM = kQdtMBNUM;
             return bmOBView;
         }
 
@@ -9707,6 +9737,111 @@ namespace MorSun.Model
         private global::System.String _ItemValue;
         partial void OnItemValueChanging(global::System.String value);
         partial void OnItemValueChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal KQdtBanBNum
+        {
+            get
+            {
+                return _KQdtBanBNum;
+            }
+            set
+            {
+                if (_KQdtBanBNum != value)
+                {
+                    OnKQdtBanBNumChanging(value);
+                    ReportPropertyChanging("KQdtBanBNum");
+                    _KQdtBanBNum = StructuralObject.SetValidValue(value, "KQdtBanBNum");
+                    ReportPropertyChanged("KQdtBanBNum");
+                    OnKQdtBanBNumChanged();
+                }
+            }
+        }
+        private global::System.Decimal _KQdtBanBNum;
+        partial void OnKQdtBanBNumChanging(global::System.Decimal value);
+        partial void OnKQdtBanBNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal KQdtBBNum
+        {
+            get
+            {
+                return _KQdtBBNum;
+            }
+            set
+            {
+                if (_KQdtBBNum != value)
+                {
+                    OnKQdtBBNumChanging(value);
+                    ReportPropertyChanging("KQdtBBNum");
+                    _KQdtBBNum = StructuralObject.SetValidValue(value, "KQdtBBNum");
+                    ReportPropertyChanged("KQdtBBNum");
+                    OnKQdtBBNumChanged();
+                }
+            }
+        }
+        private global::System.Decimal _KQdtBBNum;
+        partial void OnKQdtBBNumChanging(global::System.Decimal value);
+        partial void OnKQdtBBNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal KQdtMBNUM
+        {
+            get
+            {
+                return _KQdtMBNUM;
+            }
+            set
+            {
+                if (_KQdtMBNUM != value)
+                {
+                    OnKQdtMBNUMChanging(value);
+                    ReportPropertyChanging("KQdtMBNUM");
+                    _KQdtMBNUM = StructuralObject.SetValidValue(value, "KQdtMBNUM");
+                    ReportPropertyChanged("KQdtMBNUM");
+                    OnKQdtMBNUMChanged();
+                }
+            }
+        }
+        private global::System.Decimal _KQdtMBNUM;
+        partial void OnKQdtMBNUMChanging(global::System.Decimal value);
+        partial void OnKQdtMBNUMChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> AllQANum
+        {
+            get
+            {
+                return _AllQANum;
+            }
+            set
+            {
+                OnAllQANumChanging(value);
+                ReportPropertyChanging("AllQANum");
+                _AllQANum = StructuralObject.SetValidValue(value, "AllQANum");
+                ReportPropertyChanged("AllQANum");
+                OnAllQANumChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _AllQANum;
+        partial void OnAllQANumChanging(Nullable<global::System.Int32> value);
+        partial void OnAllQANumChanged();
 
         #endregion
 

@@ -356,6 +356,7 @@ namespace MorSun.Controllers.SystemController
                         HandleUser = u.HandleUser,
                         Result = u.Result,
                         HandleTime = u.HandleTime,
+                        AllQANum = u.AllQANum,
                         ConfirmErrorNum = u.ConfirmErrorNum,
                         HandleExplain = u.HandleExplain,
                         IsSettle = u.IsSettle,

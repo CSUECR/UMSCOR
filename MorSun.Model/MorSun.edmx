@@ -199,6 +199,7 @@
           <Property Name="HandleUser" Type="uniqueidentifier" />
           <Property Name="Result" Type="uniqueidentifier" />
           <Property Name="HandleTime" Type="datetime" />
+          <Property Name="AllQANum" Type="int" />
           <Property Name="ConfirmErrorNum" Type="int" />
           <Property Name="HandleExplain" Type="nvarchar(max)" />
           <Property Name="IsSettle" Type="bit" />
@@ -2161,6 +2162,9 @@
             <PropertyRef Name="GHBBNum" />
             <PropertyRef Name="GHMBNUM" />
             <PropertyRef Name="ItemValue" />
+            <PropertyRef Name="KQdtBanBNum" />
+            <PropertyRef Name="KQdtBBNum" />
+            <PropertyRef Name="KQdtMBNUM" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="QAId" Type="uniqueidentifier" />
@@ -2188,6 +2192,10 @@
           <Property Name="GHBBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="GHMBNUM" Type="decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="ItemValue" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="KQdtBanBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="KQdtBBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="KQdtMBNUM" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="AllQANum" Type="int" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.bmQAView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -4097,7 +4105,11 @@ FROM [dbo].[bmNewUserMB] AS [bmNewUserMB]</DefiningQuery>
 [bmOBView].[GHBanBNum] AS [GHBanBNum], 
 [bmOBView].[GHBBNum] AS [GHBBNum], 
 [bmOBView].[GHMBNUM] AS [GHMBNUM], 
-[bmOBView].[ItemValue] AS [ItemValue]
+[bmOBView].[ItemValue] AS [ItemValue], 
+[bmOBView].[KQdtBanBNum] AS [KQdtBanBNum], 
+[bmOBView].[KQdtBBNum] AS [KQdtBBNum], 
+[bmOBView].[KQdtMBNUM] AS [KQdtMBNUM], 
+[bmOBView].[AllQANum] AS [AllQANum]
 FROM [dbo].[bmOBView] AS [bmOBView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="bmQAView" EntityType="Self.bmQAView" store:Type="Views" store:Schema="dbo">
@@ -4922,6 +4934,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="ConfirmErrorNum" Type="Int32" />
           <Property Name="IsSettle" Type="Boolean" />
           <NavigationProperty Name="bmUserMaBiRecords" Relationship="MorSun.Model.FK_bmUserMaBiRecord_bmObjection" FromRole="bmObjection" ToRole="bmUserMaBiRecord" />
+          <Property Name="AllQANum" Type="Int32" />
         </EntityType>
         <EntityType Name="bmOnlineQAUser">
           <Key>
@@ -9357,6 +9370,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <PropertyRef Name="GHBBNum" />
             <PropertyRef Name="GHMBNUM" />
             <PropertyRef Name="ItemValue" />
+            <PropertyRef Name="KQdtBanBNum" />
+            <PropertyRef Name="KQdtBBNum" />
+            <PropertyRef Name="KQdtMBNUM" />
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" />
           <Property Name="QAId" Type="Guid" />
@@ -9384,6 +9400,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="GHBBNum" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
           <Property Name="GHMBNUM" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
           <Property Name="ItemValue" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KQdtBanBNum" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="KQdtBBNum" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="KQdtMBNUM" Type="Decimal" Nullable="false" Precision="38" Scale="6" />
+          <Property Name="AllQANum" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -9578,6 +9598,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmObjections">
             <EntityTypeMapping TypeName="MorSun.Model.bmObjection">
               <MappingFragment StoreEntitySet="bmObjection">
+                <ScalarProperty Name="AllQANum" ColumnName="AllQANum" />
                 <ScalarProperty Name="IsSettle" ColumnName="IsSettle" />
                 <ScalarProperty Name="ConfirmErrorNum" ColumnName="ConfirmErrorNum" />
                 <ScalarProperty Name="ErrorNum" ColumnName="ErrorNum" />
@@ -11672,6 +11693,10 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmOBViews">
             <EntityTypeMapping TypeName="MorSun.Model.bmOBView">
               <MappingFragment StoreEntitySet="bmOBView">
+                <ScalarProperty Name="AllQANum" ColumnName="AllQANum" />
+                <ScalarProperty Name="KQdtMBNUM" ColumnName="KQdtMBNUM" />
+                <ScalarProperty Name="KQdtBBNum" ColumnName="KQdtBBNum" />
+                <ScalarProperty Name="KQdtBanBNum" ColumnName="KQdtBanBNum" />
                 <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
                 <ScalarProperty Name="GHMBNUM" ColumnName="GHMBNUM" />
                 <ScalarProperty Name="GHBBNum" ColumnName="GHBBNum" />

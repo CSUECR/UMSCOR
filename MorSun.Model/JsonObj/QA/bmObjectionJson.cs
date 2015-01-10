@@ -62,6 +62,11 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
+        public int? AllQANum
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int? ConfirmErrorNum
         { get; set; }
         /// <summary>
