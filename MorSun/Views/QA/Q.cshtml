@@ -157,7 +157,7 @@
                                                 { 
                                                     <p>马子在 @(HOHO18.Common.ChangeDateTime.DateStringFromNow(item.HandleTime == null ? DateTime.Now : item.HandleTime.Value)) 检查结果说 总的提问 <span class="spanRed spanBold">@item.AllQANum</span> 道题 其中错了 <span class="spanRed spanBold">@item.ConfirmErrorNum</span> 道题 系统归还 <span class="spanRed spanBold">@(item.GHBBNum == 0 ? "" : "邦币" + Math.Abs(item.GHBBNum).ToString("f0")) @(item.GHMBNUM == 0 ? "" : "马币" + Math.Abs(item.GHMBNUM).ToString("f0"))</span></p>
                                                     <p>扣取答题用户 <span class="spanRed spanBold">@(item.KQdtBanBNum == 0 ? "" : "绑币" + Math.Abs(item.KQdtBanBNum).ToString("f0")) @(item.KQdtMBNUM == 0 ? "" : "马币" + Math.Abs(item.KQdtMBNUM).ToString("f0"))</span></p>
-                                                    <p>@item.HandleExplain</p>
+                                                    <p>@Html.Raw(item.HandleExplain)</p>
                                                 }
                                                 else
                                                 {
