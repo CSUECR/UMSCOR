@@ -457,7 +457,10 @@ namespace MorSun.Controllers.SystemController
             var mbSourceXF = Guid.Parse(Reference.马币来源_消费);
             //扣取的邦马币也要同步过来,有可能会取到本地同步过来的扣取答题用户的马币，本地作过滤就行
             var mbSourceKQ = Guid.Parse(Reference.马币来源_扣取);
-            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => p.SourceRef == mbSourceZS || p.SourceRef == mbSourceXF || (p.SourceRef == mbSourceKQ && p.QAId != null && p.DisId == null && p.OBId != null));//扣取只获取提交异议的扣取邦马币
+
+            var mbRef = Guid.Parse(Reference.马币类别_马币);
+            var bbRef = Guid.Parse(Reference.马币类别_邦币);            
+            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => (p.SourceRef == mbSourceZS && p.MaBiRef == bbRef && p.MaBiNum <= 10000) || (p.SourceRef == mbSourceXF && (p.MaBiRef == mbRef || p.MaBiRef == bbRef) && p.MaBiNum < 0) || (p.SourceRef == mbSourceKQ && p.QAId != null && p.DisId == null && p.OBId != null && (p.MaBiRef == mbRef || p.MaBiRef == bbRef) && p.MaBiNum < 0));//扣取只获取提交异议的扣取邦马币
             //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
 
             if (!SyncDT.HasValue)
