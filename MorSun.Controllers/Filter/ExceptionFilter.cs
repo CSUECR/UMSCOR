@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HOHO18.Common.WEB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,8 @@ namespace MorSun.Controllers.Filter
             //    ViewData = filterContext.Controller.ViewData,
             //};
             //filterContext.ExceptionHandled = true;
+
+            LogHelper.Write("\r\n客户机IP:" + filterContext.HttpContext.Request.UserHostAddress + "\r\n原始URL:" + filterContext.HttpContext.Request.RawUrl + "\r\n浏览器:" + filterContext.HttpContext.Request.Browser + "\r\n错误地址:" + filterContext.HttpContext.Request.Url + "\r\n异常信息:" + filterContext.Exception.Message, LogHelper.LogMessageType.Error);
         }
 
     }
