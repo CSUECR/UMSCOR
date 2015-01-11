@@ -568,7 +568,7 @@ namespace MorSun.Controllers.SystemController
         {
             return "true";
         }
-
+        #region 充值及认证
         /// <summary>
         /// 用户卡密充值及认证
         /// </summary>
@@ -780,8 +780,9 @@ namespace MorSun.Controllers.SystemController
             }
             return "true";
         }
+        #endregion
 
-
+        #region 取现处理
         /// <summary>
         /// 判断取现记录是否能取现
         /// </summary>
@@ -1102,8 +1103,9 @@ namespace MorSun.Controllers.SystemController
             }
             return "";
         }
+        #endregion
 
-
+        #region 异议处理
         /// <summary>
         /// 异议处理同步
         /// </summary>
@@ -1149,6 +1151,7 @@ namespace MorSun.Controllers.SystemController
                                 if(model != null)
                                 {
                                     model.HandleUser = bmOBJson.HandleUser;
+                                    model.AllQANum = bmOBJson.AllQANum;
                                     model.ConfirmErrorNum = bmOBJson.ConfirmErrorNum;
                                     model.HandleTime = bmOBJson.HandleTime;
                                     model.Result = bmOBJson.Result;
@@ -1160,19 +1163,19 @@ namespace MorSun.Controllers.SystemController
                             }
                             else
                             {
-                                LogHelper.Write("服务器未取到该条取现数据", LogHelper.LogMessageType.Info);
+                                LogHelper.Write("服务器未取到该条异议数据", LogHelper.LogMessageType.Info);
                                 return "";
                             }
                         }
                         else
                         {
-                            LogHelper.Write("解密后检查到未传递取现数据", LogHelper.LogMessageType.Info);
+                            LogHelper.Write("解密后检查到未传递异议数据", LogHelper.LogMessageType.Info);
                             return "";
                         }
 
                         //异议处理生成的马币记录添加
 
-                        //同步过来的取现马币记录
+                        //同步过来的异议处理马币记录
                         if (!String.IsNullOrEmpty(bmUMBRs))
                         {
                             var umrBll = new BaseBll<bmUserMaBiRecord>();
@@ -1212,7 +1215,7 @@ namespace MorSun.Controllers.SystemController
             }
             return "";
         }
-
+        #endregion
 
 
 
