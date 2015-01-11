@@ -2214,7 +2214,7 @@
           <Property Name="ParentId" Type="uniqueidentifier" />
           <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
           <Property Name="QARef" Type="uniqueidentifier" />
-          <Property Name="QAContent" Type="nvarchar" MaxLength="4000" />
+          <Property Name="QAContent" Type="nvarchar(max)" />
           <Property Name="MsgId" Type="nvarchar" MaxLength="128" />
           <Property Name="MsgType" Type="uniqueidentifier" />
           <Property Name="MediaId" Type="nvarchar" MaxLength="512" />
@@ -2235,6 +2235,7 @@
           <Property Name="MBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="BBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="BanBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="DisId" Type="uniqueidentifier" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.wmfRolePrivilegesView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -4139,7 +4140,8 @@ FROM [dbo].[bmOBView] AS [bmOBView]</DefiningQuery>
 [bmQAView].[DisFlagDeleted] AS [DisFlagDeleted], 
 [bmQAView].[MBNum] AS [MBNum], 
 [bmQAView].[BBNum] AS [BBNum], 
-[bmQAView].[BanBNum] AS [BanBNum]
+[bmQAView].[BanBNum] AS [BanBNum], 
+[bmQAView].[DisId] AS [DisId]
 FROM [dbo].[bmQAView] AS [bmQAView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="wmfRolePrivilegesView" EntityType="Self.wmfRolePrivilegesView" store:Type="Views" store:Schema="dbo">
@@ -7068,7 +7070,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="ParentId" Type="Guid" />
           <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="QARef" Type="Guid" />
-          <Property Name="QAContent" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="QAContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MsgId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="MsgType" Type="Guid" />
           <Property Name="MediaId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
@@ -7089,6 +7091,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="MBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="BBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="BanBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
+          <Property Name="DisId" Type="Guid" />
         </EntityType>
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -11638,6 +11641,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmQAViews">
             <EntityTypeMapping TypeName="MorSun.Model.bmQAView">
               <MappingFragment StoreEntitySet="bmQAView">
+                <ScalarProperty Name="DisId" ColumnName="DisId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AutoGrenteId" ColumnName="AutoGrenteId" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />

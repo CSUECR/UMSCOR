@@ -152,7 +152,7 @@ namespace MorSun.Controllers
             var s = "";
             var tempMB = Convert.ToDecimal(0);
             var tempBB = Convert.ToDecimal(0);
-            var defXFMB = Convert.ToDecimal(CFG.提问默认收费马币值);
+            var defXFMB = Convert.ToDecimal(CFG.提交异议扣取压金值);
             
             t.ErrorNum = Math.Abs(t.ErrorNum);
             if (t.ErrorNum == 0)

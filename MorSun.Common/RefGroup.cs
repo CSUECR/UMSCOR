@@ -249,6 +249,8 @@ namespace MorSun.Common
 
             //提问默认消费马币值
             public const string 提问默认收费马币值 = "500";
+            //提交异议要扣取的压金值
+            public const string 提交异议扣取压金值 = "500";
 
             //默认微信账号
             public const string 默认收费问题微信号 = "ocpytjv3sfsfsfsfsfsfsf-sfweixin-fjeiw-vneiwq";//"ocpytjv3hZIxb-GgNB0Q9-l3yWaI";//11

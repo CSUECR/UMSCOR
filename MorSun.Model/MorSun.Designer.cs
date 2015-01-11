@@ -12852,6 +12852,30 @@ namespace MorSun.Model
         private global::System.Decimal _BanBNum;
         partial void OnBanBNumChanging(global::System.Decimal value);
         partial void OnBanBNumChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> DisId
+        {
+            get
+            {
+                return _DisId;
+            }
+            set
+            {
+                OnDisIdChanging(value);
+                ReportPropertyChanging("DisId");
+                _DisId = StructuralObject.SetValidValue(value, "DisId");
+                ReportPropertyChanged("DisId");
+                OnDisIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _DisId;
+        partial void OnDisIdChanging(Nullable<global::System.Guid> value);
+        partial void OnDisIdChanged();
 
         #endregion
 
