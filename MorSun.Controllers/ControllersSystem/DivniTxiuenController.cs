@@ -571,6 +571,7 @@ namespace MorSun.Controllers.SystemController
         {
             return "true";
         }
+
         #region 充值及认证
         /// <summary>
         /// 用户卡密充值及认证
@@ -1220,7 +1221,158 @@ namespace MorSun.Controllers.SystemController
         }
         #endregion
 
+        #region 答题生成马币，并将答题与异议记录标识为已结算
+        /// <summary>
+        /// 答题结算
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string QASettle(string Tok, string AncyData)
+        {//需要修改异议数据与添加邦马币、绑币等操作。异议一条条处理
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+                return "";
 
+            if (!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("开始同步答题结算记录", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {        
+                    //答题分配记录
+                    var bmQADis = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    //异议处理记录
+                    var bmOBs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    //答题生成的赚取邦马币记录
+                    var bmUMBRJs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+
+                    //这边主要是做保存。先检测异议
+
+                    try
+                    {
+                        //var bmQAdisMB = new List<bmUserMaBiRecord>();
+                        var umbrBll = new BaseBll<bmUserMaBiRecord>();
+                        var bmQADisBll = new BaseBll<bmQADistribution>();
+                        var bmOBBll = new BaseBll<bmObjection>();
+                        //问题分配记录结算
+                        if (!String.IsNullOrEmpty(bmQADis))
+                        {
+                            bmQADis = Compression.DecompressString(bmQADis);
+                            var bmQADisList = JsonConvert.DeserializeObject<List<bmQADistribution>>(bmQADis);
+                            if (bmQADisList.Count() > 0)
+                            {
+                                //检测问答分配记录是否已经生成了邦马币记录
+                                var qaids = bmQADisList.Select(p => p.QAId);
+                                var disids = bmQADisList.Select(p => p.ID);
+                                var bmQAdisMB = umbrBll.All.Where(p => p.QAId != null && p.DisId != null && p.OBId == null && qaids.Contains(p.QAId.Value) && disids.Contains(p.DisId.Value));//这句很重要，要测试
+                                //如果存在，先删除，可以不管后面的操作。
+                                if(bmQAdisMB.Count() > 0)
+                                {
+                                    foreach(var m in bmQAdisMB)
+                                    {
+                                        umbrBll.Delete(m, false);
+                                    }
+                                    umbrBll.UpdateChanges();
+                                }
+                                
+                                var dbbmQaDisList = bmQADisBll.All.Where(p => disids.Contains(p.ID));
+                                if (dbbmQaDisList.Count() > 0)
+                                { 
+                                    foreach(var dbDis in dbbmQaDisList)
+                                    {
+                                        dbDis.IsSettle = true;
+                                    }                                    
+                                }
+                            }
+                            else
+                            {
+                                LogHelper.Write("服务器未取到问题分配数据", LogHelper.LogMessageType.Info);
+                                return "";
+                            }
+                        }
+                        else
+                        {
+                            LogHelper.Write("解密后检查到未传递问题分配数据", LogHelper.LogMessageType.Info);
+                            return "";
+                        }
+
+                        //异议处理记录结算
+                        if (!String.IsNullOrEmpty(bmOBs))
+                        {
+                            bmOBs = Compression.DecompressString(bmOBs);
+                            var bmOBList = JsonConvert.DeserializeObject<List<bmObjection>>(bmOBs);
+                            if (bmOBList.Count() > 0)
+                            {                                
+                                var obids = bmOBList.Select(p => p.ID);                                
+                                var dbbmOBList = bmOBBll.All.Where(p => obids.Contains(p.ID));
+                                if (dbbmOBList.Count() > 0)
+                                {
+                                    foreach (var dbOB in dbbmOBList)
+                                    {
+                                        dbOB.IsSettle = true;
+                                    }                                    
+                                }
+                            }
+                            else
+                            {
+                                LogHelper.Write("服务器未取到异议处理数据", LogHelper.LogMessageType.Info);
+                                return "";
+                            }
+                        }
+                        else
+                        {
+                            LogHelper.Write("解密后检查到未传递问题分配数据", LogHelper.LogMessageType.Info);
+                            return "";
+                        }                        
+
+                        //同步过来的问题分配赚取的马币记录处理
+                        if (!String.IsNullOrEmpty(bmUMBRJs))
+                        {                           
+                            bmUMBRJs = Compression.DecompressString(bmUMBRJs);
+                            var _list = JsonConvert.DeserializeObject<List<bmUserMaBiRecord>>(bmUMBRJs);
+                            if (_list.Count() > 0)
+                            {   
+                                foreach (var l in _list)
+                                {
+                                    umbrBll.Insert(l, false);
+                                }                                
+                            }
+                        }
+                        //统一保存进数据库
+                        bmQADisBll.UpdateChanges();
+                        bmOBBll.UpdateChanges();
+                        umbrBll.UpdateChanges();
+
+                        return "true";
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致取现同步不成功", LogHelper.LogMessageType.Info);
+                    }                    
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);
+                }
+            }
+            return "";
+        }
+        #endregion
+
+        #region 将所有未结算的邦马币结算掉，生成用户马币记录与邦马币结算记录。 服务器没有的但数据机有的邦马币记录，发邮件通知管理员
+        #endregion
 
 
 
