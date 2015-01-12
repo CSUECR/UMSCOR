@@ -1304,7 +1304,8 @@ namespace MorSun.Controllers.SystemController
                         else
                         {
                             LogHelper.Write("解密后检查到未传递问题分配数据", LogHelper.LogMessageType.Info);
-                            return "";
+                            //如果没有传递部分记录，说明没有答题，但是后面的用户马币结算还是要处理的。所以直接返回true，不用执行以下内容。
+                            return "true";
                         }
 
                         //异议处理记录结算
@@ -1461,7 +1462,9 @@ namespace MorSun.Controllers.SystemController
                                 //删除当天有同步过来的用户邦马币结算记录
                                 var curUMB = bmUMBBll.All;
                                 var dt = bmUMBSList.FirstOrDefault().SettleTime;
-                                var startdt = Convert.ToDateTime(dt.ToShortDateString());
+                                if (dt == null)
+                                    dt = DateTime.Now.Date;
+                                var startdt = dt.Value.Date;
                                 var enddt = startdt.AddDays(1).AddSeconds(-1);
                                 var alreadyMBSList = bmUMBSBll.All.Where(p => p.SettleTime >= startdt && p.SettleTime <= enddt);
                                 if (alreadyMBSList.Count() > 0)
