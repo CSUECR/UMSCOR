@@ -1261,8 +1261,7 @@ namespace MorSun.Controllers.SystemController
                     //这边主要是做保存。先检测异议
 
                     try
-                    {
-                        //var bmQAdisMB = new List<bmUserMaBiRecord>();
+                    {                        
                         var umbrBll = new BaseBll<bmUserMaBiRecord>();
                         var bmQADisBll = new BaseBll<bmQADistribution>();
                         var bmOBBll = new BaseBll<bmObjection>();
@@ -1333,8 +1332,9 @@ namespace MorSun.Controllers.SystemController
                         }
                         else
                         {
-                            LogHelper.Write("解密后检查到未传递问题分配数据", LogHelper.LogMessageType.Info);
-                            return "";
+                            LogHelper.Write("解密后检查到未传递异议处理数据", LogHelper.LogMessageType.Info);
+                            //未传递是有可能没有
+                            //return "";
                         }                        
 
                         //同步过来的问题分配赚取的马币记录处理
@@ -1359,7 +1359,7 @@ namespace MorSun.Controllers.SystemController
                     }
                     catch (Exception ex)
                     {
-                        LogHelper.Write(ex.Message + "异常导致取现同步不成功", LogHelper.LogMessageType.Info);
+                        LogHelper.Write(ex.Message + "异常导致问题分配结算同步不成功", LogHelper.LogMessageType.Info);
                     }                    
                 }
                 else
@@ -1372,6 +1372,159 @@ namespace MorSun.Controllers.SystemController
         #endregion
 
         #region 将所有未结算的邦马币结算掉，生成用户马币记录与邦马币结算记录。 服务器没有的但数据机有的邦马币记录，发邮件通知管理员
+        /// <summary>
+        /// 用户的邦马币结算
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string MBSettle(string Tok, string AncyData)
+        {//需要修改异议数据与添加邦马币、绑币等操作。异议一条条处理
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+                return "";
+
+            if (!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("开始同步邦马币结算记录", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {
+                    //用户邦马币
+                    var bmUMBs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    //用户邦马币结算记录
+                    var bmUMBSettles = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    //用户邦马币记录
+                    var bmUMBRJs = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+
+                    //这边主要是做保存。先检测异议
+
+                    try
+                    {                        
+                        var umbrBll = new BaseBll<bmUserMaBiRecord>();
+                        var bmUMBBll = new BaseBll<bmUserMaBi>();
+                        var bmUMBSBll = new BaseBll<bmUserMaBiSettleRecord>();
+                        //用户邦马币
+                        if (!String.IsNullOrEmpty(bmUMBs))
+                        {
+                            bmUMBs = Compression.DecompressString(bmUMBs);
+                            var bmUMBList = JsonConvert.DeserializeObject<List<bmUserMaBi>>(bmUMBs);
+                            if (bmUMBList.Count() > 0)
+                            {
+                                //删除现有的用户邦马币
+                                var curUMB = bmUMBBll.All;
+                                if(curUMB.Count() >0)
+                                {
+                                    foreach(var u in curUMB)
+                                    {
+                                        bmUMBBll.Delete(u, false);
+                                    }
+                                    bmUMBBll.UpdateChanges();
+                                }
+
+                                foreach (var u in bmUMBList)
+                                {
+                                    bmUMBBll.Insert(u, false);
+                                }
+                                
+                            }
+                            else
+                            {
+                                LogHelper.Write("服务器未取到用户马币数据", LogHelper.LogMessageType.Info);
+                                return "";
+                            }
+                        }
+                        else
+                        {
+                            LogHelper.Write("解密后检查到未传递用户马币数据", LogHelper.LogMessageType.Info);
+                            return "";
+                        }
+
+                        //用户邦马币结算记录
+                        if (!String.IsNullOrEmpty(bmUMBSettles))
+                        {
+                            bmUMBSettles = Compression.DecompressString(bmUMBSettles);
+                            var bmUMBSList = JsonConvert.DeserializeObject<List<bmUserMaBiSettleRecord>>(bmUMBSettles);
+                            if (bmUMBSList.Count() > 0)
+                            {
+                                //删除当天有同步过来的用户邦马币结算记录
+                                var curUMB = bmUMBBll.All;
+                                var dt = bmUMBSList.FirstOrDefault().SettleTime;
+                                var startdt = Convert.ToDateTime(dt.ToShortDateString());
+                                var enddt = startdt.AddDays(1).AddSeconds(-1);
+                                var alreadyMBSList = bmUMBSBll.All.Where(p => p.SettleTime >= startdt && p.SettleTime <= enddt);
+                                if (alreadyMBSList.Count() > 0)
+                                {
+                                    foreach (var m in alreadyMBSList)
+                                    {
+                                        bmUMBSBll.Delete(m, false);
+                                    }
+                                    bmUMBSBll.UpdateChanges();
+                                }
+
+                                foreach (var u in bmUMBSList)
+                                {
+                                    bmUMBSBll.Insert(u, false);
+                                }
+
+                            }
+                            else
+                            {
+                                LogHelper.Write("服务器未取到用户马币结算数据", LogHelper.LogMessageType.Info);
+                                return "";
+                            }
+                        }
+                        else
+                        {
+                            LogHelper.Write("解密后检查到未传递用户马币结算数据", LogHelper.LogMessageType.Info);
+                            return "";
+                        }
+
+                        //同步过来的需要结算的邦马币记录进行结算
+                        if (!String.IsNullOrEmpty(bmUMBRJs))
+                        {
+                            bmUMBRJs = Compression.DecompressString(bmUMBRJs);
+                            var _list = JsonConvert.DeserializeObject<List<bmUserMaBiRecord>>(bmUMBRJs);
+                            if (_list.Count() > 0)
+                            {
+                                var umbrIds = _list.Select(p => p.ID);
+                                var dbUMBRList = umbrBll.All.Where(p => umbrIds.Contains(p.ID));
+                                foreach (var l in dbUMBRList)
+                                {
+                                    l.IsSettle = true;
+                                }
+                            }
+                        }
+                        //统一保存进数据库
+                        bmUMBBll.UpdateChanges();
+                        bmUMBSBll.UpdateChanges();
+                        umbrBll.UpdateChanges();
+
+                        return "true";
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致马币结算同步不成功", LogHelper.LogMessageType.Info);
+                    }
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);
+                }
+            }
+            return "";
+        }
         #endregion
 
 
