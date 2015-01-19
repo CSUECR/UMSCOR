@@ -1412,33 +1412,48 @@ namespace MorSun.Controllers.SystemController
                     //这边主要是做保存。先检测异议
 
                     try
-                    {                        
-                        var umbrBll = new BaseBll<bmUserMaBiRecord>();
-                        var bmUMBBll = new BaseBll<bmUserMaBi>();
-                        var bmUMBSBll = new BaseBll<bmUserMaBiSettleRecord>();
+                    {
                         //用户邦马币
                         if (!String.IsNullOrEmpty(bmUMBs))
                         {
                             bmUMBs = Compression.DecompressString(bmUMBs);
+                            LogHelper.Write(bmUMBs, LogHelper.LogMessageType.Debug);
                             var bmUMBList = JsonConvert.DeserializeObject<List<bmUserMaBi>>(bmUMBs);
                             if (bmUMBList.Count() > 0)
                             {
+                                var bmUMBBll = new BaseBll<bmUserMaBi>();
+                                LogHelper.Write("用户马币列表大于0" + bmUMBList.Count().ToString(), LogHelper.LogMessageType.Debug);
                                 //删除现有的用户邦马币
-                                var curUMB = bmUMBBll.All;
-                                if(curUMB.Count() >0)
+                                try
                                 {
-                                    foreach(var u in curUMB)
+                                    var curUMB = bmUMBBll.All;
+                                    if (curUMB.Count() > 0)
                                     {
-                                        bmUMBBll.Delete(u, false);
+                                        foreach (var u in curUMB)
+                                        {
+                                            bmUMBBll.Delete(u, false);
+                                        }
+                                        bmUMBBll.UpdateChanges();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogHelper.Write("旧的用户邦马币数据清空失败" + ex.Message, LogHelper.LogMessageType.Info);
+                                }
+
+                                try
+                                {
+                                    foreach (var u in bmUMBList)
+                                    {                                        
+                                        bmUMBBll.Insert(u, false);                                        
                                     }
                                     bmUMBBll.UpdateChanges();
                                 }
-
-                                foreach (var u in bmUMBList)
+                                catch (Exception ex)
                                 {
-                                    bmUMBBll.Insert(u, false);
+                                    LogHelper.Write("新的用户邦马币添加失败" + ex.Message, LogHelper.LogMessageType.Info);
                                 }
-                                
+                                LogHelper.Write("用户邦马币生成成功", LogHelper.LogMessageType.Debug);
                             }
                             else
                             {
@@ -1456,31 +1471,47 @@ namespace MorSun.Controllers.SystemController
                         if (!String.IsNullOrEmpty(bmUMBSettles))
                         {
                             bmUMBSettles = Compression.DecompressString(bmUMBSettles);
+                            LogHelper.Write(bmUMBSettles, LogHelper.LogMessageType.Debug);
                             var bmUMBSList = JsonConvert.DeserializeObject<List<bmUserMaBiSettleRecord>>(bmUMBSettles);
                             if (bmUMBSList.Count() > 0)
                             {
-                                //删除当天有同步过来的用户邦马币结算记录
-                                var curUMB = bmUMBBll.All;
-                                var dt = bmUMBSList.FirstOrDefault().SettleTime;
-                                if (dt == null)
-                                    dt = DateTime.Now.Date;
-                                var startdt = dt.Value.Date;
-                                var enddt = startdt.AddDays(1).AddSeconds(-1);
-                                var alreadyMBSList = bmUMBSBll.All.Where(p => p.SettleTime >= startdt && p.SettleTime <= enddt);
-                                if (alreadyMBSList.Count() > 0)
+                                LogHelper.Write("用户马币结算列表大于0" + bmUMBSList.Count().ToString(), LogHelper.LogMessageType.Debug);
+                                var bmUMBSBll = new BaseBll<bmUserMaBiSettleRecord>();
+                                try
                                 {
-                                    foreach (var m in alreadyMBSList)
+                                    //删除当天有同步过来的用户邦马币结算记录                                    
+                                    var dt = bmUMBSList.FirstOrDefault().SettleTime;
+                                    if (dt == null)
+                                        dt = DateTime.Now.Date;
+                                    var startdt = dt.Value.Date;
+                                    var enddt = startdt.AddDays(1).AddSeconds(-1);
+                                    var alreadyMBSList = bmUMBSBll.All.Where(p => p.SettleTime >= startdt && p.SettleTime <= enddt);
+                                    if (alreadyMBSList.Count() > 0)
                                     {
-                                        bmUMBSBll.Delete(m, false);
+                                        foreach (var m in alreadyMBSList)
+                                        {
+                                            bmUMBSBll.Delete(m, false);
+                                        }
+                                        bmUMBSBll.UpdateChanges();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogHelper.Write("旧的邦马币结算记录删除失败" + ex.Message, LogHelper.LogMessageType.Info);
+                                }
+                                try
+                                {
+                                    foreach (var u in bmUMBSList)
+                                    {
+                                        bmUMBSBll.Insert(u, false);
                                     }
                                     bmUMBSBll.UpdateChanges();
                                 }
-
-                                foreach (var u in bmUMBSList)
+                                catch (Exception ex)
                                 {
-                                    bmUMBSBll.Insert(u, false);
+                                    LogHelper.Write("新的邦马币结算记录添加失败" + ex.Message, LogHelper.LogMessageType.Info);
                                 }
-
+                                LogHelper.Write("用户邦马币结算记录生成成功", LogHelper.LogMessageType.Debug);
                             }
                             else
                             {
@@ -1497,22 +1528,35 @@ namespace MorSun.Controllers.SystemController
                         //同步过来的需要结算的邦马币记录进行结算
                         if (!String.IsNullOrEmpty(bmUMBRJs))
                         {
-                            bmUMBRJs = Compression.DecompressString(bmUMBRJs);
+                            bmUMBRJs = Compression.DecompressString(bmUMBRJs);                            
                             var _list = JsonConvert.DeserializeObject<List<bmUserMaBiRecord>>(bmUMBRJs);
                             if (_list.Count() > 0)
                             {
+                                var umbrBll = new BaseBll<bmUserMaBiRecord>();
+                                LogHelper.Write("用户马币记录列表数量" + _list.Count().ToString(), LogHelper.LogMessageType.Debug);
                                 var umbrIds = _list.Select(p => p.ID);
+                                LogHelper.Write("用户马币记录ID数量" + umbrIds.Count().ToString(), LogHelper.LogMessageType.Debug);
                                 var dbUMBRList = umbrBll.All.Where(p => umbrIds.Contains(p.ID));
-                                foreach (var l in dbUMBRList)
+                                try
                                 {
-                                    l.IsSettle = true;
+                                    LogHelper.Write("数据库取到的用户马币记录数量" + dbUMBRList.Count().ToString(), LogHelper.LogMessageType.Debug);
+                                    foreach (var l in dbUMBRList)
+                                    {
+                                        l.IsSettle = true;
+                                    }                                
+                                    umbrBll.UpdateChanges();
                                 }
+                                catch (Exception ex)
+                                {
+                                    LogHelper.Write("用户邦马币记录设置为结算操作失败" + ex.Message, LogHelper.LogMessageType.Info);
+                                }
+                                LogHelper.Write("用户邦马币成功设置为已结算", LogHelper.LogMessageType.Debug);
                             }
                         }
                         //统一保存进数据库
-                        bmUMBBll.UpdateChanges();
-                        bmUMBSBll.UpdateChanges();
-                        umbrBll.UpdateChanges();
+                        //bmUMBBll.UpdateChanges();
+                        //bmUMBSBll.UpdateChanges();
+                        //umbrBll.UpdateChanges();
 
                         return "true";
                     }
@@ -1530,7 +1574,32 @@ namespace MorSun.Controllers.SystemController
         }
         #endregion
 
+        #region 结算前向官网取所有需要结算的用户
+        /// <summary>
+        /// 获取官网所有用户ID来做结算
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <returns></returns>
+        public string GetAllUserIds(string Tok)
+        {            
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+            {
+                LogHelper.Write("未认证", LogHelper.LogMessageType.Info);
+                return "";
+            }
+            
+            var _uidList = new BaseBll<aspnet_Users>().All.Where(p => p.UserId != null).Select(p => p.UserId).ToList();            
 
+            var s = "";
+            s += ToJsonAndCompress(_uidList);
+            s += CFG.邦马网_JSON数据间隔;
+            
+            var eys = EncodeJson(s);
+            return eys;
+        }
+        #endregion
 
         //public string DC()
         //{                        
