@@ -1372,7 +1372,7 @@ namespace MorSun.Controllers.SystemController
         }
         #endregion
 
-        #region 将所有未结算的邦马币结算掉，生成用户马币记录与邦马币结算记录。 服务器没有的但数据机有的邦马币记录，发邮件通知管理员
+        #region 将所有未结算的邦马币结算掉，生成用户马币记录与邦马币结算记录。 服务器没有的但数据有的邦马币记录，发邮件通知管理员
         /// <summary>
         /// 用户的邦马币结算
         /// </summary>
@@ -1596,6 +1596,35 @@ namespace MorSun.Controllers.SystemController
             s += ToJsonAndCompress(_uidList);
             s += CFG.邦马网_JSON数据间隔;
             
+            var eys = EncodeJson(s);
+            return eys;
+        }
+        #endregion
+
+        #region 邦马币添加监督
+        /// <summary>
+        /// 邦马币监督，异常的邦马币记录要删除。这里删除的异常记录是增加邦马币，增加邦马币除了赠送邦币从服务器传递到本地，其他的都由本地上传。
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="?"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string SuperviseBMB(string Tok, string AncyData)
+        {
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+            {
+                LogHelper.Write("未认证", LogHelper.LogMessageType.Info);
+                return "";
+            }
+
+            var _uidList = new BaseBll<aspnet_Users>().All.Where(p => p.UserId != null).Select(p => p.UserId).ToList();
+
+            var s = "";
+            s += ToJsonAndCompress(_uidList);
+            s += CFG.邦马网_JSON数据间隔;
+
             var eys = EncodeJson(s);
             return eys;
         }
