@@ -1601,15 +1601,13 @@ namespace MorSun.Controllers.SystemController
         }
         #endregion
 
-        #region 邦马币添加监督
+        #region 邦马币监督
         /// <summary>
         /// 邦马币监督，异常的邦马币记录要删除。这里删除的异常记录是增加邦马币，增加邦马币除了赠送邦币从服务器传递到本地，其他的都由本地上传。
         /// </summary>
         /// <param name="Tok"></param>
-        /// <param name="?"></param>
-        /// <param name="AncyData"></param>
         /// <returns></returns>
-        public string SuperviseBMB(string Tok, string AncyData)
+        public string GetNonSettleMB(string Tok)
         {
             var rz = false;
             rz = IsRZ(Tok, rz, Request);
@@ -1627,6 +1625,18 @@ namespace MorSun.Controllers.SystemController
 
             var eys = EncodeJson(s);
             return eys;
+        }
+
+        /// <summary>
+        /// 将未验证的邦马币记录删除
+        /// </summary>
+        /// <param name="Tok"></param>
+        /// <param name="?"></param>
+        /// <param name="AncyData"></param>
+        /// <returns></returns>
+        public string DelNonVeryfiMB(string Tok, string AncyData)
+        {
+            return "";
         }
         #endregion
 
