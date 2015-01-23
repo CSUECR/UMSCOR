@@ -1617,10 +1617,43 @@ namespace MorSun.Controllers.SystemController
                 return "";
             }
 
-            var _uidList = new BaseBll<aspnet_Users>().All.Where(p => p.UserId != null).Select(p => p.UserId).ToList();
+            //获取未结算的马币与绑币记录
+            var mbRef = Guid.Parse(Reference.马币类别_马币);
+            var banbRef = Guid.Parse(Reference.马币类别_绑币);
+            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => (p.MaBiRef == banbRef || p.MaBiRef == mbRef) && (p.IsSettle == null || p.IsSettle == false));
+            var newUMBList = new List<bmUserMaBiRecordJson>();
 
             var s = "";
-            s += ToJsonAndCompress(_uidList);
+            if (_umbList.Count() == 0)
+                s += " ";
+            else
+            {
+                foreach (var u in _umbList)
+                {
+                    var t = new bmUserMaBiRecordJson
+                    {
+                        ID = u.ID,
+                        UserId = u.UserId,
+                        QAId = u.QAId,
+                        DisId = u.DisId,
+                        OBId = u.OBId,
+                        RCId = u.RCId,
+                        TkId = u.TkId,
+                        SourceRef = u.SourceRef,
+                        MaBiRef = u.MaBiRef,
+                        MaBiNum = u.MaBiNum,
+                        IsSettle = u.IsSettle,
+                        Sort = u.Sort,
+                        RegUser = u.RegUser,
+                        RegTime = u.RegTime,
+                        ModTime = u.ModTime,
+                        FlagTrashed = u.FlagTrashed,
+                        FlagDeleted = u.FlagDeleted
+                    };
+                    newUMBList.Add(t);
+                }
+                s += ToJsonAndCompress(newUMBList);
+            }
             s += CFG.邦马网_JSON数据间隔;
 
             var eys = EncodeJson(s);
@@ -1628,13 +1661,13 @@ namespace MorSun.Controllers.SystemController
         }
 
         /// <summary>
-        /// 将未验证的邦马币记录删除
+        /// 操作未验证的邦马币记录(已结算的标识为已结算，邦马币记录错误的要修正过来。要删除的数据删除掉。)
         /// </summary>
         /// <param name="Tok"></param>
         /// <param name="?"></param>
         /// <param name="AncyData"></param>
         /// <returns></returns>
-        public string DelNonVeryfiMB(string Tok, string AncyData)
+        public string OperateNonVeryfiMB(string Tok, string AncyData)
         {
             return "";
         }
