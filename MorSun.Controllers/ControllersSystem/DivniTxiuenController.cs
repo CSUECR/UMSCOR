@@ -1669,7 +1669,96 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         public string OperateNonVeryfiMB(string Tok, string AncyData)
         {
-            return "";
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+                return "";
+
+            if (!String.IsNullOrEmpty(AncyData))
+            {
+                LogHelper.Write("开始对未验证的邦马币进行操作", LogHelper.LogMessageType.Debug);
+                var s = "";
+                try { s = DecodeJson(AncyData); }
+                catch
+                {
+                    s = "";
+                    LogHelper.Write("解密异常", LogHelper.LogMessageType.Info);
+                }
+
+                if (!String.IsNullOrEmpty(s))
+                {
+                    var stMB = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    var delMB = s.Substring(0, s.IndexOf(CFG.邦马网_JSON数据间隔)).Trim();
+                    s = s.Substring(s.IndexOf(CFG.邦马网_JSON数据间隔) + CFG.邦马网_JSON数据间隔.Length);
+                    
+                    try
+                    {
+                        var bll = new BaseBll<bmUserMaBiRecord>();
+                        //用户充值记录
+                        if (!String.IsNullOrEmpty(stMB))
+                        {
+                            stMB = Compression.DecompressString(stMB);
+                            var _list = JsonConvert.DeserializeObject<List<bmUserMaBiRecord>>(stMB);
+                            if (_list.Count() > 0)
+                            {
+                                var aids = new List<Guid>();
+                                aids = _list.Select(p => p.ID).ToList();                                
+                                //取出待修改的充值记录
+                                var dblist = bll.All.Where(p => aids.Contains(p.ID));
+                                foreach (var l in dblist)
+                                {
+                                    //更新充值记录只要三个字段
+                                    var u = _list.FirstOrDefault(p => p.ID == l.ID);                                    
+                                    l.UserId = u.UserId;
+                                    l.QAId = u.QAId;
+                                    l.DisId = u.DisId;
+                                    l.OBId = u.OBId;
+                                    l.RCId = u.RCId;
+                                    l.TkId = u.TkId;
+                                    l.SourceRef = u.SourceRef;
+                                    l.MaBiRef = u.MaBiRef;
+                                    l.MaBiNum = u.MaBiNum;
+                                    l.IsSettle = u.IsSettle;
+                                    l.Sort = u.Sort;
+                                    l.RegUser = u.RegUser;
+                                    l.RegTime = u.RegTime;
+                                    l.ModTime = u.ModTime;
+                                    l.FlagTrashed = u.FlagTrashed;
+                                    l.FlagDeleted = u.FlagDeleted;
+                                }
+                                bll.UpdateChanges();
+                            }
+                        }
+                        //马币记录
+                        if (!String.IsNullOrEmpty(delMB))
+                        {
+                            delMB = Compression.DecompressString(delMB);
+                            var _list = JsonConvert.DeserializeObject<List<Guid>>(delMB);
+                            if (_list.Count() > 0)
+                            {
+                                var delMBList = bll.All.Where(p => _list.Contains(p.ID));
+                                foreach (var l in delMBList)
+                                {
+                                    bll.Delete(l, false);
+                                }
+                                bll.UpdateChanges();
+                            }
+                        }                        
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write(ex.Message + "异常导致同步不成功", LogHelper.LogMessageType.Info);
+                        return ex.Message + "异常导致同步不成功";
+                    }
+                }
+                else
+                {
+                    LogHelper.Write("未传递同步数据", LogHelper.LogMessageType.Info);
+                    return "未传递同步数据";
+                }
+            }
+            return "true";
         }
         #endregion
 
