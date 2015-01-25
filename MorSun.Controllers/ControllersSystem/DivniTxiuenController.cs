@@ -1620,7 +1620,7 @@ namespace MorSun.Controllers.SystemController
             //获取未结算的马币与绑币记录
             var mbRef = Guid.Parse(Reference.马币类别_马币);
             var banbRef = Guid.Parse(Reference.马币类别_绑币);
-            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => (p.MaBiRef == banbRef || p.MaBiRef == mbRef) && (p.IsSettle == null || p.IsSettle == false));
+            var _umbList = new BaseBll<bmUserMaBiRecord>().All.Where(p => (p.MaBiRef == banbRef || p.MaBiRef == mbRef) && (p.IsSettle == null || p.IsSettle == false) && p.MaBiNum > 0);
             var newUMBList = new List<bmUserMaBiRecordJson>();
 
             var s = "";
@@ -1733,10 +1733,12 @@ namespace MorSun.Controllers.SystemController
                         //马币记录
                         if (!String.IsNullOrEmpty(delMB))
                         {
+                            LogHelper.Write("有传递删除的邦马币记录", LogHelper.LogMessageType.Info);
                             delMB = Compression.DecompressString(delMB);
                             var _list = JsonConvert.DeserializeObject<List<Guid>>(delMB);
                             if (_list.Count() > 0)
                             {
+                                LogHelper.Write("传递删除的邦马币记录大于0", LogHelper.LogMessageType.Info);
                                 var delMBList = bll.All.Where(p => _list.Contains(p.ID));
                                 foreach (var l in delMBList)
                                 {
