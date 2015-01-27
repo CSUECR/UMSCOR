@@ -27,6 +27,17 @@ namespace MorSun.Controllers
     //[InitializeSimpleMembership]
     public class AccountController : BasisController
     {
+        //图片获取测试 已经测试成功，留着，以后用。
+        [AllowAnonymous]
+        public void GetImg()
+        {
+            //图片已经可以拿下来，文件格式什么的无所谓，跟MediaId关联即可。
+            string url = "http://mmbiz.qpic.cn/mmbiz/fmwArEibATSJrvPO8NjAdE11a8hoXP94sTNGazUSZkMvA6JfnDclOFVQicrGibnnicpuYrl5r8vu8UicibyTRRicJ7Srw/0";
+            string filepath = "c:\\pic123421";
+            WebClient mywebclient = new WebClient();
+            mywebclient.DownloadFile(url, filepath);           
+        }
+
         #region 基本方法
         public IFormsAuthenticationService FormsService { get; set; }
         public IMembershipService MembershipService { get; set; }
