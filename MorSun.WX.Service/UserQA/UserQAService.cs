@@ -169,6 +169,7 @@ namespace MorSun.WX.ZYB.Service
                     //认证级别
                     var uinfo = new BaseBll<wmfUserInfo>().GetModel(uwx.UserId);
                     model.CertificationLevel = uinfo == null ? null : uinfo.CertificationLevel;
+                    model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
 
                     model.RegTime = DateTime.Now;
                     model.ModTime = DateTime.Now;

@@ -803,6 +803,7 @@ namespace MorSun.WX.ZYB.Service
             model.MsgId = msgid;
             model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
             model.QAContent = requestMessage.Content;//将指令保存数据库
+            model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
             //model.MediaId = requestMessage.MediaId;
             //model.PicUrl = requestMessage.PicUrl;
 
@@ -890,6 +891,7 @@ namespace MorSun.WX.ZYB.Service
             model.MsgId = msgid;
             model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
             model.QAContent = requestMessage.Content;//将指令保存数据库
+            model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
             //model.MediaId = requestMessage.MediaId;
             //model.PicUrl = requestMessage.PicUrl;
 
@@ -1005,7 +1007,7 @@ namespace MorSun.WX.ZYB.Service
         }
 
         /// <summary>
-        /// 生成不是问题对象
+        /// 生成文本答题对象
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <param name="msgid"></param>
@@ -1021,6 +1023,7 @@ namespace MorSun.WX.ZYB.Service
             model.MsgId = msgid;
             model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
             model.QAContent = requestMessage.Content.Substring(2).Trim();//将指令保存数据库
+            model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
             //model.MediaId = requestMessage.MediaId;
             //model.PicUrl = requestMessage.PicUrl;
 
@@ -1145,7 +1148,7 @@ namespace MorSun.WX.ZYB.Service
         }
 
         /// <summary>
-        /// 生成不是问题对象
+        /// 生成图片答题对象
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <param name="msgid"></param>
@@ -1162,6 +1165,7 @@ namespace MorSun.WX.ZYB.Service
             model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
             model.MediaId = requestMessage.MediaId;
             model.PicUrl = requestMessage.PicUrl;
+            model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
 
             model.RegTime = DateTime.Now;
             model.ModTime = DateTime.Now;

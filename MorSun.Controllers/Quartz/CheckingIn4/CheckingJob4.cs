@@ -38,7 +38,7 @@ namespace MorSun.Controllers.Quartz
             var nonmbUid = nonmbQA.Select(p => p.WeiXinId).Distinct();
             LogHelper.Write("新提问的用户数" + nonmbUid.Count().ToString(), LogHelper.LogMessageType.Debug);
             //区分出已绑定与未绑定的用户ID
-            var zyapp = Guid.Parse(Reference.微信应用_作业邦);
+            var zyapp = Guid.Parse(CFG.邦马网_当前微信应用);
             //绑定的用户ID
             var uwU = uwbll.All.Where(p => nonmbUid.Contains(p.WeiXinId) && p.WeiXinAPP == zyapp);
             //绑定的用户微信ID

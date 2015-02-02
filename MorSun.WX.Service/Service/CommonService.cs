@@ -142,7 +142,7 @@ namespace MorSun.WX.ZYB.Service
         /// <returns></returns>
         public bmUserWeixin GetZYBUserByWeiXinId(string userWeiXinId)
         {
-            var wxyy = Guid.Parse(Reference.微信应用_作业邦);
+            var wxyy = Guid.Parse(CFG.邦马网_当前微信应用);
             if (!String.IsNullOrEmpty(userWeiXinId))
                 return new BaseBll<bmUserWeixin>().All.Where(p => p.WeiXinId == userWeiXinId && p.WeiXinAPP == wxyy).FirstOrDefault();
             else
@@ -156,7 +156,7 @@ namespace MorSun.WX.ZYB.Service
         /// <returns></returns>
         public bmUserWeixin GetZybUserByUserId(Guid userId)
         {
-            var wxyy = Guid.Parse(Reference.微信应用_作业邦);            
+            var wxyy = Guid.Parse(CFG.邦马网_当前微信应用);            
             return new BaseBll<bmUserWeixin>().All.Where(p => p.UserId == userId && p.WeiXinAPP == wxyy).FirstOrDefault();            
         }
 

@@ -157,6 +157,7 @@ namespace MorSun.WX.ZYB.Service
             model.MsgType = Guid.Parse(Reference.微信消息类别_图片);
             model.MediaId = requestMessage.MediaId;
             model.PicUrl = requestMessage.PicUrl;
+            model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
 
             model.RegTime = DateTime.Now;
             model.ModTime = DateTime.Now;

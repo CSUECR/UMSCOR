@@ -76,13 +76,14 @@ namespace MorSun.Controllers.SystemController
             #region 刚提的问题生成马币消费记录与分配记录
             //取出所有未分配记录的问题      "提问都不一定绑定用户"
             var qaRef = Guid.Parse(Reference.问答类别_问题);
-            var nonmbQA = qabll.All.Where(p => p.QARef == qaRef && p.bmQADistributions.Count() == 0);    //必须是提问才分配。
+            var curWeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
+            var nonmbQA = qabll.All.Where(p => p.QARef == qaRef && p.WeiXinAPP == curWeiXinAPP && p.bmQADistributions.Count() == 0);    //必须是提问才分配,当前应用是微信APP。
         
             //取出所有未生成马币记录的提问用户
             var nonmbUid = nonmbQA.Select(p => p.WeiXinId).Distinct();
             LogHelper.Write("新提问的用户数" + nonmbUid.Count().ToString(), LogHelper.LogMessageType.Debug);
             //区分出已绑定与未绑定的用户ID
-            var zyapp = Guid.Parse(Reference.微信应用_作业邦);
+            var zyapp = Guid.Parse(CFG.邦马网_当前微信应用);
             //绑定的用户ID
             var uwU = uwbll.All.Where(p => nonmbUid.Contains(p.WeiXinId) && p.WeiXinAPP == zyapp);
             //绑定的用户微信ID
@@ -181,7 +182,8 @@ namespace MorSun.Controllers.SystemController
             var acQADmn = 0 - Convert.ToInt32(CFG.未处理问题激活时间);
             var acQADdt = DateTime.Now.AddMinutes(acQADmn);
             var nonHandleRef = Guid.Parse(Reference.分配答题操作_未处理);
-            var nonACQAD = qadisbll.All.Where(p => p.ModTime < acQADdt && ConstList.DefaultDISUser.Contains(p.WeiXinId) && p.Result == nonHandleRef);
+            //增加微信APP的判断
+            var nonACQAD = qadisbll.All.Where(p => p.bmQA.WeiXinAPP != null && p.bmQA.WeiXinAPP == curWeiXinAPP && p.ModTime < acQADdt && ConstList.DefaultDISUser.Contains(p.WeiXinId) && p.Result == nonHandleRef);
             LogHelper.Write((acQADdt.ToShortTimeString() + "手动更新用户缓存时未处理的问题数量" + nonACQAD.Count().ToString()), LogHelper.LogMessageType.Debug);
             foreach(var item in nonACQAD)
             {
@@ -214,16 +216,16 @@ namespace MorSun.Controllers.SystemController
             var logoutMN = 0 - Convert.ToInt32(CFG.强制退出时间);
             var logoutdt = DateTime.Now.AddMinutes(logoutMN);
 
-            var cu = bll.All.Where(p => p.State == state && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
-            var noncu = bll.All.Where(p => p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
+            var cu = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.State == state && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
+            var noncu = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
 
             #region 重新分配开始           
 
             //取要强退的认证用户 '超过7分钟未活跃'
-            var noActiveCU = bll.All.Where(p => p.State == state && p.ActiveTime < logoutdt && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
+            var noActiveCU = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.State == state && p.ActiveTime < logoutdt && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
             LogHelper.Write("需要强退的认证用户数" + noActiveCU.Count().ToString(), LogHelper.LogMessageType.Debug);
             //取要强退未认证用户
-            var noActiveU = bll.All.Where(p => p.State == state && p.ActiveTime < logoutdt && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
+            var noActiveU = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.State == state && p.ActiveTime < logoutdt && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
             LogHelper.Write("需要强退的未认证用户数" + noActiveU.Count().ToString(), LogHelper.LogMessageType.Debug);
 
             //取强退用户ID

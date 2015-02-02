@@ -780,7 +780,7 @@ namespace MorSun.Controllers
         /// <returns></returns>
         protected bmUserWeixin GetUserBound()
         {
-            var wxyy = Guid.Parse(Reference.微信应用_作业邦);
+            var wxyy = Guid.Parse(CFG.邦马网_当前微信应用);
             return new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.UserId == UserID && p.WeiXinAPP == wxyy);
         }
 
