@@ -131,7 +131,7 @@ namespace MorSun.Common
 
             //微信应用
             public const string 微信应用_作业邦 = "b61f5cee-676e-4716-9afa-4cdb44080239";
-            public const string 微信应用_Net开发培训 = "26baaceb-b54d-47f0-accd-55ba88a92997";
+            public const string 微信应用_Net邦 = "26baaceb-b54d-47f0-accd-55ba88a92997";
             public const string 微信应用_图美美 = "eddd5bb6-4129-4428-acbf-baf5252335e3";
             public const string 微信应用_妆美人 = "4f9c851e-db8f-4965-97c0-3cf9e43c02a7";
             public const string 微信应用_色视界 = "26c99101-7a22-473a-a418-659872174032";
