@@ -84,7 +84,7 @@ namespace MorSun.WX.ZYB.Service
             else
             {//以上判断的是命令是否出错，和缓存是否有指令
                 //已经绑定的用户不再操作绑定
-                var wxyy = Guid.Parse(CFG.邦马网_当前微信应用);                     
+                var curWeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);                     
                 if (commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName) != null)
                 {//用户重复发送绑定的情况
                     return BoundResponse(requestMessage);
@@ -101,7 +101,7 @@ namespace MorSun.WX.ZYB.Service
                         model.ID = Guid.NewGuid();
                         model.UserId = ubcc.UserId;
                         model.WeiXinId = requestMessage.FromUserName;
-                        model.WeiXinAPP = wxyy;
+                        model.WeiXinAPP = curWeiXinAPP;
 
                         model.RegTime = DateTime.Now;
                         model.ModTime = DateTime.Now;

@@ -215,10 +215,11 @@ namespace MorSun.WX.ZYB.Service
             skipNum = skipNum - 1;
             var bll = new BaseBll<bmQA>();
             var qaRef = Guid.Parse(Reference.问答类别_问题);
-            var questionCount = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).Count();
+            var curWeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
+            var questionCount = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).Count();
             if (skipNum > questionCount)
                 skipNum = questionCount - 1;
-            var model = bll.All.Where(p => p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).OrderByDescending(p => p.RegTime).Skip(skipNum).Take(1).FirstOrDefault();
+            var model = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).OrderByDescending(p => p.RegTime).Skip(skipNum).Take(1).FirstOrDefault();
             return model;
         }
 

@@ -154,7 +154,8 @@ namespace MorSun.WX.ZYB.Service
                 //判断在线答题用户是否存在该用户
                 var bll = new BaseBll<bmOnlineQAUser>();
                 var state = Guid.Parse(Reference.在线状态_在线);
-                var oqau = bll.All.Where(p => p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false).OrderByDescending(p => p.AQStartTime).FirstOrDefault();
+                var curWeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
+                var oqau = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false).OrderByDescending(p => p.AQStartTime).FirstOrDefault();
 
                 if (oqau == null)
                 {//用户不在线时 
@@ -169,7 +170,7 @@ namespace MorSun.WX.ZYB.Service
                     //认证级别
                     var uinfo = new BaseBll<wmfUserInfo>().GetModel(uwx.UserId);
                     model.CertificationLevel = uinfo == null ? null : uinfo.CertificationLevel;
-                    model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
+                    model.WeiXinAPP = curWeiXinAPP;
 
                     model.RegTime = DateTime.Now;
                     model.ModTime = DateTime.Now;
@@ -185,7 +186,7 @@ namespace MorSun.WX.ZYB.Service
                     oqau.ModTime = DateTime.Now;
 
                     //各种原因还出现两条记录时，
-                    var allOqau = bll.All.Where(p => p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false);
+                    var allOqau = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.WeiXinId == uwx.WeiXinId && p.State == state && p.FlagTrashed == false);
                     if (allOqau.Count() > 1)
                     {
                         var currentOqau = bll.All.Where(p => p.ID == oqau.ID);
