@@ -264,6 +264,7 @@ namespace MorSun.Controllers.SystemController
                         MsgType=u.MsgType,
                         MediaId=u.MediaId,
                         PicUrl=u.PicUrl,
+                        WeiXinAPP = u.WeiXinAPP,
                         Sort=u.Sort,
                         RegUser=u.RegUser,
                         RegTime=u.RegTime,

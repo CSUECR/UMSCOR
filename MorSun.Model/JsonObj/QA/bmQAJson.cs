@@ -67,6 +67,11 @@ namespace MorSun.Model
         /// <summary>
         /// 
         /// </summary>
+        public Guid? WeiXinAPP
+        { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public int? Sort
         { get; set; }
         /// <summary>
