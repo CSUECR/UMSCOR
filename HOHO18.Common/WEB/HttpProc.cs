@@ -644,7 +644,7 @@ namespace HOHO18.Common.Web
                 sr = new StreamReader(res.GetResponseStream(), Encoding.UTF8);
                 strResult = sr.ReadToEnd();
             }
-            catch (System.Exception ex)
+            catch
             {
                 //writeLog   
             }

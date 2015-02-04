@@ -44,13 +44,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Quartz\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="Senparc.Weixin">
+    <Reference Include="Senparc.Weixin, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Senparc\Senparc.Weixin.dll</HintPath>
     </Reference>
-    <Reference Include="Senparc.Weixin.MP">
+    <Reference Include="Senparc.Weixin.MP, Version=9.3.2.31563, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Senparc\Senparc.Weixin.MP.dll</HintPath>
     </Reference>
-    <Reference Include="Senparc.Weixin.MP.MvcExtension">
+    <Reference Include="Senparc.Weixin.MP.MvcExtension, Version=3.0.0.22482, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Senparc\Senparc.Weixin.MP.MvcExtension.dll</HintPath>
     </Reference>
     <Reference Include="System" />

@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using HOHO18.Common;
 using System.Reflection;
 using HOHO18.Common.Helper;
-using HOHO18.Common;
 using System.IO;
 
 namespace MorSun.Model

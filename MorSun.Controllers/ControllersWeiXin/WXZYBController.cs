@@ -12,6 +12,7 @@ using Senparc.Weixin.MP.MvcExtension;
 using Senparc.Weixin.MP;
 using MorSun.WX.ZYB.Service.CustomMessageHandler;
 using System.IO;
+using Senparc.Weixin.MP.Entities.Request;
 
 
 
@@ -47,27 +48,31 @@ namespace MorSun.Controllers
         /// </summary>
         [HttpPost]
         [ActionName("I")]
-        public ActionResult Post(string signature, string timestamp, string nonce, string echostr)
+        public ActionResult Post(PostModel postModel)
         {
-            if (!CheckSignature.Check(signature, timestamp, nonce, CFG.作业邦微信令牌))
+            if (!CheckSignature.Check(postModel.Signature, postModel.Timestamp, postModel.Nonce, CFG.作业邦微信令牌))
             {
                 return Content("参数错误！");
             }
+
+            postModel.Token = CFG.作业邦微信令牌;
+            postModel.EncodingAESKey = "dZuSlbu2fMkS8mBNhNH2LXR9UZu4ng8Rg2JgqSC9";//根据自己后台的设置保持一致
+            postModel.AppId = "wxa71a8636a745274b";//根据自己后台的设置保持一致
 
             //v4.2.2之后的版本，可以设置每个人上下文消息储存的最大数量，防止内存占用过多，如果该参数小于等于0，则不限制
             var maxRecordCount = 10;
 
             //自定义MessageHandler，对微信请求的详细判断操作都在这里面。
-            var messageHandler = new CustomMessageHandler(Request.InputStream, maxRecordCount);
+            var messageHandler = new CustomMessageHandler(Request.InputStream, postModel, maxRecordCount);
 
             try
             {
                 //测试时可开启此记录，帮助跟踪数据，使用前请确保App_Data文件夹存在，且有读写权限。
-                //messageHandler.RequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
+                messageHandler.RequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
                 //执行微信处理过程
                 messageHandler.Execute();
                 //测试时可开启，帮助跟踪数据
-                //messageHandler.ResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
+                messageHandler.ResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
 
                 //return Content(messageHandler.ResponseDocument.ToString());//v0.7-
                 return new FixWeixinBugWeixinResult(messageHandler);//为了解决官方微信5.0软件换行bug暂时添加的方法，平时用下面一个方法即可
@@ -107,7 +112,7 @@ namespace MorSun.Controllers
                 return new WeixinResult("参数错误！");//v0.8+
             }
 
-            var messageHandler = new CustomMessageHandler(Request.InputStream, 10);
+            var messageHandler = new CustomMessageHandler(Request.InputStream, null, 10);
 
             messageHandler.Execute();//执行微信处理过程
 

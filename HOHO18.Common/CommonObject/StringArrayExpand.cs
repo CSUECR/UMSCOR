@@ -69,7 +69,7 @@ namespace System
                 {
                     newGuidList.Add(new Guid(s));
                 }
-                catch(Exception ex)
+                catch
                 {
                 }                
             }

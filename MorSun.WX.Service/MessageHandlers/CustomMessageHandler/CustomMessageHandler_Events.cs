@@ -26,7 +26,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
 自从有了【作业邦】
 咔嚓咔嚓无限爽
 更多内容
-请上www.bungma.com了解";
+请上 http://www.bungma.com 了解";
             return returnStr;
         }
 
@@ -180,9 +180,9 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
             responseMessage.Content = "您点击了view按钮，将打开网页：" + requestMessage.EventKey;
             return responseMessage;
-        }
+        }        
 
-        public override IResponseMessageBase OneEvent_MassSendJobFinisRequest(RequestMessageEvent_MassSendJobFinish requestMessage)
+        public override IResponseMessageBase OnEvent_MassSendJobFinishRequest(RequestMessageEvent_MassSendJobFinish requestMessage)
         {
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
             responseMessage.Content = "接收到了群发完成的信息。";

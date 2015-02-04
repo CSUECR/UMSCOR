@@ -10,6 +10,7 @@ using Senparc.Weixin.MP.MessageHandlers;
 using Senparc.Weixin.MP.Helpers;
 using MorSun.Common.配置;
 using HOHO18.Common.WEB;
+using Senparc.Weixin.MP.Entities.Request;
 
 
 namespace MorSun.WX.ZYB.Service.CustomMessageHandler
@@ -38,8 +39,8 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
 //        private string wiweihiKey = WebConfigurationManager.AppSettings["WeixinAgentWeiweihiKey"];//WeiweihiKey专门用于对接www.Weiweihi.com平台，获取方式见：http://www.weiweihi.com/ApiDocuments/Item/25#51
 //#endif
 
-        public CustomMessageHandler(Stream inputStream, int maxRecordCount = 0)
-            : base(inputStream, maxRecordCount)
+        public CustomMessageHandler(Stream inputStream, PostModel postModel, int maxRecordCount = 0)
+            : base(inputStream, postModel, maxRecordCount)
         {
             //这里设置仅用于测试，实际开发可以在外部更全局的地方设置，
             //比如MessageHandler<MessageContext>.GlobalWeixinContext.ExpireMinutes = 3。
