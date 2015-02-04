@@ -114,7 +114,7 @@ namespace MorSun.Controllers.SystemController
         /// <returns></returns>
         public string dsdq()
         {
-            //MorSunScheduler.Instance.Clear();
+            MorSunScheduler.Instance.Clear();
             //CheckingTrigger t = new CheckingTrigger();
             //t.Run();
             //CheckingTrigger2 t2 = new CheckingTrigger2();
