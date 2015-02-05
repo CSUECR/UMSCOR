@@ -23,7 +23,7 @@ namespace MorSun.WX.ZYB.Service
         /// <typeparam name="T"></typeparam>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews ConcurrentResponse<T>(T requestMessage)
+        public IResponseMessageBase ConcurrentResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
@@ -96,7 +96,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews AnswerResponse<T>(T requestMessage, bmQAView model)
+        private IResponseMessageBase AnswerResponse<T>(T requestMessage, bmQAView model)
             where T : RequestMessageBase
         {
             LogHelper.Write("返回待答问题", LogHelper.LogMessageType.Debug);
@@ -167,7 +167,7 @@ namespace MorSun.WX.ZYB.Service
         /// <typeparam name="T"></typeparam>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews NonDistributionResponse<T>(T requestMessage)
+        private IResponseMessageBase NonDistributionResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 
@@ -261,7 +261,7 @@ namespace MorSun.WX.ZYB.Service
         /// <typeparam name="T"></typeparam>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews RefusedAnswerResponse<T>(T requestMessage)
+        private IResponseMessageBase RefusedAnswerResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
@@ -289,7 +289,7 @@ namespace MorSun.WX.ZYB.Service
         /// <typeparam name="T"></typeparam>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews LogOutAnswerResponse<T>(T requestMessage)
+        private IResponseMessageBase LogOutAnswerResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
@@ -467,7 +467,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews StartAnswerResponseMessage(RequestMessageText requestMessage)
+        public IResponseMessageBase StartAnswerResponseMessage(RequestMessageText requestMessage)
         {
             var commonService = new CommonService();
             //未绑定的用户录入答题命令的处理
@@ -548,7 +548,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews GetAnswerResponse(RequestMessageText requestMessage, Guid rqid)
+        private IResponseMessageBase GetAnswerResponse(RequestMessageText requestMessage, Guid rqid)
         {
             LogHelper.Write("进入GetAnswerResponse方法", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();            
@@ -622,7 +622,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews OperateQuestionResponseMessage(RequestMessageText requestMessage, string operate, bool ignoreJudgeCurUQAC = false)
+        public IResponseMessageBase OperateQuestionResponseMessage(RequestMessageText requestMessage, string operate, bool ignoreJudgeCurUQAC = false)
         {
             var commonService = new CommonService();
             //未绑定的用户录入放弃本题的处理
@@ -723,7 +723,7 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="model"></param>
         /// <param name="qakey"></param>
         /// <returns></returns>
-        private ResponseMessageNews GiveUpQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
+        private IResponseMessageBase GiveUpQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
         {
             LogHelper.Write("放弃问题，进入放弃业务", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
@@ -821,7 +821,7 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="model"></param>
         /// <param name="qakey"></param>
         /// <returns></returns>
-        private ResponseMessageNews NotQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
+        private IResponseMessageBase NotQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
         {
             LogHelper.Write("不是问题，进入不是问题业务", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
@@ -909,7 +909,7 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="model"></param>
         /// <param name="qakey"></param>
         /// <returns></returns>
-        private ResponseMessageNews ExitQuestionResponse(RequestMessageText requestMessage, Guid rqid)
+        private IResponseMessageBase ExitQuestionResponse(RequestMessageText requestMessage, Guid rqid)
         {
             LogHelper.Write("退出答题，进入退出答题业务", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
@@ -953,7 +953,7 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="model"></param>
         /// <param name="qakey"></param>
         /// <returns></returns>
-        private ResponseMessageNews TextAnswerQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
+        private IResponseMessageBase TextAnswerQuestionResponse(RequestMessageText requestMessage, Guid rqid, UserQACache model, string qakey)
         {
             LogHelper.Write("文字回答问题，进入文字回答问题业务", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
@@ -1042,7 +1042,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews AnswerQuestionResponseMessage(RequestMessageImage requestMessage)
+        public IResponseMessageBase AnswerQuestionResponseMessage(RequestMessageImage requestMessage)
         {
             var commonService = new CommonService();
             //未绑定的用户录入放弃本题的处理
@@ -1093,7 +1093,7 @@ namespace MorSun.WX.ZYB.Service
             }
         }
 
-        private ResponseMessageNews AnswerQuestionResponse(RequestMessageImage requestMessage, Guid rqid, UserQACache model, string qakey)
+        private IResponseMessageBase AnswerQuestionResponse(RequestMessageImage requestMessage, Guid rqid, UserQACache model, string qakey)
         {
             LogHelper.Write("图片回答问题，进入图片回答问题业务", LogHelper.LogMessageType.Debug);
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();

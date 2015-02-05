@@ -20,7 +20,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews BoundResponse(RequestMessageText requestMessage)
+        private IResponseMessageBase BoundResponse(RequestMessageText requestMessage)
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
 
@@ -43,7 +43,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews UserBoundResponseMessage(RequestMessageText requestMessage)
+        public IResponseMessageBase UserBoundResponseMessage(RequestMessageText requestMessage)
         {
             //微信并发处理
             var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();

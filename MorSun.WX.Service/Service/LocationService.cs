@@ -7,7 +7,7 @@ namespace MorSun.WX.ZYB.Service
 {
     public class LocationService
     {
-        public ResponseMessageNews GetResponseMessage(RequestMessageLocation requestMessage)
+        public IResponseMessageBase GetResponseMessage(RequestMessageLocation requestMessage)
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
 

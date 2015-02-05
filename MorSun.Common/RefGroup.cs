@@ -303,6 +303,9 @@ namespace MorSun.Common
             //public const string 文字答题前缀 = "hd";
             public const string 微信绑定前缀 = "bd";
 
+            //帮助指令
+            public const string 帮助指令英文 = "help";
+            public const string 帮助指令中文 = "bz";
 
             public const string 连续答退时间间隔 = "1";//单位 小时 限制一小时内
             public const string 连续答退次数间隔 = "5";//限制5次以内

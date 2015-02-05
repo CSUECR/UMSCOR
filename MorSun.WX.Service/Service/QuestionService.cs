@@ -20,7 +20,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews QuestionResponse<T>(T requestMessage, bmQA model)
+        private IResponseMessageBase QuestionResponse<T>(T requestMessage, bmQA model)
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
@@ -80,7 +80,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        public ResponseMessageNews SubmitQuestionResponseMessage(RequestMessageImage requestMessage)
+        public IResponseMessageBase SubmitQuestionResponseMessage(RequestMessageImage requestMessage)
         {
             //用户提交问题处理
             return SubmitQuestionResponse(requestMessage);            
@@ -91,7 +91,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews SubmitQuestionResponse(RequestMessageImage requestMessage)
+        private IResponseMessageBase SubmitQuestionResponse(RequestMessageImage requestMessage)
         {
             return QuestionResponse<RequestMessageImage>(requestMessage, SubmitQuestion(requestMessage));            
         }
@@ -173,7 +173,7 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="requestMessage"></param>
         /// <param name="skipNum"></param>
         /// <returns></returns>
-        public ResponseMessageNews GetQuestionResponseMessage(RequestMessageText requestMessage)
+        public IResponseMessageBase GetQuestionResponseMessage(RequestMessageText requestMessage)
         {
             //用户提交问题处理
             var skipNum = 1;
@@ -199,7 +199,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews GetQuestionResponse(RequestMessageText requestMessage, int skipNum)
+        private IResponseMessageBase GetQuestionResponse(RequestMessageText requestMessage, int skipNum)
         {
             return QuestionResponse<RequestMessageText>(requestMessage, GetQuestion(requestMessage, skipNum));
         }

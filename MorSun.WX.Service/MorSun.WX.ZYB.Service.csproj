@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Service\EventService.cs" />
     <Compile Include="Service\BoundService.cs" />
+    <Compile Include="Service\HelpCommondService.cs" />
     <Compile Include="Service\UnboundService.cs" />
     <Compile Include="Service\InvalidCommondService.cs" />
     <Compile Include="Service\CommonService.cs" />

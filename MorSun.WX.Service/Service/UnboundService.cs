@@ -14,7 +14,7 @@ namespace MorSun.WX.ZYB.Service
 {
     public class UnboundService
     {
-        public ResponseMessageNews GetUnboundResponseMessage<T>(T requestMessage)
+        public IResponseMessageBase GetUnboundResponseMessage<T>(T requestMessage)
             where T : RequestMessageBase
         {
             //错误指令处理
@@ -26,7 +26,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private ResponseMessageNews UnboundResponse<T>(T requestMessage)
+        private IResponseMessageBase UnboundResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 

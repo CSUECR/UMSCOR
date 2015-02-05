@@ -71,7 +71,11 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnTextRequest(RequestMessageText requestMessage)
         {
-            //做并发限制
+            //做并发限制            
+            if(requestMessage.Content.Length < 2)
+            {
+                return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);  
+            }
             //去掉头尾空格以及转化为小写
             requestMessage.Content = requestMessage.Content.Trim().ToLower();
             var tempText = requestMessage.Content;
@@ -88,6 +92,8 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.不是问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
                     case CFG.回答问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.回答问题);
                     case CFG.退出答题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);//退出答题不需要判断是否有当前答题
+                    case CFG.帮助指令英文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
+                    case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                 }
             }
             else
@@ -99,12 +105,14 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.放弃本题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
                     case CFG.不是问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
                     case CFG.退出答题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);
+                    
+                    case CFG.帮助指令英文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
+                    case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }
-            }           
+            }
 
-            var responseMessage = new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);            
-            return responseMessage;
+            return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
         }        
 
         /// <summary>
