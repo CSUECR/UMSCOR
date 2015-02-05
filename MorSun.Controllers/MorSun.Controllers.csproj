@@ -83,7 +83,7 @@
     <Compile Include="Base\ExportExcel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ControllersSystem\DivniTxiuenController.cs" />
+    <Compile Include="ControllersSystem\VUe4jE4WeNQvf2njw4Iiq33nv6n2djkaController.cs" />
     <Compile Include="ControllersSystem\SYSConfigController.cs" />
     <Compile Include="ControllersSystem\MMController.cs" />
     <Compile Include="ControllersUserCenter\CSController.cs" />

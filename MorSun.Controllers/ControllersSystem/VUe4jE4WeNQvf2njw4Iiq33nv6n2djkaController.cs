@@ -27,7 +27,7 @@ namespace MorSun.Controllers.SystemController
     /// 操作
     /// </summary>
     [HandleError]
-    public class DivniTxiuenController : BaseController<bmSellKaMe>
+    public class VUe4jE4WeNQvf2njw4Iiq33nv6n2djkaController : BaseController<bmSellKaMe>
     {
         protected override string ResourceId
         {

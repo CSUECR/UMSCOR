@@ -203,7 +203,7 @@ namespace MorSun.Controllers.SystemController
         /// webconfig加密解密
         /// </summary>
         /// <returns></returns>
-        public string ENCWeb()
+        public string ENCWebVNIRWIfkdain()
         {
             if (!ResourceId.HP(操作.修改))
             {                
@@ -239,7 +239,7 @@ namespace MorSun.Controllers.SystemController
             return "";
         }
 
-        public string DECWeb()
+        public string DECWebEIvniewqWNfdsV()
         {
             if (!ResourceId.HP(操作.修改))
             {

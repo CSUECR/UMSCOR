@@ -321,7 +321,7 @@ namespace MorSun.Common
             public const string 卡密退款_卡密退款操作成功 = "卡密退款操作成功";
 
             //邦马网对接
-            public const string 邦马网_对接统一码 = "F1W%I^v2&n^eJiw3";
+            public const string 邦马网_对接统一码 = "F1W%I^v2&n^eJiw3F*J$V*N29E3I%W@vn#d1a@ie^4k!0";
             public const string 邦马网_字符串分隔符 = ",";
 
             //用户表数据同步时间
