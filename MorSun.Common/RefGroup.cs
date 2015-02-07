@@ -18,11 +18,13 @@ namespace MorSun.Common
             #region 邮件配置类别
 
             public const string 插件配置 = "46bf0bbc-64e5-4e57-af43-cc5910fb3955";
+
             #region 邮箱栏目
             public const string 邮箱栏目_发件箱 = "fc3785f1-200e-43b4-94a7-d41b0504c690";
             public const string 邮箱栏目_收件箱 = "fb7df431-4dc9-4a17-a059-aad276724d3b";
             public const string 邮箱栏目_草稿箱 = "ca615b28-3219-4483-a5e1-4e191c4d8a32";
             #endregion
+
             #region 邮件重要性
             public const string 邮件重要性_一般 = "6b60b379-3515-4d3a-9f7b-1843688d3105";
             public const string 邮件重要性_重要 = "714628ea-a026-4d08-9d36-66068b160e05";
@@ -121,7 +123,8 @@ namespace MorSun.Common
             public const string 微信消息类别_声音 = "b71f4cde-c13a-4dbe-a4ef-2ef99f51b426";
             public const string 微信消息类别_链接 = "b57b534e-2363-488c-a008-d02aa95b4f3d";
             public const string 微信消息类别_视频 = "7330de99-74b7-42d3-9f92-04dcd98b25af";
-            
+            public const string 微信消息类别_位置 = "b4976da7-d0af-4859-b106-cf3c2a22c081";
+
             //分配答题操作
             public const string 分配答题操作_待解答 = "dc2ac6b6-2937-4b04-aab8-07591614b1b3";
             public const string 分配答题操作_已解答 = "339efab2-f36c-4e7e-bc50-787730bf7959";

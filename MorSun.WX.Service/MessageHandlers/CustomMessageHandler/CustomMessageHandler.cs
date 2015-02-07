@@ -184,7 +184,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             //responseMessage.Music.ThumbMediaId = "mediaid";
 
             var responseMessage = CreateResponseMessage<ResponseMessageVoice>();            
-            responseMessage.Voice.MediaId = requestMessage.MediaId;
+            responseMessage.Voice.MediaId = requestMessage.MediaId;            
             return responseMessage;
         }
 
@@ -197,6 +197,11 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         {
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
             responseMessage.Content = "您发送了一条视频信息，ID：" + requestMessage.MediaId;
+            //var responseMessage = CreateResponseMessage<ResponseMessageVideo>();
+            //responseMessage.Video.MediaId = requestMessage.ThumbMediaId;
+            //responseMessage.Video.Title = "视频信息";
+            //responseMessage.Video.Description = "您发送了一条视频信息，ID：" + requestMessage.MediaId;
+            //responseMessage.Video.MediaId = requestMessage.MediaId;
             return responseMessage;
         }
 
@@ -237,7 +242,7 @@ Url:{2}", requestMessage.Title, requestMessage.Description, requestMessage.Url);
              */
 
             var responseMessage = this.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "这条消息来自DefaultResponseMessage。";
+            responseMessage.Content = "这条消息来自邦马网";
             return responseMessage;
         }
 
