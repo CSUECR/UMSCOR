@@ -257,7 +257,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="AutoGrenteId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AutoGrenteId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ParentId" Type="uniqueidentifier" />
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
@@ -268,6 +268,11 @@
           <Property Name="MediaId" Type="nvarchar" MaxLength="512" />
           <Property Name="PicUrl" Type="nvarchar" MaxLength="512" />
           <Property Name="WeiXinAPP" Type="uniqueidentifier" />
+          <Property Name="ThumbMediaId" Type="nvarchar" MaxLength="512" />
+          <Property Name="LocationX" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="LocationY" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Scale" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Label" Type="nvarchar" MaxLength="128" />
           <Property Name="Sort" Type="int" />
           <Property Name="RegUser" Type="uniqueidentifier" />
           <Property Name="RegTime" Type="datetime" />
@@ -2239,6 +2244,12 @@
           <Property Name="BBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="BanBNum" Type="decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="DisId" Type="uniqueidentifier" />
+          <Property Name="WeiXinAPP" Type="uniqueidentifier" />
+          <Property Name="ThumbMediaId" Type="nvarchar" MaxLength="512" />
+          <Property Name="LocationX" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="LocationY" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Scale" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Label" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.wmfRolePrivilegesView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -4180,7 +4191,13 @@ FROM [dbo].[bmOBView] AS [bmOBView]</DefiningQuery>
 [bmQAView].[MBNum] AS [MBNum], 
 [bmQAView].[BBNum] AS [BBNum], 
 [bmQAView].[BanBNum] AS [BanBNum], 
-[bmQAView].[DisId] AS [DisId]
+[bmQAView].[DisId] AS [DisId], 
+[bmQAView].[WeiXinAPP] AS [WeiXinAPP], 
+[bmQAView].[ThumbMediaId] AS [ThumbMediaId], 
+[bmQAView].[LocationX] AS [LocationX], 
+[bmQAView].[LocationY] AS [LocationY], 
+[bmQAView].[Scale] AS [Scale], 
+[bmQAView].[Label] AS [Label]
 FROM [dbo].[bmQAView] AS [bmQAView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="wmfRolePrivilegesView" EntityType="Self.wmfRolePrivilegesView" store:Type="Views" store:Schema="dbo">
@@ -5071,6 +5088,11 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <NavigationProperty Name="bmUserMaBiRecords" Relationship="Self.FK_bmUserMaBiRecord_bmQA" FromRole="bmQA" ToRole="bmUserMaBiRecord" />
           <Property Name="WeiXinAPP" Type="Guid" />
           <NavigationProperty Name="wmfReference2" Relationship="MorSun.Model.FK_bmQA_wmfReference21" FromRole="bmQA" ToRole="wmfReference" />
+          <Property Name="ThumbMediaId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="LocationX" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="LocationY" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Scale" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Label" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="bmQADistribution">
           <Key>
@@ -7152,6 +7174,12 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="BBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="BanBNum" Type="Decimal" Precision="38" Scale="6" Nullable="false" />
           <Property Name="DisId" Type="Guid" />
+          <Property Name="WeiXinAPP" Type="Guid" />
+          <Property Name="ThumbMediaId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="LocationX" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="LocationY" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Scale" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Label" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -9779,6 +9807,11 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmQAs">
             <EntityTypeMapping TypeName="MorSun.Model.bmQA">
               <MappingFragment StoreEntitySet="bmQA">
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="Scale" ColumnName="Scale" />
+                <ScalarProperty Name="LocationY" ColumnName="LocationY" />
+                <ScalarProperty Name="LocationX" ColumnName="LocationX" />
+                <ScalarProperty Name="ThumbMediaId" ColumnName="ThumbMediaId" />
                 <ScalarProperty Name="WeiXinAPP" ColumnName="WeiXinAPP" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AutoGrenteId" ColumnName="AutoGrenteId" />
@@ -11752,6 +11785,12 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmQAViews">
             <EntityTypeMapping TypeName="MorSun.Model.bmQAView">
               <MappingFragment StoreEntitySet="bmQAView">
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="Scale" ColumnName="Scale" />
+                <ScalarProperty Name="LocationY" ColumnName="LocationY" />
+                <ScalarProperty Name="LocationX" ColumnName="LocationX" />
+                <ScalarProperty Name="ThumbMediaId" ColumnName="ThumbMediaId" />
+                <ScalarProperty Name="WeiXinAPP" ColumnName="WeiXinAPP" />
                 <ScalarProperty Name="DisId" ColumnName="DisId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AutoGrenteId" ColumnName="AutoGrenteId" />

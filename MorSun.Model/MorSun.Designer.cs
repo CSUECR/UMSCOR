@@ -11545,6 +11545,126 @@ namespace MorSun.Model
         private Nullable<global::System.Guid> _WeiXinAPP;
         partial void OnWeiXinAPPChanging(Nullable<global::System.Guid> value);
         partial void OnWeiXinAPPChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ThumbMediaId
+        {
+            get
+            {
+                return _ThumbMediaId;
+            }
+            set
+            {
+                OnThumbMediaIdChanging(value);
+                ReportPropertyChanging("ThumbMediaId");
+                _ThumbMediaId = StructuralObject.SetValidValue(value, true, "ThumbMediaId");
+                ReportPropertyChanged("ThumbMediaId");
+                OnThumbMediaIdChanged();
+            }
+        }
+        private global::System.String _ThumbMediaId;
+        partial void OnThumbMediaIdChanging(global::System.String value);
+        partial void OnThumbMediaIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> LocationX
+        {
+            get
+            {
+                return _LocationX;
+            }
+            set
+            {
+                OnLocationXChanging(value);
+                ReportPropertyChanging("LocationX");
+                _LocationX = StructuralObject.SetValidValue(value, "LocationX");
+                ReportPropertyChanged("LocationX");
+                OnLocationXChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _LocationX;
+        partial void OnLocationXChanging(Nullable<global::System.Decimal> value);
+        partial void OnLocationXChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> LocationY
+        {
+            get
+            {
+                return _LocationY;
+            }
+            set
+            {
+                OnLocationYChanging(value);
+                ReportPropertyChanging("LocationY");
+                _LocationY = StructuralObject.SetValidValue(value, "LocationY");
+                ReportPropertyChanged("LocationY");
+                OnLocationYChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _LocationY;
+        partial void OnLocationYChanging(Nullable<global::System.Decimal> value);
+        partial void OnLocationYChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> Scale
+        {
+            get
+            {
+                return _Scale;
+            }
+            set
+            {
+                OnScaleChanging(value);
+                ReportPropertyChanging("Scale");
+                _Scale = StructuralObject.SetValidValue(value, "Scale");
+                ReportPropertyChanged("Scale");
+                OnScaleChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _Scale;
+        partial void OnScaleChanging(Nullable<global::System.Decimal> value);
+        partial void OnScaleChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Label
+        {
+            get
+            {
+                return _Label;
+            }
+            set
+            {
+                OnLabelChanging(value);
+                ReportPropertyChanging("Label");
+                _Label = StructuralObject.SetValidValue(value, true, "Label");
+                ReportPropertyChanged("Label");
+                OnLabelChanged();
+            }
+        }
+        private global::System.String _Label;
+        partial void OnLabelChanging(global::System.String value);
+        partial void OnLabelChanged();
 
         #endregion
 
@@ -13065,6 +13185,150 @@ namespace MorSun.Model
         private Nullable<global::System.Guid> _DisId;
         partial void OnDisIdChanging(Nullable<global::System.Guid> value);
         partial void OnDisIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> WeiXinAPP
+        {
+            get
+            {
+                return _WeiXinAPP;
+            }
+            set
+            {
+                OnWeiXinAPPChanging(value);
+                ReportPropertyChanging("WeiXinAPP");
+                _WeiXinAPP = StructuralObject.SetValidValue(value, "WeiXinAPP");
+                ReportPropertyChanged("WeiXinAPP");
+                OnWeiXinAPPChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _WeiXinAPP;
+        partial void OnWeiXinAPPChanging(Nullable<global::System.Guid> value);
+        partial void OnWeiXinAPPChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ThumbMediaId
+        {
+            get
+            {
+                return _ThumbMediaId;
+            }
+            set
+            {
+                OnThumbMediaIdChanging(value);
+                ReportPropertyChanging("ThumbMediaId");
+                _ThumbMediaId = StructuralObject.SetValidValue(value, true, "ThumbMediaId");
+                ReportPropertyChanged("ThumbMediaId");
+                OnThumbMediaIdChanged();
+            }
+        }
+        private global::System.String _ThumbMediaId;
+        partial void OnThumbMediaIdChanging(global::System.String value);
+        partial void OnThumbMediaIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> LocationX
+        {
+            get
+            {
+                return _LocationX;
+            }
+            set
+            {
+                OnLocationXChanging(value);
+                ReportPropertyChanging("LocationX");
+                _LocationX = StructuralObject.SetValidValue(value, "LocationX");
+                ReportPropertyChanged("LocationX");
+                OnLocationXChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _LocationX;
+        partial void OnLocationXChanging(Nullable<global::System.Decimal> value);
+        partial void OnLocationXChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> LocationY
+        {
+            get
+            {
+                return _LocationY;
+            }
+            set
+            {
+                OnLocationYChanging(value);
+                ReportPropertyChanging("LocationY");
+                _LocationY = StructuralObject.SetValidValue(value, "LocationY");
+                ReportPropertyChanged("LocationY");
+                OnLocationYChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _LocationY;
+        partial void OnLocationYChanging(Nullable<global::System.Decimal> value);
+        partial void OnLocationYChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> Scale
+        {
+            get
+            {
+                return _Scale;
+            }
+            set
+            {
+                OnScaleChanging(value);
+                ReportPropertyChanging("Scale");
+                _Scale = StructuralObject.SetValidValue(value, "Scale");
+                ReportPropertyChanged("Scale");
+                OnScaleChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _Scale;
+        partial void OnScaleChanging(Nullable<global::System.Decimal> value);
+        partial void OnScaleChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Label
+        {
+            get
+            {
+                return _Label;
+            }
+            set
+            {
+                OnLabelChanging(value);
+                ReportPropertyChanging("Label");
+                _Label = StructuralObject.SetValidValue(value, true, "Label");
+                ReportPropertyChanged("Label");
+                OnLabelChanged();
+            }
+        }
+        private global::System.String _Label;
+        partial void OnLabelChanging(global::System.String value);
+        partial void OnLabelChanged();
 
         #endregion
 
