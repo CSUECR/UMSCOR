@@ -106,16 +106,35 @@ namespace MorSun.WX.ZYB.Service
             }               
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
             var comonservice = new CommonService();
-            responseMessage.Articles.Add(new Article()
+
+            if (model.MsgType == Guid.Parse(Reference.微信消息类别_图片))
             {
-                Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
-                Description = "提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
-                + "\r\n获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
-                + "\r\n当前未答题数： " + model.DJDCount
-                ,
-                PicUrl = model.PicUrl,
-                Url = model.PicUrl
-            });
+                responseMessage.Articles.Add(new Article()
+                {
+                    Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
+                    Description = "提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
+                    + "\r\n获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
+                    + "\r\n当前未答题数： " + model.DJDCount
+                    ,
+                    PicUrl = model.PicUrl,
+                    Url = model.PicUrl
+                });
+            }
+
+            if (model.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+            {
+                responseMessage.Articles.Add(new Article()
+                {
+                    Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
+                    Description = model.QAContent
+                    +"\r\n提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
+                    + "\r\n获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
+                    + "\r\n当前未答题数： " + model.DJDCount
+                    ,
+                    PicUrl = CFG.网站域名 + "/images/zyb/textQ.png",
+                    Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString()
+                });
+            }
             //responseMessage.Articles.Add(new Article()
             //{//眼睛图片
             //    Title = "放弃本题请发送:" + " " + CFG.放弃本题,
@@ -1022,7 +1041,11 @@ namespace MorSun.WX.ZYB.Service
             model.QARef = Guid.Parse(Reference.问答类别_答案);
             model.MsgId = msgid;
             model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
-            model.QAContent = requestMessage.Content.Substring(2).Trim();//将指令保存数据库
+            //一般文本回答问题与强制文本回答问题
+            if (requestMessage.Content.StartsWith(CFG.回答问题))
+                model.QAContent = requestMessage.Content.Substring(2).Trim();//将指令保存数据库
+            else
+                model.QAContent = requestMessage.Content;
             model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
             //model.MediaId = requestMessage.MediaId;
             //model.PicUrl = requestMessage.PicUrl;

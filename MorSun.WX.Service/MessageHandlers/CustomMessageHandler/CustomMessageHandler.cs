@@ -71,14 +71,15 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
         /// <returns></returns>
         public override IResponseMessageBase OnTextRequest(RequestMessageText requestMessage)
         {
-            //做并发限制            
-            if(requestMessage.Content.Length < 2)
-            {
-                return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);  
-            }
+            ////做并发限制            
+            //if(requestMessage.Content.Length < 2)
+            //{
+            //    return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);  
+            //}
             //去掉头尾空格以及转化为小写
             requestMessage.Content = requestMessage.Content.Trim().ToLower();
             var tempText = requestMessage.Content;
+            var answerService = new AnswerService();
             if(tempText.Contains(" "))
             {
                 var commondText = tempText.Substring(0, tempText.IndexOf(" "));
@@ -87,11 +88,11 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.微信绑定前缀: return new BoundService().UserBoundResponseMessage(requestMessage);   
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
 
-                    case CFG.开始答题: return new AnswerService().StartAnswerResponseMessage(requestMessage);
-                    case CFG.放弃本题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
-                    case CFG.不是问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
-                    case CFG.回答问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.回答问题);
-                    case CFG.退出答题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);//退出答题不需要判断是否有当前答题
+                    case CFG.开始答题: return answerService.StartAnswerResponseMessage(requestMessage);
+                    case CFG.放弃本题: return answerService.OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
+                    case CFG.不是问题: return answerService.OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
+                    case CFG.回答问题: return answerService.OperateQuestionResponseMessage(requestMessage, CFG.回答问题);
+                    case CFG.退出答题: return answerService.OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);//退出答题不需要判断是否有当前答题
                     case CFG.帮助指令英文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                 }
@@ -101,18 +102,41 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                 switch (tempText)
                 {
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
-                    case CFG.开始答题: return new AnswerService().StartAnswerResponseMessage(requestMessage);
-                    case CFG.放弃本题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
-                    case CFG.不是问题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
-                    case CFG.退出答题: return new AnswerService().OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);
+                    case CFG.开始答题: return answerService.StartAnswerResponseMessage(requestMessage);
+                    case CFG.放弃本题: return answerService.OperateQuestionResponseMessage(requestMessage, CFG.放弃本题);
+                    case CFG.不是问题: return answerService.OperateQuestionResponseMessage(requestMessage, CFG.不是问题);
+                    case CFG.退出答题: return answerService.OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);
                     
                     case CFG.帮助指令英文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }
             }
-
-            return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+            //文字提问或回答问题
+            var onlineUser = UserQAService.GetOlineQAUserCache();
+            if (onlineUser != null)
+            {
+                if ((onlineUser.CertificationUser != null && onlineUser.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null)
+                    || (onlineUser.NonCertificationQAUser != null && onlineUser.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null))
+                {                    
+                    //回答问题方法
+                    LogHelper.Write("文本回答问题", LogHelper.LogMessageType.Debug);
+                    return answerService.OperateQuestionResponseMessage(requestMessage, CFG.回答问题);      
+                }
+                else
+                {
+                    //用户提交问题处理 
+                    LogHelper.Write("在线用户缓存不包括当前用户时的提问", LogHelper.LogMessageType.Debug);
+                    return new QuestionService().SubmitTextQuestionResponseMessage(requestMessage);
+                }
+            }
+            else
+            {
+                LogHelper.Write("在线用户缓存为空时的提问", LogHelper.LogMessageType.Debug);
+                //用户提交问题处理 
+                return new QuestionService().SubmitTextQuestionResponseMessage(requestMessage);
+            }    
+            //return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
         }        
 
         /// <summary>

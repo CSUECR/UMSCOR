@@ -78,7 +78,16 @@
                     <div class="caption"><i class="icon-cogs"></i>问题编号：@(Model.Q.AutoGrenteId) &nbsp;&nbsp;&nbsp;&nbsp; @((Model.Q.MBNum == 0 || Model.Q.MBNum == null) && (Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "免费提问" : ("消耗" + ((Model.Q.MBNum == 0 || Model.Q.MBNum == null) ? "" : (Math.Abs(Model.Q.MBNum).ToString("f0") + "马币")) + ((Model.Q.BBNum == 0 || Model.Q.BBNum == null) ? "" : (Math.Abs(Model.Q.BBNum).ToString("f0") + "邦币")))) &nbsp;&nbsp;&nbsp;&nbsp; 提问时间：@(HOHO18.Common.ChangeDateTime.DateStringFromNow(Model.Q.RegTime == null ? DateTime.Now : Model.Q.RegTime.Value))</div>
                 </div>
                 <div class="textCenter">
-                    <img id="ImgQA" src="@Model.Q.PicUrl" onclick="jumptourl('@Model.Q.PicUrl')" width="99%" />                    
+                    @if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+                    {
+                    <div class="textCenter">
+                        <h1>@Model.Q.QAContent</h1>
+                    </div>
+                    }
+                    else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+                    {
+                        <img id="ImgQA" src="@Model.Q.PicUrl" onclick="jumptourl('@Model.Q.PicUrl')" width="99%" />  
+                    }                  
                 </div>
             </div>
             @if (Model.A != null)

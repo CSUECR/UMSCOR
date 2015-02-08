@@ -589,6 +589,9 @@
     <Content Include="Images\RedLineLeftWhiteLogo.png" />
     <Content Include="Images\RedLineRightWhiteLogo.png" />
     <Content Include="Images\remove-icon-small.png" />
+    <Content Include="Images\study\1login.jpg" />
+    <Content Include="Images\study\2Into.jpg" />
+    <Content Include="Images\study\3bond.png" />
     <Content Include="Images\WhiteLineLeftWhiteLogo.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\iconMa.png" />
@@ -613,7 +616,9 @@
     <Content Include="Images\zyb\reg.jpg" />
     <Content Include="Images\zyb\right.jpg" />
     <Content Include="Images\zyb\screen.png" />
+    <Content Include="Images\zyb\textQ.png" />
     <Content Include="Images\zyb\traffic.png" />
+    <Content Include="Images\zyb\voice.png" />
     <Content Include="Images\zyb\zyb258.jpg" />
     <Content Include="Images\zyb\zyb430.jpg" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />

@@ -843,6 +843,7 @@ namespace MorSun.Controllers
             var uwbll = new BaseBll<bmUserWeixin>();
             var numbbll = new BaseBll<bmNewUserMB>();
 
+            //增加追问的处理
             #region 刚提的问题生成马币消费记录与分配记录
             //取出所有未分配记录的问题      "提问都不一定绑定用户"
             var qaRef = Guid.Parse(Reference.问答类别_问题);
