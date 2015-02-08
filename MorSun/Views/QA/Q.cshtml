@@ -79,12 +79,10 @@
                 </div>
                 <div class="textCenter">
                     @if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_文本))
-                    {
-                    <div class="textCenter">
-                        <h1>@Model.Q.QAContent</h1>
-                    </div>
+                    {                    
+                        <h1>@Model.Q.QAContent</h1>                    
                     }
-                    else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+                    else if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_图片))
                     {
                         <img id="ImgQA" src="@Model.Q.PicUrl" onclick="jumptourl('@Model.Q.PicUrl')" width="99%" />  
                     }                  
