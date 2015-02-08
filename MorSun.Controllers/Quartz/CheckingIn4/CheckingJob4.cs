@@ -361,7 +361,7 @@ namespace MorSun.Controllers.Quartz
             }
             catch(Exception ex)
             {
-                LogHelper.Write("答题缓存设置异常" + ex.Message, LogHelper.LogMessageType.Debug);
+                LogHelper.Write("答题缓存设置异常" + ex.Message, LogHelper.LogMessageType.Error);
             }
 
         }

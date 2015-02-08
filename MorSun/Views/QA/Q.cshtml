@@ -84,8 +84,12 @@
                     }
                     else if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_图片))
                     {
-                        <img id="ImgQA" src="@Model.Q.PicUrl" onclick="jumptourl('@Model.Q.PicUrl')" width="99%" />  
-                    }                  
+                        <img id="ImgQA" src="@Model.Q.PicUrl" onclick="jumptourl('@Model.Q.PicUrl')" width="99%" />
+                    }
+                    else if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_声音))
+                    {
+                        <img id="ImgQA" src="/images/zyb/voice.png" width="99%" />
+                    }               
                 </div>
             </div>
             @if (Model.A != null)
@@ -103,18 +107,20 @@
                     }
                     @if (Model.A.QARef == Guid.Parse(Reference.问答类别_答案))
                         {
-                            if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
-                            {
-                                <div class="textCenter">
-                                    <h1>@Model.A.QAContent</h1>
-                                </div>
+                        <div class="textCenter">
+                            @if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+                            {                                
+                                <h1>@Model.A.QAContent</h1>                                
                             }
                             else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+                            {                            
+                                <img id="ImgDA" src="@Model.A.PicUrl" onclick="jumptourl('@Model.A.PicUrl')" width="99%" />
+                            }
+                            else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_声音))
                             {
-                                <div class="textCenter">
-                                    <img id="ImgDA" src="@Model.A.PicUrl" onclick="jumptourl('@Model.A.PicUrl')" width="99%" />                                    
-                                </div>
-                        }
+                                <img id="ImgQA" src="/images/zyb/voice.png" width="99%" />
+                            }   
+                        </div>
                     }
                 </div>   
             }

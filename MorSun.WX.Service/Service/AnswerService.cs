@@ -103,81 +103,49 @@ namespace MorSun.WX.ZYB.Service
             if(model == null)
             { //传过来是空值时，返回系统资源分配中
                 return NonDistributionResponse(requestMessage); 
-            }               
-            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
-            var comonservice = new CommonService();
-
-            if (model.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+            }     
+            if(model.MsgType == Guid.Parse(Reference.微信消息类别_声音))
             {
-                responseMessage.Articles.Add(new Article()
-                {
-                    Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
-                    Description = "提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
-                    + "\r\n获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
-                    + "\r\n当前未答题数： " + model.DJDCount
-                    ,
-                    PicUrl = model.PicUrl,
-                    Url = model.PicUrl
-                });
+                var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageVoice>(requestMessage);
+                responseMessage.Voice.MediaId = model.MediaId;
+                return responseMessage;
             }
+            else
+            { 
+                var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
+                var comonservice = new CommonService();
 
-            if (model.MsgType == Guid.Parse(Reference.微信消息类别_文本))
-            {
-                responseMessage.Articles.Add(new Article()
+                if (model.MsgType == Guid.Parse(Reference.微信消息类别_图片))
                 {
-                    Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
-                    Description = model.QAContent
-                    +"\r\n提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
-                    + "\r\n获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
-                    + "\r\n当前未答题数： " + model.DJDCount
-                    ,
-                    PicUrl = CFG.网站域名 + "/images/zyb/textQ.png",
-                    Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString()
-                });
+                    responseMessage.Articles.Add(new Article()
+                    {
+                        Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
+                        Description = "提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
+                        + "\r\n获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
+                        + "\r\n当前未答题数： " + model.DJDCount
+                        ,
+                        PicUrl = model.PicUrl,
+                        Url = model.PicUrl
+                    });
+                }
+
+                if (model.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+                {
+                    responseMessage.Articles.Add(new Article()
+                    {
+                        Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
+                        Description = model.QAContent
+                        +"\r\n"
+                        +"\r\n提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
+                        + "\r\n获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
+                        + "\r\n当前未答题数： " + model.DJDCount
+                        ,
+                        PicUrl = CFG.网站域名 + "/images/zyb/textQ.png",
+                        Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString()
+                    });
+                }   
+                return responseMessage;
             }
-            //responseMessage.Articles.Add(new Article()
-            //{//眼睛图片
-            //    Title = "放弃本题请发送:" + " " + CFG.放弃本题,
-            //    Description = "放弃本题请发送:" + " " + CFG.放弃本题,
-            //    PicUrl = "",
-            //    Url = ""
-            //});//再增加 加码 求解题思路            
-            //responseMessage.Articles.Add(new Article()
-            //{//美元图片
-            //    Title = "这不是一个问题请发送：" + " " + CFG.不是问题,
-            //    Description = "这不是一个问题请发送：" + " " + CFG.不是问题,
-            //    PicUrl = "",
-            //    Url = ""
-            //});
-            //responseMessage.Articles.Add(new Article()
-            //{//问号图片
-            //    Title = "本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString())),
-            //    Description = "本题提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString())),
-            //    PicUrl = "",
-            //    Url = ""
-            //});
-            //responseMessage.Articles.Add(new Article()
-            //{//问号图片
-            //    Title = "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
-            //    Description = "本题获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString(),
-            //    PicUrl = "",
-            //    Url = ""
-            //});
-            //responseMessage.Articles.Add(new Article()
-            //{//问号图片
-            //    Title = "当前未答题数:   " + model.DJDCount,
-            //    Description = "当前未答题数： " + model.DJDCount,
-            //    PicUrl = "",
-            //    Url = ""
-            //});
-            //responseMessage.Articles.Add(new Article()
-            //{//美元图片
-            //    Title = "退出答题请发送：" + " " + CFG.退出答题,
-            //    Description = "退出答题请发送：" + " " + CFG.退出答题,
-            //    PicUrl = "",
-            //    Url = ""
-            //});
-            return responseMessage;
         }
 
         /// <summary>
@@ -1055,11 +1023,9 @@ namespace MorSun.WX.ZYB.Service
             model.FlagTrashed = false;
             model.FlagDeleted = false;
         }
-        #endregion
+        #endregion        
 
-        
-
-        #region 答题处理        
+        #region 图片答题处理        
         /// <summary>
         /// 回答问题处理
         /// </summary>
@@ -1196,6 +1162,144 @@ namespace MorSun.WX.ZYB.Service
             model.FlagDeleted = false;
         }
        
+        #endregion
+
+        #region 声音答题处理
+        /// <summary>
+        /// 回答问题处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public IResponseMessageBase AnswerQuestionVoiceResponseMessage(RequestMessageVoice requestMessage)
+        {
+            var commonService = new CommonService();
+            //未绑定的用户录入放弃本题的处理
+            var userWeiXin = commonService.GetZYBUserByWeiXinId(requestMessage.FromUserName);
+            if (userWeiXin == null)
+            {
+                return new UnboundService().GetUnboundResponseMessage(requestMessage);
+            }
+            else
+            {
+                //已经绑定的用户处理      
+                var onlineuserCache = UserQAService.GetOlineQAUserCache();
+                //处理并发而生成的操作唯一ID
+                var rqid = Guid.NewGuid();
+                RQStart(requestMessage, rqid, commonService);
+                var ics = new InvalidCommondService();
+                if (onlineuserCache == null)
+                {
+                    LogHelper.Write("声音回答问题，无在线用户缓存", LogHelper.LogMessageType.Debug);
+                    //不是在线答题用户，直接返回无效命令 
+                    return ics.GetInvalidCommondResponseMessage(requestMessage);
+                }
+                else
+                {
+                    //在线用户是否存在该用户
+                    if (onlineuserCache.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null
+                        && onlineuserCache.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) == null)
+                    {
+                        LogHelper.Write("声音回答问题，当前用户不在缓存里", LogHelper.LogMessageType.Debug);
+                        //不是在线答题用户，直接返回无效命令 
+                        return ics.GetInvalidCommondResponseMessage(requestMessage);
+                    }
+
+                    var qakey = CFG.用户待答题缓存键前缀 + requestMessage.FromUserName;
+                    var model = UserQAService.GetUserQACache(qakey);
+                    if (model == null || model.CurrentQA == null)
+                    {
+                        LogHelper.Write("声音回答问题，当前用户答题缓存为空或无当前答题", LogHelper.LogMessageType.Debug);
+                        //用户答题缓存为空，
+                        return ics.GetInvalidCommondResponseMessage(requestMessage);
+                    }
+
+                    //更新用户活跃时间 将用户添加或更新进数据库，由统一方法设置缓存
+                    UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
+                    LogHelper.Write("图片回答问题，更新用户活跃时间", LogHelper.LogMessageType.Debug);
+                    return AnswerQuestionVoiceResponse(requestMessage, rqid, model, qakey);
+                }
+            }
+        }
+
+        private IResponseMessageBase AnswerQuestionVoiceResponse(RequestMessageVoice requestMessage, Guid rqid, UserQACache model, string qakey)
+        {
+            LogHelper.Write("声音回答问题，进入声音回答问题业务", LogHelper.LogMessageType.Debug);
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var commonService = new CommonService();
+            //RQStart(requestMessage, rqid, commonService);
+            var curentQAId = model.CurrentQA.ID;//为了比较一下，缓存里的当前问题是否已经被替换
+            //经过以上的判断，这边的model必须有值
+            //先判断，生成数据库对象，在保存时还要再判断，因为有可能两条以上进去了。
+            LogHelper.Write((commonService.GetMsgIdCache(msgid) + " " + rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+            if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+            {//随时判断缓存有没有被定时器清空
+                //以下代码是将答案保存进数据库，并刷新缓存操作 也就是回答一次就添加一条记录进数据库
+                var dsbll = new BaseBll<bmQADistribution>();
+                var dsmodel = dsbll.All.FirstOrDefault(p => p.QAId == model.CurrentQA.ID && p.WeiXinId == requestMessage.FromUserName);
+                LogHelper.Write(("取当前分配记录" + (dsmodel != null).ToString()), LogHelper.LogMessageType.Debug);
+                if (dsmodel != null)
+                {
+                    dsmodel.ModTime = DateTime.Now;
+                    dsmodel.Result = Guid.Parse(Reference.分配答题操作_已解答);
+                    dsmodel.OperateTime = DateTime.Now;
+                    //放弃问题记录
+                    var bll = new BaseBll<bmQA>();
+                    var qamodel = new bmQA();
+                    GenerateAnswerQuestionVoiceModel(requestMessage, msgid, qamodel, model.CurrentQA.ID);
+                    LogHelper.Write("声音回答问题，主线程更新数据库前", LogHelper.LogMessageType.Debug);
+                    LogHelper.Write((rqid + " " + (UserQAService.GetUserQACache(qakey) != null).ToString()), LogHelper.LogMessageType.Debug);
+                    //更新到数据库
+                    if (commonService.GetMsgIdCache(msgid) == rqid && UserQAService.GetUserQACache(qakey) != null)
+                    {//添加前确认缓存是否被清空
+                        bll.Insert(qamodel, false);
+                        dsbll.Update(dsmodel);
+                        //更新缓存操作
+                        model = RefreshQACache(requestMessage, rqid, model, commonService);
+                        LogHelper.Write("声音回答问题，完成缓存刷新操作", LogHelper.LogMessageType.Debug);
+                    }
+                }//dsmodel != null  
+            }//放弃答题业务结束
+            else
+            {
+                LogHelper.Write("声音回答问题，非主线程取缓存问题", LogHelper.LogMessageType.Debug);
+                int i = 0;
+                //为了取自增长ID
+                do
+                {
+                    System.Threading.Thread.Sleep(500);
+                    i++;
+                    model = UserQAService.GetUserQACache(qakey);
+                } while ((model.CurrentQA.ID != curentQAId) || i > 20);
+            }
+            LogHelper.Write("答题缓存刷新了后，准备返回答题", LogHelper.LogMessageType.Debug);
+            return AnswerResponse(requestMessage, PackCurrentQA(requestMessage, model));
+        }
+
+        /// <summary>
+        /// 生成图片答题对象
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="msgid"></param>
+        /// <param name="model"></param>
+        /// <param name="parentId"></param>
+        private void GenerateAnswerQuestionVoiceModel(RequestMessageVoice requestMessage, string msgid, bmQA model, Guid parentId)
+        {
+            model.ID = Guid.NewGuid();
+
+            model.ParentId = parentId;
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_答案);
+            model.MsgId = msgid;
+            model.MsgType = Guid.Parse(Reference.微信消息类别_声音);
+            model.MediaId = requestMessage.MediaId;            
+            model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+        }
+
         #endregion
     }
 }

@@ -8,6 +8,7 @@ using MorSun.Model;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
 using HOHO18.Common.SSO;
+using HOHO18.Common.WEB;
 
 namespace MorSun.WX.ZYB.Service
 {
@@ -70,6 +71,7 @@ namespace MorSun.WX.ZYB.Service
         #endregion
 
         #region 提问处理
+        #region 图片提问
         /// <summary>
         /// 用户图片提问处理
         /// </summary>
@@ -115,7 +117,14 @@ namespace MorSun.WX.ZYB.Service
                 if (commonService.GetMsgIdCache(msgid) == rqid)
                 {
                     //qadbll.Insert(qaModel, false);
-                    bll.Insert(model);
+                    try
+                    {
+                        bll.Insert(model);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write("图片问题保存时出错" + ex.Message, LogHelper.LogMessageType.Error);
+                    }
                 }
             }
 
@@ -145,7 +154,7 @@ namespace MorSun.WX.ZYB.Service
         private void GenerateQuestionModel(RequestMessageImage requestMessage, string msgid, bmQA model)
         {
             model.ID = Guid.NewGuid();
-
+            
             model.WeiXinId = requestMessage.FromUserName;
             model.QARef = Guid.Parse(Reference.问答类别_问题);
             model.MsgId = msgid;
@@ -159,7 +168,9 @@ namespace MorSun.WX.ZYB.Service
             model.FlagTrashed = false;
             model.FlagDeleted = false;
         }
+        #endregion 
 
+        #region 文本提问
         /// <summary>
         /// 用户文本提问处理
         /// </summary>
@@ -205,7 +216,14 @@ namespace MorSun.WX.ZYB.Service
                 if (commonService.GetMsgIdCache(msgid) == rqid)
                 {
                     //qadbll.Insert(qaModel, false);
-                    bll.Insert(model);
+                    try
+                    {
+                        bll.Insert(model);
+                    }
+                    catch(Exception ex)
+                    {
+                        LogHelper.Write("文本问题保存时出错" + ex.Message, LogHelper.LogMessageType.Error);
+                    }
                 }
             }
 
@@ -248,7 +266,106 @@ namespace MorSun.WX.ZYB.Service
             model.FlagTrashed = false;
             model.FlagDeleted = false;
         }
-        
+        #endregion
+
+        #region 语音提问
+        /// <summary>
+        /// 用户文本提问处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        public IResponseMessageBase SubmitVoiceQuestionResponseMessage(RequestMessageVoice requestMessage)
+        {
+            //用户提交问题处理
+            return SubmitVoiceQuestionResponse(requestMessage);
+        }
+
+        /// <summary>
+        /// 图片提问返回数据处理
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <returns></returns>
+        private IResponseMessageBase SubmitVoiceQuestionResponse(RequestMessageVoice requestMessage)
+        {
+            return QuestionResponse<RequestMessageVoice>(requestMessage, SubmitVoiceQuestion(requestMessage));
+        }
+
+        /// <summary>
+        /// 用户拍照提交问题 这边只做问题保存，快速，可并发，不做其他任何数据处理。
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        private bmQA SubmitVoiceQuestion(RequestMessageVoice requestMessage)
+        {
+            var msgid = requestMessage.MsgId == null ? "" : requestMessage.MsgId.ToString();
+            var rqid = Guid.NewGuid();
+            var bll = new BaseBll<bmQA>();
+
+            var model = new bmQA();
+            var commonService = new CommonService();
+            Guid mid = commonService.GetMsgIdCache(msgid);
+            if (mid == Guid.Empty)
+            {//已经添加的问题答案，不再保存进系统
+                commonService.SetMsgIdCache(msgid, rqid);
+
+                //将图片信息保存进数据库            
+                GenerateVoiceQuestionModel(requestMessage, msgid, model);
+
+                //判断缓存里保存的问答ID是否是当前的对象ID    
+                if (commonService.GetMsgIdCache(msgid) == rqid)
+                {
+                    //qadbll.Insert(qaModel, false);
+                    try
+                    {
+                        bll.Insert(model);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.Write("语音问题保存时出错" + ex.Message, LogHelper.LogMessageType.Error);
+                    }
+                }
+            }
+
+            //增加数据获取限制，如果等了7秒还未取到值，则不再取对象
+            int i = 0;
+            //为了取自增长ID
+            do
+            {
+                if (commonService.GetMsgIdCache(msgid) != rqid)
+                {
+                    System.Threading.Thread.Sleep(500);
+                    i++;
+                }
+                model = bll.All.Where(p => p.MsgId == msgid).FirstOrDefault();
+            } while (model.AutoGrenteId == 0 || i > 20);
+            return model;
+        }
+
+
+
+        /// <summary>
+        /// 生成问题模型
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="msgid"></param>
+        /// <param name="model"></param>
+        private void GenerateVoiceQuestionModel(RequestMessageVoice requestMessage, string msgid, bmQA model)
+        {
+            model.ID = Guid.NewGuid();
+
+            model.WeiXinId = requestMessage.FromUserName;
+            model.QARef = Guid.Parse(Reference.问答类别_问题);
+            model.MsgId = msgid;
+            model.MsgType = Guid.Parse(Reference.微信消息类别_声音);
+            model.MediaId = requestMessage.MediaId;
+            model.WeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
+
+            model.RegTime = DateTime.Now;
+            model.ModTime = DateTime.Now;
+            model.FlagTrashed = false;
+            model.FlagDeleted = false;
+        }
+        #endregion
+
         #endregion
 
         #region 用户取问题

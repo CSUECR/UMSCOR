@@ -77,12 +77,13 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             //    return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);  
             //}
             //去掉头尾空格以及转化为小写
-            requestMessage.Content = requestMessage.Content.Trim().ToLower();
+            //requestMessage.Content = requestMessage.Content.Trim().ToLower();
             var tempText = requestMessage.Content;
             var answerService = new AnswerService();
             if(tempText.Contains(" "))
             {
                 var commondText = tempText.Substring(0, tempText.IndexOf(" "));
+                commondText = commondText.Trim().ToLower();
                 switch (commondText)
                 {
                     case CFG.微信绑定前缀: return new BoundService().UserBoundResponseMessage(requestMessage);   
@@ -99,6 +100,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             }
             else
             {//命令类型
+                tempText = tempText.Trim().ToLower();
                 switch (tempText)
                 {
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
@@ -192,6 +194,8 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             var locationService = new LocationService();
             var responseMessage = locationService.GetResponseMessage(requestMessage as RequestMessageLocation);
             return responseMessage;
+
+            
         }
 
         /// <summary>
@@ -207,9 +211,42 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             //responseMessage.Music.Description = "来自Jeffrey Su的美妙歌声~~";
             //responseMessage.Music.ThumbMediaId = "mediaid";
 
-            var responseMessage = CreateResponseMessage<ResponseMessageVoice>();            
-            responseMessage.Voice.MediaId = requestMessage.MediaId;            
-            return responseMessage;
+            //var responseMessage = CreateResponseMessage<ResponseMessageVoice>();            
+            //responseMessage.Voice.MediaId = requestMessage.MediaId;            
+            //return responseMessage;
+
+            //用户回答问题处理
+            var onlineUser = UserQAService.GetOlineQAUserCache();
+            if (onlineUser != null)
+            {
+                if ((onlineUser.CertificationUser != null && onlineUser.CertificationUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null)
+                    || (onlineUser.NonCertificationQAUser != null && onlineUser.NonCertificationQAUser.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName) != null))
+                {
+                    //做并发限制
+                    var answerService = new AnswerService();
+                    if (answerService.nonConcurrentRQ(requestMessage))
+                    {
+                        //回答问题方法
+                        LogHelper.Write("图片回答问题", LogHelper.LogMessageType.Debug);
+                        return answerService.AnswerQuestionVoiceResponseMessage(requestMessage);
+                    }
+                    else
+                        return answerService.ConcurrentResponse(requestMessage);
+
+                }
+                else
+                {
+                    //用户提交问题处理 
+                    LogHelper.Write("在线用户缓存不包括当前用户时的提问", LogHelper.LogMessageType.Debug);
+                    return new QuestionService().SubmitVoiceQuestionResponseMessage(requestMessage);
+                }
+            }
+            else
+            {
+                LogHelper.Write("在线用户缓存为空时的提问", LogHelper.LogMessageType.Debug);
+                //用户提交问题处理 
+                return new QuestionService().SubmitVoiceQuestionResponseMessage(requestMessage);
+            }   
         }
 
         /// <summary>
