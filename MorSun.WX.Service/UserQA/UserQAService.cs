@@ -30,7 +30,7 @@ namespace MorSun.WX.ZYB.Service
         {
             LogHelper.Write(("获取用户答题缓存方法的uid " + uid), LogHelper.LogMessageType.Debug);
             //获取路径
-            string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
+            //string path = System.Web.HttpContext.Current.Server.MapPath(xmlSystemName);
             var model = new UserQACache();
             try { 
                 //从缓存中读取  不在这边设置缓存是为了防止并发

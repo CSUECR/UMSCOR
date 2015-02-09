@@ -12,11 +12,11 @@ namespace MorSun.Controllers.Quartz
         {            
 
             IJobDetail job = JobBuilder.Create<CheckingJob4>()
-                .WithIdentity("job44", "group44")//.RequestRecovery(true)//服务重启之后不用再执行任务 应用重启之后时候忽略过期任务，默认false
+                .WithIdentity("jobzyb44", "groupzyb44")//.RequestRecovery(true)//服务重启之后不用再执行任务 应用重启之后时候忽略过期任务，默认false
                 .Build();
 
             ICronTrigger trigger = (ICronTrigger)TriggerBuilder.Create()
-                                                      .WithIdentity("trigger44", "group44")
+                                                      .WithIdentity("triggerzyb44", "groupzyb44")
                                                       .WithCronSchedule("0/15/30/45 * * * * ?")//.WithCronSchedule("20 30 9,14,22 * * ?")
                                                       .Build();
 

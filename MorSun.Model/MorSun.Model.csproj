@@ -113,6 +113,7 @@
     <Compile Include="JsonObj\RC\bmRechargeJson.cs" />
     <Compile Include="JsonObj\TKNow\bmCanTakeNowJson.cs" />
     <Compile Include="JsonObj\TKNow\bmUserMBJson.cs" />
+    <Compile Include="JsonObj\WXTK\wxTKJson.cs" />
     <Compile Include="MenuModels\ChildNode.cs" />
     <Compile Include="MorSun.Designer.cs">
       <AutoGen>True</AutoGen>

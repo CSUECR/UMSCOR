@@ -121,6 +121,8 @@
     <Compile Include="ControllersUserCenter\HController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Quartz\CheckingIn5\CheckingJob5.cs" />
+    <Compile Include="Quartz\CheckingIn5\CheckingTrigger5.cs" />
     <Compile Include="Quartz\CheckingIn4\CheckingJob4.cs" />
     <Compile Include="Quartz\CheckingIn4\CheckingTrigger4.cs" />
     <Compile Include="Quartz\MorSunScheduler.cs" />

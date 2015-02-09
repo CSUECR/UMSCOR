@@ -27,7 +27,24 @@
                                 <td></td>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <tr>
+                                <th width="300">设置微信TK缓存</th>
+                                <td>
+                                    @using (Html.BeginForm("SetAccessTokenCache", "SYSConfig", new { ReturnUrl = "/SYSConfig/I" }, FormMethod.Post, new { id = "fmForm" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn green" type="button" id="submitBtn">设置微信TK缓存</button>
+                                    }
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th width="300">查看微信TK缓存</th>
+                                <td><button class="btn purple" type="button" onclick="jumptourl('/SYSConfig/AccessTokenCache')">查看微信TK缓存</button></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>                
                 </div>
             </div>

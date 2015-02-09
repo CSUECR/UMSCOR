@@ -256,6 +256,9 @@ namespace MorSun.Common
             public const string 邦马网_微信令牌 = "WXZYBung34fdjs38";
             public const string 邦马网_加密KEY = "dZuSlbu2fMkS8mBNhNH2LXR9UZu4ng8Rg2JgqSC9lbJ";
             public const string 邦马网_应用ID = "wxa71a8636a745274b";
+            public const string 邦马网_应用密钥 = "217a0e2bcc11c04f05b767c8eebd296a";
+            public const string 邦马网_AT缓存键 = "ZYBAT";
+            public const string 邦马网_获取AT网址 = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 
             public const string 看答案指令 = "DA==>";
 

@@ -125,7 +125,7 @@ namespace MorSun.WX.ZYB.Service
                         + "\r\n当前未答题数： " + model.DJDCount
                         ,
                         PicUrl = model.PicUrl,
-                        Url = model.PicUrl
+                        Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString() //model.PicUrl
                     });
                 }
 

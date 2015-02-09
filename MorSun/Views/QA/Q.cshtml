@@ -20,7 +20,7 @@
                     @:问题数量：<input type="text" id="qCount" name="qCount" value="1" onkeydown="return InputInteger(event)" class="m-wrap xsmall" style="background-color:#fff;margin-right:60px;" />
                     if (!Request.IsAuthenticated)
                     { 
-                    <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
+                        <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
                     }
                     else
                     {
@@ -88,7 +88,7 @@
                     }
                     else if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_声音))
                     {
-                        <img id="ImgQA" src="/images/zyb/voice.png" width="99%" />
+                        <img id="ImgQA" src="/images/zyb/voice.png" />
                     }               
                 </div>
             </div>
@@ -118,7 +118,7 @@
                             }
                             else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_声音))
                             {
-                                <img id="ImgQA" src="/images/zyb/voice.png" width="99%" />
+                                <img id="ImgQA" src="/images/zyb/voice.png" />
                             }   
                         </div>
                     }
