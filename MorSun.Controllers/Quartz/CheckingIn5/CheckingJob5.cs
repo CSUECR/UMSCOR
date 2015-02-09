@@ -56,7 +56,7 @@ namespace MorSun.Controllers.Quartz
             }
             catch(Exception ex)
             {
-                LogHelper.Write("答题缓存设置异常" + ex.Message, LogHelper.LogMessageType.Error);
+                LogHelper.Write("微信TK缓存设置异常" + ex.Message, LogHelper.LogMessageType.Error);
             }
 
         }
