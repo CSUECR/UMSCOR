@@ -1150,5 +1150,38 @@ namespace MorSun.Controllers
         }
         #endregion
 
+        #region 微信TOK缓存
+        protected string SetWXTKCache()
+        {
+            var atURL = CFG.邦马网_获取AT网址.Replace("APPID", CFG.邦马网_应用ID).Replace("APPSECRET", CFG.邦马网_应用密钥);
+            //LogHelper.Write("获取微信ToKen的URL" + atURL, LogHelper.LogMessageType.Info);
+            var atS = GetHtmlHelper.GetPage(atURL, "");
+            var wsTKJson = JsonConvert.DeserializeObject<wxTKJson>(atS);
+            //LogHelper.Write("获取微信ToKen" + wsTKJson.access_token, LogHelper.LogMessageType.Info);
+            if (!String.IsNullOrEmpty(wsTKJson.errcode) || !String.IsNullOrEmpty(wsTKJson.errmsg))
+            {
+                LogHelper.Write("获取微信ToKen失败" + wsTKJson.errcode + " " + wsTKJson.errmsg, LogHelper.LogMessageType.Error);
+            }
+            else
+            {
+                //保存到缓存中
+                CacheAccess.AddToCacheByTime(CFG.邦马网_AT缓存键, wsTKJson.access_token, 5400);
+            }
+
+            return wsTKJson.access_token;
+        }
+
+        protected string GetWXTKCache()
+        {
+            var s = CacheAccess.GetFromCache(CFG.邦马网_AT缓存键) as string;
+            if(String.IsNullOrEmpty(s))
+            {
+                s = SetWXTKCache();
+            }
+            return s;
+        }
+
+        #endregion
+
     }
 }

@@ -58,6 +58,8 @@
         @Scripts.Render("~/bundles/jqueryqtip")
         @Scripts.Render("~/bundles/morsuncommon")
         
-        <script type="text/javascript"> 
+        <script type="text/javascript">
+            $(ajaxSubmitFormHandle('#submitBtn', '#fmForm', '提交失败，请联系管理员', '#divInfo', false));
         </script>
+
     }

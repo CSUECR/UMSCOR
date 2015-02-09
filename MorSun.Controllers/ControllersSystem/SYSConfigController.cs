@@ -17,9 +17,7 @@ using HOHO18.Common.WEB;
 using System.Configuration;
 using System.Web.Configuration;
 using MorSun.Controllers.Quartz;
-using System.Web.Caching;
-using HOHO18.Common.Web;
-using Newtonsoft.Json;
+
 
 namespace MorSun.Controllers.SystemController
 {
@@ -118,19 +116,7 @@ namespace MorSun.Controllers.SystemController
             {
                 var oper = new OperationResult(OperationResultType.Error, "设置失败");
                 //ViewBag.ReturnUrl = returnUrl;                
-                var atURL = CFG.邦马网_获取AT网址.Replace("APPID", CFG.邦马网_应用ID).Replace("APPSECRET", CFG.邦马网_应用密钥);  
-                
-                var atS = GetHtmlHelper.GetPage(atURL, "");
-                var wsTKJson = JsonConvert.DeserializeObject<wxTKJson>(atS);
-                if (!String.IsNullOrEmpty(wsTKJson.errcode) || !String.IsNullOrEmpty(wsTKJson.errmsg))
-                {
-                    LogHelper.Write("获取微信ToKen失败" + wsTKJson.errcode + " " + wsTKJson.errmsg, LogHelper.LogMessageType.Error);
-                }
-                else
-                {
-                    //保存到缓存中
-                    CacheAccess.AddToCacheByTime(CFG.邦马网_AT缓存键, wsTKJson.access_token, 5400);                      
-                }
+                SetWXTKCache();
                 fillOperationResult(returnUrl, oper, "修改成功");
                 return Json(oper, JsonRequestBehavior.AllowGet);
             }
@@ -154,9 +140,9 @@ namespace MorSun.Controllers.SystemController
             if (ResourceId.HP(操作.查看))
             {
                 ViewBag.RS = ResourceId;
-                ViewBag.ReturnUrl = returnUrl;                
-                var s = CacheAccess.GetFromCache(CFG.邦马网_AT缓存键) as string;
-                return View(s);
+                ViewBag.ReturnUrl = returnUrl;
+                var s = GetWXTKCache();
+                return Content(s);
             }
             else
             {
