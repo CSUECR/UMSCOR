@@ -184,6 +184,8 @@ namespace MorSun.Controllers.SystemController
             //t3.Run();
             CheckingTrigger4 t4 = new CheckingTrigger4();
             t4.Run();
+            CheckingTrigger5 t5 = new CheckingTrigger5();
+            t5.Run();
             return "true";
         }
 
