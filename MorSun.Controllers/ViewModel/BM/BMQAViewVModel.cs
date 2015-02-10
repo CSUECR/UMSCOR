@@ -6,6 +6,7 @@ using MorSun.Model;
 using MorSun.Bll;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
+using HOHO18.Common;
 
 namespace MorSun.Controllers.ViewModel
 {
@@ -119,7 +120,20 @@ namespace MorSun.Controllers.ViewModel
 
         public bool? sIsSort { get; set; }
 
+        /// <summary>
+        /// 微信APP
+        /// </summary>
         public string WeiXinAPP { get { return CFG.邦马网_应用ID; } }
+        /// <summary>
+        /// 令牌
+        /// </summary>
         public string WeiXinTK { get { return new MorSun.Controllers.BasisController().GetWXTKCache(); } }
+
+        /// <summary>
+        /// 时间戳
+        /// </summary>
+        public string TimeStamp { get { return Convert.ToString(ChangeDateTime.ConvertDateTimeInt(DateTime.Now)); } }
+
+        public string NonceStr { get { return TxtHelp.CreateNonceStr(); } }
     }
 }

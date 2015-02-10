@@ -275,8 +275,8 @@
             wx.config({
                 debug: false,
                 appId: '@Model.WeiXinAPP',
-                timestamp: 1423553966,
-                nonceStr: 'GeL4CbIunkwo44JG',
+                timestamp: @(Html.Raw(Model.TimeStamp)),
+                nonceStr: '@Model.NonceStr',
                 signature: '@Model.WeiXinTK',
                 jsApiList: [
                   'checkJsApi',
@@ -315,7 +315,5 @@
                   'openCard'
                 ]
             });
-
-
         </script>
     }

@@ -462,5 +462,24 @@ namespace System
             return DESEncrypt.Decrypt(str, sKey);
         }
         #endregion
+
+        #region 生成随机字符串
+        /// <summary>
+        /// 生成随机字符串
+        /// </summary>
+        /// <returns></returns>
+        public static string CreateNonceStr()
+        {
+            int length = 16;
+            string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string str = "";
+            Random rad = new Random();
+            for (int i = 0; i < length; i++)
+            {
+                str += chars.Substring(rad.Next(0, chars.Length - 1), 1);
+            }
+            return str;
+        }  
+        #endregion
     }
 }
