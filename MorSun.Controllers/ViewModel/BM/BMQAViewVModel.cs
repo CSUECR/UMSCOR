@@ -7,6 +7,7 @@ using MorSun.Bll;
 using MorSun.Common.类别;
 using MorSun.Common.配置;
 using HOHO18.Common;
+using HOHO18.Common.DEncrypt;
 
 namespace MorSun.Controllers.ViewModel
 {
@@ -51,7 +52,7 @@ namespace MorSun.Controllers.ViewModel
             {
                 var refAId = Guid.Parse(Reference.问答类别_答案);
                 var refBSId = Guid.Parse(Reference.问答类别_不是问题);
-                var l = base.All.Where(p => p.ParentId == sParentId && p.QARef != refAId && p.QARef != refBSId);
+                var l = base.All.Where(p => p.ParentId == sId && p.QARef != refAId && p.QARef != refBSId);
                 return l.OrderBy(p => p.RegTime);
             }
         }
@@ -65,7 +66,7 @@ namespace MorSun.Controllers.ViewModel
             {
                 var refAId = Guid.Parse(Reference.问答类别_答案);
                 var refBSId = Guid.Parse(Reference.问答类别_不是问题);
-                return base.All.FirstOrDefault(p => p.ParentId == sParentId && (p.QARef == refAId || p.QARef == refBSId));
+                return base.All.FirstOrDefault(p => p.ParentId == sId && (p.QARef == refAId || p.QARef == refBSId));
             }
         }
 
@@ -77,7 +78,7 @@ namespace MorSun.Controllers.ViewModel
         {
             get
             {
-                return base.All.FirstOrDefault(p => p.ID == sParentId);
+                return base.All.FirstOrDefault(p => p.ID == sId);
             }
         }
 
@@ -85,7 +86,7 @@ namespace MorSun.Controllers.ViewModel
         {
             get
             {
-                return new BaseBll<bmOBView>().All.Where(p => p.QAId == sParentId);
+                return new BaseBll<bmOBView>().All.Where(p => p.QAId == sId);
             }
         }
 
@@ -106,8 +107,8 @@ namespace MorSun.Controllers.ViewModel
                 }
                 if(sIsSort != null && sIsSort.Value == true)
                 {
-                    if (sParentId != null)
-                        l = l.Where(p => p.ParentId == sParentId);
+                    if (sId != null)
+                        l = l.Where(p => p.ParentId == sId);
                     else
                         l = l.Where(p => p.ParentId == null);
                 }
@@ -116,7 +117,7 @@ namespace MorSun.Controllers.ViewModel
         }
         
 
-        public Guid? sParentId { get; set; }
+        public Guid? sId { get; set; }
 
         public bool? sIsSort { get; set; }
 
@@ -124,16 +125,31 @@ namespace MorSun.Controllers.ViewModel
         /// 微信APP
         /// </summary>
         public string WeiXinAPP { get { return CFG.邦马网_应用ID; } }
-        /// <summary>
-        /// 令牌
-        /// </summary>
-        public string WeiXinTK { get { return new MorSun.Controllers.BasisController().GetWXTKCache(); } }
-
+        
         /// <summary>
         /// 时间戳
         /// </summary>
         public string TimeStamp { get { return Convert.ToString(ChangeDateTime.ConvertDateTimeInt(DateTime.Now)); } }
 
+        /// <summary>
+        /// 随机字符串
+        /// </summary>
         public string NonceStr { get { return TxtHelp.CreateNonceStr(); } }
+
+        /// <summary>
+        /// 当前URL
+        /// </summary>
+        public string ThisUrl { get { return CFG.网站域名 + CFG.问题查看路径 + "/" + sId.ToString(); } }
+
+        /// <summary>
+        /// 签名
+        /// </summary>
+        public string Signature { 
+            get {
+                // 这里参数的顺序要按照 key 值 ASCII 码升序排序  
+                string rawstring = "jsapi_ticket=" + new BasisController().GetWXTICCache() + "&noncestr=" + NonceStr + "&timestamp=" + TimeStamp + "&url=" + ThisUrl + "";
+                return HashEncode.SHA1_Hash(rawstring);  
+                } 
+        }        
     }
 }

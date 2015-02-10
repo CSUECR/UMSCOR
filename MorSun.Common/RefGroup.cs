@@ -241,17 +241,17 @@ namespace MorSun.Common
             public const string 邮件通用入口 = "/H/EL";
             public const string 账号激活路径 = "/Account/ActiveUser";
             public const string 邮件改密路径 = "/Account/ECPW";
-            public const string 问题查看路径 = "/qa/q";
-
-            //网站域名  不是通过域名访问网站的情况，不能
-            public const string 网站域名 = "http://www.bungma.com";
+            public const string 问题查看路径 = "/qa/q";            
 
             public const string 默认推广代码 = "bungma";
 
             public const string 注册默认角色 = "98dcfbe9-fa44-4832-8a1b-5a82de8d1abf";
             public const string 作业邦认证默认角色 = "776231d4-d89a-4c1f-99c9-9c0977cc76d3";
+
             //微信 更改只要改这个地方
             //当前微信应用
+            //网站域名  不是通过域名访问网站的情况，不能
+            public const string 网站域名 = "http://www.bungma.com";
             public const string 邦马网_当前微信应用 = "b61f5cee-676e-4716-9afa-4cdb44080239";
             public const string 邦马网_微信令牌 = "WXZYBung34fdjs38";
             public const string 邦马网_加密KEY = "dZuSlbu2fMkS8mBNhNH2LXR9UZu4ng8Rg2JgqSC9lbJ";
@@ -259,6 +259,9 @@ namespace MorSun.Common
             public const string 邦马网_应用密钥 = "217a0e2bcc11c04f05b767c8eebd296a";
             public const string 邦马网_AT缓存键 = "ZYBAT";
             public const string 邦马网_获取AT网址 = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+            public const string 邦马网_TIC缓存键 = "ZYBTIC";
+            public const string 邦马网_获取TIC网址 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
+
 
             public const string 看答案指令 = "DA==>";
 

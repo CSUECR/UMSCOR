@@ -117,6 +117,7 @@ namespace MorSun.Controllers.SystemController
                 var oper = new OperationResult(OperationResultType.Error, "设置失败");
                 //ViewBag.ReturnUrl = returnUrl;                
                 SetWXTKCache();
+                SetWXTICCache();
                 fillOperationResult(returnUrl, oper, "修改成功");
                 return Json(oper, JsonRequestBehavior.AllowGet);
             }
@@ -142,6 +143,10 @@ namespace MorSun.Controllers.SystemController
                 ViewBag.RS = ResourceId;
                 ViewBag.ReturnUrl = returnUrl;
                 var s = GetWXTKCache();
+
+                s += "||||";
+                s += GetWXTICCache();
+
                 return Content(s);
             }
             else

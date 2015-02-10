@@ -29,21 +29,53 @@ namespace MorSun.Controllers.Quartz
             LogHelper.Write("自动Insert缓存", LogHelper.LogMessageType.Debug);
         }
 
-        public void SetAccessTokenCache()
+        public string SetWXTKCache()
         {
-            LogHelper.Write("进入自动设置AT缓存", LogHelper.LogMessageType.Debug);
-            
-            var atURL = CFG.邦马网_获取AT网址.Replace("APPID", CFG.邦马网_应用ID).Replace("APPSECRET", CFG.邦马网_应用密钥);            
+            var atURL = CFG.邦马网_获取AT网址.Replace("APPID", CFG.邦马网_应用ID).Replace("APPSECRET", CFG.邦马网_应用密钥);
+            //LogHelper.Write("获取微信ToKen的URL" + atURL, LogHelper.LogMessageType.Info);
             var atS = GetHtmlHelper.GetPage(atURL, "");
-            var wsTKJson = JsonConvert.DeserializeObject<wxTKJson>(atS);
-            if(!String.IsNullOrEmpty(wsTKJson.errcode) || !String.IsNullOrEmpty(wsTKJson.errmsg))
+            var wxTKJson = JsonConvert.DeserializeObject<wxTKJson>(atS);
+            //LogHelper.Write("获取微信ToKen" + wsTKJson.access_token, LogHelper.LogMessageType.Info);
+            if (!String.IsNullOrEmpty(wxTKJson.errcode) || !String.IsNullOrEmpty(wxTKJson.errmsg))
             {
-                LogHelper.Write("获取微信ToKen失败" + wsTKJson.errcode + " " + wsTKJson.errmsg, LogHelper.LogMessageType.Error);
+                LogHelper.Write("获取微信ToKen失败" + wxTKJson.errcode + " " + wxTKJson.errmsg, LogHelper.LogMessageType.Error);
             }
             else
-            {     
+            {
                 //保存到缓存中
-                CacheAccess.AddToCacheByTime(CFG.邦马网_AT缓存键, wsTKJson.access_token, 5400);                
+                CacheAccess.AddToCacheByTime(CFG.邦马网_AT缓存键, wxTKJson.access_token, 5400);
+            }
+
+            return wxTKJson.access_token;
+        }
+
+        public string GetWXTKCache()
+        {
+            var s = CacheAccess.GetFromCache(CFG.邦马网_AT缓存键) as string;
+            if (String.IsNullOrEmpty(s))
+            {
+                s = SetWXTKCache();
+            }
+            return s;
+        }
+
+        public void SetWXTICCache()
+        {
+            var s = GetWXTKCache();
+            var ticURL = CFG.邦马网_获取TIC网址.Replace("ACCESS_TOKEN", s);
+            
+            //LogHelper.Write("获取微信ToKen的URL" + atURL, LogHelper.LogMessageType.Info);
+            var ticS = GetHtmlHelper.GetPage(ticURL, "");
+            var wxTICJson = JsonConvert.DeserializeObject<wxTICJson>(ticS);
+            //LogHelper.Write("获取微信ToKen" + wsTKJson.access_token, LogHelper.LogMessageType.Info);
+            if (String.IsNullOrEmpty(wxTICJson.ticket))
+            {
+                LogHelper.Write("获取微信Ticket失败", LogHelper.LogMessageType.Error);
+            }
+            else
+            {
+                //保存到缓存中
+                CacheAccess.AddToCacheByTime(CFG.邦马网_TIC缓存键, wxTICJson.ticket, 5400);
             }
         }
 
@@ -52,7 +84,8 @@ namespace MorSun.Controllers.Quartz
             try
             { 
                 //SetOlineQAUserCache(MorSun.Controllers.BasisController.GenerateQAUserCache());
-                SetAccessTokenCache();
+                SetWXTKCache();
+                SetWXTICCache();
             }
             catch(Exception ex)
             {

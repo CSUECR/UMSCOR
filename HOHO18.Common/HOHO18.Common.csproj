@@ -85,6 +85,7 @@
     <Compile Include="DEncrypt\Base64Encoder.cs" />
     <Compile Include="DEncrypt\Compression.cs" />
     <Compile Include="DEncrypt\DESEncrypt.cs" />
+    <Compile Include="DEncrypt\HashEncode.cs" />
     <Compile Include="DEncrypt\SSOUtil.cs" />
     <Compile Include="ExHelp\ActionD.cs" />
     <Compile Include="ExHelp\Date\ChineseDate.cs" />

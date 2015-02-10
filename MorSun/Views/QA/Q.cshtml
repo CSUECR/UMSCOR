@@ -275,9 +275,9 @@
             wx.config({
                 debug: false,
                 appId: '@Model.WeiXinAPP',
-                timestamp: @(Html.Raw(Model.TimeStamp)),
+                timestamp: @Model.TimeStamp,
                 nonceStr: '@Model.NonceStr',
-                signature: '@Model.WeiXinTK',
+                signature: '@Model.Signature',
                 jsApiList: [
                   'checkJsApi',
                   'onMenuShareTimeline',
@@ -316,4 +316,5 @@
                 ]
             });
         </script>
+        @Scripts.Render("~/bundles/weixincommon")
     }

@@ -36,6 +36,8 @@ namespace MorSun
             bundles.Add(new ScriptBundle("~/bundles/hoho18").Include("~/Scripts/Common/HOHO18.Common.js"));
             //MorSun.Common
             bundles.Add(new ScriptBundle("~/bundles/morsuncommon").Include("~/Scripts/Common/MorSun.Common.js"));
+            //WeiXin.Common
+            bundles.Add(new ScriptBundle("~/bundles/weixincommon").Include("~/Scripts/Common/WeiXin.Common.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
