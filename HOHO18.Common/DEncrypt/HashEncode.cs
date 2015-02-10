@@ -8,12 +8,12 @@ namespace HOHO18.Common.DEncrypt
 	/// </summary>
 	public static class HashEncode
 	{
-		public HashEncode()
-		{
-			//
-			// TODO: 在此处添加构造函数逻辑
-			//
-		}
+        //public HashEncode()
+        //{
+        //    //
+        //    // TODO: 在此处添加构造函数逻辑
+        //    //
+        //}
 		/// <summary>
 		/// 得到随机哈希加密字符串
 		/// </summary>
