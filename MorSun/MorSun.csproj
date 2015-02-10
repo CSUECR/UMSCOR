@@ -623,6 +623,7 @@
     <Content Include="Images\zyb\zyb430.jpg" />
     <Content Include="Scripts\Common\HOHO18.Common.js" />
     <Content Include="Scripts\Common\MorSun.Common.js" />
+    <Content Include="Scripts\Common\WeiXin.Common.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

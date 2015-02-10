@@ -5,6 +5,7 @@ using System.Text;
 using MorSun.Model;
 using MorSun.Bll;
 using MorSun.Common.类别;
+using MorSun.Common.配置;
 
 namespace MorSun.Controllers.ViewModel
 {
@@ -117,5 +118,8 @@ namespace MorSun.Controllers.ViewModel
         public Guid? sParentId { get; set; }
 
         public bool? sIsSort { get; set; }
+
+        public string WeiXinAPP { get { return CFG.邦马网_应用ID; } }
+        public string WeiXinTK { get { return new MorSun.Controllers.BasisController().GetWXTKCache(); } }
     }
 }

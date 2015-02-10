@@ -1171,7 +1171,7 @@ namespace MorSun.Controllers
             return wsTKJson.access_token;
         }
 
-        protected string GetWXTKCache()
+        public string GetWXTKCache()
         {
             var s = CacheAccess.GetFromCache(CFG.°îÂíÍø_AT»º´æ¼ü) as string;
             if(String.IsNullOrEmpty(s))
