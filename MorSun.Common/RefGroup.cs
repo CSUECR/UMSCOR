@@ -284,6 +284,7 @@ namespace MorSun.Common
             public const string 用户待答题缓存键前缀 = "dt";
             public const string 用户马币缓存键前缀 = "mb";
             public const string 限制用户并发缓存键前缀 = "lrq";
+            public const string 查看问题缓存键前缀 = "ckqa";
 
             //在线答题用户缓存更新时间
             public const string 在线答题用户缓存更新时间 = "1";//单位 分钟
@@ -303,6 +304,7 @@ namespace MorSun.Common
             public const string 不是问题 = "bs";
             public const string 退出答题 = "tc";
             public const string 回答问题 = "hd";//文字回答问题 后面必须跟上答案
+            public const string 查看问题 = "ck";
 
             //独立或当前缀命令
             public const string 我的问题前缀 = "wt";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问

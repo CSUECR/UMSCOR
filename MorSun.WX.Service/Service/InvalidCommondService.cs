@@ -34,7 +34,7 @@ namespace MorSun.WX.ZYB.Service
             responseMessage.Articles.Add(new Article()
             {//眼睛图片
                 Title = "邦马网无法识别您发送的指令",
-                Description = "提问请直接发送拍照的问题图片\r\n答题可发送答题命令：dt\r\n微信绑定邦马网，请登录邦马网，在会员中心获取绑定代码并发送\r\n\r\n邦马官网：www.bungma.com\r\n官方指定淘宝专卖店：bungma.taobao.com",
+                Description = "提问可直接发送文字问题、声音问题、图片问题\r\n答题可发送答题命令：dt\r\n微信绑定邦马网，请登录邦马网，在会员中心获取绑定代码并发送\r\n\r\n邦马官网：www.bungma.com\r\n官方指定淘宝专卖店：bungma.taobao.com",
                 PicUrl = CFG.网站域名 + "/images/zyb/bigsmile.png",
                 Url = CFG.网站域名
             });
