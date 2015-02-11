@@ -7,7 +7,6 @@
 }
 @Styles.Render("~/Content/themes/base/css")
 @Scripts.Render("~/bundles/jqueryui")
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" ></script>
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">           
         <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
@@ -90,6 +89,22 @@
                     else if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_声音))
                     {
                         <img id="ImgQA" src="/images/zyb/voice.png" />
+                        <input type="hidden" id="PL_@Model.Q.ID" value=""/>
+                        <button class="btn purple" type="button" onclick="playVoide('#PL_@Model.Q.ID','@Model.Q.MediaId');">播放</button>
+                        <button class="btn purple" type="button" onclick="pauseVoide('#PL_@Model.Q.ID');">暂停</button>
+                        <button class="btn purple" type="button" onclick="stopVoice('#PL_@Model.Q.ID');">停止</button>
+                        <div>
+                            <input type="text" id="PL_Local" value="" />
+                            <input type="text" id="PL_Server" value=""/>
+                            <br />
+                            <button class="btn purple" type="button" onclick="startRecord();">录音</button>
+                            <button class="btn purple" type="button" onclick="stopRecord();">停止录音</button>
+                            <button class="btn purple" type="button" onclick="upLoadRecord();">上传</button>
+
+                            <button class="btn purple" type="button" onclick="playVoideLocal('#PL_Local');">播放</button>
+                            <button class="btn purple" type="button" onclick="pauseVoide('#PL_Local');">暂停</button>
+                            <button class="btn purple" type="button" onclick="stopVoice('#PL_Local');">停止</button>
+                        </div>
                     }               
                 </div>
             </div>
@@ -190,7 +205,12 @@
            
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>作业邦</div>
+                    <div class="caption"><i class="icon-cogs"></i>作业邦   
+                        <button class="btn purple" type="button" onclick="scanQRCode();">扫一扫</button>
+                        @*<button class="btn purple" type="button" onclick="scanQRCodeReturn()">扫一扫返回</button>*@
+                        @*<button id="getLocation" class="btn purple" type="button" onclick="getLocation()">提交我的位置</button>*@
+                        <button id="checkJsApi" class="btn purple" type="button">检测</button>
+                    </div>
                 </div>
                 <div class="textCenter">
                     <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
@@ -244,8 +264,6 @@
             </script>
         }
 
-
-
         <script type="text/javascript">             
             $(function () {                
                 //waypoint 
@@ -258,20 +276,8 @@
             });
         </script>
 
-        
-        <script type="text/javascript">
-            //微信接口
-            /*
-             * 注意：
-             * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
-             * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
-             * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
-             *
-             * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
-             * 邮箱地址：weixin-open@qq.com
-             * 邮件主题：【微信JS-SDK反馈】具体问题
-             * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
-             */
+        <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script type="text/javascript">            
             wx.config({
                 debug: false,
                 appId: '@Model.WeiXinAPP',
@@ -279,42 +285,20 @@
                 nonceStr: '@Model.NonceStr',
                 signature: '@Model.Signature',
                 jsApiList: [
-                  'checkJsApi',
-                  'onMenuShareTimeline',
-                  'onMenuShareAppMessage',
-                  'onMenuShareQQ',
-                  'onMenuShareWeibo',
-                  'hideMenuItems',
-                  'showMenuItems',
-                  'hideAllNonBaseMenuItem',
-                  'showAllNonBaseMenuItem',
+                  'checkJsApi',                  
                   'translateVoice',
                   'startRecord',
                   'stopRecord',
                   'onRecordEnd',
                   'playVoice',
                   'pauseVoice',
-                  'stopVoice',
-                  'uploadVoice',
-                  'downloadVoice',
-                  'chooseImage',
-                  'previewImage',
-                  'uploadImage',
-                  'downloadImage',
-                  'getNetworkType',
+                  'stopVoice',                  
+                  'downloadVoice',                  
                   'openLocation',
                   'getLocation',
-                  'hideOptionMenu',
-                  'showOptionMenu',
-                  'closeWindow',
-                  'scanQRCode',
-                  'chooseWXPay',
-                  'openProductSpecificView',
-                  'addCard',
-                  'chooseCard',
-                  'openCard'
+                  'scanQRCode'  
                 ]
-            });
-        </script>
+            });            
+        </script>        
         @Scripts.Render("~/bundles/weixincommon")
     }

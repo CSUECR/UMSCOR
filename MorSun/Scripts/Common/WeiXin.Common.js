@@ -9,13 +9,23 @@
  * 邮件主题：【微信JS-SDK反馈】具体问题
  * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
  */
-wx.ready(function () {
+wx.ready(function () {    
     // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
     document.querySelector('#checkJsApi').onclick = function () {
         wx.checkJsApi({
             jsApiList: [
-              'getNetworkType',
-              'previewImage'
+              'checkJsApi',
+                  'translateVoice',
+                  'startRecord',
+                  'stopRecord',
+                  'onRecordEnd',
+                  'playVoice',
+                  'pauseVoice',
+                  'stopVoice',
+                  'downloadVoice',
+                  'openLocation',
+                  'getLocation',
+                  'scanQRCode'
             ],
             success: function (res) {
                 alert(JSON.stringify(res));
@@ -129,45 +139,45 @@ wx.ready(function () {
         localId: '',
         serverId: ''
     };
-    // 3.1 识别音频并返回识别结果
-    document.querySelector('#translateVoice').onclick = function () {
-        if (voice.localId == '') {
-            alert('请先使用 startRecord 接口录制一段声音');
-            return;
-        }
-        wx.translateVoice({
-            localId: voice.localId,
-            complete: function (res) {
-                if (res.hasOwnProperty('translateResult')) {
-                    alert('识别结果：' + res.translateResult);
-                } else {
-                    alert('无法识别');
-                }
-            }
-        });
-    };
+    ////// 3.1 识别音频并返回识别结果
+    ////document.querySelector('#translateVoice').onclick = function () {
+    ////    if (voice.localId == '') {
+    ////        alert('请先使用 startRecord 接口录制一段声音');
+    ////        return;
+    ////    }
+    ////    wx.translateVoice({
+    ////        localId: voice.localId,
+    ////        complete: function (res) {
+    ////            if (res.hasOwnProperty('translateResult')) {
+    ////                alert('识别结果：' + res.translateResult);
+    ////            } else {
+    ////                alert('无法识别');
+    ////            }
+    ////        }
+    ////    });
+    ////};
 
-    // 4 音频接口
-    // 4.2 开始录音
-    document.querySelector('#startRecord').onclick = function () {
-        wx.startRecord({
-            cancel: function () {
-                alert('用户拒绝授权录音');
-            }
-        });
-    };
+    ////// 4 音频接口
+    ////// 4.2 开始录音
+    ////document.querySelector('#startRecord').onclick = function () {
+    ////    wx.startRecord({
+    ////        cancel: function () {
+    ////            alert('用户拒绝授权录音');
+    ////        }
+    ////    });
+    ////};
 
-    // 4.3 停止录音
-    document.querySelector('#stopRecord').onclick = function () {
-        wx.stopRecord({
-            success: function (res) {
-                voice.localId = res.localId;
-            },
-            fail: function (res) {
-                alert(JSON.stringify(res));
-            }
-        });
-    };
+    ////// 4.3 停止录音
+    ////document.querySelector('#stopRecord').onclick = function () {
+    ////    wx.stopRecord({
+    ////        success: function (res) {
+    ////            voice.localId = res.localId;
+    ////        },
+    ////        fail: function (res) {
+    ////            alert(JSON.stringify(res));
+    ////        }
+    ////    });
+    ////};
 
     // 4.4 监听录音自动停止
     wx.onVoiceRecordEnd({
@@ -177,30 +187,30 @@ wx.ready(function () {
         }
     });
 
-    // 4.5 播放音频
-    document.querySelector('#playVoice').onclick = function () {
-        if (voice.localId == '') {
-            alert('请先使用 startRecord 接口录制一段声音');
-            return;
-        }
-        wx.playVoice({
-            localId: voice.localId
-        });
-    };
+    ////// 4.5 播放音频
+    ////document.querySelector('#playVoice').onclick = function () {
+    ////    if (voice.localId == '') {
+    ////        alert('请先使用 startRecord 接口录制一段声音');
+    ////        return;
+    ////    }
+    ////    wx.playVoice({
+    ////        localId: voice.localId
+    ////    });
+    ////};
 
-    // 4.6 暂停播放音频
-    document.querySelector('#pauseVoice').onclick = function () {
-        wx.pauseVoice({
-            localId: voice.localId
-        });
-    };
+    ////// 4.6 暂停播放音频
+    ////document.querySelector('#pauseVoice').onclick = function () {
+    ////    wx.pauseVoice({
+    ////        localId: voice.localId
+    ////    });
+    ////};
 
-    // 4.7 停止播放音频
-    document.querySelector('#stopVoice').onclick = function () {
-        wx.stopVoice({
-            localId: voice.localId
-        });
-    };
+    ////// 4.7 停止播放音频
+    ////document.querySelector('#stopVoice').onclick = function () {
+    ////    wx.stopVoice({
+    ////        localId: voice.localId
+    ////    });
+    ////};
 
     // 4.8 监听录音播放停止
     wx.onVoicePlayEnd({
@@ -209,35 +219,35 @@ wx.ready(function () {
         }
     });
 
-    // 4.8 上传语音
-    document.querySelector('#uploadVoice').onclick = function () {
-        if (voice.localId == '') {
-            alert('请先使用 startRecord 接口录制一段声音');
-            return;
-        }
-        wx.uploadVoice({
-            localId: voice.localId,
-            success: function (res) {
-                alert('上传语音成功，serverId 为' + res.serverId);
-                voice.serverId = res.serverId;
-            }
-        });
-    };
+    ////// 4.8 上传语音
+    ////document.querySelector('#uploadVoice').onclick = function () {
+    ////    if (voice.localId == '') {
+    ////        alert('请先使用 startRecord 接口录制一段声音');
+    ////        return;
+    ////    }
+    ////    wx.uploadVoice({
+    ////        localId: voice.localId,
+    ////        success: function (res) {
+    ////            alert('上传语音成功，serverId 为' + res.serverId);
+    ////            voice.serverId = res.serverId;
+    ////        }
+    ////    });
+    ////};
 
-    // 4.9 下载语音
-    document.querySelector('#downloadVoice').onclick = function () {
-        if (voice.serverId == '') {
-            alert('请先使用 uploadVoice 上传声音');
-            return;
-        }
-        wx.downloadVoice({
-            serverId: voice.serverId,
-            success: function (res) {
-                alert('下载语音成功，localId 为' + res.localId);
-                voice.localId = res.localId;
-            }
-        });
-    };
+    ////// 4.9 下载语音
+    ////document.querySelector('#downloadVoice').onclick = function () {
+    ////    if (voice.serverId == '') {
+    ////        alert('请先使用 uploadVoice 上传声音');
+    ////        return;
+    ////    }
+    ////    wx.downloadVoice({
+    ////        serverId: voice.serverId,
+    ////        success: function (res) {
+    ////            alert('下载语音成功，localId 为' + res.localId);
+    ////            voice.localId = res.localId;
+    ////        }
+    ////    });
+    ////};
 
     //// 5 图片接口
     //// 5.1 拍照、本地选图
@@ -330,30 +340,30 @@ wx.ready(function () {
     //    });
     //};
 
-    // 7 地理位置接口
-    // 7.1 查看地理位置
-    document.querySelector('#openLocation').onclick = function () {
-        wx.openLocation({
-            latitude: 23.099994,
-            longitude: 113.324520,
-            name: 'TIT 创意园',
-            address: '广州市海珠区新港中路 397 号',
-            scale: 14,
-            infoUrl: 'http://weixin.qq.com'
-        });
-    };
+    //// 7 地理位置接口
+    //// 7.1 查看地理位置
+    //document.querySelector('#openLocation').onclick = function () {
+    //    wx.openLocation({
+    //        latitude: 23.099994,
+    //        longitude: 113.324520,
+    //        name: 'TIT 创意园',
+    //        address: '广州市海珠区新港中路 397 号',
+    //        scale: 14,
+    //        infoUrl: 'http://weixin.qq.com'
+    //    });
+    //};
 
-    // 7.2 获取当前地理位置
-    document.querySelector('#getLocation').onclick = function () {
-        wx.getLocation({
-            success: function (res) {
-                alert(JSON.stringify(res));
-            },
-            cancel: function (res) {
-                alert('用户拒绝授权获取地理位置');
-            }
-        });
-    };
+    //// 7.2 获取当前地理位置
+    //document.querySelector('#getLocation').onclick = function () {
+    //    wx.getLocation({
+    //        success: function (res) {
+    //            alert(JSON.stringify(res));
+    //        },
+    //        cancel: function (res) {
+    //            alert('用户拒绝授权获取地理位置');
+    //        }
+    //    });
+    //};
 
     //// 8 界面操作接口
     //// 8.1 隐藏右上角菜单
@@ -425,11 +435,12 @@ wx.ready(function () {
 
     //// 9 微信原生接口
     //// 9.1.1 扫描二维码并返回结果
-    //document.querySelector('#scanQRCode0').onclick = function () {
+    //$('#scanQRCode0').onclick = function () {
+    //    alert(1);
     //    wx.scanQRCode();
     //};
     //// 9.1.2 扫描二维码并返回结果
-    //document.querySelector('#scanQRCode1').onclick = function () {
+    //$('#scanQRCode1').onclick = function () {
     //    wx.scanQRCode({
     //        needResult: 1,
     //        desc: 'scanQRCode desc',
@@ -513,3 +524,183 @@ wx.ready(function () {
 wx.error(function (res) {
     alert(res.errMsg);
 });
+
+//独立调用的接口方法
+//扫一扫
+function scanQRCode() {
+    wx.scanQRCode();
+}
+//扫一扫返回
+function scanQRCodeReturn() {
+    wx.scanQRCode({
+        needResult: 1,
+        desc: 'scanQRCode desc',
+        success: function (res) {
+            alert(JSON.stringify(res));
+        }
+    });
+}
+//定位当前地图
+function getLocation() {
+    wx.getLocation({
+        success: function (res) {
+            alert(JSON.stringify(res));
+        },
+        cancel: function (res) {
+            alert('用户拒绝授权获取地理位置');
+        }
+    });
+}
+
+//声音处理
+function playVoide(vid,voiceId) {
+    var v = $(vid).val();
+    if(v == '')
+    {
+        wx.downloadVoice({
+            serverId: voiceId,
+            success: function (res) {
+                $(vid).val(res.localId);
+                v = res.localId;
+            }
+        });
+    }
+    wx.playVoice({
+        localId: v
+    });
+}
+
+function playVoideLocal(vid) {
+    var v = $(vid).val();
+    if (v == '') {
+        alert('未录音');
+    }
+    wx.playVoice({
+        localId: v
+    });
+}
+
+function pauseVoide(vid) {
+    var v = $(vid).val();
+    if (v == '') {
+        return false;
+    }else
+    {
+        wx.pauseVoice({
+            localId: v
+        });
+    }
+}
+
+function stopVoice(vid) {
+    var v = $(vid).val();
+    if (v == '') {
+        return false;
+    } else {
+        wx.stopVoice({
+            localId: v
+        });
+    }
+}
+
+function startRecord() {
+    wx.startRecord({
+        cancel: function () {
+            alert('用户拒绝授权录音');
+        }
+    });
+}
+
+function stopRecord() {
+    wx.stopRecord({
+        success: function (res) {               
+            $('#PL_Local').val(res.localId);
+        },
+        fail: function (res) {
+            alert(json.stringify(res));
+        }
+    });
+}
+
+function upLoadRecord() {
+    var v = $('#PL_Local').val();    
+    if (v == '') {
+        alert('请先使用 startRecord 接口录制一段声音');
+        return;
+    }
+    alert(v);
+    wx.uploadVoice({
+        localId: v,       
+        success: function (res) {
+            alert(res.serverId);
+            $('#PL_Server').val(res.serverId);
+        }
+    });
+}
+
+////// 4 音频接口
+////// 4.2 开始录音
+////document.querySelector('#startRecord').onclick = function () {
+////    wx.startRecord({
+////        cancel: function () {
+////            alert('用户拒绝授权录音');
+////        }
+////    });
+////};
+
+////// 4.3 停止录音
+////document.querySelector('#stopRecord').onclick = function () {
+////    wx.stopRecord({
+////        success: function (res) {
+////            voice.localId = res.localId;
+////        },
+////        fail: function (res) {
+////            alert(JSON.stringify(res));
+////        }
+////    });
+////};
+
+////// 4.4 监听录音自动停止
+////wx.onVoiceRecordEnd({
+////    complete: function (res) {
+////        voice.localId = res.localId;
+////        alert('录音时间已超过一分钟');
+////    }
+////});
+
+////// 4.8 监听录音播放停止
+////wx.onVoicePlayEnd({
+////    complete: function (res) {
+////        alert('录音（' + res.localId + '）播放结束');
+////    }
+////});
+
+////// 4.8 上传语音
+////document.querySelector('#uploadVoice').onclick = function () {
+////    if (voice.localId == '') {
+////        alert('请先使用 startRecord 接口录制一段声音');
+////        return;
+////    }
+////    wx.uploadVoice({
+////        localId: voice.localId,
+////        success: function (res) {
+////            alert('上传语音成功，serverId 为' + res.serverId);
+////            voice.serverId = res.serverId;
+////        }
+////    });
+////};
+
+////// 4.9 下载语音
+////document.querySelector('#downloadVoice').onclick = function () {
+////    if (voice.serverId == '') {
+////        alert('请先使用 uploadVoice 上传声音');
+////        return;
+////    }
+////    wx.downloadVoice({
+////        serverId: voice.serverId,
+////        success: function (res) {
+////            alert('下载语音成功，localId 为' + res.localId);
+////            voice.localId = res.localId;
+////        }
+////    });
+////};
