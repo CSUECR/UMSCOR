@@ -89,9 +89,10 @@
                     else if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_声音))
                     {
                         <img id="ImgQA" src="/images/zyb/voice.png" />
-                        <input type="hidden" id="PL_@Model.Q.ID" value=""/>
-                        <button class="btn purple" type="button" onclick="playVoide('#PL_@Model.Q.ID','@Model.Q.MediaId');">播放</button>
-                        <button class="btn purple" type="button" onclick="pauseVoide('#PL_@Model.Q.ID');">暂停</button>
+                        <input type="text" id="PL_@Model.Q.ID" value=""/>
+                        <button class="btn purple" type="button" onclick="downloadVoice('@Model.Q.MediaId');">下载</button>
+                        <button class="btn purple" type="button" onclick="playVoice('#PL_@Model.Q.ID','@Model.Q.MediaId');">播放</button>
+                        <button class="btn purple" type="button" onclick="pauseVoice('#PL_@Model.Q.ID');">暂停</button>
                         <button class="btn purple" type="button" onclick="stopVoice('#PL_@Model.Q.ID');">停止</button>
                         <div>
                             <input type="text" id="PL_Local" value="" />
@@ -207,9 +208,9 @@
                 <div class="portlet-title">
                     <div class="caption"><i class="icon-cogs"></i>作业邦   
                         <button class="btn purple" type="button" onclick="scanQRCode();">扫一扫</button>
-                        @*<button class="btn purple" type="button" onclick="scanQRCodeReturn()">扫一扫返回</button>*@
+                        <button class="btn purple" type="button" onclick="scanQRCodeReturn()">扫码</button>
                         @*<button id="getLocation" class="btn purple" type="button" onclick="getLocation()">提交我的位置</button>*@
-                        <button id="checkJsApi" class="btn purple" type="button">检测</button>
+                        @*<button id="checkJsApi" class="btn purple" type="button">检测</button>*@
                     </div>
                 </div>
                 <div class="textCenter">
@@ -279,7 +280,7 @@
         <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
         <script type="text/javascript">            
             wx.config({
-                debug: false,
+                debug: true,
                 appId: '@Model.WeiXinAPP',
                 timestamp: @Model.TimeStamp,
                 nonceStr: '@Model.NonceStr',

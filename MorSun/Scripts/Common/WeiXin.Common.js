@@ -553,7 +553,7 @@ function getLocation() {
 }
 
 //声音处理
-function playVoide(vid,voiceId) {
+function playVoice(vid,voiceId) {
     var v = $(vid).val();
     if(v == '')
     {
@@ -565,12 +565,24 @@ function playVoide(vid,voiceId) {
             }
         });
     }
+    alert(v);
     wx.playVoice({
         localId: v
     });
 }
 
-function playVoideLocal(vid) {
+function downloadVoice(voiceId)
+{
+    alert(voiceId);
+    wx.downloadVoice({
+        serverId: voiceId,
+        success: function (res) {
+            alert(res.localId);            
+        }
+    });
+}
+
+function playVoiceLocal(vid) {
     var v = $(vid).val();
     if (v == '') {
         alert('未录音');
@@ -580,7 +592,7 @@ function playVoideLocal(vid) {
     });
 }
 
-function pauseVoide(vid) {
+function pauseVoice(vid) {
     var v = $(vid).val();
     if (v == '') {
         return false;
