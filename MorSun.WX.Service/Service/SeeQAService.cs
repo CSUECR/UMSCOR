@@ -63,7 +63,7 @@ namespace MorSun.WX.ZYB.Service
             var bll = new BaseBll<bmQA>();
             var model = new bmQA();
             var qaATId = 0;
-            if (requestMessage.Content.StartsWith(CFG.查看问题))
+            if (requestMessage.Content.ToLower().StartsWith(CFG.查看问题))
                 qaATId = Convert.ToInt32(requestMessage.Content.Substring(2).Trim());
             if (qaATId != 0)
                 model = bll.All.FirstOrDefault(p => p.AutoGrenteId == qaATId);
