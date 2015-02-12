@@ -26,7 +26,7 @@ namespace MorSun.WX.ZYB.Service
         /// </summary>
         /// <param name="requestMessage"></param>
         /// <returns></returns>
-        private IResponseMessageBase InvalidCommondResponse<T>(T requestMessage)
+        public IResponseMessageBase InvalidCommondResponse<T>(T requestMessage)
             where T : RequestMessageBase
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); 

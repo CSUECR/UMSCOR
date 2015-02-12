@@ -89,23 +89,9 @@
                     else if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_声音))
                     {
                         <img id="ImgQA" src="/images/zyb/voice.png" />
-                        <input type="text" id="PL_@Model.Q.ID" value=""/>
-                        <button class="btn purple" type="button" onclick="downloadVoice('@Model.Q.MediaId');">下载</button>
-                        <button class="btn purple" type="button" onclick="playVoice('#PL_@Model.Q.ID','@Model.Q.MediaId');">播放</button>
-                        <button class="btn purple" type="button" onclick="pauseVoice('#PL_@Model.Q.ID');">暂停</button>
-                        <button class="btn purple" type="button" onclick="stopVoice('#PL_@Model.Q.ID');">停止</button>
-                        <div>
-                            <input type="text" id="PL_Local" value="" />
-                            <input type="text" id="PL_Server" value=""/>
-                            <br />
-                            <button class="btn purple" type="button" onclick="startRecord();">录音</button>
-                            <button class="btn purple" type="button" onclick="stopRecord();">停止录音</button>
-                            <button class="btn purple" type="button" onclick="upLoadRecord();">上传</button>
-
-                            <button class="btn purple" type="button" onclick="playVoideLocal('#PL_Local');">播放</button>
-                            <button class="btn purple" type="button" onclick="pauseVoide('#PL_Local');">暂停</button>
-                            <button class="btn purple" type="button" onclick="stopVoice('#PL_Local');">停止</button>
-                        </div>
+                        <p>
+                            向@Model.Q.WeiXinAPPName发送 ck @Model.Q.AutoGrenteId 可听到这条语音
+                        </p>                        
                     }               
                 </div>
             </div>
@@ -136,6 +122,9 @@
                             else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_声音))
                             {
                                 <img id="ImgQA" src="/images/zyb/voice.png" />
+                                <p>
+                                    向@Model.A.WeiXinAPPName发送 ck @Model.A.AutoGrenteId 可听到这条语音
+                                </p> 
                             }   
                         </div>
                     }

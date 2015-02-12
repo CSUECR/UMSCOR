@@ -97,6 +97,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.帮助指令英文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.详细信息: return new MoreInfoService().GetAnswerQuestionResponseMessage(requestMessage);
+                    case CFG.查看问题: return new SeeQAService().GetQAResponseMessage(requestMessage);
                 }
             }
             else

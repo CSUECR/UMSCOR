@@ -257,7 +257,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="AutoGrenteId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AutoGrenteId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParentId" Type="uniqueidentifier" />
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
@@ -2250,6 +2250,7 @@
           <Property Name="LocationY" Type="decimal" Precision="18" Scale="8" />
           <Property Name="Scale" Type="decimal" Precision="18" Scale="6" />
           <Property Name="Label" Type="nvarchar" MaxLength="128" />
+          <Property Name="WeiXinAPPName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.wmfRolePrivilegesView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -4197,7 +4198,8 @@ FROM [dbo].[bmOBView] AS [bmOBView]</DefiningQuery>
 [bmQAView].[LocationX] AS [LocationX], 
 [bmQAView].[LocationY] AS [LocationY], 
 [bmQAView].[Scale] AS [Scale], 
-[bmQAView].[Label] AS [Label]
+[bmQAView].[Label] AS [Label], 
+[bmQAView].[WeiXinAPPName] AS [WeiXinAPPName]
 FROM [dbo].[bmQAView] AS [bmQAView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="wmfRolePrivilegesView" EntityType="Self.wmfRolePrivilegesView" store:Type="Views" store:Schema="dbo">
@@ -7180,6 +7182,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="LocationY" Type="Decimal" Precision="18" Scale="8" />
           <Property Name="Scale" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="Label" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="WeiXinAPPName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -11785,6 +11788,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmQAViews">
             <EntityTypeMapping TypeName="MorSun.Model.bmQAView">
               <MappingFragment StoreEntitySet="bmQAView">
+                <ScalarProperty Name="WeiXinAPPName" ColumnName="WeiXinAPPName" />
                 <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="Scale" ColumnName="Scale" />
                 <ScalarProperty Name="LocationY" ColumnName="LocationY" />
