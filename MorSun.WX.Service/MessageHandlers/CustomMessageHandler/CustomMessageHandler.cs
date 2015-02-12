@@ -96,6 +96,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.退出答题: return answerService.OperateQuestionResponseMessage(requestMessage, CFG.退出答题, true);//退出答题不需要判断是否有当前答题
                     case CFG.帮助指令英文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
+                    case CFG.详细信息: return new MoreInfoService().GetAnswerQuestionResponseMessage(requestMessage);
                 }
             }
             else
@@ -111,6 +112,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     
                     case CFG.帮助指令英文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
+                    case CFG.详细信息: return new MoreInfoService().GetAnswerQuestionResponseMessage(requestMessage);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }
             }

@@ -305,6 +305,7 @@ namespace MorSun.Common
             public const string 退出答题 = "tc";
             public const string 回答问题 = "hd";//文字回答问题 后面必须跟上答案
             public const string 查看问题 = "ck";
+            public const string 详细信息 = "xx";//答题时获取详细信息
 
             //独立或当前缀命令
             public const string 我的问题前缀 = "wt";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问

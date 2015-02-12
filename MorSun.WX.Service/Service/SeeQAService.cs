@@ -76,55 +76,55 @@ namespace MorSun.WX.ZYB.Service
         /// <param name="requestMessage"></param>
         /// <param name="skipNum"></param>
         /// <returns></returns>
-        public IResponseMessageBase GetQAResponseMessage(RequestMessageText requestMessage)
-        {
-            //用户提交问题处理
-            var skipNum = 1;
-            var text = requestMessage.Content;            
-            if (text.Contains(" "))
-            {
-                try 
-                { 
-                    var commond = text.Substring(0, text.IndexOf(" "));
-                    var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ","");
-                    skipNum = Convert.ToInt32(String.IsNullOrEmpty(numValue) ? "1" : numValue);
-                }
-                catch
-                {
-                    return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
-                }
-            }     
-            return GetQuestionResponse(requestMessage, skipNum);
-        }
+        //public IResponseMessageBase GetQAResponseMessage(RequestMessageText requestMessage)
+        //{
+        //    //用户提交问题处理
+        //    var skipNum = 1;
+        //    var text = requestMessage.Content;            
+        //    if (text.Contains(" "))
+        //    {
+        //        try 
+        //        { 
+        //            var commond = text.Substring(0, text.IndexOf(" "));
+        //            var numValue = text.Substring(commond.Length + 1, text.Length - commond.Length - 1).Replace(" ","");
+        //            skipNum = Convert.ToInt32(String.IsNullOrEmpty(numValue) ? "1" : numValue);
+        //        }
+        //        catch
+        //        {
+        //            return new InvalidCommondService().GetInvalidCommondResponseMessage(requestMessage as RequestMessageText);
+        //        }
+        //    }     
+        //    return GetQuestionResponse(requestMessage, skipNum);
+        //}
 
-        /// <summary>
-        /// 取问题返回数据处理
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        /// <returns></returns>
-        private IResponseMessageBase GetQuestionResponse(RequestMessageText requestMessage, int skipNum)
-        {
-            return QuestionResponse<RequestMessageText>(requestMessage, GetQuestion(requestMessage, skipNum));
-        }
+        ///// <summary>
+        ///// 取问题返回数据处理
+        ///// </summary>
+        ///// <param name="requestMessage"></param>
+        ///// <returns></returns>
+        //private IResponseMessageBase GetQuestionResponse(RequestMessageText requestMessage, int skipNum)
+        //{
+        //    return QuestionResponse<RequestMessageText>(requestMessage, GetQuestion(requestMessage, skipNum));
+        //}
 
-        /// <summary>
-        /// 用户取问题
-        /// </summary>
-        /// <param name="requestMessage"></param>
-        private bmQA GetQuestion(RequestMessageText requestMessage, int skipNum)
-        {
-            if (skipNum < 1)
-                skipNum = 1;
-            skipNum = skipNum - 1;
-            var bll = new BaseBll<bmQA>();
-            var qaRef = Guid.Parse(Reference.问答类别_问题);
-            var curWeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
-            var questionCount = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).Count();
-            if (skipNum > questionCount)
-                skipNum = questionCount - 1;
-            var model = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).OrderByDescending(p => p.RegTime).Skip(skipNum).Take(1).FirstOrDefault();
-            return model;
-        }
+        ///// <summary>
+        ///// 用户取问题
+        ///// </summary>
+        ///// <param name="requestMessage"></param>
+        //private bmQA GetQuestion(RequestMessageText requestMessage, int skipNum)
+        //{
+        //    if (skipNum < 1)
+        //        skipNum = 1;
+        //    skipNum = skipNum - 1;
+        //    var bll = new BaseBll<bmQA>();
+        //    var qaRef = Guid.Parse(Reference.问答类别_问题);
+        //    var curWeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
+        //    var questionCount = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).Count();
+        //    if (skipNum > questionCount)
+        //        skipNum = questionCount - 1;
+        //    var model = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.WeiXinId == requestMessage.FromUserName && p.QARef == qaRef).OrderByDescending(p => p.RegTime).Skip(skipNum).Take(1).FirstOrDefault();
+        //    return model;
+        //}
 
         #endregion
 
