@@ -95,7 +95,9 @@ namespace MorSun.Controllers.SystemController
             {
                 ViewBag.RS = ResourceId;
                 ViewBag.ReturnUrl = returnUrl;
-                var model = UserQAService.GetUserQACache(CFG.用户待答题缓存键前缀 + id);                
+                var model = UserQAService.GetUserQACache(CFG.用户待答题缓存键前缀 + id);  
+                if(model == null)
+                    LogHelper.Write("用户答题缓存为空", LogHelper.LogMessageType.Error);
                 return View(model);
             }
             else

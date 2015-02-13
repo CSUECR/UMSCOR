@@ -28,10 +28,9 @@
                     <table id="MoreSunTable" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>币种</th>
-                                <th>币值</th>
-                                <th>问题图片</th>                                                          
+                                <th>ID</th>                                
+                                <th>问题图片</th>  
+                                <th>问题内容</th>                                                        
                             </tr>
                         </thead>
                         <tbody>
@@ -40,58 +39,16 @@
                                 <tr>
                                     <td>
                                         @item.ID
-                                    </td>
-                                    <td>
-                                        @refVModel.GetReferenceValue(item.MaBiRef)
-                                    </td>
-                                    <td>
-                                        @item.MaBiNum
-                                    </td>
-                                    <td><a href="@item.PicUrl" target="_blank">问题图片</a></td>                                    
+                                    </td>                                    
+                                    <td><a href="@item.PicUrl" target="_blank">问题图片</a></td>  
+                                    <td>@item.QAContent</td>                                  
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
-        }
-        @if (Model.AlreadyQA != null)
-        { 
-        <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-            <div class="portlet-title">
-                <div class="caption"><i class="icon-cogs"></i>已答题</div>
-            </div>
-            <div class="portlet-body">
-                <table id="MoreSunTable" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>币种</th>
-                            <th>币值</th>
-                            <th>问题图片</th>                           
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.AlreadyQA)
-                        {
-                            <tr>
-                                <td>
-                                    @item.ID
-                                </td>
-                                <td>
-                                    @refVModel.GetReferenceValue(item.MaBiRef)
-                                </td>
-                                <td>
-                                    @item.MaBiNum
-                                </td>
-                                <td><a href="@item.PicUrl" target="_blank">问题图片</a></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        }
+        }        
         </div>    
 </section>
 }
