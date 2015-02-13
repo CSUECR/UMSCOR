@@ -69,11 +69,11 @@ namespace MorSun.Controllers
             {
                 
                 //测试时可开启此记录，帮助跟踪数据，使用前请确保App_Data文件夹存在，且有读写权限。
-                messageHandler.RequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
-                if (messageHandler.UsingEcryptMessage)
-                {
-                    messageHandler.EcryptRequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
-                }
+                //messageHandler.RequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
+                //if (messageHandler.UsingEcryptMessage)
+                //{
+                //    messageHandler.EcryptRequestDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
+                //}
 
                 /* 如果需要添加消息去重功能，只需打开OmitRepeatedMessage功能，SDK会自动处理。
                  * 收到重复消息通常是因为微信服务器没有及时收到响应，会持续发送2-5条不等的相同内容的RequestMessage*/
@@ -83,12 +83,12 @@ namespace MorSun.Controllers
                 messageHandler.Execute();
                 
                 //测试时可开启，帮助跟踪数据
-                messageHandler.ResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
-                if (messageHandler.UsingEcryptMessage)
-                {
-                    //记录加密后的响应信息
-                    messageHandler.FinalResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
-                }
+                //messageHandler.ResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
+                //if (messageHandler.UsingEcryptMessage)
+                //{
+                //    //记录加密后的响应信息
+                //    messageHandler.FinalResponseDocument.Save(Server.MapPath("~/UploadFile/WeiXinData/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
+                //}
 
                 //return Content(messageHandler.ResponseDocument.ToString());//v0.7-
                 return new FixWeixinBugWeixinResult(messageHandler);//为了解决官方微信5.0软件换行bug暂时添加的方法，平时用下面一个方法即可
