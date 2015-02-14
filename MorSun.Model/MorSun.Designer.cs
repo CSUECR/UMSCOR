@@ -13353,6 +13353,78 @@ namespace MorSun.Model
         private global::System.String _WeiXinAPPName;
         partial void OnWeiXinAPPNameChanging(global::System.String value);
         partial void OnWeiXinAPPNameChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ZQBMB
+        {
+            get
+            {
+                return _ZQBMB;
+            }
+            set
+            {
+                OnZQBMBChanging(value);
+                ReportPropertyChanging("ZQBMB");
+                _ZQBMB = StructuralObject.SetValidValue(value, true, "ZQBMB");
+                ReportPropertyChanged("ZQBMB");
+                OnZQBMBChanged();
+            }
+        }
+        private global::System.String _ZQBMB;
+        partial void OnZQBMBChanging(global::System.String value);
+        partial void OnZQBMBChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String KQBMB
+        {
+            get
+            {
+                return _KQBMB;
+            }
+            set
+            {
+                OnKQBMBChanging(value);
+                ReportPropertyChanging("KQBMB");
+                _KQBMB = StructuralObject.SetValidValue(value, true, "KQBMB");
+                ReportPropertyChanged("KQBMB");
+                OnKQBMBChanged();
+            }
+        }
+        private global::System.String _KQBMB;
+        partial void OnKQBMBChanging(global::System.String value);
+        partial void OnKQBMBChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Domain
+        {
+            get
+            {
+                return _Domain;
+            }
+            set
+            {
+                OnDomainChanging(value);
+                ReportPropertyChanging("Domain");
+                _Domain = StructuralObject.SetValidValue(value, true, "Domain");
+                ReportPropertyChanged("Domain");
+                OnDomainChanged();
+            }
+        }
+        private global::System.String _Domain;
+        partial void OnDomainChanging(global::System.String value);
+        partial void OnDomainChanged();
 
         #endregion
 

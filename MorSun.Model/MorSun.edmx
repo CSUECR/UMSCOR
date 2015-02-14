@@ -2251,6 +2251,9 @@
           <Property Name="Scale" Type="decimal" Precision="18" Scale="6" />
           <Property Name="Label" Type="nvarchar" MaxLength="128" />
           <Property Name="WeiXinAPPName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ZQBMB" Type="nvarchar" MaxLength="512" />
+          <Property Name="KQBMB" Type="nvarchar" MaxLength="512" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.wmfRolePrivilegesView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -4199,7 +4202,10 @@ FROM [dbo].[bmOBView] AS [bmOBView]</DefiningQuery>
 [bmQAView].[LocationY] AS [LocationY], 
 [bmQAView].[Scale] AS [Scale], 
 [bmQAView].[Label] AS [Label], 
-[bmQAView].[WeiXinAPPName] AS [WeiXinAPPName]
+[bmQAView].[WeiXinAPPName] AS [WeiXinAPPName], 
+[bmQAView].[ZQBMB] AS [ZQBMB], 
+[bmQAView].[KQBMB] AS [KQBMB], 
+[bmQAView].[Domain] AS [Domain]
 FROM [dbo].[bmQAView] AS [bmQAView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="wmfRolePrivilegesView" EntityType="Self.wmfRolePrivilegesView" store:Type="Views" store:Schema="dbo">
@@ -7183,6 +7189,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="Scale" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="Label" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="WeiXinAPPName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ZQBMB" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="KQBMB" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Domain" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -11788,6 +11797,9 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmQAViews">
             <EntityTypeMapping TypeName="MorSun.Model.bmQAView">
               <MappingFragment StoreEntitySet="bmQAView">
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="KQBMB" ColumnName="KQBMB" />
+                <ScalarProperty Name="ZQBMB" ColumnName="ZQBMB" />
                 <ScalarProperty Name="WeiXinAPPName" ColumnName="WeiXinAPPName" />
                 <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="Scale" ColumnName="Scale" />

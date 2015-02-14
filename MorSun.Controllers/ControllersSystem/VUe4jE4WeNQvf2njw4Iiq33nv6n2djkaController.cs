@@ -1081,6 +1081,7 @@ namespace MorSun.Controllers.SystemController
                                 {
                                     model.TakeRef = bmTKJson.TakeRef;
                                     model.TakeTime = bmTKJson.TakeTime;
+                                    model.TakeMoney = bmTKJson.TakeMoney;
                                     model.BMExplain = bmTKJson.BMExplain;
                                     tnBll.Update(model);
                                     return "true";

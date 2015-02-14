@@ -31,7 +31,12 @@
                     <td>
                         @Html.TextAreaFor(m => m.ObjectionExplain, new { @class = "m-wrap large", style = "height:300px;" })
                     </td>
-                </tr>
+                </tr>                
+                <tr>
+                    <td>
+                        <button id="obSubmitBtn" class="btn green" type="button">@("提交".GX())</button>
+                    </td>                    
+                </tr>  
                 <tr>
                     <td style="color:red">
                         <p><h2 style="color:red">提交异议须知：</h2></p>
@@ -45,12 +50,7 @@
                         <p>请在问题回答后的72小时内提交异议，过期的话，马子判断该问题回答正确！</p>
                         <p>您提问时就代表您已经清楚明白并同意以上说明内容。</p>
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button id="obSubmitBtn" class="btn green" type="button">@("提交".GX())</button>
-                    </td>                    
-                </tr>                
+                </tr>              
             </tbody>
         </table>
     }
