@@ -355,6 +355,7 @@
                 $(confirmSubmitFormHandle('确认要增加吗', '#BtnAddMaBi', '#addMBForm', '马币增加失败，请联系管理员', '#divInfo', true));                
                 $(confirmSubmitFormHandle('确认要提交异议吗', '#obSubmitBtn', '#obForm', '提交失败，请联系管理员', '#divInfo', true));      
                 $(ajaxSubmitFormHandle('#BtnAddQ', '#addQForm', '提交失败，请联系管理员', '#divInfo', true));     
+                $($('#addQForm').keydown(function (e) { var curKey = e.which; if (curKey == 13) { $('#BtnAddQ').click(); return false; } }));
                 function addMaBi() {
                     //$('#DivLoginPort').toggle();
                 }

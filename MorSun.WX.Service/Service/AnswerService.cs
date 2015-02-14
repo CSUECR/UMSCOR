@@ -960,7 +960,7 @@ namespace MorSun.WX.ZYB.Service
             model.MsgId = msgid;
             model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
             //一般文本回答问题与强制文本回答问题
-            if (requestMessage.Content.ToLower().StartsWith(CFG.回答问题))
+            if (requestMessage.Content.Substring(0,2).ToLower().StartsWith(CFG.回答问题))
                 model.QAContent = requestMessage.Content.Substring(2).Trim();//将指令保存数据库
             else
                 model.QAContent = requestMessage.Content;
