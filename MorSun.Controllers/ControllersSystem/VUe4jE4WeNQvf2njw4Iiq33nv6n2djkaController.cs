@@ -424,6 +424,7 @@ namespace MorSun.Controllers.SystemController
                 s += " ";
             else
             {
+                LogHelper.Write("待取现数据量" + _tkList.Count(), LogHelper.LogMessageType.Debug);
                 foreach (var u in _tkList)
                 {
                     var t = new bmTakeNowJson
