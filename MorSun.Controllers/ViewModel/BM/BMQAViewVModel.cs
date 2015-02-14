@@ -82,6 +82,30 @@ namespace MorSun.Controllers.ViewModel
             }
         }
 
+        /// <summary>
+        /// 所有的追问
+        /// </summary>
+        public virtual IQueryable<bmQAView> ChirldQS
+        {
+            get
+            {
+                return base.All.Where(p => p.ParentId == sId).OrderBy(p => p.RegTime);
+            }
+        }
+        /// <summary>
+        /// 所有追问的答案
+        /// </summary>
+        public virtual IQueryable<bmQAView> ChrildAS
+        {
+            get
+            {
+                var refAId = Guid.Parse(Reference.问答类别_答案);
+                var refBSId = Guid.Parse(Reference.问答类别_不是问题);
+                var qids = ChirldQS.Select(p => p.ID);
+                return base.All.Where(p => p.ParentId != null && qids.Contains(p.ParentId.Value) && (p.QARef == refAId || p.QARef == refBSId));
+            }
+        }
+
         public virtual IQueryable<bmOBView> Objecs
         {
             get
@@ -119,6 +143,11 @@ namespace MorSun.Controllers.ViewModel
 
         public Guid? sId { get; set; }
 
+        /// <summary>
+        /// 微信接口需要原始路径
+        /// </summary>
+        public Guid? urlId { get; set; }
+
         public bool? sIsSort { get; set; }
 
         /// <summary>
@@ -139,7 +168,7 @@ namespace MorSun.Controllers.ViewModel
         /// <summary>
         /// 当前URL
         /// </summary>
-        public string ThisUrl { get { return CFG.网站域名 + CFG.问题查看路径 + "/" + sId.ToString(); } }
+        public string ThisUrl { get { return CFG.网站域名 + CFG.问题查看路径 + "/" + urlId.ToString(); } }
 
         /// <summary>
         /// 签名

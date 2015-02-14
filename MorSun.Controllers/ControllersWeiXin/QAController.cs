@@ -21,8 +21,18 @@ namespace MorSun.Controllers
             LogHelper.Write(Request.RawUrl, LogHelper.LogMessageType.Debug);
             var model = new BMQAViewVModel();
             if(id != null)
-            { 
-                model.sId = id;
+            {                 
+                //需要取出顶级问题//业务原因，现在只搞了两级以后要不要扩展再说
+                var bll = new BaseBll<bmQAView>();
+                var qavmodel = bll.All.FirstOrDefault(p => p.ID == id);
+                if (qavmodel != null && qavmodel.ParentId != null)
+                    qavmodel = bll.All.FirstOrDefault(p => p.ID == qavmodel.ParentId);
+
+                if(qavmodel == null)
+                    return RedirectToAction("I", "H");
+
+                model.sId = qavmodel.ID;
+                model.urlId = id;
                 return View(model);
             }    
             else

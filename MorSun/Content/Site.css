@@ -113,6 +113,8 @@ h5, h6 {
 .spanRed{color:red}
 .spanBold{font-weight:bold}                   
 .textCenter{text-align:center;}
+.textLeft{text-align:left;}
+.textRight{text-align:right;}
 
 /*btn*/
 .btn {

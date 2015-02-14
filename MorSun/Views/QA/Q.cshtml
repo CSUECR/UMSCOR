@@ -17,7 +17,7 @@
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@Model.Q.ID" />
                 
-                    @:问题数量：<input type="text" id="qCount" name="qCount" value="1" onkeydown="return InputInteger(event)" class="m-wrap xsmall" style="background-color:#fff;margin-right:60px;" />
+                    @:问题数量：<input type="text" id="qCount" name="qCount" value="1" onkeydown="return InputInteger(event)" class="m-wrap xsmall" style="background-color:#fff;margin-right:20px;" />
                     if (!Request.IsAuthenticated)
                     { 
                         <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
@@ -79,8 +79,10 @@
                 </div>
                 <div class="textCenter">
                     @if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_文本))
-                    {                    
-                        <h1>@Model.Q.QAContent</h1>                    
+                    {           
+                        <div class="textLeft">         
+                            <h1>@Model.Q.QAContent</h1>    
+                        </div>                
                     }
                     else if (Model.Q.MsgType == Guid.Parse(Reference.微信消息类别_图片))
                     {
@@ -112,8 +114,9 @@
                         {
                         <div class="textCenter">
                             @if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
-                            {                                
-                                <h1>@Model.A.QAContent</h1>                                
+                            {   <div class="textRight">                       
+                                <h1>@Model.A.QAContent</h1>  
+                                </div>                              
                             }
                             else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
                             {                            
@@ -131,23 +134,7 @@
                 </div>   
             }
 
-            @if(Model.Others.Count() > 0)
-            {                                 
-                foreach(var item in Model.Others)
-                {                                    
-                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
-                        <div class="portlet-title">
-                            <div class="caption"><i class="icon-cogs"></i>其他</div>
-                        </div>
-                            @if (item.QARef == Guid.Parse(Reference.问答类别_放弃))
-                            {
-                                <div class="textCenter">
-                                    <h1>被答题用户放弃</h1>
-                                </div>
-                            }                                                
-                    </div>                                        
-                }
-            } 
+            
 
             @if (Model.Objecs.Count() > 0)
             {                
@@ -192,6 +179,74 @@
                     }
                 </div>                
             } 
+
+            @foreach(var cq in Model.ChirldQS)
+            {
+                <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-cogs"></i>追问问题编号：@(cq.AutoGrenteId) &nbsp;&nbsp;&nbsp;&nbsp; @((cq.MBNum == 0 || cq.MBNum == null) && (cq.BBNum == 0 || cq.BBNum == null) ? "免费提问" : ("消耗" + ((cq.MBNum == 0 || cq.MBNum == null) ? "" : (Math.Abs(cq.MBNum).ToString("f0") + "马币")) + ((cq.BBNum == 0 || cq.BBNum == null) ? "" : (Math.Abs(cq.BBNum).ToString("f0") + "邦币")))) &nbsp;&nbsp;&nbsp;&nbsp; 提问时间：@(HOHO18.Common.ChangeDateTime.DateStringFromNow(cq.RegTime == null ? DateTime.Now : cq.RegTime.Value))</div>
+                    </div>
+                    <div class="textCenter">
+                        @if (cq.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+                        {           
+                            <div class="textLeft">         
+                            <h1>@cq.QAContent</h1>  
+                                </div>                  
+                        }
+                        else if (cq.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+                        {
+                            <img id="ImgQA" src="@cq.PicUrl" onclick="jumptourl('@cq.PicUrl')" width="99%" />
+                        }
+                        else if (cq.MsgType == Guid.Parse(Reference.微信消息类别_声音))
+                        {
+                            <img id="ImgQA" src="/images/zyb/voice.png" />
+                            <p>
+                                向“@cq.WeiXinAPPName” 发送 ck @cq.AutoGrenteId 可听到这条语音
+                            </p>                        
+                        }               
+                    </div>
+                </div>
+                
+                {var thisA = Model.ChrildAS.FirstOrDefault(p => p.ParentId == cq.ID);
+                if(thisA != null)
+                {
+                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-cogs"></i>答案</div>
+                    </div>
+
+                    @if (thisA.QARef == Guid.Parse(Reference.问答类别_不是问题))
+                    {
+                        <div class="textCenter">
+                            <h1>这不是一个问题</h1>
+                        </div>
+                    }
+                    @if (thisA.QARef == Guid.Parse(Reference.问答类别_答案))
+                        {
+                        <div class="textCenter">
+                            @if (thisA.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+                            {
+                                <div class="textRight">
+                                    <h1>@thisA.QAContent</h1>
+                                </div>
+                            }
+                            else if (thisA.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+                            {
+                                <img id="ImgDA" src="@thisA.PicUrl" onclick="jumptourl('@thisA.PicUrl')" width="99%" />
+                            }
+                            else if (thisA.MsgType == Guid.Parse(Reference.微信消息类别_声音))
+                            {
+                                <img id="ImgQA" src="/images/zyb/voice.png" />
+                                <p>
+                                    向“@thisA.WeiXinAPPName” 发送 ck @thisA.AutoGrenteId 可听到这条语音
+                                </p> 
+                            }   
+                        </div>
+                    }
+                </div>  
+                }
+                }
+            }
            
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
@@ -210,6 +265,27 @@
                     <p></p>
                 </div>
             </div>
+
+
+
+            @*@if (Model.Others.Count() > 0)
+            {
+                foreach (var item in Model.Others)
+                {
+                    <div class="portlet box @("red".getBC("BootStrapCssTable"))">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-cogs"></i>其他</div>
+                        </div>
+                        @if (item.QARef == Guid.Parse(Reference.问答类别_放弃))
+                        {
+                            <div class="textCenter">
+                                <h1>被答题用户放弃</h1>
+                            </div>
+                        }
+                    </div>
+                }
+            }*@ 
+
         </div>
     </div>         
 </section>
