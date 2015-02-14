@@ -102,6 +102,7 @@ namespace MorSun.WX.ZYB.Service
             LogHelper.Write("返回待答问题", LogHelper.LogMessageType.Debug);
             if(model == null)
             { //传过来是空值时，返回系统资源分配中
+                LogHelper.Write("传过来的答题为空", LogHelper.LogMessageType.Debug);
                 return NonDistributionResponse(requestMessage); 
             }     
             if(model.MsgType == Guid.Parse(Reference.微信消息类别_声音))
@@ -110,19 +111,23 @@ namespace MorSun.WX.ZYB.Service
                 responseMessage.Voice.MediaId = model.MediaId;
                 return responseMessage;
             }
-            if (model.MsgType == Guid.Parse(Reference.微信消息类别_图片))
+            else if (model.MsgType == Guid.Parse(Reference.微信消息类别_图片))
             {
                 var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageImage>(requestMessage);
                 responseMessage.Image.MediaId = model.MediaId;
                 return responseMessage;
             }
-            if (model.MsgType == Guid.Parse(Reference.微信消息类别_文本))
+            else if (model.MsgType == Guid.Parse(Reference.微信消息类别_文本))
             {
                 var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
                 responseMessage.Content = model.QAContent;
                 return responseMessage;
             }
-            return NonDistributionResponse(requestMessage); 
+            else
+            {
+                LogHelper.Write("无法识别的答题格式，返回再分配", LogHelper.LogMessageType.Debug);
+                return NonDistributionResponse(requestMessage);
+            }
             //else
             //{ 
             //    var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
@@ -427,6 +432,7 @@ namespace MorSun.WX.ZYB.Service
                     LogHelper.Write("添加用户到在线答题", LogHelper.LogMessageType.Debug);
                     UserQAService.AddOrUpdateOnlineQAUser(requestMessage, userWeiXin, rqid);
                     //返回答题资源分配中，稍候再发送答题命令
+                    LogHelper.Write("答题用户缓存为空", LogHelper.LogMessageType.Debug);
                     return NonDistributionResponse(requestMessage);
                 }
                 else
@@ -447,7 +453,7 @@ namespace MorSun.WX.ZYB.Service
                         else
                         {
                             //认证用户未进缓存
-                        
+                            LogHelper.Write("认证用户未进答题缓存", LogHelper.LogMessageType.Debug);
                             //返回答题资源分配中，稍候再发送答题命令
                             return NonDistributionResponse(requestMessage);
                         }
@@ -464,7 +470,7 @@ namespace MorSun.WX.ZYB.Service
                         else
                         {
                             //未认证用用户未进缓存
-                            
+                            LogHelper.Write("未认证用户未进答题缓存", LogHelper.LogMessageType.Debug);
                             //返回答题资源分配中，稍候再发送答题命令
                             return NonDistributionResponse(requestMessage);
                         }
@@ -954,7 +960,7 @@ namespace MorSun.WX.ZYB.Service
             model.MsgId = msgid;
             model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
             //一般文本回答问题与强制文本回答问题
-            if (requestMessage.Content.StartsWith(CFG.回答问题))
+            if (requestMessage.Content.ToLower().StartsWith(CFG.回答问题))
                 model.QAContent = requestMessage.Content.Substring(2).Trim();//将指令保存数据库
             else
                 model.QAContent = requestMessage.Content;
