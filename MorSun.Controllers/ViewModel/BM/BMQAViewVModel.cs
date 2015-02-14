@@ -89,7 +89,8 @@ namespace MorSun.Controllers.ViewModel
         {
             get
             {
-                return base.All.Where(p => p.ParentId == sId).OrderBy(p => p.RegTime);
+                var refAId = Guid.Parse(Reference.问答类别_问题);
+                return base.All.Where(p => p.ParentId == sId && p.QARef == refAId).OrderBy(p => p.RegTime);
             }
         }
         /// <summary>

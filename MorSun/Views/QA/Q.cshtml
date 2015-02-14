@@ -106,7 +106,7 @@
 
                     @if (Model.A.QARef == Guid.Parse(Reference.问答类别_不是问题))
                     {
-                        <div class="textCenter">
+                        <div class="textRight">
                             <h1>这不是一个问题</h1>
                         </div>
                     }
@@ -184,7 +184,7 @@
             {
                 <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                     <div class="portlet-title">
-                        <div class="caption"><i class="icon-cogs"></i>追问问题编号：@(cq.AutoGrenteId) &nbsp;&nbsp;&nbsp;&nbsp; @((cq.MBNum == 0 || cq.MBNum == null) && (cq.BBNum == 0 || cq.BBNum == null) ? "免费提问" : ("消耗" + ((cq.MBNum == 0 || cq.MBNum == null) ? "" : (Math.Abs(cq.MBNum).ToString("f0") + "马币")) + ((cq.BBNum == 0 || cq.BBNum == null) ? "" : (Math.Abs(cq.BBNum).ToString("f0") + "邦币")))) &nbsp;&nbsp;&nbsp;&nbsp; 提问时间：@(HOHO18.Common.ChangeDateTime.DateStringFromNow(cq.RegTime == null ? DateTime.Now : cq.RegTime.Value))</div>
+                        <div class="caption"><i class="icon-cogs"></i>追问编号：@(cq.AutoGrenteId) &nbsp;&nbsp;&nbsp;&nbsp; @((cq.MBNum == 0 || cq.MBNum == null) && (cq.BBNum == 0 || cq.BBNum == null) ? "免费提问" : ("消耗" + ((cq.MBNum == 0 || cq.MBNum == null) ? "" : (Math.Abs(cq.MBNum).ToString("f0") + "马币")) + ((cq.BBNum == 0 || cq.BBNum == null) ? "" : (Math.Abs(cq.BBNum).ToString("f0") + "邦币")))) &nbsp;&nbsp;&nbsp;&nbsp; 提问时间：@(HOHO18.Common.ChangeDateTime.DateStringFromNow(cq.RegTime == null ? DateTime.Now : cq.RegTime.Value))</div>
                     </div>
                     <div class="textCenter">
                         @if (cq.MsgType == Guid.Parse(Reference.微信消息类别_文本))
@@ -217,7 +217,7 @@
 
                     @if (thisA.QARef == Guid.Parse(Reference.问答类别_不是问题))
                     {
-                        <div class="textCenter">
+                        <div class="textRight">
                             <h1>这不是一个问题</h1>
                         </div>
                     }

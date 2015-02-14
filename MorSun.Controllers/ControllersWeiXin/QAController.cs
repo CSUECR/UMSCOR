@@ -24,9 +24,10 @@ namespace MorSun.Controllers
             {                 
                 //需要取出顶级问题//业务原因，现在只搞了两级以后要不要扩展再说
                 var bll = new BaseBll<bmQAView>();
-                var qavmodel = bll.All.FirstOrDefault(p => p.ID == id);
+                var refQId = Guid.Parse(Reference.问答类别_问题);
+                var qavmodel = bll.All.FirstOrDefault(p => p.ID == id && p.QARef == refQId);
                 if (qavmodel != null && qavmodel.ParentId != null)
-                    qavmodel = bll.All.FirstOrDefault(p => p.ID == qavmodel.ParentId);
+                    qavmodel = bll.All.FirstOrDefault(p => p.ID == qavmodel.ParentId && p.QARef == refQId);
 
                 if(qavmodel == null)
                     return RedirectToAction("I", "H");

@@ -113,8 +113,8 @@ h5, h6 {
 .spanRed{color:red}
 .spanBold{font-weight:bold}                   
 .textCenter{text-align:center;}
-.textLeft{text-align:left;}
-.textRight{text-align:right;}
+.textLeft{text-align:left; text-indent:each-line;margin-left:20px;}
+.textRight{text-align:right;text-indent:each-line;margin-right:20px;}
 
 /*btn*/
 .btn {
