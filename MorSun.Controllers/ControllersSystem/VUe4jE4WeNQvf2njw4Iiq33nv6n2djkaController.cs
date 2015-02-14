@@ -419,8 +419,8 @@ namespace MorSun.Controllers.SystemController
             var newTNList = new List<bmTakeNowJson>();
             var _tkList = new BaseBll<bmTakeNow>().All.Where(p => p.Effective == null && p.TakeRef == null); //每次都取出未处理的取现记录，直到处理为止
             //同步时间，未传递时，从定制的时间范围开始取，有传递时，从传递时间开始取。
-                       
-            if (_qaList.Count() == 0)
+
+            if (_tkList.Count() == 0)
                 s += " ";
             else
             {
