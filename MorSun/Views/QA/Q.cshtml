@@ -9,15 +9,15 @@
 @Scripts.Render("~/bundles/jqueryui")
 <section class="featuredwhite">
     <div class="content-wrapper clear-fix">           
-        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">
-            @using (Html.BeginForm("MB", "QA", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "addMBForm" }))
-            {
-                if(Model.A==null)
-                { 
+        <div class="topmenu alert @("alert-success".getBC("BootStrapCssAlert"))">            
+            @if(Model.A==null)
+            { 
+                using (Html.BeginForm("MB", "QA", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "addMBForm" }))
+                {
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@Model.Q.ID" />
                 
-                    @:问题数量：<input type="text" id="qCount" name="qCount" value="1" onkeydown="return InputInteger(event)" class="m-wrap xsmall" style="background-color:#fff;margin-right:20px;" />
+                    @:问题数量：<input type="text" id="qCount" name="qCount" value="1" onkeydown="return InputInteger(event)" class="m-wrap xsmall" style="background-color:#fff;margin-right:60px;" />
                     if (!Request.IsAuthenticated)
                     { 
                         <button id="BtnAddMaBi" class="btn yellow" type="button" onclick="addMaBi()">@("增加马币".GX())</button>
@@ -26,21 +26,52 @@
                     {
                         <button id="BtnAddMaBi" class="btn yellow" type="button">@("增加马币".GX())</button>
                     }
-                }
-                if(Model.A != null && Model.Objecs.Count() == 0)
-                { 
-                    <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
-                }
-                if (!Request.IsAuthenticated)
+                    
+                    if (!Request.IsAuthenticated)
+                    {
+                        <button id="BtnLogin" class="btn green" type="button" onclick="addMaBi()">@("登录".GX())</button> 
+                    } 
+                    else
+                    {
+                        <button id="BtnMember" class="btn green" type="button" onclick="jumptourl('/Member/I')">会员中心</button>
+                        <button id="BtnRecharge" class="btn purple" type="button" onclick="jumptourl('/Member/Recharge')">充值</button>
+                    }  
+                }                   
+            }
+            else { 
+                using (Html.BeginForm("AddQ", "QA", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "addQForm" }))
                 {
-                    <button id="BtnLogin" class="btn green" type="button" onclick="addMaBi()">@("登录".GX())</button> 
-                } 
-                else
-                {
-                    <button id="BtnMember" class="btn green" type="button" onclick="jumptourl('/Member/I')">会员中心</button>
-                    <button id="BtnRecharge" class="btn purple" type="button" onclick="jumptourl('/Member/Recharge')">充值</button>
+                    @Html.AntiForgeryToken()
+                
+                    <input type="hidden" name="id" value="@Model.Q.ID" />                
+                    @:追问：<input type="text" id="AddQ" name="AddQ" value="" class="m-wrap small" style="background-color:#fff;margin-right:60px;" />
+                
+                    if (!Request.IsAuthenticated)
+                    { 
+                        <button id="BtnAddQ" class="btn green" type="button" onclick="addQ()">@("追问".GX())</button>
+                    }
+                    else
+                    {
+                        <button id="BtnAddQ" class="btn green" type="button">@("追问".GX())</button>
+                    }
+
+                    if (Model.Objecs.Count() == 0)
+                    {
+                        <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
+                    }
+                    
+                    
+                    if (!Request.IsAuthenticated)
+                    {
+                        <button id="BtnLogin" class="btn green" type="button" onclick="addMaBi()">@("登录".GX())</button> 
+                    } 
+                    else
+                    {
+                        <button id="BtnMember" class="btn green" type="button" onclick="jumptourl('/Member/I')">会员中心</button>
+                        <button id="BtnRecharge" class="btn purple" type="button" onclick="jumptourl('/Member/Recharge')">充值</button>
+                    }      
                 }
-            }      
+            }        
         </div>
         <div class="portlet-body">            
             @if (!Request.IsAuthenticated)
@@ -106,7 +137,7 @@
 
                     @if (Model.A.QARef == Guid.Parse(Reference.问答类别_不是问题))
                     {
-                        <div class="textRight">
+                        <div class="textLeft">
                             <h1>这不是一个问题</h1>
                         </div>
                     }
@@ -114,12 +145,12 @@
                         {
                         <div class="textCenter">
                             @if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_文本))
-                            {   <div class="textRight">                       
-                                <h1>@Model.A.QAContent</h1>  
-                                </div>                              
+                            {   <div class="textLeft">
+                                    <h1>@Model.A.QAContent</h1>
+                                </div>
                             }
                             else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_图片))
-                            {                            
+                            {
                                 <img id="ImgDA" src="@Model.A.PicUrl" onclick="jumptourl('@Model.A.PicUrl')" width="99%" />
                             }
                             else if (Model.A.MsgType == Guid.Parse(Reference.微信消息类别_声音))
@@ -217,7 +248,7 @@
 
                     @if (thisA.QARef == Guid.Parse(Reference.问答类别_不是问题))
                     {
-                        <div class="textRight">
+                        <div class="textLeft">
                             <h1>这不是一个问题</h1>
                         </div>
                     }
@@ -226,7 +257,7 @@
                         <div class="textCenter">
                             @if (thisA.MsgType == Guid.Parse(Reference.微信消息类别_文本))
                             {
-                                <div class="textRight">
+                                <div class="textLeft">
                                     <h1>@thisA.QAContent</h1>
                                 </div>
                             }
@@ -311,16 +342,19 @@
                     }                    
                 }
                 function syy() {
-                    addMaBi()
+                    addMaBi();
+                }
+                function addQ(){
+                    addMaBi();
                 }
             </script>
         }
         else
         {
             <script type="text/javascript"> 
-                $(confirmSubmitFormHandle('确认要增加吗', '#BtnAddMaBi', '#addMBForm', '马币增加失败，请联系管理员', '#divInfo', true));
-                
-                $(confirmSubmitFormHandle('确认要提交异议吗', '#obSubmitBtn', '#obForm', '提交失败，请联系管理员', '#divInfo', true));                
+                $(confirmSubmitFormHandle('确认要增加吗', '#BtnAddMaBi', '#addMBForm', '马币增加失败，请联系管理员', '#divInfo', true));                
+                $(confirmSubmitFormHandle('确认要提交异议吗', '#obSubmitBtn', '#obForm', '提交失败，请联系管理员', '#divInfo', true));      
+                $(ajaxSubmitFormHandle('#BtnAddQ', '#addQForm', '提交失败，请联系管理员', '#divInfo', true));     
                 function addMaBi() {
                     //$('#DivLoginPort').toggle();
                 }

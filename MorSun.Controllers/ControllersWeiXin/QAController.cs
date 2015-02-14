@@ -315,5 +315,88 @@ namespace MorSun.Controllers
             return Json(oper, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// 追问
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="AddQ"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddQ(Guid? id, string AddQ, string returnUrl)
+        {
+            var s = "";
+            var bmqaBll = new BaseBll<bmQAView>();
+            var qaView = bmqaBll.GetModel(id);
+            if (!id.HasValue || id == Guid.Empty)
+            {
+                "AddQ".AE("参数错误", ModelState);
+                s += "参数错误";
+            }
+            else
+            {
+                //var qa = new BaseBll<bmQA>().GetModel(id);       
+                if (String.IsNullOrEmpty(AddQ))
+                {
+                    "AddQ".AE("追问无值", ModelState);
+                    s += "请输入追问内容";
+                }
+
+                if (qaView == null)
+                {
+                    "AddQ".AE("参数错误", ModelState);
+                    s += "参数错误";
+                }
+                var qauser = new BaseBll<bmUserWeixin>().All.FirstOrDefault(p => p.WeiXinId == qaView.WeiXinId);
+                if (qauser == null)
+                {
+                    "AddQ".AE("未绑定", ModelState);
+                    s += " 提问用户未绑定邦马网";
+                }
+                else if (qauser.UserId != UserID)
+                {
+                    "AddQ".AE("不是您的", ModelState);
+                    s += " 不是您的问题您不能追问";
+                }
+
+                //已经被回答了则不再增加马币
+                var refAId = Guid.Parse(Reference.问答类别_答案);
+                var refBSId = Guid.Parse(Reference.问答类别_不是问题);
+                var qada = bmqaBll.All.FirstOrDefault(p => p.ParentId == id && (p.QARef == refAId || p.QARef == refBSId));
+                if (qada == null)
+                {
+                    "AddQ".AE("未解答", ModelState);
+                    s += " 该问题未解答";
+                }                
+            }
+            var oper = new OperationResult(OperationResultType.Error, "提交失败：" + s);
+            if (ModelState.IsValid)
+            {
+                var bll = new BaseBll<bmQA>();
+                var model = new bmQA();
+
+                model.ID = Guid.NewGuid();
+
+                model.WeiXinId = qaView.WeiXinId;
+                model.QARef = Guid.Parse(Reference.问答类别_问题);
+                model.MsgId = qaView.MsgId + DateTime.Now.ToString();
+                model.MsgType = Guid.Parse(Reference.微信消息类别_文本);
+                model.QAContent = AddQ;
+                model.WeiXinAPP = qaView.WeiXinAPP;
+                model.ParentId = qaView.ID;
+
+                model.RegTime = DateTime.Now;
+                model.ModTime = DateTime.Now;
+                model.FlagTrashed = false;
+                model.FlagDeleted = false;
+                bll.Insert(model);
+                //封装返回的数据
+                fillOperationResult(returnUrl, oper, "提交成功");
+                return Json(oper, JsonRequestBehavior.AllowGet);
+            }
+            oper.AppendData = ModelState.GE();
+            return Json(oper, JsonRequestBehavior.AllowGet);
+        }
     }
 }
