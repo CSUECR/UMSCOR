@@ -17359,6 +17359,30 @@ namespace MorSun.Model
         private Nullable<global::System.Decimal> _NBANB;
         partial void OnNBANBChanging(Nullable<global::System.Decimal> value);
         partial void OnNBANBChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String WeiXinAPPName
+        {
+            get
+            {
+                return _WeiXinAPPName;
+            }
+            set
+            {
+                OnWeiXinAPPNameChanging(value);
+                ReportPropertyChanging("WeiXinAPPName");
+                _WeiXinAPPName = StructuralObject.SetValidValue(value, true, "WeiXinAPPName");
+                ReportPropertyChanged("WeiXinAPPName");
+                OnWeiXinAPPNameChanged();
+            }
+        }
+        private global::System.String _WeiXinAPPName;
+        partial void OnWeiXinAPPNameChanging(global::System.String value);
+        partial void OnWeiXinAPPNameChanged();
 
         #endregion
 

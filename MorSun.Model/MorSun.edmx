@@ -2268,6 +2268,7 @@
           <Property Name="NMB" Type="decimal" Precision="38" Scale="6" />
           <Property Name="NBB" Type="decimal" Precision="38" Scale="6" />
           <Property Name="NBANB" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="WeiXinAPPName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.wmfRolePrivilegesView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -4230,7 +4231,8 @@ FROM [dbo].[bmQAView] AS [bmQAView]</DefiningQuery>
 [bmWeiXinMB].[WeiXinAPP] AS [WeiXinAPP], 
 [bmWeiXinMB].[NMB] AS [NMB], 
 [bmWeiXinMB].[NBB] AS [NBB], 
-[bmWeiXinMB].[NBANB] AS [NBANB]
+[bmWeiXinMB].[NBANB] AS [NBANB], 
+[bmWeiXinMB].[WeiXinAPPName] AS [WeiXinAPPName]
 FROM [dbo].[bmWeiXinMB] AS [bmWeiXinMB]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="wmfRolePrivilegesView" EntityType="Self.wmfRolePrivilegesView" store:Type="Views" store:Schema="dbo">
@@ -9593,6 +9595,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="NMB" Type="Decimal" Precision="38" Scale="6" />
           <Property Name="NBB" Type="Decimal" Precision="38" Scale="6" />
           <Property Name="NBANB" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="WeiXinAPPName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -11937,6 +11940,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmWeiXinMBs">
             <EntityTypeMapping TypeName="MorSun.Model.bmWeiXinMB">
               <MappingFragment StoreEntitySet="bmWeiXinMB">
+                <ScalarProperty Name="WeiXinAPPName" ColumnName="WeiXinAPPName" />
                 <ScalarProperty Name="NBANB" ColumnName="NBANB" />
                 <ScalarProperty Name="NBB" ColumnName="NBB" />
                 <ScalarProperty Name="NMB" ColumnName="NMB" />
