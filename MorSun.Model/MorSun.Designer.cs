@@ -2360,6 +2360,22 @@ namespace MorSun.Model
             }
         }
         private ObjectSet<bmOBView> _bmOBViews;
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        public ObjectSet<bmWeiXinMB> bmWeiXinMBs
+        {
+            get
+            {
+                if ((_bmWeiXinMBs == null))
+                {
+                    _bmWeiXinMBs = base.CreateObjectSet<bmWeiXinMB>("bmWeiXinMBs");
+                }
+                return _bmWeiXinMBs;
+            }
+        }
+        private ObjectSet<bmWeiXinMB> _bmWeiXinMBs;
 
         #endregion
 
@@ -3443,6 +3459,14 @@ namespace MorSun.Model
         public void AddTobmOBViews(bmOBView bmOBView)
         {
             base.AddObject("bmOBViews", bmOBView);
+        }
+    
+        /// <summary>
+        /// 用于向 bmWeiXinMBs EntitySet 添加新对象的方法，已弃用。请考虑改用关联的 ObjectSet&lt;T&gt; 属性的 .Add 方法。
+        /// </summary>
+        public void AddTobmWeiXinMBs(bmWeiXinMB bmWeiXinMB)
+        {
+            base.AddObject("bmWeiXinMBs", bmWeiXinMB);
         }
 
         #endregion
@@ -17135,6 +17159,206 @@ namespace MorSun.Model
                 }
             }
         }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// 没有元数据文档可用。
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="MorSun.Model", Name="bmWeiXinMB")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class bmWeiXinMB : EntityObject
+    {
+        #region 工厂方法
+    
+        /// <summary>
+        /// 创建新的 bmWeiXinMB 对象。
+        /// </summary>
+        /// <param name="id">ID 属性的初始值。</param>
+        public static bmWeiXinMB CreatebmWeiXinMB(global::System.Guid id)
+        {
+            bmWeiXinMB bmWeiXinMB = new bmWeiXinMB();
+            bmWeiXinMB.ID = id;
+            return bmWeiXinMB;
+        }
+
+        #endregion
+
+        #region 简单属性
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value, "ID");
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Guid _ID;
+        partial void OnIDChanging(global::System.Guid value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value, "UserId");
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _UserId;
+        partial void OnUserIdChanging(Nullable<global::System.Guid> value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String WeiXinId
+        {
+            get
+            {
+                return _WeiXinId;
+            }
+            set
+            {
+                OnWeiXinIdChanging(value);
+                ReportPropertyChanging("WeiXinId");
+                _WeiXinId = StructuralObject.SetValidValue(value, true, "WeiXinId");
+                ReportPropertyChanged("WeiXinId");
+                OnWeiXinIdChanged();
+            }
+        }
+        private global::System.String _WeiXinId;
+        partial void OnWeiXinIdChanging(global::System.String value);
+        partial void OnWeiXinIdChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> WeiXinAPP
+        {
+            get
+            {
+                return _WeiXinAPP;
+            }
+            set
+            {
+                OnWeiXinAPPChanging(value);
+                ReportPropertyChanging("WeiXinAPP");
+                _WeiXinAPP = StructuralObject.SetValidValue(value, "WeiXinAPP");
+                ReportPropertyChanged("WeiXinAPP");
+                OnWeiXinAPPChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _WeiXinAPP;
+        partial void OnWeiXinAPPChanging(Nullable<global::System.Guid> value);
+        partial void OnWeiXinAPPChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> NMB
+        {
+            get
+            {
+                return _NMB;
+            }
+            set
+            {
+                OnNMBChanging(value);
+                ReportPropertyChanging("NMB");
+                _NMB = StructuralObject.SetValidValue(value, "NMB");
+                ReportPropertyChanged("NMB");
+                OnNMBChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _NMB;
+        partial void OnNMBChanging(Nullable<global::System.Decimal> value);
+        partial void OnNMBChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> NBB
+        {
+            get
+            {
+                return _NBB;
+            }
+            set
+            {
+                OnNBBChanging(value);
+                ReportPropertyChanging("NBB");
+                _NBB = StructuralObject.SetValidValue(value, "NBB");
+                ReportPropertyChanged("NBB");
+                OnNBBChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _NBB;
+        partial void OnNBBChanging(Nullable<global::System.Decimal> value);
+        partial void OnNBBChanged();
+    
+        /// <summary>
+        /// 没有元数据文档可用。
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> NBANB
+        {
+            get
+            {
+                return _NBANB;
+            }
+            set
+            {
+                OnNBANBChanging(value);
+                ReportPropertyChanging("NBANB");
+                _NBANB = StructuralObject.SetValidValue(value, "NBANB");
+                ReportPropertyChanged("NBANB");
+                OnNBANBChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _NBANB;
+        partial void OnNBANBChanging(Nullable<global::System.Decimal> value);
+        partial void OnNBANBChanged();
 
         #endregion
 

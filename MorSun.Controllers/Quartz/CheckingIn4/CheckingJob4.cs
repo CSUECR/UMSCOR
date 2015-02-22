@@ -373,7 +373,7 @@ namespace MorSun.Controllers.Quartz
         public static void SetGQACache(Guid qaid)
         {
             //保存到缓存中
-            CacheAccess.AddToCacheByTime(CFG.问题分配缓存键, qaid, 14);
+            CacheAccess.AddToCacheByTime(CFG.问题分配缓存键, qaid, 10);
         }
 
         public void SaveToCacheByDependency(string cacheKey, object cacheObject, CacheDependency dependency)

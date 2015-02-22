@@ -2256,6 +2256,20 @@
           <Property Name="Domain" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <!--生成过程中发现错误:
+警告 6002: 表/视图“UserCenter.dbo.bmWeiXinMB”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="bmWeiXinMB">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="WeiXinId" Type="nvarchar" MaxLength="128" />
+          <Property Name="WeiXinAPP" Type="uniqueidentifier" />
+          <Property Name="NMB" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="NBB" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="NBANB" Type="decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.wmfRolePrivilegesView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -4207,6 +4221,17 @@ FROM [dbo].[bmOBView] AS [bmOBView]</DefiningQuery>
 [bmQAView].[KQBMB] AS [KQBMB], 
 [bmQAView].[Domain] AS [Domain]
 FROM [dbo].[bmQAView] AS [bmQAView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="bmWeiXinMB" EntityType="Self.bmWeiXinMB" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[bmWeiXinMB].[ID] AS [ID], 
+[bmWeiXinMB].[UserId] AS [UserId], 
+[bmWeiXinMB].[WeiXinId] AS [WeiXinId], 
+[bmWeiXinMB].[WeiXinAPP] AS [WeiXinAPP], 
+[bmWeiXinMB].[NMB] AS [NMB], 
+[bmWeiXinMB].[NBB] AS [NBB], 
+[bmWeiXinMB].[NBANB] AS [NBANB]
+FROM [dbo].[bmWeiXinMB] AS [bmWeiXinMB]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="wmfRolePrivilegesView" EntityType="Self.wmfRolePrivilegesView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -9424,6 +9449,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             <End Role="wmfReference" EntitySet="wmfReferences" />
             <End Role="bmOnlineQAUserRecord" EntitySet="bmOnlineQAUserRecords" />
           </AssociationSet>
+          <EntitySet Name="bmWeiXinMBs" EntityType="MorSun.Model.bmWeiXinMB" />
         </EntityContainer>
         <Association Name="FK_bmUserMaBiRecord_bmRecharge">
           <End Type="MorSun.Model.bmRecharge" Role="bmRecharge" Multiplicity="0..1" />
@@ -9556,6 +9582,18 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="bmWeiXinMB">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="WeiXinId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="WeiXinAPP" Type="Guid" />
+          <Property Name="NMB" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="NBB" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="NBANB" Type="Decimal" Precision="38" Scale="6" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -11892,6 +11930,19 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
                 <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="QAId" ColumnName="QAId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bmWeiXinMBs">
+            <EntityTypeMapping TypeName="MorSun.Model.bmWeiXinMB">
+              <MappingFragment StoreEntitySet="bmWeiXinMB">
+                <ScalarProperty Name="NBANB" ColumnName="NBANB" />
+                <ScalarProperty Name="NBB" ColumnName="NBB" />
+                <ScalarProperty Name="NMB" ColumnName="NMB" />
+                <ScalarProperty Name="WeiXinAPP" ColumnName="WeiXinAPP" />
+                <ScalarProperty Name="WeiXinId" ColumnName="WeiXinId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

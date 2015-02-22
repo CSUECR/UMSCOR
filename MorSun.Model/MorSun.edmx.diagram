@@ -271,6 +271,7 @@
         <AssociationConnector Association="MorSun.Model.FK_bmQA_wmfReference21" />
         <AssociationConnector Association="MorSun.Model.FK_bmOnlineQAUser_wmfReference2" />
         <AssociationConnector Association="MorSun.Model.FK_bmOnlineQAUserRecord_wmfReference2" />
+        <EntityTypeShape EntityType="MorSun.Model.bmWeiXinMB" Width="1.5" PointX="3.375" PointY="26.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
