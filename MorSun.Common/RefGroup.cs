@@ -281,6 +281,7 @@ namespace MorSun.Common
 
             //在线答题用户缓存Key
             public const string 在线答题用户缓存键 = "olineqausers"; //默认小写
+            public const string 问题分配缓存键 = "qadiskey";
             public const string 用户待答题缓存键前缀 = "dt";
             public const string 用户马币缓存键前缀 = "mb";
             public const string 限制用户并发缓存键前缀 = "lrq";

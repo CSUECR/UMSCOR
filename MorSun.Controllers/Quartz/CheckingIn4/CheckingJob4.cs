@@ -21,6 +21,8 @@ namespace MorSun.Controllers.Quartz
     {
         public static OnlineQAUserCache GenerateQAUserCache()
         {
+            var rqid = Guid.NewGuid();
+            DISStart(rqid);
             var bll = new BaseBll<bmOnlineQAUser>();
             var qadisbll = new BaseBll<bmQADistribution>();
             var qabll = new BaseBll<bmQA>();
@@ -28,108 +30,113 @@ namespace MorSun.Controllers.Quartz
             var uwbll = new BaseBll<bmUserWeixin>();
             var numbbll = new BaseBll<bmNewUserMB>();
 
-            #region 刚提的问题生成马币消费记录与分配记录
-            //取出所有未分配记录的问题      "提问都不一定绑定用户"
-            var qaRef = Guid.Parse(Reference.问答类别_问题);
             var curWeiXinAPP = Guid.Parse(CFG.邦马网_当前微信应用);
-            var nonmbQA = qabll.All.Where(p => p.QARef == qaRef && p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.bmQADistributions.Count() == 0);    //必须是提问才分配,当前应用是微信APP。
 
-            //取出所有未生成马币记录的提问用户
-            var nonmbUid = nonmbQA.Select(p => p.WeiXinId).Distinct();
-            LogHelper.Write("新提问的用户数" + nonmbUid.Count().ToString(), LogHelper.LogMessageType.Debug);
-            //区分出已绑定与未绑定的用户ID            
-            //绑定的用户ID
-            var uwU = uwbll.All.Where(p => nonmbUid.Contains(p.WeiXinId) && p.WeiXinAPP == curWeiXinAPP);
-            //绑定的用户微信ID
-            var uwUid = uwU.Select(p => p.WeiXinId);
-
-            //未绑定的用户ID
-            var nonuwUID = nonmbUid.Where(p => !uwUid.Contains(p));
-
-            //已绑定的用户取邦马币值，邦马币值大于0的取出来
-            var uwUSid = uwU.Select(p => p.UserId);
-            var defXFMB = Convert.ToDecimal(CFG.提问默认收费马币值);
-            var UserBMB = numbbll.All.Where(p => uwUSid.Contains(p.UserId) && (p.NMB > defXFMB || p.NBB > defXFMB));
-            LogHelper.Write("花邦马币提问的用户数" + UserBMB.Count().ToString(), LogHelper.LogMessageType.Debug);
-            //生成马币记录
-            //先生成收费的马币记录，收费问题分配给默认收费答题用户。未生成收费的马币记录，直接分配给默认免费答题用户
-            var mbQAIds = new List<Guid>();
-            var tempMB = Convert.ToDecimal(0);
-            var tempBB = Convert.ToDecimal(0);
-            var tempQACount = 0;
-            foreach (var u in UserBMB)
+            var cqaid = GetGQACache();
+            if (rqid == cqaid)
             {
-                tempMB = u.NMB.Value;
-                tempBB = u.NBB.Value;
-                //能取出的当前用户问题数
-                tempQACount = Convert.ToInt32(((tempMB + tempBB) / defXFMB));
-                var uwxid = uwU.FirstOrDefault(p => p.UserId == u.UserId).WeiXinId;
-                //当前用户提问数
-                var uqa = nonmbQA.Where(p => p.WeiXinId == uwxid).Take(tempQACount);
-                foreach (var q in uqa)
+                #region 刚提的问题生成马币消费记录与分配记录
+                //取出所有未分配记录的问题      "提问都不一定绑定用户"
+                var qaRef = Guid.Parse(Reference.问答类别_问题);
+
+                var nonmbQA = qabll.All.Where(p => p.QARef == qaRef && p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.bmQADistributions.Count() == 0);    //必须是提问才分配,当前应用是微信APP。
+
+                //取出所有未生成马币记录的提问用户
+                var nonmbUid = nonmbQA.Select(p => p.WeiXinId).Distinct();
+                LogHelper.Write("新提问的用户数" + nonmbUid.Count().ToString(), LogHelper.LogMessageType.Debug);
+                //区分出已绑定与未绑定的用户ID            
+                //绑定的用户ID
+                var uwU = uwbll.All.Where(p => nonmbUid.Contains(p.WeiXinId) && p.WeiXinAPP == curWeiXinAPP);
+                //绑定的用户微信ID
+                var uwUid = uwU.Select(p => p.WeiXinId);
+
+                //未绑定的用户ID
+                var nonuwUID = nonmbUid.Where(p => !uwUid.Contains(p));
+
+                //已绑定的用户取邦马币值，邦马币值大于0的取出来
+                var uwUSid = uwU.Select(p => p.UserId);
+                var defXFMB = Convert.ToDecimal(CFG.提问默认收费马币值);
+                var UserBMB = numbbll.All.Where(p => uwUSid.Contains(p.UserId) && (p.NMB > defXFMB || p.NBB > defXFMB));
+                LogHelper.Write("花邦马币提问的用户数" + UserBMB.Count().ToString(), LogHelper.LogMessageType.Debug);
+                //生成马币记录
+                //先生成收费的马币记录，收费问题分配给默认收费答题用户。未生成收费的马币记录，直接分配给默认免费答题用户
+                var mbQAIds = new List<Guid>();
+                var tempMB = Convert.ToDecimal(0);
+                var tempBB = Convert.ToDecimal(0);
+                var tempQACount = 0;
+                foreach (var u in UserBMB)
                 {
-                    //有消费的问题记录做标记
-                    mbQAIds.Add(q.ID);
-                    var umbrModel = new bmUserMaBiRecord();
-                    umbrModel.SourceRef = Guid.Parse(Reference.马币来源_消费);
-                    if (tempBB >= defXFMB)
+                    tempMB = u.NMB.Value;
+                    tempBB = u.NBB.Value;
+                    //能取出的当前用户问题数
+                    tempQACount = Convert.ToInt32(((tempMB + tempBB) / defXFMB));
+                    var uwxid = uwU.FirstOrDefault(p => p.UserId == u.UserId).WeiXinId;
+                    //当前用户提问数
+                    var uqa = nonmbQA.Where(p => p.WeiXinId == uwxid).Take(tempQACount);
+                    foreach (var q in uqa)
                     {
-                        umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
-                        tempBB -= defXFMB;
+                        //有消费的问题记录做标记
+                        mbQAIds.Add(q.ID);
+                        var umbrModel = new bmUserMaBiRecord();
+                        umbrModel.SourceRef = Guid.Parse(Reference.马币来源_消费);
+                        if (tempBB >= defXFMB)
+                        {
+                            umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
+                            tempBB -= defXFMB;
+                        }
+                        else if (tempMB >= defXFMB)
+                        {
+                            umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_马币);
+                            tempMB -= defXFMB;
+                        }
+                        umbrModel.MaBiNum = 0 - defXFMB;
+                        umbrModel.QAId = q.ID;
+
+                        umbrModel.IsSettle = false;
+                        umbrModel.RegTime = DateTime.Now;
+                        umbrModel.ModTime = DateTime.Now;
+                        umbrModel.FlagTrashed = false;
+                        umbrModel.FlagDeleted = false;
+
+                        umbrModel.ID = Guid.NewGuid();
+                        umbrModel.UserId = u.UserId;
+                        umbrModel.RegUser = u.UserId;
+
+                        bmumbBll.Insert(umbrModel, false);
                     }
-                    else if (tempMB >= defXFMB)
+                }
+                LogHelper.Write("花邦马币提问的问题数" + mbQAIds.Count().ToString(), LogHelper.LogMessageType.Debug);
+                //生成问题分配记录，收费的到收费的默认账号，免费的到免费的默认账号
+                foreach (var q in nonmbQA)
+                {
+                    //问题分配处理                
+                    var qaModel = new bmQADistribution();
+
+                    qaModel.ID = Guid.NewGuid();
+                    qaModel.QAId = q.ID;
+                    qaModel.DistributionTime = DateTime.Now;
+
+                    qaModel.RegTime = DateTime.Now;
+                    qaModel.ModTime = DateTime.Now;
+                    qaModel.FlagTrashed = false;
+                    qaModel.FlagDeleted = false;
+
+                    qaModel.Result = Guid.Parse(Reference.分配答题操作_待解答);
+                    if (mbQAIds.Contains(q.ID))
                     {
-                        umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_马币);
-                        tempMB -= defXFMB;
+                        qaModel.WeiXinId = CFG.默认收费问题微信号;
                     }
-                    umbrModel.MaBiNum = 0 - defXFMB;
-                    umbrModel.QAId = q.ID;
-
-                    umbrModel.IsSettle = false;
-                    umbrModel.RegTime = DateTime.Now;
-                    umbrModel.ModTime = DateTime.Now;
-                    umbrModel.FlagTrashed = false;
-                    umbrModel.FlagDeleted = false;
-
-                    umbrModel.ID = Guid.NewGuid();
-                    umbrModel.UserId = u.UserId;
-                    umbrModel.RegUser = u.UserId;
-
-                    bmumbBll.Insert(umbrModel, false);
+                    else
+                    {
+                        qaModel.WeiXinId = CFG.默认免费问题微信号;
+                    }
+                    qadisbll.Insert(qaModel, false);
                 }
+                //bmumbBll.UpdateChanges();
+                //qadisbll.UpdateChanges();
+
+                #endregion
             }
-            LogHelper.Write("花邦马币提问的问题数" + mbQAIds.Count().ToString(), LogHelper.LogMessageType.Debug);
-            //生成问题分配记录，收费的到收费的默认账号，免费的到免费的默认账号
-            foreach (var q in nonmbQA)
-            {
-                //问题分配处理                
-                var qaModel = new bmQADistribution();
-
-                qaModel.ID = Guid.NewGuid();
-                qaModel.QAId = q.ID;
-                qaModel.DistributionTime = DateTime.Now;
-
-                qaModel.RegTime = DateTime.Now;
-                qaModel.ModTime = DateTime.Now;
-                qaModel.FlagTrashed = false;
-                qaModel.FlagDeleted = false;
-
-                qaModel.Result = Guid.Parse(Reference.分配答题操作_待解答);
-                if (mbQAIds.Contains(q.ID))
-                {
-                    qaModel.WeiXinId = CFG.默认收费问题微信号;
-                }
-                else
-                {
-                    qaModel.WeiXinId = CFG.默认免费问题微信号;
-                }
-                qadisbll.Insert(qaModel, false);
-            }
-            //bmumbBll.UpdateChanges();
-            //qadisbll.UpdateChanges();
-
-            #endregion
-
             var qastate = Guid.Parse(Reference.分配答题操作_待解答);
             #region 未解决的问题重新分配
             //默认用户未解决的问题修改为待解答，以超过配置的时间为准
@@ -316,7 +323,7 @@ namespace MorSun.Controllers.Quartz
             bll.UpdateChanges();
             //不活跃用户处理结束
             #endregion
-
+            
             //生成缓存对象
             var model = new OnlineQAUserCache();
             model.RefreshTime = DateTime.Now;
@@ -333,6 +340,41 @@ namespace MorSun.Controllers.Quartz
             return model;
         }
 
+
+        public static void DISStart(Guid rqid)           
+        {
+            Guid mid = GetGQACache();
+            if (mid == Guid.Empty)
+            {
+                LogHelper.Write(("设置定时处理器分配缓存，防止定时器并发"), LogHelper.LogMessageType.Debug);
+                //设置用户消息缓存
+                SetGQACache(rqid);
+            }
+        }
+
+        /// <summary>
+        /// 获取问题分配缓存键
+        /// </summary>
+        /// <returns></returns>
+        public static Guid GetGQACache()
+        {
+            Guid gqaid = Guid.Empty;
+            //从缓存中读取
+            var qaid = CacheAccess.GetFromCache(CFG.问题分配缓存键);
+            if (qaid != null)
+                gqaid = Guid.Parse(qaid.ToString());
+            return gqaid;
+        }
+
+        /// <summary>
+        /// 设置问题分配缓存键
+        /// </summary>        
+        /// <param name="qaid"></param>
+        public static void SetGQACache(Guid qaid)
+        {
+            //保存到缓存中
+            CacheAccess.AddToCacheByTime(CFG.问题分配缓存键, qaid, 14);
+        }
 
         public void SaveToCacheByDependency(string cacheKey, object cacheObject, CacheDependency dependency)
         {
