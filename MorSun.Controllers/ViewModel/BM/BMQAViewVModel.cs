@@ -150,6 +150,10 @@ namespace MorSun.Controllers.ViewModel
         public Guid? urlId { get; set; }
 
         public bool? sIsSort { get; set; }
+        /// <summary>
+        /// 当前用户ID
+        /// </summary>
+        public Guid? curUserId { get; set; }
 
         /// <summary>
         /// 微信APP

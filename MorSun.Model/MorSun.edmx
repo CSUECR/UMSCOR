@@ -2254,6 +2254,7 @@
           <Property Name="ZQBMB" Type="nvarchar" MaxLength="512" />
           <Property Name="KQBMB" Type="nvarchar" MaxLength="512" />
           <Property Name="Domain" Type="nvarchar" MaxLength="512" />
+          <Property Name="UserId" Type="uniqueidentifier" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“UserCenter.dbo.bmWeiXinMB”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -4220,7 +4221,8 @@ FROM [dbo].[bmOBView] AS [bmOBView]</DefiningQuery>
 [bmQAView].[WeiXinAPPName] AS [WeiXinAPPName], 
 [bmQAView].[ZQBMB] AS [ZQBMB], 
 [bmQAView].[KQBMB] AS [KQBMB], 
-[bmQAView].[Domain] AS [Domain]
+[bmQAView].[Domain] AS [Domain], 
+[bmQAView].[UserId] AS [UserId]
 FROM [dbo].[bmQAView] AS [bmQAView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="bmWeiXinMB" EntityType="Self.bmWeiXinMB" store:Type="Views" store:Schema="dbo">
@@ -7219,6 +7221,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <Property Name="ZQBMB" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="KQBMB" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="Domain" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Guid" />
         </EntityType>
         <EntityType Name="wmfRolePrivilegesView">
           <Key>
@@ -11838,6 +11841,7 @@ FROM [dbo].[wmfRolePrivilegesView] AS [wmfRolePrivilegesView]</DefiningQuery>
           <EntitySetMapping Name="bmQAViews">
             <EntityTypeMapping TypeName="MorSun.Model.bmQAView">
               <MappingFragment StoreEntitySet="bmQAView">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="KQBMB" ColumnName="KQBMB" />
                 <ScalarProperty Name="ZQBMB" ColumnName="ZQBMB" />

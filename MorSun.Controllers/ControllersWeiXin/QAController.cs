@@ -34,6 +34,10 @@ namespace MorSun.Controllers
 
                 model.sId = qavmodel.ID;
                 model.urlId = id;
+                if(IsLogin)
+                {
+                    model.curUserId = UserID;
+                }
                 return View(model);
             }    
             else
@@ -41,6 +45,23 @@ namespace MorSun.Controllers
                 return RedirectToAction("I", "H");
             }
             
+        }
+
+        public ActionResult O(Guid? id)
+        {
+            LogHelper.Write(Request.RawUrl, LogHelper.LogMessageType.Debug);
+            var model = new BMQAViewVModel();
+            if (id != null)
+            {
+                model.sId = id;
+                model.urlId = id;
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("I", "H");
+            }
+
         }
 
         [HttpPost]

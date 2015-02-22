@@ -764,6 +764,7 @@
     <Content Include="Views\SYSConfig\UserQACache.cshtml" />
     <Content Include="Views\CS\C.cshtml" />
     <Content Include="Views\Shared\_Objection.cshtml" />
+    <Content Include="Views\QA\O.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
