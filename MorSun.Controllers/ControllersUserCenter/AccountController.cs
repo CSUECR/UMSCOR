@@ -332,6 +332,15 @@ namespace MorSun.Controllers
             }  
             else
             {
+                try {
+                    //LogHelper.Write("原：" + id + " |||| " + weixinId, LogHelper.LogMessageType.Info);
+                    id = SecurityHelper.Decrypt(id); 
+                    weixinId = SecurityHelper.Decrypt(weixinId);
+                    //LogHelper.Write(id + " |||| " + weixinId, LogHelper.LogMessageType.Info);
+                }
+                catch{
+                    return "";
+                }
                 CacheAccess.InsertToCacheByTime(id, weixinId, 60);
                 return "true";
             }
