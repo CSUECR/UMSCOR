@@ -8,7 +8,7 @@
     var rUrl = Model.ReturnUrl ?? "/H/I";
 }
 
-<div class="divLogon" style="height:86px;">
+<div class="divLogon" style="height:@(Model.ShowLoginTD? "116" : "86")px;">
     @if (!Request.IsAuthenticated)
     {
         using (Html.BeginForm("AjaxLogin", "Account", new { returnUrl = rUrl }, FormMethod.Post, new { id = "logonForm" }))
@@ -67,7 +67,7 @@
                             向作业邦发送以下命令中的一个，都可打开快速登录隧道。
                         </p>
                         <p>
-                            打开登录隧道命令:   <span class="red">dl</span> 或  <span class="red">登录</span> 或  <span class="red">登陆</span>    
+                            打开登录隧道命令:   <span class="spanRed">dl</span> 或  <span class="spanRed">登录</span> 或  <span class="spanRed">登陆</span>    
                         </p>
                     </td>
                 </tr>

@@ -81,7 +81,7 @@
                         <div class="caption"><i class="icon-cogs"></i>登录</div>
                     </div>
                     <section class="featured">
-                        <div class="content-wrapper">
+                        <div class="content-wrapper" style="min-height:460px;">
                             <div class="content-login" style="float:left;">                                                              
                                 @Html.Partial("_TableLogon", new LoginModel() { ReturnUrl = rUrl,ShowLoginTD = true })                                
                             </div>                            
@@ -216,7 +216,7 @@
                 var thisA = Model.ChrildAS.FirstOrDefault(p => p.ParentId == cq.ID);
                 <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                     <div class="portlet-title">
-                        <div class="caption"><i class="icon-cogs"></i>追问编号：@(cq.AutoGrenteId) &nbsp;&nbsp;&nbsp;&nbsp; @((cq.MBNum == 0 || cq.MBNum == null) && (cq.BBNum == 0 || cq.BBNum == null) ? "免费提问" : ("消耗" + ((cq.MBNum == 0 || cq.MBNum == null) ? "" : (Math.Abs(cq.MBNum).ToString("f0") + "马币")) + ((cq.BBNum == 0 || cq.BBNum == null) ? "" : (Math.Abs(cq.BBNum).ToString("f0") + "邦币")))) &nbsp;&nbsp;&nbsp;&nbsp; 提问时间：@(HOHO18.Common.ChangeDateTime.DateStringFromNow(cq.RegTime == null ? DateTime.Now : cq.RegTime.Value))  &nbsp;&nbsp;&nbsp;&nbsp; @{if(thisA != null && cq.UserId != null && cq.UserId == Model.curUserId){<a href="/qa/o/@cq.ID">操作</a>}}</div>
+                        <div class="caption"><i class="icon-cogs"></i>追问编号：@(cq.AutoGrenteId) &nbsp;&nbsp;&nbsp;&nbsp; @((cq.MBNum == 0 || cq.MBNum == null) && (cq.BBNum == 0 || cq.BBNum == null) ? "免费提问" : ("消耗" + ((cq.MBNum == 0 || cq.MBNum == null) ? "" : (Math.Abs(cq.MBNum).ToString("f0") + "马币")) + ((cq.BBNum == 0 || cq.BBNum == null) ? "" : (Math.Abs(cq.BBNum).ToString("f0") + "邦币")))) &nbsp;&nbsp;&nbsp;&nbsp; 提问时间：@(HOHO18.Common.ChangeDateTime.DateStringFromNow(cq.RegTime == null ? DateTime.Now : cq.RegTime.Value))  &nbsp;&nbsp;&nbsp;&nbsp; @{if(cq.UserId != null && cq.UserId == Model.curUserId){<a href="/qa/o/@cq.ID">操作</a>}}</div>
                     </div>
                     <div class="textCenter">
                         @if (cq.MsgType == Guid.Parse(Reference.微信消息类别_文本))
