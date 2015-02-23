@@ -281,11 +281,7 @@
            
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>作业邦   
-                        <button class="btn purple" type="button" onclick="scanQRCode();">扫一扫</button>
-                        <button class="btn purple" type="button" onclick="scanQRCodeReturn()">扫码</button>
-                        @*<button id="getLocation" class="btn purple" type="button" onclick="getLocation()">提交我的位置</button>*@
-                        @*<button id="checkJsApi" class="btn purple" type="button">检测</button>*@
+                    <div class="caption"><i class="icon-cogs"></i>作业邦  
                     </div>
                 </div>
                 <div class="textCenter">
@@ -375,31 +371,5 @@
                 $('#zt_pf').html("");
                 $('#zt_pf').css("background-image", "none");
             });
-        </script>
-
-        <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-        <script type="text/javascript">            
-            wx.config({
-                debug: false,
-                appId: '@Model.WeiXinAPP',
-                timestamp: @Model.TimeStamp,
-                nonceStr: '@Model.NonceStr',
-                signature: '@Model.Signature',
-                jsApiList: [
-                  'checkJsApi',                  
-                  'translateVoice',
-                  'startRecord',
-                  'stopRecord',
-                  'onRecordEnd',
-                  'playVoice',
-                  'pauseVoice',
-                  'stopVoice',                  
-                  'downloadVoice',                  
-                  'openLocation',
-                  'getLocation',
-                  'scanQRCode'  
-                ]
-            });            
         </script>        
-        @Scripts.Render("~/bundles/weixincommon")
     }
