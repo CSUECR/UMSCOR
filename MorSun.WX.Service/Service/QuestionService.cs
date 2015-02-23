@@ -26,6 +26,18 @@ namespace MorSun.WX.ZYB.Service
         {
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage); //CreateResponseMessage<ResponseMessageNews>();
             var comonservice = new CommonService();
+            var wxMBbll = new BaseBll<bmWeiXinMB>();
+            var curWXMB = wxMBbll.All.FirstOrDefault(p => p.WeiXinId == requestMessage.FromUserName);
+            var txMB = false;
+            if(curWXMB != null && txMB)
+            { 
+                txMB = (curWXMB.NMB + curWXMB.NBB) <= Convert.ToDecimal(CFG.邦马币提醒用户余额);
+            }                
+            var mbtx = "";
+            if(txMB)
+            {
+                mbtx = "您的邦币余额：" + curWXMB.NBB + "您的马币余额：" + curWXMB.NMB;
+            }
             if(model == null)
             {
                 comonservice.NonObject(requestMessage, responseMessage, "您还未提问", "您还未提问", "", "");
@@ -37,7 +49,7 @@ namespace MorSun.WX.ZYB.Service
                     responseMessage.Articles.Add(new Article()
                     {
                         Title = ("问题编号：" + model.AutoGrenteId + " "),// + ((model.MaBiNum == 0 || model.MaBiNum == null) ? "" : (model.MaBiNum == null ? "" : ("消耗" + model.MaBiNum.ToString("f0") + comonservice.GetReferenceValue(model.MaBiRef)))),
-                        Description = "提问时间:" + DateTime.Now,
+                        Description = "提问时间:" + DateTime.Now + "\r\n" + mbtx,
                         PicUrl = model.PicUrl,
                         Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString()
                     });
@@ -47,7 +59,7 @@ namespace MorSun.WX.ZYB.Service
                     responseMessage.Articles.Add(new Article()
                     {
                         Title = ("问题编号：" + model.AutoGrenteId + " "),
-                        Description = "提问时间:" + DateTime.Now + "\r\n" + model.QAContent,
+                        Description = model.QAContent + "\r\n" + "提问时间:" + DateTime.Now + "\r\n" + mbtx,
                         PicUrl = CFG.网站域名 + "/images/zyb/textQ.png",
                         Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString()
                     });
@@ -57,7 +69,7 @@ namespace MorSun.WX.ZYB.Service
                     responseMessage.Articles.Add(new Article()
                     {
                         Title = ("问题编号：" + model.AutoGrenteId + " "),
-                        Description = "提问时间:" + DateTime.Now,
+                        Description = "提问时间:" + DateTime.Now + "\r\n" + mbtx,
                         PicUrl = CFG.网站域名 + "/images/zyb/voice.png",
                         Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString()
                     });

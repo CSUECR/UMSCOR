@@ -59,6 +59,19 @@
                     }
                 </td>
             </tr>
+            @if(Model.ShowLoginTD)
+            { 
+                <tr>
+                    <td>
+                        <p>
+                            向作业邦发送以下命令中的一个，都可打开快速登录隧道。
+                        </p>
+                        <p>
+                            打开登录隧道命令:   <span class="red">dl</span> 或  <span class="red">登录</span> 或  <span class="red">登陆</span>    
+                        </p>
+                    </td>
+                </tr>
+            }
         </table>
         }
     }

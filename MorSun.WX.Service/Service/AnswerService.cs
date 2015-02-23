@@ -195,7 +195,7 @@ namespace MorSun.WX.ZYB.Service
                 "\r\n" + "退出答题请发送：" + " " + CFG.退出答题 +
                 s,
                 PicUrl = CFG.网站域名 + "/images/zyb/traffic.png",
-                Url = ""
+                Url = CFG.网站域名
             }); 
             return responseMessage;
         }

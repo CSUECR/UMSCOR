@@ -98,6 +98,10 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.详细信息: return new MoreInfoService().GetAnswerQuestionResponseMessage(requestMessage);
                     case CFG.查看问题: return new SeeQAService().GetQAResponseMessage(requestMessage);
+
+                    case CFG.微信登录英文: return new WXLgionService().WXLgionResponseMessage(requestMessage);
+                    case CFG.微信登录中文1: return new WXLgionService().WXLgionResponseMessage(requestMessage);
+                    case CFG.微信登录中文2: return new WXLgionService().WXLgionResponseMessage(requestMessage);
                 }
             }
             else
@@ -114,6 +118,10 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
                     case CFG.帮助指令英文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.帮助指令中文: return new HelpCommondService().GetHelpCommondResponseMessage(requestMessage);
                     case CFG.详细信息: return new MoreInfoService().GetAnswerQuestionResponseMessage(requestMessage);
+
+                    case CFG.微信登录英文: return new WXLgionService().WXLgionResponseMessage(requestMessage);
+                    case CFG.微信登录中文1: return new WXLgionService().WXLgionResponseMessage(requestMessage);
+                    case CFG.微信登录中文2: return new WXLgionService().WXLgionResponseMessage(requestMessage);
                     //default: return base.CreateResponseMessage<ResponseMessageText>();                   
                 }
             }

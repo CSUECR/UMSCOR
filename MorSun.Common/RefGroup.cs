@@ -307,6 +307,9 @@ namespace MorSun.Common
             public const string 回答问题 = "hd";//文字回答问题 后面必须跟上答案
             public const string 查看问题 = "ck";
             public const string 详细信息 = "xx";//答题时获取详细信息
+            public const string 微信登录英文 = "dl";
+            public const string 微信登录中文1 = "登录";
+            public const string 微信登录中文2 = "登陆";
 
             //独立或当前缀命令
             public const string 我的问题前缀 = "wt";  //后面跟上数字，按提问时间逆序取问题，默认取最新的提问
@@ -322,6 +325,7 @@ namespace MorSun.Common
 
             public const string 连续答退时间间隔 = "1";//单位 小时 限制一小时内
             public const string 连续答退次数间隔 = "5";//限制5次以内
+            public const string 邦马币提醒用户余额 = "8000";
 
             //卡密检测
             public const string 卡密检测结果_已充值 = "已充值";
@@ -340,7 +344,10 @@ namespace MorSun.Common
             //用户表数据同步时间
             public const string 邦马网_用户数据同步时间范围 = "1.1"; //单位 小时
             public const string 邦马网_问题数据同步时间范围 = "1.1"; //单位 小时
-            public const string 邦马网_JSON数据间隔 = "||====||";            
+            public const string 邦马网_JSON数据间隔 = "||====||";
+
+            public const string 邦马网_微信一键登录路径 = "/account/wxlogin";
+            public const string 邦马网_微信登录设置路径 = "/account/setwxlogincache";
         }
     }
 

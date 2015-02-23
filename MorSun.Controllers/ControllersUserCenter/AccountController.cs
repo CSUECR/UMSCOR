@@ -195,9 +195,7 @@ namespace MorSun.Controllers
             {                
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
-                    FormsService.SignIn(model.UserName, model.RememberMe);
-                    if(!model.UserName.Contains("youhong@bungma"))
-                        LogHelper.Write(model.UserName + "登录", LogHelper.LogMessageType.Info);
+                    FormsService.SignIn(model.UserName, model.RememberMe);                    
                     LoginFunction(user);        
 
                     //生成登录子应用链接
@@ -322,6 +320,60 @@ namespace MorSun.Controllers
         //    System.Web.HttpContext.Current.Session.Abandon();
         //    return ";";
         //}
+
+        [AllowAnonymous]
+        public string SetWXLoginCache(string Tok, string id, string weixinId)
+        {
+            var rz = false;
+            rz = IsRZ(Tok, rz, Request);
+            if (!rz)
+            {
+                return "";
+            }  
+            else
+            {
+                CacheAccess.InsertToCacheByTime(id, weixinId, 60);
+                return "true";
+            }
+        }
+
+        /// <summary>
+        /// 用微信快捷登录
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public ActionResult WXLogin(string id)
+        {
+            var wxid = CacheAccess.GetFromCache(id);
+            if(wxid == null)
+            {
+                return Content("登录访问已失效");
+            }
+            else
+            {
+                CacheAccess.RemoveCache(id);
+            }
+            var uwbll = new BaseBll<bmUserWeixin>();
+            var uw = uwbll.All.FirstOrDefault(p => p.WeiXinId == wxid);
+            if(uw == null)
+            {
+                return Content("您还未绑定邦马网账号");
+            }
+            else
+            {
+                var user = uw.aspnet_Users1;
+                if(user == null)
+                {
+                    return Content("您还未绑定邦马网账号");
+                }
+                else
+                {
+                    FormsService.SignIn(user.UserName, true);
+                    return RedirectToAction("I", "H");
+                }
+            }
+        }
         #endregion
 
         #region 忘记密码
