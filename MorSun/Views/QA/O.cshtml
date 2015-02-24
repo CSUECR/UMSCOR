@@ -38,23 +38,7 @@
                     }  
                 }                   
             }
-            else { 
-                using (Html.BeginForm("AddQ", "QA", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { id = "addQForm" }))
-                {
-                    @Html.AntiForgeryToken()
-                
-                    <input type="hidden" name="id" value="@Model.Q.ID" />                
-                    @:追问：<input type="text" id="AddQ" name="AddQ" value="" class="m-wrap small" style="background-color:#fff;margin-right:60px;" />
-                
-                    if (!Request.IsAuthenticated)
-                    { 
-                        <button id="BtnAddQ" class="btn green" type="button" onclick="addQ()">@("追问".GX())</button>
-                    }
-                    else
-                    {
-                        <button id="BtnAddQ" class="btn green" type="button">@("追问".GX())</button>
-                    }
-
+            else {              
                     if (Model.Objecs.Count() == 0)
                     {
                         <button class="btn red" type="button" onclick="syy()">@("提交异议".GX())</button>
@@ -69,8 +53,7 @@
                     {
                         <button id="BtnMember" class="btn green" type="button" onclick="jumptourl('/Member/I')">会员中心</button>
                         <button id="BtnRecharge" class="btn purple" type="button" onclick="jumptourl('/Member/Recharge')">充值</button>
-                    }      
-                }
+                    } 
             }        
         </div>
         <div class="portlet-body">            
