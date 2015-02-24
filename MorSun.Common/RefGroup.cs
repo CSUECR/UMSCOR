@@ -301,9 +301,17 @@ namespace MorSun.Common
 
             //微信答题命令            
             public const string 开始答题 = "dt";
+            public const string 开始答题中文 = "答题";
+
             public const string 放弃本题 = "fq";
+            public const string 放弃本题中文 = "放弃";
+
             public const string 不是问题 = "bs";
+            public const string 不是问题中文 = "不是问题";
+
             public const string 退出答题 = "tc";
+            public const string 退出答题中文 = "退出";
+
             public const string 回答问题 = "hd";//文字回答问题 后面必须跟上答案
             public const string 查看问题 = "ck";
             public const string 详细信息 = "xx";//答题时获取详细信息
