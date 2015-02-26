@@ -32,7 +32,7 @@ namespace MorSun.Controllers.ViewModel
                     l = l.Where(p => p.FlagTrashed == false);
                 }
 
-                return from q in l orderby q.Sort select q;
+                return l.OrderBy(p => p.Sort);
             }
         }
 
@@ -51,7 +51,7 @@ namespace MorSun.Controllers.ViewModel
                     l = l.Where(p => p.FlagTrashed == false);
                 }
 
-                return from q in l orderby q.Sort select q;
+                return l.OrderBy(p => p.Sort);
             }
         }
 
