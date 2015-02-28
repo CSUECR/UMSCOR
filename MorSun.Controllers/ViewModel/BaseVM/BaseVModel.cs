@@ -214,7 +214,6 @@ namespace MorSun.Controllers.ViewModel
                 subs = subs.Where(expression2);
                 Each(subs, action, parentPN);
             }
-
         }
 
         /// <summary>
