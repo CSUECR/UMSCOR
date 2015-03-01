@@ -159,10 +159,12 @@ namespace MorSun.Controllers.Quartz
             var djdqadis = qadisbll.All.Where(p => p.bmQA.WeiXinAPP != null && p.bmQA.WeiXinAPP == curWeiXinAPP && p.Result == qastate);
             LogHelper.Write("待解答的总问题数" + djdqadis.Count().ToString(), LogHelper.LogMessageType.Debug);
             ///////////////////////取数量的方式要修改，提问的方式变了，不直接生成马币//////////////////////////
-            var mabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) < 0).Count();//提问是负数
+            var mabiQA = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Sum(m => m.MaBiNum) < 0);
+            var mabiqaCount = mabiQA.Count();//消费提问
             LogHelper.Write("待解答的收费问题数" + mabiqaCount.ToString(), LogHelper.LogMessageType.Debug);
             //免费的只取24小时内的提问记录，节省服务器资源 看到未解决的问题，不必奇怪，超过24小时了
-            var nonmabiqaCount = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Count() == 0 && p.bmQA.RegTime >= todayST).Count();
+            var nonMaBiQA = djdqadis.Where(p => p.bmQA.bmUserMaBiRecords.Count() == 0 && p.bmQA.RegTime >= todayST);
+            var nonmabiqaCount = nonMaBiQA.Count();//免费提问
             LogHelper.Write("待解答的免费问题数" + nonmabiqaCount.ToString(), LogHelper.LogMessageType.Debug);
 
             var state = Guid.Parse(Reference.在线状态_在线);
@@ -177,9 +179,21 @@ namespace MorSun.Controllers.Quartz
             var logoutMN = 0 - Convert.ToInt32(CFG.强制退出时间);
             var logoutdt = DateTime.Now.AddMinutes(logoutMN);
 
+            //取在线的认证与未认证的用户要排除掉答题数量大于某个值的                
+            var refuseDisCUser = mabiQA.GroupBy(p => p.WeiXinId).Where(q => q.Count() > qaWaitCount && q.Key != CFG.默认收费问题微信号).Select(r => r.Key);
+            var refuseDisNCUser = nonMaBiQA.GroupBy(p => p.WeiXinId).Where(q => q.Count() > qaWaitCount && q.Key != CFG.默认免费问题微信号).Select(r => r.Key);
+            //取在线的认证用户 排除掉问题数量大于保有量的用户
             var cu = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.State == state && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
+            //取要分配的认证用户
+            var discu = cu.Where(p => !refuseDisCUser.Contains(p.WeiXinId));
+            LogHelper.Write("不取的认证用户数量" + refuseDisCUser.Count() + "不取的未认证用户数量" + refuseDisNCUser.Count(), LogHelper.LogMessageType.Info);
+            
+            //取在线的未认证用户 排除掉问题数量大于保有量的用户
             var noncu = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
+            //取要分配的非认证用户
+            var disnoncu = noncu.Where(p => !refuseDisNCUser.Contains(p.WeiXinId));
 
+            //可以在这边控制在线用户取出量
             #region 重新分配开始
 
             //取要强退的认证用户 '超过7分钟未活跃'
@@ -203,7 +217,7 @@ namespace MorSun.Controllers.Quartz
 
             //收费问题分配
             //取活跃在线的认证答题用户,排除掉默认分配用户，省的多余操作
-            var certificationUsers = cu.Where(p => p.WeiXinId != CFG.默认收费问题微信号 && p.ActiveTime >= nondisdt).OrderByDescending(p => p.ActiveNum);
+            var certificationUsers = discu.Where(p => p.WeiXinId != CFG.默认收费问题微信号 && p.ActiveTime >= nondisdt).OrderByDescending(p => p.ActiveNum);
             if (mabiqaCount > 0)
             {
                 int selectCount = mabiqaCount / qaWaitCount;
@@ -217,18 +231,35 @@ namespace MorSun.Controllers.Quartz
             {//存在在线用户时   
                 if (noActiveMQAD.Count() > 0)
                 {//待答题数据重新分配
+                    //以前的算法是将所有问题都取出来分配给当前在线答题用户，这样子会有问题，先答题的用户，答题量会超多的情况，如果他恶意攻击网站，一直不下线，则系统无法正常运作，因此决定取出部分数据进行分配，其他的给默认微信号。
                     var ouCount = certificationUsers.Count();
                     var i = 0;
-                    foreach (var item in noActiveMQAD)
+                    var takeQaCount = qaWaitCount * 3 * ouCount;
+                    var takeQa = noActiveMQAD.Take(takeQaCount);
+                    if(takeQa.Count() >0)
                     {
-                        //对答题进行分配
-                        i++;
-                        var j = i % ouCount;
-                        if (j == 0)
-                            j = ouCount;
-                        var disOU = certificationUsers.Skip(j - 1).Take(1).FirstOrDefault();
-                        item.WeiXinId = disOU.WeiXinId;
-                        item.ModTime = DateTime.Now;
+                        foreach (var item in takeQa)
+                        {
+                            //对答题进行分配
+                            i++;
+                            var j = i % ouCount;
+                            if (j == 0)
+                                j = ouCount;
+                            var disOU = certificationUsers.Skip(j - 1).Take(1).FirstOrDefault();
+                            item.WeiXinId = disOU.WeiXinId;
+                            item.ModTime = DateTime.Now;
+                        }
+                    }
+                    //其他多余的本次没有分配的待解答问题分配给默认用户
+                    var alreadyDisQaId = takeQa.Select(p => p.ID);
+                    var remainQa = noActiveMQAD.Where(p => !alreadyDisQaId.Contains(p.ID));
+                    if(remainQa.Count() >0)
+                    {
+                        foreach (var item in remainQa)
+                        {
+                            item.WeiXinId = CFG.默认收费问题微信号;
+                            item.ModTime = DateTime.Now;
+                        }
                     }
                 }
             }
@@ -250,7 +281,7 @@ namespace MorSun.Controllers.Quartz
             LogHelper.Write("免费的未答题数" + noActiveNMQAD.Count().ToString(), LogHelper.LogMessageType.Debug);
 
             //未认证的用户处理
-            var noncertificationUsers = noncu.Where(p => p.WeiXinId != CFG.默认免费问题微信号 && p.ActiveTime >= nondisdt).OrderByDescending(p => p.ActiveNum);
+            var noncertificationUsers = disnoncu.Where(p => p.WeiXinId != CFG.默认免费问题微信号 && p.ActiveTime >= nondisdt).OrderByDescending(p => p.ActiveNum);
             if (nonmabiqaCount > 0)
             {
                 int selectCount = nonmabiqaCount / qaWaitCount;
@@ -266,11 +297,13 @@ namespace MorSun.Controllers.Quartz
                 {//待答题数据重新分配
                     var ouCount = noncertificationUsers.Count();
                     var i = 0;
-                    foreach (var item in noActiveNMQAD)
+
+                    var takeQaCount = qaWaitCount * 3 * ouCount;
+                    var takeQa = noActiveNMQAD.Where(p => p.bmQA.RegTime >= todayST).Take(takeQaCount);
+                    if (takeQa.Count() > 0)
                     {
-                        //判断是否是当天的问题
-                        if (item.bmQA.RegTime >= todayST)
-                        {
+                        foreach (var item in takeQa)
+                        {                            
                             //对答题进行分配
                             i++;
                             var j = i % ouCount;
@@ -278,12 +311,21 @@ namespace MorSun.Controllers.Quartz
                                 j = ouCount;
                             var disOU = noncertificationUsers.Skip(j - 1).Take(1).FirstOrDefault();
                             item.WeiXinId = disOU.WeiXinId;
-                            item.ModTime = DateTime.Now;
+                            item.ModTime = DateTime.Now;                           
                         }
-                        else
-                        {//非当天的问题回收给默认微信号
+                    }
+                    //其他多余的本次没有分配的待解答问题分配给默认用户
+                    var alreadyDisQaId = takeQa.Select(p => p.ID);
+                    var remainQa = noActiveNMQAD.Where(p => !alreadyDisQaId.Contains(p.ID));
+                    if (remainQa.Count() > 0)
+                    {
+                        foreach (var item in remainQa)
+                        {
                             if (item.WeiXinId != CFG.默认免费问题微信号)
+                            {
                                 item.WeiXinId = CFG.默认免费问题微信号;
+                                item.ModTime = DateTime.Now;
+                            }                            
                         }
                     }
                 }
