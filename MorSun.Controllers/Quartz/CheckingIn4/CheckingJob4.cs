@@ -186,7 +186,7 @@ namespace MorSun.Controllers.Quartz
             var cu = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.State == state && ConstList.DTCertificationLevel.Contains(p.CertificationLevel));
             //取要分配的认证用户
             var discu = cu.Where(p => !refuseDisCUser.Contains(p.WeiXinId));
-            LogHelper.Write("不取的认证用户数量" + refuseDisCUser.Count() + "不取的未认证用户数量" + refuseDisNCUser.Count(), LogHelper.LogMessageType.Info);
+            LogHelper.Write("不取的认证用户数量" + refuseDisCUser.Count() + "不取的未认证用户数量" + refuseDisNCUser.Count(), LogHelper.LogMessageType.Debug);
             
             //取在线的未认证用户 排除掉问题数量大于保有量的用户
             var noncu = bll.All.Where(p => p.WeiXinAPP != null && p.WeiXinAPP == curWeiXinAPP && p.State == state && (p.CertificationLevel == null || !ConstList.DTCertificationLevel.Contains(p.CertificationLevel)));
