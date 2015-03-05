@@ -78,12 +78,12 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             //}
             //去掉头尾空格以及转化为小写
             //requestMessage.Content = requestMessage.Content.Trim().ToLower();
-            var tempText = requestMessage.Content;
+            var tempText = requestMessage.Content.Trim();
             var answerService = new AnswerService();
             if(tempText.Contains(" "))
             {
                 var commondText = tempText.Substring(0, tempText.IndexOf(" "));
-                commondText = commondText.Trim().ToLower();
+                commondText = commondText.ToLower();
                 switch (commondText)
                 {
                     case CFG.微信绑定前缀: return new BoundService().UserBoundResponseMessage(requestMessage);   
@@ -110,7 +110,7 @@ namespace MorSun.WX.ZYB.Service.CustomMessageHandler
             }
             else
             {//命令类型
-                tempText = tempText.Trim().ToLower();
+                tempText = tempText.ToLower();
                 switch (tempText)
                 {
                     case CFG.我的问题前缀: return new QuestionService().GetQuestionResponseMessage(requestMessage);
