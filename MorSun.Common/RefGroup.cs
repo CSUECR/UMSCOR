@@ -268,7 +268,8 @@ namespace MorSun.Common
 
 
             //提问默认消费马币值
-            public const string 提问默认收费马币值 = "500";
+            public const string 提问默认收费马币值 = "1000";
+            public const string 追问默认收费马币值 = "500";
             //提交异议要扣取的压金值
             public const string 提交异议扣取压金值 = "500";
 
@@ -286,6 +287,7 @@ namespace MorSun.Common
             public const string 用户马币缓存键前缀 = "mb";
             public const string 限制用户并发缓存键前缀 = "lrq";
             public const string 查看问题缓存键前缀 = "ckqa";
+            public const string 登录送邦马币缓存键前缀 = "dlzbmb";
 
             //在线答题用户缓存更新时间
             public const string 在线答题用户缓存更新时间 = "1";//单位 分钟

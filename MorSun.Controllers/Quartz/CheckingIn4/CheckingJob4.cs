@@ -56,6 +56,7 @@ namespace MorSun.Controllers.Quartz
                 //已绑定的用户取邦马币值，邦马币值大于0的取出来
                 var uwUSid = uwU.Select(p => p.UserId);
                 var defXFMB = Convert.ToDecimal(CFG.提问默认收费马币值);
+                var defZWXFMB = Convert.ToDecimal(CFG.追问默认收费马币值);
                 var UserBMB = numbbll.All.Where(p => uwUSid.Contains(p.UserId) && (p.NMB > defXFMB || p.NBB > defXFMB));
                 LogHelper.Write("花邦马币提问的用户数" + UserBMB.Count().ToString(), LogHelper.LogMessageType.Debug);
                 //生成马币记录
@@ -63,7 +64,10 @@ namespace MorSun.Controllers.Quartz
                 var mbQAIds = new List<Guid>();
                 var tempMB = Convert.ToDecimal(0);
                 var tempBB = Convert.ToDecimal(0);
+                //提问数
                 var tempQACount = 0;
+                //追问数
+                var tempAQACount = 0;
                 foreach (var u in UserBMB)
                 {
                     tempMB = u.NMB.Value;
@@ -71,39 +75,36 @@ namespace MorSun.Controllers.Quartz
                     //能取出的当前用户问题数
                     tempQACount = Convert.ToInt32(((tempMB + tempBB) / defXFMB));
                     var uwxid = uwU.FirstOrDefault(p => p.UserId == u.UserId).WeiXinId;
+                    //提问增加邦马币
                     //当前用户提问数
-                    var uqa = nonmbQA.Where(p => p.WeiXinId == uwxid).Take(tempQACount);
-                    foreach (var q in uqa)
-                    {
-                        //有消费的问题记录做标记
-                        mbQAIds.Add(q.ID);
-                        var umbrModel = new bmUserMaBiRecord();
-                        umbrModel.SourceRef = Guid.Parse(Reference.马币来源_消费);
-                        if (tempBB >= defXFMB)
+                    var uqa = nonmbQA.Where(p => p.WeiXinId == uwxid && p.ParentId == null).Take(tempQACount);  
+                    if(uqa.Count() > 0)
+                    { 
+                        foreach (var q in uqa)
                         {
-                            umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
-                            tempBB -= defXFMB;
+                            //有消费的问题记录做标记
+                            mbQAIds.Add(q.ID);
+                            QAAddBMB(bmumbBll, defXFMB, ref tempMB, ref tempBB, u, q);
                         }
-                        else if (tempMB >= defXFMB)
-                        {
-                            umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_马币);
-                            tempMB -= defXFMB;
-                        }
-                        umbrModel.MaBiNum = 0 - defXFMB;
-                        umbrModel.QAId = q.ID;
-
-                        umbrModel.IsSettle = false;
-                        umbrModel.RegTime = DateTime.Now;
-                        umbrModel.ModTime = DateTime.Now;
-                        umbrModel.FlagTrashed = false;
-                        umbrModel.FlagDeleted = false;
-
-                        umbrModel.ID = Guid.NewGuid();
-                        umbrModel.UserId = u.UserId;
-                        umbrModel.RegUser = u.UserId;
-
-                        bmumbBll.Insert(umbrModel, false);
                     }
+
+                    //追问增加邦马币
+                    //能取出的当前用户追问数
+                    if (tempAQACount > uqa.Count())
+                    {
+                        tempAQACount = Convert.ToInt32(((tempMB + tempBB) / defZWXFMB));
+                        var auqa = nonmbQA.Where(p => p.WeiXinId == uwxid && p.ParentId != null).Take(tempQACount); 
+                        if(auqa.Count() >0 )
+                        {
+                            foreach (var q in auqa)
+                            {
+                                //有消费的问题记录做标记
+                                mbQAIds.Add(q.ID);
+                                QAAddBMB(bmumbBll, defZWXFMB, ref tempMB, ref tempBB, u, q);
+                            }
+                        }
+                    }
+
                 }
                 LogHelper.Write("花邦马币提问的问题数" + mbQAIds.Count().ToString(), LogHelper.LogMessageType.Debug);
                 //生成问题分配记录，收费的到收费的默认账号，免费的到免费的默认账号
@@ -380,6 +381,45 @@ namespace MorSun.Controllers.Quartz
             LogHelper.Write("手动更新用户缓存结束", LogHelper.LogMessageType.Debug);
 
             return model;
+        }
+
+        /// <summary>
+        /// 问题增加邦马网方法
+        /// </summary>
+        /// <param name="bmumbBll"></param>
+        /// <param name="defXFMB"></param>
+        /// <param name="tempMB"></param>
+        /// <param name="tempBB"></param>
+        /// <param name="u"></param>
+        /// <param name="q"></param>
+        public static void QAAddBMB(BaseBll<bmUserMaBiRecord> bmumbBll, decimal defXFMB, ref decimal tempMB, ref decimal tempBB, bmNewUserMB u, bmQA q)
+        {
+            var umbrModel = new bmUserMaBiRecord();
+            umbrModel.SourceRef = Guid.Parse(Reference.马币来源_消费);
+            if (tempBB >= defXFMB)
+            {
+                umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_邦币);
+                tempBB -= defXFMB;
+            }
+            else if (tempMB >= defXFMB)
+            {
+                umbrModel.MaBiRef = Guid.Parse(Reference.马币类别_马币);
+                tempMB -= defXFMB;
+            }
+            umbrModel.MaBiNum = 0 - defXFMB;
+            umbrModel.QAId = q.ID;
+
+            umbrModel.IsSettle = false;
+            umbrModel.RegTime = DateTime.Now;
+            umbrModel.ModTime = DateTime.Now;
+            umbrModel.FlagTrashed = false;
+            umbrModel.FlagDeleted = false;
+
+            umbrModel.ID = Guid.NewGuid();
+            umbrModel.UserId = u.UserId;
+            umbrModel.RegUser = u.UserId;
+
+            bmumbBll.Insert(umbrModel, false);
         }
 
 

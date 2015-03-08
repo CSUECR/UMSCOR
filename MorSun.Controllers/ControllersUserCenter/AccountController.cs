@@ -195,6 +195,9 @@ namespace MorSun.Controllers
             {                
                 if (MembershipService.ValidateUser(model.UserName, model.Password))
                 {
+                    //登录用户赠送邦币
+                    UserZSBMB(user);
+
                     FormsService.SignIn(model.UserName, model.RememberMe);                    
                     LoginFunction(user);        
 
@@ -378,9 +381,52 @@ namespace MorSun.Controllers
                 }
                 else
                 {
+                    //登录用户赠送邦币
+                    UserZSBMB(user);
+
                     FormsService.SignIn(user.UserName, true);
                     return RedirectToAction("I", "H");
                 }
+            }
+        }
+
+        /// <summary>
+        /// 用户登录赠送邦币
+        /// </summary>
+        /// <param name="user"></param>
+        private static void UserZSBMB(aspnet_Users user)
+        {
+            //判断登录是否需要增加邦币，一天只赠送一次
+            var isAddBMB = false;
+            var zsbmb = CacheAccess.GetFromCache(CFG.登录送邦马币缓存键前缀 + user.UserId);
+            if (zsbmb == null)
+            {
+                var sr = Guid.Parse(Reference.马币来源_赠送);
+                var mbr = Guid.Parse(Reference.马币类别_邦币);
+                var startdt = DateTime.Now.Date;
+                var enddt = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
+                var uzsbmb = new BaseBll<bmUserMaBiRecord>().All.FirstOrDefault(p => p.SourceRef == sr && p.MaBiNum == 500 && p.MaBiRef == mbr && p.UserId == user.UserId && p.RegTime >= startdt && p.RegTime <= enddt);
+                if (uzsbmb != null)
+                {
+                    isAddBMB = true;
+                }
+                CacheAccess.InsertToCacheByTime(CFG.登录送邦马币缓存键前缀 + user.UserId, "true", 300);
+            }
+            else
+            {
+                isAddBMB = true;
+            }
+
+            if (!isAddBMB)
+            {
+                var addMBR = new AddMBRModel();
+                addMBR.UIds.Add(user.UserId);
+
+                addMBR.SR = Guid.Parse(Reference.马币来源_赠送);
+                addMBR.MBR = Guid.Parse(Reference.马币类别_邦币);
+                addMBR.MBN = 500;
+                new BasisController().AddUMBR(addMBR, true);
+                CacheAccess.InsertToCacheByTime(CFG.登录送邦马币缓存键前缀 + user.UserId, "true", 300);
             }
         }
         #endregion

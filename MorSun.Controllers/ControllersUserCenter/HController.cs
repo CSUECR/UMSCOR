@@ -10,6 +10,7 @@ using MorSun.Common.类别;
 using MorSun.Common.配置;
 using HOHO18.Common.SSO;
 using HOHO18.Common.WEB;
+using MorSun.Common.Privelege;
 
 
 namespace MorSun.Controllers
@@ -71,6 +72,7 @@ namespace MorSun.Controllers
             int takeCount = Convert.ToInt32(inc);
             if (takeCount < 5) takeCount = 5;
             indexModel.nList = new BaseBll<bmNew>().All.Where(p => p.NewRef == newtz).OrderBy(p => p.Sort).Take(takeCount);
+            ViewBag.RS = 资源.系统参数配置;
             return View(indexModel);
         }
 
