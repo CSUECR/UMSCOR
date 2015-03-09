@@ -107,14 +107,28 @@ namespace MorSun.WX.ZYB.Service
             }     
             if(model.MsgType == Guid.Parse(Reference.微信消息类别_声音))
             {
+                //超过一段时间，声音也会消失
                 var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageVoice>(requestMessage);
                 responseMessage.Voice.MediaId = model.MediaId;
                 return responseMessage;
             }
             else if (model.MsgType == Guid.Parse(Reference.微信消息类别_图片))
             {
-                var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageImage>(requestMessage);
-                responseMessage.Image.MediaId = model.MediaId;
+                //时间过去一小段，就不会有反应，还是采用图文的方式，长久一点
+                //var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageImage>(requestMessage);
+                //responseMessage.Image.MediaId = model.MediaId;
+                //return responseMessage;
+                var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageNews>(requestMessage);
+                responseMessage.Articles.Add(new Article()
+                {
+                    Title = ("问题编号：" + model.AutoGrenteId + " " + ((model.MBNum == 0 || model.MBNum == null) && (model.BBNum == 0 || model.BBNum == null) ? "免费提问" : ("消耗" + ((model.MBNum == 0 || model.MBNum == null) ? "" : (Math.Abs(model.MBNum).ToString("f0") + "马币")) + ((model.BBNum == 0 || model.BBNum == null) ? "" : (Math.Abs(model.BBNum).ToString("f0") + "邦币"))))),
+                    Description = "提问时间:" + (model.RegTime == null ? "" : (model.RegTime.ToShortDateString() + " " + model.RegTime.Value.ToShortTimeString()))
+                    + "\r\n获取时间:" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString()
+                    + "\r\n当前未答题数： " + model.DJDCount
+                    ,
+                    PicUrl = model.PicUrl,
+                    Url = CFG.网站域名 + CFG.问题查看路径 + "/" + model.ID.ToString() //model.PicUrl
+                });
                 return responseMessage;
             }
             else if (model.MsgType == Guid.Parse(Reference.微信消息类别_文本))
