@@ -90,10 +90,10 @@ namespace MorSun.Controllers.Quartz
 
                     //追问增加邦马币
                     //能取出的当前用户追问数
-                    if (tempAQACount > uqa.Count())
+                    if (tempQACount > uqa.Count())
                     {
                         tempAQACount = Convert.ToInt32(((tempMB + tempBB) / defZWXFMB));
-                        var auqa = nonmbQA.Where(p => p.WeiXinId == uwxid && p.ParentId != null).Take(tempQACount); 
+                        var auqa = nonmbQA.Where(p => p.WeiXinId == uwxid && p.ParentId != null).Take(tempAQACount); 
                         if(auqa.Count() >0 )
                         {
                             foreach (var q in auqa)
