@@ -282,19 +282,30 @@
            
             <div class="portlet box @("red".getBC("BootStrapCssTable"))">
                 <div class="portlet-title">
-                    <div class="caption"><i class="icon-cogs"></i>作业邦   
-                        <button class="btn purple" type="button" onclick="scanQRCode();">扫一扫</button>
-                        <button class="btn purple" type="button" onclick="scanQRCodeReturn()">扫码</button>
+                    <div class="caption"><i class="icon-cogs"></i>@Model.Q.WeiXinAPPName   
+                        @*<button class="btn purple" type="button" onclick="scanQRCode();">扫一扫</button>
+                        <button class="btn purple" type="button" onclick="scanQRCodeReturn()">扫码</button>*@
                         @*<button id="getLocation" class="btn purple" type="button" onclick="getLocation()">提交我的位置</button>*@
                         @*<button id="checkJsApi" class="btn purple" type="button">检测</button>*@
                     </div>
                 </div>
                 <div class="textCenter">
-                    <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
-
-                    <div><span class="weixinText"><h2>微信扫一扫</h2></span></div>
-                    <div><span class="weixinText"><h2>老师学霸跟着走</h2></span></div>
-                    <p></p>
+                    @{switch(Model.Q.WeiXinAPP.ToSecureString()){
+                          case Reference.微信应用_作业邦:
+                                <a href="http://mp.weixin.qq.com/s?__biz=MjM5Mzc0MjQ1MA==&mid=203085738&idx=1&sn=253897f47588049df42c8b61421ae66a#rd">
+                                    <img src="/Images/zyb/zyb258.jpg" title="作业邦" />
+                                </a>
+                              break;
+                          case Reference.微信应用_Net邦:
+                                <a href="http://mp.weixin.qq.com/s?__biz=MzA3OTM3NzA2Mw==&mid=204541373&idx=1&sn=edec55ffe1c94fba9d26ce53102c866d#rd">
+                                    <img src="http://net.bungma.com/Images/zyb/zyb258.jpg" title="Net邦" />
+                                </a>
+                              break;
+                      }
+}
+                        <div><span class="weixinText"><h2>微信扫一扫</h2></span></div>
+                        <div><span class="weixinText"><h2>砖家跟着走</h2></span></div> 
+                        <p></p>
                 </div>
             </div>
 
@@ -378,7 +389,7 @@
             });
         </script>
 
-        <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        @*<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
         <script type="text/javascript">            
             wx.config({
                 debug: false,
@@ -402,5 +413,5 @@
                 ]
             });            
         </script>        
-        @Scripts.Render("~/bundles/weixincommon")
+        @Scripts.Render("~/bundles/weixincommon")*@
     }
